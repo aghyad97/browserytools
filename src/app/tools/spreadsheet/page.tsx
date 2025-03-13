@@ -1,4 +1,4 @@
-import SpreadsheetViewer from "@/components/SpreadSheetViewer";
+import SpreadsheetViewer from "@/components/SpreadsheetViewer";
 import { Metadata } from "next";
 
 export const metadata: Metadata = {
