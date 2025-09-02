@@ -1,41 +1,33 @@
-"use client";
-
-import { useState, useEffect } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { cn } from "@/lib/utils";
-import { useToolStore } from "@/store/tool-store";
 import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Input } from "@/components/ui/input";
-import { ScrollArea } from "@/components/ui/scroll-area";
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+
 import {
   BookMinusIcon,
   FileDownIcon,
   HammerIcon,
   ImagesIcon,
-  Search,
   SquarePlayIcon,
-  TypeIcon,
-  HashIcon,
-  FileTextIcon,
-  QrCodeIcon,
-  CalculatorIcon,
-  ShieldIcon,
-} from "lucide-react";
-import {
   ImageIcon,
   FileIcon,
   CodeIcon,
   VideoIcon,
+  FileTextIcon,
   Grid3X3Icon,
   PaintRollerIcon,
   DatabaseIcon,
   FileArchiveIcon,
+  FileImageIcon,
+  TypeIcon,
+  HashIcon,
+  QrCodeIcon,
+  CalculatorIcon,
+  ShieldIcon,
 } from "lucide-react";
 
 const tools = [
@@ -70,6 +62,13 @@ const tools = [
         available: true,
         description: "Compress images to reduce file size",
       },
+      {
+        name: "SVG Tools",
+        href: "/tools/svg",
+        icon: FileImageIcon,
+        available: true,
+        description: "Edit and manipulate SVG files",
+      },
     ],
   },
   {
@@ -95,6 +94,13 @@ const tools = [
         icon: Grid3X3Icon,
         available: true,
         description: "View and edit CSV and Excel files",
+      },
+      {
+        name: "File Converter",
+        href: "/tools/file-converter",
+        icon: FileIcon,
+        available: true,
+        description: "Convert files between different formats",
       },
     ],
   },
@@ -186,6 +192,13 @@ const tools = [
         available: true,
         description: "Generate QR codes from text and URLs",
       },
+      {
+        name: "Data Visualizer",
+        href: "/tools/visualizer",
+        icon: DatabaseIcon,
+        available: true,
+        description: "Visualize data with charts and graphs",
+      },
     ],
   },
   {
@@ -209,104 +222,95 @@ const tools = [
   },
 ];
 
-export default function Sidebar() {
-  const pathname = usePathname();
-  const [search, setSearch] = useState("");
-  const { setCurrentTool } = useToolStore();
-
-  // Set current tool based on pathname
-  useEffect(() => {
-    const allTools = tools.flatMap((category) => category.items);
-    const currentTool = allTools.find((tool) => tool.href === pathname);
-
-    if (currentTool) {
-      setCurrentTool({
-        name: currentTool.name,
-        href: currentTool.href,
-        description: currentTool.description,
-        category:
-          tools.find((cat) => cat.items.includes(currentTool))?.category || "",
-      });
-    } else {
-      setCurrentTool(null);
-    }
-  }, [pathname, setCurrentTool]);
-
-  const filteredTools = tools
-    .map((category) => ({
-      ...category,
-      items: category.items.filter(
-        (tool) =>
-          tool.name.toLowerCase().includes(search.toLowerCase()) ||
-          category.category.toLowerCase().includes(search.toLowerCase())
-      ),
-    }))
-    .filter((category) => category.items.length > 0);
+// Simple Badge component
+const Badge = ({
+  children,
+  variant = "secondary",
+  className = "",
+}: {
+  children: React.ReactNode;
+  variant?: "secondary" | "outline";
+  className?: string;
+}) => {
+  const variantClasses = {
+    secondary: "bg-muted text-muted-foreground",
+    outline: "border border-border text-foreground",
+  };
 
   return (
-    <div className="w-64 h-screen border-r flex flex-col">
-      {/* Header */}
-      <div className="mt-4 flex items-center">
-        <Link href="/" className="flex items-center space-x-2 px-4">
-          <span className="font-bold text-xl">BrowseryTools</span>
-        </Link>
-      </div>
+    <span
+      className={`inline-flex items-center rounded-md px-2.5 py-0.5 text-xs font-medium ${variantClasses[variant]} ${className}`}
+    >
+      {children}
+    </span>
+  );
+};
 
-      <div className="p-4 relative">
-        <Search className="w-4 h-4 absolute left-6 top-1/2 transform -translate-y-1/2 text-muted-foreground z-10" />
-        <Input
-          placeholder="Search tools..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="pl-10"
-        />
-      </div>
+export default function Home() {
+  const allTools = tools.flatMap((category) =>
+    category.items.map((tool) => ({ ...tool, category: category.category }))
+  );
 
-      {/* Scrollable tools list */}
-      <ScrollArea className="flex-1 px-2">
-        <div className="space-y-6 p-2">
-          {filteredTools.map((category) => (
-            <div key={category.category}>
-              <h3 className="mb-2 px-2 text-sm font-medium text-muted-foreground">
-                {category.category}
-              </h3>
-              <div className="space-y-1">
-                {category.items.map((tool) => (
-                  <TooltipProvider key={tool.name}>
-                    <Tooltip>
-                      <TooltipTrigger asChild>
-                        <Link
-                          href={tool.available ? tool.href : "#"}
-                          className={cn(
-                            "flex items-center space-x-2 px-2 py-1.5 rounded-md hover:bg-accent",
-                            "text-sm transition-colors duration-150",
-                            pathname === tool.href && "bg-accent",
-                            !tool.available && "opacity-50 cursor-not-allowed"
-                          )}
-                        >
-                          <tool.icon className="w-4 h-4 shrink-0" />
-                          <span className="truncate">{tool.name}</span>
-                        </Link>
-                      </TooltipTrigger>
-                      {!tool.available && (
-                        <TooltipContent>
-                          <p>Coming Soon</p>
-                        </TooltipContent>
-                      )}
-                    </Tooltip>
-                  </TooltipProvider>
-                ))}
-              </div>
-            </div>
-          ))}
-
-          {filteredTools.length === 0 && (
-            <div className="text-center py-12">
-              <p className="text-muted-foreground">No tools found</p>
-            </div>
-          )}
+  return (
+    <div className="min-h-screen">
+      {/* Hero Section */}
+      <div className="container mx-auto px-4 py-12">
+        <div className="text-center mb-12">
+          <h1 className="text-4xl font-bold tracking-tight mb-4">
+            BrowseryTools
+          </h1>
+          <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
+            Essential browser-based tools for productivity. No servers. No Ads.
+            Full privacy.
+          </p>
         </div>
-      </ScrollArea>
+
+        {/* Tools Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {allTools.map((tool) => {
+            const IconComponent = tool.icon;
+            return (
+              <Link
+                key={tool.name}
+                href={tool.available ? tool.href : "#"}
+                className={tool.available ? "group" : "cursor-not-allowed"}
+              >
+                <Card
+                  className={`h-full transition-all duration-200 ${
+                    tool.available
+                      ? "hover:shadow-md cursor-pointer"
+                      : "opacity-50"
+                  }`}
+                >
+                  <CardHeader className="pb-3">
+                    <div className="flex items-center justify-between mb-2">
+                      <div className="p-2 rounded-md bg-muted">
+                        <IconComponent className="w-5 h-5" />
+                      </div>
+                      <Badge variant="secondary" className="text-xs">
+                        {tool.category}
+                      </Badge>
+                    </div>
+                    <CardTitle className="text-base">{tool.name}</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription className="text-sm">
+                      {tool.description}
+                    </CardDescription>
+                    {!tool.available && (
+                      <div className="mt-3">
+                        <Badge variant="outline" className="text-xs">
+                          Coming Soon
+                        </Badge>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </Link>
+            );
+          })}
+        </div>
+      </div>
     </div>
   );
 }

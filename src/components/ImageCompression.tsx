@@ -191,13 +191,7 @@ export default function ImageCompression() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div>
-          <h1 className="text-3xl font-bold">Image Compression</h1>
-          <p className="text-muted-foreground mt-1">
-            Compress images without losing quality
-          </p>
-        </div>
+      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         {image && compressedImage && (
           <div className="flex items-center gap-4">
             <div className="text-right">

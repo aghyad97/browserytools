@@ -194,13 +194,7 @@ export default function SpreadsheetViewer() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div>
-          <h1 className="text-3xl font-bold">Spreadsheet Viewer</h1>
-          <p className="text-muted-foreground mt-1">
-            View and analyze CSV and Excel files
-          </p>
-        </div>
+      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         {data.length > 0 && (
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => setShowChart(!showChart)}>

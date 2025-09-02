@@ -181,13 +181,7 @@ export default function ColorCorrection() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div>
-          <h1 className="text-3xl font-bold">Color Correction</h1>
-          <p className="text-muted-foreground mt-1">
-            Adjust colors and tones of your images
-          </p>
-        </div>
+      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="flex gap-2">
           <Button
             variant="outline"

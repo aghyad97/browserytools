@@ -148,14 +148,7 @@ export default function Base64Converter() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div>
-          <h1 className="text-3xl font-bold">Base64 Converter</h1>
-          <p className="text-muted-foreground mt-1">
-            Encode or decode Base64 strings and files
-          </p>
-        </div>
-      </div>
+      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
 
       <div className="flex-1 overflow-hidden p-6">
         <div className="max-w-7xl mx-auto space-y-4">

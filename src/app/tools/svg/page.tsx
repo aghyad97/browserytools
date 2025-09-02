@@ -232,7 +232,7 @@ export default function SvgEditor() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
+    <div className="flex flex-col h-full">
       <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div>
           <h1 className="text-3xl font-bold">SVG Editor</h1>
@@ -334,7 +334,7 @@ export default function SvgEditor() {
             </div>
           </Card>
 
-          <Card className="h-[calc(100vh-16rem)]">
+          <Card className="h-[calc(100vh-20rem)]">
             <div
               ref={canvasRef}
               className="w-full h-full bg-white rounded-lg overflow-hidden"

@@ -12,7 +12,7 @@ import {
   Download,
   Trash2,
 } from "lucide-react";
-import { initializeModel, removeBackgroundFromImage } from "@/lib/bg-removal";
+import { initializeModel, removeBackground } from "@/lib/bg-removal";
 import { Progress } from "@/components/ui/progress";
 import { Separator } from "@/components/ui/separator";
 
@@ -60,9 +60,7 @@ export default function BgRemoval() {
     setProgress(0);
 
     try {
-      const result = await removeBackgroundFromImage(image, (progress) => {
-        setProgress(progress);
-      });
+      const result = await removeBackground(image);
       setProgress(100);
       setProcessedImage(result);
     } catch (error) {

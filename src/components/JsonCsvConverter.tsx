@@ -172,14 +172,7 @@ export default function JsonCsvConverter() {
 
   return (
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div>
-          <h1 className="text-3xl font-bold">JSON ↔ CSV Converter</h1>
-          <p className="text-muted-foreground mt-1">
-            Convert between JSON and CSV formats
-          </p>
-        </div>
-      </div>
+      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
 
       <div className="flex-1 overflow-hidden p-6">
         <div className="max-w-7xl mx-auto space-y-4">
