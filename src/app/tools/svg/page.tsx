@@ -15,13 +15,10 @@ import "@svgdotjs/svg.draggable.js";
 import {
   Square,
   Circle,
-  Triangle,
   Type,
   Pencil,
-  Palette,
   Download,
   Move,
-  Trash2,
   Undo,
   Redo,
 } from "lucide-react";

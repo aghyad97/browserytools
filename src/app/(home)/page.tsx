@@ -13,7 +13,6 @@ import {
   HammerIcon,
   ImagesIcon,
   SquarePlayIcon,
-  ImageIcon,
   FileIcon,
   CodeIcon,
   VideoIcon,

@@ -21,12 +21,10 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Upload,
   Table as TableIcon,
   Search,
   BarChart3,
   Download,
-  Filter,
   ArrowUpDown,
 } from "lucide-react";
 import { toast } from "sonner";

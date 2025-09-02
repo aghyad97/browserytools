@@ -5,7 +5,7 @@ import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Upload, Image as ImageIcon, Download, Undo, Redo } from "lucide-react";
+import { Upload, Download, Undo, Redo } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Adjustment {
@@ -82,8 +82,8 @@ export default function ColorCorrection() {
       ctx.drawImage(img, 0, 0);
 
       // Get image data
-      let imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      let data = imageData.data;
+      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      const data = imageData.data;
 
       // Apply adjustments
       for (let i = 0; i < data.length; i += 4) {
