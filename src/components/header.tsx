@@ -8,7 +8,7 @@ export default function Header() {
   const { currentTool } = useToolStore();
 
   return (
-    <header className="border-b bg-white/40 backdrop-blur-lg">
+    <header className="border-b bg-white/40   dark:bg-gray-900/40 backdrop-blur-lg">
       <div className="flex items-center justify-between h-16 px-4">
         {/* Tool Title on the left */}
         <div className="flex items-center">
