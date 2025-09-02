@@ -27,9 +27,9 @@ export const metadata: Metadata = {
     "no server required",
     "free online tools",
   ],
-  authors: [{ name: "AghyadDev" }],
-  creator: "AghyadDev",
-  publisher: "AghyadDev",
+  authors: [{ name: "aghyadev" }],
+  creator: "aghyadev",
+  publisher: "aghyadev",
   formatDetection: {
     email: false,
     address: false,
@@ -62,8 +62,8 @@ export const metadata: Metadata = {
     description:
       "Essential browser-based tools for productivity. No servers. Full privacy. Convert files, compress images, generate passwords, format code, and more - all in your browser.",
     images: ["/og-image.png"],
-    creator: "@AghyadDev",
-    site: "@AghyadDev",
+    creator: "@aghyadev",
+    site: "@aghyadev",
   },
   robots: {
     index: true,
@@ -114,7 +114,7 @@ export const metadata: Metadata = {
     "msapplication-TileColor": "#000000",
     "msapplication-config": "/browserconfig.xml",
     github: "https://github.com/aghyad97",
-    x: "https://twitter.com/aghyaddev",
+    x: "https://twitter.com/aghyadev",
   },
 };
 
