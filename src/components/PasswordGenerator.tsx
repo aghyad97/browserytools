@@ -2,7 +2,13 @@
 
 import { useState, useCallback } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -57,28 +63,34 @@ export default function PasswordGenerator() {
 
   const generatePassword = useCallback(() => {
     let charset = "";
-    
+
     if (options.includeUppercase) {
-      charset += options.excludeSimilar 
-        ? uppercaseChars.replace(/[ILO]/g, '') 
+      charset += options.excludeSimilar
+        ? uppercaseChars.replace(/[ILO]/g, "")
         : uppercaseChars;
     }
-    
+
     if (options.includeLowercase) {
-      charset += options.excludeSimilar 
-        ? lowercaseChars.replace(/[ilo]/g, '') 
+      charset += options.excludeSimilar
+        ? lowercaseChars.replace(/[ilo]/g, "")
         : lowercaseChars;
     }
-    
+
     if (options.includeNumbers) {
-      charset += options.excludeSimilar 
-        ? numberChars.replace(/[01]/g, '') 
+      charset += options.excludeSimilar
+        ? numberChars.replace(/[01]/g, "")
         : numberChars;
     }
-    
+
     if (options.includeSymbols) {
-      charset += options.excludeAmbiguous 
-        ? symbolChars.replace(new RegExp(`[${ambiguousChars.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}]`, 'g'), '') 
+      charset += options.excludeAmbiguous
+        ? symbolChars.replace(
+            new RegExp(
+              `[${ambiguousChars.replace(/[.*+?^${}()|[\]\\]/g, "\\$&")}]`,
+              "g"
+            ),
+            ""
+          )
         : symbolChars;
     }
 
@@ -93,7 +105,9 @@ export default function PasswordGenerator() {
 
     let generatedPassword = "";
     for (let i = 0; i < options.length; i++) {
-      generatedPassword += charset.charAt(Math.floor(Math.random() * charset.length));
+      generatedPassword += charset.charAt(
+        Math.floor(Math.random() * charset.length)
+      );
     }
 
     setPassword(generatedPassword);
@@ -151,7 +165,7 @@ export default function PasswordGenerator() {
 
     // Common words check (simplified)
     const commonWords = ["password", "123456", "qwerty", "admin", "letmein"];
-    if (commonWords.some(word => pwd.toLowerCase().includes(word))) {
+    if (commonWords.some((word) => pwd.toLowerCase().includes(word))) {
       score -= 20;
       feedback.push("Avoid common words");
     }
@@ -212,8 +226,11 @@ export default function PasswordGenerator() {
     });
   };
 
-  const handleOptionChange = (key: keyof PasswordOptions, value: boolean | number) => {
-    setOptions(prev => ({ ...prev, [key]: value }));
+  const handleOptionChange = (
+    key: keyof PasswordOptions,
+    value: boolean | number
+  ) => {
+    setOptions((prev) => ({ ...prev, [key]: value }));
   };
 
   const generateMultiplePasswords = (count: number) => {
@@ -230,7 +247,8 @@ export default function PasswordGenerator() {
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Password Generator</h1>
         <p className="text-muted-foreground">
-          Generate secure, random passwords with customizable options and strength analysis.
+          Generate secure, random passwords with customizable options and
+          strength analysis.
         </p>
       </div>
 
@@ -249,13 +267,17 @@ export default function PasswordGenerator() {
           <CardContent className="space-y-6">
             {/* Length */}
             <div className="space-y-2">
-              <Label>Length: <NumberFlow value={options.length} /> characters</Label>
+              <Label>
+                Length: <NumberFlow value={options.length} /> characters
+              </Label>
               <Slider
                 min={4}
                 max={128}
                 step={1}
                 value={[options.length]}
-                onValueChange={(value) => handleOptionChange("length", value[0])}
+                onValueChange={(value) =>
+                  handleOptionChange("length", value[0])
+                }
                 className="w-full"
               />
             </div>
@@ -265,35 +287,51 @@ export default function PasswordGenerator() {
               <Label>Character Types</Label>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="uppercase" className="text-sm">Uppercase (A-Z)</Label>
+                  <Label htmlFor="uppercase" className="text-sm">
+                    Uppercase (A-Z)
+                  </Label>
                   <Switch
                     id="uppercase"
                     checked={options.includeUppercase}
-                    onCheckedChange={(checked) => handleOptionChange("includeUppercase", checked)}
+                    onCheckedChange={(checked) =>
+                      handleOptionChange("includeUppercase", checked)
+                    }
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="lowercase" className="text-sm">Lowercase (a-z)</Label>
+                  <Label htmlFor="lowercase" className="text-sm">
+                    Lowercase (a-z)
+                  </Label>
                   <Switch
                     id="lowercase"
                     checked={options.includeLowercase}
-                    onCheckedChange={(checked) => handleOptionChange("includeLowercase", checked)}
+                    onCheckedChange={(checked) =>
+                      handleOptionChange("includeLowercase", checked)
+                    }
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="numbers" className="text-sm">Numbers (0-9)</Label>
+                  <Label htmlFor="numbers" className="text-sm">
+                    Numbers (0-9)
+                  </Label>
                   <Switch
                     id="numbers"
                     checked={options.includeNumbers}
-                    onCheckedChange={(checked) => handleOptionChange("includeNumbers", checked)}
+                    onCheckedChange={(checked) =>
+                      handleOptionChange("includeNumbers", checked)
+                    }
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="symbols" className="text-sm">Symbols (!@#$...)</Label>
+                  <Label htmlFor="symbols" className="text-sm">
+                    Symbols (!@#$...)
+                  </Label>
                   <Switch
                     id="symbols"
                     checked={options.includeSymbols}
-                    onCheckedChange={(checked) => handleOptionChange("includeSymbols", checked)}
+                    onCheckedChange={(checked) =>
+                      handleOptionChange("includeSymbols", checked)
+                    }
                   />
                 </div>
               </div>
@@ -304,19 +342,27 @@ export default function PasswordGenerator() {
               <Label>Advanced Options</Label>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="exclude-similar" className="text-sm">Exclude Similar (il1Lo0O)</Label>
+                  <Label htmlFor="exclude-similar" className="text-sm">
+                    Exclude Similar (il1Lo0O)
+                  </Label>
                   <Switch
                     id="exclude-similar"
                     checked={options.excludeSimilar}
-                    onCheckedChange={(checked) => handleOptionChange("excludeSimilar", checked)}
+                    onCheckedChange={(checked) =>
+                      handleOptionChange("excludeSimilar", checked)
+                    }
                   />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="exclude-ambiguous" className="text-sm">Exclude Ambiguous ({`{}[]()/\\'"`~,;.<>`})</Label>
+                  <Label htmlFor="exclude-ambiguous" className="text-sm">
+                    Exclude Ambiguous ({"{}[]()/\\'\"~,;.<>"})
+                  </Label>
                   <Switch
                     id="exclude-ambiguous"
                     checked={options.excludeAmbiguous}
-                    onCheckedChange={(checked) => handleOptionChange("excludeAmbiguous", checked)}
+                    onCheckedChange={(checked) =>
+                      handleOptionChange("excludeAmbiguous", checked)
+                    }
                   />
                 </div>
               </div>
@@ -352,11 +398,7 @@ export default function PasswordGenerator() {
                   className="font-mono text-lg bg-muted"
                   placeholder="Generated password will appear here..."
                 />
-                <Button
-                  onClick={handleCopy}
-                  disabled={!password}
-                  size="sm"
-                >
+                <Button onClick={handleCopy} disabled={!password} size="sm">
                   <Copy className="w-4 h-4" />
                 </Button>
               </div>
@@ -374,16 +416,22 @@ export default function PasswordGenerator() {
                 <div className="w-full bg-gray-200 rounded-full h-2">
                   <div
                     className={`h-2 rounded-full transition-all duration-300 ${
-                      strength.score < 20 ? "bg-red-500" :
-                      strength.score < 40 ? "bg-orange-500" :
-                      strength.score < 60 ? "bg-yellow-500" :
-                      strength.score < 80 ? "bg-blue-500" : "bg-green-500"
+                      strength.score < 20
+                        ? "bg-red-500"
+                        : strength.score < 40
+                        ? "bg-orange-500"
+                        : strength.score < 60
+                        ? "bg-yellow-500"
+                        : strength.score < 80
+                        ? "bg-blue-500"
+                        : "bg-green-500"
                     }`}
                     style={{ width: `${strength.score}%` }}
                   />
                 </div>
                 <div className="text-sm text-muted-foreground">
-                  Score: <NumberFlow value={strength.score} />/100
+                  Score: <NumberFlow value={strength.score} />
+                  /100
                 </div>
               </div>
             )}
@@ -395,9 +443,13 @@ export default function PasswordGenerator() {
                 <ul className="text-sm space-y-1">
                   {strength.feedback.map((item, index) => (
                     <li key={index} className="flex items-center gap-2">
-                      <span className={`w-1 h-1 rounded-full ${
-                        item.includes("good") || item.includes("Good") ? "bg-green-500" : "bg-yellow-500"
-                      }`} />
+                      <span
+                        className={`w-1 h-1 rounded-full ${
+                          item.includes("good") || item.includes("Good")
+                            ? "bg-green-500"
+                            : "bg-yellow-500"
+                        }`}
+                      />
                       {item}
                     </li>
                   ))}
