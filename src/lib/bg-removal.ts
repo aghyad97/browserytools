@@ -8,7 +8,7 @@ const config: Config = {
   model: "isnet", // Use the ISNet model for better quality
   progress: (key, current, total) => {
     // Progress callback can be used to show loading progress
-    console.log(`Downloading ${key}: ${current} of ${total}`);
+    // console.log(`Downloading ${key}: ${current} of ${total}`);
   },
 };
 
@@ -20,7 +20,6 @@ export async function initializeModel(): Promise<boolean> {
     if (!isInitialized) {
       // The model will be downloaded and cached on first use
       // We can trigger this by calling removeBackground with a dummy image
-      console.log("Initializing background removal model...");
       isInitialized = true;
     }
     return true;
@@ -55,11 +54,11 @@ export async function removeBackgroundFromImage(
           progress: (key: string, current: number, total: number) => {
             const progress = (current / total) * 100;
             onProgress(progress);
-            console.log(
-              `Processing ${key}: ${current} of ${total} (${progress.toFixed(
-                1
-              )}%)`
-            );
+            // console.log(
+            //   `Processing ${key}: ${current} of ${total} (${progress.toFixed(
+            //     1
+            //   )}%)`
+            // );
           },
         }
       : config;
