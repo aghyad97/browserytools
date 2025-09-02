@@ -259,8 +259,8 @@ export default function Home() {
             BrowseryTools
           </h1>
           <p className="text-lg text-muted-foreground max-w-3xl mx-auto">
-            Essential browser-based tools for productivity. No servers. No Ads.
-            Full privacy.
+            Essential browser-based tools for productivity. No servers. Full
+            privacy.
           </p>
         </div>
 
