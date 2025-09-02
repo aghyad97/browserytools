@@ -1,7 +1,5 @@
 "use client";
 
-import Link from "next/link";
-
 export default function Footer() {
   return (
     <footer className="border-t py-2 px-4 bg-white/40 backdrop-blur-lg">

@@ -1,6 +1,5 @@
 "use client";
 
-import Link from "next/link";
 import { Button } from "./ui/button";
 import { Coffee, Github, Twitter } from "lucide-react";
 import { useToolStore } from "@/store/tool-store";

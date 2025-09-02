@@ -20,7 +20,7 @@ interface PDFPreviewProps {
   onClose?: () => void;
 }
 
-export function PDFPreview({ pdfData, onClose }: PDFPreviewProps) {
+export function PDFPreview({ pdfData }: PDFPreviewProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);

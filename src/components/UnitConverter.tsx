@@ -116,7 +116,6 @@ export default function UnitConverter() {
   const [toUnit, setToUnit] = useState("Kilometer");
   const [fromValue, setFromValue] = useState("");
   const [toValue, setToValue] = useState("");
-  const { toast } = useToast();
 
   const currentCategory = conversionCategories.find(
     (cat) => cat.name === activeCategory

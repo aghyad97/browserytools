@@ -28,8 +28,6 @@ import {
   ShieldIcon,
 } from "lucide-react";
 import {
-  ImageIcon,
-  FileIcon,
   CodeIcon,
   VideoIcon,
   Grid3X3Icon,
