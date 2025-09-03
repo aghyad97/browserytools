@@ -26,9 +26,9 @@ export default function Home() {
   return (
     <div className="min-h-screen">
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-12">
+      <div className="container mx-auto px-4 py-8">
         <div className="mb-4">
-          <p className="text-lg text-muted-foreground">
+          <p className="text-lg text-center text-muted-foreground">
             Essential browser-based tools for productivity. No servers. Full
             privacy.
           </p>
@@ -64,7 +64,7 @@ export default function Home() {
                   <h2 className="text-2xl font-semibold mb-6 text-left">
                     {category.category}
                   </h2>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     {category.items.map((tool) => (
                       <ToolCard
                         key={tool.name}
@@ -86,7 +86,7 @@ export default function Home() {
                       Favorite Tools
                     </h2>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     {favoriteTools.map((tool) => (
                       <ToolCard key={tool.name} tool={tool} />
                     ))}
@@ -102,7 +102,7 @@ export default function Home() {
                       Recently Visited
                     </h2>
                   </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                     {recentTools.map((tool) => (
                       <ToolCard key={tool.name} tool={tool} />
                     ))}
@@ -121,7 +121,7 @@ export default function Home() {
                       <h3 className="text-xl font-medium mb-4 text-left text-muted-foreground">
                         {category.category}
                       </h3>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                         {category.items.map((tool) => (
                           <ToolCard
                             key={tool.name}
