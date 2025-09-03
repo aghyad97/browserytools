@@ -1,3 +1,4 @@
+import { getCurrency } from "@/lib/utils";
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
 
@@ -121,7 +122,7 @@ const createDefaultInvoice = (): InvoiceData => ({
   total: 0,
   notes: "",
   terms: "Payment is due within 30 days of invoice date.",
-  currency: "USD",
+  currency: getCurrency(),
   pageSize: "a4",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),

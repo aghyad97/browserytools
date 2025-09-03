@@ -49,7 +49,7 @@ import {
 } from "@/store/invoice-store";
 import InvoiceManager from "@/components/InvoiceManager";
 import { uniqueCurrencies } from "@/lib/currencies";
-import { getCurrencyName } from "@/lib/currency-names";
+import { setPreferredCurrency } from "@/lib/utils";
 
 export default function InvoiceGenerator() {
   const [activeTab, setActiveTab] = useState("details");
@@ -539,6 +539,102 @@ export default function InvoiceGenerator() {
 
         <TabsContent value="details" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Invoice Details */}
+            <Card className="lg:col-span-2">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Calendar className="w-5 h-5" />
+                  Invoice Details
+                </CardTitle>
+                <CardDescription>
+                  Basic invoice information and settings
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="invoice-number">Invoice Number</Label>
+                    <Input
+                      id="invoice-number"
+                      value={invoiceData.invoiceNumber}
+                      onChange={(e) =>
+                        updateInvoiceData({ invoiceNumber: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="invoice-date">Invoice Date</Label>
+                    <Input
+                      id="invoice-date"
+                      type="date"
+                      value={invoiceData.date}
+                      onChange={(e) =>
+                        updateInvoiceData({ date: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="due-date">Due Date</Label>
+                    <Input
+                      id="due-date"
+                      type="date"
+                      value={invoiceData.dueDate}
+                      onChange={(e) =>
+                        updateInvoiceData({ dueDate: e.target.value })
+                      }
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label>Currency</Label>
+                    <Select
+                      value={invoiceData.currency}
+                      onValueChange={(val) => {
+                        updateInvoiceData({ currency: val });
+                        setPreferredCurrency(val);
+                      }}
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {uniqueCurrencies
+                          .sort((a, b) => {
+                            // Put major currencies first
+                            const majorCurrencies = [
+                              "USD",
+                              "EUR",
+                              "GBP",
+                              "JPY",
+                              "CAD",
+                              "AUD",
+                              "CHF",
+                              "CNY",
+                              "INR",
+                            ];
+                            const aIsMajor = majorCurrencies.includes(a);
+                            const bIsMajor = majorCurrencies.includes(b);
+
+                            if (aIsMajor && !bIsMajor) return -1;
+                            if (!aIsMajor && bIsMajor) return 1;
+                            if (aIsMajor && bIsMajor) {
+                              return (
+                                majorCurrencies.indexOf(a) -
+                                majorCurrencies.indexOf(b)
+                              );
+                            }
+                            return a.localeCompare(b);
+                          })
+                          .map((currency) => (
+                            <SelectItem key={currency} value={currency}>
+                              {currency}
+                            </SelectItem>
+                          ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+              </CardContent>
+            </Card>
             {/* Company Details */}
             <Card>
               <CardHeader>
@@ -875,102 +971,6 @@ export default function InvoiceGenerator() {
                     }
                     placeholder="(555) 123-4567"
                   />
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Invoice Details */}
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
-                  Invoice Details
-                </CardTitle>
-                <CardDescription>
-                  Basic invoice information and settings
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="invoice-number">Invoice Number</Label>
-                    <Input
-                      id="invoice-number"
-                      value={invoiceData.invoiceNumber}
-                      onChange={(e) =>
-                        updateInvoiceData({ invoiceNumber: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="invoice-date">Invoice Date</Label>
-                    <Input
-                      id="invoice-date"
-                      type="date"
-                      value={invoiceData.date}
-                      onChange={(e) =>
-                        updateInvoiceData({ date: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="due-date">Due Date</Label>
-                    <Input
-                      id="due-date"
-                      type="date"
-                      value={invoiceData.dueDate}
-                      onChange={(e) =>
-                        updateInvoiceData({ dueDate: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>Currency</Label>
-                    <Select
-                      value={invoiceData.currency}
-                      onValueChange={(val) =>
-                        updateInvoiceData({ currency: val })
-                      }
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {uniqueCurrencies
-                          .sort((a, b) => {
-                            // Put major currencies first
-                            const majorCurrencies = [
-                              "USD",
-                              "EUR",
-                              "GBP",
-                              "JPY",
-                              "CAD",
-                              "AUD",
-                              "CHF",
-                              "CNY",
-                              "INR",
-                            ];
-                            const aIsMajor = majorCurrencies.includes(a);
-                            const bIsMajor = majorCurrencies.includes(b);
-
-                            if (aIsMajor && !bIsMajor) return -1;
-                            if (!aIsMajor && bIsMajor) return 1;
-                            if (aIsMajor && bIsMajor) {
-                              return (
-                                majorCurrencies.indexOf(a) -
-                                majorCurrencies.indexOf(b)
-                              );
-                            }
-                            return a.localeCompare(b);
-                          })
-                          .map((currency) => (
-                            <SelectItem key={currency} value={currency}>
-                              {currency} — {getCurrencyName(currency)}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
                 </div>
               </CardContent>
             </Card>
