@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -14,7 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Search } from "lucide-react";
-import { tools, findToolByHref } from "@/lib/tools-config";
+import { findToolByHref } from "@/lib/tools-config";
+import { searchTools } from "@/lib/search-utils";
 import Logo from "./logo";
 
 export default function Sidebar() {
@@ -38,19 +39,13 @@ export default function Sidebar() {
     }
   }, [pathname, setCurrentTool]);
 
-  const filteredTools = tools
-    .map((category) => ({
-      ...category,
-      items: category.items.filter(
-        (tool) =>
-          tool.name.toLowerCase().includes(search.toLowerCase()) ||
-          category.category.toLowerCase().includes(search.toLowerCase())
-      ),
-    }))
-    .filter((category) => category.items.length > 0);
+  // Enhanced search with fuzzy matching and scoring
+  const filteredTools = useMemo(() => {
+    return searchTools(search);
+  }, [search]);
 
   return (
-    <div className="w-64 h-screen border-r flex flex-col">
+    <div className="w-full lg:w-64 h-full flex flex-col border-r">
       {/* Header */}
       <div className="mt-4 flex items-center">
         <Link href="/" className="flex items-center space-x-2 px-4">

@@ -18,6 +18,7 @@ import {
   QrCodeIcon,
   CalculatorIcon,
   ShieldIcon,
+  ReceiptIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -26,189 +27,248 @@ export interface Tool {
   icon: any;
   available: boolean;
   description: string;
+  order: number;
 }
 
 export interface ToolCategory {
   category: string;
   items: Tool[];
+  order: number;
 }
 
 export const tools: ToolCategory[] = [
   {
     category: "Image Tools",
+    order: 1,
     items: [
       {
         name: "Background Removal",
         href: "/tools/bg-removal",
         icon: ImagesIcon,
         available: true,
-        description: "Remove background from your images instantly",
-      },
-      {
-        name: "Color Correction",
-        href: "/tools/color-correction",
-        icon: PaintRollerIcon,
-        available: true,
-        description: "Adjust colors, brightness, and contrast in images",
-      },
-      {
-        name: "Format Converter",
-        href: "/tools/image-converter",
-        icon: HammerIcon,
-        available: true,
-        description: "Convert images between different formats",
+        order: 1,
+        description:
+          "Remove background from your images instantly using AI. Perfect for product photos, portraits, and graphics. Supports PNG, JPG, and other formats. No watermark, completely free.",
       },
       {
         name: "Image Compression",
         href: "/tools/image-compression",
         icon: FileDownIcon,
         available: true,
-        description: "Compress images to reduce file size",
+        order: 2,
+        description:
+          "Compress images to reduce file size while maintaining quality. Perfect for web optimization, email attachments, and storage. Supports JPG, PNG, and WebP.",
+      },
+      {
+        name: "Format Converter",
+        href: "/tools/image-converter",
+        icon: HammerIcon,
+        available: true,
+        order: 3,
+        description:
+          "Convert images between different formats like JPG, PNG, WebP, GIF, BMP, TIFF, and SVG. Batch conversion supported. Optimize for web or print.",
+      },
+      {
+        name: "Color Correction",
+        href: "/tools/color-correction",
+        icon: PaintRollerIcon,
+        available: true,
+        order: 4,
+        description:
+          "Adjust colors, brightness, contrast, saturation, and hue in images. Enhance photos, fix lighting issues, and create artistic effects. Works with all image formats.",
       },
       {
         name: "SVG Tools",
         href: "/tools/svg",
         icon: FileImageIcon,
         available: false,
-        description: "Edit and manipulate SVG files",
+        order: 5,
+        description:
+          "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths, and convert to other formats. Ideal for logos, icons, and scalable graphics.",
       },
     ],
   },
   {
     category: "File Tools",
+    order: 2,
     items: [
       {
         name: "PDF Tools",
         href: "/tools/pdf",
         icon: FileTextIcon,
         available: true,
-        description: "Merge, split, and manipulate PDF files",
+        order: 1,
+        description:
+          "Merge, split, compress, and manipulate PDF files. Extract text, rotate pages, add watermarks, and convert to other formats. No file size limits.",
       },
       {
         name: "Zip Tools",
         href: "/tools/zip",
         icon: FileArchiveIcon,
         available: true,
-        description: "Create, extract, and manage ZIP archives",
+        order: 2,
+        description:
+          "Create, extract, and manage ZIP archives. Compress files and folders, extract archives, and browse contents. Supports password protection and encryption.",
       },
       {
         name: "CSV/Excel Viewer",
         href: "/tools/spreadsheet",
         icon: Grid3X3Icon,
         available: true,
-        description: "View and edit CSV and Excel files",
+        order: 3,
+        description:
+          "View and edit CSV and Excel files in your browser. Sort, filter, and analyze data. Export to different formats. No software installation required.",
       },
       {
         name: "File Converter",
         href: "/tools/file-converter",
         icon: FileIcon,
         available: true,
-        description: "Convert files between different formats",
+        order: 4,
+        description:
+          "Convert files between different formats including documents, images, audio, and video. Supports hundreds of file types with high-quality conversion.",
       },
     ],
   },
 
   {
     category: "Media Tools",
+    order: 3,
     items: [
-      {
-        name: "Audio Editor",
-        href: "/tools/audio",
-        icon: SquarePlayIcon,
-        available: true,
-        description: "Edit and process audio files",
-      },
       {
         name: "Video Editor",
         href: "/tools/video",
         icon: VideoIcon,
         available: true,
-        description: "Trim, convert, and edit video files",
+        order: 1,
+        description:
+          "Trim, convert, and edit video files. Cut clips, merge videos, adjust quality, and convert between formats. Works with MP4, AVI, MOV, and more.",
+      },
+      {
+        name: "Audio Editor",
+        href: "/tools/audio",
+        icon: SquarePlayIcon,
+        available: true,
+        order: 2,
+        description:
+          "Edit and process audio files. Trim, merge, convert formats, adjust volume, and apply effects. Supports MP3, WAV, FLAC, and other audio formats.",
       },
     ],
   },
   {
     category: "Text & Language Tools",
+    order: 4,
     items: [
       {
         name: "Text Case Converter",
         href: "/tools/text-case",
         icon: TypeIcon,
         available: true,
-        description: "Convert text between different cases",
+        order: 1,
+        description:
+          "Convert text between different cases: uppercase, lowercase, title case, camelCase, snake_case, and more. Perfect for coding and content formatting.",
       },
       {
         name: "Text Counter",
         href: "/tools/text-counter",
         icon: HashIcon,
         available: true,
-        description: "Count words, characters, lines, and paragraphs",
+        order: 2,
+        description:
+          "Count words, characters, lines, and paragraphs in text. Analyze readability, estimate reading time, and get detailed statistics for content analysis.",
       },
       {
         name: "Code Formatter",
         href: "/tools/code-format",
         icon: CodeIcon,
         available: true,
-        description: "Format and beautify your code",
+        order: 3,
+        description:
+          "Format and beautify your code with proper indentation and syntax highlighting. Supports JavaScript, Python, HTML, CSS, JSON, and many more languages.",
       },
       {
         name: "Rich Editor",
         href: "/tools/rich-editor",
         icon: BookMinusIcon,
         available: true,
-        description: "Edit and preview rich text documents",
+        order: 4,
+        description:
+          "Edit and preview rich text documents with formatting options. Create documents with bold, italic, lists, links, and more. Export to HTML or Markdown.",
       },
       {
         name: "Lorem Ipsum Generator",
         href: "/tools/lorem-ipsum",
         icon: FileTextIcon,
         available: true,
-        description: "Generate placeholder text for designs",
+        order: 5,
+        description:
+          "Generate placeholder text for designs and mockups. Customize length, paragraphs, and format. Perfect for web design, presentations, and prototyping.",
       },
     ],
   },
   {
     category: "Data Tools",
+    order: 5,
     items: [
       {
         name: "JSON to CSV",
         href: "/tools/json-csv",
         icon: DatabaseIcon,
         available: true,
-        description: "Convert JSON data to CSV format",
+        order: 1,
+        description:
+          "Convert JSON data to CSV format for spreadsheet applications. Handle nested objects, arrays, and complex data structures. Perfect for data analysis and reporting.",
       },
       {
         name: "Base64 Tools",
         href: "/tools/base64",
         icon: DatabaseIcon,
         available: true,
-        description: "Encode or decode Base64 strings and files",
+        order: 2,
+        description:
+          "Encode or decode Base64 strings and files. Convert images, documents, and binary data to text format. Essential for web development and data transmission.",
       },
       {
         name: "QR Code Generator",
         href: "/tools/qr-generator",
         icon: QrCodeIcon,
         available: true,
-        description: "Generate QR codes from text and URLs",
+        order: 3,
+        description:
+          "Generate QR codes from text, URLs, contact information, and more. Customize colors, size, and error correction. Download as PNG, SVG, or PDF.",
       },
     ],
   },
   {
-    category: "Utility Tools",
+    category: "Math & Finance Tools",
+    order: 6,
     items: [
+      {
+        name: "Invoice Generator",
+        href: "/tools/invoice",
+        icon: ReceiptIcon,
+        available: true,
+        order: 1,
+        description:
+          "Create professional invoices with customizable templates, automatic tax calculations, and PDF export. Perfect for freelancers, small businesses, and contractors.",
+      },
       {
         name: "Unit Converter",
         href: "/tools/unit-converter",
         icon: CalculatorIcon,
         available: true,
-        description: "Convert between different units of measurement",
+        order: 2,
+        description:
+          "Convert between different units of measurement including length, weight, temperature, area, volume, and more. Supports metric, imperial, and scientific units.",
       },
       {
         name: "Password Generator",
         href: "/tools/password-generator",
         icon: ShieldIcon,
         available: true,
-        description: "Generate secure passwords with custom options",
+        order: 3,
+        description:
+          "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
       },
     ],
   },
