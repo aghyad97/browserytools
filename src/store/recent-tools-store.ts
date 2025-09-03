@@ -21,7 +21,7 @@ export const useRecentToolsStore = create<RecentToolsStore>()(
   persist(
     (set, get) => ({
       recentTools: [],
-      maxRecentTools: 10,
+      maxRecentTools: 5,
       addRecentTool: (toolHref) =>
         set((state) => {
           const now = Date.now();
