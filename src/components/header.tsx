@@ -80,20 +80,12 @@ Please describe what this tool should do and how it would help users.
         <div className="flex items-center gap-2 sm:gap-4">
           {/* Desktop social links */}
           <div className="hidden sm:flex items-center gap-2">
-            <Link
-              href="https://github.com/aghyad97/browserytools"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="/gh" target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" size="icon">
                 <Github className="h-4 w-4" />
               </Button>
             </Link>
-            <Link
-              href="https://twitter.com/aghyadev"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <Link href="/x" target="_blank" rel="noopener noreferrer">
               <Button variant="ghost" size="icon">
                 <Twitter className="h-4 w-4" />
               </Button>
@@ -113,7 +105,7 @@ Please describe what this tool should do and how it would help users.
           </Button>
 
           <Link
-            href="https://twitter.com/aghyadev"
+            href="/x"
             target="_blank"
             rel="noopener noreferrer"
             className="sm:hidden"
@@ -127,7 +119,7 @@ Please describe what this tool should do and how it would help users.
           <ThemeSwitcher className="sm:hidden" variant="outline" />
 
           <Link
-            href="https://github.com/aghyad97/browserytools"
+            href="/gh"
             target="_blank"
             rel="noopener noreferrer"
             className="sm:hidden"
@@ -138,11 +130,7 @@ Please describe what this tool should do and how it would help users.
           </Link>
 
           {/* Coffee button - smaller on mobile */}
-          <Link
-            href="https://pay.ziina.com/aghyad"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <Link href="/coffee" target="_blank" rel="noopener noreferrer">
             <Button size="sm" className="hidden sm:flex">
               <Coffee className="h-4 w-4 mr-2" />
               Buy me a coffee
