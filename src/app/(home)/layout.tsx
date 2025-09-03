@@ -12,9 +12,6 @@ export default function HomeLayout({
         <Header />
       </div>
       <main className="flex-1">{children}</main>
-      <div className="sticky bottom-0 z-50">
-        <Footer />
-      </div>
     </div>
   );
 }

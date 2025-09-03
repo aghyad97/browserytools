@@ -18,7 +18,6 @@ export default function ToolsLayout({
       <div className="flex-1 flex flex-col overflow-hidden">
         <Header />
         <main className="flex-1 overflow-auto py-2">{children}</main>
-        <Footer />
       </div>
     </div>
   );

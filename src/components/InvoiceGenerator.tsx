@@ -48,6 +48,8 @@ import {
   ClientDetails,
 } from "@/store/invoice-store";
 import InvoiceManager from "@/components/InvoiceManager";
+import { uniqueCurrencies } from "@/lib/currencies";
+import { getCurrencyName } from "@/lib/currency-names";
 
 export default function InvoiceGenerator() {
   const [activeTab, setActiveTab] = useState("details");
@@ -934,17 +936,38 @@ export default function InvoiceGenerator() {
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="USD">USD — US Dollar</SelectItem>
-                        <SelectItem value="EUR">EUR — Euro</SelectItem>
-                        <SelectItem value="GBP">GBP — British Pound</SelectItem>
-                        <SelectItem value="JPY">JPY — Japanese Yen</SelectItem>
-                        <SelectItem value="CAD">
-                          CAD — Canadian Dollar
-                        </SelectItem>
-                        <SelectItem value="AUD">
-                          AUD — Australian Dollar
-                        </SelectItem>
-                        <SelectItem value="INR">INR — Indian Rupee</SelectItem>
+                        {uniqueCurrencies
+                          .sort((a, b) => {
+                            // Put major currencies first
+                            const majorCurrencies = [
+                              "USD",
+                              "EUR",
+                              "GBP",
+                              "JPY",
+                              "CAD",
+                              "AUD",
+                              "CHF",
+                              "CNY",
+                              "INR",
+                            ];
+                            const aIsMajor = majorCurrencies.includes(a);
+                            const bIsMajor = majorCurrencies.includes(b);
+
+                            if (aIsMajor && !bIsMajor) return -1;
+                            if (!aIsMajor && bIsMajor) return 1;
+                            if (aIsMajor && bIsMajor) {
+                              return (
+                                majorCurrencies.indexOf(a) -
+                                majorCurrencies.indexOf(b)
+                              );
+                            }
+                            return a.localeCompare(b);
+                          })
+                          .map((currency) => (
+                            <SelectItem key={currency} value={currency}>
+                              {currency} — {getCurrencyName(currency)}
+                            </SelectItem>
+                          ))}
                       </SelectContent>
                     </Select>
                   </div>
@@ -1422,7 +1445,7 @@ export default function InvoiceGenerator() {
             </CardHeader>
             <CardContent>
               <div className="text-center space-y-6">
-                <div className="p-8 bg-muted rounded-lg">
+                <div className="p-8 rounded-lg">
                   <FileText className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
                   <h3 className="text-xl font-semibold mb-2">
                     Ready to Export
@@ -1431,7 +1454,7 @@ export default function InvoiceGenerator() {
                     Your invoice is ready to be downloaded as a professional PDF
                     document.
                   </p>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-left max-w-2xl mx-auto">
+                  <div className="text-left max-w-md mx-auto">
                     <div className="space-y-2">
                       <Label>PDF Page Size</Label>
                       <Select
@@ -1451,40 +1474,8 @@ export default function InvoiceGenerator() {
                         </SelectContent>
                       </Select>
                     </div>
-                    <div className="space-y-2">
-                      <Label>Currency</Label>
-                      <Select
-                        value={invoiceData.currency}
-                        onValueChange={(val) =>
-                          updateInvoiceData({ currency: val })
-                        }
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="USD">USD — US Dollar</SelectItem>
-                          <SelectItem value="EUR">EUR — Euro</SelectItem>
-                          <SelectItem value="GBP">
-                            GBP — British Pound
-                          </SelectItem>
-                          <SelectItem value="JPY">
-                            JPY — Japanese Yen
-                          </SelectItem>
-                          <SelectItem value="CAD">
-                            CAD — Canadian Dollar
-                          </SelectItem>
-                          <SelectItem value="AUD">
-                            AUD — Australian Dollar
-                          </SelectItem>
-                          <SelectItem value="INR">
-                            INR — Indian Rupee
-                          </SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
                   </div>
-                  <div className="space-y-2 text-sm text-muted-foreground">
+                  <div className="space-y-2 text-sm text-muted-foreground mt-2">
                     <p>Invoice #: {invoiceData.invoiceNumber}</p>
                     <p>
                       Total Amount: {invoiceData.currency === "USD" && "$"}

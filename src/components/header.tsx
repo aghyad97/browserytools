@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Sidebar from "./sidebar";
+import { ThemeSwitcher } from "./theme-switcher";
 
 export default function Header() {
   const pathname = usePathname();
@@ -97,6 +98,7 @@ Please describe what this tool should do and how it would help users.
                 <Twitter className="h-4 w-4" />
               </Button>
             </Link>
+            <ThemeSwitcher />
           </div>
 
           {/* Request tool button - smaller on mobile */}
@@ -110,15 +112,30 @@ Please describe what this tool should do and how it would help users.
             Request a tool
           </Button>
 
-          {/* Mobile request tool button */}
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={handleRequestTool}
+          <Link
+            href="https://twitter.com/aghyadev"
+            target="_blank"
+            rel="noopener noreferrer"
             className="sm:hidden"
           >
-            <Hammer className="h-4 w-4" />
-          </Button>
+            <Button className="sm:hidden" variant="outline" size="icon">
+              <Twitter className="h-4 w-4" />
+            </Button>
+          </Link>
+
+          {/* Mobile request tool button */}
+          <ThemeSwitcher className="sm:hidden" variant="outline" />
+
+          <Link
+            href="https://github.com/aghyad97/browserytools"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="sm:hidden"
+          >
+            <Button variant="outline" size="icon">
+              <Github className="h-4 w-4" />
+            </Button>
+          </Link>
 
           {/* Coffee button - smaller on mobile */}
           <Link
