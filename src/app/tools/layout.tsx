@@ -1,6 +1,7 @@
 import Sidebar from "@/components/sidebar";
 import Header from "@/components/header";
 import Footer from "@/components/footer";
+import NavigationTracker from "@/components/NavigationTracker";
 
 export default function ToolsLayout({
   children,
@@ -9,6 +10,7 @@ export default function ToolsLayout({
 }) {
   return (
     <div className="flex h-screen overflow-hidden">
+      <NavigationTracker />
       {/* Desktop sidebar - hidden on mobile */}
       <div className="hidden lg:block">
         <Sidebar />

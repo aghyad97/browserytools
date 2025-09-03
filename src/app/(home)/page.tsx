@@ -1,21 +1,22 @@
 "use client";
 
-import Link from "next/link";
 import { useState, useMemo } from "react";
 import { searchTools } from "@/lib/search-utils";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
-import { Badge } from "@/components/ui/badge";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Search } from "lucide-react";
+import { Search, Star, Clock } from "lucide-react";
+import { getAllTools } from "@/lib/tools-config";
+import { useFavoritesStore } from "@/store/favorites-store";
+import { useRecentToolsStore } from "@/store/recent-tools-store";
+import ToolCard from "@/components/ToolCard";
 
 export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
+  const { getFavoriteTools } = useFavoritesStore();
+  const { getRecentTools } = useRecentToolsStore();
+
+  const allTools = getAllTools();
+  const favoriteTools = getFavoriteTools(allTools);
+  const recentTools = getRecentTools(allTools);
 
   // Enhanced search with fuzzy matching and scoring
   const filteredTools = useMemo(() => {
@@ -48,9 +49,10 @@ export default function Home() {
         </div>
 
         {/* Tools Grid */}
-        <TooltipProvider>
-          <div className="space-y-8">
-            {filteredTools.length === 0 ? (
+        <div className="space-y-8">
+          {searchQuery ? (
+            // Show search results
+            filteredTools.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-muted-foreground">
                   No tools found matching "{searchQuery}"
@@ -63,68 +65,77 @@ export default function Home() {
                     {category.category}
                   </h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
-                    {category.items.map((tool) => {
-                      const IconComponent = tool.icon;
-                      return (
-                        <Tooltip key={tool.name}>
-                          <TooltipTrigger asChild>
-                            <Link
-                              href={tool.available ? tool.href : "#"}
-                              className={`block ${
-                                tool.available ? "group" : "cursor-not-allowed"
-                              }`}
-                            >
-                              <Card
-                                className={`h-full transition-all shadow-none duration-200 relative ${
-                                  tool.available
-                                    ? "hover:shadow-md hover:scale-105 cursor-pointer"
-                                    : "opacity-50"
-                                }`}
-                              >
-                                {/* Status Badge - Overlapping Top Right Corner */}
-                                <div className="absolute top-0.5 right-1 z-10">
-                                  {tool.available ? (
-                                    <div></div>
-                                  ) : (
-                                    <Badge
-                                      variant="secondary"
-                                      className="text-xs shadow-sm rounded-xl"
-                                    >
-                                      Soon
-                                    </Badge>
-                                  )}
-                                </div>
-
-                                <CardContent className="p-4">
-                                  <div className="flex flex-col items-center text-center space-y-3">
-                                    {/* Icon */}
-                                    <div className="p-3 rounded-lg bg-muted group-hover:bg-primary/10 transition-colors duration-200">
-                                      <IconComponent className="w-6 h-6" />
-                                    </div>
-
-                                    {/* Tool Name */}
-                                    <div className="space-y-2">
-                                      <h3 className="font-medium text-sm leading-tight">
-                                        {tool.name}
-                                      </h3>
-                                    </div>
-                                  </div>
-                                </CardContent>
-                              </Card>
-                            </Link>
-                          </TooltipTrigger>
-                          <TooltipContent side="top" className="max-w-xs">
-                            <p className="text-sm">{tool.description}</p>
-                          </TooltipContent>
-                        </Tooltip>
-                      );
-                    })}
+                    {category.items.map((tool) => (
+                      <ToolCard
+                        key={tool.name}
+                        tool={{ ...tool, category: category.category }}
+                      />
+                    ))}
                   </div>
                 </div>
               ))
-            )}
-          </div>
-        </TooltipProvider>
+            )
+          ) : (
+            // Show default layout with favorites and recent tools
+            <>
+              {/* Favorite Tools Section */}
+              {favoriteTools.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2 mb-6">
+                    <h2 className="text-2xl font-semibold text-left">
+                      Favorite Tools
+                    </h2>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {favoriteTools.map((tool) => (
+                      <ToolCard key={tool.name} tool={tool} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Recent Tools Section */}
+              {recentTools.length > 0 && (
+                <div>
+                  <div className="flex items-center gap-2 mb-6">
+                    <h2 className="text-2xl font-semibold text-left">
+                      Recently Visited
+                    </h2>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                    {recentTools.map((tool) => (
+                      <ToolCard key={tool.name} tool={tool} />
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* All Tools Section */}
+              <div>
+                <h2 className="text-2xl font-semibold mb-6 text-left">
+                  All Tools
+                </h2>
+                <div className="space-y-8">
+                  {filteredTools.map((category) => (
+                    <div key={category.category}>
+                      <h3 className="text-xl font-medium mb-4 text-left text-muted-foreground">
+                        {category.category}
+                      </h3>
+                      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                        {category.items.map((tool) => (
+                          <ToolCard
+                            key={tool.name}
+                            tool={{ ...tool, category: category.category }}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </>
+          )}
+        </div>
       </div>
     </div>
   );
