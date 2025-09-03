@@ -1,4 +1,3 @@
-// @ts-ignore - TS bundler resolution sometimes misdetects default export here
 import RichEditor from "@/components/RichEditor";
 import { Metadata } from "next";
 

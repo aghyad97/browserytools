@@ -4,9 +4,20 @@ import { Button } from "./ui/button";
 import { Coffee, Github, Twitter } from "lucide-react";
 import { useToolStore } from "@/store/tool-store";
 import Logo from "./logo";
+import Link from "next/link";
+import { useEffect } from "react";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
-  const { currentTool } = useToolStore();
+  const pathname = usePathname();
+  const { currentTool, setCurrentTool } = useToolStore();
+
+  // Reset tool context when not on tools routes
+  useEffect(() => {
+    if (!pathname.startsWith("/tools")) {
+      setCurrentTool(null);
+    }
+  }, [pathname, setCurrentTool]);
 
   return (
     <header className="border-b bg-white/40   dark:bg-gray-900/40 backdrop-blur-lg">
@@ -31,7 +42,7 @@ export default function Header() {
 
         {/* Social links on the right */}
         <div className="flex items-center gap-4">
-          <a
+          <Link
             href="https://github.com/aghyad97/browserytools"
             target="_blank"
             rel="noopener noreferrer"
@@ -39,8 +50,8 @@ export default function Header() {
             <Button variant="ghost" size="icon">
               <Github className="h-5 w-5" />
             </Button>
-          </a>
-          <a
+          </Link>
+          <Link
             href="https://twitter.com/aghyadev"
             target="_blank"
             rel="noopener noreferrer"
@@ -48,8 +59,8 @@ export default function Header() {
             <Button variant="ghost" size="icon">
               <Twitter className="h-5 w-5" />
             </Button>
-          </a>
-          <a
+          </Link>
+          <Link
             href="https://pay.ziina.com/aghyad"
             target="_blank"
             rel="noopener noreferrer"
@@ -58,7 +69,7 @@ export default function Header() {
               <Coffee className="h-4 w-4 mr-2" />
               Buy me a coffee
             </Button>
-          </a>
+          </Link>
         </div>
       </div>
     </header>
