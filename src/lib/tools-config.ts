@@ -55,7 +55,7 @@ export const tools: ToolCategory[] = [
         name: "Device Mockups",
         href: "/tools/device-mockups",
         icon: SmartphoneIcon,
-        available: true,
+        available: false,
         order: 2,
         description:
           "Place screenshots into iPhone/Android device frames. Upload a screenshot, choose a frame, adjust fit, background, and export.",
