@@ -200,9 +200,7 @@ This project is maintained by passionate developers who believe in creating usef
 
 - **GitHub Sponsors**: [Sponsor us on GitHub](https://github.com/sponsors/aghyad97)
 - **Ziina**: [One-time donation via Ziina](https://pay.ziina.com/aghyad)
-- **Crypto**:
-  - Bitcoin: `[your-bitcoin-address]`
-  - Ethereum: `[your-ethereum-address]`
+
 
 ### How Donations Help
 
