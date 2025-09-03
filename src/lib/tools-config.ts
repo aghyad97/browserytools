@@ -20,6 +20,7 @@ import {
   ShieldIcon,
   ReceiptIcon,
   SmartphoneIcon,
+  BarChart3Icon,
 } from "lucide-react";
 
 export interface Tool {
@@ -246,6 +247,15 @@ export const tools: ToolCategory[] = [
         order: 3,
         description:
           "Generate QR codes from text, URLs, contact information, and more. Customize colors, size, and error correction. Download as PNG, SVG, or PDF.",
+      },
+      {
+        name: "Barcode Generator",
+        href: "/tools/barcode-generator",
+        icon: BarChart3Icon,
+        available: true,
+        order: 4,
+        description:
+          "Generate various barcode types including CODE128, EAN-13, UPC-A, CODE39, and more. Customize appearance and download as PNG. Perfect for inventory, retail, and logistics.",
       },
     ],
   },
