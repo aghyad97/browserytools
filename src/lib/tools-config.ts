@@ -19,6 +19,7 @@ import {
   CalculatorIcon,
   ShieldIcon,
   ReceiptIcon,
+  SmartphoneIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -51,11 +52,20 @@ export const tools: ToolCategory[] = [
           "Remove background from your images instantly using AI. Perfect for product photos, portraits, and graphics. Supports PNG, JPG, and other formats. No watermark, completely free.",
       },
       {
+        name: "Device Mockups",
+        href: "/tools/device-mockups",
+        icon: SmartphoneIcon,
+        available: true,
+        order: 2,
+        description:
+          "Place screenshots into iPhone/Android device frames. Upload a screenshot, choose a frame, adjust fit, background, and export.",
+      },
+      {
         name: "Image Compression",
         href: "/tools/image-compression",
         icon: FileDownIcon,
         available: true,
-        order: 2,
+        order: 3,
         description:
           "Compress images to reduce file size while maintaining quality. Perfect for web optimization, email attachments, and storage. Supports JPG, PNG, and WebP.",
       },
@@ -64,7 +74,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/image-converter",
         icon: HammerIcon,
         available: true,
-        order: 3,
+        order: 4,
         description:
           "Convert images between different formats like JPG, PNG, WebP, GIF, BMP, TIFF, and SVG. Batch conversion supported. Optimize for web or print.",
       },
@@ -73,7 +83,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/color-correction",
         icon: PaintRollerIcon,
         available: true,
-        order: 4,
+        order: 5,
         description:
           "Adjust colors, brightness, contrast, saturation, and hue in images. Enhance photos, fix lighting issues, and create artistic effects. Works with all image formats.",
       },
@@ -82,7 +92,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/svg",
         icon: FileImageIcon,
         available: false,
-        order: 5,
+        order: 6,
         description:
           "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths, and convert to other formats. Ideal for logos, icons, and scalable graphics.",
       },

@@ -43,7 +43,7 @@ Please describe what this tool should do and how it would help users.
   };
 
   return (
-    <header className="border-b bg-white/40 dark:bg-gray-900/40 backdrop-blur-lg">
+    <header className="border-b bg-white/40 dark:bg-black/40 backdrop-blur-lg">
       <div className="flex items-center justify-between h-16 px-4">
         {/* Mobile menu button and Tool Title */}
         <div className="flex items-center gap-3">

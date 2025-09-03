@@ -18,12 +18,14 @@ interface ToolCardProps {
   tool: Tool & { category: string };
   showFavoriteButton?: boolean;
   className?: string;
+  variant?: "grid" | "list";
 }
 
 export default function ToolCard({
   tool,
   showFavoriteButton = true,
   className = "",
+  variant = "grid",
 }: ToolCardProps) {
   const { isFavorite, toggleFavorite } = useFavoritesStore();
   const isFavorited = isFavorite(tool.href);
@@ -34,6 +36,66 @@ export default function ToolCard({
     e.stopPropagation();
     toggleFavorite(tool.href);
   };
+
+  if (variant === "list") {
+    return (
+      <Link
+        href={tool.available ? tool.href : "#"}
+        className={`block ${
+          tool.available ? "group" : "cursor-not-allowed"
+        } ${className}`}
+      >
+        <Card
+          className={`h-full transition-all shadow-none duration-200 ${
+            tool.available ? "hover:shadow-sm cursor-pointer" : "opacity-50"
+          }`}
+        >
+          <CardContent className="px-4 py-2">
+            <div className="flex items-center gap-3">
+              {showFavoriteButton && tool.available && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-6 w-6 p-0 hover:bg-transparent"
+                  onClick={handleFavoriteClick}
+                  aria-label={
+                    isFavorited ? "Remove from favorites" : "Add to favorites"
+                  }
+                >
+                  <Heart
+                    className={`h-3 w-3 transition-colors ${
+                      isFavorited
+                        ? "fill-red-500 text-red-500"
+                        : "text-muted-foreground hover:text-red-500"
+                    }`}
+                  />
+                </Button>
+              )}
+              <div className="p-2 rounded-md bg-muted group-hover:bg-primary/10 transition-colors duration-200">
+                <IconComponent className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-medium text-sm truncate">{tool.name}</h3>
+                  {!tool.available && (
+                    <Badge
+                      variant="secondary"
+                      className="text-[10px] rounded-xl"
+                    >
+                      Soon
+                    </Badge>
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground line-clamp-1">
+                  {tool.description}
+                </p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+    );
+  }
 
   return (
     <TooltipProvider>
