@@ -24,7 +24,7 @@ export default function Header() {
       <div className="flex items-center justify-between h-16 px-4">
         {/* Tool Title on the left */}
         <div className="flex items-center gap-3">
-          <a href="/" className="flex items-center"></a>
+          <Link href="/" className="flex items-center"></Link>
           {currentTool ? (
             <div>
               <h1 className="text-md font-semibold">{currentTool.name}</h1>
