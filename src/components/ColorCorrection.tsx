@@ -180,26 +180,7 @@ export default function ColorCorrection() {
   ];
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            onClick={handleUndo}
-            disabled={historyIndex === 0}
-          >
-            <Undo className="w-4 h-4" />
-          </Button>
-          <Button
-            variant="outline"
-            onClick={handleRedo}
-            disabled={historyIndex === history.length - 1}
-          >
-            <Redo className="w-4 h-4" />
-          </Button>
-        </div>
-      </div>
-
+    <div className="flex flex-col h-full">
       <div className="flex flex-1 gap-6 p-6 overflow-hidden">
         <div className="flex-1 min-w-0">
           <Card className="h-full">
@@ -242,6 +223,22 @@ export default function ColorCorrection() {
         </div>
 
         <Card className="w-80 p-4 overflow-y-auto">
+          <div className="flex gap-2 items-center mb-4 justify-center">
+            <Button
+              variant="outline"
+              onClick={handleUndo}
+              disabled={historyIndex === 0}
+            >
+              <Undo className="w-4 h-4" />
+            </Button>
+            <Button
+              variant="outline"
+              onClick={handleRedo}
+              disabled={historyIndex === history.length - 1}
+            >
+              <Redo className="w-4 h-4" />
+            </Button>
+          </div>
           <Tabs defaultValue="basic">
             <TabsList className="w-full">
               <TabsTrigger value="basic" className="flex-1">

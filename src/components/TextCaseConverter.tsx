@@ -138,14 +138,6 @@ export default function TextCaseConverter() {
 
   return (
     <div className="container mx-auto p-6 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Text Case Converter</h1>
-        <p className="text-muted-foreground">
-          Convert text between different cases: uppercase, lowercase, camelCase,
-          snake_case, and more.
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input Section */}
         <Card>

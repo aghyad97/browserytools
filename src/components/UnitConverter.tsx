@@ -19,7 +19,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RotateCcw, Calculator } from "lucide-react";
+import { ArrowUpDown, Calculator } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import NumberFlow from "@number-flow/react";
 
@@ -240,16 +240,42 @@ export default function UnitConverter() {
     setToValue("");
   };
 
+  const handleFromUnitChange = (unit: string) => {
+    setFromUnit(unit);
+    // Recalculate if there's a value
+    if (fromValue && fromUnitData && toUnitData) {
+      const numValue = parseFloat(fromValue);
+      if (!isNaN(numValue)) {
+        const newFromUnitData = currentCategory?.units.find(
+          (u) => u.name === unit
+        );
+        if (newFromUnitData) {
+          const converted = convertValue(numValue, newFromUnitData, toUnitData);
+          setToValue(converted.toFixed(6).replace(/\.?0+$/, ""));
+        }
+      }
+    }
+  };
+
+  const handleToUnitChange = (unit: string) => {
+    setToUnit(unit);
+    // Recalculate if there's a value
+    if (fromValue && fromUnitData && toUnitData) {
+      const numValue = parseFloat(fromValue);
+      if (!isNaN(numValue)) {
+        const newToUnitData = currentCategory?.units.find(
+          (u) => u.name === unit
+        );
+        if (newToUnitData) {
+          const converted = convertValue(numValue, fromUnitData, newToUnitData);
+          setToValue(converted.toFixed(6).replace(/\.?0+$/, ""));
+        }
+      }
+    }
+  };
+
   return (
     <div className="container mx-auto p-6 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Unit Converter</h1>
-        <p className="text-muted-foreground">
-          Convert between different units of measurement including length,
-          weight, temperature, area, volume, and speed.
-        </p>
-      </div>
-
       <Tabs
         value={activeCategory}
         onValueChange={handleCategoryChange}
@@ -280,12 +306,16 @@ export default function UnitConverter() {
                 </CardDescription>
               </CardHeader>
               <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {/* From Unit */}
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                  {/* Input Section - Left Side */}
                   <div className="space-y-4">
+                    {/* From Unit */}
                     <div className="space-y-2">
                       <Label htmlFor="from-unit">From</Label>
-                      <Select value={fromUnit} onValueChange={setFromUnit}>
+                      <Select
+                        value={fromUnit}
+                        onValueChange={handleFromUnitChange}
+                      >
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -298,6 +328,7 @@ export default function UnitConverter() {
                         </SelectContent>
                       </Select>
                     </div>
+
                     <div className="space-y-2">
                       <Label htmlFor="from-value">Value</Label>
                       <Input
@@ -308,25 +339,23 @@ export default function UnitConverter() {
                         onChange={(e) => handleFromValueChange(e.target.value)}
                       />
                     </div>
-                  </div>
 
-                  {/* Swap Button */}
-                  <div className="flex items-center justify-center">
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={handleSwapUnits}
-                      className="rounded-full p-2"
-                    >
-                      <RotateCcw className="w-4 h-4" />
-                    </Button>
-                  </div>
+                    {/* Swap Button */}
+                    <div className="flex items-center justify-center">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={handleSwapUnits}
+                        className="rounded-full p-2"
+                      >
+                        <ArrowUpDown className="w-4 h-4" />
+                      </Button>
+                    </div>
 
-                  {/* To Unit */}
-                  <div className="space-y-4">
+                    {/* To Unit */}
                     <div className="space-y-2">
                       <Label htmlFor="to-unit">To</Label>
-                      <Select value={toUnit} onValueChange={setToUnit}>
+                      <Select value={toUnit} onValueChange={handleToUnitChange}>
                         <SelectTrigger>
                           <SelectValue />
                         </SelectTrigger>
@@ -339,8 +368,9 @@ export default function UnitConverter() {
                         </SelectContent>
                       </Select>
                     </div>
+
                     <div className="space-y-2">
-                      <Label htmlFor="to-value">Value</Label>
+                      <Label htmlFor="to-value">Converted Value</Label>
                       <Input
                         id="to-value"
                         type="number"
@@ -352,45 +382,82 @@ export default function UnitConverter() {
                       />
                     </div>
                   </div>
-                </div>
 
-                <div className="flex justify-center mt-6">
-                  <Button
-                    variant="outline"
-                    onClick={handleClear}
-                    className="flex items-center gap-2"
-                  >
-                    <RotateCcw className="w-4 h-4" />
-                    Clear
-                  </Button>
-                </div>
+                  {/* Results Section - Right Side */}
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-semibold">Result</h3>
 
-                {/* Conversion Info */}
-                {fromValue && toValue && fromUnitData && toUnitData && (
-                  <div className="mt-6 p-4 bg-muted rounded-lg">
-                    <p className="text-sm text-muted-foreground">
-                      <strong>
-                        <NumberFlow value={parseFloat(fromValue)} />
-                      </strong>{" "}
-                      {fromUnitData.symbol} ={" "}
-                      <strong>
-                        <NumberFlow value={parseFloat(toValue)} />
-                      </strong>{" "}
-                      {toUnitData.symbol}
-                    </p>
-                    {activeCategory !== "Temperature" && (
-                      <p className="text-xs text-muted-foreground mt-1">
-                        1 {fromUnitData.symbol} ={" "}
-                        <NumberFlow
-                          value={parseFloat(
-                            (fromUnitData.factor / toUnitData.factor).toFixed(6)
+                    {/* Conversion Result */}
+                    {fromValue && toValue && fromUnitData && toUnitData ? (
+                      <div className="p-4 bg-muted rounded-lg">
+                        <p className="text-lg font-medium">
+                          <NumberFlow value={parseFloat(fromValue)} />{" "}
+                          {fromUnitData.symbol} ={" "}
+                          <NumberFlow value={parseFloat(toValue)} />{" "}
+                          {toUnitData.symbol}
+                        </p>
+
+                        {/* Working Calculation */}
+                        <div className="mt-3 p-3 bg-background rounded border">
+                          <p className="text-sm font-medium text-muted-foreground mb-2">
+                            Working:
+                          </p>
+                          {activeCategory === "Temperature" ? (
+                            <div className="text-sm space-y-1">
+                              <p>
+                                • Convert {fromValue}°
+                                {fromUnitData.name === "Celsius"
+                                  ? "C"
+                                  : fromUnitData.name === "Fahrenheit"
+                                  ? "F"
+                                  : "K"}{" "}
+                                to Celsius
+                              </p>
+                              <p>
+                                • Convert Celsius to{" "}
+                                {toUnitData.name === "Celsius"
+                                  ? "Celsius"
+                                  : toUnitData.name === "Fahrenheit"
+                                  ? "Fahrenheit"
+                                  : "Kelvin"}
+                              </p>
+                            </div>
+                          ) : (
+                            <div className="text-sm space-y-1">
+                              <p>
+                                • {fromValue} {fromUnitData.symbol} ×{" "}
+                                {fromUnitData.factor} ={" "}
+                                {parseFloat(fromValue) * fromUnitData.factor}{" "}
+                                (base unit)
+                              </p>
+                              <p>
+                                • {parseFloat(fromValue) * fromUnitData.factor}{" "}
+                                ÷ {toUnitData.factor} = {toValue}{" "}
+                                {toUnitData.symbol}
+                              </p>
+                            </div>
                           )}
-                        />{" "}
-                        {toUnitData.symbol}
-                      </p>
+                        </div>
+
+                        {activeCategory !== "Temperature" && (
+                          <p className="text-xs text-muted-foreground mt-2">
+                            1 {fromUnitData.symbol} ={" "}
+                            {parseFloat(
+                              (fromUnitData.factor / toUnitData.factor).toFixed(
+                                6
+                              )
+                            )}{" "}
+                            {toUnitData.symbol}
+                          </p>
+                        )}
+                      </div>
+                    ) : (
+                      <div className="p-4 bg-muted rounded-lg text-center text-muted-foreground">
+                        Enter a value to see the conversion result
+                      </div>
                     )}
                   </div>
-                )}
+                </div>
               </CardContent>
             </Card>
           </TabsContent>

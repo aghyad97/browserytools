@@ -23,74 +23,36 @@ import { Slider } from "@/components/ui/slider";
 import { Copy, Download, RotateCcw, QrCode } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import NumberFlow from "@number-flow/react";
+import QRCode from "qrcode";
 
-// Simple QR Code generator using canvas
-const generateQRCode = (
+// QR Code generator using the qrcode package
+const generateQRCode = async (
   text: string,
   size: number,
-  errorCorrectionLevel: string
-): string => {
-  // This is a simplified QR code generator
-  // In a real implementation, you'd use a proper QR code library like 'qrcode'
-  const canvas = document.createElement("canvas");
-  const ctx = canvas.getContext("2d");
+  errorCorrectionLevel: string,
+  format: string = "png"
+): Promise<string> => {
+  try {
+    const options = {
+      width: size,
+      margin: 2,
+      color: {
+        dark: "#000000",
+        light: "#FFFFFF",
+      },
+      errorCorrectionLevel: errorCorrectionLevel as "L" | "M" | "Q" | "H",
+    };
 
-  if (!ctx) return "";
-
-  canvas.width = size;
-  canvas.height = size;
-
-  // Create a simple pattern that looks like a QR code
-  const moduleSize = Math.floor(size / 25); // 25x25 grid
-  const modules = 25;
-
-  // Fill background
-  ctx.fillStyle = "#ffffff";
-  ctx.fillRect(0, 0, size, size);
-
-  // Generate a pseudo-random pattern based on the input text
-  let hash = 0;
-  for (let i = 0; i < text.length; i++) {
-    hash = ((hash << 5) - hash + text.charCodeAt(i)) & 0xffffffff;
-  }
-
-  // Create pattern
-  ctx.fillStyle = "#000000";
-  for (let row = 0; row < modules; row++) {
-    for (let col = 0; col < modules; col++) {
-      // Create finder patterns (corners)
-      if (
-        (row < 7 && col < 7) || // Top-left
-        (row < 7 && col >= modules - 7) || // Top-right
-        (row >= modules - 7 && col < 7) // Bottom-left
-      ) {
-        if (
-          ((row < 2 || row >= 5) && (col < 2 || col >= 5)) ||
-          (row >= 2 && row < 5 && col >= 2 && col < 5)
-        ) {
-          ctx.fillRect(
-            col * moduleSize,
-            row * moduleSize,
-            moduleSize,
-            moduleSize
-          );
-        }
-      } else {
-        // Random pattern based on hash
-        const seed = (hash + row * modules + col) % 100;
-        if (seed < 50) {
-          ctx.fillRect(
-            col * moduleSize,
-            row * moduleSize,
-            moduleSize,
-            moduleSize
-          );
-        }
-      }
+    if (format === "svg") {
+      return await QRCode.toString(text, { ...options, type: "svg" });
+    } else {
+      const mimeType = format === "jpeg" ? "image/jpeg" : "image/png";
+      return await QRCode.toDataURL(text, { ...options, type: mimeType });
     }
+  } catch (error) {
+    console.error("Error generating QR code:", error);
+    throw error;
   }
-
-  return canvas.toDataURL("image/png");
 };
 
 export default function QRCodeGenerator() {
@@ -99,9 +61,10 @@ export default function QRCodeGenerator() {
   const [size, setSize] = useState(256);
   const [errorCorrectionLevel, setErrorCorrectionLevel] = useState("M");
   const [fileName, setFileName] = useState("qrcode");
+  const [format, setFormat] = useState("png");
   const { toast } = useToast();
 
-  const generateQR = () => {
+  const generateQR = async () => {
     if (!inputText.trim()) {
       toast({
         title: "No text to encode",
@@ -112,7 +75,12 @@ export default function QRCodeGenerator() {
     }
 
     try {
-      const qrCode = generateQRCode(inputText, size, errorCorrectionLevel);
+      const qrCode = await generateQRCode(
+        inputText,
+        size,
+        errorCorrectionLevel,
+        format
+      );
       setQrCodeDataUrl(qrCode);
     } catch (error) {
       toast({
@@ -124,7 +92,7 @@ export default function QRCodeGenerator() {
     }
   };
 
-  const handleCopy = () => {
+  const handleCopy = async () => {
     if (!qrCodeDataUrl) {
       toast({
         title: "No QR code to copy",
@@ -134,50 +102,87 @@ export default function QRCodeGenerator() {
       return;
     }
 
-    // Convert data URL to blob and copy to clipboard
-    fetch(qrCodeDataUrl)
-      .then((res) => res.blob())
-      .then((blob) => {
-        navigator.clipboard.write([
+    try {
+      if (format === "svg") {
+        // For SVG, copy the raw SVG content as text
+        await navigator.clipboard.writeText(qrCodeDataUrl);
+        toast({
+          title: "Copied to clipboard",
+          description: "The SVG QR code has been copied to your clipboard.",
+        });
+      } else {
+        // For PNG/JPEG, convert data URL to blob and copy to clipboard
+        const response = await fetch(qrCodeDataUrl);
+        const blob = await response.blob();
+        await navigator.clipboard.write([
           new ClipboardItem({
-            "image/png": blob,
+            [blob.type]: blob,
           }),
         ]);
         toast({
           title: "Copied to clipboard",
           description: "The QR code has been copied to your clipboard.",
         });
-      })
-      .catch(() => {
-        toast({
-          title: "Copy failed",
-          description: "Could not copy the QR code to clipboard.",
-          variant: "destructive",
-        });
+      }
+    } catch (error) {
+      toast({
+        title: "Copy failed",
+        description: "Could not copy the QR code to clipboard.",
+        variant: "destructive",
       });
+    }
   };
 
-  const handleDownload = () => {
-    if (!qrCodeDataUrl) {
+  const handleDownload = async () => {
+    if (!inputText.trim()) {
       toast({
-        title: "No QR code to download",
-        description: "Please generate a QR code first.",
+        title: "No text to encode",
+        description: "Please enter some text or URL to generate a QR code.",
         variant: "destructive",
       });
       return;
     }
 
-    const link = document.createElement("a");
-    link.download = `${fileName}.png`;
-    link.href = qrCodeDataUrl;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    try {
+      const qrCodeData = await generateQRCode(
+        inputText,
+        size,
+        errorCorrectionLevel,
+        format
+      );
 
-    toast({
-      title: "Download started",
-      description: "The QR code has been downloaded.",
-    });
+      const link = document.createElement("a");
+      link.download = `${fileName}.${format}`;
+
+      if (format === "svg") {
+        // For SVG, create a blob with the SVG content
+        const blob = new Blob([qrCodeData], { type: "image/svg+xml" });
+        link.href = URL.createObjectURL(blob);
+      } else {
+        // For PNG/JPEG, use the data URL directly
+        link.href = qrCodeData;
+      }
+
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+
+      // Clean up the object URL for SVG
+      if (format === "svg") {
+        URL.revokeObjectURL(link.href);
+      }
+
+      toast({
+        title: "Download started",
+        description: `The QR code has been downloaded as ${format.toUpperCase()}.`,
+      });
+    } catch (error) {
+      toast({
+        title: "Download failed",
+        description: "There was an error downloading the QR code.",
+        variant: "destructive",
+      });
+    }
   };
 
   const handleClear = () => {
@@ -202,21 +207,16 @@ export default function QRCodeGenerator() {
   // Auto-generate when text changes
   useEffect(() => {
     if (inputText.trim()) {
-      const qrCode = generateQRCode(inputText, size, errorCorrectionLevel);
-      setQrCodeDataUrl(qrCode);
+      generateQRCode(inputText, size, errorCorrectionLevel, format)
+        .then(setQrCodeDataUrl)
+        .catch((error) => {
+          console.error("Error auto-generating QR code:", error);
+        });
     }
-  }, [inputText, size, errorCorrectionLevel]);
+  }, [inputText, size, errorCorrectionLevel, format]);
 
   return (
     <div className="container mx-auto p-6 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">QR Code Generator</h1>
-        <p className="text-muted-foreground">
-          Generate QR codes from text, URLs, emails, and more. Perfect for
-          sharing information quickly.
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input Section */}
         <div className="space-y-6">
@@ -330,6 +330,20 @@ export default function QRCodeGenerator() {
               </div>
 
               <div className="space-y-2">
+                <Label htmlFor="format">Download Format</Label>
+                <Select value={format} onValueChange={setFormat}>
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="png">PNG (Raster)</SelectItem>
+                    <SelectItem value="jpeg">JPEG (Raster)</SelectItem>
+                    <SelectItem value="svg">SVG (Vector)</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
                 <Label htmlFor="filename">Download Filename</Label>
                 <Input
                   id="filename"
@@ -353,11 +367,18 @@ export default function QRCodeGenerator() {
               {qrCodeDataUrl ? (
                 <>
                   <div className="p-4 bg-white rounded-lg border">
-                    <img
-                      src={qrCodeDataUrl}
-                      alt="Generated QR Code"
-                      className="max-w-full h-auto"
-                    />
+                    {format === "svg" ? (
+                      <div
+                        dangerouslySetInnerHTML={{ __html: qrCodeDataUrl }}
+                        className="max-w-full h-auto"
+                      />
+                    ) : (
+                      <img
+                        src={qrCodeDataUrl}
+                        alt="Generated QR Code"
+                        className="max-w-full h-auto"
+                      />
+                    )}
                   </div>
                   <div className="flex gap-2">
                     <Button
@@ -373,7 +394,7 @@ export default function QRCodeGenerator() {
                       className="flex items-center gap-2"
                     >
                       <Download className="w-4 h-4" />
-                      Download
+                      Download {format.toUpperCase()}
                     </Button>
                   </div>
                 </>

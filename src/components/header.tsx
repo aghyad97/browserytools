@@ -3,6 +3,7 @@
 import { Button } from "./ui/button";
 import { Coffee, Github, Twitter } from "lucide-react";
 import { useToolStore } from "@/store/tool-store";
+import Logo from "./logo";
 
 export default function Header() {
   const { currentTool } = useToolStore();
@@ -11,7 +12,8 @@ export default function Header() {
     <header className="border-b bg-white/40   dark:bg-gray-900/40 backdrop-blur-lg">
       <div className="flex items-center justify-between h-16 px-4">
         {/* Tool Title on the left */}
-        <div className="flex items-center">
+        <div className="flex items-center gap-3">
+          <a href="/" className="flex items-center"></a>
           {currentTool ? (
             <div>
               <h1 className="text-md font-semibold">{currentTool.name}</h1>
@@ -20,11 +22,9 @@ export default function Header() {
               </p>
             </div>
           ) : (
-            <div>
-              <h1 className="text-xl font-semibold">Web Tools Suite</h1>
-              <p className="text-sm text-muted-foreground">
-                Collection of browser-based tools
-              </p>
+            <div className="flex flex-row gap-2">
+              <Logo />
+              <h1 className="text-xl font-semibold">BrowseryTools</h1>
             </div>
           )}
         </div>

@@ -34,9 +34,45 @@ const LANGUAGE_OPTIONS = [
 ];
 
 const SAMPLE_CODE = {
-  javascript: `function hello(name) {
-    console.log("Hello, " + name + "!");
-    return true;
+  javascript: `function fibonacci(n) {
+    if (n <= 1) return n;
+    return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+function processData(data) {
+    return data
+        .filter(item => item.active)
+        .map(item => ({
+            id: item.id,
+            name: item.name.toUpperCase(),
+            timestamp: new Date(item.createdAt)
+        }))
+        .sort((a, b) => b.timestamp - a.timestamp);
+}
+
+class DataProcessor {
+    constructor(config) {
+        this.config = config;
+        this.cache = new Map();
+    }
+    
+    async process(input) {
+        if (this.cache.has(input)) {
+            return this.cache.get(input);
+        }
+        
+        const result = await this.transform(input);
+        this.cache.set(input, result);
+        return result;
+    }
+    
+    transform(data) {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                resolve(data.map(x => x * 2));
+            }, 100);
+        });
+    }
 }`,
   python: `def hello(name):
     print(f"Hello, {name}!")
@@ -87,8 +123,8 @@ export default function CodeHighlighter() {
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
       <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
 
-      <div className="flex-1 overflow-hidden p-6">
-        <div className="max-w-7xl mx-auto h-full flex flex-col space-y-4">
+      <div className="flex-1 overflow-auto p-6">
+        <div className="max-w-7xl mx-auto space-y-4">
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <Select value={language} onValueChange={handleLanguageChange}>
@@ -119,23 +155,27 @@ export default function CodeHighlighter() {
             </div>
           </Card>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 flex-1">
-            <Card className="flex flex-col overflow-hidden">
-              <div className="p-2 bg-muted font-medium text-sm">Input</div>
-              <div className="flex-1 p-4 min-h-0">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[600px]">
+            <Card className="flex flex-col">
+              <div className="p-2 bg-muted font-medium text-sm border-b">
+                Input
+              </div>
+              <div className="flex-1 p-4">
                 <Textarea
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="w-full h-full font-mono text-sm resize-none"
+                  className="w-full h-[500px] font-mono text-sm resize-none"
                   placeholder="Enter your code here..."
                 />
               </div>
             </Card>
 
-            <Card className="flex flex-col overflow-hidden">
-              <div className="p-2 bg-muted font-medium text-sm">Output</div>
-              <div className="flex-1 p-4 min-h-0 bg-[#0d1117] overflow-auto">
-                <pre className="h-full">
+            <Card className="flex flex-col">
+              <div className="p-2 bg-muted font-medium text-sm border-b">
+                Output
+              </div>
+              <div className="flex-1 p-4 bg-[#0d1117] overflow-auto max-h-[500px]">
+                <pre className="whitespace-pre-wrap">
                   <code
                     className={`language-${language} hljs`}
                     dangerouslySetInnerHTML={{ __html: highlighted }}

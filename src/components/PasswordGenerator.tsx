@@ -243,14 +243,6 @@ export default function PasswordGenerator() {
 
   return (
     <div className="container mx-auto p-6 max-w-6xl">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-2">Password Generator</h1>
-        <p className="text-muted-foreground">
-          Generate secure, random passwords with customizable options and
-          strength analysis.
-        </p>
-      </div>
-
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Generator Options */}
         <Card>
@@ -402,38 +394,6 @@ export default function PasswordGenerator() {
                 </Button>
               </div>
             </div>
-
-            {/* Strength Indicator */}
-            {password && (
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label>Password Strength</Label>
-                  <span className={`font-semibold ${strength.color}`}>
-                    {strength.label}
-                  </span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div
-                    className={`h-2 rounded-full transition-all duration-300 ${
-                      strength.score < 20
-                        ? "bg-red-500"
-                        : strength.score < 40
-                        ? "bg-orange-500"
-                        : strength.score < 60
-                        ? "bg-yellow-500"
-                        : strength.score < 80
-                        ? "bg-blue-500"
-                        : "bg-green-500"
-                    }`}
-                    style={{ width: `${strength.score}%` }}
-                  />
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  Score: <NumberFlow value={strength.score} />
-                  /100
-                </div>
-              </div>
-            )}
 
             {/* Feedback */}
             {password && (

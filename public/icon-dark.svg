@@ -1,0 +1,9 @@
+<svg width="725" height="572" viewBox="0 0 725 572" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M17.58 125.665H707.337M122.959 563.637H601.957C665.449 563.637 716.917 512.17 716.917 448.678V122.959C716.917 59.4693 665.449 8 601.957 8H122.959C59.4693 8 8 59.4693 8 122.959V448.678C8 512.17 59.4693 563.637 122.959 563.637Z" stroke="white" stroke-width="15" stroke-linecap="square" stroke-linejoin="round"/>
+<path d="M386.251 556.998V365.498C386.251 330.244 414.829 301.665 450.085 301.665H529.876C565.131 301.665 593.71 330.244 593.71 365.498V556.998M386.251 429.331H466.043M130.918 556.998V429.534C130.918 413.689 134.85 398.091 142.363 384.139L179.206 315.716C183.866 307.061 192.901 301.665 202.73 301.665C212.56 301.665 221.595 307.061 226.255 315.716L263.098 384.139C270.611 398.091 274.543 413.689 274.543 429.534V556.998" stroke="white" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<circle cx="95.418" cy="74.1646" r="12" fill="white" stroke="white"/>
+<circle cx="140.418" cy="74.1646" r="12" fill="white" stroke="white"/>
+<circle cx="185.418" cy="74.1646" r="12" fill="white" stroke="white"/>
+<line x1="390.418" y1="496.165" x2="463.418" y2="496.165" stroke="white" stroke-width="15" stroke-linecap="round"/>
+<line x1="139.418" y1="410.165" x2="266.418" y2="410.165" stroke="white" stroke-width="15" stroke-linecap="round"/>
+</svg>
