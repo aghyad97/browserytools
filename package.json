@@ -13,6 +13,7 @@
     "@lexical/markdown": "^0.34.0",
     "@lexical/react": "^0.34.0",
     "@number-flow/react": "^0.5.10",
+    "@openpanel/nextjs": "^1.0.8",
     "@radix-ui/react-alert-dialog": "^1.1.15",
     "@radix-ui/react-dialog": "^1.1.6",
     "@radix-ui/react-dropdown-menu": "^2.1.16",
