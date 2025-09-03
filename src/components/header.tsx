@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { Coffee, Github, Twitter } from "lucide-react";
+import { Hammer, Github, Twitter, Coffee } from "lucide-react";
 import { useToolStore } from "@/store/tool-store";
 import Logo from "./logo";
 import Link from "next/link";
@@ -18,6 +18,27 @@ export default function Header() {
       setCurrentTool(null);
     }
   }, [pathname, setCurrentTool]);
+
+  const handleRequestTool = () => {
+    const issueTitle = encodeURIComponent("Tool Request: [Tool Name]");
+    const issueBody = encodeURIComponent(
+      `
+## Tool Request
+
+**Tool Name:** 
+**Description:** 
+**Use Case:** 
+**Priority:** Low/Medium/High
+
+**Additional Details:**
+Please describe what this tool should do and how it would help users.
+    `.trim()
+    );
+
+    const githubUrl = `https://github.com/aghyad97/browserytools/issues/new?title=${issueTitle}&body=${issueBody}&labels=tool-request`;
+
+    window.open(githubUrl, "_blank");
+  };
 
   return (
     <header className="border-b bg-white/40   dark:bg-gray-900/40 backdrop-blur-lg">
@@ -60,6 +81,11 @@ export default function Header() {
               <Twitter className="h-5 w-5" />
             </Button>
           </Link>
+
+          <Button variant={"outline"} onClick={handleRequestTool}>
+            <Hammer className="h-4 w-4 mr-2" />
+            Request a tool
+          </Button>
           <Link
             href="https://pay.ziina.com/aghyad"
             target="_blank"
