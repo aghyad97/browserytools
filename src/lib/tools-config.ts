@@ -21,6 +21,7 @@ import {
   ReceiptIcon,
   SmartphoneIcon,
   BarChart3Icon,
+  BarcodeIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -251,7 +252,7 @@ export const tools: ToolCategory[] = [
       {
         name: "Barcode Generator",
         href: "/tools/barcode-generator",
-        icon: BarChart3Icon,
+        icon: BarcodeIcon,
         available: true,
         order: 4,
         description:
