@@ -207,8 +207,8 @@ export default function TodoList() {
         <CardContent>
           <Tabs
             value={filter}
-            onValueChange={(value: "all" | "active" | "completed") =>
-              setFilter(value)
+            onValueChange={(value) =>
+              setFilter(value as "all" | "active" | "completed")
             }
           >
             <TabsList className="grid w-full grid-cols-3">
