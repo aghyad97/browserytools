@@ -1,10 +1,7 @@
 import JsonCsvConverter from "@/components/JsonCsvConverter";
-import { Metadata } from "next";
+import { generateToolMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "JSON CSV Converter - Web Tools Suite",
-  description: "Collection of browser-based tools",
-};
+export const metadata = generateToolMetadata("/tools/json-csv");
 
 export default function Page() {
   return <JsonCsvConverter />;

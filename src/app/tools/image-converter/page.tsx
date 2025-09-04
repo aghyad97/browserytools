@@ -1,10 +1,7 @@
 import ImageConverter from "@/components/ImageConverter";
-import { Metadata } from "next";
+import { generateToolMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Image Converter - Web Tools Suite",
-  description: "Collection of browser-based tools",
-};
+export const metadata = generateToolMetadata("/tools/image-converter");
 
 export default function Page() {
   return <ImageConverter />;

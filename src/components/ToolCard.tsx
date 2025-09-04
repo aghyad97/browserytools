@@ -18,7 +18,7 @@ interface ToolCardProps {
   tool: Tool & { category: string };
   showFavoriteButton?: boolean;
   className?: string;
-  variant?: "grid" | "list";
+  variant?: "grid" | "list" | "compact";
 }
 
 export default function ToolCard({
@@ -90,6 +90,49 @@ export default function ToolCard({
                   {tool.description}
                 </p>
               </div>
+            </div>
+          </CardContent>
+        </Card>
+      </Link>
+    );
+  }
+
+  if (variant === "compact") {
+    return (
+      <Link
+        href={tool.available ? tool.href : "#"}
+        className={`block ${
+          tool.available ? "group" : "cursor-not-allowed"
+        } ${className}`}
+      >
+        <Card
+          className={`h-full transition-all rounded-md shadow-none duration-200 relative ${
+            tool.available ? "hover:shadow-lg cursor-pointer" : "opacity-50"
+          }`}
+        >
+          {/* Status Badge - Overlapping Top Right Corner */}
+          <div className="absolute top-0.5 right-0.5 z-10">
+            {!tool.available && (
+              <Badge
+                variant="secondary"
+                className="text-[10px] px-1 py-0 shadow-sm rounded-md"
+              >
+                Soon
+              </Badge>
+            )}
+          </div>
+
+          <CardContent className="p-2">
+            <div className="flex items-center gap-2">
+              {/* Icon */}
+              <div className="p-1 rounded-md bg-muted group-hover:bg-primary/10 transition-colors duration-200 flex-shrink-0">
+                <IconComponent className="w-3 h-3" />
+              </div>
+
+              {/* Tool Name */}
+              <h3 className="font-medium text-xs leading-tight truncate">
+                {tool.name}
+              </h3>
             </div>
           </CardContent>
         </Card>

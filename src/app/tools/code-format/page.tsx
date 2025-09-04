@@ -1,10 +1,7 @@
 import CodeHighlighter from "@/components/CodeHighlighter";
-import { Metadata } from "next";
+import { generateToolMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Code formatter - Web Tools Suite",
-  description: "Collection of browser-based tools",
-};
+export const metadata = generateToolMetadata("/tools/code-format");
 
 export default function Page() {
   return <CodeHighlighter />;

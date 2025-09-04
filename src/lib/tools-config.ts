@@ -22,6 +22,7 @@ import {
   SmartphoneIcon,
   BarChart3Icon,
   BarcodeIcon,
+  CheckSquareIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -290,6 +291,21 @@ export const tools: ToolCategory[] = [
         order: 3,
         description:
           "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
+      },
+    ],
+  },
+  {
+    category: "Productivity Tools",
+    order: 7,
+    items: [
+      {
+        name: "Todo List",
+        href: "/tools/todo",
+        icon: CheckSquareIcon,
+        available: true,
+        order: 1,
+        description:
+          "Organize your tasks and stay productive. Create, manage, and track your todos with priority levels. Mark tasks as completed and keep your workflow organized.",
       },
     ],
   },

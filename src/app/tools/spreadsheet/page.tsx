@@ -1,10 +1,7 @@
 import SpreadsheetViewer from "@/components/SpreadsheetViewer";
-import { Metadata } from "next";
+import { generateToolMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Spreadsheet Viewer  - Web Tools Suite",
-  description: "Collection of browser-based tools",
-};
+export const metadata = generateToolMetadata("/tools/spreadsheet");
 
 export default function Page() {
   return <SpreadsheetViewer />;

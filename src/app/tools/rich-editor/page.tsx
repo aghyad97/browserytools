@@ -1,10 +1,7 @@
 import RichEditor from "@/components/RichEditor";
-import { Metadata } from "next";
+import { generateToolMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Rich Text Editor - Web Tools Suite",
-  description: "A powerful, browser-based rich text editor.",
-};
+export const metadata = generateToolMetadata("/tools/rich-editor");
 
 export default function Page() {
   return (

@@ -1,10 +1,7 @@
 import ColorCorrection from "@/components/ColorCorrection";
-import { Metadata } from "next";
+import { generateToolMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "Color Correction - Web Tools Suite",
-  description: "Collection of browser-based tools",
-};
+export const metadata = generateToolMetadata("/tools/color-correction");
 
 export default function Page() {
   return <ColorCorrection />;

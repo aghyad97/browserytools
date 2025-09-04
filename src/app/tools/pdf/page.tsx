@@ -1,10 +1,7 @@
 import PDFTools from "@/components/PDFTools";
-import { Metadata } from "next";
+import { generateToolMetadata } from "@/lib/metadata";
 
-export const metadata: Metadata = {
-  title: "PDF Tools - Web Tools Suite",
-  description: "Collection of browser-based tools",
-};
+export const metadata = generateToolMetadata("/tools/pdf");
 
 export default function Page() {
   return <PDFTools />;
