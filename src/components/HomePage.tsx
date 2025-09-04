@@ -45,7 +45,7 @@ export default function HomePage() {
         <div className="mb-8">
           <p className="text-lg text-center text-muted-foreground">
             {allTools.filter((tool) => tool.available).length} Browser-based
-            tools for productivity. No servers. Full privacy.
+            tools for productivity. No servers. Open-source. Full privacy.
           </p>
         </div>
 
