@@ -227,6 +227,15 @@ export const tools: ToolCategory[] = [
         description:
           "Generate placeholder text for designs and mockups. Customize length, paragraphs, and format. Perfect for web design, presentations, and prototyping.",
       },
+      {
+        name: "Typing Test",
+        href: "/tools/typing-test",
+        icon: TypeIcon,
+        available: true,
+        order: 6,
+        description:
+          "Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.",
+      },
     ],
   },
   {
