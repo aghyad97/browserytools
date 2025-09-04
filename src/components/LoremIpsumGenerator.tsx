@@ -21,8 +21,8 @@ import {
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
 import { Copy, RotateCcw, FileText } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import NumberFlow from "@number-flow/react";
+import { toast } from "sonner";
 
 const loremWords = [
   "lorem",
@@ -210,7 +210,6 @@ export default function LoremIpsumGenerator() {
     "paragraphs"
   );
   const [startWithLorem, setStartWithLorem] = useState(true);
-  const { toast } = useToast();
 
   const generateRandomWords = (numWords: number): string => {
     const words = [];
@@ -259,19 +258,12 @@ export default function LoremIpsumGenerator() {
 
   const handleCopy = () => {
     if (!generatedText) {
-      toast({
-        title: "No text to copy",
-        description: "Please generate some text first.",
-        variant: "destructive",
-      });
+      toast.error("No text to copy");
       return;
     }
 
     navigator.clipboard.writeText(generatedText);
-    toast({
-      title: "Copied to clipboard",
-      description: "The generated text has been copied to your clipboard.",
-    });
+    toast.success("Copied to clipboard");
   };
 
   const handleClear = () => {

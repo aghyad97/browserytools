@@ -21,9 +21,9 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Copy, Download, RotateCcw, QrCode } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import NumberFlow from "@number-flow/react";
 import QRCode from "qrcode";
+import { toast } from "sonner";
 
 // QR Code generator using the qrcode package
 const generateQRCode = async (
@@ -62,15 +62,10 @@ export default function QRCodeGenerator() {
   const [errorCorrectionLevel, setErrorCorrectionLevel] = useState("M");
   const [fileName, setFileName] = useState("qrcode");
   const [format, setFormat] = useState("png");
-  const { toast } = useToast();
 
   const generateQR = async () => {
     if (!inputText.trim()) {
-      toast({
-        title: "No text to encode",
-        description: "Please enter some text or URL to generate a QR code.",
-        variant: "destructive",
-      });
+      toast.error("No text to encode");
       return;
     }
 
@@ -83,22 +78,13 @@ export default function QRCodeGenerator() {
       );
       setQrCodeDataUrl(qrCode);
     } catch (error) {
-      toast({
-        title: "Error generating QR code",
-        description:
-          "There was an error generating the QR code. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Error generating QR code");
     }
   };
 
   const handleCopy = async () => {
     if (!qrCodeDataUrl) {
-      toast({
-        title: "No QR code to copy",
-        description: "Please generate a QR code first.",
-        variant: "destructive",
-      });
+      toast.error("No QR code to copy");
       return;
     }
 
@@ -106,10 +92,7 @@ export default function QRCodeGenerator() {
       if (format === "svg") {
         // For SVG, copy the raw SVG content as text
         await navigator.clipboard.writeText(qrCodeDataUrl);
-        toast({
-          title: "Copied to clipboard",
-          description: "The SVG QR code has been copied to your clipboard.",
-        });
+        toast.success("Copied to clipboard");
       } else {
         // For PNG/JPEG, convert data URL to blob and copy to clipboard
         const response = await fetch(qrCodeDataUrl);
@@ -119,27 +102,16 @@ export default function QRCodeGenerator() {
             [blob.type]: blob,
           }),
         ]);
-        toast({
-          title: "Copied to clipboard",
-          description: "The QR code has been copied to your clipboard.",
-        });
+        toast.success("Copied to clipboard");
       }
     } catch (error) {
-      toast({
-        title: "Copy failed",
-        description: "Could not copy the QR code to clipboard.",
-        variant: "destructive",
-      });
+      toast.error("Copy failed");
     }
   };
 
   const handleDownload = async () => {
     if (!inputText.trim()) {
-      toast({
-        title: "No text to encode",
-        description: "Please enter some text or URL to generate a QR code.",
-        variant: "destructive",
-      });
+      toast.error("No text to encode");
       return;
     }
 
@@ -172,16 +144,9 @@ export default function QRCodeGenerator() {
         URL.revokeObjectURL(link.href);
       }
 
-      toast({
-        title: "Download started",
-        description: `The QR code has been downloaded as ${format.toUpperCase()}.`,
-      });
+      toast.success("Download started");
     } catch (error) {
-      toast({
-        title: "Download failed",
-        description: "There was an error downloading the QR code.",
-        variant: "destructive",
-      });
+      toast.error("Download failed");
     }
   };
 

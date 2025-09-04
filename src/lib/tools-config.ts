@@ -24,6 +24,10 @@ import {
   BarcodeIcon,
   CheckSquareIcon,
   ClockIcon,
+  CameraIcon,
+  GlobeIcon,
+  CalendarIcon,
+  KeyIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -278,6 +282,24 @@ export const tools: ToolCategory[] = [
         description:
           "Generate various barcode types including CODE128, EAN-13, UPC-A, CODE39, and more. Customize appearance and download as PNG. Perfect for inventory, retail, and logistics.",
       },
+      {
+        name: "QR Code Scanner",
+        href: "/tools/qr-scanner",
+        icon: CameraIcon,
+        available: true,
+        order: 5,
+        description:
+          "Scan QR codes using your camera or upload an image. Get instant results with copy and download options. Perfect for quickly accessing URLs, contact info, and other QR data.",
+      },
+      {
+        name: "Barcode Scanner",
+        href: "/tools/barcode-scanner",
+        icon: CameraIcon,
+        available: true,
+        order: 6,
+        description:
+          "Scan barcodes using your camera or upload an image. Supports multiple barcode formats including EAN-13, UPC-A, CODE128, and more. Get instant results with validation.",
+      },
     ],
   },
   {
@@ -311,6 +333,24 @@ export const tools: ToolCategory[] = [
         description:
           "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
       },
+      {
+        name: "Time Zone Converter",
+        href: "/tools/timezone-converter",
+        icon: GlobeIcon,
+        available: true,
+        order: 4,
+        description:
+          "Convert times between different time zones. View current times worldwide and convert specific dates and times. Perfect for scheduling and international communication.",
+      },
+      {
+        name: "Age Calculator",
+        href: "/tools/age-calculator",
+        icon: CalendarIcon,
+        available: true,
+        order: 5,
+        description:
+          "Calculate your exact age in years, months, and days. Compare ages between two people and get detailed age information including zodiac signs and next birthday.",
+      },
     ],
   },
   {
@@ -334,6 +374,39 @@ export const tools: ToolCategory[] = [
         order: 2,
         description:
           "Simple timer and countdown with fullscreen mode and completion sound. Perfect for work sessions, workouts, cooking, and presentations.",
+      },
+    ],
+  },
+  {
+    category: "Security & Development Tools",
+    order: 8,
+    items: [
+      {
+        name: "UUID Generator",
+        href: "/tools/uuid-generator",
+        icon: KeyIcon,
+        available: true,
+        order: 1,
+        description:
+          "Generate Universally Unique Identifiers (UUIDs) in different versions and formats. Perfect for database keys, API identifiers, and unique references.",
+      },
+      {
+        name: "JWT Decoder",
+        href: "/tools/jwt-decoder",
+        icon: ShieldIcon,
+        available: true,
+        order: 2,
+        description:
+          "Decode and validate JSON Web Tokens (JWTs). View header, payload, and signature information with validation checks. Perfect for debugging and security analysis.",
+      },
+      {
+        name: "Hash Generator",
+        href: "/tools/hash-generator",
+        icon: HashIcon,
+        available: true,
+        order: 3,
+        description:
+          "Generate cryptographic hashes from text input. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Perfect for data integrity and security.",
       },
     ],
   },

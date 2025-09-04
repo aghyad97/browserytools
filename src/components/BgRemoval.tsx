@@ -12,26 +12,18 @@ import {
   Download,
   Trash2,
 } from "lucide-react";
-import { initializeModel, removeBackgroundFromImage } from "@/lib/bg-removal";
 import { Progress } from "@/components/ui/progress";
-import { Separator } from "@/components/ui/separator";
+import { Config, removeBackground } from "@imgly/background-removal";
+
+const config: Config = {
+  device: "gpu",
+};
 
 export default function BgRemoval() {
   const [image, setImage] = useState<string | null>(null);
   const [processedImage, setProcessedImage] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
   const [progress, setProgress] = useState(0);
-
-  useEffect(() => {
-    const loadModel = async () => {
-      try {
-        await initializeModel();
-      } catch (error) {
-        console.error("Failed to load model:", error);
-      }
-    };
-    loadModel();
-  }, []);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -60,13 +52,19 @@ export default function BgRemoval() {
     setProgress(0);
 
     try {
-      const result = await removeBackgroundFromImage(image, (progress) => {
-        setProgress(progress);
-      });
-      setProgress(100);
-      setProcessedImage(result);
+      // Convert data URL to blob
+      const response = await fetch(image);
+      const blob = await response.blob();
+
+      // Use removeBackground directly with progress callback
+      const blobResult = await removeBackground(blob, config);
+
+      const url = URL.createObjectURL(blobResult);
+
+      // // Convert blob result to data URL
+      setProcessedImage(url);
     } catch (error) {
-      console.error(error);
+      console.error("Error processing image:", error);
     } finally {
       setLoading(false);
     }
@@ -187,7 +185,7 @@ export default function BgRemoval() {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0 }}
-                      className="w-full h-full rounded-md overflow-hidden bg-[url('/checkerboard.png')] bg-repeat"
+                      className="w-full h-full rounded-md overflow-hidden bg-repeat"
                     >
                       <img
                         src={processedImage}

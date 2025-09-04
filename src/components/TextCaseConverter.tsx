@@ -12,13 +12,12 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, RotateCcw } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export default function TextCaseConverter() {
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [activeCase, setActiveCase] = useState("uppercase");
-  const { toast } = useToast();
 
   const caseConverters = {
     uppercase: (text: string) => text.toUpperCase(),
@@ -84,11 +83,7 @@ export default function TextCaseConverter() {
 
   const handleConvert = (caseType: string) => {
     if (!inputText.trim()) {
-      toast({
-        title: "No text to convert",
-        description: "Please enter some text to convert.",
-        variant: "destructive",
-      });
+      toast.error("No text to convert");
       return;
     }
 
@@ -102,19 +97,12 @@ export default function TextCaseConverter() {
 
   const handleCopy = () => {
     if (!outputText) {
-      toast({
-        title: "Nothing to copy",
-        description: "Please convert some text first.",
-        variant: "destructive",
-      });
+      toast.error("Nothing to copy");
       return;
     }
 
     navigator.clipboard.writeText(outputText);
-    toast({
-      title: "Copied to clipboard",
-      description: "The converted text has been copied to your clipboard.",
-    });
+    toast.success("Copied to clipboard");
   };
 
   const handleClear = () => {

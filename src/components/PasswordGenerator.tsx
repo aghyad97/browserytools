@@ -14,8 +14,8 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { Copy, RotateCcw, RefreshCw, Shield, Lock, Key } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import NumberFlow from "@number-flow/react";
+import { toast } from "sonner";
 
 interface PasswordOptions {
   length: number;
@@ -51,7 +51,6 @@ export default function PasswordGenerator() {
     color: "text-red-500",
     feedback: [],
   });
-  const { toast } = useToast();
 
   const uppercaseChars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
   const lowercaseChars = "abcdefghijklmnopqrstuvwxyz";
@@ -94,11 +93,7 @@ export default function PasswordGenerator() {
     }
 
     if (charset === "") {
-      toast({
-        title: "No character set selected",
-        description: "Please select at least one character type.",
-        variant: "destructive",
-      });
+      toast.error("No character set selected");
       return;
     }
 
@@ -200,19 +195,12 @@ export default function PasswordGenerator() {
 
   const handleCopy = () => {
     if (!password) {
-      toast({
-        title: "No password to copy",
-        description: "Please generate a password first.",
-        variant: "destructive",
-      });
+      toast.error("No password to copy");
       return;
     }
 
     navigator.clipboard.writeText(password);
-    toast({
-      title: "Copied to clipboard",
-      description: "The password has been copied to your clipboard.",
-    });
+    toast.success("Copied to clipboard");
   };
 
   const handleClear = () => {

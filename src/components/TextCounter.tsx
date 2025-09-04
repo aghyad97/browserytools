@@ -19,29 +19,21 @@ import {
   Clock,
   Mic,
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import NumberFlow from "@number-flow/react";
 import { useTextCounterStore } from "@/store/text-counter-store";
+import { toast } from "sonner";
 
 export default function TextCounter() {
   const { text, stats, setText, clearText } = useTextCounterStore();
-  const { toast } = useToast();
 
   const handleCopy = () => {
     if (!text) {
-      toast({
-        title: "No text to copy",
-        description: "Please enter some text first.",
-        variant: "destructive",
-      });
+      toast.error("No text to copy");
       return;
     }
 
     navigator.clipboard.writeText(text);
-    toast({
-      title: "Copied to clipboard",
-      description: "The text has been copied to your clipboard.",
-    });
+    toast.success("Copied to clipboard");
   };
 
   const handleClear = () => {

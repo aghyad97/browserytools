@@ -37,7 +37,6 @@ import {
   Save,
   FolderOpen,
 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import jsPDF from "jspdf";
 import NumberFlow from "@number-flow/react";
 import {
@@ -50,11 +49,11 @@ import {
 import InvoiceManager from "@/components/InvoiceManager";
 import { uniqueCurrencies } from "@/lib/currencies";
 import { setPreferredCurrency } from "@/lib/utils";
+import { toast } from "sonner";
 
 export default function InvoiceGenerator() {
   const [activeTab, setActiveTab] = useState("details");
   const [showManager, setShowManager] = useState(true); // Start with manager view
-  const { toast } = useToast();
 
   const {
     currentInvoice,
@@ -163,10 +162,7 @@ export default function InvoiceGenerator() {
   const handleSaveInvoice = () => {
     if (invoiceData) {
       saveInvoice(invoiceData);
-      toast({
-        title: "Invoice Saved",
-        description: `Invoice ${invoiceData.invoiceNumber} has been saved.`,
-      });
+      toast.success("Invoice Saved");
     }
   };
 
@@ -174,20 +170,14 @@ export default function InvoiceGenerator() {
     setCurrentInvoice(invoice);
     setShowManager(false);
     setActiveTab("details");
-    toast({
-      title: "Invoice Loaded",
-      description: `Invoice ${invoice.invoiceNumber} has been loaded.`,
-    });
+    toast.success("Invoice Loaded");
   };
 
   const handleCreateNew = () => {
     createNewInvoice();
     setShowManager(false);
     setActiveTab("details");
-    toast({
-      title: "New Invoice Created",
-      description: "A new invoice has been created.",
-    });
+    toast.success("New Invoice Created");
   };
 
   const handleBackToManager = () => {
@@ -459,16 +449,9 @@ export default function InvoiceGenerator() {
       // Save the PDF
       pdf.save(`invoice-${invoiceData.invoiceNumber}.pdf`);
 
-      toast({
-        title: "Invoice Generated",
-        description: "Your invoice has been downloaded as a PDF.",
-      });
+      toast.success("Invoice Generated");
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Failed to generate PDF. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Error");
     }
   };
 

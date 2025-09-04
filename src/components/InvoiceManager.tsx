@@ -49,7 +49,7 @@ import {
   Filter,
 } from "lucide-react";
 import { useInvoiceStore, InvoiceData } from "@/store/invoice-store";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 interface InvoiceManagerProps {
   onSelectInvoice: (invoice: InvoiceData) => void;
@@ -64,7 +64,6 @@ export default function InvoiceManager({
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "name" | "total">("date");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
-  const { toast } = useToast();
 
   const filteredAndSortedInvoices = invoices
     .filter((invoice) => {
@@ -96,20 +95,14 @@ export default function InvoiceManager({
 
   const handleDeleteInvoice = (id: string, invoiceNumber: string) => {
     deleteInvoice(id);
-    toast({
-      title: "Invoice Deleted",
-      description: `Invoice ${invoiceNumber} has been deleted.`,
-    });
+    toast.success("Invoice Deleted");
   };
 
   const handleDuplicateInvoice = (id: string) => {
     const duplicated = duplicateInvoice(id);
     if (duplicated) {
       onSelectInvoice(duplicated);
-      toast({
-        title: "Invoice Duplicated",
-        description: `Invoice ${duplicated.invoiceNumber} has been created.`,
-      });
+      toast.success("Invoice Duplicated");
     }
   };
 

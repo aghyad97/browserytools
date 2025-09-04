@@ -21,8 +21,8 @@ export function Providers({ children }: { children: ReactNode }) {
         // If you have a user id, you can pass it here to identify the user
         // profileId={'123'}
       /> */}
-      <Analytics />
       {children}
+      {/* <Analytics /> */}
     </NextThemesProvider>
   );
 }

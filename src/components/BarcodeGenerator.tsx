@@ -20,8 +20,8 @@ import {
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
 import { Copy, Download, RotateCcw, BarChart3 } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
 import NumberFlow from "@number-flow/react";
+import { toast } from "sonner";
 
 // Barcode types supported by JsBarcode
 const BARCODE_TYPES = [
@@ -76,16 +76,11 @@ export default function BarcodeGenerator() {
   const [fontSize, setFontSize] = useState(20);
   const [margin, setMargin] = useState(10);
   const [fileName, setFileName] = useState("barcode");
-  const { toast } = useToast();
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const generateBarcode = async () => {
     if (!inputText.trim()) {
-      toast({
-        title: "No text to encode",
-        description: "Please enter some text to generate a barcode.",
-        variant: "destructive",
-      });
+      toast.error("No text to encode");
       return;
     }
 
@@ -110,23 +105,14 @@ export default function BarcodeGenerator() {
       JsBarcode(canvas, inputText, options);
     } catch (error) {
       console.error("Error generating barcode:", error);
-      toast({
-        title: "Error generating barcode",
-        description:
-          "There was an error generating the barcode. Please check your input and try again.",
-        variant: "destructive",
-      });
+      toast.error("Error generating barcode");
     }
   };
 
   const handleCopy = async () => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      toast({
-        title: "No barcode to copy",
-        description: "Please generate a barcode first.",
-        variant: "destructive",
-      });
+      toast.error("No barcode to copy");
       return;
     }
 
@@ -138,29 +124,18 @@ export default function BarcodeGenerator() {
               [blob.type]: blob,
             }),
           ]);
-          toast({
-            title: "Copied to clipboard",
-            description: "The barcode has been copied to your clipboard.",
-          });
+          toast.success("Copied to clipboard");
         }
       });
     } catch (error) {
-      toast({
-        title: "Copy failed",
-        description: "Could not copy the barcode to clipboard.",
-        variant: "destructive",
-      });
+      toast.error("Copy failed");
     }
   };
 
   const handleDownload = async () => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      toast({
-        title: "No barcode to download",
-        description: "Please generate a barcode first.",
-        variant: "destructive",
-      });
+      toast.error("No barcode to download");
       return;
     }
 
@@ -172,16 +147,9 @@ export default function BarcodeGenerator() {
       link.click();
       document.body.removeChild(link);
 
-      toast({
-        title: "Download started",
-        description: "The barcode has been downloaded as PNG.",
-      });
+      toast.success("Download started");
     } catch (error) {
-      toast({
-        title: "Download failed",
-        description: "There was an error downloading the barcode.",
-        variant: "destructive",
-      });
+      toast.error("Download failed");
     }
   };
 
