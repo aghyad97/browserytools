@@ -23,6 +23,7 @@ import {
   BarChart3Icon,
   BarcodeIcon,
   CheckSquareIcon,
+  ClockIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -55,8 +56,8 @@ export const tools: ToolCategory[] = [
           "Remove background from your images instantly using AI. Perfect for product photos, portraits, and graphics. Supports PNG, JPG, and other formats. No watermark, completely free.",
       },
       {
-        name: "Device Mockups",
-        href: "/tools/device-mockups",
+        name: "Phone Mockups",
+        href: "/tools/phone-mockups",
         icon: SmartphoneIcon,
         available: false,
         order: 2,
@@ -166,6 +167,15 @@ export const tools: ToolCategory[] = [
         description:
           "Edit and process audio files. Trim, merge, convert formats, adjust volume, and apply effects. Supports MP3, WAV, FLAC, and other audio formats.",
       },
+      // {
+      //   name: "Compress Video",
+      //   href: "/tools/compress-video",
+      //   icon: FileDownIcon,
+      //   available: false,
+      //   order: 3,
+      //   description:
+      //     "Compress videos in your browser using ffmpeg.wasm. Control quality (CRF), presets, and resolution. No uploads; runs entirely on-device.",
+      // },
     ],
   },
   {
@@ -306,6 +316,15 @@ export const tools: ToolCategory[] = [
         order: 1,
         description:
           "Organize your tasks and stay productive. Create, manage, and track your todos with priority levels. Mark tasks as completed and keep your workflow organized.",
+      },
+      {
+        name: "Timer & Countdown",
+        href: "/tools/timer",
+        icon: ClockIcon,
+        available: true,
+        order: 2,
+        description:
+          "Simple timer and countdown with fullscreen mode and completion sound. Perfect for work sessions, workouts, cooking, and presentations.",
       },
     ],
   },
