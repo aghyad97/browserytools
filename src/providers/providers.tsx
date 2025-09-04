@@ -2,7 +2,8 @@
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ReactNode } from "react";
-import { OpenPanelComponent } from "@openpanel/nextjs";
+// import { OpenPanelComponent } from "@openpanel/nextjs";
+import { Analytics } from "@vercel/analytics/next";
 
 export function Providers({ children }: { children: ReactNode }) {
   return (
@@ -12,14 +13,15 @@ export function Providers({ children }: { children: ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <OpenPanelComponent
+      {/* <OpenPanelComponent
         clientId={process.env.NEXT_PUBLIC_OPENPANEL_CLIENT_ID || ""}
         trackScreenViews={true}
         // trackAttributes={true}
         // trackOutgoingLinks={true}
         // If you have a user id, you can pass it here to identify the user
         // profileId={'123'}
-      />
+      /> */}
+      <Analytics />
       {children}
     </NextThemesProvider>
   );
