@@ -9,6 +9,7 @@ import { useFavoritesStore } from "@/store/favorites-store";
 import { useRecentToolsStore } from "@/store/recent-tools-store";
 import ToolCard from "@/components/ToolCard";
 import { usePreferencesStore } from "@/store/preferences-store";
+import HomeFAQ from "@/components/HomeFAQ";
 
 export default function HomePage() {
   const [searchQuery, setSearchQuery] = useState("");
@@ -41,7 +42,7 @@ export default function HomePage() {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-8">
-        <div className="mb-4">
+        <div className="mb-8">
           <p className="text-lg text-center text-muted-foreground">
             {allTools.filter((tool) => tool.available).length} Browser-based
             tools for productivity. No servers. Full privacy.
@@ -96,7 +97,7 @@ export default function HomePage() {
         </div>
 
         {/* Category Filter */}
-        <div className="mb-6 overflow-x-auto">
+        <div className="mb-12 overflow-x-auto">
           <div className="flex items-center gap-2 min-w-max">
             {[
               "All",
@@ -182,15 +183,19 @@ export default function HomePage() {
               {/* Favorite Tools Section */}
               {favoriteTools.length > 0 && (
                 <div>
-                  <div className="flex items-center gap-2 mb-6">
-                    <h2 className="text-2xl font-semibold text-left">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">
                       Favorite Tools
-                    </h2>
+                    </h3>
                   </div>
                   {viewMode === "grid" ? (
                     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                       {favoriteTools.map((tool) => (
-                        <ToolCard key={tool.name} variant="grid" tool={tool} />
+                        <ToolCard
+                          key={tool.name}
+                          variant="compact"
+                          tool={tool}
+                        />
                       ))}
                     </div>
                   ) : (
@@ -206,10 +211,10 @@ export default function HomePage() {
               {/* Recent Tools Section */}
               {recentTools.length > 0 && (
                 <div>
-                  <div className="flex items-center gap-2 mb-4">
-                    <h2 className="text-xl font-semibold text-left">
+                  <div className="flex items-center gap-2 mb-2">
+                    <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">
                       Recently Used
-                    </h2>
+                    </h3>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">
                     {recentTools.map((tool) => (
@@ -262,6 +267,7 @@ export default function HomePage() {
           )}
         </div>
       </div>
+      <HomeFAQ />
     </div>
   );
 }
