@@ -65,7 +65,7 @@ const nextConfig: NextConfig = {
       },
     ];
   },
-  // Enable compression
+  productionBrowserSourceMaps: false,
   compress: true,
   // Optimize images
   images: {
