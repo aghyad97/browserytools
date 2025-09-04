@@ -177,6 +177,9 @@ export default function ToolCard({
                     size="sm"
                     className="h-6 w-6 p-0 hover:bg-transparent"
                     onClick={handleFavoriteClick}
+                    aria-label={
+                      isFavorited ? "Remove from favorites" : "Add to favorites"
+                    }
                   >
                     <Heart
                       className={`h-3 w-3 transition-colors ${
