@@ -96,11 +96,20 @@ export const tools: ToolCategory[] = [
           "Adjust colors, brightness, contrast, saturation, and hue in images. Enhance photos, fix lighting issues, and create artistic effects. Works with all image formats.",
       },
       {
+        name: "Text Behind Image",
+        href: "/tools/text-behind-image",
+        icon: TypeIcon,
+        available: true,
+        order: 6,
+        description:
+          "Add text behind images with advanced customization. Remove background, position text, apply 3D effects, and export high-quality images. Perfect for social media and marketing.",
+      },
+      {
         name: "SVG Tools",
         href: "/tools/svg",
         icon: FileImageIcon,
         available: false,
-        order: 6,
+        order: 7,
         description:
           "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths, and convert to other formats. Ideal for logos, icons, and scalable graphics.",
       },
