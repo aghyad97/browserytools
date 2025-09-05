@@ -49,7 +49,7 @@ export default function HashGenerator() {
     }
 
     // Convert to hex and pad based on algorithm
-    let hex = Math.abs(hash).toString(16);
+    const hex = Math.abs(hash).toString(16);
 
     switch (algorithm) {
       case "MD5":
