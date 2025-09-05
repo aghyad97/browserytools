@@ -4,26 +4,63 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 
 ## 🚀 Features
 
-- **Audio Tools**: Audio processing and manipulation
-- **Base64 Converter**: Encode/decode Base64 strings
+### 🖼️ Image Tools
+
 - **Background Removal**: AI-powered background removal for images
-- **Code Formatting**: Format and syntax highlight various programming languages
-- **Color Correction**: Advanced color manipulation tools
-- **File Converter**: Convert between different file formats
-- **Image Tools**: Compression, conversion, and processing
-- **JSON/CSV Tools**: Convert between JSON and CSV formats
-- **Lorem Ipsum Generator**: Generate placeholder text
-- **Markdown Tools**: Markdown preview and editing
-- **Password Generator**: Secure password generation
-- **PDF Tools**: PDF manipulation and processing
-- **QR Code Generator**: Generate QR codes
-- **Spreadsheet Viewer**: View and edit spreadsheet files
-- **SVG Tools**: SVG manipulation and editing
-- **Text Tools**: Case conversion, counting, and manipulation
-- **Unit Converter**: Convert between different units
-- **Video Tools**: Video processing utilities
-- **Visualizer**: Data visualization tools
-- **ZIP Tools**: Archive creation and extraction
+- **Phone Mockups**: Place screenshots into iPhone/Android device frames
+- **Image Compression**: Compress images to reduce file size while maintaining quality
+- **Format Converter**: Convert images between different formats (JPG, PNG, WebP, GIF, BMP, TIFF, SVG)
+- **Color Correction**: Adjust colors, brightness, contrast, saturation, and hue in images
+- **SVG Tools**: Edit and manipulate SVG vector graphics _(Coming Soon)_
+
+### 📁 File Tools
+
+- **PDF Tools**: Merge, split, compress, and manipulate PDF files
+- **Zip Tools**: Create, extract, and manage ZIP archives
+- **CSV/Excel Viewer**: View and edit CSV and Excel files in your browser
+- **File Converter**: Convert files between different formats including documents, images, audio, and video
+
+### 🎵 Media Tools
+
+- **Video Editor**: Trim, convert, and edit video files
+- **Audio Editor**: Edit and process audio files
+
+### 📝 Text & Language Tools
+
+- **Text Case Converter**: Convert text between different cases (uppercase, lowercase, title case, camelCase, snake_case)
+- **Text Counter**: Count words, characters, lines, and paragraphs in text
+- **Code Formatter**: Format and beautify your code with proper indentation and syntax highlighting
+- **Rich Editor**: Edit and preview rich text documents with formatting options
+- **Lorem Ipsum Generator**: Generate placeholder text for designs and mockups
+- **Typing Test**: Measure your typing speed (WPM) and accuracy
+
+### 📊 Data Tools
+
+- **JSON to CSV**: Convert JSON data to CSV format for spreadsheet applications
+- **Base64 Tools**: Encode or decode Base64 strings and files
+- **QR Code Generator**: Generate QR codes from text, URLs, contact information, and more
+- **Barcode Generator**: Generate various barcode types including CODE128, EAN-13, UPC-A, CODE39
+- **QR Code Scanner**: Scan QR codes using your camera or upload an image
+- **Barcode Scanner**: Scan barcodes using your camera or upload an image
+
+### 🧮 Math & Finance Tools
+
+- **Invoice Generator**: Create professional invoices with customizable templates
+- **Unit Converter**: Convert between different units of measurement
+- **Password Generator**: Generate secure passwords with custom options
+- **Time Zone Converter**: Convert times between different time zones
+- **Age Calculator**: Calculate your exact age in years, months, and days
+
+### ⚡ Productivity Tools
+
+- **Todo List**: Organize your tasks and stay productive
+- **Timer & Countdown**: Simple timer and countdown with fullscreen mode
+
+### 🔐 Security & Development Tools
+
+- **UUID Generator**: Generate Universally Unique Identifiers (UUIDs)
+- **JWT Decoder**: Decode and validate JSON Web Tokens (JWTs)
+- **Hash Generator**: Generate cryptographic hashes from text input
 
 ## 🛠️ Tech Stack
 
@@ -40,7 +77,7 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 
 Before you begin, ensure you have the following installed:
 
-- **Node.js** (version 18.0 or higher)
+- **Node.js** (version 20.0 or higher)
 - **npm**, **yarn**, **pnpm**, or **bun** package manager
 
 ## 🚀 Getting Started
@@ -201,7 +238,6 @@ This project is maintained by passionate developers who believe in creating usef
 - **GitHub Sponsors**: [Sponsor us on GitHub](https://github.com/sponsors/aghyad97)
 - **Ziina**: [One-time donation via Ziina](https://pay.ziina.com/aghyad)
 
-
 ### How Donations Help
 
 Your support helps us:
@@ -237,4 +273,4 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ---
 
-Made with ❤️ 
+Made with ❤️

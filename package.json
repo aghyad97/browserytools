@@ -6,7 +6,10 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "validate": "node scripts/validate-tools.js",
+    "test-validation": "node scripts/test-validation.js",
+    "precommit": "bun run validate-tools && bun run lint"
   },
   "dependencies": {
     "@imgly/background-removal": "^1.7.0",
@@ -43,6 +46,7 @@
     "date-fns": "^4.1.0",
     "framer-motion": "^12.4.3",
     "highlight.js": "^11.11.1",
+    "husky": "^9.1.7",
     "jsbarcode": "^3.12.1",
     "jspdf": "^3.0.2",
     "jszip": "^3.10.1",
