@@ -9,6 +9,7 @@
     "lint": "next lint",
     "validate": "node scripts/validate-tools.js",
     "test-validation": "node scripts/test-validation.js",
+    "tool-release": "node scripts/update-tool-release.js",
     "precommit": "bun run validate-tools && bun run lint"
   },
   "dependencies": {

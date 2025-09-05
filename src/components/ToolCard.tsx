@@ -5,7 +5,7 @@ import { Heart } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Tool } from "@/lib/tools-config";
+import { Tool, isToolNew } from "@/lib/tools-config";
 import { useFavoritesStore } from "@/store/favorites-store";
 import {
   Tooltip,
@@ -77,19 +77,23 @@ export default function ToolCard({
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
                   <h3 className="font-medium text-sm truncate">{tool.name}</h3>
-                  {!tool.available && (
-                    <Badge
-                      variant="secondary"
-                      className="text-[10px] rounded-xl"
-                    >
-                      Soon
-                    </Badge>
-                  )}
                 </div>
                 <p className="text-xs text-muted-foreground line-clamp-1">
                   {tool.description}
                 </p>
               </div>
+              {!tool.available ? (
+                <Badge variant="secondary" className="text-[10px] rounded-xl">
+                  Soon
+                </Badge>
+              ) : isToolNew(tool.creationDate) ? (
+                <Badge
+                  variant="default"
+                  className="text-[10px] -top-4 -left-4 shadow-sm rounded-xl bg-green-100 text-green-700 hover:bg-green-200 border border-green-200"
+                >
+                  New
+                </Badge>
+              ) : null}
             </div>
           </CardContent>
         </Card>
@@ -157,9 +161,7 @@ export default function ToolCard({
             >
               {/* Status Badge - Overlapping Top Right Corner */}
               <div className="absolute top-0.5 right-1 z-10">
-                {tool.available ? (
-                  <div></div>
-                ) : (
+                {!tool.available && (
                   <Badge
                     variant="secondary"
                     className="text-xs shadow-sm rounded-xl"
@@ -169,9 +171,27 @@ export default function ToolCard({
                 )}
               </div>
 
-              {/* Favorite Button - Top Left Corner */}
-              {showFavoriteButton && tool.available && (
+              {/* New Badge - Top Left Corner */}
+              {tool.available && isToolNew(tool.creationDate) && (
                 <div className="absolute top-0.5 left-1 z-10">
+                  <Badge
+                    variant="default"
+                    className="text-xs shadow-sm -top-2 -left-4 absolute rounded-xl bg-green-100 text-green-700 hover:bg-green-200 border border-green-200"
+                  >
+                    New
+                  </Badge>
+                </div>
+              )}
+
+              {/* Favorite Button - Top Left Corner (adjusted if New badge is present) */}
+              {showFavoriteButton && tool.available && (
+                <div
+                  className={`absolute top-0.5 z-10 ${
+                    tool.available && isToolNew(tool.creationDate)
+                      ? "left-12"
+                      : "left-1"
+                  }`}
+                >
                   <Button
                     variant="ghost"
                     size="sm"

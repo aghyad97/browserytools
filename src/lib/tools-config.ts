@@ -37,6 +37,7 @@ export interface Tool {
   available: boolean;
   description: string;
   order: number;
+  creationDate: string; // ISO date string (YYYY-MM-DD)
 }
 
 export interface ToolCategory {
@@ -56,6 +57,7 @@ export const tools: ToolCategory[] = [
         icon: ImagesIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Remove background from your images instantly using AI. Perfect for product photos, portraits, and graphics. Supports PNG, JPG, and other formats. No watermark, completely free.",
       },
@@ -65,6 +67,7 @@ export const tools: ToolCategory[] = [
         icon: SmartphoneIcon,
         available: true,
         order: 2,
+        creationDate: "2025-09-01",
         description:
           "Place screenshots into iPhone/Android device frames. Upload a screenshot, choose a frame, adjust fit, background, and export.",
       },
@@ -74,6 +77,7 @@ export const tools: ToolCategory[] = [
         icon: FileDownIcon,
         available: true,
         order: 3,
+        creationDate: "2025-08-20",
         description:
           "Compress images to reduce file size while maintaining quality. Perfect for web optimization, email attachments, and storage. Supports JPG, PNG, and WebP.",
       },
@@ -83,6 +87,7 @@ export const tools: ToolCategory[] = [
         icon: HammerIcon,
         available: true,
         order: 4,
+        creationDate: "2025-08-20",
         description:
           "Convert images between different formats like JPG, PNG, WebP, GIF, BMP, TIFF, and SVG. Batch conversion supported. Optimize for web or print.",
       },
@@ -92,6 +97,7 @@ export const tools: ToolCategory[] = [
         icon: PaintRollerIcon,
         available: true,
         order: 5,
+        creationDate: "2025-08-20",
         description:
           "Adjust colors, brightness, contrast, saturation, and hue in images. Enhance photos, fix lighting issues, and create artistic effects. Works with all image formats.",
       },
@@ -101,6 +107,7 @@ export const tools: ToolCategory[] = [
         icon: FileImageIcon,
         available: false,
         order: 6,
+        creationDate: "2025-18-20",
         description:
           "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths, and convert to other formats. Ideal for logos, icons, and scalable graphics.",
       },
@@ -116,6 +123,7 @@ export const tools: ToolCategory[] = [
         icon: FileTextIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Merge, split, compress, and manipulate PDF files. Extract text, rotate pages, add watermarks, and convert to other formats. No file size limits.",
       },
@@ -125,6 +133,7 @@ export const tools: ToolCategory[] = [
         icon: FileArchiveIcon,
         available: true,
         order: 2,
+        creationDate: "2025-08-20",
         description:
           "Create, extract, and manage ZIP archives. Compress files and folders, extract archives, and browse contents. Supports password protection and encryption.",
       },
@@ -134,6 +143,7 @@ export const tools: ToolCategory[] = [
         icon: Grid3X3Icon,
         available: true,
         order: 3,
+        creationDate: "2025-08-20",
         description:
           "View and edit CSV and Excel files in your browser. Sort, filter, and analyze data. Export to different formats. No software installation required.",
       },
@@ -143,6 +153,7 @@ export const tools: ToolCategory[] = [
         icon: FileIcon,
         available: true,
         order: 4,
+        creationDate: "2025-08-20",
         description:
           "Convert files between different formats including documents, images, audio, and video. Supports hundreds of file types with high-quality conversion.",
       },
@@ -159,6 +170,7 @@ export const tools: ToolCategory[] = [
         icon: VideoIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Trim, convert, and edit video files. Cut clips, merge videos, adjust quality, and convert between formats. Works with MP4, AVI, MOV, and more.",
       },
@@ -168,6 +180,7 @@ export const tools: ToolCategory[] = [
         icon: SquarePlayIcon,
         available: true,
         order: 2,
+        creationDate: "2025-08-20",
         description:
           "Edit and process audio files. Trim, merge, convert formats, adjust volume, and apply effects. Supports MP3, WAV, FLAC, and other audio formats.",
       },
@@ -192,6 +205,7 @@ export const tools: ToolCategory[] = [
         icon: TypeIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Convert text between different cases: uppercase, lowercase, title case, camelCase, snake_case, and more. Perfect for coding and content formatting.",
       },
@@ -201,6 +215,7 @@ export const tools: ToolCategory[] = [
         icon: HashIcon,
         available: true,
         order: 2,
+        creationDate: "2025-08-20",
         description:
           "Count words, characters, lines, and paragraphs in text. Analyze readability, estimate reading time, and get detailed statistics for content analysis.",
       },
@@ -210,6 +225,7 @@ export const tools: ToolCategory[] = [
         icon: CodeIcon,
         available: true,
         order: 3,
+        creationDate: "2025-08-20",
         description:
           "Format and beautify your code with proper indentation and syntax highlighting. Supports JavaScript, Python, HTML, CSS, JSON, and many more languages.",
       },
@@ -219,6 +235,7 @@ export const tools: ToolCategory[] = [
         icon: BookMinusIcon,
         available: true,
         order: 4,
+        creationDate: "2025-08-20",
         description:
           "Edit and preview rich text documents with formatting options. Create documents with bold, italic, lists, links, and more. Export to HTML or Markdown.",
       },
@@ -228,6 +245,7 @@ export const tools: ToolCategory[] = [
         icon: FileTextIcon,
         available: true,
         order: 5,
+        creationDate: "2025-08-20",
         description:
           "Generate placeholder text for designs and mockups. Customize length, paragraphs, and format. Perfect for web design, presentations, and prototyping.",
       },
@@ -237,6 +255,7 @@ export const tools: ToolCategory[] = [
         icon: TypeIcon,
         available: true,
         order: 6,
+        creationDate: "2025-09-01",
         description:
           "Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.",
       },
@@ -252,6 +271,7 @@ export const tools: ToolCategory[] = [
         icon: DatabaseIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Convert JSON data to CSV format for spreadsheet applications. Handle nested objects, arrays, and complex data structures. Perfect for data analysis and reporting.",
       },
@@ -261,6 +281,7 @@ export const tools: ToolCategory[] = [
         icon: DatabaseIcon,
         available: true,
         order: 2,
+        creationDate: "2025-08-20",
         description:
           "Encode or decode Base64 strings and files. Convert images, documents, and binary data to text format. Essential for web development and data transmission.",
       },
@@ -270,6 +291,7 @@ export const tools: ToolCategory[] = [
         icon: QrCodeIcon,
         available: true,
         order: 3,
+        creationDate: "2025-08-20",
         description:
           "Generate QR codes from text, URLs, contact information, and more. Customize colors, size, and error correction. Download as PNG, SVG, or PDF.",
       },
@@ -279,6 +301,7 @@ export const tools: ToolCategory[] = [
         icon: BarcodeIcon,
         available: true,
         order: 4,
+        creationDate: "2025-08-20",
         description:
           "Generate various barcode types including CODE128, EAN-13, UPC-A, CODE39, and more. Customize appearance and download as PNG. Perfect for inventory, retail, and logistics.",
       },
@@ -288,6 +311,7 @@ export const tools: ToolCategory[] = [
         icon: CameraIcon,
         available: true,
         order: 5,
+        creationDate: "2025-08-20",
         description:
           "Scan QR codes using your camera or upload an image. Get instant results with copy and download options. Perfect for quickly accessing URLs, contact info, and other QR data.",
       },
@@ -297,6 +321,7 @@ export const tools: ToolCategory[] = [
         icon: CameraIcon,
         available: true,
         order: 6,
+        creationDate: "2025-08-20",
         description:
           "Scan barcodes using your camera or upload an image. Supports multiple barcode formats including EAN-13, UPC-A, CODE128, and more. Get instant results with validation.",
       },
@@ -312,6 +337,7 @@ export const tools: ToolCategory[] = [
         icon: ReceiptIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Create professional invoices with customizable templates, automatic tax calculations, and PDF export. Perfect for freelancers, small businesses, and contractors.",
       },
@@ -321,6 +347,7 @@ export const tools: ToolCategory[] = [
         icon: CalculatorIcon,
         available: true,
         order: 2,
+        creationDate: "2025-08-20",
         description:
           "Convert between different units of measurement including length, weight, temperature, area, volume, and more. Supports metric, imperial, and scientific units.",
       },
@@ -330,6 +357,7 @@ export const tools: ToolCategory[] = [
         icon: ShieldIcon,
         available: true,
         order: 3,
+        creationDate: "2025-08-20",
         description:
           "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
       },
@@ -339,6 +367,7 @@ export const tools: ToolCategory[] = [
         icon: GlobeIcon,
         available: true,
         order: 4,
+        creationDate: "2025-08-20",
         description:
           "Convert times between different time zones. View current times worldwide and convert specific dates and times. Perfect for scheduling and international communication.",
       },
@@ -348,6 +377,7 @@ export const tools: ToolCategory[] = [
         icon: CalendarIcon,
         available: true,
         order: 5,
+        creationDate: "2025-08-20",
         description:
           "Calculate your exact age in years, months, and days. Compare ages between two people and get detailed age information including zodiac signs and next birthday.",
       },
@@ -363,6 +393,7 @@ export const tools: ToolCategory[] = [
         icon: CheckSquareIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Organize your tasks and stay productive. Create, manage, and track your todos with priority levels. Mark tasks as completed and keep your workflow organized.",
       },
@@ -372,6 +403,7 @@ export const tools: ToolCategory[] = [
         icon: ClockIcon,
         available: true,
         order: 2,
+        creationDate: "2025-08-20",
         description:
           "Simple timer and countdown with fullscreen mode and completion sound. Perfect for work sessions, workouts, cooking, and presentations.",
       },
@@ -387,6 +419,7 @@ export const tools: ToolCategory[] = [
         icon: KeyIcon,
         available: true,
         order: 1,
+        creationDate: "2025-08-20",
         description:
           "Generate Universally Unique Identifiers (UUIDs) in different versions and formats. Perfect for database keys, API identifiers, and unique references.",
       },
@@ -396,6 +429,7 @@ export const tools: ToolCategory[] = [
         icon: ShieldIcon,
         available: true,
         order: 2,
+        creationDate: "2025-08-20",
         description:
           "Decode and validate JSON Web Tokens (JWTs). View header, payload, and signature information with validation checks. Perfect for debugging and security analysis.",
       },
@@ -405,6 +439,7 @@ export const tools: ToolCategory[] = [
         icon: HashIcon,
         available: true,
         order: 3,
+        creationDate: "2025-08-20",
         description:
           "Generate cryptographic hashes from text input. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Perfect for data integrity and security.",
       },
@@ -425,4 +460,21 @@ export const findToolByHref = (
 ): (Tool & { category: string }) | null => {
   const allTools = getAllTools();
   return allTools.find((tool) => tool.href === href) || null;
+};
+
+// Helper function to check if a tool is new (15 days or less)
+export const isToolNew = (creationDate: string): boolean => {
+  const toolDate = new Date(creationDate);
+  const currentDate = new Date();
+  const diffTime = currentDate.getTime() - toolDate.getTime();
+  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+  return diffDays <= 15;
+};
+
+// Helper function to get days since creation
+export const getDaysSinceCreation = (creationDate: string): number => {
+  const toolDate = new Date(creationDate);
+  const currentDate = new Date();
+  const diffTime = currentDate.getTime() - toolDate.getTime();
+  return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
