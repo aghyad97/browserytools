@@ -5,7 +5,7 @@ import { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Browser Tools - Free Online Tools for Productivity",
   description:
-    "Discover 50+ free browser-based tools for productivity. No servers, full privacy. Image tools, file converters, text utilities, and more. All tools work directly in your browser.",
+    "Discover 30+ free browser-based tools for productivity. No servers, full privacy. Image tools, file converters, text utilities, and more. All tools work directly in your browser.",
   keywords: [
     "browser tools",
     "online tools",
@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     url: "https://browserytools.com",
     title: "Browser Tools - Free Online Tools for Productivity",
     description:
-      "Discover 50+ free browser-based tools for productivity. No servers, full privacy. Image tools, file converters, text utilities, and more.",
+      "Discover 30+ free browser-based tools for productivity. No servers, full privacy. Image tools, file converters, text utilities, and more.",
     siteName: "Browser Tools",
     images: [
       {
@@ -53,7 +53,7 @@ export const metadata: Metadata = {
     card: "summary_large_image",
     title: "Browser Tools - Free Online Tools for Productivity",
     description:
-      "Discover 50+ free browser-based tools for productivity. No servers, full privacy.",
+      "Discover 30+ free browser-based tools for productivity. No servers, full privacy.",
     images: ["/og-image.png"],
   },
   alternates: {
