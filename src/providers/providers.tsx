@@ -22,7 +22,7 @@ export function Providers({ children }: { children: ReactNode }) {
         // profileId={'123'}
       /> */}
       {children}
-      {/* <Analytics /> */}
+      <Analytics />
     </NextThemesProvider>
   );
 }
