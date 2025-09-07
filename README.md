@@ -67,9 +67,9 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **UI Components**: Radix UI + Custom components
+- **UI Components**: Shadcn + Radix UI + Custom components
 - **State Management**: Zustand
-- **Icons**: Lucide React
+- **Icons**: Lucide React + Phosphor Icons
 - **Animations**: Framer Motion
 - **Build Tool**: Turbopack (for development)
 

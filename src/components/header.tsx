@@ -1,7 +1,8 @@
 "use client";
 
 import { Button } from "./ui/button";
-import { Hammer, Github, Twitter, Coffee, Menu } from "lucide-react";
+import { Hammer, Github, Coffee, Menu } from "lucide-react";
+import { XLogo } from "@phosphor-icons/react";
 import { useToolStore } from "@/store/tool-store";
 import Logo from "./logo";
 import Link from "next/link";
@@ -113,7 +114,7 @@ Please describe what this tool should do and how it would help users.
                 size="icon"
                 aria-label="Follow us on X (Twitter)"
               >
-                <Twitter className="h-4 w-4" />
+                <XLogo className="h-4 w-4" />
               </Button>
             </Link>
             <ThemeSwitcher />
@@ -143,7 +144,7 @@ Please describe what this tool should do and how it would help users.
               size="icon"
               aria-label="Follow us on X (Twitter)"
             >
-              <Twitter className="h-4 w-4" />
+              <XLogo className="h-4 w-4" />
             </Button>
           </Link>
 
