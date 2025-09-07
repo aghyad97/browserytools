@@ -28,6 +28,7 @@ import {
   Search,
   X,
   Clock,
+  FlipHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -43,6 +44,7 @@ export default function QRScanner() {
   const [isRequestingPermission, setIsRequestingPermission] = useState(false);
   const [scanningDuration, setScanningDuration] = useState(0);
   const [showNoQRAlert, setShowNoQRAlert] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -518,7 +520,9 @@ export default function QRScanner() {
                   <div className="relative">
                     <video
                       ref={videoRef}
-                      className="w-full max-w-md mx-auto rounded-lg border"
+                      className={`w-full max-w-md mx-auto rounded-lg border transition-transform duration-300 ${
+                        isFlipped ? "scale-x-[-1]" : ""
+                      }`}
                       autoPlay
                       playsInline
                       muted
@@ -564,9 +568,20 @@ export default function QRScanner() {
                       </Alert>
                     )}
 
-                    <Button onClick={stopCamera} variant="outline">
-                      Stop Scanning
-                    </Button>
+                    <div className="flex gap-2 justify-center">
+                      <Button
+                        onClick={() => setIsFlipped(!isFlipped)}
+                        variant="outline"
+                        size="sm"
+                        className="flex items-center gap-2"
+                      >
+                        <FlipHorizontal className="h-4 w-4" />
+                        {isFlipped ? "Normal" : "Flip"}
+                      </Button>
+                      <Button onClick={stopCamera} variant="outline">
+                        Stop Scanning
+                      </Button>
+                    </div>
                   </div>
                 </div>
               )}
