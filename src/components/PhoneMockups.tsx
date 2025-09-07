@@ -9,16 +9,18 @@ import {
   CardContent,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Switch } from "@/components/ui/switch";
+import { Label } from "@/components/ui/label";
+import { Select as UiSelect, SelectTrigger as UiSelectTrigger, SelectValue as UiSelectValue, SelectContent as UiSelectContent, SelectItem as UiSelectItem } from "@/components/ui/select";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
+import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import { HexColorPicker } from "react-colorful";
 import { deviceJson } from "@/lib/device-frames";
+import { ValueSlider } from "@/components/ui/value-slider";
+import { ChevronDown } from "lucide-react";
 
 export type MockupItem = {
   filename: string;
@@ -290,6 +292,29 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
   const [screenshot, setScreenshot] = useState<string | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
+  // Appearance controls
+  const [frameless, setFrameless] = useState<boolean>(false);
+  const [framelessRotation, setFramelessRotation] = useState<number>(0);
+  const [roundedRadius, setRoundedRadius] = useState<number>(24);
+  const [useShadow, setUseShadow] = useState<boolean>(true);
+  const [shadowStrength, setShadowStrength] = useState<number>(24);
+  const [shadowColor, setShadowColor] = useState<string>("#000000");
+  const [shadowOpacity, setShadowOpacity] = useState<number>(35);
+  const [useBackground, setUseBackground] = useState<boolean>(false);
+  const [backgroundColor, setBackgroundColor] = useState<string>("#0b0b0e");
+  const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
+  const [outputAspect, setOutputAspect] = useState<"Default" | "1:1" | "16:9" | "9:16" | "3:4">("Default");
+  const [outputPadding, setOutputPadding] = useState<number>(0);
+  const [downloadFormat, setDownloadFormat] = useState<"png" | "webp" | "jpeg">("png");
+
+  const handleBackgroundUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = () => setBackgroundImage(reader.result as string);
+    reader.readAsDataURL(file);
+  };
+
   const handleUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -300,137 +325,250 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    if (!canvas || !selectedFrame) return;
+    if (!canvas) return;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const frameImg = new Image();
-    frameImg.src = selectedFrame.url;
-    frameImg.onload = () => {
-      canvas.width = frameImg.width;
-      canvas.height = frameImg.height;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      if (screenshot) {
-        const screenshotImg = new Image();
-        screenshotImg.src = screenshot;
-        screenshotImg.onload = () => {
-          const polygon = selectedFrame.screenPolygon;
-          const screen = selectedFrame.screenArea ?? findScreenArea(frameImg);
-
-          // Get screen bounds from polygon or screen area
-          const screenBounds = polygon ? getPolygonBounds(polygon) : screen;
-
-          if (!screenBounds) {
-            ctx.drawImage(frameImg, 0, 0);
-            return;
-          }
-
-          // Calculate screenshot positioning with proper aspect ratio handling
-          const screenshotRatio = screenshotImg.width / screenshotImg.height;
-          const screenRatio = screenBounds.w / screenBounds.h;
-
-          let drawWidth, drawHeight, drawX, drawY;
-
-          if (screenshotRatio > screenRatio) {
-            // Screenshot is wider - fit to height, center horizontally
-            drawHeight = screenBounds.h;
-            drawWidth =
-              screenshotImg.width * (screenBounds.h / screenshotImg.height);
-            drawX = screenBounds.x + (screenBounds.w - drawWidth) / 2;
-            drawY = screenBounds.y;
-          } else {
-            // Screenshot is taller - fit to width, center vertically
-            drawWidth = screenBounds.w;
-            drawHeight =
-              screenshotImg.height * (screenBounds.w / screenshotImg.width);
-            drawX = screenBounds.x;
-            drawY = screenBounds.y + (screenBounds.h - drawHeight) / 2;
-          }
-
-          // Apply clipping mask before drawing screenshot
-          ctx.save();
-
-          if (polygon) {
-            // If the polygon is an axis-aligned rectangle, auto-detect corner radius from the frame
-            const useRounded = isAxisAlignedRectangle(polygon);
-            if (useRounded && screenBounds) {
-              const autoRadius = detectCornerRadiusFromFrame(
-                frameImg,
-                screenBounds
-              );
-              if (autoRadius > 0) {
-                applyRoundedRectMask(
-                  ctx,
-                  screenBounds.x,
-                  screenBounds.y,
-                  screenBounds.w,
-                  screenBounds.h,
-                  autoRadius
-                );
-              } else {
-                applyRectMask(
-                  ctx,
-                  screenBounds.x,
-                  screenBounds.y,
-                  screenBounds.w,
-                  screenBounds.h
-                );
-              }
-            } else {
-              // Use polygon mask for precise device shapes
-              applyPolygonMask(ctx, polygon, canvas.width, canvas.height);
-            }
-          } else {
-            // When no polygon is available, auto-detect and apply rounded/square rectangle
-            const autoRadius = detectCornerRadiusFromFrame(
-              frameImg,
-              screenBounds
-            );
-            if (autoRadius > 0) {
-              applyRoundedRectMask(
-                ctx,
-                screenBounds.x,
-                screenBounds.y,
-                screenBounds.w,
-                screenBounds.h,
-                autoRadius
-              );
-            } else {
-              applyRectMask(
-                ctx,
-                screenBounds.x,
-                screenBounds.y,
-                screenBounds.w,
-                screenBounds.h
-              );
-            }
-          }
-
-          // Draw the screenshot within the clipped area
-          ctx.drawImage(screenshotImg, drawX, drawY, drawWidth, drawHeight);
-
-          // Restore context to remove clipping
-          ctx.restore();
-
-          // Draw frame on top
-          ctx.drawImage(frameImg, 0, 0);
-        };
+    // Helper: draw background image with cover semantics
+    const drawCover = (
+      targetCtx: CanvasRenderingContext2D,
+      img: HTMLImageElement,
+      tw: number,
+      th: number
+    ) => {
+      const ir = img.width / img.height;
+      const tr = tw / th;
+      let dw = tw, dh = th, dx = 0, dy = 0;
+      if (ir > tr) {
+        // image is wider -> fit height
+        dh = th;
+        dw = img.width * (th / img.height);
+        dx = (tw - dw) / 2;
       } else {
-        ctx.drawImage(frameImg, 0, 0);
+        // image is taller -> fit width
+        dw = tw;
+        dh = img.height * (tw / img.width);
+        dy = (th - dh) / 2;
       }
+      targetCtx.drawImage(img, dx, dy, dw, dh);
     };
-  }, [selectedFrame, screenshot]);
 
-  const downloadPng = () => {
+    // Helper: rgba from hex + % opacity
+    const hexToRgba = (hex: string, alphaPct: number): string => {
+      const h = hex.replace('#','');
+      const normalized = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
+      const bigint = parseInt(normalized, 16);
+      const r = (bigint >> 16) & 255;
+      const g = (bigint >> 8) & 255;
+      const b = bigint & 255;
+      const a = Math.max(0, Math.min(100, alphaPct)) / 100;
+      return `rgba(${r},${g},${b},${a})`;
+    };
+
+    // 1) Build content canvas (no bg, no shadow)
+    const buildContent = (
+      onReady: (content: HTMLCanvasElement) => void
+    ) => {
+      if (frameless) {
+        if (!screenshot) {
+          const zero = document.createElement("canvas");
+          zero.width = 1;
+          zero.height = 1;
+          onReady(zero);
+          return;
+        }
+        const img = new Image();
+        img.src = screenshot;
+        img.onload = () => {
+          const srcW = img.width;
+          const srcH = img.height;
+          const angle = ((framelessRotation % 360) + 360) % 360; // 0..359
+          const rad = (angle * Math.PI) / 180;
+          const absCos = Math.abs(Math.cos(rad));
+          const absSin = Math.abs(Math.sin(rad));
+          const outW = Math.round(srcW * absCos + srcH * absSin);
+          const outH = Math.round(srcW * absSin + srcH * absCos);
+
+          const c = document.createElement("canvas");
+          c.width = outW;
+          c.height = outH;
+          const cctx = c.getContext("2d");
+          if (!cctx) return;
+          cctx.save();
+          applyRoundedRectMask(cctx, 0, 0, c.width, c.height, Math.max(0, roundedRadius));
+          cctx.translate(outW / 2, outH / 2);
+          cctx.rotate(rad);
+          cctx.drawImage(img, -srcW / 2, -srcH / 2, srcW, srcH);
+          cctx.restore();
+          onReady(c);
+        };
+        return;
+      }
+
+      // framed mode
+      if (!selectedFrame) {
+        const zero = document.createElement("canvas");
+        zero.width = 1;
+        zero.height = 1;
+        onReady(zero);
+        return;
+      }
+      const frameImg = new Image();
+      frameImg.src = selectedFrame.url;
+      frameImg.onload = () => {
+        const c = document.createElement("canvas");
+        c.width = frameImg.width;
+        c.height = frameImg.height;
+        const cctx = c.getContext("2d");
+        if (!cctx) return;
+        cctx.clearRect(0, 0, c.width, c.height);
+
+        if (screenshot) {
+          const shot = new Image();
+          shot.src = screenshot;
+          shot.onload = () => {
+            const polygon = selectedFrame.screenPolygon;
+            const screen = selectedFrame.screenArea ?? findScreenArea(frameImg);
+            const screenBounds = polygon ? getPolygonBounds(polygon) : screen;
+            if (screenBounds) {
+              const sRatio = shot.width / shot.height;
+              const screenRatio = screenBounds.w / screenBounds.h;
+              let dw, dh, dx, dy;
+              if (sRatio > screenRatio) {
+                dh = screenBounds.h;
+                dw = shot.width * (screenBounds.h / shot.height);
+                dx = screenBounds.x + (screenBounds.w - dw) / 2;
+                dy = screenBounds.y;
+              } else {
+                dw = screenBounds.w;
+                dh = shot.height * (screenBounds.w / shot.width);
+                dx = screenBounds.x;
+                dy = screenBounds.y + (screenBounds.h - dh) / 2;
+              }
+
+              cctx.save();
+              if (polygon) {
+                const useRounded = isAxisAlignedRectangle(polygon);
+                if (useRounded) {
+                  const autoR = detectCornerRadiusFromFrame(frameImg, screenBounds);
+                  if (autoR > 0) {
+                    applyRoundedRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h, autoR);
+                  } else {
+                    applyRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h);
+                  }
+                } else {
+                  applyPolygonMask(cctx, polygon, c.width, c.height);
+                }
+              } else {
+                const autoR = detectCornerRadiusFromFrame(frameImg, screenBounds);
+                if (autoR > 0) {
+                  applyRoundedRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h, autoR);
+                } else {
+                  applyRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h);
+                }
+              }
+              cctx.drawImage(shot, dx, dy, dw, dh);
+              cctx.restore();
+            }
+            // Draw frame on top (opaque where device is)
+            cctx.drawImage(frameImg, 0, 0);
+            onReady(c);
+          };
+        } else {
+          // Only frame
+          cctx.drawImage(frameImg, 0, 0);
+          onReady(c);
+        }
+      };
+    };
+
+    // 2) Compose final output with bg, aspect, shadow, padding
+    buildContent((content) => {
+      const pad = Math.floor(outputPadding);
+      const reqW = Math.max(1, content.width + pad * 2);
+      const reqH = Math.max(1, content.height + pad * 2);
+
+      let finalW = reqW;
+      let finalH = reqH;
+      const arMap: Record<string, number> = { "1:1": 1, "16:9": 16 / 9, "9:16": 9 / 16, "3:4": 3 / 4 };
+      if (outputAspect !== "Default") {
+        const ar = arMap[outputAspect];
+        finalH = reqH;
+        finalW = Math.round(ar * finalH);
+        if (finalW < reqW) {
+          finalW = reqW;
+          finalH = Math.round(finalW / ar);
+        }
+      }
+
+      canvas.width = finalW;
+      canvas.height = finalH;
+      ctx.clearRect(0, 0, finalW, finalH);
+
+      const drawCenteredContent = () => {
+        ctx.save();
+        if (useShadow) {
+          ctx.shadowColor = hexToRgba(shadowColor, shadowOpacity);
+          ctx.shadowBlur = shadowStrength;
+          ctx.shadowOffsetX = 0;
+          ctx.shadowOffsetY = Math.round(shadowStrength / 2);
+        }
+        const dx = Math.round((finalW - content.width) / 2);
+        const dy = Math.round((finalH - content.height) / 2);
+        ctx.drawImage(content, dx, dy);
+        ctx.restore();
+      };
+
+      if (useBackground && backgroundImage) {
+        const bg = new Image();
+        bg.src = backgroundImage;
+        bg.onload = () => {
+          drawCover(ctx, bg, finalW, finalH);
+          drawCenteredContent();
+        };
+        return;
+      }
+
+      if (useBackground && !backgroundImage) {
+        ctx.fillStyle = backgroundColor;
+        ctx.fillRect(0, 0, finalW, finalH);
+      }
+
+      drawCenteredContent();
+    });
+  }, [selectedFrame, screenshot, frameless, framelessRotation, roundedRadius, useShadow, shadowStrength, shadowColor, shadowOpacity, useBackground, backgroundColor, backgroundImage, outputAspect, outputPadding]);
+
+  const downloadImage = (format: "png" | "webp" | "jpeg") => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const url = canvas.toDataURL("image/png");
+    
+    let mimeType: string;
+    let extension: string;
+    let quality: number | undefined;
+    
+    switch (format) {
+      case "webp":
+        mimeType = "image/webp";
+        extension = "webp";
+        quality = 0.9;
+        break;
+      case "jpeg":
+        mimeType = "image/jpeg";
+        extension = "jpg";
+        quality = 0.9;
+        break;
+      default:
+        mimeType = "image/png";
+        extension = "png";
+        quality = undefined;
+    }
+    
+    const url = canvas.toDataURL(mimeType, quality);
     const a = document.createElement("a");
     a.href = url;
     a.download = `${selectedGroup?.brand ?? "mockup"}-${
       selectedGroup?.model ?? "device"
-    }-${selectedOrientation}.png`;
+    }-${selectedOrientation}.${extension}`;
     a.click();
   };
 
@@ -444,21 +582,35 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               <CardDescription>Select a frame</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Select
-                value={selectedGroup?.key ?? undefined}
-                onValueChange={(v) => setSelectedGroupKey(v)}
-              >
-                <SelectTrigger>
-                  <SelectValue placeholder="Choose device" />
-                </SelectTrigger>
-                <SelectContent>
-                  {enhancedGroups.map((g) => (
-                    <SelectItem key={g.key} value={g.key}>
-                      {`${g.brand} ${g.model}`}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" className="w-full justify-between">
+                    {selectedGroup ? `${selectedGroup.brand} ${selectedGroup.model}` : "Choose device"}
+                    <span className="text-xs text-muted-foreground">Search</span>
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="p-0 w-[320px]">
+                  <Command>
+                    <CommandInput placeholder="Search devices..." />
+                    <CommandList>
+                      <CommandEmpty>No device found.</CommandEmpty>
+                      <CommandGroup heading="Devices">
+                        {enhancedGroups.map((g) => (
+                          <CommandItem
+                            key={g.key}
+                            value={`${g.brand} ${g.model}`}
+                            onSelect={() => {
+                              setSelectedGroupKey(g.key);
+                            }}
+                          >
+                            {g.brand} {g.model}
+                          </CommandItem>
+                        ))}
+                      </CommandGroup>
+                    </CommandList>
+                  </Command>
+                </PopoverContent>
+              </Popover>
 
               <Tabs
                 value={selectedOrientation}
@@ -486,20 +638,155 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 ))}
               </Tabs>
 
-              <div className="space-y-2">
-                <Input
-                  className="cursor-pointer"
-                  type="file"
-                  accept="image/*"
-                  onChange={handleUpload}
+              <div className="space-y-3">
+                <div className="flex items-center justify-between">
+                  <div className="space-y-1">
+                    <Label htmlFor="frameless-toggle">Frameless</Label>
+                    <div className="text-xs text-muted-foreground">Hide device frame and use rounded screenshot</div>
+                  </div>
+                  <Switch id="frameless-toggle" checked={frameless} onCheckedChange={setFrameless} />
+                </div>
+                {frameless && (
+                  <div className="space-y-2">
+                    <Label>Rotate</Label>
+                    <UiSelect value={String(framelessRotation)} onValueChange={(v) => setFramelessRotation(parseInt(v, 10) || 0)}>
+                      <UiSelectTrigger>
+                        <UiSelectValue />
+                      </UiSelectTrigger>
+                      <UiSelectContent>
+                        <UiSelectItem value="0">0°</UiSelectItem>
+                        <UiSelectItem value="90">90°</UiSelectItem>
+                        <UiSelectItem value="180">180°</UiSelectItem>
+                        <UiSelectItem value="270">270°</UiSelectItem>
+                      </UiSelectContent>
+                    </UiSelect>
+                  </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Image</CardTitle>
+              <CardDescription>Select the screenshot to place in the mockup</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <Input className="cursor-pointer" type="file" accept="image/*" onChange={handleUpload} />
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle>Appearance</CardTitle>
+              <CardDescription>Background, shadow, frameless</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-5">
+              {frameless && (
+                <ValueSlider
+                  label="Rounded corners"
+                  value={roundedRadius}
+                  onChange={setRoundedRadius}
+                  min={0}
+                  max={256}
+                  step={1}
+                  suffix="px"
+                />
+              )}
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <Label htmlFor="shadow-toggle">Shadow</Label>
+                  <div className="text-xs text-muted-foreground">
+                    Add soft drop shadow
+                  </div>
+                </div>
+                <Switch
+                  id="shadow-toggle"
+                  checked={useShadow}
+                  onCheckedChange={setUseShadow}
                 />
               </div>
 
-              <div className="flex gap-2">
-                <Button onClick={downloadPng} disabled={!selectedFrame}>
-                  Download PNG
-                </Button>
+              <ValueSlider
+                label="Shadow strength"
+                value={shadowStrength}
+                onChange={setShadowStrength}
+                min={0}
+                max={128}
+                step={1}
+                disabled={!useShadow}
+                suffix="px"
+              />
+
+              {useShadow && (
+                <>
+                  <div className="space-y-2">
+                    <Label>Shadow color</Label>
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button variant="outline" className="w-full justify-start">
+                          <span className="mr-2 inline-block h-4 w-4 rounded" style={{ backgroundColor: shadowColor }} />
+                          {shadowColor}
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent className="w-auto p-3">
+                        <HexColorPicker color={shadowColor} onChange={setShadowColor} />
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                  <ValueSlider label="Shadow opacity" value={shadowOpacity} onChange={setShadowOpacity} min={0} max={100} step={1} suffix="%" />
+                </>
+              )}
+
+              <div className="flex items-center justify-between">
+                <div className="space-y-1">
+                  <Label htmlFor="background-toggle">Background</Label>
+                  <div className="text-xs text-muted-foreground">
+                    Fill preview area
+                  </div>
+                </div>
+                <Switch
+                  id="background-toggle"
+                  checked={useBackground}
+                  onCheckedChange={setUseBackground}
+                />
               </div>
+
+              <div className="space-y-2">
+                <Label>Background color</Label>
+                <Popover>
+                  <PopoverTrigger asChild>
+                    <Button variant="outline" className="w-full justify-start" disabled={!useBackground}>
+                      <span
+                        className="mr-2 inline-block h-4 w-4 rounded"
+                        style={{ backgroundColor }}
+                      />
+                      {backgroundColor}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent className="w-auto p-3">
+                    <HexColorPicker
+                      color={backgroundColor}
+                      onChange={setBackgroundColor}
+                    />
+                  </PopoverContent>
+                </Popover>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="background-image">Background image</Label>
+                <Input
+                  id="background-image"
+                  className="cursor-pointer"
+                  type="file"
+                  accept="image/*"
+                  onChange={handleBackgroundUpload}
+                  disabled={!useBackground}
+                />
+              </div>
+
+              <ValueSlider label="Content padding" value={outputPadding} onChange={setOutputPadding} min={-400} max={400} step={1} suffix="px" />
             </CardContent>
           </Card>
         </div>
@@ -507,18 +794,71 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Preview</CardTitle>
-              <CardDescription>
-                Upload a screenshot - it will automatically fit the frame with
-                rounded corners and precise clipping.
-              </CardDescription>
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <CardTitle>Preview</CardTitle>
+                  <CardDescription>
+                    Upload a screenshot - it will automatically fit the frame with
+                    rounded corners and precise clipping.
+                  </CardDescription>
+                </div>
+                <div className="min-w-[160px]">
+                  <UiSelect value={outputAspect} onValueChange={(v) => setOutputAspect(v as any)}>
+                    <UiSelectTrigger>
+                      <UiSelectValue placeholder="Default" />
+                    </UiSelectTrigger>
+                    <UiSelectContent>
+                      <UiSelectItem value="Default">Default</UiSelectItem>
+                      <UiSelectItem value="1:1">1:1</UiSelectItem>
+                      <UiSelectItem value="16:9">16:9</UiSelectItem>
+                      <UiSelectItem value="9:16">9:16</UiSelectItem>
+                      <UiSelectItem value="3:4">3:4</UiSelectItem>
+                    </UiSelectContent>
+                  </UiSelect>
+                </div>
+              </div>
             </CardHeader>
             <CardContent>
-              <div className="w-full overflow-auto h-[calc(100vh-220px)]">
-                <canvas
-                  ref={canvasRef}
-                  className="mx-auto block max-w-full max-h-full w-auto h-auto"
-                />
+              <div className="relative w-full h-[calc(100vh-280px)] flex items-center justify-center">
+                <div className="rounded-xl ring-1 ring-border bg-background/40 p-2">
+                  <canvas
+                    ref={canvasRef}
+                    className="block"
+                    style={{ 
+                      maxHeight: "calc(100vh - 360px)", 
+                      maxWidth: "100%",
+                      height: "auto", 
+                      width: "auto"
+                    }}
+                  />
+                </div>
+                <div className="absolute bottom-3 right-3 flex">
+                  <DropdownMenu>
+                    <DropdownMenuTrigger asChild>
+                      <Button variant="default" size="default" className="rounded-r-none border-r border-primary-foreground/20 px-2">
+                        <ChevronDown className="h-4 w-4" />
+                      </Button>
+                    </DropdownMenuTrigger>
+                    <DropdownMenuContent align="end">
+                      <DropdownMenuItem onClick={() => setDownloadFormat("png")}>
+                        PNG
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setDownloadFormat("webp")}>
+                        WebP
+                      </DropdownMenuItem>
+                      <DropdownMenuItem onClick={() => setDownloadFormat("jpeg")}>
+                        JPEG
+                      </DropdownMenuItem>
+                    </DropdownMenuContent>
+                  </DropdownMenu>
+                  <Button 
+                    className="rounded-l-none" 
+                    size="default"
+                    onClick={() => downloadImage(downloadFormat)}
+                  >
+                    Download {downloadFormat.toUpperCase()}
+                  </Button>
+                </div>
               </div>
             </CardContent>
           </Card>
