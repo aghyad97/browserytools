@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useMemo } from "react";
+import { useState, useEffect, useMemo, useRef } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
@@ -22,6 +22,8 @@ export default function Sidebar() {
   const pathname = usePathname();
   const [search, setSearch] = useState("");
   const { setCurrentTool } = useToolStore();
+  const scrollAreaRef = useRef<HTMLDivElement>(null);
+  const activeToolRef = useRef<HTMLAnchorElement>(null);
 
   // Set current tool based on pathname
   useEffect(() => {
@@ -44,6 +46,42 @@ export default function Sidebar() {
     return searchTools(search);
   }, [search]);
 
+  // Auto-scroll to active tool
+  useEffect(() => {
+    if (activeToolRef.current && scrollAreaRef.current && !search) {
+      const scrollContainer = scrollAreaRef.current.querySelector(
+        "[data-radix-scroll-area-viewport]"
+      );
+      if (scrollContainer) {
+        const activeElement = activeToolRef.current;
+        const containerRect = scrollContainer.getBoundingClientRect();
+        const elementRect = activeElement.getBoundingClientRect();
+
+        // Calculate if element is visible in the scroll container
+        const isVisible =
+          elementRect.top >= containerRect.top &&
+          elementRect.bottom <= containerRect.bottom;
+
+        if (!isVisible) {
+          // Calculate the scroll position to center the active tool
+          const scrollTop = scrollContainer.scrollTop;
+          const containerHeight = containerRect.height;
+          const elementTop = elementRect.top - containerRect.top + scrollTop;
+          const elementHeight = elementRect.height;
+
+          // Center the element in the viewport
+          const targetScrollTop =
+            elementTop - containerHeight / 2 + elementHeight / 2;
+
+          scrollContainer.scrollTo({
+            top: Math.max(0, targetScrollTop),
+            behavior: "smooth",
+          });
+        }
+      }
+    }
+  }, [pathname, search, filteredTools]);
+
   return (
     <div className="w-full lg:w-64 h-full flex flex-col border-r">
       {/* Header */}
@@ -65,7 +103,7 @@ export default function Sidebar() {
       </div>
 
       {/* Scrollable tools list */}
-      <ScrollArea className="flex-1 px-2">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 px-2">
         <div className="space-y-6 p-2">
           {filteredTools.map((category) => (
             <div key={category.category}>
@@ -78,6 +116,9 @@ export default function Sidebar() {
                     <Tooltip>
                       <TooltipTrigger asChild>
                         <Link
+                          ref={
+                            pathname === tool.href ? activeToolRef : undefined
+                          }
                           href={tool.available ? tool.href : "#"}
                           className={cn(
                             "flex items-center space-x-2 px-2 py-1.5 rounded-md hover:bg-accent",
