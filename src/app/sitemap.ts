@@ -16,24 +16,6 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "daily",
       priority: 1,
     },
-    {
-      url: `${baseUrl}/coffee`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/gh`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.3,
-    },
-    {
-      url: `${baseUrl}/x`,
-      lastModified: currentDate,
-      changeFrequency: "monthly",
-      priority: 0.3,
-    },
   ];
 
   // Tool routes
