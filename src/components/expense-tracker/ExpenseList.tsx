@@ -51,6 +51,7 @@ import {
   MoreHorizontalIcon,
   SearchIcon,
   FilterIcon,
+  Trash2,
 } from "lucide-react";
 import { useExpenseStore } from "@/store/expense-store";
 import { Expense } from "@/store/expense-store";
@@ -72,6 +73,7 @@ export default function ExpenseList({
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
   const [showForm, setShowForm] = useState(false);
   const [isClient, setIsClient] = useState(false);
+  const [deleteDialogOpen, setDeleteDialogOpen] = useState<string | null>(null);
 
   useEffect(() => {
     setIsClient(true);
@@ -85,6 +87,18 @@ export default function ExpenseList({
     deleteExpense,
     getFilteredExpenses,
   } = useExpenseStore();
+
+  // Reset delete dialog when expenses change
+  useEffect(() => {
+    setDeleteDialogOpen(null);
+  }, [expenses]);
+
+  // Cleanup dialog state on unmount
+  useEffect(() => {
+    return () => {
+      setDeleteDialogOpen(null);
+    };
+  }, []);
 
   // Don't render until client-side hydration is complete
   if (!isClient) {
@@ -140,6 +154,7 @@ export default function ExpenseList({
 
   const handleDelete = (expenseId: string) => {
     deleteExpense(expenseId);
+    setDeleteDialogOpen(null);
     toast.success("Expense deleted successfully");
   };
 
@@ -298,38 +313,20 @@ export default function ExpenseList({
                         </Button>
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleEdit(expense)}>
+                        <DropdownMenuItem
+                          className="cursor-pointer"
+                          onClick={() => handleEdit(expense)}
+                        >
                           <EditIcon className="mr-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>
-                        <AlertDialog>
-                          <AlertDialogTrigger asChild>
-                            <DropdownMenuItem
-                              onSelect={(e) => e.preventDefault()}
-                            >
-                              <TrashIcon className="mr-2 h-4 w-4" />
-                              Delete
-                            </DropdownMenuItem>
-                          </AlertDialogTrigger>
-                          <AlertDialogContent>
-                            <AlertDialogHeader>
-                              <AlertDialogTitle>Are you sure?</AlertDialogTitle>
-                              <AlertDialogDescription>
-                                This action cannot be undone. This will
-                                permanently delete the expense.
-                              </AlertDialogDescription>
-                            </AlertDialogHeader>
-                            <AlertDialogFooter>
-                              <AlertDialogCancel>Cancel</AlertDialogCancel>
-                              <AlertDialogAction
-                                onClick={() => handleDelete(expense.id)}
-                                className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
-                              >
-                                Delete
-                              </AlertDialogAction>
-                            </AlertDialogFooter>
-                          </AlertDialogContent>
-                        </AlertDialog>
+                        <DropdownMenuItem
+                          className="text-red-600 cursor-pointer"
+                          onClick={() => handleDelete(expense.id)}
+                        >
+                          <TrashIcon className="mr-2 h-4 w-4" />
+                          Delete
+                        </DropdownMenuItem>
                       </DropdownMenuContent>
                     </DropdownMenu>
                   </TableCell>
@@ -403,7 +400,15 @@ export default function ExpenseList({
                     <EditIcon className="mr-2 h-4 w-4" />
                     Edit
                   </Button>
-                  <AlertDialog>
+                  <AlertDialog
+                    key={`delete-mobile-${expense.id}-${
+                      deleteDialogOpen === expense.id
+                    }`}
+                    open={deleteDialogOpen === expense.id}
+                    onOpenChange={(open) =>
+                      setDeleteDialogOpen(open ? expense.id : null)
+                    }
+                  >
                     <AlertDialogTrigger asChild>
                       <Button variant="outline" size="sm" className="flex-1">
                         <TrashIcon className="mr-2 h-4 w-4" />

@@ -62,6 +62,13 @@ export interface ExpenseStore {
   getFilteredExpenses: () => Expense[];
   getExpensesByCategory: (category: string) => Expense[];
   getTotalExpenses: () => number;
+
+  // Import/Export functions
+  importExpenses: (expenses: Omit<Expense, "id">[]) => void;
+  importBudgets: (budgets: Omit<Budget, "id">[]) => void;
+  exportExpenses: () => Expense[];
+  exportBudgets: () => Budget[];
+  clearAllData: () => void;
   getExpensesByDateRange: (start: string, end: string) => Expense[];
   getCategoryTotals: () => Record<string, number>;
   getMonthlyExpenses: () => Record<string, number>;

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -11,6 +11,17 @@ import {
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   UploadIcon,
   DownloadIcon,
@@ -44,17 +55,25 @@ export default function ImportExport() {
     message: string;
     count?: number;
   } | null>(null);
+  const [clearDialogOpen, setClearDialogOpen] = useState(false);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  // Cleanup dialog state on unmount
+  useEffect(() => {
+    return () => {
+      setClearDialogOpen(false);
+    };
+  }, []);
+
   const {
+    expenses,
+    budgets,
     importExpenses,
     importBudgets,
     exportExpenses,
     exportBudgets,
     clearAllData,
-    expenses,
-    budgets,
   } = useExpenseStore();
 
   const handleFileUpload = async (
@@ -191,13 +210,13 @@ export default function ImportExport() {
   };
 
   const handleClearAllData = () => {
-    if (
-      window.confirm(
-        "Are you sure you want to clear all data? This action cannot be undone."
-      )
-    ) {
+    try {
       clearAllData();
+      setClearDialogOpen(false);
       toast.success("All data cleared");
+    } catch (error) {
+      toast.error("Failed to clear data");
+      console.error("Error clearing data:", error);
     }
   };
 
@@ -388,14 +407,39 @@ export default function ImportExport() {
                     </CardDescription>
                   </CardHeader>
                   <CardContent className="pt-0">
-                    <Button
-                      variant="destructive"
-                      onClick={handleClearAllData}
-                      className="w-full"
+                    <AlertDialog
+                      key={`clear-dialog-${clearDialogOpen}`}
+                      open={clearDialogOpen}
+                      onOpenChange={setClearDialogOpen}
                     >
-                      <TrashIcon className="h-4 w-4 mr-2" />
-                      Clear All Data
-                    </Button>
+                      <AlertDialogTrigger asChild>
+                        <Button variant="destructive" className="w-full">
+                          <TrashIcon className="h-4 w-4 mr-2" />
+                          Clear All Data
+                        </Button>
+                      </AlertDialogTrigger>
+                      <AlertDialogContent>
+                        <AlertDialogHeader>
+                          <AlertDialogTitle>
+                            Are you absolutely sure?
+                          </AlertDialogTitle>
+                          <AlertDialogDescription>
+                            This action cannot be undone. This will permanently
+                            delete all your expenses, budgets, and categories
+                            from the application.
+                          </AlertDialogDescription>
+                        </AlertDialogHeader>
+                        <AlertDialogFooter>
+                          <AlertDialogCancel>Cancel</AlertDialogCancel>
+                          <AlertDialogAction
+                            onClick={handleClearAllData}
+                            className="bg-destructive text-destructive-foreground hover:bg-destructive/90"
+                          >
+                            Yes, clear all data
+                          </AlertDialogAction>
+                        </AlertDialogFooter>
+                      </AlertDialogContent>
+                    </AlertDialog>
                   </CardContent>
                 </Card>
               </div>
