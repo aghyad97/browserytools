@@ -151,7 +151,7 @@ export const tools: ToolCategory[] = [
         name: "File Converter",
         href: "/tools/file-converter",
         icon: FileIcon,
-        available: true,
+        available: false,
         order: 4,
         creationDate: "2025-08-20",
         description:

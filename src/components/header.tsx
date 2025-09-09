@@ -79,7 +79,7 @@ Please describe what this tool should do and how it would help users.
             ) : (
               <div className="flex flex-row gap-2">
                 <Logo />
-                <h1 className="text-xl font-semibold">BrowseryTools</h1>
+                <h1 className="text-xl font-semibold">BrowseryTools (alpha)</h1>
               </div>
             )}
           </Link>
