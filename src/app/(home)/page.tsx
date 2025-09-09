@@ -1,6 +1,8 @@
 import HomePage from "@/components/HomePage";
 import StructuredData from "@/components/StructuredData";
 import { Metadata } from "next";
+import { redirect } from "next/navigation";
+import { findFirstTool } from "@/lib/search-utils";
 
 export const metadata: Metadata = {
   title: "Browser Tools - Free Online Tools for Productivity",
@@ -62,11 +64,29 @@ export const metadata: Metadata = {
   category: "technology",
 };
 
-export default function Home() {
+interface HomeProps {
+  searchParams: {
+    search?: string;
+  };
+}
+
+export default function Home({ searchParams }: HomeProps) {
+  // Handle search parameter and redirect to first tool found
+  if (searchParams.search) {
+    const searchTerm = searchParams.search;
+    const firstTool = findFirstTool(searchTerm);
+
+    if (firstTool) {
+      // Redirect to the most relevant tool
+      redirect(firstTool.href);
+    }
+    // If no tool found, continue to show homepage with search results
+  }
+
   return (
     <>
       <StructuredData type="website" />
-      <HomePage />
+      <HomePage initialSearchQuery={searchParams.search} />
     </>
   );
 }

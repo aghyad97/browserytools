@@ -11,8 +11,12 @@ import ToolCard from "@/components/ToolCard";
 import { usePreferencesStore } from "@/store/preferences-store";
 import HomeFAQ from "@/components/HomeFAQ";
 
-export default function HomePage() {
-  const [searchQuery, setSearchQuery] = useState("");
+interface HomePageProps {
+  initialSearchQuery?: string;
+}
+
+export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
+  const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const { viewMode, setViewMode } = usePreferencesStore();
   const { getFavoriteTools } = useFavoritesStore();
   const { getRecentTools } = useRecentToolsStore();

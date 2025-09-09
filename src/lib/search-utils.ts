@@ -221,5 +221,38 @@ export function searchAllTools(
     });
 }
 
+// Find the first (most relevant) tool matching a search query
+export function findFirstTool(
+  query: string
+): (Tool & { category: string; searchScore: number }) | null {
+  if (!query.trim()) {
+    return null;
+  }
+
+  const allTools = tools.flatMap((category) =>
+    category.items.map((tool) => ({ ...tool, category: category.category }))
+  );
+
+  const scoredTools = allTools
+    .map((tool) => ({
+      ...tool,
+      searchScore: calculateSearchScore(tool, query),
+    }))
+    .filter((tool) => tool.searchScore > 10) // Minimum threshold
+    .sort((a, b) => {
+      // First sort by search score (relevance), then by order for ties
+      const scoreDiff = b.searchScore - a.searchScore;
+      return scoreDiff !== 0 ? scoreDiff : a.order - b.order;
+    });
+
+  // Return the first (highest scored) tool, or null if no matches
+  return scoredTools.length > 0 ? scoredTools[0] : null;
+}
+
 // Export individual functions for advanced usage
-export { calculateSearchScore, expandSearchTerms, calculateSimilarity };
+export {
+  calculateSearchScore,
+  expandSearchTerms,
+  calculateSimilarity,
+  findFirstTool,
+};
