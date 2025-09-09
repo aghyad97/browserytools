@@ -65,15 +65,18 @@ export const metadata: Metadata = {
 };
 
 interface HomeProps {
-  searchParams: {
+  searchParams: Promise<{
     search?: string;
-  };
+  }>;
 }
 
-export default function Home({ searchParams }: HomeProps) {
+export default async function Home({ searchParams }: HomeProps) {
+  // Await the searchParams promise
+  const params = await searchParams;
+
   // Handle search parameter and redirect to first tool found
-  if (searchParams.search) {
-    const searchTerm = searchParams.search;
+  if (params.search) {
+    const searchTerm = params.search;
     const firstTool = findFirstTool(searchTerm);
 
     if (firstTool) {
@@ -86,7 +89,7 @@ export default function Home({ searchParams }: HomeProps) {
   return (
     <>
       <StructuredData type="website" />
-      <HomePage initialSearchQuery={searchParams.search} />
+      <HomePage initialSearchQuery={params.search} />
     </>
   );
 }
