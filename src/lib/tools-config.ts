@@ -372,11 +372,21 @@ export const tools: ToolCategory[] = [
           "Convert times between different time zones. View current times worldwide and convert specific dates and times. Perfect for scheduling and international communication.",
       },
       {
+        name: "Calculator",
+        href: "/tools/calculator",
+        icon: CalculatorIcon,
+        available: true,
+        order: 5,
+        creationDate: "2025-09-10",
+        description:
+          "Advanced calculator with both basic and scientific modes. Perform arithmetic operations, trigonometric functions, logarithms, memory operations, and more. Full keyboard support included.",
+      },
+      {
         name: "Age Calculator",
         href: "/tools/age-calculator",
         icon: CalendarIcon,
         available: true,
-        order: 5,
+        order: 6,
         creationDate: "2025-08-20",
         description:
           "Calculate your exact age in years, months, and days. Compare ages between two people and get detailed age information including zodiac signs and next birthday.",
