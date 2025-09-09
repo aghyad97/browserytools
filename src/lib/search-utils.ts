@@ -222,7 +222,7 @@ export function searchAllTools(
 }
 
 // Find the first (most relevant) tool matching a search query
-export function findFirstTool(
+function findFirstTool(
   query: string
 ): (Tool & { category: string; searchScore: number }) | null {
   if (!query.trim()) {
