@@ -398,11 +398,21 @@ export const tools: ToolCategory[] = [
           "Organize your tasks and stay productive. Create, manage, and track your todos with priority levels. Mark tasks as completed and keep your workflow organized.",
       },
       {
+        name: "Kanban Board",
+        href: "/tools/kanban",
+        icon: Grid3X3Icon,
+        available: true,
+        order: 2,
+        creationDate: "2025-01-10",
+        description:
+          "Visual task management with drag-and-drop Kanban board. Organize todos across To Do, In Progress, and Done columns with priority levels and seamless workflow.",
+      },
+      {
         name: "Timer & Countdown",
         href: "/tools/timer",
         icon: ClockIcon,
         available: true,
-        order: 2,
+        order: 3,
         creationDate: "2025-08-20",
         description:
           "Simple timer and countdown with fullscreen mode and completion sound. Perfect for work sessions, workouts, cooking, and presentations.",
