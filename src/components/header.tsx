@@ -74,12 +74,16 @@ Please describe what this tool should do and how it would help users.
           >
             {currentTool ? (
               <div>
-                <h1 className="text-md font-semibold">{currentTool.name}</h1>
+                <h1 className="text-sm md:text-md font-semibold">
+                  {currentTool.name}
+                </h1>
               </div>
             ) : (
               <div className="flex flex-row gap-2">
                 <Logo />
-                <h1 className="text-xl font-semibold">BrowseryTools (alpha)</h1>
+                <h1 className="text-sm md:text-xl font-semibold">
+                  BrowseryTools (alpha)
+                </h1>
               </div>
             )}
           </Link>
@@ -150,22 +154,6 @@ Please describe what this tool should do and how it would help users.
 
           {/* Mobile request tool button */}
           <ThemeSwitcher className="sm:hidden" variant="outline" />
-
-          <Link
-            href="/gh"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="sm:hidden"
-            aria-label="Visit our GitHub repository"
-          >
-            <Button
-              variant="outline"
-              size="icon"
-              aria-label="Visit our GitHub repository"
-            >
-              <Github className="h-4 w-4" />
-            </Button>
-          </Link>
 
           {/* Coffee button - smaller on mobile */}
           <Link

@@ -6,8 +6,8 @@ export default function Logo() {
       className="dark:invert"
       src="/icon.svg"
       alt="Browsery Tools"
-      width={28}
-      height={28}
+      width={24}
+      height={24}
     />
   );
 }
