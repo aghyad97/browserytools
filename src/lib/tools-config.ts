@@ -28,6 +28,7 @@ import {
   GlobeIcon,
   CalendarIcon,
   KeyIcon,
+  DollarSignIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -380,6 +381,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-08-20",
         description:
           "Calculate your exact age in years, months, and days. Compare ages between two people and get detailed age information including zodiac signs and next birthday.",
+      },
+      {
+        name: "Expense Tracker",
+        href: "/tools/expense-tracker",
+        icon: DollarSignIcon,
+        available: true,
+        order: 6,
+        creationDate: "2025-09-09",
+        description:
+          "Track your expenses with detailed categorization, budget management, and comprehensive reports. Visualize spending patterns with interactive charts and export data for analysis.",
       },
     ],
   },
