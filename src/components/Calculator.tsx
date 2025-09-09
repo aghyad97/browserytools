@@ -418,7 +418,7 @@ const Calculator = () => {
         className: "bg-amber-500 hover:bg-amber-600 text-white cursor-pointer",
       },
       {
-        label: "÷",
+        label: "/",
         onClick: () => handleOperation("÷"),
         className: "bg-blue-500 hover:bg-blue-600 text-white cursor-pointer",
       },
@@ -428,19 +428,19 @@ const Calculator = () => {
         label: "7",
         onClick: () => handleNumber("7"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "8",
         onClick: () => handleNumber("8"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "9",
         onClick: () => handleNumber("9"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "×",
@@ -453,19 +453,19 @@ const Calculator = () => {
         label: "4",
         onClick: () => handleNumber("4"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "5",
         onClick: () => handleNumber("5"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "6",
         onClick: () => handleNumber("6"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "-",
@@ -478,19 +478,19 @@ const Calculator = () => {
         label: "1",
         onClick: () => handleNumber("1"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "2",
         onClick: () => handleNumber("2"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "3",
         onClick: () => handleNumber("3"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: "+",
@@ -508,7 +508,7 @@ const Calculator = () => {
         label: "0",
         onClick: () => handleNumber("0"),
         className:
-          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer",
+          "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600",
       },
       {
         label: ".",
@@ -582,25 +582,25 @@ const Calculator = () => {
         label: "x²",
         onClick: () => handleOperation("^"),
         className:
-          "bg-primary hover:bg-primary/90 text-primary-foreground text-xs",
+          "bg-secondary hover:bg-secondary/90 text-secondary-foreground text-xs",
       },
       {
         label: "√",
         onClick: () => handleScientificFunction("√"),
         className:
-          "bg-primary hover:bg-primary/90 text-primary-foreground text-xs",
+          "bg-secondary hover:bg-secondary/90 text-secondary-foreground text-xs",
       },
       {
         label: "∛",
         onClick: () => handleScientificFunction("∛"),
         className:
-          "bg-primary hover:bg-primary/90 text-primary-foreground text-xs",
+          "bg-secondary hover:bg-secondary/90 text-secondary-foreground text-xs",
       },
       {
         label: "x!",
         onClick: handleFactorial,
         className:
-          "bg-primary hover:bg-primary/90 text-primary-foreground text-xs",
+          "bg-secondary hover:bg-secondary/90 text-secondary-foreground text-xs",
       },
     ],
     [
@@ -626,7 +626,7 @@ const Calculator = () => {
         label: "^",
         onClick: () => handleOperation("^"),
         className:
-          "bg-primary hover:bg-primary/90 text-primary-foreground text-xs",
+          "bg-secondary hover:bg-secondary/90 text-secondary-foreground text-xs",
       },
     ],
     [
@@ -658,7 +658,7 @@ const Calculator = () => {
   ];
 
   return (
-    <div className="w-full max-w-4xl mx-auto p-4">
+    <div className="w-full max-w-2xl mx-auto p-4">
       <Card className="border bg-card/50 backdrop-blur-sm shadow-none">
         <CardContent className="space-y-6 pt-6">
           <Tabs
@@ -679,7 +679,7 @@ const Calculator = () => {
               </TabsTrigger>
             </TabsList>
 
-            <TabsContent value="basic" className="space-y-6">
+            <TabsContent value="basic" className="space-y-6 mt-6">
               {/* Display */}
               <div className="bg-muted/50 p-6 rounded-xl text-right space-y-3 border">
                 <div className="text-sm text-muted-foreground font-mono min-h-[1.5rem] break-all opacity-80">
@@ -696,8 +696,9 @@ const Calculator = () => {
                   <Button
                     key={index}
                     onClick={button.onClick}
-                    className={`h-14 text-lg font-semibold transition-colors duration-200 shadow-none ${
-                      button.className || "bg-background border"
+                    className={`h-14 text-xl font-semibold transition-colors duration-200 shadow-none ${
+                      button.className ||
+                      "bg-background border-2 border-gray-300"
                     }`}
                   >
                     {button.label}
@@ -706,13 +707,13 @@ const Calculator = () => {
               </div>
             </TabsContent>
 
-            <TabsContent value="scientific" className="space-y-6">
+            <TabsContent value="scientific" className="space-y-6 mt-6">
               {/* Display */}
               <div className="bg-muted/50 p-6 rounded-xl text-right space-y-3 border">
                 <div className="text-sm text-muted-foreground font-mono min-h-[1.5rem] break-all opacity-80">
                   {state.expression || "Expression will appear here"}
                 </div>
-                <div className="text-4xl font-mono min-h-[2.5rem] break-all font-semibold">
+                <div className="text-2xl font-mono min-h-[2.5rem] break-all font-semibold">
                   {state.display}
                 </div>
               </div>
@@ -723,9 +724,9 @@ const Calculator = () => {
                   <Button
                     key={index}
                     onClick={button.onClick}
-                    className={`h-12 text-sm font-semibold transition-colors duration-200 shadow-none ${
+                    className={`h-14 text-2xl font-semibold transition-colors duration-200 shadow-none ${
                       button.className ||
-                      "bg-background hover:bg-accent hover:text-accent-foreground border"
+                      "bg-background hover:bg-accent hover:text-accent-foreground border-2 border-gray-300"
                     }`}
                   >
                     {button.label}
@@ -739,9 +740,9 @@ const Calculator = () => {
                   <Button
                     key={`basic-${index}`}
                     onClick={button.onClick}
-                    className={`h-14 text-lg font-semibold transition-colors duration-200 shadow-none ${
+                    className={`h-14 text-xl font-semibold transition-colors duration-200 shadow-none ${
                       button.className ||
-                      "bg-background hover:bg-accent hover:text-accent-foreground border"
+                      "bg-background hover:bg-accent hover:text-accent-foreground border-2 border-gray-300"
                     }`}
                   >
                     {button.label}
