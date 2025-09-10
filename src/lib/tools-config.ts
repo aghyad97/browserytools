@@ -20,7 +20,6 @@ import {
   ShieldIcon,
   ReceiptIcon,
   SmartphoneIcon,
-  BarChart3Icon,
   BarcodeIcon,
   CheckSquareIcon,
   ClockIcon,
@@ -28,6 +27,8 @@ import {
   GlobeIcon,
   CalendarIcon,
   KeyIcon,
+  PaletteIcon,
+  CalendarClockIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -111,6 +112,15 @@ export const tools: ToolCategory[] = [
         description:
           "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths, and convert to other formats. Ideal for logos, icons, and scalable graphics.",
       },
+      {
+        name: "Color Converter",
+        href: "/tools/color-converter",
+        icon: PaletteIcon,
+        available: true,
+        order: 7,
+        creationDate: "2025-09-10",
+        description: "Convert between HEX, RGB, and HSL with live preview.",
+      },
     ],
   },
   {
@@ -183,6 +193,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-08-20",
         description:
           "Edit and process audio files. Trim, merge, convert formats, adjust volume, and apply effects. Supports MP3, WAV, FLAC, and other audio formats.",
+      },
+      {
+        name: "Mic & Camera Tester",
+        href: "/tools/mic-camera",
+        icon: CameraIcon,
+        available: true,
+        order: 3,
+        creationDate: "2025-09-10",
+        description:
+          "Check your camera preview and test microphone input levels with a live meter.",
       },
       // {
       //   name: "Compress Video",
@@ -258,6 +278,15 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-01",
         description:
           "Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.",
+      },
+      {
+        name: "Text Diff Viewer",
+        href: "/tools/text-diff",
+        icon: FileTextIcon,
+        available: true,
+        order: 7,
+        creationDate: "2025-09-10",
+        description: "Compare two texts and copy a simple patch.",
       },
     ],
   },
@@ -351,22 +380,13 @@ export const tools: ToolCategory[] = [
         description:
           "Convert between different units of measurement including length, weight, temperature, area, volume, and more. Supports metric, imperial, and scientific units.",
       },
-      {
-        name: "Password Generator",
-        href: "/tools/password-generator",
-        icon: ShieldIcon,
-        available: true,
-        order: 3,
-        creationDate: "2025-08-20",
-        description:
-          "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
-      },
+
       {
         name: "Time Zone Converter",
         href: "/tools/timezone-converter",
         icon: GlobeIcon,
         available: true,
-        order: 4,
+        order: 3,
         creationDate: "2025-08-20",
         description:
           "Convert times between different time zones. View current times worldwide and convert specific dates and times. Perfect for scheduling and international communication.",
@@ -376,7 +396,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/calculator",
         icon: CalculatorIcon,
         available: true,
-        order: 5,
+        order: 4,
         creationDate: "2025-09-10",
         description:
           "Advanced calculator with both basic and scientific modes. Perform arithmetic operations, trigonometric functions, logarithms, memory operations, and more. Full keyboard support included.",
@@ -386,10 +406,20 @@ export const tools: ToolCategory[] = [
         href: "/tools/age-calculator",
         icon: CalendarIcon,
         available: true,
-        order: 6,
+        order: 5,
         creationDate: "2025-08-20",
         description:
           "Calculate your exact age in years, months, and days. Compare ages between two people and get detailed age information including zodiac signs and next birthday.",
+      },
+      {
+        name: "Number Base Converter",
+        href: "/tools/number-base-converter",
+        icon: CalculatorIcon,
+        available: true,
+        order: 6,
+        creationDate: "2025-09-10",
+        description:
+          "Convert between binary, octal, decimal and hexadecimal with live validation.",
       },
     ],
   },
@@ -444,14 +474,52 @@ export const tools: ToolCategory[] = [
           "Decode and validate JSON Web Tokens (JWTs). View header, payload, and signature information with validation checks. Perfect for debugging and security analysis.",
       },
       {
-        name: "Hash Generator",
-        href: "/tools/hash-generator",
-        icon: HashIcon,
+        name: "Password Generator",
+        href: "/tools/password-generator",
+        icon: ShieldIcon,
         available: true,
         order: 3,
         creationDate: "2025-08-20",
         description:
+          "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
+      },
+      {
+        name: "Hash Generator",
+        href: "/tools/hash-generator",
+        icon: HashIcon,
+        available: true,
+        order: 4,
+        creationDate: "2025-08-20",
+        description:
           "Generate cryptographic hashes from text input. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Perfect for data integrity and security.",
+      },
+      {
+        name: "Unix Timestamp Converter",
+        href: "/tools/unix-timestamp",
+        icon: ClockIcon,
+        available: true,
+        order: 5,
+        creationDate: "2025-09-10",
+        description: "Epoch seconds/milliseconds ↔ human date with timezone.",
+      },
+      {
+        name: "Regex Tester",
+        href: "/tools/regex-tester",
+        icon: CodeIcon,
+        available: true,
+        order: 6,
+        creationDate: "2025-09-10",
+        description:
+          "Test JavaScript regular expressions with live highlighting and flags.",
+      },
+      {
+        name: "Cron Parser",
+        href: "/tools/cron-parser",
+        icon: CalendarClockIcon,
+        available: true,
+        order: 7,
+        creationDate: "2025-09-10",
+        description: "Explain cron expressions and list next runs.",
       },
     ],
   },

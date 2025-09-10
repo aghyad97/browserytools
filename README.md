@@ -11,6 +11,7 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 - **Image Compression**: Compress images to reduce file size while maintaining quality
 - **Format Converter**: Convert images between different formats (JPG, PNG, WebP, GIF, BMP, TIFF, SVG)
 - **Color Correction**: Adjust colors, brightness, contrast, saturation, and hue in images
+- **Color Converter**: Convert between HEX, RGB, and HSL with live preview
 - **SVG Tools**: Edit and manipulate SVG vector graphics _(Coming Soon)_
 
 ### 📁 File Tools
@@ -18,12 +19,13 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 - **PDF Tools**: Merge, split, compress, and manipulate PDF files
 - **Zip Tools**: Create, extract, and manage ZIP archives
 - **CSV/Excel Viewer**: View and edit CSV and Excel files in your browser
-- **File Converter**: Convert files between different formats including documents, images, audio, and video
+- **File Converter**: Convert files between different formats including documents, images, audio, and video _(Coming Soon)_
 
 ### 🎵 Media Tools
 
 - **Video Editor**: Trim, convert, and edit video files
 - **Audio Editor**: Edit and process audio files
+- **Mic & Camera Tester**: Check your camera preview and test microphone input levels
 
 ### 📝 Text & Language Tools
 
@@ -33,6 +35,7 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 - **Rich Editor**: Edit and preview rich text documents with formatting options
 - **Lorem Ipsum Generator**: Generate placeholder text for designs and mockups
 - **Typing Test**: Measure your typing speed (WPM) and accuracy
+- **Text Diff Viewer**: Compare two texts and copy a simple patch
 
 ### 📊 Data Tools
 
@@ -47,9 +50,10 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 
 - **Invoice Generator**: Create professional invoices with customizable templates
 - **Unit Converter**: Convert between different units of measurement
-- **Password Generator**: Generate secure passwords with custom options
+- **Calculator**: Advanced calculator with both basic and scientific modes
 - **Time Zone Converter**: Convert times between different time zones
 - **Age Calculator**: Calculate your exact age in years, months, and days
+- **Number Base Converter**: Convert between binary, octal, decimal and hexadecimal
 
 ### ⚡ Productivity Tools
 
@@ -61,6 +65,10 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 - **UUID Generator**: Generate Universally Unique Identifiers (UUIDs)
 - **JWT Decoder**: Decode and validate JSON Web Tokens (JWTs)
 - **Hash Generator**: Generate cryptographic hashes from text input
+- **Password Generator**: Generate secure passwords with custom options
+- **Unix Timestamp Converter**: Epoch seconds/milliseconds ↔ human date with timezone
+- **Regex Tester**: Test JavaScript regular expressions with live highlighting and flags
+- **Cron Parser**: Explain cron expressions and list next runs
 
 ## 🛠️ Tech Stack
 

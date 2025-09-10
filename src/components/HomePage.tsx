@@ -47,9 +47,9 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-8">
         <div className="mb-8">
-          <p className="text-lg text-center text-muted-foreground">
-            {allTools.filter((tool) => tool.available).length} Browser-based
-            tools for productivity. No servers. Open-source. Full privacy.
+          <p className="text-2xl text-center text-muted-foreground">
+            {allTools.filter((tool) => tool.available).length} Productivity
+            browser-based tools. No servers. Full privacy. Open-source.
           </p>
         </div>
 

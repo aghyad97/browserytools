@@ -37,13 +37,40 @@ export default function ImageConverter() {
   const [convertedImage, setConvertedImage] = useState<string | null>(null);
   const [convertedSize, setConvertedSize] = useState<number>(0);
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
+  const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
       if (file.size > 15 * 1024 * 1024) {
         // 15MB limit
         toast.error("Image size should be less than 15MB");
         return;
+      }
+
+      const isHeic = /\.heic$/i.test(file.name) || file.type === "image/heic";
+      if (isHeic) {
+        try {
+          const { default: heic2any } = await import("heic2any");
+          const blob = (await heic2any({
+            blob: file,
+            toType: "image/jpeg",
+          })) as Blob;
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setImage({
+              url: reader.result as string,
+              size: blob.size,
+              type: "image/jpeg",
+              name: file.name.replace(/\.heic$/i, ".jpg"),
+            });
+            setConvertedImage(null);
+            toast.success("Converted HEIC to JPEG for preview");
+          };
+          reader.readAsDataURL(blob);
+          return;
+        } catch (e) {
+          toast.error("Failed to read HEIC. Please try another file.");
+          return;
+        }
       }
 
       const reader = new FileReader();
@@ -63,7 +90,8 @@ export default function ImageConverter() {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
     onDrop,
     accept: {
-      "image/*": [".png", ".jpg", ".jpeg", ".webp", ".avif"],
+      "image/*": [".png", ".jpg", ".jpeg", ".webp", ".avif", ".heic"],
+      "image/heic": [".heic"],
     },
     multiple: false,
   });
@@ -132,7 +160,7 @@ export default function ImageConverter() {
       <div className="flex-1 overflow-auto p-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
           <div className="space-y-4">
-            <Card className="p-6">
+            <Card className="p-6 shadow-none">
               <div
                 {...getRootProps()}
                 className={`

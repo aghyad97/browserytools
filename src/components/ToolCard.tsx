@@ -52,6 +52,17 @@ export default function ToolCard({
         >
           <CardContent className="px-4 py-2">
             <div className="flex items-center gap-3">
+              <div className="p-2 rounded-md bg-muted group-hover:bg-primary/10 transition-colors duration-200">
+                <IconComponent className="w-4 h-4" />
+              </div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2">
+                  <h3 className="font-medium text-sm truncate">{tool.name}</h3>
+                </div>
+                <p className="text-xs text-muted-foreground line-clamp-1">
+                  {tool.description}
+                </p>
+              </div>
               {showFavoriteButton && tool.available && (
                 <Button
                   variant="ghost"
@@ -71,17 +82,6 @@ export default function ToolCard({
                   />
                 </Button>
               )}
-              <div className="p-2 rounded-md bg-muted group-hover:bg-primary/10 transition-colors duration-200">
-                <IconComponent className="w-4 h-4" />
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-sm truncate">{tool.name}</h3>
-                </div>
-                <p className="text-xs text-muted-foreground line-clamp-1">
-                  {tool.description}
-                </p>
-              </div>
               {!tool.available ? (
                 <Badge variant="secondary" className="text-[10px] rounded-xl">
                   Soon
@@ -159,8 +159,8 @@ export default function ToolCard({
                 tool.available ? "hover:shadow-sm cursor-pointer" : "opacity-50"
               }`}
             >
-              {/* Status Badge - Overlapping Top Right Corner */}
-              <div className="absolute top-0.5 right-1 z-10">
+              {/* Badges - Top Left Corner */}
+              <div className="absolute top-0.5 left-1 z-10">
                 {!tool.available && (
                   <Badge
                     variant="secondary"
@@ -169,29 +169,19 @@ export default function ToolCard({
                     Soon
                   </Badge>
                 )}
-              </div>
-
-              {/* New Badge - Top Left Corner */}
-              {tool.available && isToolNew(tool.creationDate) && (
-                <div className="absolute top-0.5 left-1 z-10">
+                {tool.available && isToolNew(tool.creationDate) && (
                   <Badge
                     variant="default"
                     className="text-xs shadow-sm -top-2 -left-4 absolute rounded-xl bg-green-100 text-green-700 hover:bg-green-200 border border-green-200"
                   >
                     New
                   </Badge>
-                </div>
-              )}
+                )}
+              </div>
 
-              {/* Favorite Button - Top Left Corner (adjusted if New badge is present) */}
+              {/* Favorite Button - Top Right Corner */}
               {showFavoriteButton && tool.available && (
-                <div
-                  className={`absolute top-0.5 z-10 ${
-                    tool.available && isToolNew(tool.creationDate)
-                      ? "left-12"
-                      : "left-1"
-                  }`}
-                >
+                <div className="absolute top-0.5 right-1 z-10">
                   <Button
                     variant="ghost"
                     size="sm"

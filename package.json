@@ -13,6 +13,9 @@
     "precommit": "bun run validate-tools && bun run lint"
   },
   "dependencies": {
+    "cron-parser": "^5.0.4",
+    "cronstrue": "^2.52.0",
+    "heic2any": "^0.0.4",
     "@imgly/background-removal": "^1.7.0",
     "@imgly/background-removal-node": "^1.4.5",
     "@lexical/markdown": "^0.34.0",
