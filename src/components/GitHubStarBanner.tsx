@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { NumberTicker } from "@/components/ui/number-ticker";
 import { StarIcon } from "@/components/ui/icons";
 import { getRelativeTime, cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
