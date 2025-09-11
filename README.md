@@ -1,4 +1,4 @@
-# Browser Tools 🛠️
+# BrowseryTools 🛠️
 
 ![BrowseryTools](https://github.com/aghyad97/browserytools/blob/main/public/og-image.png?raw=true)
 
