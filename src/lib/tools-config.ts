@@ -29,6 +29,7 @@ import {
   KeyIcon,
   PaletteIcon,
   CalendarClockIcon,
+  DollarSignIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -420,6 +421,15 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-10",
         description:
           "Convert between binary, octal, decimal and hexadecimal with live validation.",
+      },{
+        name: "Expense Tracker",
+        href: "/tools/expense-tracker",
+        icon: DollarSignIcon,
+        available: true,
+        order: 7,
+        creationDate: "2025-09-11",
+        description:
+          "Track your expenses with detailed categorization, budget management, and comprehensive reports. Visualize spending patterns with interactive charts and export data for analysis.",
       },
     ],
   },

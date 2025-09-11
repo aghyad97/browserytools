@@ -91,6 +91,17 @@ export function generateToolMetadata(href: string): Metadata {
       "best free",
       "top free",
 
+      "expense tracker",
+      "budget management",
+      "financial tracking",
+      "expense reports",
+      "spending analysis",
+      "personal finance",
+      "money management",
+      "expense categories",
+      "budget planning",
+      "financial charts",
+
       // Tool-specific keywords from description
       ...tool.description
         .toLowerCase()
