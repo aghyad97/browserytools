@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { searchTools } from "@/lib/search-utils";
 import { Input } from "@/components/ui/input";
 import { Search, LayoutGrid, List } from "lucide-react";
@@ -22,6 +22,12 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
   const { getFavoriteTools } = useFavoritesStore();
   const { getRecentTools } = useRecentToolsStore();
   const [selectedCategory, setSelectedCategory] = useState<string>("All");
+  const [isClient, setIsClient] = useState(false);
+
+  // Ensure SSR and first client render match to avoid hydration issues with persisted stores
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
 
   const allTools = getAllTools();
   const favoriteTools = getFavoriteTools(allTools);
@@ -187,7 +193,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
             // Show default layout with favorites and recent tools
             <>
               {/* Favorite Tools Section */}
-              {favoriteTools.length > 0 && (
+              {isClient && favoriteTools.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">
@@ -215,7 +221,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
               )}
 
               {/* Recent Tools Section */}
-              {recentTools.length > 0 && (
+              {isClient && recentTools.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">

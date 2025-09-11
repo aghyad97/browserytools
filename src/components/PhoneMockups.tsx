@@ -574,8 +574,8 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
   return (
     <div className="container mx-auto p-4 max-w-7xl">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-        <div className="lg:col-span-1 space-y-4">
+      <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
+        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
           <Card>
             <CardHeader>
               <CardTitle>Device</CardTitle>
@@ -791,8 +791,8 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
           </Card>
         </div>
 
-        <div className="lg:col-span-2">
-          <Card>
+        <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit">
+          <Card className="h-full">
             <CardHeader>
               <div className="flex items-center justify-between gap-3">
                 <div>
@@ -819,13 +819,13 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               </div>
             </CardHeader>
             <CardContent>
-              <div className="relative w-full h-[calc(100vh-280px)] flex items-center justify-center">
+              <div className="relative w-full h-[70vh] flex items-center justify-center">
                 <div className="rounded-xl ring-1 ring-border bg-background/40 p-2">
                   <canvas
                     ref={canvasRef}
                     className="block"
                     style={{ 
-                      maxHeight: "calc(100vh - 360px)", 
+                      maxHeight: "calc(70vh - 40px)", 
                       maxWidth: "100%",
                       height: "auto", 
                       width: "auto"
