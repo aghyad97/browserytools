@@ -233,9 +233,11 @@ export function downloadCSV(content: string, filename: string) {
 
 // Generate example CSV content
 export function generateExampleExpensesCSV(): string {
-  return exportExpensesToCSV(convertCSVToExpenses(exampleExpenses));
+  return exportExpensesToCSV(
+    convertCSVToExpenses(exampleExpenses) as Expense[]
+  );
 }
 
 export function generateExampleBudgetsCSV(): string {
-  return exportBudgetsToCSV(convertCSVToBudgets(exampleBudgets));
+  return exportBudgetsToCSV(convertCSVToBudgets(exampleBudgets) as Budget[]);
 }
