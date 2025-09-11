@@ -10,6 +10,7 @@ import { useRecentToolsStore } from "@/store/recent-tools-store";
 import ToolCard from "@/components/ToolCard";
 import { usePreferencesStore } from "@/store/preferences-store";
 import HomeFAQ from "@/components/HomeFAQ";
+import GitHubStarBanner from "@/components/GitHubStarBanner";
 
 interface HomePageProps {
   initialSearchQuery?: string;
@@ -46,6 +47,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
     <div className="min-h-screen">
       {/* Hero Section */}
       <div className="container mx-auto px-4 py-8">
+        <GitHubStarBanner />
         <div className="mb-8">
           <p className="text-2xl text-center text-muted-foreground">
             {allTools.filter((tool) => tool.available).length} Productivity
