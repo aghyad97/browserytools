@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,12 +14,13 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+} from "@/components/ui/command";
+
 import { Calendar } from "@/components/ui/calendar";
 import {
   Popover,
@@ -56,12 +57,25 @@ export default function ExpenseForm({
 }: ExpenseFormProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [newTag, setNewTag] = useState("");
+  const [tagOpen, setTagOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(
     initialData?.date ? new Date(initialData.date) : new Date()
   );
 
-  const { addExpense, updateExpense, categories, addCategory } =
+  const { addExpense, updateExpense, categories, addCategory, expenses } =
     useExpenseStore();
+
+  const existingTags = useMemo(() => {
+    const tagSet = new Set<string>();
+    expenses.forEach((exp) => {
+      exp.tags.forEach((t) => tagSet.add(t));
+    });
+    return Array.from(tagSet).sort((a, b) => a.localeCompare(b));
+  }, [expenses]);
+  const existingTagsLower = useMemo(
+    () => existingTags.map((t) => t.toLowerCase()),
+    [existingTags]
+  );
 
   const [formData, setFormData] = useState<ExpenseFormData>({
     description: initialData?.description || "",
@@ -139,13 +153,15 @@ export default function ExpenseForm({
     }
   };
 
-  const addTag = () => {
-    if (newTag.trim() && !formData.tags.includes(newTag.trim())) {
+  const addTag = (value?: string) => {
+    const tagToAdd = (value ?? newTag).trim();
+    if (tagToAdd && !formData.tags.includes(tagToAdd)) {
       setFormData((prev) => ({
         ...prev,
-        tags: [...prev.tags, newTag.trim()],
+        tags: [...prev.tags, tagToAdd],
       }));
       setNewTag("");
+      setTagOpen(false);
     }
   };
 
@@ -299,22 +315,48 @@ export default function ExpenseForm({
       <div className="space-y-2">
         <Label htmlFor="tags">Tags</Label>
         <div className="space-y-2">
-          <div className="flex gap-2">
-            <Input
-              value={newTag}
-              onChange={(e) => setNewTag(e.target.value)}
-              placeholder="Add a tag"
-              onKeyPress={(e) => {
-                if (e.key === "Enter") {
-                  e.preventDefault();
-                  addTag();
-                }
-              }}
-            />
-            <Button type="button" onClick={addTag} size="sm">
-              <PlusIcon className="h-4 w-4" />
-            </Button>
-          </div>
+          <Popover open={tagOpen} onOpenChange={setTagOpen}>
+            <PopoverTrigger asChild>
+              <Button
+                type="button"
+                variant="outline"
+                className="w-full justify-start font-normal"
+              >
+                {newTag ? newTag : "Search or create tag"}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent className="p-0 w-[320px]" align="start">
+              <Command className="w-full">
+                <CommandInput
+                  value={newTag}
+                  onValueChange={setNewTag}
+                  placeholder="Type to search tags..."
+                />
+                <CommandEmpty>No tags found</CommandEmpty>
+                <CommandGroup heading="Existing tags">
+                  {existingTags
+                    .filter((t) => !formData.tags.includes(t))
+                    .map((t) => (
+                      <CommandItem key={t} value={t} onSelect={() => addTag(t)}>
+                        {t}
+                      </CommandItem>
+                    ))}
+                </CommandGroup>
+                {newTag &&
+                  !existingTagsLower.includes(newTag.toLowerCase()) && (
+                    <div className="p-2 border-t">
+                      <Button
+                        size="sm"
+                        className="w-full"
+                        onClick={() => addTag()}
+                      >
+                        Create "{newTag}"
+                      </Button>
+                    </div>
+                  )}
+              </Command>
+            </PopoverContent>
+          </Popover>
           {formData.tags.length > 0 && (
             <div className="flex flex-wrap gap-2">
               {formData.tags.map((tag) => (

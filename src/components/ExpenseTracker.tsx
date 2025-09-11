@@ -13,7 +13,6 @@ import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   PlusIcon,
-  DownloadIcon,
   BarChart3Icon,
   ReceiptIcon,
   SettingsIcon,
