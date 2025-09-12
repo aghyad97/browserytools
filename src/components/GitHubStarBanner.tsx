@@ -55,10 +55,10 @@ export default function GitHubStarBanner() {
             <Link
               href="https://github.com/aghyad97/browserytools"
               target="_blank"
-              className="h-10 cursor-pointer flex w-auto items-center space-x-1 rounded-full bg-muted px-3 group border-2 border-white whitespace-pre shadow hover:shadow-lg"
+              className="h-10 cursor-pointer flex w-auto items-center space-x-1 rounded-full bg-muted px-3 group border-2 border-white dark:border-black/10 whitespace-pre shadow hover:shadow-md"
             >
               <p className="font-medium text-primary text-sm">
-                Star Project on Github
+                Star Project on GitHub
               </p>
               <div className="flex items-center rounded-full px-2 py-1 text-center font-medium text-sm ">
                 <StarIcon />
