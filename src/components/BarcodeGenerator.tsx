@@ -180,11 +180,11 @@ export default function BarcodeGenerator() {
   }, [inputText, barcodeType, width, height, displayValue, fontSize, margin]);
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Input Section */}
-        <div className="space-y-6">
-          <Card>
+    <div className="container mx-auto p-4 max-w-7xl">
+      <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
+        {/* Input Section - Sticky Sidebar */}
+        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
+          <Card className="shadow-none">
             <CardHeader>
               <CardTitle>Input</CardTitle>
               <CardDescription>
@@ -271,7 +271,7 @@ export default function BarcodeGenerator() {
           </Card>
 
           {/* Settings */}
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
               <CardTitle>Settings</CardTitle>
               <CardDescription>
@@ -355,57 +355,59 @@ export default function BarcodeGenerator() {
           </Card>
         </div>
 
-        {/* Output Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>Barcode</CardTitle>
-            <CardDescription>Your generated barcode</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-center space-y-4">
-              <div className="p-4 bg-white rounded-lg border">
-                <canvas
-                  ref={canvasRef}
-                  className="max-w-full h-auto"
-                  style={{ maxWidth: "100%" }}
-                />
+        {/* Output Section - Sticky Content */}
+        <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit space-y-4">
+          <Card className="shadow-none">
+            <CardHeader>
+              <CardTitle>Barcode</CardTitle>
+              <CardDescription>Your generated barcode</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col items-center space-y-4">
+                <div className="p-4 bg-white rounded-lg border">
+                  <canvas
+                    ref={canvasRef}
+                    className="max-w-full h-auto"
+                    style={{ maxWidth: "100%" }}
+                  />
+                </div>
+                <div className="flex gap-2">
+                  <Button
+                    onClick={handleCopy}
+                    className="flex items-center gap-2"
+                  >
+                    <Copy className="w-4 h-4" />
+                    Copy
+                  </Button>
+                  <Button
+                    onClick={handleDownload}
+                    variant="outline"
+                    className="flex items-center gap-2"
+                  >
+                    <Download className="w-4 h-4" />
+                    Download PNG
+                  </Button>
+                </div>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  onClick={handleCopy}
-                  className="flex items-center gap-2"
-                >
-                  <Copy className="w-4 h-4" />
-                  Copy
-                </Button>
-                <Button
-                  onClick={handleDownload}
-                  variant="outline"
-                  className="flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  Download PNG
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+            </CardContent>
+          </Card>
 
-      {/* Info */}
-      <Card className="mt-6">
-        <CardContent className="p-6">
-          <h3 className="font-semibold mb-2">Barcode Types</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-muted-foreground">
-            {BARCODE_TYPES.map((type) => (
-              <div key={type.value}>
-                <p className="font-medium mb-1">{type.label}</p>
-                <p>{type.description}</p>
+          {/* Info */}
+          <Card className="shadow-none">
+            <CardContent className="p-6">
+              <h3 className="font-semibold mb-2">Barcode Types</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-muted-foreground">
+                {BARCODE_TYPES.map((type) => (
+                  <div key={type.value}>
+                    <p className="font-medium mb-1">{type.label}</p>
+                    <p>{type.description}</p>
+                  </div>
+                ))}
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }

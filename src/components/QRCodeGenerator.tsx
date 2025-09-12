@@ -181,11 +181,11 @@ export default function QRCodeGenerator() {
   }, [inputText, size, errorCorrectionLevel, format]);
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Input Section */}
-        <div className="space-y-6">
-          <Card>
+    <div className="container mx-auto p-4 max-w-7xl">
+      <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
+        {/* Input Section - Sticky Sidebar */}
+        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
+          <Card className="shadow-none">
             <CardHeader>
               <CardTitle>Input</CardTitle>
               <CardDescription>
@@ -252,7 +252,7 @@ export default function QRCodeGenerator() {
           </Card>
 
           {/* Settings */}
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
               <CardTitle>Settings</CardTitle>
               <CardDescription>
@@ -321,91 +321,93 @@ export default function QRCodeGenerator() {
           </Card>
         </div>
 
-        {/* Output Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>QR Code</CardTitle>
-            <CardDescription>Your generated QR code</CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-col items-center space-y-4">
-              {qrCodeDataUrl ? (
-                <>
-                  <div className="p-4 bg-white rounded-lg border">
-                    {format === "svg" ? (
-                      <div
-                        dangerouslySetInnerHTML={{ __html: qrCodeDataUrl }}
-                        className="max-w-full h-auto"
-                      />
-                    ) : (
-                      <img
-                        src={qrCodeDataUrl}
-                        alt="Generated QR Code"
-                        className="max-w-full h-auto"
-                      />
-                    )}
+        {/* Output Section - Sticky Content */}
+        <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit space-y-4">
+          <Card className="shadow-none">
+            <CardHeader>
+              <CardTitle>QR Code</CardTitle>
+              <CardDescription>Your generated QR code</CardDescription>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col items-center space-y-4">
+                {qrCodeDataUrl ? (
+                  <>
+                    <div className="p-4 bg-white rounded-lg border">
+                      {format === "svg" ? (
+                        <div
+                          dangerouslySetInnerHTML={{ __html: qrCodeDataUrl }}
+                          className="max-w-full h-auto"
+                        />
+                      ) : (
+                        <img
+                          src={qrCodeDataUrl}
+                          alt="Generated QR Code"
+                          className="max-w-full h-auto"
+                        />
+                      )}
+                    </div>
+                    <div className="flex gap-2">
+                      <Button
+                        onClick={handleCopy}
+                        className="flex items-center gap-2"
+                      >
+                        <Copy className="w-4 h-4" />
+                        Copy
+                      </Button>
+                      <Button
+                        onClick={handleDownload}
+                        variant="outline"
+                        className="flex items-center gap-2"
+                      >
+                        <Download className="w-4 h-4" />
+                        Download {format.toUpperCase()}
+                      </Button>
+                    </div>
+                  </>
+                ) : (
+                  <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
+                    <QrCode className="w-16 h-16 mb-4" />
+                    <p>Enter text to generate QR code</p>
                   </div>
-                  <div className="flex gap-2">
-                    <Button
-                      onClick={handleCopy}
-                      className="flex items-center gap-2"
-                    >
-                      <Copy className="w-4 h-4" />
-                      Copy
-                    </Button>
-                    <Button
-                      onClick={handleDownload}
-                      variant="outline"
-                      className="flex items-center gap-2"
-                    >
-                      <Download className="w-4 h-4" />
-                      Download {format.toUpperCase()}
-                    </Button>
-                  </div>
-                </>
-              ) : (
-                <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
-                  <QrCode className="w-16 h-16 mb-4" />
-                  <p>Enter text to generate QR code</p>
-                </div>
-              )}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+                )}
+              </div>
+            </CardContent>
+          </Card>
 
-      {/* Info */}
-      <Card className="mt-6">
-        <CardContent className="p-6">
-          <h3 className="font-semibold mb-2">QR Code Types</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
-            <div>
-              <p className="font-medium mb-1">URLs</p>
-              <p>https://www.example.com</p>
-            </div>
-            <div>
-              <p className="font-medium mb-1">Email</p>
-              <p>mailto:contact@example.com</p>
-            </div>
-            <div>
-              <p className="font-medium mb-1">Phone</p>
-              <p>tel:+1234567890</p>
-            </div>
-            <div>
-              <p className="font-medium mb-1">SMS</p>
-              <p>sms:+1234567890:Message</p>
-            </div>
-            <div>
-              <p className="font-medium mb-1">WiFi</p>
-              <p>WIFI:T:WPA;S:Network;P:Password;;</p>
-            </div>
-            <div>
-              <p className="font-medium mb-1">Plain Text</p>
-              <p>Any text you want to share</p>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+          {/* Info */}
+          <Card className="shadow-none">
+            <CardContent className="p-6">
+              <h3 className="font-semibold mb-2">QR Code Types</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
+                <div>
+                  <p className="font-medium mb-1">URLs</p>
+                  <p>https://www.example.com</p>
+                </div>
+                <div>
+                  <p className="font-medium mb-1">Email</p>
+                  <p>mailto:contact@example.com</p>
+                </div>
+                <div>
+                  <p className="font-medium mb-1">Phone</p>
+                  <p>tel:+1234567890</p>
+                </div>
+                <div>
+                  <p className="font-medium mb-1">SMS</p>
+                  <p>sms:+1234567890:Message</p>
+                </div>
+                <div>
+                  <p className="font-medium mb-1">WiFi</p>
+                  <p>WIFI:T:WPA;S:Network;P:Password;;</p>
+                </div>
+                <div>
+                  <p className="font-medium mb-1">Plain Text</p>
+                  <p>Any text you want to share</p>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
     </div>
   );
 }
