@@ -30,6 +30,7 @@ import {
   PaletteIcon,
   CalendarClockIcon,
   DollarSignIcon,
+  BarChart3Icon,
 } from "lucide-react";
 
 export interface Tool {
@@ -355,6 +356,16 @@ export const tools: ToolCategory[] = [
         description:
           "Scan barcodes using your camera or upload an image. Supports multiple barcode formats including EAN-13, UPC-A, CODE128, and more. Get instant results with validation.",
       },
+      {
+        name: "Charts",
+        href: "/tools/charts",
+        icon: BarChart3Icon,
+        available: true,
+        order: 7,
+        creationDate: "2025-01-15",
+        description:
+          "Create beautiful, customizable charts with full control over every detail. Support for area, bar, line, pie, radar, and radial charts with multiple export options.",
+      },
     ],
   },
   {
@@ -421,7 +432,8 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-10",
         description:
           "Convert between binary, octal, decimal and hexadecimal with live validation.",
-      },{
+      },
+      {
         name: "Expense Tracker",
         href: "/tools/expense-tracker",
         icon: DollarSignIcon,
