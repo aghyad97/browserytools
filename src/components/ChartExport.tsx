@@ -1,9 +1,8 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { ChartSettings, ChartDataPoint, ExportOptions } from "@/types/chart";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import {
   Select,
   SelectContent,
@@ -14,7 +13,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Slider } from "@/components/ui/slider";
 import { Download, FileImage, FileText, FileJson, File } from "lucide-react";
 import { toast } from "sonner";
 import jsPDF from "jspdf";
@@ -69,7 +67,7 @@ export function ChartExport({
 
     try {
       const canvas = await html2canvas(chartRef.current, {
-        backgroundColor: "#ffffff",
+        backgroundColor: null,
         scale: 2,
         useCORS: true,
         allowTaint: true,
@@ -77,7 +75,8 @@ export function ChartExport({
 
       const link = document.createElement("a");
       link.download = `${exportOptions.filename}.png`;
-      link.href = canvas.toDataURL("image/png", exportOptions.quality);
+      // always export max quality
+      link.href = canvas.toDataURL("image/png");
       link.click();
 
       toast.success("Chart exported as PNG");
@@ -87,37 +86,7 @@ export function ChartExport({
     }
   };
 
-  const exportAsSVG = async () => {
-    if (!chartRef.current) {
-      toast.error("Chart not found");
-      return;
-    }
-
-    try {
-      const svgElement = chartRef.current.querySelector("svg");
-      if (!svgElement) {
-        toast.error("SVG element not found");
-        return;
-      }
-
-      const svgData = new XMLSerializer().serializeToString(svgElement);
-      const svgBlob = new Blob([svgData], {
-        type: "image/svg+xml;charset=utf-8",
-      });
-      const svgUrl = URL.createObjectURL(svgBlob);
-
-      const link = document.createElement("a");
-      link.download = `${exportOptions.filename}.svg`;
-      link.href = svgUrl;
-      link.click();
-
-      URL.revokeObjectURL(svgUrl);
-      toast.success("Chart exported as SVG");
-    } catch (error) {
-      toast.error("Failed to export SVG");
-      console.error(error);
-    }
-  };
+  // SVG export removed
 
   const exportAsPDF = async () => {
     if (!chartRef.current) {
@@ -217,9 +186,7 @@ export function ChartExport({
       case "png":
         exportAsPNG();
         break;
-      case "svg":
-        exportAsSVG();
-        break;
+      // svg removed
       case "pdf":
         exportAsPDF();
         break;
@@ -265,12 +232,6 @@ export function ChartExport({
                   PNG Image
                 </div>
               </SelectItem>
-              <SelectItem value="svg">
-                <div className="flex items-center gap-2">
-                  <File className="h-4 w-4" />
-                  SVG Vector
-                </div>
-              </SelectItem>
               <SelectItem value="pdf">
                 <div className="flex items-center gap-2">
                   <FileText className="h-4 w-4" />
@@ -298,19 +259,7 @@ export function ChartExport({
         </div>
       </div>
 
-      {exportOptions.format === "png" && (
-        <div>
-          <Label>Quality: {Math.round(exportOptions.quality! * 100)}%</Label>
-          <Slider
-            value={[exportOptions.quality!]}
-            onValueChange={handleQualityChange}
-            max={1}
-            min={0.1}
-            step={0.1}
-            className="mt-2"
-          />
-        </div>
-      )}
+      {/* PNG quality slider removed: always export at max quality */}
 
       {(exportOptions.format === "pdf" || exportOptions.format === "json") && (
         <div className="space-y-3">

@@ -1,7 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ChartDataPoint, ChartType, SAMPLE_DATA } from "@/types/chart";
+import {
+  ChartDataPoint,
+  ChartType,
+  SAMPLE_DATA,
+  ChartSettings,
+} from "@/types/chart";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -28,16 +33,7 @@ export function ChartDataEditor({
   const [activeTab, setActiveTab] = useState("table");
   const [tableData, setTableData] = useState<ChartDataPoint[]>(data);
   const [headers, setHeaders] = useState<string[]>([]);
-
-  // Initialize data when chart type changes
-  useEffect(() => {
-    const sampleData = SAMPLE_DATA[chartType];
-    onDataChange(sampleData);
-    setTableData(sampleData);
-    setJsonInput(JSON.stringify(sampleData, null, 2));
-    setCsvInput(convertToCSV(sampleData));
-    setHeaders(Object.keys(sampleData[0] || {}));
-  }, [chartType, onDataChange]);
+  const [headerEdits, setHeaderEdits] = useState<Record<string, string>>({});
 
   // Update table data when data prop changes
   useEffect(() => {
@@ -152,17 +148,20 @@ export function ChartDataEditor({
   };
 
   const addColumn = () => {
-    const columnName = prompt("Enter column name:");
-    if (columnName && !headers.includes(columnName)) {
-      const newHeaders = [...headers, columnName];
-      const newData = tableData.map((row) => ({
-        ...row,
-        [columnName]: "",
-      }));
-      setHeaders(newHeaders);
-      setTableData(newData);
-      onDataChange(newData);
+    const base = "column";
+    let name = base;
+    let counter = 2;
+    while (headers.includes(name)) {
+      name = `${base}_${counter++}`;
     }
+    const newHeaders = [...headers, name];
+    const newData = tableData.map((row) => ({
+      ...row,
+      [name]: "",
+    }));
+    setHeaders(newHeaders);
+    setTableData(newData);
+    onDataChange(newData);
   };
 
   const removeColumn = (columnName: string) => {
@@ -179,8 +178,40 @@ export function ChartDataEditor({
     }
   };
 
+  const renameColumn = (oldName: string, newName: string) => {
+    const trimmed = newName.trim();
+    if (!trimmed || oldName === trimmed) {
+      setHeaderEdits((prev) => {
+        const { [oldName]: _, ...rest } = prev;
+        return rest;
+      });
+      return;
+    }
+    if (headers.includes(trimmed)) {
+      toast.error("Column name already exists");
+      setHeaderEdits((prev) => {
+        const { [oldName]: _, ...rest } = prev;
+        return rest;
+      });
+      return;
+    }
+    const newHeaders = headers.map((h) => (h === oldName ? trimmed : h));
+    const newData = tableData.map((row) => {
+      const value = row[oldName];
+      const { [oldName]: _omit, ...rest } = row;
+      return { ...rest, [trimmed]: value };
+    });
+    setHeaders(newHeaders);
+    setTableData(newData);
+    onDataChange(newData);
+    setHeaderEdits((prev) => {
+      const { [oldName]: _, ...rest } = prev;
+      return rest;
+    });
+  };
+
   const loadSampleData = () => {
-    const sampleData = SAMPLE_DATA[chartType];
+    const sampleData = JSON.parse(JSON.stringify(SAMPLE_DATA[chartType]));
     onDataChange(sampleData);
     setTableData(sampleData);
     setJsonInput(JSON.stringify(sampleData, null, 2));
@@ -202,7 +233,7 @@ export function ChartDataEditor({
 
   return (
     <div className="space-y-4">
-      <div>
+      <div className="mt-4">
         <h3 className="text-lg font-semibold">Chart Data</h3>
         <p className="text-sm text-muted-foreground">
           Input your data using the table, JSON, or CSV format
@@ -219,6 +250,8 @@ export function ChartDataEditor({
         </div>
       </div>
 
+      {/* Mapping controls removed for simplicity */}
+
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="table">Table</TabsTrigger>
@@ -227,88 +260,96 @@ export function ChartDataEditor({
         </TabsList>
 
         <TabsContent value="table" className="space-y-4">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-sm">Data Table</CardTitle>
-                <div className="flex gap-2">
-                  <Button size="sm" onClick={addRow}>
-                    <Plus className="h-4 w-4 mr-1" />
-                    Add Row
-                  </Button>
-                  <Button size="sm" variant="outline" onClick={addColumn}>
-                    <Plus className="h-4 w-4 mr-1" />
-                    Add Column
-                  </Button>
-                </div>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <div className="flex gap-2">
+                <Button size="sm" onClick={addRow}>
+                  <Plus className="h-4 w-4 mr-1" />
+                  Row
+                </Button>
+                <Button size="sm" variant="outline" onClick={addColumn}>
+                  <Plus className="h-4 w-4 mr-1" />
+                  Column
+                </Button>
               </div>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <table className="w-full border-collapse">
-                  <thead>
-                    <tr className="border-b">
-                      {headers.map((header, index) => (
-                        <th key={index} className="text-left p-2 border-r">
-                          <div className="flex items-center gap-2">
-                            <span className="text-sm font-medium">
-                              {header}
-                            </span>
-                            {headers.length > 1 && (
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => removeColumn(header)}
-                                className="h-6 w-6 p-0"
-                              >
-                                <Trash2 className="h-3 w-3" />
-                              </Button>
-                            )}
-                          </div>
-                        </th>
-                      ))}
-                      <th className="text-left p-2">Actions</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {tableData.map((row, rowIndex) => (
-                      <tr key={rowIndex} className="border-b">
-                        {headers.map((header, colIndex) => (
-                          <td key={colIndex} className="p-2 border-r">
-                            <Input
-                              value={row[header] || ""}
-                              onChange={(e) => {
-                                const value = e.target.value;
-                                const numValue = parseFloat(value);
-                                handleTableDataChange(
-                                  rowIndex,
-                                  header,
-                                  isNaN(numValue) ? value : numValue
-                                );
-                              }}
-                              className="h-8"
-                            />
-                          </td>
-                        ))}
-                        <td className="p-2">
-                          {tableData.length > 1 && (
+            </div>
+            <div className="overflow-x-auto">
+              <table className="w-full border-collapse">
+                <thead>
+                  <tr className="border-b">
+                    {headers.map((header, index) => (
+                      <th key={index} className="text-left p-2 border-r">
+                        <div className="flex items-center gap-2">
+                          <Input
+                            value={headerEdits[header] ?? header}
+                            onChange={(e) =>
+                              setHeaderEdits((prev) => ({
+                                ...prev,
+                                [header]: e.target.value,
+                              }))
+                            }
+                            onBlur={(e) => renameColumn(header, e.target.value)}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter") {
+                                e.currentTarget.blur();
+                              }
+                            }}
+                            className="h-8 py-1 px-2 text-sm"
+                          />
+                          {headers.length > 1 && (
                             <Button
                               size="sm"
                               variant="ghost"
-                              onClick={() => removeRow(rowIndex)}
+                              onClick={() => removeColumn(header)}
                               className="h-6 w-6 p-0"
                             >
                               <Trash2 className="h-3 w-3" />
                             </Button>
                           )}
-                        </td>
-                      </tr>
+                        </div>
+                      </th>
                     ))}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+                    <th className="text-left p-2">Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tableData.map((row, rowIndex) => (
+                    <tr key={rowIndex} className="border-b">
+                      {headers.map((header, colIndex) => (
+                        <td key={colIndex} className="p-2 border-r">
+                          <Input
+                            value={row[header] || ""}
+                            onChange={(e) => {
+                              const value = e.target.value;
+                              const numValue = parseFloat(value);
+                              handleTableDataChange(
+                                rowIndex,
+                                header,
+                                isNaN(numValue) ? value : numValue
+                              );
+                            }}
+                            className="h-8"
+                          />
+                        </td>
+                      ))}
+                      <td className="p-2">
+                        {tableData.length > 1 && (
+                          <Button
+                            size="sm"
+                            variant="ghost"
+                            onClick={() => removeRow(rowIndex)}
+                            className="h-6 w-6 p-0"
+                          >
+                            <Trash2 className="h-3 w-3" />
+                          </Button>
+                        )}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
         </TabsContent>
 
         <TabsContent value="json" className="space-y-4">

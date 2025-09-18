@@ -19,11 +19,19 @@ export interface ChartSettings {
   // General settings
   title: string;
   subtitle?: string;
+  titleColor?: string;
+  subtitleColor?: string;
   width: number;
   height: number;
   showLegend: boolean;
   showTooltip: boolean;
   showGrid: boolean;
+  gridColor?: string;
+
+  // Data mapping
+  categoryKey?: string;
+  seriesKeys?: string[];
+  colorColumn?: string; // optional column in data containing color values (e.g., for pie/radial)
 
   // Axis settings
   showXAxis: boolean;
@@ -96,11 +104,17 @@ export interface ExportOptions {
 export const DEFAULT_CHART_SETTINGS: ChartSettings = {
   title: "My Chart",
   subtitle: "",
+  titleColor: "",
+  subtitleColor: "",
   width: 800,
   height: 400,
   showLegend: true,
   showTooltip: true,
   showGrid: true,
+  gridColor: "",
+  categoryKey: undefined,
+  seriesKeys: undefined,
+  colorColumn: undefined,
   showXAxis: true,
   showYAxis: true,
   xAxisLabel: "",

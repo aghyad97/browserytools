@@ -37,7 +37,9 @@ export function Charts() {
 
   const handleChartTypeChange = (type: ChartType) => {
     setChartType(type);
-    setData(SAMPLE_DATA[type]);
+    // deep copy to avoid reference reuse issues
+    const sample = JSON.parse(JSON.stringify(SAMPLE_DATA[type]));
+    setData(sample);
   };
 
   const handleDataChange = (newData: ChartDataPoint[]) => {
@@ -63,7 +65,7 @@ export function Charts() {
     <div className="container mx-auto p-4 max-w-7xl">
       <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
         {/* Left Sidebar - Controls */}
-        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
+        <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pr-4 scrollbar-hide">
           {/* Chart Type Selection */}
           <Card>
             <CardHeader>
@@ -82,9 +84,6 @@ export function Charts() {
 
           {/* Data Editor */}
           <Card>
-            <CardHeader>
-              <CardTitle>Data Input</CardTitle>
-            </CardHeader>
             <CardContent>
               <ChartDataEditor
                 chartType={chartType}
@@ -107,6 +106,7 @@ export function Charts() {
                 settings={settings}
                 onSettingsChange={handleSettingsChange}
                 dataKeys={getDataKeys()}
+                chartType={chartType}
               />
             </CardContent>
           </Card>
@@ -131,7 +131,7 @@ export function Charts() {
         </div>
 
         {/* Right Side - Chart Preview */}
-        <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit">
+        <div className="w-full lg:w-[60%] lg:sticky lg:top-4 lg:h-fit">
           <Card className="h-full">
             <CardHeader>
               <div className="flex items-center justify-between">

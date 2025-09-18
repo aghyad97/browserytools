@@ -50,13 +50,31 @@ export function ChartRenderer({
   data,
   settings,
 }: ChartRendererProps) {
+  // Determine category and numeric series keys to make charts robust to arbitrary data shapes
+  const categoryKey = useMemo(() => {
+    if (settings.categoryKey && settings.categoryKey in (data[0] || {})) {
+      return settings.categoryKey;
+    }
+    const first = (data[0] || {}) as Record<string, unknown>;
+    const keys = Object.keys(first);
+    const stringKey = keys.find((k) => typeof (first as any)[k] === "string");
+    return stringKey || keys[0];
+  }, [data]);
+
+  const seriesKeys = useMemo(() => {
+    if (settings.seriesKeys && settings.seriesKeys.length) {
+      return settings.seriesKeys.filter((k) => k in (data[0] || {}));
+    }
+    const first = (data[0] || {}) as Record<string, unknown>;
+    return Object.keys(first).filter(
+      (k) => k !== categoryKey && typeof (first as any)[k] === "number"
+    );
+  }, [data, categoryKey]);
+
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {};
 
-    // Get data keys (excluding the first key which is usually the category)
-    const dataKeys = Object.keys(data[0] || {}).slice(1);
-
-    dataKeys.forEach((key, index) => {
+    seriesKeys.forEach((key, index) => {
       let color: string;
 
       if (
@@ -80,20 +98,28 @@ export function ChartRenderer({
     });
 
     return config;
-  }, [data, settings]);
+  }, [
+    seriesKeys,
+    settings.colorScheme,
+    settings.customColors,
+    settings.themePreset,
+  ]);
 
-  const dataKeys = useMemo(() => {
-    return Object.keys(data[0] || {}).slice(1);
-  }, [data]);
+  const gridStroke =
+    settings.gridColor && settings.gridColor !== ""
+      ? settings.gridColor
+      : undefined;
 
   const renderAreaChart = () => (
     <RechartsAreaChart data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey={Object.keys(data[0] || {})[0]} />
+      {settings.showGrid && (
+        <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+      )}
+      <XAxis dataKey={categoryKey} />
       <YAxis />
       <ChartTooltip content={<ChartTooltipContent />} />
       {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {dataKeys.map((key, index) => (
+      {seriesKeys.map((key) => (
         <Area
           key={key}
           type={settings.areaSettings?.smooth ? "monotone" : "linear"}
@@ -112,21 +138,23 @@ export function ChartRenderer({
       data={data}
       layout={settings.barSettings?.horizontal ? "horizontal" : "vertical"}
     >
-      <CartesianGrid strokeDasharray="3 3" />
+      {settings.showGrid && (
+        <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+      )}
       {settings.barSettings?.horizontal ? (
         <>
           <XAxis type="number" />
-          <YAxis dataKey={Object.keys(data[0] || {})[0]} type="category" />
+          <YAxis dataKey={categoryKey} type="category" />
         </>
       ) : (
         <>
-          <XAxis dataKey={Object.keys(data[0] || {})[0]} />
+          <XAxis dataKey={categoryKey} />
           <YAxis />
         </>
       )}
       <ChartTooltip content={<ChartTooltipContent />} />
       {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {dataKeys.map((key, index) => (
+      {seriesKeys.map((key) => (
         <Bar
           key={key}
           dataKey={key}
@@ -139,12 +167,14 @@ export function ChartRenderer({
 
   const renderLineChart = () => (
     <RechartsLineChart data={data}>
-      <CartesianGrid strokeDasharray="3 3" />
-      <XAxis dataKey={Object.keys(data[0] || {})[0]} />
+      {settings.showGrid && (
+        <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+      )}
+      <XAxis dataKey={categoryKey} />
       <YAxis />
       <ChartTooltip content={<ChartTooltipContent />} />
       {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {dataKeys.map((key, index) => (
+      {seriesKeys.map((key) => (
         <Line
           key={key}
           type={settings.lineSettings?.smooth ? "monotone" : "linear"}
@@ -161,20 +191,30 @@ export function ChartRenderer({
     </RechartsLineChart>
   );
 
+  const resolveSeriesColorAtIndex = (index: number): string => {
+    if (settings.colorScheme === "custom" && settings.customColors.length > 0) {
+      return settings.customColors[index % settings.customColors.length];
+    }
+    if (settings.colorScheme === "preset") {
+      const preset = THEME_PRESETS.find((p) => p.id === settings.themePreset);
+      if (preset) return preset.colors[index % preset.colors.length];
+    }
+    return `hsl(var(--chart-${(index % 5) + 1}))`;
+  };
+
   const renderPieChart = () => {
+    const valueKey = seriesKeys[0];
     const pieData = data.map((item, index) => ({
       ...item,
-      fill:
-        chartConfig[dataKeys[0]]?.color ||
-        `hsl(var(--chart-${(index % 5) + 1}))`,
+      fill: resolveSeriesColorAtIndex(index),
     }));
 
     return (
       <RechartsPieChart>
         <Pie
           data={pieData}
-          dataKey={dataKeys[0]}
-          nameKey={Object.keys(data[0] || {})[0]}
+          dataKey={valueKey}
+          nameKey={categoryKey}
           cx="50%"
           cy="50%"
           innerRadius={settings.pieSettings?.innerRadius || 0}
@@ -197,7 +237,7 @@ export function ChartRenderer({
   const renderRadarChart = () => (
     <RechartsRadarChart data={data}>
       <PolarGrid />
-      <PolarAngleAxis dataKey={Object.keys(data[0] || {})[0]} />
+      <PolarAngleAxis dataKey={categoryKey} />
       <PolarRadiusAxis
         angle={90}
         domain={settings.radarSettings?.domain || [0, 100]}
@@ -205,7 +245,7 @@ export function ChartRenderer({
       />
       <ChartTooltip content={<ChartTooltipContent />} />
       {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {dataKeys.map((key, index) => (
+      {seriesKeys.map((key) => (
         <Radar
           key={key}
           dataKey={key}
@@ -219,11 +259,10 @@ export function ChartRenderer({
   );
 
   const renderRadialChart = () => {
+    const valueKey = seriesKeys[0];
     const radialData = data.map((item, index) => ({
       ...item,
-      fill:
-        chartConfig[dataKeys[0]]?.color ||
-        `hsl(var(--chart-${(index % 5) + 1}))`,
+      fill: resolveSeriesColorAtIndex(index),
     }));
 
     return (
@@ -237,7 +276,7 @@ export function ChartRenderer({
         data={radialData}
       >
         <RadialBar
-          dataKey={dataKeys[0]}
+          dataKey={valueKey}
           label={settings.radialSettings?.showLabels}
         >
           {radialData.map((entry, index) => (
@@ -273,43 +312,48 @@ export function ChartRenderer({
 
   if (data.length === 0) {
     return (
-      <Card>
-        <CardContent className="flex items-center justify-center h-96">
-          <div className="text-center">
-            <h3 className="text-lg font-semibold mb-2">No Data Available</h3>
-            <p className="text-muted-foreground">
-              Please add some data to create your chart
-            </p>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="flex items-center justify-center h-96">
+        <div className="text-center">
+          <h3 className="text-lg font-semibold mb-2">No Data Available</h3>
+          <p className="text-muted-foreground">
+            Please add some data to create your chart
+          </p>
+        </div>
+      </div>
     );
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="text-center">{settings.title}</CardTitle>
-        {settings.subtitle && (
-          <p className="text-center text-muted-foreground">
-            {settings.subtitle}
-          </p>
+    <div className="w-full">
+      <div className="text-center mb-2">
+        {settings.title && (
+          <div
+            className="font-semibold"
+            style={{ color: settings.titleColor || undefined }}
+          >
+            {settings.title}
+          </div>
         )}
-      </CardHeader>
-      <CardContent>
-        <div
-          className="w-full"
-          style={{
-            height: `${settings.height}px`,
-            width: `${settings.width}px`,
-            maxWidth: "100%",
-          }}
-        >
-          <ChartContainer config={chartConfig} className="w-full h-full">
-            {renderChart()}
-          </ChartContainer>
-        </div>
-      </CardContent>
-    </Card>
+        {settings.subtitle && (
+          <div
+            className="text-sm"
+            style={{ color: settings.subtitleColor || undefined }}
+          >
+            {settings.subtitle}
+          </div>
+        )}
+      </div>
+      <div
+        style={{
+          maxWidth: "100%",
+          width: "100%",
+          height: `${settings.height}px`,
+        }}
+      >
+        <ChartContainer config={chartConfig} className="w-full h-full">
+          {renderChart()}
+        </ChartContainer>
+      </div>
+    </div>
   );
 }
