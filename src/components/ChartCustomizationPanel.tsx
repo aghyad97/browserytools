@@ -542,20 +542,6 @@ export function ChartCustomizationPanel({
                       className="mt-2"
                     />
                   </div>
-                  <div className="flex items-center justify-between">
-                    <Label htmlFor="bar-horizontal">Horizontal Bars</Label>
-                    <Switch
-                      id="bar-horizontal"
-                      checked={settings.barSettings.horizontal}
-                      onCheckedChange={(checked) =>
-                        updateNestedSetting(
-                          "barSettings",
-                          "horizontal",
-                          checked
-                        )
-                      }
-                    />
-                  </div>
                 </div>
               </div>
             )}

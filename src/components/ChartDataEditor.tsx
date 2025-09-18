@@ -35,6 +35,15 @@ export function ChartDataEditor({
   const [headers, setHeaders] = useState<string[]>([]);
   const [headerEdits, setHeaderEdits] = useState<Record<string, string>>({});
 
+  // Determine category key (first string column or first column)
+  const getCategoryKey = (data: ChartDataPoint[]): string => {
+    if (!data.length) return "";
+    const first = data[0];
+    const keys = Object.keys(first);
+    const stringKey = keys.find((k) => typeof first[k] === "string");
+    return stringKey || keys[0] || "";
+  };
+
   // Update table data when data prop changes
   useEffect(() => {
     setTableData(data);
@@ -70,14 +79,20 @@ export function ChartDataEditor({
     if (lines.length < 2) return [];
 
     const headers = lines[0].split(",").map((h) => h.trim().replace(/"/g, ""));
+    const categoryKey = headers[0]; // Assume first column is category
+
     const rows = lines.slice(1).map((line) => {
       const values = line.split(",").map((v) => v.trim().replace(/"/g, ""));
       const row: ChartDataPoint = {};
       headers.forEach((header, index) => {
         const value = values[index] || "";
-        // Try to parse as number, otherwise keep as string
-        const numValue = parseFloat(value);
-        row[header] = isNaN(numValue) ? value : numValue;
+        // Keep category as string, try to parse others as numbers
+        if (header === categoryKey) {
+          row[header] = value;
+        } else {
+          const numValue = parseFloat(value);
+          row[header] = isNaN(numValue) ? (value === "" ? 0 : value) : numValue;
+        }
       });
       return row;
     });
@@ -88,10 +103,12 @@ export function ChartDataEditor({
     try {
       const parsed = JSON.parse(jsonInput);
       if (Array.isArray(parsed) && parsed.length > 0) {
-        onDataChange(parsed);
-        setTableData(parsed);
-        setCsvInput(convertToCSV(parsed));
-        setHeaders(Object.keys(parsed[0]));
+        // Validate and clean the data
+        const cleanedData = cleanAndValidateData(parsed);
+        onDataChange(cleanedData);
+        setTableData(cleanedData);
+        setCsvInput(convertToCSV(cleanedData));
+        setHeaders(Object.keys(cleanedData[0]));
         toast.success("Data updated successfully");
       } else {
         toast.error("Invalid JSON format. Expected an array of objects.");
@@ -105,10 +122,11 @@ export function ChartDataEditor({
     try {
       const parsed = parseCSV(csvInput);
       if (parsed.length > 0) {
-        onDataChange(parsed);
-        setTableData(parsed);
-        setJsonInput(JSON.stringify(parsed, null, 2));
-        setHeaders(Object.keys(parsed[0]));
+        const cleanedData = cleanAndValidateData(parsed);
+        onDataChange(cleanedData);
+        setTableData(cleanedData);
+        setJsonInput(JSON.stringify(cleanedData, null, 2));
+        setHeaders(Object.keys(cleanedData[0]));
         toast.success("Data updated successfully");
       } else {
         toast.error("Invalid CSV format");
@@ -118,22 +136,70 @@ export function ChartDataEditor({
     }
   };
 
-  const handleTableDataChange = (
-    index: number,
-    key: string,
-    value: string | number
-  ) => {
+  // Clean and validate data to ensure proper types
+  const cleanAndValidateData = (data: ChartDataPoint[]): ChartDataPoint[] => {
+    if (!data.length) return data;
+
+    const categoryKey = getCategoryKey(data);
+
+    return data.map((row) => {
+      const cleanedRow: ChartDataPoint = {};
+      Object.keys(row).forEach((key) => {
+        const value = row[key];
+
+        if (key === categoryKey) {
+          // Category should be string
+          cleanedRow[key] = String(value || "");
+        } else {
+          // Other columns should be numbers for charts
+          if (value === "" || value === null || value === undefined) {
+            cleanedRow[key] = 0;
+          } else {
+            const numValue = parseFloat(String(value));
+            cleanedRow[key] = isNaN(numValue) ? 0 : numValue;
+          }
+        }
+      });
+      return cleanedRow;
+    });
+  };
+
+  const handleTableDataChange = (index: number, key: string, value: string) => {
+    const categoryKey = getCategoryKey(tableData);
     const newData = [...tableData];
-    newData[index] = { ...newData[index], [key]: value };
+
+    // Determine proper value type
+    let processedValue: string | number;
+    if (key === categoryKey) {
+      // Category column stays as string
+      processedValue = value;
+    } else {
+      // Numeric columns
+      if (value === "") {
+        processedValue = 0;
+      } else {
+        const numValue = parseFloat(value);
+        processedValue = isNaN(numValue) ? 0 : numValue;
+      }
+    }
+
+    newData[index] = { ...newData[index], [key]: processedValue };
     setTableData(newData);
     onDataChange(newData);
   };
 
   const addRow = () => {
+    const categoryKey = getCategoryKey(tableData);
     const newRow: ChartDataPoint = {};
+
     headers.forEach((header) => {
-      newRow[header] = "";
+      if (header === categoryKey) {
+        newRow[header] = `Item ${tableData.length + 1}`;
+      } else {
+        newRow[header] = 0;
+      }
     });
+
     const newData = [...tableData, newRow];
     setTableData(newData);
     onDataChange(newData);
@@ -148,24 +214,27 @@ export function ChartDataEditor({
   };
 
   const addColumn = () => {
-    const base = "column";
+    const base = "value";
     let name = base;
-    let counter = 2;
+    let counter = 1;
     while (headers.includes(name)) {
       name = `${base}_${counter++}`;
     }
+
     const newHeaders = [...headers, name];
     const newData = tableData.map((row) => ({
       ...row,
-      [name]: "",
+      [name]: 0, // Default to 0 for new numeric columns
     }));
+
     setHeaders(newHeaders);
     setTableData(newData);
     onDataChange(newData);
   };
 
   const removeColumn = (columnName: string) => {
-    if (headers.length > 1) {
+    if (headers.length > 2) {
+      // Keep at least category + one value column
       const newHeaders = headers.filter((h) => h !== columnName);
       const newData = tableData.map((row) => {
         const newRow = { ...row };
@@ -212,11 +281,12 @@ export function ChartDataEditor({
 
   const loadSampleData = () => {
     const sampleData = JSON.parse(JSON.stringify(SAMPLE_DATA[chartType]));
-    onDataChange(sampleData);
-    setTableData(sampleData);
-    setJsonInput(JSON.stringify(sampleData, null, 2));
-    setCsvInput(convertToCSV(sampleData));
-    setHeaders(Object.keys(sampleData[0] || {}));
+    const cleanedData = cleanAndValidateData(sampleData);
+    onDataChange(cleanedData);
+    setTableData(cleanedData);
+    setJsonInput(JSON.stringify(cleanedData, null, 2));
+    setCsvInput(convertToCSV(cleanedData));
+    setHeaders(Object.keys(cleanedData[0] || {}));
     toast.success("Sample data loaded");
   };
 
@@ -249,8 +319,6 @@ export function ChartDataEditor({
           </Button>
         </div>
       </div>
-
-      {/* Mapping controls removed for simplicity */}
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-3">
@@ -296,7 +364,7 @@ export function ChartDataEditor({
                             }}
                             className="h-8 py-1 px-2 text-sm"
                           />
-                          {headers.length > 1 && (
+                          {headers.length > 2 && (
                             <Button
                               size="sm"
                               variant="ghost"
@@ -320,15 +388,19 @@ export function ChartDataEditor({
                           <Input
                             value={row[header] || ""}
                             onChange={(e) => {
-                              const value = e.target.value;
-                              const numValue = parseFloat(value);
                               handleTableDataChange(
                                 rowIndex,
                                 header,
-                                isNaN(numValue) ? value : numValue
+                                e.target.value
                               );
                             }}
                             className="h-8"
+                            type={
+                              getCategoryKey(tableData) === header
+                                ? "text"
+                                : "number"
+                            }
+                            step="any"
                           />
                         </td>
                       ))}

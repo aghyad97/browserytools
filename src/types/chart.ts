@@ -130,7 +130,7 @@ export const DEFAULT_CHART_SETTINGS: ChartSettings = {
   barSettings: {
     barWidth: 20,
     barGap: 4,
-    horizontal: false,
+    horizontal: true,
   },
   lineSettings: {
     strokeWidth: 2,

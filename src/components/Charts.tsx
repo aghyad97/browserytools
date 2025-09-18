@@ -63,9 +63,9 @@ export function Charts() {
 
   return (
     <div className="container mx-auto p-4 max-w-7xl">
-      <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
+      <div className="flex flex-col lg:flex-row gap-4 min-h-screen">
         {/* Left Sidebar - Controls */}
-        <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pr-4 scrollbar-hide">
+        <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pr-4 scrollbar-hide max-h-screen">
           {/* Chart Type Selection */}
           <Card>
             <CardHeader>
@@ -131,8 +131,8 @@ export function Charts() {
         </div>
 
         {/* Right Side - Chart Preview */}
-        <div className="w-full lg:w-[60%] lg:sticky lg:top-4 lg:h-fit">
-          <Card className="h-full">
+        <div className="w-full lg:w-[60%] lg:sticky lg:top-4 lg:self-start">
+          <Card className="h-fit max-h-[calc(100vh-2rem)]">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>

@@ -30,14 +30,12 @@ import {
   RadarChart as RechartsRadarChart,
   RadialBar,
   RadialBarChart as RechartsRadialBarChart,
-  ResponsiveContainer,
   XAxis,
   YAxis,
   PolarGrid,
   PolarAngleAxis,
   PolarRadiusAxis,
 } from "recharts";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 interface ChartRendererProps {
   chartType: ChartType;
@@ -66,10 +64,11 @@ export function ChartRenderer({
       return settings.seriesKeys.filter((k) => k in (data[0] || {}));
     }
     const first = (data[0] || {}) as Record<string, unknown>;
-    return Object.keys(first).filter(
+    const keys = Object.keys(first).filter(
       (k) => k !== categoryKey && typeof (first as any)[k] === "number"
     );
-  }, [data, categoryKey]);
+    return keys;
+  }, [data, categoryKey, settings.seriesKeys, settings.categoryKey]);
 
   const chartConfig = useMemo(() => {
     const config: ChartConfig = {};
@@ -111,84 +110,128 @@ export function ChartRenderer({
       : undefined;
 
   const renderAreaChart = () => (
-    <RechartsAreaChart data={data}>
-      {settings.showGrid && (
-        <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
-      )}
-      <XAxis dataKey={categoryKey} />
-      <YAxis />
-      <ChartTooltip content={<ChartTooltipContent />} />
-      {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {seriesKeys.map((key) => (
-        <Area
-          key={key}
-          type={settings.areaSettings?.smooth ? "monotone" : "linear"}
-          dataKey={key}
-          stroke={chartConfig[key]?.color}
-          fill={chartConfig[key]?.color}
-          fillOpacity={settings.areaSettings?.fillOpacity || 0.6}
-          strokeWidth={settings.areaSettings?.strokeWidth || 2}
-        />
-      ))}
-    </RechartsAreaChart>
+    <ChartContainer config={chartConfig}>
+      <RechartsAreaChart data={data}>
+        {settings.showGrid && (
+          <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+        )}
+        <XAxis dataKey={categoryKey} />
+        <YAxis />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        {settings.showLegend && (
+          <ChartLegend content={<ChartLegendContent />} />
+        )}
+        {seriesKeys.map((key) => (
+          <Area
+            key={key}
+            type={settings.areaSettings?.smooth ? "monotone" : "linear"}
+            dataKey={key}
+            stroke={`var(--color-${key})`}
+            fill={`var(--color-${key})`}
+            fillOpacity={settings.areaSettings?.fillOpacity || 0.6}
+            strokeWidth={settings.areaSettings?.strokeWidth || 2}
+          />
+        ))}
+      </RechartsAreaChart>
+    </ChartContainer>
   );
 
-  const renderBarChart = () => (
-    <RechartsBarChart
-      data={data}
-      layout={settings.barSettings?.horizontal ? "horizontal" : "vertical"}
-    >
-      {settings.showGrid && (
-        <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
-      )}
-      {settings.barSettings?.horizontal ? (
-        <>
-          <XAxis type="number" />
-          <YAxis dataKey={categoryKey} type="category" />
-        </>
-      ) : (
-        <>
-          <XAxis dataKey={categoryKey} />
-          <YAxis />
-        </>
-      )}
-      <ChartTooltip content={<ChartTooltipContent />} />
-      {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {seriesKeys.map((key) => (
-        <Bar
-          key={key}
-          dataKey={key}
-          fill={chartConfig[key]?.color}
-          maxBarSize={settings.barSettings?.barWidth || 20}
-        />
-      ))}
-    </RechartsBarChart>
-  );
+  const renderBarChart = () => {
+    return (
+      <ChartContainer config={chartConfig}>
+        <RechartsBarChart
+          data={data}
+          layout={settings.barSettings?.horizontal ? "horizontal" : "vertical"}
+          margin={{
+            left: settings.barSettings?.horizontal ? -20 : 0,
+            right: 20,
+            top: 20,
+            bottom: 20,
+          }}
+          barCategoryGap={settings.barSettings?.barGap || 4}
+        >
+          {settings.showGrid && (
+            <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+          )}
+          {settings.barSettings?.horizontal ? (
+            <>
+              <XAxis type="number" hide />
+              <YAxis
+                dataKey={categoryKey}
+                type="category"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+            </>
+          ) : (
+            <>
+              <XAxis
+                dataKey={categoryKey}
+                type="category"
+                tickLine={false}
+                tickMargin={10}
+                axisLine={false}
+              />
+              <YAxis type="number" tickLine={false} axisLine={false} />
+            </>
+          )}
+          <ChartTooltip
+            cursor={false}
+            content={
+              <ChartTooltipContent
+                hideLabel={settings.barSettings?.horizontal}
+              />
+            }
+          />
+          {settings.showLegend && (
+            <ChartLegend content={<ChartLegendContent />} />
+          )}
+          {seriesKeys.map((key, index) => (
+            <Bar
+              key={key}
+              dataKey={key}
+              fill={
+                chartConfig[key]?.color ||
+                `hsl(var(--chart-${(index % 5) + 1}))`
+              }
+              radius={5}
+              maxBarSize={settings.barSettings?.barWidth || 20}
+            />
+          ))}
+        </RechartsBarChart>
+      </ChartContainer>
+    );
+  };
 
   const renderLineChart = () => (
-    <RechartsLineChart data={data}>
-      {settings.showGrid && (
-        <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
-      )}
-      <XAxis dataKey={categoryKey} />
-      <YAxis />
-      <ChartTooltip content={<ChartTooltipContent />} />
-      {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {seriesKeys.map((key) => (
-        <Line
-          key={key}
-          type={settings.lineSettings?.smooth ? "monotone" : "linear"}
-          dataKey={key}
-          stroke={chartConfig[key]?.color}
-          strokeWidth={settings.lineSettings?.strokeWidth || 2}
-          dot={
-            settings.lineSettings?.showDots
-              ? { r: settings.lineSettings?.dotSize || 4 }
-              : false
-          }
-        />
-      ))}
-    </RechartsLineChart>
+    <ChartContainer config={chartConfig}>
+      <RechartsLineChart data={data}>
+        {settings.showGrid && (
+          <CartesianGrid strokeDasharray="3 3" stroke={gridStroke} />
+        )}
+        <XAxis dataKey={categoryKey} />
+        <YAxis />
+        <ChartTooltip content={<ChartTooltipContent />} />
+        {settings.showLegend && (
+          <ChartLegend content={<ChartLegendContent />} />
+        )}
+        {seriesKeys.map((key) => (
+          <Line
+            key={key}
+            type={settings.lineSettings?.smooth ? "monotone" : "linear"}
+            dataKey={key}
+            stroke={`var(--color-${key})`}
+            strokeWidth={settings.lineSettings?.strokeWidth || 2}
+            dot={
+              settings.lineSettings?.showDots
+                ? { r: settings.lineSettings?.dotSize || 4 }
+                : false
+            }
+          />
+        ))}
+      </RechartsLineChart>
+    </ChartContainer>
   );
 
   const resolveSeriesColorAtIndex = (index: number): string => {
@@ -347,12 +390,11 @@ export function ChartRenderer({
         style={{
           maxWidth: "100%",
           width: "100%",
-          height: `${settings.height}px`,
+          height: `${Math.max(settings.height, 300)}px`,
+          minHeight: "300px",
         }}
       >
-        <ChartContainer config={chartConfig} className="w-full h-full">
-          {renderChart()}
-        </ChartContainer>
+        {renderChart()}
       </div>
     </div>
   );
