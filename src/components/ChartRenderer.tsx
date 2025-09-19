@@ -253,52 +253,62 @@ export function ChartRenderer({
     }));
 
     return (
-      <RechartsPieChart>
-        <Pie
-          data={pieData}
-          dataKey={valueKey}
-          nameKey={categoryKey}
-          cx="50%"
-          cy="50%"
-          innerRadius={settings.pieSettings?.innerRadius || 0}
-          outerRadius={settings.pieSettings?.outerRadius || 80}
-          label={settings.pieSettings?.showLabels}
-          labelLine={settings.pieSettings?.labelPosition === "outside"}
-        >
-          {pieData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.fill} />
-          ))}
-        </Pie>
-        <ChartTooltip content={<ChartTooltipContent />} />
-        {settings.showLegend && (
-          <ChartLegend content={<ChartLegendContent />} />
-        )}
-      </RechartsPieChart>
+      <ChartContainer config={chartConfig}>
+        <RechartsPieChart>
+          <Pie
+            data={pieData}
+            dataKey={valueKey}
+            nameKey={categoryKey}
+            cx="50%"
+            cy="50%"
+            innerRadius={settings.pieSettings?.innerRadius || 0}
+            outerRadius={settings.pieSettings?.outerRadius || 80}
+            label={settings.pieSettings?.showLabels}
+            labelLine={settings.pieSettings?.labelPosition === "outside"}
+          >
+            {pieData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.fill} />
+            ))}
+          </Pie>
+          {settings.showTooltip && (
+            <ChartTooltip content={<ChartTooltipContent />} />
+          )}
+          {settings.showLegend && (
+            <ChartLegend content={<ChartLegendContent />} />
+          )}
+        </RechartsPieChart>
+      </ChartContainer>
     );
   };
 
   const renderRadarChart = () => (
-    <RechartsRadarChart data={data}>
-      <PolarGrid />
-      <PolarAngleAxis dataKey={categoryKey} />
-      <PolarRadiusAxis
-        angle={90}
-        domain={settings.radarSettings?.domain || [0, 100]}
-        tickCount={settings.radarSettings?.ticks || 5}
-      />
-      <ChartTooltip content={<ChartTooltipContent />} />
-      {settings.showLegend && <ChartLegend content={<ChartLegendContent />} />}
-      {seriesKeys.map((key) => (
-        <Radar
-          key={key}
-          dataKey={key}
-          stroke={chartConfig[key]?.color}
-          fill={chartConfig[key]?.color}
-          fillOpacity={0.6}
-          dot={settings.radarSettings?.showDots}
+    <ChartContainer config={chartConfig}>
+      <RechartsRadarChart data={data}>
+        <PolarGrid />
+        <PolarAngleAxis dataKey={categoryKey} />
+        <PolarRadiusAxis
+          angle={90}
+          domain={settings.radarSettings?.domain || [0, 100]}
+          tickCount={settings.radarSettings?.ticks || 5}
         />
-      ))}
-    </RechartsRadarChart>
+        {settings.showTooltip && (
+          <ChartTooltip content={<ChartTooltipContent />} />
+        )}
+        {settings.showLegend && (
+          <ChartLegend content={<ChartLegendContent />} />
+        )}
+        {seriesKeys.map((key) => (
+          <Radar
+            key={key}
+            dataKey={key}
+            stroke={chartConfig[key]?.color}
+            fill={chartConfig[key]?.color}
+            fillOpacity={0.6}
+            dot={settings.radarSettings?.showDots}
+          />
+        ))}
+      </RechartsRadarChart>
+    </ChartContainer>
   );
 
   const renderRadialChart = () => {
@@ -309,28 +319,32 @@ export function ChartRenderer({
     }));
 
     return (
-      <RechartsRadialBarChart
-        cx="50%"
-        cy="50%"
-        innerRadius={settings.radialSettings?.innerRadius || 0}
-        outerRadius={settings.radialSettings?.outerRadius || 80}
-        startAngle={settings.radialSettings?.startAngle || 0}
-        endAngle={settings.radialSettings?.endAngle || 360}
-        data={radialData}
-      >
-        <RadialBar
-          dataKey={valueKey}
-          label={settings.radialSettings?.showLabels}
+      <ChartContainer config={chartConfig}>
+        <RechartsRadialBarChart
+          cx="50%"
+          cy="50%"
+          innerRadius={settings.radialSettings?.innerRadius || 0}
+          outerRadius={settings.radialSettings?.outerRadius || 80}
+          startAngle={settings.radialSettings?.startAngle || 0}
+          endAngle={settings.radialSettings?.endAngle || 360}
+          data={radialData}
         >
-          {radialData.map((entry, index) => (
-            <Cell key={`cell-${index}`} fill={entry.fill} />
-          ))}
-        </RadialBar>
-        <ChartTooltip content={<ChartTooltipContent />} />
-        {settings.showLegend && (
-          <ChartLegend content={<ChartLegendContent />} />
-        )}
-      </RechartsRadialBarChart>
+          <RadialBar
+            dataKey={valueKey}
+            label={settings.radialSettings?.showLabels}
+          >
+            {radialData.map((entry, index) => (
+              <Cell key={`cell-${index}`} fill={entry.fill} />
+            ))}
+          </RadialBar>
+          {settings.showTooltip && (
+            <ChartTooltip content={<ChartTooltipContent />} />
+          )}
+          {settings.showLegend && (
+            <ChartLegend content={<ChartLegendContent />} />
+          )}
+        </RechartsRadialBarChart>
+      </ChartContainer>
     );
   };
 

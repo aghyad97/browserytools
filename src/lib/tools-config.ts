@@ -362,7 +362,7 @@ export const tools: ToolCategory[] = [
         icon: BarChart3Icon,
         available: true,
         order: 7,
-        creationDate: "2025-01-15",
+        creationDate: "2025-09-19",
         description:
           "Create beautiful, customizable charts with full control over every detail. Support for area, bar, line, pie, radar, and radial charts with multiple export options.",
       },

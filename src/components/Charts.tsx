@@ -67,7 +67,7 @@ export function Charts() {
         {/* Left Sidebar - Controls */}
         <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pr-4 scrollbar-hide max-h-screen">
           {/* Chart Type Selection */}
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
@@ -83,7 +83,7 @@ export function Charts() {
           </Card>
 
           {/* Data Editor */}
-          <Card>
+          <Card className="shadow-none">
             <CardContent>
               <ChartDataEditor
                 chartType={chartType}
@@ -94,7 +94,7 @@ export function Charts() {
           </Card>
 
           {/* Customization Panel */}
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
@@ -112,7 +112,7 @@ export function Charts() {
           </Card>
 
           {/* Export Panel */}
-          <Card>
+          <Card className="shadow-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Download className="h-5 w-5" />
@@ -132,7 +132,7 @@ export function Charts() {
 
         {/* Right Side - Chart Preview */}
         <div className="w-full lg:w-[60%] lg:sticky lg:top-4 lg:self-start">
-          <Card className="h-fit max-h-[calc(100vh-2rem)]">
+          <Card className="h-fit max-h-[calc(100vh-2rem)] shadow-none">
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>

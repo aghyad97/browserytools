@@ -102,6 +102,17 @@ export function generateToolMetadata(href: string): Metadata {
       "budget planning",
       "financial charts",
 
+      "charts",
+      "data visualization",
+      "graph",
+      "chart creator",
+      "bar chart",
+      "line chart",
+      "pie chart",
+      "area chart",
+      "radar chart",
+      "radial chart",
+
       // Tool-specific keywords from description
       ...tool.description
         .toLowerCase()
