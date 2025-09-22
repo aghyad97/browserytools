@@ -20,7 +20,6 @@ import {
   ShieldIcon,
   ReceiptIcon,
   SmartphoneIcon,
-  BarChart3Icon,
   BarcodeIcon,
   CheckSquareIcon,
   ClockIcon,
@@ -28,6 +27,7 @@ import {
   GlobeIcon,
   CalendarIcon,
   KeyIcon,
+  ImageIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -98,7 +98,7 @@ export const tools: ToolCategory[] = [
       {
         name: "Text Behind Image",
         href: "/tools/text-behind-image",
-        icon: TypeIcon,
+        icon: ImageIcon,
         available: true,
         order: 6,
         description:

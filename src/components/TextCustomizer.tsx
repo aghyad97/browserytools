@@ -5,13 +5,6 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import {
   AccordionItem,
@@ -33,7 +26,7 @@ import {
   TypeOutline,
   RotateCw,
 } from "lucide-react";
-import { ALL_FONTS } from "@/constants/fonts";
+import { FontPicker } from "@/components/ui/font-picker";
 
 interface TextSet {
   id: number;
@@ -135,23 +128,14 @@ export const TextCustomizer = ({
             {activeControl === "fontFamily" && (
               <div className="space-y-2">
                 <Label htmlFor="fontFamily">Font Family</Label>
-                <Select
+                <FontPicker
                   value={textSet.fontFamily}
-                  onValueChange={(value) =>
-                    handleAttributeChange(textSet.id, "fontFamily", value)
+                  onChange={(font) =>
+                    handleAttributeChange(textSet.id, "fontFamily", font)
                   }
-                >
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {ALL_FONTS.map((font) => (
-                      <SelectItem key={font} value={font}>
-                        {font}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
+                  width="100%"
+                  height="auto"
+                />
               </div>
             )}
 
@@ -333,23 +317,14 @@ export const TextCustomizer = ({
           <div className="grid grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="fontFamily">Font Family</Label>
-              <Select
+              <FontPicker
                 value={textSet.fontFamily}
-                onValueChange={(value) =>
-                  handleAttributeChange(textSet.id, "fontFamily", value)
+                onChange={(font) =>
+                  handleAttributeChange(textSet.id, "fontFamily", font)
                 }
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {ALL_FONTS.map((font) => (
-                    <SelectItem key={font} value={font}>
-                      {font}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
+                width="100%"
+                height="auto"
+              />
             </div>
 
             <div className="space-y-2">

@@ -44,6 +44,11 @@ export default function TextBehindImage() {
   );
   const [textSets, setTextSets] = useState<TextSet[]>([]);
   const [loading, setLoading] = useState(false);
+  const [imageAspectRatio, setImageAspectRatio] = useState<number>(1);
+  const [imageDimensions, setImageDimensions] = useState<{
+    width: number;
+    height: number;
+  }>({ width: 1, height: 1 });
   const fileInputRef = useRef<HTMLInputElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -84,6 +89,24 @@ export default function TextBehindImage() {
   const setupImage = async (imageUrl: string) => {
     try {
       setLoading(true);
+
+      // Calculate aspect ratio from the original image
+      const img = new (window as any).Image();
+      img.onload = () => {
+        const aspectRatio = img.width / img.height;
+        console.log(
+          "Image dimensions:",
+          img.width,
+          "x",
+          img.height,
+          "aspect ratio:",
+          aspectRatio
+        );
+        setImageAspectRatio(aspectRatio);
+        setImageDimensions({ width: img.width, height: img.height });
+      };
+      img.src = imageUrl;
+
       const imageBlob = await removeBackground(imageUrl, {
         device: "gpu",
       });
@@ -165,6 +188,30 @@ export default function TextBehindImage() {
     setTextSets((prev) => prev.filter((set) => set.id !== id));
   }, []);
 
+  // Helper function to wrap text in canvas
+  const wrapText = (
+    ctx: CanvasRenderingContext2D,
+    text: string,
+    maxWidth: number
+  ) => {
+    const words = text.split(" ");
+    const lines: string[] = [];
+    let currentLine = words[0];
+
+    for (let i = 1; i < words.length; i++) {
+      const word = words[i];
+      const width = ctx.measureText(currentLine + " " + word).width;
+      if (width < maxWidth) {
+        currentLine += " " + word;
+      } else {
+        lines.push(currentLine);
+        currentLine = word;
+      }
+    }
+    lines.push(currentLine);
+    return lines;
+  };
+
   const saveCompositeImage = () => {
     if (!canvasRef.current || !isImageSetupDone) return;
 
@@ -175,101 +222,102 @@ export default function TextBehindImage() {
     const bgImg = new (window as any).Image();
     bgImg.crossOrigin = "anonymous";
     bgImg.onload = () => {
-      // Get the actual preview container dimensions
-      const previewContainer = document.querySelector(
-        "[data-preview-container]"
-      );
-      if (!previewContainer) return;
+      // Use preview container dimensions to match what user sees
+      const previewWidth = Math.min(600, bgImg.width);
+      const previewHeight = previewWidth / imageAspectRatio;
 
-      const containerWidth = previewContainer.clientWidth;
-      const containerHeight = previewContainer.clientHeight;
+      canvas.width = previewWidth;
+      canvas.height = previewHeight;
 
-      // Set canvas to match preview container size exactly
-      canvas.width = containerWidth;
-      canvas.height = containerHeight;
+      // Draw the background image scaled to preview dimensions
+      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-      // Calculate the image display dimensions (same as preview - object-contain behavior)
-      const imageAspect = bgImg.width / bgImg.height;
-      const containerAspect = containerWidth / containerHeight;
-
-      let displayWidth, displayHeight, offsetX, offsetY;
-
-      if (imageAspect > containerAspect) {
-        // Image is wider - fit to width
-        displayWidth = containerWidth;
-        displayHeight = containerWidth / imageAspect;
-        offsetX = 0;
-        offsetY = (containerHeight - displayHeight) / 2;
-      } else {
-        // Image is taller - fit to height
-        displayHeight = containerHeight;
-        displayWidth = containerHeight * imageAspect;
-        offsetX = (containerWidth - displayWidth) / 2;
-        offsetY = 0;
-      }
-
-      // Draw the background image exactly as shown in preview
-      ctx.drawImage(bgImg, offsetX, offsetY, displayWidth, displayHeight);
-
-      // Render text exactly as in preview
+      // Render text first (between original image and background removal)
       textSets.forEach((textSet) => {
         ctx.save();
 
+        // Use same font size as preview (no scaling needed since canvas matches preview)
+        const scaledFontSize = textSet.fontSize;
+
         // Set up text properties
-        ctx.font = `${textSet.fontWeight} ${textSet.fontSize}px ${textSet.fontFamily}`;
+        ctx.font = `${textSet.fontWeight} ${scaledFontSize}px ${textSet.fontFamily}`;
         ctx.fillStyle = textSet.color;
         ctx.globalAlpha = textSet.opacity;
-        ctx.textAlign = "center"; // Center align for proper positioning
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        // Calculate text position exactly as in preview
-        const x = offsetX + (displayWidth * (textSet.left + 50)) / 100;
-        const y = offsetY + (displayHeight * (50 - textSet.top)) / 100;
+        // Calculate text position using same percentage-based positioning as preview
+        const x = (canvas.width * (textSet.left + 50)) / 100;
+        const y = (canvas.height * (50 - textSet.top)) / 100;
 
-        // Move to text position
+        // Move to position first
         ctx.translate(x, y);
 
-        // Apply rotation
-        ctx.rotate((textSet.rotation * Math.PI) / 180);
+        // Apply 3D transforms
+        const tiltXRad = (-textSet.tiltX * Math.PI) / 180;
+        const tiltYRad = (-textSet.tiltY * Math.PI) / 180;
 
-        // Apply 3D tilt effects (simplified for canvas)
-        const tiltXRad = (textSet.tiltX * Math.PI) / 180;
-        const tiltYRad = (textSet.tiltY * Math.PI) / 180;
-
-        // Apply transform for tilt
+        // Use a simpler transform that maintains the visual tilt
         ctx.transform(
-          Math.cos(tiltYRad),
-          Math.sin(tiltXRad),
-          -Math.sin(tiltYRad),
-          Math.cos(tiltXRad),
-          0,
-          0
+          Math.cos(tiltYRad), // Horizontal scaling
+          Math.sin(0), // Vertical skewing
+          -Math.sin(0), // Horizontal skewing
+          Math.cos(tiltXRad), // Vertical scaling
+          0, // Horizontal translation
+          0 // Vertical translation
         );
 
-        // Handle letter spacing
-        if (textSet.letterSpacing === 0) {
-          // Standard text rendering
-          ctx.fillText(textSet.text, 0, 0);
-        } else {
-          // Manual letter spacing
-          const chars = textSet.text.split("");
-          const totalWidth = chars.reduce((width, char, i) => {
-            const charWidth = ctx.measureText(char).width;
-            return (
-              width +
-              charWidth +
-              (i < chars.length - 1 ? textSet.letterSpacing : 0)
-            );
-          }, 0);
+        // Apply rotation last
+        ctx.rotate((textSet.rotation * Math.PI) / 180);
 
-          let currentX = -totalWidth / 2;
-          chars.forEach((char, i) => {
-            const charWidth = ctx.measureText(char).width;
-            ctx.fillText(char, currentX + charWidth / 2, 0);
-            currentX += charWidth + textSet.letterSpacing;
+        // Calculate max width for text wrapping (80% of canvas width, same as preview)
+        const maxWidth = canvas.width * 0.8;
+
+        if (textSet.letterSpacing === 0) {
+          // Use text wrapping for standard text rendering
+          const lines = wrapText(ctx, textSet.text, maxWidth);
+          const lineHeight = scaledFontSize * 1.2; // Line height multiplier
+          const totalHeight = lines.length * lineHeight;
+          const startY = -(totalHeight / 2) + lineHeight / 2;
+
+          lines.forEach((line, index) => {
+            ctx.fillText(line, 0, startY + index * lineHeight);
+          });
+        } else {
+          // Manual letter spacing implementation with wrapping
+          const lines = wrapText(ctx, textSet.text, maxWidth);
+          const lineHeight = scaledFontSize * 1.2;
+          const totalHeight = lines.length * lineHeight;
+          const startY = -(totalHeight / 2) + lineHeight / 2;
+
+          lines.forEach((line, lineIndex) => {
+            const chars = line.split("");
+            let currentX = 0;
+            // Calculate total width to center properly
+            const totalWidth = chars.reduce((width, char, i) => {
+              const charWidth = ctx.measureText(char).width;
+              return (
+                width +
+                charWidth +
+                (i < chars.length - 1 ? textSet.letterSpacing : 0)
+              );
+            }, 0);
+
+            // Start position (centered)
+            currentX = -totalWidth / 2;
+
+            // Draw each character with spacing
+            chars.forEach((char, i) => {
+              const charWidth = ctx.measureText(char).width;
+              ctx.fillText(
+                char,
+                currentX + charWidth / 2,
+                startY + lineIndex * lineHeight
+              );
+              currentX += charWidth + textSet.letterSpacing;
+            });
           });
         }
-
         ctx.restore();
       });
 
@@ -278,13 +326,7 @@ export default function TextBehindImage() {
         const removedBgImg = new (window as any).Image();
         removedBgImg.crossOrigin = "anonymous";
         removedBgImg.onload = () => {
-          ctx.drawImage(
-            removedBgImg,
-            offsetX,
-            offsetY,
-            displayWidth,
-            displayHeight
-          );
+          ctx.drawImage(removedBgImg, 0, 0, canvas.width, canvas.height);
           triggerDownload();
         };
         removedBgImg.src = removedBgImageUrl;
@@ -314,101 +356,102 @@ export default function TextBehindImage() {
     const bgImg = new (window as any).Image();
     bgImg.crossOrigin = "anonymous";
     bgImg.onload = () => {
-      // Get the actual preview container dimensions
-      const previewContainer = document.querySelector(
-        "[data-preview-container]"
-      );
-      if (!previewContainer) return;
+      // Use preview container dimensions to match what user sees
+      const previewWidth = Math.min(600, bgImg.width);
+      const previewHeight = previewWidth / imageAspectRatio;
 
-      const containerWidth = previewContainer.clientWidth;
-      const containerHeight = previewContainer.clientHeight;
+      canvas.width = previewWidth;
+      canvas.height = previewHeight;
 
-      // Set canvas to match preview container size exactly
-      canvas.width = containerWidth;
-      canvas.height = containerHeight;
+      // Draw the background image scaled to preview dimensions
+      ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
 
-      // Calculate the image display dimensions (same as preview - object-contain behavior)
-      const imageAspect = bgImg.width / bgImg.height;
-      const containerAspect = containerWidth / containerHeight;
-
-      let displayWidth, displayHeight, offsetX, offsetY;
-
-      if (imageAspect > containerAspect) {
-        // Image is wider - fit to width
-        displayWidth = containerWidth;
-        displayHeight = containerWidth / imageAspect;
-        offsetX = 0;
-        offsetY = (containerHeight - displayHeight) / 2;
-      } else {
-        // Image is taller - fit to height
-        displayHeight = containerHeight;
-        displayWidth = containerHeight * imageAspect;
-        offsetX = (containerWidth - displayWidth) / 2;
-        offsetY = 0;
-      }
-
-      // Draw the background image exactly as shown in preview
-      ctx.drawImage(bgImg, offsetX, offsetY, displayWidth, displayHeight);
-
-      // Render text exactly as in preview
+      // Render text first (between original image and background removal)
       textSets.forEach((textSet) => {
         ctx.save();
 
+        // Use same font size as preview (no scaling needed since canvas matches preview)
+        const scaledFontSize = textSet.fontSize;
+
         // Set up text properties
-        ctx.font = `${textSet.fontWeight} ${textSet.fontSize}px ${textSet.fontFamily}`;
+        ctx.font = `${textSet.fontWeight} ${scaledFontSize}px ${textSet.fontFamily}`;
         ctx.fillStyle = textSet.color;
         ctx.globalAlpha = textSet.opacity;
-        ctx.textAlign = "center"; // Center align for proper positioning
+        ctx.textAlign = "center";
         ctx.textBaseline = "middle";
 
-        // Calculate text position exactly as in preview
-        const x = offsetX + (displayWidth * (textSet.left + 50)) / 100;
-        const y = offsetY + (displayHeight * (50 - textSet.top)) / 100;
+        // Calculate text position using same percentage-based positioning as preview
+        const x = (canvas.width * (textSet.left + 50)) / 100;
+        const y = (canvas.height * (50 - textSet.top)) / 100;
 
-        // Move to text position
+        // Move to position first
         ctx.translate(x, y);
 
-        // Apply rotation
-        ctx.rotate((textSet.rotation * Math.PI) / 180);
+        // Apply 3D transforms
+        const tiltXRad = (-textSet.tiltX * Math.PI) / 180;
+        const tiltYRad = (-textSet.tiltY * Math.PI) / 180;
 
-        // Apply 3D tilt effects (simplified for canvas)
-        const tiltXRad = (textSet.tiltX * Math.PI) / 180;
-        const tiltYRad = (textSet.tiltY * Math.PI) / 180;
-
-        // Apply transform for tilt
+        // Use a simpler transform that maintains the visual tilt
         ctx.transform(
-          Math.cos(tiltYRad),
-          Math.sin(tiltXRad),
-          -Math.sin(tiltYRad),
-          Math.cos(tiltXRad),
-          0,
-          0
+          Math.cos(tiltYRad), // Horizontal scaling
+          Math.sin(0), // Vertical skewing
+          -Math.sin(0), // Horizontal skewing
+          Math.cos(tiltXRad), // Vertical scaling
+          0, // Horizontal translation
+          0 // Vertical translation
         );
 
-        // Handle letter spacing
-        if (textSet.letterSpacing === 0) {
-          // Standard text rendering
-          ctx.fillText(textSet.text, 0, 0);
-        } else {
-          // Manual letter spacing
-          const chars = textSet.text.split("");
-          const totalWidth = chars.reduce((width, char, i) => {
-            const charWidth = ctx.measureText(char).width;
-            return (
-              width +
-              charWidth +
-              (i < chars.length - 1 ? textSet.letterSpacing : 0)
-            );
-          }, 0);
+        // Apply rotation last
+        ctx.rotate((textSet.rotation * Math.PI) / 180);
 
-          let currentX = -totalWidth / 2;
-          chars.forEach((char, i) => {
-            const charWidth = ctx.measureText(char).width;
-            ctx.fillText(char, currentX + charWidth / 2, 0);
-            currentX += charWidth + textSet.letterSpacing;
+        // Calculate max width for text wrapping (80% of canvas width, same as preview)
+        const maxWidth = canvas.width * 0.8;
+
+        if (textSet.letterSpacing === 0) {
+          // Use text wrapping for standard text rendering
+          const lines = wrapText(ctx, textSet.text, maxWidth);
+          const lineHeight = scaledFontSize * 1.2; // Line height multiplier
+          const totalHeight = lines.length * lineHeight;
+          const startY = -(totalHeight / 2) + lineHeight / 2;
+
+          lines.forEach((line, index) => {
+            ctx.fillText(line, 0, startY + index * lineHeight);
+          });
+        } else {
+          // Manual letter spacing implementation with wrapping
+          const lines = wrapText(ctx, textSet.text, maxWidth);
+          const lineHeight = scaledFontSize * 1.2;
+          const totalHeight = lines.length * lineHeight;
+          const startY = -(totalHeight / 2) + lineHeight / 2;
+
+          lines.forEach((line, lineIndex) => {
+            const chars = line.split("");
+            let currentX = 0;
+            // Calculate total width to center properly
+            const totalWidth = chars.reduce((width, char, i) => {
+              const charWidth = ctx.measureText(char).width;
+              return (
+                width +
+                charWidth +
+                (i < chars.length - 1 ? textSet.letterSpacing : 0)
+              );
+            }, 0);
+
+            // Start position (centered)
+            currentX = -totalWidth / 2;
+
+            // Draw each character with spacing
+            chars.forEach((char, i) => {
+              const charWidth = ctx.measureText(char).width;
+              ctx.fillText(
+                char,
+                currentX + charWidth / 2,
+                startY + lineIndex * lineHeight
+              );
+              currentX += charWidth + textSet.letterSpacing;
+            });
           });
         }
-
         ctx.restore();
       });
 
@@ -417,13 +460,7 @@ export default function TextBehindImage() {
         const removedBgImg = new (window as any).Image();
         removedBgImg.crossOrigin = "anonymous";
         removedBgImg.onload = () => {
-          ctx.drawImage(
-            removedBgImg,
-            offsetX,
-            offsetY,
-            displayWidth,
-            displayHeight
-          );
+          ctx.drawImage(removedBgImg, 0, 0, canvas.width, canvas.height);
           triggerCopy();
         };
         removedBgImg.src = removedBgImageUrl;
@@ -501,10 +538,17 @@ export default function TextBehindImage() {
                     Your image with text overlay
                   </CardDescription>
                 </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
+                <CardContent className="flex flex-col">
                   <div
                     data-preview-container
-                    className="flex-1 w-full p-4 border border-border rounded-lg relative overflow-hidden bg-muted/20"
+                    className="border border-border rounded-lg relative overflow-hidden bg-muted/20 mx-auto"
+                    style={{
+                      width: "100%",
+                      maxWidth: "600px",
+                      aspectRatio: imageAspectRatio,
+                      maxHeight: "70vh",
+                      minHeight: "300px",
+                    }}
                   >
                     {isImageSetupDone ? (
                       <Image
@@ -526,33 +570,43 @@ export default function TextBehindImage() {
                       </div>
                     )}
                     {isImageSetupDone &&
-                      textSets.map((textSet) => (
-                        <div
-                          key={textSet.id}
-                          style={{
-                            position: "absolute",
-                            top: `${50 - textSet.top}%`,
-                            left: `${textSet.left + 50}%`,
-                            transform: `
-                            translate(-50%, -50%) 
-                            rotate(${textSet.rotation}deg)
-                            perspective(1000px)
-                            rotateX(${textSet.tiltX}deg)
-                            rotateY(${textSet.tiltY}deg)
-                          `,
-                            color: textSet.color,
-                            textAlign: "center",
-                            fontSize: `${textSet.fontSize}px`,
-                            fontWeight: textSet.fontWeight,
-                            fontFamily: textSet.fontFamily,
-                            opacity: textSet.opacity,
-                            letterSpacing: `${textSet.letterSpacing}px`,
-                            transformStyle: "preserve-3d",
-                          }}
-                        >
-                          {textSet.text}
-                        </div>
-                      ))}
+                      textSets.map((textSet) => {
+                        // Use percentage positioning to match the aspect ratio
+                        const x = `${textSet.left + 50}%`;
+                        const y = `${50 - textSet.top}%`;
+
+                        return (
+                          <div
+                            key={textSet.id}
+                            style={{
+                              position: "absolute",
+                              top: y,
+                              left: x,
+                              transform: `
+                              translate(-50%, -50%) 
+                              rotate(${textSet.rotation}deg)
+                              perspective(1000px)
+                              rotateX(${textSet.tiltX}deg)
+                              rotateY(${textSet.tiltY}deg)
+                            `,
+                              color: textSet.color,
+                              textAlign: "center",
+                              fontSize: `${textSet.fontSize}px`,
+                              fontWeight: textSet.fontWeight,
+                              fontFamily: textSet.fontFamily,
+                              opacity: textSet.opacity,
+                              letterSpacing: `${textSet.letterSpacing}px`,
+                              transformStyle: "preserve-3d",
+                              whiteSpace: "pre-wrap",
+                              wordWrap: "break-word",
+                              maxWidth: "80%",
+                              overflowWrap: "break-word",
+                            }}
+                          >
+                            {textSet.text}
+                          </div>
+                        );
+                      })}
                     {removedBgImageUrl && (
                       <Image
                         src={removedBgImageUrl}
