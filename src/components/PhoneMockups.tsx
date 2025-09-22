@@ -13,10 +13,36 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
-import { Select as UiSelect, SelectTrigger as UiSelectTrigger, SelectValue as UiSelectValue, SelectContent as UiSelectContent, SelectItem as UiSelectItem } from "@/components/ui/select";
-import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
-import { Command, CommandEmpty, CommandGroup, CommandInput, CommandItem, CommandList } from "@/components/ui/command";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
+import {
+  Select as UiSelect,
+  SelectTrigger as UiSelectTrigger,
+  SelectValue as UiSelectValue,
+  SelectContent as UiSelectContent,
+  SelectItem as UiSelectItem,
+} from "@/components/ui/select";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+  DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubTrigger,
+  DropdownMenuSubContent,
+} from "@/components/ui/dropdown-menu";
 import { HexColorPicker } from "react-colorful";
 import { deviceJson } from "@/lib/device-frames";
 import { ValueSlider } from "@/components/ui/value-slider";
@@ -303,9 +329,11 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
   const [useBackground, setUseBackground] = useState<boolean>(false);
   const [backgroundColor, setBackgroundColor] = useState<string>("#0b0b0e");
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
-  const [outputAspect, setOutputAspect] = useState<"Default" | "1:1" | "16:9" | "9:16" | "3:4">("Default");
+  const [outputAspect, setOutputAspect] = useState<
+    "Default" | "1:1" | "16:9" | "9:16" | "3:4"
+  >("Default");
   const [outputPadding, setOutputPadding] = useState<number>(0);
-  const [downloadFormat, setDownloadFormat] = useState<"png" | "webp" | "jpeg">("png");
+  // Removed single-format state; actions now choose format directly from menu
 
   const handleBackgroundUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
@@ -338,7 +366,10 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
     ) => {
       const ir = img.width / img.height;
       const tr = tw / th;
-      let dw = tw, dh = th, dx = 0, dy = 0;
+      let dw = tw,
+        dh = th,
+        dx = 0,
+        dy = 0;
       if (ir > tr) {
         // image is wider -> fit height
         dh = th;
@@ -355,8 +386,14 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
     // Helper: rgba from hex + % opacity
     const hexToRgba = (hex: string, alphaPct: number): string => {
-      const h = hex.replace('#','');
-      const normalized = h.length === 3 ? h.split('').map(c=>c+c).join('') : h;
+      const h = hex.replace("#", "");
+      const normalized =
+        h.length === 3
+          ? h
+              .split("")
+              .map((c) => c + c)
+              .join("")
+          : h;
       const bigint = parseInt(normalized, 16);
       const r = (bigint >> 16) & 255;
       const g = (bigint >> 8) & 255;
@@ -366,9 +403,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
     };
 
     // 1) Build content canvas (no bg, no shadow)
-    const buildContent = (
-      onReady: (content: HTMLCanvasElement) => void
-    ) => {
+    const buildContent = (onReady: (content: HTMLCanvasElement) => void) => {
       if (frameless) {
         if (!screenshot) {
           const zero = document.createElement("canvas");
@@ -395,7 +430,14 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
           const cctx = c.getContext("2d");
           if (!cctx) return;
           cctx.save();
-          applyRoundedRectMask(cctx, 0, 0, c.width, c.height, Math.max(0, roundedRadius));
+          applyRoundedRectMask(
+            cctx,
+            0,
+            0,
+            c.width,
+            c.height,
+            Math.max(0, roundedRadius)
+          );
           cctx.translate(outW / 2, outH / 2);
           cctx.rotate(rad);
           cctx.drawImage(img, -srcW / 2, -srcH / 2, srcW, srcH);
@@ -450,21 +492,53 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               if (polygon) {
                 const useRounded = isAxisAlignedRectangle(polygon);
                 if (useRounded) {
-                  const autoR = detectCornerRadiusFromFrame(frameImg, screenBounds);
+                  const autoR = detectCornerRadiusFromFrame(
+                    frameImg,
+                    screenBounds
+                  );
                   if (autoR > 0) {
-                    applyRoundedRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h, autoR);
+                    applyRoundedRectMask(
+                      cctx,
+                      screenBounds.x,
+                      screenBounds.y,
+                      screenBounds.w,
+                      screenBounds.h,
+                      autoR
+                    );
                   } else {
-                    applyRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h);
+                    applyRectMask(
+                      cctx,
+                      screenBounds.x,
+                      screenBounds.y,
+                      screenBounds.w,
+                      screenBounds.h
+                    );
                   }
                 } else {
                   applyPolygonMask(cctx, polygon, c.width, c.height);
                 }
               } else {
-                const autoR = detectCornerRadiusFromFrame(frameImg, screenBounds);
+                const autoR = detectCornerRadiusFromFrame(
+                  frameImg,
+                  screenBounds
+                );
                 if (autoR > 0) {
-                  applyRoundedRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h, autoR);
+                  applyRoundedRectMask(
+                    cctx,
+                    screenBounds.x,
+                    screenBounds.y,
+                    screenBounds.w,
+                    screenBounds.h,
+                    autoR
+                  );
                 } else {
-                  applyRectMask(cctx, screenBounds.x, screenBounds.y, screenBounds.w, screenBounds.h);
+                  applyRectMask(
+                    cctx,
+                    screenBounds.x,
+                    screenBounds.y,
+                    screenBounds.w,
+                    screenBounds.h
+                  );
                 }
               }
               cctx.drawImage(shot, dx, dy, dw, dh);
@@ -490,7 +564,12 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
       let finalW = reqW;
       let finalH = reqH;
-      const arMap: Record<string, number> = { "1:1": 1, "16:9": 16 / 9, "9:16": 9 / 16, "3:4": 3 / 4 };
+      const arMap: Record<string, number> = {
+        "1:1": 1,
+        "16:9": 16 / 9,
+        "9:16": 9 / 16,
+        "3:4": 3 / 4,
+      };
       if (outputAspect !== "Default") {
         const ar = arMap[outputAspect];
         finalH = reqH;
@@ -536,16 +615,31 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
       drawCenteredContent();
     });
-  }, [selectedFrame, screenshot, frameless, framelessRotation, roundedRadius, useShadow, shadowStrength, shadowColor, shadowOpacity, useBackground, backgroundColor, backgroundImage, outputAspect, outputPadding]);
+  }, [
+    selectedFrame,
+    screenshot,
+    frameless,
+    framelessRotation,
+    roundedRadius,
+    useShadow,
+    shadowStrength,
+    shadowColor,
+    shadowOpacity,
+    useBackground,
+    backgroundColor,
+    backgroundImage,
+    outputAspect,
+    outputPadding,
+  ]);
 
   const downloadImage = (format: "png" | "webp" | "jpeg") => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    
+
     let mimeType: string;
     let extension: string;
     let quality: number | undefined;
-    
+
     switch (format) {
       case "webp":
         mimeType = "image/webp";
@@ -562,7 +656,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
         extension = "png";
         quality = undefined;
     }
-    
+
     const url = canvas.toDataURL(mimeType, quality);
     const a = document.createElement("a");
     a.href = url;
@@ -570,6 +664,50 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
       selectedGroup?.model ?? "device"
     }-${selectedOrientation}.${extension}`;
     a.click();
+  };
+
+  const copyImageToClipboard = async (format: "png" | "webp" | "jpeg") => {
+    try {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+
+      const { mimeType, quality } = (() => {
+        switch (format) {
+          case "webp":
+            return { mimeType: "image/webp", quality: 0.9 } as const;
+          case "jpeg":
+            return { mimeType: "image/jpeg", quality: 0.9 } as const;
+          default:
+            return { mimeType: "image/png", quality: undefined } as const;
+        }
+      })();
+
+      const blob: Blob | null = await new Promise((resolve) =>
+        canvas.toBlob((b) => resolve(b), mimeType, quality)
+      );
+      if (!blob) throw new Error("Failed to create image blob");
+
+      if (!("clipboard" in navigator) || !("write" in navigator.clipboard)) {
+        throw new Error("Clipboard API not available in this browser");
+      }
+
+      const item = new (window as any).ClipboardItem({ [mimeType]: blob });
+      await navigator.clipboard.write([item]);
+      // Optionally, you can add a toast here to confirm copy
+    } catch (err) {
+      // Fallback: try copying PNG data URL to clipboard as text
+      try {
+        const canvas = canvasRef.current;
+        if (!canvas) return;
+        const dataUrl = canvas.toDataURL("image/png");
+        await navigator.clipboard.writeText(dataUrl);
+        // Optionally, you can add a toast here to inform about data URL copy
+      } catch (_) {
+        alert(
+          "Could not copy image to clipboard. Please try downloading instead."
+        );
+      }
+    }
   };
 
   return (
@@ -585,8 +723,12 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
-                    {selectedGroup ? `${selectedGroup.brand} ${selectedGroup.model}` : "Choose device"}
-                    <span className="text-xs text-muted-foreground">Search</span>
+                    {selectedGroup
+                      ? `${selectedGroup.brand} ${selectedGroup.model}`
+                      : "Choose device"}
+                    <span className="text-xs text-muted-foreground">
+                      Search
+                    </span>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-[320px]">
@@ -642,14 +784,25 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
                     <Label htmlFor="frameless-toggle">Frameless</Label>
-                    <div className="text-xs text-muted-foreground">Hide device frame and use rounded screenshot</div>
+                    <div className="text-xs text-muted-foreground">
+                      Hide device frame and use rounded screenshot
+                    </div>
                   </div>
-                  <Switch id="frameless-toggle" checked={frameless} onCheckedChange={setFrameless} />
+                  <Switch
+                    id="frameless-toggle"
+                    checked={frameless}
+                    onCheckedChange={setFrameless}
+                  />
                 </div>
                 {frameless && (
                   <div className="space-y-2">
                     <Label>Rotate</Label>
-                    <UiSelect value={String(framelessRotation)} onValueChange={(v) => setFramelessRotation(parseInt(v, 10) || 0)}>
+                    <UiSelect
+                      value={String(framelessRotation)}
+                      onValueChange={(v) =>
+                        setFramelessRotation(parseInt(v, 10) || 0)
+                      }
+                    >
                       <UiSelectTrigger>
                         <UiSelectValue />
                       </UiSelectTrigger>
@@ -669,10 +822,17 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
           <Card>
             <CardHeader>
               <CardTitle>Image</CardTitle>
-              <CardDescription>Select the screenshot to place in the mockup</CardDescription>
+              <CardDescription>
+                Select the screenshot to place in the mockup
+              </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
-              <Input className="cursor-pointer" type="file" accept="image/*" onChange={handleUpload} />
+              <Input
+                className="cursor-pointer"
+                type="file"
+                accept="image/*"
+                onChange={handleUpload}
+              />
             </CardContent>
           </Card>
 
@@ -725,17 +885,34 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                     <Label>Shadow color</Label>
                     <Popover>
                       <PopoverTrigger asChild>
-                        <Button variant="outline" className="w-full justify-start">
-                          <span className="mr-2 inline-block h-4 w-4 rounded" style={{ backgroundColor: shadowColor }} />
+                        <Button
+                          variant="outline"
+                          className="w-full justify-start"
+                        >
+                          <span
+                            className="mr-2 inline-block h-4 w-4 rounded"
+                            style={{ backgroundColor: shadowColor }}
+                          />
                           {shadowColor}
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent className="w-auto p-3">
-                        <HexColorPicker color={shadowColor} onChange={setShadowColor} />
+                        <HexColorPicker
+                          color={shadowColor}
+                          onChange={setShadowColor}
+                        />
                       </PopoverContent>
                     </Popover>
                   </div>
-                  <ValueSlider label="Shadow opacity" value={shadowOpacity} onChange={setShadowOpacity} min={0} max={100} step={1} suffix="%" />
+                  <ValueSlider
+                    label="Shadow opacity"
+                    value={shadowOpacity}
+                    onChange={setShadowOpacity}
+                    min={0}
+                    max={100}
+                    step={1}
+                    suffix="%"
+                  />
                 </>
               )}
 
@@ -757,7 +934,11 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 <Label>Background color</Label>
                 <Popover>
                   <PopoverTrigger asChild>
-                    <Button variant="outline" className="w-full justify-start" disabled={!useBackground}>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start"
+                      disabled={!useBackground}
+                    >
                       <span
                         className="mr-2 inline-block h-4 w-4 rounded"
                         style={{ backgroundColor }}
@@ -786,7 +967,15 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 />
               </div>
 
-              <ValueSlider label="Content padding" value={outputPadding} onChange={setOutputPadding} min={-400} max={400} step={1} suffix="px" />
+              <ValueSlider
+                label="Content padding"
+                value={outputPadding}
+                onChange={setOutputPadding}
+                min={-400}
+                max={400}
+                step={1}
+                suffix="px"
+              />
             </CardContent>
           </Card>
         </div>
@@ -798,12 +987,15 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 <div>
                   <CardTitle>Preview</CardTitle>
                   <CardDescription>
-                    Upload a screenshot - it will automatically fit the frame with
-                    rounded corners and precise clipping.
+                    Upload a screenshot - it will automatically fit the frame
+                    with rounded corners and precise clipping.
                   </CardDescription>
                 </div>
                 <div className="min-w-[160px]">
-                  <UiSelect value={outputAspect} onValueChange={(v) => setOutputAspect(v as any)}>
+                  <UiSelect
+                    value={outputAspect}
+                    onValueChange={(v) => setOutputAspect(v as any)}
+                  >
                     <UiSelectTrigger>
                       <UiSelectValue placeholder="Default" />
                     </UiSelectTrigger>
@@ -824,40 +1016,70 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                   <canvas
                     ref={canvasRef}
                     className="block"
-                    style={{ 
-                      maxHeight: "calc(70vh - 40px)", 
+                    style={{
+                      maxHeight: "calc(70vh - 40px)",
                       maxWidth: "100%",
-                      height: "auto", 
-                      width: "auto"
+                      height: "auto",
+                      width: "auto",
                     }}
                   />
                 </div>
                 <div className="absolute bottom-3 right-3 flex">
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
-                      <Button variant="default" size="default" className="rounded-r-none border-r border-primary-foreground/20 px-2">
-                        <ChevronDown className="h-4 w-4" />
+                      <Button variant="default" size="default">
+                        Download
+                        <ChevronDown className="ml-2 h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                      <DropdownMenuItem onClick={() => setDownloadFormat("png")}>
-                        PNG
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setDownloadFormat("webp")}>
-                        WebP
-                      </DropdownMenuItem>
-                      <DropdownMenuItem onClick={() => setDownloadFormat("jpeg")}>
-                        JPEG
-                      </DropdownMenuItem>
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>
+                          Save image
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuSubContent>
+                          <DropdownMenuItem
+                            onClick={() => downloadImage("png")}
+                          >
+                            PNG
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => downloadImage("jpeg")}
+                          >
+                            JPEG
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => downloadImage("webp")}
+                          >
+                            WebP
+                          </DropdownMenuItem>
+                        </DropdownMenuSubContent>
+                      </DropdownMenuSub>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuSub>
+                        <DropdownMenuSubTrigger>
+                          Copy to clipboard
+                        </DropdownMenuSubTrigger>
+                        <DropdownMenuSubContent>
+                          <DropdownMenuItem
+                            onClick={() => copyImageToClipboard("png")}
+                          >
+                            PNG
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => copyImageToClipboard("jpeg")}
+                          >
+                            JPEG
+                          </DropdownMenuItem>
+                          <DropdownMenuItem
+                            onClick={() => copyImageToClipboard("webp")}
+                          >
+                            WebP
+                          </DropdownMenuItem>
+                        </DropdownMenuSubContent>
+                      </DropdownMenuSub>
                     </DropdownMenuContent>
                   </DropdownMenu>
-                  <Button 
-                    className="rounded-l-none" 
-                    size="default"
-                    onClick={() => downloadImage(downloadFormat)}
-                  >
-                    Download {downloadFormat.toUpperCase()}
-                  </Button>
                 </div>
               </div>
             </CardContent>
