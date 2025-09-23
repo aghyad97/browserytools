@@ -31,6 +31,7 @@ import {
   CalendarClockIcon,
   DollarSignIcon,
   BarChart3Icon,
+  CoinsIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -442,6 +443,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-11",
         description:
           "Track your expenses with detailed categorization, budget management, and comprehensive reports. Visualize spending patterns with interactive charts and export data for analysis.",
+      },
+      {
+        name: "Currency Converter",
+        href: "/tools/currency-converter",
+        icon: CoinsIcon,
+        available: true,
+        order: 8,
+        creationDate: "2025-09-24",
+        description:
+          "Convert between all major currencies in the browser using cached daily rates and animated number display.",
       },
     ],
   },

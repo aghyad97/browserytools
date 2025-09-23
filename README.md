@@ -47,6 +47,7 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 - **Barcode Generator**: Generate various barcode types including CODE128, EAN-13, UPC-A, CODE39
 - **QR Code Scanner**: Scan QR codes using your camera or upload an image
 - **Barcode Scanner**: Scan barcodes using your camera or upload an image
+- **Charts**: Create beautiful, customizable charts with full control over every detail
 
 ### 🧮 Math & Finance Tools
 
@@ -56,6 +57,8 @@ A comprehensive collection of browser-based tools and utilities built with Next.
 - **Time Zone Converter**: Convert times between different time zones
 - **Age Calculator**: Calculate your exact age in years, months, and days
 - **Number Base Converter**: Convert between binary, octal, decimal and hexadecimal
+- **Expense Tracker**: Track your expenses with detailed categorization, budget management, and comprehensive reports
+- **Currency Converter**: Convert between all major currencies in the browser using cached daily rates and animated number display
 
 ### ⚡ Productivity Tools
 
