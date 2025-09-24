@@ -5,10 +5,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/tools/bg-removal",
-        headers: [
-          { key: "Cross-Origin-Embedder-Policy", value: "require-corp" },
-          { key: "Cross-Origin-Opener-Policy", value: "same-origin" },
-        ],
+        headers: [{ key: "Cross-Origin-Opener-Policy", value: "same-origin" }],
       },
       {
         // Apply specific headers to static assets
