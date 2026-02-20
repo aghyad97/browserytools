@@ -36,7 +36,7 @@ export default function Header() {
 
 **Additional Details:**
 Please describe what this tool should do and how it would help users.
-    `.trim()
+    `.trim(),
     );
 
     const githubUrl = `https://github.com/aghyad97/browserytools/issues/new?title=${issueTitle}&body=${issueBody}&labels=tool-request`;
@@ -82,7 +82,7 @@ Please describe what this tool should do and how it would help users.
               <div className="flex flex-row gap-2">
                 <Logo />
                 <h1 className="text-sm md:text-xl font-semibold">
-                  BrowseryTools (alpha)
+                  BrowseryTools
                 </h1>
               </div>
             )}

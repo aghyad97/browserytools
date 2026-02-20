@@ -5,10 +5,12 @@ import { Check } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface CheckboxProps {
+  id?: string;
   checked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
   className?: string;
   disabled?: boolean;
+  "data-testid"?: string;
 }
 
 const Checkbox = React.forwardRef<HTMLButtonElement, CheckboxProps>(

@@ -214,10 +214,10 @@ export default function Base64Converter() {
                 />
                 {output && (
                   <div className="absolute top-2 right-2 flex space-x-2">
-                    <Button size="icon" onClick={copyToClipboard}>
+                    <Button size="icon" onClick={copyToClipboard} aria-label="Copy">
                       <Copy className="h-4 w-4" />
                     </Button>
-                    <Button size="icon" onClick={handleDownload}>
+                    <Button size="icon" onClick={handleDownload} aria-label="Download">
                       <Download className="h-4 w-4" />
                     </Button>
                   </div>

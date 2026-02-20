@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls:*)",
+      "Bash(bun add:*)",
+      "Bash(bun run test:*)",
+      "Bash(npx vitest:*)",
+      "Bash(node -e:*)",
+      "Bash(grep:*)",
+      "Bash(npm test:*)",
+      "Bash(python3:*)",
+      "Bash(npx tsc:*)",
+      "Bash(npx:*)"
+    ]
+  }
+}

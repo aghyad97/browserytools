@@ -32,6 +32,34 @@ import {
   DollarSignIcon,
   BarChart3Icon,
   CoinsIcon,
+  BracesIcon,
+  TextCursorInputIcon,
+  LinkIcon,
+  ImageIcon,
+  NotebookIcon,
+  LockIcon,
+  TimerIcon,
+  RefreshCwIcon,
+  SwatchBookIcon,
+  ScaleIcon,
+  UserIcon,
+  ServerIcon,
+  GraduationCapIcon,
+  MonitorIcon,
+  PercentIcon,
+  BinaryIcon,
+  CpuIcon,
+  SunIcon,
+  WrenchIcon,
+  ZapIcon,
+  ArrowUpNarrowWideIcon,
+  RadioIcon,
+  RepeatIcon,
+  SmileIcon,
+  EyeIcon,
+  InfoIcon,
+  SplitIcon,
+  Columns2Icon,
 } from "lucide-react";
 
 export interface Tool {
@@ -109,9 +137,9 @@ export const tools: ToolCategory[] = [
         name: "SVG Tools",
         href: "/tools/svg",
         icon: FileImageIcon,
-        available: false,
+        available: true,
         order: 6,
-        creationDate: "2025-18-20",
+        creationDate: "2025-09-20",
         description:
           "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths, and convert to other formats. Ideal for logos, icons, and scalable graphics.",
       },
@@ -164,7 +192,7 @@ export const tools: ToolCategory[] = [
         name: "File Converter",
         href: "/tools/file-converter",
         icon: FileIcon,
-        available: false,
+        available: true,
         order: 4,
         creationDate: "2025-08-20",
         description:
@@ -291,6 +319,86 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-10",
         description: "Compare two texts and copy a simple patch.",
       },
+      {
+        name: "Markdown Editor",
+        href: "/tools/markdown-editor",
+        icon: FileTextIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-02-20",
+        description:
+          "Write Markdown with a live split-pane preview. Supports GFM tables, code blocks, and task lists. Export as Markdown or HTML.",
+      },
+      {
+        name: "HTML Formatter",
+        href: "/tools/html-formatter",
+        icon: CodeIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-02-20",
+        description:
+          "Format, prettify, or minify HTML code. Automatically indents tags, fixes nesting, and removes whitespace for production builds.",
+      },
+      {
+        name: "Notepad",
+        href: "/tools/notepad",
+        icon: NotebookIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-02-20",
+        description:
+          "A distraction-free scratch pad that saves your notes automatically to the browser. Supports multiple notes with titles and timestamps.",
+      },
+      {
+        name: "Text Sorter",
+        href: "/tools/text-sorter",
+        icon: ArrowUpNarrowWideIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-02-22",
+        description:
+          "Sort lines of text alphabetically, by length, or numerically. Remove duplicates, reverse order, shuffle randomly, and trim whitespace.",
+      },
+      {
+        name: "Morse Code Converter",
+        href: "/tools/morse-code",
+        icon: RadioIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-02-22",
+        description:
+          "Convert text to Morse code and decode Morse code back to text. Supports all letters, numbers, and punctuation. Copy or play audio beeps.",
+      },
+      {
+        name: "Word Frequency Analyzer",
+        href: "/tools/word-frequency",
+        icon: BarChart3Icon,
+        available: true,
+        order: 13,
+        creationDate: "2026-02-22",
+        description:
+          "Analyze word frequency in any text. Find the most common words, filter stop words, and export results as CSV. Useful for SEO and writing analysis.",
+      },
+      {
+        name: "Markdown to HTML",
+        href: "/tools/markdown-html",
+        icon: CodeIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-02-22",
+        description:
+          "Convert Markdown to clean HTML instantly. Supports GFM tables, task lists, code blocks, and more. Copy the HTML output or download as a file.",
+      },
+      {
+        name: "Text Repeater",
+        href: "/tools/text-repeater",
+        icon: RepeatIcon,
+        available: true,
+        order: 15,
+        creationDate: "2026-02-22",
+        description:
+          "Repeat any text or character N times with a custom separator. Useful for generating test data, placeholder content, and patterns.",
+      },
     ],
   },
   {
@@ -366,6 +474,56 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-19",
         description:
           "Create beautiful, customizable charts with full control over every detail. Support for area, bar, line, pie, radar, and radial charts with multiple export options.",
+      },
+      {
+        name: "JSON Formatter",
+        href: "/tools/json-formatter",
+        icon: BracesIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-02-20",
+        description:
+          "Format, validate, and minify JSON. Pretty-print with syntax highlighting, detect errors, sort keys, and minify for production. Works entirely in your browser.",
+      },
+      {
+        name: "YAML ↔ JSON",
+        href: "/tools/yaml-json",
+        icon: RefreshCwIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-02-20",
+        description:
+          "Convert between YAML and JSON formats instantly. Validate syntax, format output, and switch between human-readable YAML and machine-readable JSON.",
+      },
+      {
+        name: "URL Encoder/Decoder",
+        href: "/tools/url-encoder",
+        icon: LinkIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-02-20",
+        description:
+          "Encode or decode URLs and query strings. Percent-encode special characters and decode percent-encoded strings. Essential for web developers and API debugging.",
+      },
+      {
+        name: "Fake Data Generator",
+        href: "/tools/fake-data",
+        icon: UserIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-02-20",
+        description:
+          "Generate realistic fake data for testing and prototyping. Names, emails, addresses, phone numbers, credit cards, UUIDs, and more. Export as JSON or CSV.",
+      },
+      {
+        name: "Text to Binary",
+        href: "/tools/text-binary",
+        icon: BinaryIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-02-20",
+        description:
+          "Convert text to binary, hexadecimal, octal, and decimal representations. Decode binary/hex back to text. Useful for encoding, security, and low-level programming.",
       },
     ],
   },
@@ -454,6 +612,56 @@ export const tools: ToolCategory[] = [
         description:
           "Convert between all major currencies in the browser using cached daily rates and animated number display.",
       },
+      {
+        name: "Loan Calculator",
+        href: "/tools/loan-calculator",
+        icon: CalculatorIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-02-20",
+        description:
+          "Calculate monthly payments, total interest, and amortization schedules for mortgages and loans. Visualize payment breakdown with an interactive chart.",
+      },
+      {
+        name: "Percentage Calculator",
+        href: "/tools/percentage-calculator",
+        icon: PercentIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-02-20",
+        description:
+          "Calculate percentages, percentage change, percentage of a number, and reverse percentages. Multiple calculation modes for everyday math needs.",
+      },
+      {
+        name: "Aspect Ratio Calculator",
+        href: "/tools/aspect-ratio",
+        icon: ScaleIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-02-20",
+        description:
+          "Calculate and lock aspect ratios for images and videos. Find the missing dimension, compare ratios, and get pixel dimensions for common screen sizes.",
+      },
+      {
+        name: "BMI Calculator",
+        href: "/tools/bmi-calculator",
+        icon: UserIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-02-22",
+        description:
+          "Calculate Body Mass Index (BMI) in metric or imperial units. Shows BMI category, healthy weight range, and visual gauge.",
+      },
+      {
+        name: "Tip Calculator",
+        href: "/tools/tip-calculator",
+        icon: ReceiptIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-02-22",
+        description:
+          "Calculate tips and split bills between multiple people. Choose tip percentage or enter custom amount. Shows per-person totals.",
+      },
     ],
   },
   {
@@ -479,6 +687,46 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-08-20",
         description:
           "Simple timer and countdown with fullscreen mode and completion sound. Perfect for work sessions, workouts, cooking, and presentations.",
+      },
+      {
+        name: "Pomodoro Timer",
+        href: "/tools/pomodoro",
+        icon: TimerIcon,
+        available: true,
+        order: 3,
+        creationDate: "2026-02-20",
+        description:
+          "Boost focus with the Pomodoro Technique. 25-minute work sessions with 5-minute short breaks and 15-minute long breaks. Tracks sessions and plays sounds.",
+      },
+      {
+        name: "World Clock",
+        href: "/tools/world-clock",
+        icon: SunIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-02-20",
+        description:
+          "View current time in multiple cities and time zones simultaneously. Add your favorite cities, compare times, and see which ones overlap during business hours.",
+      },
+      {
+        name: "Stopwatch",
+        href: "/tools/stopwatch",
+        icon: TimerIcon,
+        available: true,
+        order: 5,
+        creationDate: "2026-02-22",
+        description:
+          "Precise stopwatch with lap times and split tracking. Start, stop, reset, and record laps. Export lap history as CSV.",
+      },
+      {
+        name: "Habit Tracker",
+        href: "/tools/habit-tracker",
+        icon: CheckSquareIcon,
+        available: true,
+        order: 6,
+        creationDate: "2026-02-22",
+        description:
+          "Track daily habits and build streaks. Add custom habits, mark them complete each day, and view your streak and completion history. All stored locally.",
       },
     ],
   },
@@ -554,6 +802,142 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-10",
         description: "Explain cron expressions and list next runs.",
       },
+      {
+        name: "Password Strength",
+        href: "/tools/password-strength",
+        icon: ShieldIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-02-20",
+        description:
+          "Analyze the strength of any password in real time. Checks entropy, character variety, common patterns, and dictionary words. All analysis runs locally.",
+      },
+      {
+        name: "Text Encryption",
+        href: "/tools/text-encryption",
+        icon: LockIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-02-20",
+        description:
+          "Encrypt and decrypt text using AES-256-GCM via the Web Crypto API. Your data never leaves the browser. Use a passphrase or generate a random key.",
+      },
+      {
+        name: "HTTP Status Codes",
+        href: "/tools/http-status",
+        icon: ServerIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-02-20",
+        description:
+          "Quick reference for all HTTP status codes with descriptions, use cases, and examples. Search by code number or keyword. Covers 1xx through 5xx.",
+      },
+      {
+        name: "CSS Minifier",
+        href: "/tools/css-minifier",
+        icon: ZapIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-02-22",
+        description:
+          "Minify or beautify CSS code. Remove comments and whitespace for production, or prettify minified CSS for debugging. Shows size reduction percentage.",
+      },
+      {
+        name: "SQL Formatter",
+        href: "/tools/sql-formatter",
+        icon: DatabaseIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-02-22",
+        description:
+          "Format and beautify SQL queries with proper indentation and keyword casing. Supports SELECT, INSERT, UPDATE, DELETE, CREATE, and more.",
+      },
+    ],
+  },
+  {
+    category: "Design Tools",
+    order: 9,
+    items: [
+      {
+        name: "CSS Gradient Generator",
+        href: "/tools/css-gradient",
+        icon: SwatchBookIcon,
+        available: true,
+        order: 1,
+        creationDate: "2026-02-20",
+        description:
+          "Create beautiful CSS gradients visually. Add color stops, control angles and positions, and copy the generated CSS. Supports linear, radial, and conic gradients.",
+      },
+      {
+        name: "Color Palette Generator",
+        href: "/tools/color-palette",
+        icon: PaletteIcon,
+        available: true,
+        order: 2,
+        creationDate: "2026-02-20",
+        description:
+          "Generate harmonious color palettes from a base color. Explore complementary, triadic, analogous, and split-complementary schemes. Export as CSS variables or JSON.",
+      },
+      {
+        name: "Image Resizer",
+        href: "/tools/image-resizer",
+        icon: ImageIcon,
+        available: true,
+        order: 3,
+        creationDate: "2026-02-20",
+        description:
+          "Resize images to exact dimensions or by percentage. Lock aspect ratio, choose output format, and adjust quality. No file size limits, runs fully in browser.",
+      },
+      {
+        name: "Screen Recorder",
+        href: "/tools/screen-recorder",
+        icon: MonitorIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-02-20",
+        description:
+          "Record your screen, window, or tab directly in the browser using the Screen Capture API. No extensions or software needed. Save as WebM video.",
+      },
+      {
+        name: "Color Contrast Checker",
+        href: "/tools/contrast-checker",
+        icon: Columns2Icon,
+        available: true,
+        order: 5,
+        creationDate: "2026-02-22",
+        description:
+          "Check color contrast ratios for WCAG accessibility compliance. Enter foreground and background colors to get AA and AAA pass/fail results for normal and large text.",
+      },
+      {
+        name: "Color Blindness Simulator",
+        href: "/tools/color-blindness",
+        icon: EyeIcon,
+        available: true,
+        order: 6,
+        creationDate: "2026-02-22",
+        description:
+          "Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.",
+      },
+      {
+        name: "EXIF Viewer",
+        href: "/tools/exif-viewer",
+        icon: InfoIcon,
+        available: true,
+        order: 7,
+        creationDate: "2026-02-22",
+        description:
+          "View EXIF metadata from photos: camera model, lens, aperture, shutter speed, ISO, GPS coordinates, and more. No upload — processed locally.",
+      },
+      {
+        name: "Emoji Picker",
+        href: "/tools/emoji-picker",
+        icon: SmileIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-02-22",
+        description:
+          "Browse and search all Unicode emojis by name or category. Click to copy to clipboard. Filter by skin tone and find emoji codes.",
+      },
     ],
   },
 ];
@@ -561,13 +945,13 @@ export const tools: ToolCategory[] = [
 // Helper function to get all tools as a flat array
 export const getAllTools = (): (Tool & { category: string })[] => {
   return tools.flatMap((category) =>
-    category.items.map((tool) => ({ ...tool, category: category.category }))
+    category.items.map((tool) => ({ ...tool, category: category.category })),
   );
 };
 
 // Helper function to find a tool by href
 export const findToolByHref = (
-  href: string
+  href: string,
 ): (Tool & { category: string }) | null => {
   const allTools = getAllTools();
   return allTools.find((tool) => tool.href === href) || null;

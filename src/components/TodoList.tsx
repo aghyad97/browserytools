@@ -263,6 +263,7 @@ export default function TodoList() {
                             checked={todo.completed}
                             onCheckedChange={() => handleToggleTodo(todo.id)}
                             className="flex-shrink-0"
+                            data-testid="todo-checkbox"
                           />
                           <div className="flex-1 min-w-0">
                             <p
