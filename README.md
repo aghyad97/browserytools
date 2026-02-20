@@ -2,96 +2,133 @@
 
 ![BrowseryTools](https://github.com/aghyad97/browserytools/blob/main/public/og-image.png?raw=true)
 
-A comprehensive collection of browser-based tools and utilities built with Next.js, TypeScript, and Tailwind CSS. This project provides a wide range of practical tools that work entirely in your browser without requiring any server-side processing.
+A comprehensive collection of **80+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required.
 
 ## 🚀 Features
 
 ### 🖼️ Image Tools
 
-- **Background Removal**: AI-powered background removal for images
+- **Background Removal**: AI-powered background removal using ONNX Runtime Web
 - **Phone Mockups**: Place screenshots into iPhone/Android device frames
-- **Image Compression**: Compress images to reduce file size while maintaining quality
-- **Format Converter**: Convert images between different formats (JPG, PNG, WebP, GIF, BMP, TIFF, SVG)
-- **Color Correction**: Adjust colors, brightness, contrast, saturation, and hue in images
+- **Image Compression**: Compress images while maintaining quality
+- **Format Converter**: Convert between JPG, PNG, WebP, GIF, BMP, TIFF, SVG
+- **Color Correction**: Adjust brightness, contrast, saturation, hue, and more
 - **Color Converter**: Convert between HEX, RGB, and HSL with live preview
-- **SVG Tools**: Edit and manipulate SVG vector graphics _(Coming Soon)_
+- **SVG Tools**: Edit and manipulate SVG vector graphics
+- **Image Resizer**: Resize to exact dimensions, percentage, or preset sizes
+- **EXIF Viewer**: View camera metadata, GPS coordinates, and shooting settings
+- **Color Blindness Simulator**: Preview images as seen with deuteranopia, protanopia, tritanopia, and achromatopsia
 
 ### 📁 File Tools
 
 - **PDF Tools**: Merge, split, compress, and manipulate PDF files
 - **Zip Tools**: Create, extract, and manage ZIP archives
-- **CSV/Excel Viewer**: View and edit CSV and Excel files in your browser
-- **File Converter**: Convert files between different formats including documents, images, audio, and video _(Coming Soon)_
+- **CSV/Excel Viewer**: View and edit CSV and Excel files
+- **File Converter**: Convert between CSV, TSV, JSON, XML, and YAML
 
 ### 🎵 Media Tools
 
 - **Video Editor**: Trim, convert, and edit video files
 - **Audio Editor**: Edit and process audio files
-- **Mic & Camera Tester**: Check your camera preview and test microphone input levels
+- **Mic & Camera Tester**: Check your camera preview and test microphone levels
+- **Screen Recorder**: Record your screen, window, or tab — no extensions needed
 
 ### 📝 Text & Language Tools
 
-- **Text Case Converter**: Convert text between different cases (uppercase, lowercase, title case, camelCase, snake_case)
-- **Text Counter**: Count words, characters, lines, and paragraphs in text
-- **Code Formatter**: Format and beautify your code with proper indentation and syntax highlighting
-- **Rich Editor**: Edit and preview rich text documents with formatting options
-- **Lorem Ipsum Generator**: Generate placeholder text for designs and mockups
-- **Typing Test**: Measure your typing speed (WPM) and accuracy
-- **Text Diff Viewer**: Compare two texts and copy a simple patch
+- **Text Case Converter**: Convert between uppercase, lowercase, camelCase, snake_case, kebab-case, and more
+- **Text Counter**: Count words, characters, lines, and paragraphs
+- **Code Formatter**: Format and beautify code with syntax highlighting
+- **Rich Editor**: WYSIWYG rich text editing
+- **Lorem Ipsum Generator**: Generate placeholder text
+- **Typing Test**: Measure your WPM and accuracy
+- **Text Diff Viewer**: Compare two texts and highlight changes
+- **Markdown Editor**: Live split-pane Markdown preview
+- **HTML Formatter**: Prettify or minify HTML code
+- **Notepad**: Auto-saving scratchpad stored locally
+- **Text Sorter**: Sort, deduplicate, shuffle, and filter lines of text
+- **Morse Code Converter**: Encode and decode Morse code
+- **Word Frequency Analyzer**: Analyze word frequency with CSV export
+- **Markdown to HTML**: Convert Markdown to clean HTML output
+- **Text Repeater**: Repeat any text N times with a custom separator
 
 ### 📊 Data Tools
 
-- **JSON to CSV**: Convert JSON data to CSV format for spreadsheet applications
+- **JSON Formatter**: Format, validate, minify, and sort JSON
+- **YAML ↔ JSON**: Convert between YAML and JSON formats
+- **URL Encoder/Decoder**: Percent-encode and decode URLs
+- **Text to Binary**: Convert text to binary, hex, octal, and decimal
+- **JSON to CSV**: Convert JSON arrays to CSV format
 - **Base64 Tools**: Encode or decode Base64 strings and files
-- **QR Code Generator**: Generate QR codes from text, URLs, contact information, and more
-- **Barcode Generator**: Generate various barcode types including CODE128, EAN-13, UPC-A, CODE39
-- **QR Code Scanner**: Scan QR codes using your camera or upload an image
-- **Barcode Scanner**: Scan barcodes using your camera or upload an image
-- **Charts**: Create beautiful, customizable charts with full control over every detail
+- **QR Code Generator**: Generate QR codes for URLs, text, WiFi, and vCards
+- **Barcode Generator**: Generate CODE128, EAN-13, UPC-A, CODE39 barcodes
+- **QR Code Scanner**: Scan QR codes via camera or image upload
+- **Barcode Scanner**: Scan barcodes via camera or image upload
+- **Charts**: Create bar, line, pie, and other chart types
+- **Fake Data Generator**: Generate realistic JSON/CSV test data (names, emails, addresses, and more)
 
 ### 🧮 Math & Finance Tools
 
-- **Invoice Generator**: Create professional invoices with customizable templates
-- **Unit Converter**: Convert between different units of measurement
-- **Calculator**: Advanced calculator with both basic and scientific modes
-- **Time Zone Converter**: Convert times between different time zones
-- **Age Calculator**: Calculate your exact age in years, months, and days
-- **Number Base Converter**: Convert between binary, octal, decimal and hexadecimal
-- **Expense Tracker**: Track your expenses with detailed categorization, budget management, and comprehensive reports
-- **Currency Converter**: Convert between all major currencies in the browser using cached daily rates and animated number display
+- **Invoice Generator**: Create professional invoices
+- **Unit Converter**: Convert between measurement units
+- **Calculator**: Basic and scientific calculator modes
+- **Time Zone Converter**: Convert times between time zones
+- **Age Calculator**: Calculate exact age in years, months, and days
+- **Number Base Converter**: Convert between binary, octal, decimal, and hex
+- **Expense Tracker**: Track expenses with budgets and category reports
+- **Currency Converter**: Convert between major currencies with cached daily rates
+- **Loan Calculator**: Monthly payment and amortization schedule calculator
+- **Percentage Calculator**: Five calculation modes for percentage math
+- **Aspect Ratio Calculator**: Calculate and scale aspect ratios
+- **BMI Calculator**: Body Mass Index in metric or imperial with healthy range
+- **Tip Calculator**: Bill splitting and tip calculation per person
+- **Roman Numeral Converter**: Convert between Roman and Arabic numerals with step-by-step breakdown
 
 ### ⚡ Productivity Tools
 
-- **Todo List**: Organize your tasks and stay productive
-- **Timer & Countdown**: Simple timer and countdown with fullscreen mode
+- **Todo List**: Organize tasks with filters and completion tracking
+- **Timer & Countdown**: Timer with fullscreen mode
+- **Pomodoro Timer**: Focus sessions with break tracking and daily stats
+- **World Clock**: Real-time clocks for multiple cities and time zones
+- **Stopwatch**: Precision stopwatch with lap tracking and CSV export
+- **Habit Tracker**: Daily habit tracking with streaks, stored locally
 
 ### 🔐 Security & Development Tools
 
-- **UUID Generator**: Generate Universally Unique Identifiers (UUIDs)
-- **JWT Decoder**: Decode and validate JSON Web Tokens (JWTs)
-- **Hash Generator**: Generate cryptographic hashes from text input
-- **Password Generator**: Generate secure passwords with custom options
-- **Unix Timestamp Converter**: Epoch seconds/milliseconds ↔ human date with timezone
-- **Regex Tester**: Test JavaScript regular expressions with live highlighting and flags
-- **Cron Parser**: Explain cron expressions and list next runs
+- **UUID Generator**: Generate UUID v4 identifiers
+- **JWT Decoder**: Decode and inspect JSON Web Tokens
+- **Hash Generator**: Generate MD5, SHA-256, SHA-512 hashes
+- **Password Generator**: Generate secure passwords with custom rules
+- **Password Strength Checker**: Analyze password entropy and crack time
+- **Text Encryption**: AES-256-GCM encryption via the Web Crypto API
+- **HTTP Status Codes**: Reference for all 1xx–5xx status codes
+- **Unix Timestamp Converter**: Epoch ↔ human-readable date
+- **Regex Tester**: Test regular expressions with live match highlighting
+- **Cron Parser**: Parse cron expressions and show next scheduled runs
+- **CSS Minifier**: Minify or beautify CSS code
+- **SQL Formatter**: Format and beautify SQL queries
+
+### 🎨 Design Tools
+
+- **CSS Gradient Generator**: Visual linear, radial, and conic gradient builder
+- **Color Palette Generator**: Generate harmonious palettes from a base color
+- **Color Contrast Checker**: WCAG AA/AAA accessibility contrast ratio checker
+- **Emoji Picker**: Browse, search, and copy Unicode emojis
 
 ## 🛠️ Tech Stack
 
 - **Framework**: Next.js 15 with App Router
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
-- **UI Components**: Shadcn + Radix UI + Custom components
+- **UI Components**: Shadcn + Radix UI
 - **State Management**: Zustand
-- **Icons**: Lucide React + Phosphor Icons
+- **Icons**: Lucide React
 - **Animations**: Framer Motion
-- **Build Tool**: Turbopack (for development)
+- **Testing**: Vitest + React Testing Library
 
 ## 📋 Prerequisites
 
-Before you begin, ensure you have the following installed:
-
-- **Node.js** (version 20.0 or higher)
-- **npm**, **yarn**, **pnpm**, or **bun** package manager
+- **Node.js** 20.0 or higher
+- **npm**, **yarn**, **pnpm**, or **bun**
 
 ## 🚀 Getting Started
 
@@ -104,180 +141,73 @@ cd browserytools
 
 ### 2. Install Dependencies
 
-Choose your preferred package manager:
-
 ```bash
-# Using npm
-npm install
-
-# Using yarn
-yarn install
-
-# Using pnpm
-pnpm install
-
-# Using bun
 bun install
 ```
 
 ### 3. Run the Development Server
 
 ```bash
-# Using npm
-npm run dev
-
-# Using yarn
-yarn dev
-
-# Using pnpm
-pnpm dev
-
-# Using bun
 bun dev
 ```
 
-### 4. Open Your Browser
+Navigate to [http://localhost:3000](http://localhost:3000).
 
-Navigate to [http://localhost:3000](http://localhost:3000) to see the application.
+## 🧪 Running Tests
+
+```bash
+bun run test          # Run all tests
+bun run test:watch    # Watch mode
+bun run test:coverage # Coverage report
+```
 
 ## 🏗️ Project Structure
 
 ```
 src/
 ├── app/                    # Next.js App Router pages
-│   ├── (home)/            # Home page layout and content
-│   ├── tools/             # Individual tool pages
-│   └── layout.tsx         # Root layout
+│   ├── (home)/            # Home page
+│   ├── blog/              # Blog listing and posts
+│   └── tools/             # Individual tool pages
 ├── components/            # React components
-│   ├── ui/               # Reusable UI components
-│   └── [tool-components] # Tool-specific components
-├── hooks/                # Custom React hooks
-├── lib/                  # Utility functions and libraries
-├── providers/            # React context providers
-└── store/                # Zustand state stores
+│   ├── ui/               # Reusable UI components (shadcn)
+│   └── [ToolName].tsx    # Tool-specific components
+├── lib/                  # Utility functions
+│   ├── tools-config.ts   # Tool registry
+│   ├── blog-data.ts      # Blog post metadata
+│   └── search-utils.ts   # Fuzzy search
+└── store/                # Zustand stores
 ```
 
 ## 🤝 Contributing
 
-We welcome contributions from the community! Here's how you can help:
+### Adding a New Tool
+
+1. Add the tool entry to `src/lib/tools-config.ts`
+2. Create the page at `src/app/tools/[tool-name]/page.tsx`
+3. Create the component at `src/components/[ToolName].tsx`
+4. The tool will automatically appear in the homepage grid and sitemap
 
 ### Submitting a Pull Request
 
-1. **Fork the Repository**
-
-   ```bash
-   # Fork on GitHub, then clone your fork
-   git clone https://github.com/aghyad97/browserytools.git
-   cd browserytools
-   ```
-
-2. **Create a Feature Branch**
-
-   ```bash
-   git checkout -b feature/your-feature-name
-   # or
-   git checkout -b fix/your-bug-fix
-   ```
-
-3. **Make Your Changes**
-
-   - Write clean, readable code
-   - Follow the existing code style
-   - Add TypeScript types where needed
-   - Test your changes thoroughly
-
-4. **Commit Your Changes**
-
-   ```bash
-   git add .
-   git commit -m "feat: add new tool for [description]"
-   # or
-   git commit -m "fix: resolve issue with [description]"
-   ```
-
-5. **Push to Your Fork**
-
-   ```bash
-   git push origin feature/your-feature-name
-   ```
-
-6. **Create a Pull Request**
-   - Go to the original repository on GitHub
-   - Click "New Pull Request"
-   - Select your fork and branch
-   - Provide a clear description of your changes
-   - Reference any related issues
-
-### Pull Request Guidelines
-
-- **Title**: Use clear, descriptive titles
-- **Description**: Explain what your PR does and why
-- **Testing**: Describe how you tested your changes
-- **Breaking Changes**: Note any breaking changes
-- **Screenshots**: Include screenshots for UI changes
-
-### Code Style
-
-- Use TypeScript for all new code
-- Follow the existing component structure
-- Use Tailwind CSS for styling
-- Implement proper error handling
-- Add comments for complex logic
-
-### Adding New Tools
-
-1. Create a new page in `src/app/tools/[tool-name]/page.tsx`
-2. Create the tool component in `src/components/[ToolName].tsx`
-3. Add the tool to the sidebar navigation
-4. Update the tool store if needed
-5. Add proper TypeScript types
+1. Fork the repository and create a feature branch
+2. Make your changes with TypeScript types
+3. Run `bun run test` to ensure nothing is broken
+4. Submit a PR with a clear description
 
 ## 🐛 Reporting Issues
 
-Found a bug or have a feature request? Please open an issue with:
-
-- **Clear description** of the problem or feature
-- **Steps to reproduce** (for bugs)
-- **Expected vs actual behavior**
-- **Screenshots** (if applicable)
-- **Browser and OS information**
+Open an issue with a clear description, steps to reproduce, and browser/OS info.
 
 ## 💖 Supporting the Project
 
-This project is maintained by passionate developers who believe in creating useful, free tools for the community. If you find Browser Tools helpful, consider supporting the project:
-
-### 💰 Donation Options
-
-- **GitHub Sponsors**: [Sponsor us on GitHub](https://github.com/sponsors/aghyad97)
-- **Ziina**: [One-time donation via Ziina](https://pay.ziina.com/aghyad)
-
-### How Donations Help
-
-Your support helps us:
-
-- 🚀 Maintain and improve existing tools
-- 🆕 Develop new tools and features
-- 🐛 Fix bugs and issues faster
-- 📚 Create better documentation
-- 🌐 Keep the project free and accessible
-
-### Other Ways to Support
-
 - ⭐ **Star the repository** on GitHub
-- 🐦 **Share on social media** to help others discover the tools
-- 🐛 **Report bugs** and suggest improvements
-- 💻 **Contribute code** through pull requests
-- 📖 **Improve documentation** and help others
+- **GitHub Sponsors**: [Sponsor us](https://github.com/sponsors/aghyad97)
+- **Ziina**: [One-time donation](https://pay.ziina.com/aghyad)
 
 ## 📄 License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## 🙏 Acknowledgments
-
-- Thanks to all contributors who help improve this project
-- Built with amazing open-source tools and libraries
-- Inspired by the developer community's need for practical browser tools
+MIT License — see [LICENSE](LICENSE) for details.
 
 ## 📞 Contact
 
