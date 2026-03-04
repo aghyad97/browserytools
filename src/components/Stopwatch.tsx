@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -25,6 +26,7 @@ function formatTime(ms: number): string {
 }
 
 export default function Stopwatch() {
+  const t = useTranslations("Tools.Stopwatch");
   const [elapsed, setElapsed] = useState(0);
   const [laps, setLaps] = useState<Lap[]>([]);
   const [isRunning, setIsRunning] = useState(false);
@@ -114,7 +116,7 @@ export default function Stopwatch() {
 
   const exportCSV = () => {
     if (laps.length === 0) {
-      toast.error("No laps to export");
+      toast.error(t("noLapsToExport"));
       return;
     }
     const rows = ["Lap #,Lap Time,Total Time", ...laps.slice().reverse().map((l) => `${l.number},${formatTime(l.lapTime)},${formatTime(l.totalTime)}`)];
@@ -125,7 +127,7 @@ export default function Stopwatch() {
     a.download = "stopwatch-laps.csv";
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Laps exported as CSV");
+    toast.success(t("lapsExported"));
   };
 
   return (
@@ -136,14 +138,14 @@ export default function Stopwatch() {
             <Timer className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Stopwatch</h1>
-            <p className="text-sm text-muted-foreground">Precise lap tracking with keyboard shortcuts</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
           </div>
         </div>
 
         <Card>
           <CardContent className="pt-8 pb-6 flex flex-col items-center gap-6">
-            <div className="font-mono text-6xl md:text-7xl font-bold tracking-tight tabular-nums select-none text-primary">
+            <div dir="ltr" className="font-mono text-6xl md:text-7xl font-bold tracking-tight tabular-nums select-none text-primary">
               {formatTime(elapsed)}
             </div>
 
@@ -153,7 +155,7 @@ export default function Stopwatch() {
                 onClick={handleStartPause}
                 className={isRunning ? "bg-amber-500 hover:bg-amber-600 text-white" : ""}
               >
-                {isRunning ? <><Pause className="w-4 h-4 mr-2" />Pause</> : <><Play className="w-4 h-4 mr-2" />Start</>}
+                {isRunning ? <><Pause className="w-4 h-4 mr-2" />{t("pause")}</> : <><Play className="w-4 h-4 mr-2" />{t("start")}</>}
               </Button>
               <Button
                 size="lg"
@@ -162,7 +164,7 @@ export default function Stopwatch() {
                 disabled={!isRunning}
               >
                 <Flag className="w-4 h-4 mr-2" />
-                Lap
+                {t("lap")}
               </Button>
               <Button
                 size="lg"
@@ -171,14 +173,14 @@ export default function Stopwatch() {
                 disabled={isRunning}
               >
                 <RotateCcw className="w-4 h-4 mr-2" />
-                Reset
+                {t("reset")}
               </Button>
             </div>
 
             <p className="text-xs text-muted-foreground">
-              Keyboard: <Badge variant="outline" className="text-xs mx-0.5">Space</Badge> start/pause &nbsp;
-              <Badge variant="outline" className="text-xs mx-0.5">L</Badge> lap &nbsp;
-              <Badge variant="outline" className="text-xs mx-0.5">R</Badge> reset
+              {t("keyboardHint")} <Badge variant="outline" className="text-xs mx-0.5">Space</Badge> {t("startPauseKey")} &nbsp;
+              <Badge variant="outline" className="text-xs mx-0.5">L</Badge> {t("lapKey")} &nbsp;
+              <Badge variant="outline" className="text-xs mx-0.5">R</Badge> {t("resetKey")}
             </p>
           </CardContent>
         </Card>
@@ -187,10 +189,10 @@ export default function Stopwatch() {
           <Card>
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
-                <CardTitle className="text-base">Laps ({laps.length})</CardTitle>
+                <CardTitle className="text-base">{t("laps")} ({laps.length})</CardTitle>
                 <Button variant="outline" size="sm" onClick={exportCSV}>
                   <Download className="w-4 h-4 mr-2" />
-                  Export CSV
+                  {t("exportCSV")}
                 </Button>
               </div>
             </CardHeader>
@@ -199,9 +201,9 @@ export default function Stopwatch() {
                 <table className="w-full text-sm">
                   <thead className="sticky top-0 bg-muted/80 backdrop-blur-sm">
                     <tr>
-                      <th className="text-left px-4 py-2 font-medium text-muted-foreground">Lap</th>
-                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">Lap Time</th>
-                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">Total Time</th>
+                      <th className="text-left px-4 py-2 font-medium text-muted-foreground">{t("lapColumn")}</th>
+                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">{t("lapTime")}</th>
+                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">{t("totalTime")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -220,12 +222,12 @@ export default function Stopwatch() {
                           }`}
                         >
                           <td className="px-4 py-2.5 font-medium">
-                            #{lap.number}
-                            {isFastest && <Badge className="ml-2 bg-green-500 text-white text-xs py-0">Best</Badge>}
-                            {isSlowest && <Badge className="ml-2 bg-red-500 text-white text-xs py-0">Slowest</Badge>}
+                            <span dir="ltr">#{lap.number}</span>
+                            {isFastest && <Badge className="ml-2 bg-green-500 text-white text-xs py-0">{t("best")}</Badge>}
+                            {isSlowest && <Badge className="ml-2 bg-red-500 text-white text-xs py-0">{t("slowest")}</Badge>}
                           </td>
-                          <td className="px-4 py-2.5 text-right font-mono tabular-nums">{formatTime(lap.lapTime)}</td>
-                          <td className="px-4 py-2.5 text-right font-mono tabular-nums text-muted-foreground">{formatTime(lap.totalTime)}</td>
+                          <td className="px-4 py-2.5 text-right font-mono tabular-nums" dir="ltr">{formatTime(lap.lapTime)}</td>
+                          <td className="px-4 py-2.5 text-right font-mono tabular-nums text-muted-foreground" dir="ltr">{formatTime(lap.totalTime)}</td>
                         </tr>
                       );
                     })}

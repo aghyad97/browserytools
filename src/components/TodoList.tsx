@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { useTodoStore } from "@/store/todo-store";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -46,6 +46,7 @@ const priorityIcons = {
 };
 
 export default function TodoList() {
+  const t = useTranslations("Tools.TodoList");
   const [newTodoText, setNewTodoText] = useState("");
   const [newTodoPriority, setNewTodoPriority] = useState<
     "low" | "medium" | "high"
@@ -67,9 +68,9 @@ export default function TodoList() {
       addTodo(newTodoText, newTodoPriority);
       setNewTodoText("");
       setNewTodoPriority("medium");
-      toast.success("Todo added successfully!");
+      toast.success(t("toastAdded"));
     } else {
-      toast.error("Please enter a todo text");
+      toast.error(t("toastEmpty"));
     }
   };
 
@@ -81,17 +82,17 @@ export default function TodoList() {
 
   const handleDeleteTodo = (id: string) => {
     deleteTodo(id);
-    toast.success("Todo deleted!");
+    toast.success(t("toastDeleted"));
   };
 
   const handleToggleTodo = (id: string) => {
     toggleTodo(id);
-    toast.success("Todo status updated!");
+    toast.success(t("toastUpdated"));
   };
 
   const handleClearCompleted = () => {
     clearCompleted();
-    toast.success("Completed todos cleared!");
+    toast.success(t("toastCleared"));
   };
 
   const getFilteredTodos = () => {
@@ -109,6 +110,12 @@ export default function TodoList() {
   const completedCount = getCompletedTodos().length;
   const activeCount = getActiveTodos().length;
 
+  const priorityLabels = {
+    low: t("priorityLow"),
+    medium: t("priorityMedium"),
+    high: t("priorityHigh"),
+  };
+
   return (
     <div className="container mx-auto px-4 py-8">
       {/* Add Todo Form */}
@@ -116,13 +123,13 @@ export default function TodoList() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Plus className="h-5 w-5" />
-            Add New Todo
+            {t("addNewTodo")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="flex gap-3">
             <Input
-              placeholder="What needs to be done?"
+              placeholder={t("placeholder")}
               value={newTodoText}
               onChange={(e) => setNewTodoText(e.target.value)}
               onKeyPress={handleKeyPress}
@@ -138,14 +145,14 @@ export default function TodoList() {
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="low">Low</SelectItem>
-                <SelectItem value="medium">Medium</SelectItem>
-                <SelectItem value="high">High</SelectItem>
+                <SelectItem value="low">{t("priorityLow")}</SelectItem>
+                <SelectItem value="medium">{t("priorityMedium")}</SelectItem>
+                <SelectItem value="high">{t("priorityHigh")}</SelectItem>
               </SelectContent>
             </Select>
             <Button onClick={handleAddTodo} disabled={!newTodoText.trim()}>
               <Plus className="h-4 w-4 mr-2" />
-              Add
+              {t("addButton")}
             </Button>
           </div>
         </CardContent>
@@ -158,7 +165,7 @@ export default function TodoList() {
             <div className="flex items-center gap-2">
               <Circle className="h-5 w-5 text-blue-500" />
               <div>
-                <p className="text-sm text-muted-foreground">Total</p>
+                <p className="text-sm text-muted-foreground">{t("total")}</p>
                 <p className="text-2xl font-bold">{todos.length}</p>
               </div>
             </div>
@@ -169,7 +176,7 @@ export default function TodoList() {
             <div className="flex items-center gap-2">
               <Clock className="h-5 w-5 text-yellow-500" />
               <div>
-                <p className="text-sm text-muted-foreground">Active</p>
+                <p className="text-sm text-muted-foreground">{t("tabActive")}</p>
                 <p className="text-2xl font-bold">{activeCount}</p>
               </div>
             </div>
@@ -180,7 +187,7 @@ export default function TodoList() {
             <div className="flex items-center gap-2">
               <CheckCircle2 className="h-5 w-5 text-green-500" />
               <div>
-                <p className="text-sm text-muted-foreground">Completed</p>
+                <p className="text-sm text-muted-foreground">{t("tabCompleted")}</p>
                 <p className="text-2xl font-bold">{completedCount}</p>
               </div>
             </div>
@@ -192,14 +199,14 @@ export default function TodoList() {
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle>Your Todos</CardTitle>
+            <CardTitle>{t("yourTodos")}</CardTitle>
             {completedCount > 0 && (
               <Button
                 variant="outline"
                 size="sm"
                 onClick={handleClearCompleted}
               >
-                Clear Completed
+                {t("clearCompleted")}
               </Button>
             )}
           </div>
@@ -212,10 +219,10 @@ export default function TodoList() {
             }
           >
             <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="all">All ({todos.length})</TabsTrigger>
-              <TabsTrigger value="active">Active ({activeCount})</TabsTrigger>
+              <TabsTrigger value="all">{t("tabAll")} ({todos.length})</TabsTrigger>
+              <TabsTrigger value="active">{t("tabActive")} ({activeCount})</TabsTrigger>
               <TabsTrigger value="completed">
-                Completed ({completedCount})
+                {t("tabCompleted")} ({completedCount})
               </TabsTrigger>
             </TabsList>
 
@@ -223,13 +230,13 @@ export default function TodoList() {
               {filteredTodos.length === 0 ? (
                 <div className="text-center py-8 text-muted-foreground">
                   <Circle className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                  <p>No todos found</p>
+                  <p>{t("noTodosFound")}</p>
                   <p className="text-sm">
                     {filter === "all"
-                      ? "Add your first todo above to get started!"
+                      ? t("addFirstTodo")
                       : filter === "active"
-                      ? "All todos are completed! 🎉"
-                      : "No completed todos yet"}
+                      ? t("allCompleted")
+                      : t("noCompletedYet")}
                   </p>
                 </div>
               ) : (
@@ -276,14 +283,14 @@ export default function TodoList() {
                               {todo.text}
                             </p>
                             <p className="text-xs text-muted-foreground mt-1">
-                              Created{" "}
+                              {t("created")}{" "}
                               {new Date(todo.createdAt).toLocaleDateString()}
                             </p>
                           </div>
                           <div className="flex items-center gap-2">
                             <Badge className={priorityColors[todo.priority]}>
                               <PriorityIcon className="h-3 w-3 mr-1" />
-                              {todo.priority}
+                              {priorityLabels[todo.priority]}
                             </Badge>
                             <Button
                               variant="ghost"

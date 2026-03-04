@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -29,6 +30,9 @@ const COLORS = [
   { name: "rose", label: "Rose", tw: "bg-rose-500", ring: "ring-rose-400", light: "bg-rose-100 dark:bg-rose-900/30", text: "text-rose-700 dark:text-rose-300" },
   { name: "teal", label: "Teal", tw: "bg-teal-500", ring: "ring-teal-400", light: "bg-teal-100 dark:bg-teal-900/30", text: "text-teal-700 dark:text-teal-300" },
 ];
+
+// Day index to translation key mapping (0=Sun, 1=Mon, ... 6=Sat)
+const DAY_KEYS = ["daySun", "dayMon", "dayTue", "dayWed", "dayThu", "dayFri", "daySat"] as const;
 
 function getTodayStr(): string {
   const d = new Date();
@@ -105,6 +109,7 @@ function getColorObj(name: string) {
 }
 
 export default function HabitTracker() {
+  const t = useTranslations("Tools.HabitTracker");
   const [habits, setHabits] = useState<Habit[]>([]);
   const [newName, setNewName] = useState("");
   const [newEmoji, setNewEmoji] = useState(PRESET_EMOJIS[0]);
@@ -124,7 +129,7 @@ export default function HabitTracker() {
 
   const addHabit = () => {
     if (!newName.trim()) {
-      toast.error("Please enter a habit name");
+      toast.error(t("enterHabitName"));
       return;
     }
     const habit: Habit = {
@@ -140,7 +145,7 @@ export default function HabitTracker() {
     setNewEmoji(PRESET_EMOJIS[0]);
     setNewColor(COLORS[0].name);
     setShowAdd(false);
-    toast.success(`Habit "${habit.name}" added!`);
+    toast.success(t("habitAdded", { name: habit.name }));
   };
 
   const toggleToday = (id: string) => {
@@ -159,9 +164,9 @@ export default function HabitTracker() {
   };
 
   const deleteHabit = (id: string, name: string) => {
-    if (!confirm(`Delete "${name}"? This cannot be undone.`)) return;
+    if (!confirm(t("confirmDelete", { name }))) return;
     persist(habits.filter((h) => h.id !== id));
-    toast.success("Habit deleted");
+    toast.success(t("habitDeleted"));
   };
 
   const startEdit = (h: Habit) => {
@@ -173,7 +178,7 @@ export default function HabitTracker() {
     if (!editName.trim()) return;
     persist(habits.map((h) => (h.id === id ? { ...h, name: editName.trim() } : h)));
     setEditingId(null);
-    toast.success("Habit updated");
+    toast.success(t("habitUpdated"));
   };
 
   const today = getTodayStr();
@@ -199,12 +204,12 @@ export default function HabitTracker() {
               <BarChart3 className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Habit Tracker</h1>
-              <p className="text-sm text-muted-foreground">Build streaks, track progress</p>
+              <h1 className="text-2xl font-bold">{t("title")}</h1>
+              <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
             </div>
           </div>
           <Button onClick={() => setShowAdd((v) => !v)} variant={showAdd ? "outline" : "default"}>
-            {showAdd ? <><X className="w-4 h-4 mr-2" />Cancel</> : <><Plus className="w-4 h-4 mr-2" />Add Habit</>}
+            {showAdd ? <><X className="w-4 h-4 mr-2" />{t("cancel")}</> : <><Plus className="w-4 h-4 mr-2" />{t("addHabit")}</>}
           </Button>
         </div>
 
@@ -213,13 +218,13 @@ export default function HabitTracker() {
           <Card>
             <CardContent className="pt-4 pb-4 text-center">
               <div className="text-2xl font-bold text-primary">{stats.total}</div>
-              <div className="text-xs text-muted-foreground mt-0.5">Total Habits</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{t("totalHabits")}</div>
             </CardContent>
           </Card>
           <Card>
             <CardContent className="pt-4 pb-4 text-center">
               <div className="text-2xl font-bold text-green-500">{stats.rate}%</div>
-              <div className="text-xs text-muted-foreground mt-0.5">Done Today</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{t("doneToday")}</div>
             </CardContent>
           </Card>
           <Card>
@@ -227,7 +232,7 @@ export default function HabitTracker() {
               <div className="text-2xl font-bold text-orange-500 flex items-center justify-center gap-1">
                 <Flame className="w-5 h-5" />{stats.longestActive}
               </div>
-              <div className="text-xs text-muted-foreground mt-0.5">Best Streak</div>
+              <div className="text-xs text-muted-foreground mt-0.5">{t("bestStreak")}</div>
             </CardContent>
           </Card>
         </div>
@@ -236,20 +241,20 @@ export default function HabitTracker() {
         {showAdd && (
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">New Habit</CardTitle>
+              <CardTitle className="text-base">{t("newHabit")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
-                <Label>Habit Name</Label>
+                <Label>{t("habitName")}</Label>
                 <Input
-                  placeholder="e.g. Read for 30 minutes"
+                  placeholder={t("habitNamePlaceholder")}
                   value={newName}
                   onChange={(e) => setNewName(e.target.value)}
                   onKeyDown={(e) => e.key === "Enter" && addHabit()}
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>Emoji</Label>
+                <Label>{t("emoji")}</Label>
                 <div className="flex gap-2 flex-wrap">
                   {PRESET_EMOJIS.map((em) => (
                     <button
@@ -265,7 +270,7 @@ export default function HabitTracker() {
                 </div>
               </div>
               <div className="space-y-1.5">
-                <Label>Color</Label>
+                <Label>{t("color")}</Label>
                 <div className="flex gap-2">
                   {COLORS.map((c) => (
                     <button
@@ -281,7 +286,7 @@ export default function HabitTracker() {
               </div>
               <Button onClick={addHabit} className="w-full">
                 <Plus className="w-4 h-4 mr-2" />
-                Add Habit
+                {t("addHabit")}
               </Button>
             </CardContent>
           </Card>
@@ -292,7 +297,7 @@ export default function HabitTracker() {
           <Card>
             <CardContent className="pt-12 pb-12 text-center">
               <div className="text-4xl mb-4">🌱</div>
-              <p className="text-muted-foreground">No habits yet. Add your first habit to start tracking!</p>
+              <p className="text-muted-foreground">{t("noHabitsYet")}</p>
             </CardContent>
           </Card>
         )}
@@ -317,7 +322,7 @@ export default function HabitTracker() {
                           ? `${colorObj.tw} border-transparent text-white shadow-md scale-105`
                           : "border-border hover:border-primary bg-muted/30 hover:bg-muted/60"
                       }`}
-                      title={doneToday ? "Mark as incomplete" : "Mark as done"}
+                      title={doneToday ? t("markIncomplete") : t("markDone")}
                     >
                       {doneToday ? <Check className="w-5 h-5 text-white" /> : habit.emoji}
                     </button>
@@ -333,7 +338,7 @@ export default function HabitTracker() {
                               className="h-7 text-sm flex-1"
                               autoFocus
                             />
-                            <Button size="sm" className="h-7 px-2" onClick={() => saveEdit(habit.id)}>Save</Button>
+                            <Button size="sm" className="h-7 px-2" onClick={() => saveEdit(habit.id)}>{t("save")}</Button>
                             <Button size="sm" variant="ghost" className="h-7 px-2" onClick={() => setEditingId(null)}>
                               <X className="w-3 h-3" />
                             </Button>
@@ -341,20 +346,22 @@ export default function HabitTracker() {
                         ) : (
                           <span className="font-medium text-sm leading-tight flex items-center gap-2">
                             {habit.emoji} {habit.name}
-                            {doneToday && <Badge className="bg-green-500 text-white text-xs py-0 px-1.5">Done</Badge>}
+                            {doneToday && <Badge className="bg-green-500 text-white text-xs py-0 px-1.5">{t("done")}</Badge>}
                           </span>
                         )}
                       </div>
 
                       {/* 7-day mini calendar */}
                       <div className="flex gap-1 mt-2 items-center">
-                        {last7.map((day, i) => {
+                        {last7.map((day) => {
                           const done = habit.completions.includes(day);
                           const isToday = day === today;
+                          const dayIndex = new Date(day + "T12:00:00").getDay();
+                          const dayKey = DAY_KEYS[dayIndex];
                           return (
                             <div key={day} className="flex flex-col items-center gap-0.5">
                               <span className="text-[9px] text-muted-foreground">
-                                {["S", "M", "T", "W", "T", "F", "S"][new Date(day + "T12:00:00").getDay()]}
+                                {t(dayKey)}
                               </span>
                               <div
                                 className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
@@ -376,11 +383,11 @@ export default function HabitTracker() {
                       <div className="flex gap-3 mt-2 text-xs text-muted-foreground">
                         <span className="flex items-center gap-1">
                           <Flame className="w-3 h-3 text-orange-500" />
-                          {currentStreak} day streak
+                          <span dir="ltr">{currentStreak}</span> {t("dayStreak")}
                         </span>
                         <span className="flex items-center gap-1">
                           <Trophy className="w-3 h-3 text-yellow-500" />
-                          {longestStreak} best
+                          <span dir="ltr">{longestStreak}</span> {t("best")}
                         </span>
                       </div>
                     </div>
@@ -392,7 +399,7 @@ export default function HabitTracker() {
                         size="icon"
                         className="w-7 h-7"
                         onClick={() => startEdit(habit)}
-                        title="Edit name"
+                        title={t("editName")}
                       >
                         <Edit2 className="w-3.5 h-3.5" />
                       </Button>
@@ -401,7 +408,7 @@ export default function HabitTracker() {
                         size="icon"
                         className="w-7 h-7 text-destructive hover:text-destructive"
                         onClick={() => deleteHabit(habit.id, habit.name)}
-                        title="Delete habit"
+                        title={t("deleteHabit")}
                       >
                         <Trash2 className="w-3.5 h-3.5" />
                       </Button>

@@ -112,6 +112,8 @@ const conversionCategories: ConversionCategory[] = [
 
 export default function UnitConverter() {
   const t = useTranslations("Tools.UnitConverter");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tAny = t as any;
   const [activeCategory, setActiveCategory] = useState("Length");
   const [fromUnit, setFromUnit] = useState("Meter");
   const [toUnit, setToUnit] = useState("Kilometer");
@@ -300,10 +302,10 @@ export default function UnitConverter() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calculator className="w-5 h-5" />
-                  {t(`categories.${category.name}` as any)} {t("converter")}
+                  {tAny(`categories.${category.name}`)} {t("converter")}
                 </CardTitle>
                 <CardDescription>
-                  {t("convertBetween")} {(t(`categories.${category.name}` as any) as string).toLowerCase()} {t("units")}
+                  {t("convertBetween")} {String(tAny(`categories.${category.name}`)).toLowerCase()} {t("units")}
                 </CardDescription>
               </CardHeader>
               <CardContent>

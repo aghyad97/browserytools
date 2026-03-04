@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import NumberFlow from "@number-flow/react";
 import { Button } from "@/components/ui/button";
 import {
@@ -41,6 +42,7 @@ function formatTime(totalMs: number): {
 }
 
 export default function Timer() {
+  const t = useTranslations("Tools.Timer");
   const [mode, setMode] = useState<Mode>("countdown");
   const [isRunning, setIsRunning] = useState(false);
   const [initialMs, setInitialMs] = useState(5 * 60 * 1000); // default 5 min
@@ -237,7 +239,7 @@ export default function Timer() {
       {isFullscreen ? (
         <div className="h-full w-full flex flex-col">
           <div className="flex-1 flex items-center justify-center">
-            <div className="text-7xl md:text-[180px] font-mono flex items-center gap-6 select-none">
+            <div dir="ltr" className="text-7xl md:text-[180px] font-mono flex items-center gap-6 select-none">
               <NumberFlow value={hh} format={{ minimumIntegerDigits: 2 }} />
               <span>:</span>
               <NumberFlow value={mm} format={{ minimumIntegerDigits: 2 }} />
@@ -254,11 +256,11 @@ export default function Timer() {
               <Button onClick={handleStartPause} className="min-w-32">
                 {isRunning ? (
                   <span className="inline-flex items-center gap-2">
-                    <Pause className="w-5 h-5" /> Pause
+                    <Pause className="w-5 h-5" /> {t("pause")}
                   </span>
                 ) : (
                   <span className="inline-flex items-center gap-2">
-                    <Play className="w-5 h-5" /> Start
+                    <Play className="w-5 h-5" /> {t("start")}
                   </span>
                 )}
               </Button>
@@ -274,10 +276,9 @@ export default function Timer() {
       ) : (
         <Card>
           <CardHeader>
-            <CardTitle>Timer & Countdown</CardTitle>
+            <CardTitle>{t("title")}</CardTitle>
             <CardDescription>
-              Minimal timer with animated digits, fullscreen, and completion
-              sound.
+              {t("description")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -289,13 +290,13 @@ export default function Timer() {
               }}
             >
               <TabsList>
-                <TabsTrigger value="countdown">Countdown</TabsTrigger>
-                <TabsTrigger value="stopwatch">Stopwatch</TabsTrigger>
+                <TabsTrigger value="countdown">{t("countdown")}</TabsTrigger>
+                <TabsTrigger value="stopwatch">{t("stopwatch")}</TabsTrigger>
               </TabsList>
               <TabsContent value="countdown" className="space-y-4">
                 <div className="grid grid-cols-3 gap-3 max-w-md">
                   <div className="space-y-2">
-                    <Label>Hours</Label>
+                    <Label>{t("hours")}</Label>
                     <Input
                       type="number"
                       min={0}
@@ -306,7 +307,7 @@ export default function Timer() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Minutes</Label>
+                    <Label>{t("minutes")}</Label>
                     <Input
                       type="number"
                       min={0}
@@ -317,7 +318,7 @@ export default function Timer() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Seconds</Label>
+                    <Label>{t("seconds")}</Label>
                     <Input
                       type="number"
                       min={0}
@@ -333,19 +334,19 @@ export default function Timer() {
                     variant="outline"
                     onClick={() => handleApplyCountdown(hInput, mInput, sInput)}
                   >
-                    Apply
+                    {t("apply")}
                   </Button>
                 </div>
               </TabsContent>
               <TabsContent value="stopwatch">
                 <p className="text-sm text-muted-foreground">
-                  Counts up from 0.
+                  {t("countsUpFrom0")}
                 </p>
               </TabsContent>
             </Tabs>
 
             <div className="mt-8 flex flex-col items-center gap-6">
-              <div className="text-6xl md:text-8xl font-mono flex items-center gap-4 select-none">
+              <div dir="ltr" className="text-6xl md:text-8xl font-mono flex items-center gap-4 select-none">
                 <NumberFlow value={hh} format={{ minimumIntegerDigits: 2 }} />
                 <span>:</span>
                 <NumberFlow value={mm} format={{ minimumIntegerDigits: 2 }} />
@@ -357,11 +358,11 @@ export default function Timer() {
                 <Button onClick={handleStartPause} className="min-w-28">
                   {isRunning ? (
                     <span className="inline-flex items-center gap-2">
-                      <Pause className="w-4 h-4" /> Pause
+                      <Pause className="w-4 h-4" /> {t("pause")}
                     </span>
                   ) : (
                     <span className="inline-flex items-center gap-2">
-                      <Play className="w-4 h-4" /> Start
+                      <Play className="w-4 h-4" /> {t("start")}
                     </span>
                   )}
                 </Button>
@@ -371,7 +372,7 @@ export default function Timer() {
                 <Button variant="outline" onClick={enterFullscreen}>
                   <Maximize2 className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" onClick={playBeep} title="Test sound">
+                <Button variant="ghost" onClick={playBeep} title={t("testSound")}>
                   <Bell className="w-4 h-4" />
                 </Button>
               </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
@@ -34,12 +35,6 @@ const DEFAULT_SETTINGS: PomodoroSettings = {
   sessionsBeforeLongBreak: 4,
   soundEnabled: true,
   autoAdvance: false,
-};
-
-const SESSION_LABELS: Record<SessionType, string> = {
-  work: "Focus Time",
-  shortBreak: "Short Break",
-  longBreak: "Long Break",
 };
 
 const SESSION_COLORS: Record<SessionType, { bg: string; text: string; ring: string; badge: string }> = {
@@ -118,6 +113,7 @@ function playBeep(ctx: AudioContext, type: "tick" | "end") {
 }
 
 export default function PomodoroTimer() {
+  const t = useTranslations("Tools.PomodoroTimer");
   const [settings, setSettings] = useState<PomodoroSettings>(DEFAULT_SETTINGS);
   const [sessionType, setSessionType] = useState<SessionType>("work");
   const [isRunning, setIsRunning] = useState(false);
@@ -187,10 +183,10 @@ export default function PomodoroTimer() {
       let next: DailyStats;
       if (currentType === "work") {
         next = { ...prev, completedSessions: prev.completedSessions + 1, totalFocusSeconds: prev.totalFocusSeconds + focusAccumulatorRef.current, date: getTodayKey() };
-        toast.success("Focus session complete! Time for a break.", { duration: 4000 });
+        toast.success(t("focusSessionComplete"), { duration: 4000 });
       } else {
         next = { ...prev, breaksTaken: prev.breaksTaken + 1, date: getTodayKey() };
-        toast.success("Break over! Ready to focus?", { duration: 4000 });
+        toast.success(t("breakOver"), { duration: 4000 });
       }
       focusAccumulatorRef.current = 0;
       saveStats(next);
@@ -220,8 +216,13 @@ export default function PomodoroTimer() {
   }, [isRunning]);
 
   useEffect(() => {
+    const sessionLabels: Record<SessionType, string> = {
+      work: "Focus Time",
+      shortBreak: "Short Break",
+      longBreak: "Long Break",
+    };
     if (isRunning) {
-      document.title = `${formatTime(timeLeft)} — ${SESSION_LABELS[sessionType]} | Pomodoro`;
+      document.title = `${formatTime(timeLeft)} — ${sessionLabels[sessionType]} | Pomodoro`;
     } else {
       document.title = "Pomodoro Timer | BrowseryTools";
     }
@@ -250,7 +251,7 @@ export default function PomodoroTimer() {
   };
 
   const handleSwitchSession = (type: SessionType) => {
-    if (isRunning) { toast.info("Pause the timer before switching sessions."); return; }
+    if (isRunning) { toast.info(t("pauseFirst")); return; }
     focusAccumulatorRef.current = 0;
     setSessionType(type);
     setTimeLeft(getDuration(type, settings));
@@ -269,6 +270,12 @@ export default function PomodoroTimer() {
     });
   };
 
+  const sessionLabels: Record<SessionType, string> = {
+    work: t("focus"),
+    shortBreak: t("shortBreakLabel"),
+    longBreak: t("longBreakLabel"),
+  };
+
   const colors = SESSION_COLORS[sessionType];
   const progress = totalSeconds > 0 ? (totalSeconds - timeLeft) / totalSeconds : 0;
   const circumference = 2 * Math.PI * 110;
@@ -284,8 +291,8 @@ export default function PomodoroTimer() {
               <Timer className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Pomodoro Timer</h1>
-              <p className="text-sm text-muted-foreground">Stay focused, take breaks</p>
+              <h1 className="text-2xl font-bold">{t("title")}</h1>
+              <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
             </div>
           </div>
           <Button
@@ -301,15 +308,15 @@ export default function PomodoroTimer() {
         {showSettings && (
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">Settings</CardTitle>
+              <CardTitle className="text-base">{t("settings")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-5">
               <div className="grid grid-cols-2 gap-4">
                 {([
-                  { key: "workDuration" as const, label: "Work Duration (min)", min: 1, max: 90 },
-                  { key: "shortBreakDuration" as const, label: "Short Break (min)", min: 1, max: 30 },
-                  { key: "longBreakDuration" as const, label: "Long Break (min)", min: 1, max: 60 },
-                  { key: "sessionsBeforeLongBreak" as const, label: "Sessions before long break", min: 1, max: 10 },
+                  { key: "workDuration" as const, label: t("workDuration"), min: 1, max: 90 },
+                  { key: "shortBreakDuration" as const, label: t("shortBreak"), min: 1, max: 30 },
+                  { key: "longBreakDuration" as const, label: t("longBreak"), min: 1, max: 60 },
+                  { key: "sessionsBeforeLongBreak" as const, label: t("sessionsBeforeLongBreak"), min: 1, max: 10 },
                 ]).map(({ key, label, min, max }) => (
                   <div key={key} className="space-y-1.5">
                     <Label className="text-sm">{label}</Label>
@@ -324,11 +331,11 @@ export default function PomodoroTimer() {
               <Separator />
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
-                  <Label className="text-sm">Sound notifications</Label>
+                  <Label className="text-sm">{t("soundNotifications")}</Label>
                   <Switch checked={settings.soundEnabled} onCheckedChange={(v) => updateSetting("soundEnabled", v)} />
                 </div>
                 <div className="flex items-center justify-between">
-                  <Label className="text-sm">Auto-advance to next session</Label>
+                  <Label className="text-sm">{t("autoAdvance")}</Label>
                   <Switch checked={settings.autoAdvance} onCheckedChange={(v) => updateSetting("autoAdvance", v)} />
                 </div>
               </div>
@@ -349,7 +356,7 @@ export default function PomodoroTimer() {
                       : "text-muted-foreground border-transparent hover:border-border"
                   }`}
                 >
-                  {type === "work" ? "Focus" : type === "shortBreak" ? "Short Break" : "Long Break"}
+                  {sessionLabels[type]}
                 </button>
               ))}
             </div>
@@ -365,11 +372,11 @@ export default function PomodoroTimer() {
                   />
                 </svg>
                 <div className="text-center z-10 select-none">
-                  <div className={`text-6xl font-mono font-bold tracking-tight ${colors.text}`}>
+                  <div dir="ltr" className={`text-6xl font-mono font-bold tracking-tight ${colors.text}`}>
                     {formatTime(timeLeft)}
                   </div>
                   <div className="text-sm text-muted-foreground mt-1 font-medium">
-                    {SESSION_LABELS[sessionType]}
+                    {sessionLabels[sessionType]}
                   </div>
                 </div>
               </div>
@@ -389,8 +396,8 @@ export default function PomodoroTimer() {
                 ))}
                 <span className="text-xs text-muted-foreground ml-1.5">
                   {currentSessionNumber
-                    ? `Session ${currentSessionNumber} of ${settings.sessionsBeforeLongBreak}`
-                    : SESSION_LABELS[sessionType]}
+                    ? t("sessionOf", { current: currentSessionNumber, total: settings.sessionsBeforeLongBreak })
+                    : sessionLabels[sessionType]}
                 </span>
               </div>
 
@@ -420,22 +427,22 @@ export default function PomodoroTimer() {
           <CardHeader className="pb-3">
             <CardTitle className="text-base flex items-center gap-2">
               <Brain className="w-4 h-4 text-primary" />
-              Today&apos;s Stats
+              {t("todayStats")}
             </CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 gap-4">
               <div className="text-center p-3 rounded-lg bg-muted/50">
-                <div className="text-2xl font-bold text-red-500">{formatFocusTime(stats.totalFocusSeconds)}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">Focus Time</div>
+                <div dir="ltr" className="text-2xl font-bold text-red-500">{formatFocusTime(stats.totalFocusSeconds)}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{t("focusTime")}</div>
               </div>
               <div className="text-center p-3 rounded-lg bg-muted/50">
-                <div className="text-2xl font-bold text-primary">{stats.completedSessions}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">Sessions Done</div>
+                <div dir="ltr" className="text-2xl font-bold text-primary">{stats.completedSessions}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{t("sessionsDone")}</div>
               </div>
               <div className="text-center p-3 rounded-lg bg-muted/50">
-                <div className="text-2xl font-bold text-emerald-500">{stats.breaksTaken}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">Breaks Taken</div>
+                <div dir="ltr" className="text-2xl font-bold text-emerald-500">{stats.breaksTaken}</div>
+                <div className="text-xs text-muted-foreground mt-0.5">{t("breaksTaken")}</div>
               </div>
             </div>
           </CardContent>
@@ -446,10 +453,14 @@ export default function PomodoroTimer() {
             <div className="flex items-start gap-3 text-sm text-muted-foreground">
               <Coffee className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
               <p>
-                Work for <strong className="text-foreground">{settings.workDuration} min</strong>, then take a{" "}
-                <strong className="text-foreground">{settings.shortBreakDuration}-min</strong> short break. After{" "}
-                <strong className="text-foreground">{settings.sessionsBeforeLongBreak} sessions</strong>, enjoy a{" "}
-                <strong className="text-foreground">{settings.longBreakDuration}-min</strong> long break.
+                {t("workFor")} <strong className="text-foreground">{settings.workDuration} {t("min")}</strong>
+                {", "}
+                {t("thenTake")} <strong className="text-foreground">{settings.shortBreakDuration}-{t("min")}</strong>{" "}
+                {t("shortBreakMin")}{" "}
+                <strong className="text-foreground">{settings.sessionsBeforeLongBreak}</strong>{" "}
+                {t("sessions")}{" "}
+                <strong className="text-foreground">{settings.longBreakDuration}-{t("min")}</strong>{" "}
+                {t("longBreakMin")}
               </p>
             </div>
           </CardContent>
