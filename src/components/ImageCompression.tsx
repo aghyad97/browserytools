@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -32,20 +33,24 @@ interface ImageInfo {
   name: string;
 }
 
-const compressionModes = [
-  { value: "auto", label: "Auto (Recommended)" },
-  { value: "aggressive", label: "Aggressive" },
-  { value: "custom", label: "Custom" },
-];
-
-const targetFormats = [
-  { value: "original", label: "Same as Source" },
-  { value: "image/jpeg", label: "JPEG" },
-  { value: "image/webp", label: "WebP (Recommended)" },
-  { value: "image/png", label: "PNG" },
-];
 
 export default function ImageCompression() {
+  const t = useTranslations("Tools.ImageCompression");
+  const tCommon = useTranslations("Common");
+
+  const compressionModes = [
+    { value: "auto", label: t("modeAuto") },
+    { value: "aggressive", label: t("modeAggressive") },
+    { value: "custom", label: t("modeCustom") },
+  ];
+
+  const targetFormats = [
+    { value: "original", label: t("formatSameAsSource") },
+    { value: "image/jpeg", label: "JPEG" },
+    { value: "image/webp", label: t("formatWebPRecommended") },
+    { value: "image/png", label: "PNG" },
+  ];
+
   const [image, setImage] = useState<ImageInfo | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const [compressedSize, setCompressedSize] = useState<number>(0);
@@ -195,7 +200,7 @@ export default function ImageCompression() {
         {image && compressedImage && (
           <div className="flex items-center gap-4">
             <div className="text-right">
-              <p className="text-sm font-medium">Size Reduction</p>
+              <p className="text-sm font-medium">{t("sizeReduction")}</p>
               <p className="text-2xl font-bold text-green-500">
                 {compressionRatio}%
               </p>
@@ -235,10 +240,10 @@ export default function ImageCompression() {
                       <Upload className="w-10 h-10 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold mb-1">
-                      Drop your image here
+                      {t("dropImageHere")}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Up to 25MB - PNG, JPG or WebP
+                      {t("uploadLimit")}
                     </p>
                   </div>
                 </div>
@@ -291,14 +296,14 @@ export default function ImageCompression() {
             <Card className="p-4">
               <Tabs defaultValue="basic" className="space-y-4">
                 <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="basic">Basic</TabsTrigger>
-                  <TabsTrigger value="advanced">Advanced</TabsTrigger>
+                  <TabsTrigger value="basic">{t("tabBasic")}</TabsTrigger>
+                  <TabsTrigger value="advanced">{t("tabAdvanced")}</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="basic" className="space-y-4">
                   <div className="space-y-2">
                     <label className="text-sm font-medium">
-                      Compression Mode
+                      {t("compressionMode")}
                     </label>
                     <Select value={mode} onValueChange={setMode}>
                       <SelectTrigger>
@@ -315,7 +320,7 @@ export default function ImageCompression() {
                   </div>
 
                   <div className="space-y-2">
-                    <label className="text-sm font-medium">Output Format</label>
+                    <label className="text-sm font-medium">{t("outputFormat")}</label>
                     <Select
                       value={targetFormat}
                       onValueChange={setTargetFormat}
@@ -338,7 +343,7 @@ export default function ImageCompression() {
                   {mode === "custom" && (
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <label className="text-sm font-medium">Quality</label>
+                        <label className="text-sm font-medium">{t("quality")}</label>
                         <span className="text-sm text-muted-foreground">
                           {quality}%
                         </span>
@@ -355,7 +360,7 @@ export default function ImageCompression() {
 
                   <div className="space-y-2">
                     <div className="flex justify-between">
-                      <label className="text-sm font-medium">Max Width</label>
+                      <label className="text-sm font-medium">{t("maxWidth")}</label>
                       <span className="text-sm text-muted-foreground">
                         {maxWidth}px
                       </span>
@@ -376,7 +381,7 @@ export default function ImageCompression() {
                 className="w-full mt-4"
                 disabled={!image || loading}
               >
-                Compress Image
+                {t("compressImage")}
               </Button>
             </Card>
           </div>
@@ -399,7 +404,7 @@ export default function ImageCompression() {
                   <div className="text-center">
                     <ImageIcon className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                     <p className="text-muted-foreground">
-                      Compressed image will appear here
+                      {t("compressedImagePlaceholder")}
                     </p>
                   </div>
                 )}
@@ -413,16 +418,16 @@ export default function ImageCompression() {
                   className="w-full"
                   variant="secondary"
                 >
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
+                  <Download className="w-4 h-4 me-2" />
+                  {tCommon("download")}
                 </Button>
                 <Button
                   onClick={() => window.open(compressedImage, "_blank")}
                   className="w-full"
                   variant="outline"
                 >
-                  <FileDown className="w-4 h-4 mr-2" />
-                  Preview Full
+                  <FileDown className="w-4 h-4 me-2" />
+                  {t("previewFull")}
                 </Button>
               </div>
             )}

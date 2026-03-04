@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useRef, useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardHeader,
@@ -290,6 +291,9 @@ const detectCornerRadiusFromFrame = (
 };
 
 export default function PhoneMockups({ groups }: PhoneMockupsProps) {
+  const t = useTranslations("Tools.PhoneMockups");
+  const tCommon = useTranslations("Common");
+
   // Enhance groups with device-frames data
   const enhancedGroups = useMemo(
     () => enhanceGroupsWithDeviceData(groups),
@@ -716,8 +720,8 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
         <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
           <Card>
             <CardHeader>
-              <CardTitle>Device</CardTitle>
-              <CardDescription>Select a frame</CardDescription>
+              <CardTitle>{t("device")}</CardTitle>
+              <CardDescription>{t("selectFrame")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <Popover>
@@ -725,18 +729,18 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                   <Button variant="outline" className="w-full justify-between">
                     {selectedGroup
                       ? `${selectedGroup.brand} ${selectedGroup.model}`
-                      : "Choose device"}
+                      : t("chooseDevice")}
                     <span className="text-xs text-muted-foreground">
-                      Search
+                      {t("search")}
                     </span>
                   </Button>
                 </PopoverTrigger>
                 <PopoverContent className="p-0 w-[320px]">
                   <Command>
-                    <CommandInput placeholder="Search devices..." />
+                    <CommandInput placeholder={t("searchDevices")} />
                     <CommandList>
-                      <CommandEmpty>No device found.</CommandEmpty>
-                      <CommandGroup heading="Devices">
+                      <CommandEmpty>{t("noDeviceFound")}</CommandEmpty>
+                      <CommandGroup heading={t("devices")}>
                         {enhancedGroups.map((g) => (
                           <CommandItem
                             key={g.key}
@@ -783,9 +787,9 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <div className="space-y-1">
-                    <Label htmlFor="frameless-toggle">Frameless</Label>
+                    <Label htmlFor="frameless-toggle">{t("frameless")}</Label>
                     <div className="text-xs text-muted-foreground">
-                      Hide device frame and use rounded screenshot
+                      {t("framelessDesc")}
                     </div>
                   </div>
                   <Switch
@@ -796,7 +800,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 </div>
                 {frameless && (
                   <div className="space-y-2">
-                    <Label>Rotate</Label>
+                    <Label>{t("rotate")}</Label>
                     <UiSelect
                       value={String(framelessRotation)}
                       onValueChange={(v) =>
@@ -821,9 +825,9 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
           <Card>
             <CardHeader>
-              <CardTitle>Image</CardTitle>
+              <CardTitle>{t("image")}</CardTitle>
               <CardDescription>
-                Select the screenshot to place in the mockup
+                {t("imageDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
@@ -838,13 +842,13 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
           <Card>
             <CardHeader>
-              <CardTitle>Appearance</CardTitle>
-              <CardDescription>Background, shadow, frameless</CardDescription>
+              <CardTitle>{t("appearance")}</CardTitle>
+              <CardDescription>{t("appearanceDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-5">
               {frameless && (
                 <ValueSlider
-                  label="Rounded corners"
+                  label={t("roundedCorners")}
                   value={roundedRadius}
                   onChange={setRoundedRadius}
                   min={0}
@@ -856,9 +860,9 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                  <Label htmlFor="shadow-toggle">Shadow</Label>
+                  <Label htmlFor="shadow-toggle">{t("shadow")}</Label>
                   <div className="text-xs text-muted-foreground">
-                    Add soft drop shadow
+                    {t("shadowDesc")}
                   </div>
                 </div>
                 <Switch
@@ -869,7 +873,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               </div>
 
               <ValueSlider
-                label="Shadow strength"
+                label={t("shadowStrength")}
                 value={shadowStrength}
                 onChange={setShadowStrength}
                 min={0}
@@ -882,7 +886,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               {useShadow && (
                 <>
                   <div className="space-y-2">
-                    <Label>Shadow color</Label>
+                    <Label>{t("shadowColor")}</Label>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -905,7 +909,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                     </Popover>
                   </div>
                   <ValueSlider
-                    label="Shadow opacity"
+                    label={t("shadowOpacity")}
                     value={shadowOpacity}
                     onChange={setShadowOpacity}
                     min={0}
@@ -918,9 +922,9 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
 
               <div className="flex items-center justify-between">
                 <div className="space-y-1">
-                  <Label htmlFor="background-toggle">Background</Label>
+                  <Label htmlFor="background-toggle">{t("background")}</Label>
                   <div className="text-xs text-muted-foreground">
-                    Fill preview area
+                    {t("backgroundDesc")}
                   </div>
                 </div>
                 <Switch
@@ -931,7 +935,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               </div>
 
               <div className="space-y-2">
-                <Label>Background color</Label>
+                <Label>{t("backgroundColor")}</Label>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -956,7 +960,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="background-image">Background image</Label>
+                <Label htmlFor="background-image">{t("backgroundImage")}</Label>
                 <Input
                   id="background-image"
                   className="cursor-pointer"
@@ -968,7 +972,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
               </div>
 
               <ValueSlider
-                label="Content padding"
+                label={t("contentPadding")}
                 value={outputPadding}
                 onChange={setOutputPadding}
                 min={-400}
@@ -985,10 +989,9 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
             <CardHeader>
               <div className="flex items-center justify-between gap-3">
                 <div>
-                  <CardTitle>Preview</CardTitle>
+                  <CardTitle>{t("preview")}</CardTitle>
                   <CardDescription>
-                    Upload a screenshot - it will automatically fit the frame
-                    with rounded corners and precise clipping.
+                    {t("previewDesc")}
                   </CardDescription>
                 </div>
                 <div className="min-w-[160px]">
@@ -1028,14 +1031,14 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                   <DropdownMenu>
                     <DropdownMenuTrigger asChild>
                       <Button variant="default" size="default">
-                        Download
-                        <ChevronDown className="ml-2 h-4 w-4" />
+                        {tCommon("download")}
+                        <ChevronDown className="ms-2 h-4 w-4" />
                       </Button>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
                       <DropdownMenuSub>
                         <DropdownMenuSubTrigger>
-                          Save image
+                          {t("saveImage")}
                         </DropdownMenuSubTrigger>
                         <DropdownMenuSubContent>
                           <DropdownMenuItem
@@ -1058,7 +1061,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                       <DropdownMenuSeparator />
                       <DropdownMenuSub>
                         <DropdownMenuSubTrigger>
-                          Copy to clipboard
+                          {t("copyToClipboard")}
                         </DropdownMenuSubTrigger>
                         <DropdownMenuSubContent>
                           <DropdownMenuItem

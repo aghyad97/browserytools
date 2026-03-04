@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
@@ -31,6 +32,9 @@ const formatOptions = [
 ];
 
 export default function ImageConverter() {
+  const t = useTranslations("Tools.ImageConverter");
+  const tCommon = useTranslations("Common");
+
   const [image, setImage] = useState<ImageInfo | null>(null);
   const [targetFormat, setTargetFormat] = useState("image/png");
   const [quality, setQuality] = useState(85);
@@ -183,7 +187,7 @@ export default function ImageConverter() {
                       className="w-full h-full object-contain"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                      Size: {(image.size / 1024).toFixed(2)} KB
+                      {t("size")}: {(image.size / 1024).toFixed(2)} KB
                     </div>
                   </div>
                 ) : (
@@ -192,10 +196,10 @@ export default function ImageConverter() {
                       <Upload className="w-10 h-10 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold mb-1">
-                      Drop your image here
+                      {t("dropImageHere")}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      Supports PNG, JPG, WebP or AVIF files
+                      {t("supportedFormats")}
                     </p>
                   </div>
                 )}
@@ -204,7 +208,7 @@ export default function ImageConverter() {
 
             <Card className="p-4 space-y-4">
               <div className="space-y-2">
-                <label className="text-sm font-medium">Target Format</label>
+                <label className="text-sm font-medium">{t("targetFormat")}</label>
                 <Select value={targetFormat} onValueChange={setTargetFormat}>
                   <SelectTrigger>
                     <SelectValue />
@@ -222,7 +226,7 @@ export default function ImageConverter() {
               {formatOption?.quality && (
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <label className="text-sm font-medium">Quality</label>
+                    <label className="text-sm font-medium">{t("quality")}</label>
                     <span className="text-sm text-muted-foreground">
                       {quality}%
                     </span>
@@ -242,7 +246,7 @@ export default function ImageConverter() {
                 className="w-full"
                 disabled={!image}
               >
-                Convert
+                {tCommon("convert")}
               </Button>
             </Card>
           </div>
@@ -258,14 +262,14 @@ export default function ImageConverter() {
                       className="w-full h-full object-contain"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                      Size: {(convertedSize / 1024).toFixed(2)} KB
+                      {t("size")}: {(convertedSize / 1024).toFixed(2)} KB
                     </div>
                   </div>
                 ) : (
                   <div className="text-center">
                     <ImageIcon className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                     <p className="text-muted-foreground">
-                      Converted image will appear here
+                      {t("convertedImagePlaceholder")}
                     </p>
                   </div>
                 )}
@@ -278,8 +282,8 @@ export default function ImageConverter() {
               disabled={!convertedImage}
               variant="secondary"
             >
-              <Download className="w-4 h-4 mr-2" />
-              Download
+              <Download className="w-4 h-4 me-2" />
+              {tCommon("download")}
             </Button>
           </div>
         </div>

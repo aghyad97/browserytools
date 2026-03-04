@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -28,6 +29,8 @@ type Tool = "rect" | "circle" | "ellipse" | "text" | "path" | "select" | "line";
 type Action = { type: string; element: any };
 
 export default function SvgEditor() {
+  const t = useTranslations("Tools.SvgEditor");
+
   const [selectedTool, setSelectedTool] = useState<Tool>("select");
   const [color, setColor] = useState("#000000");
   const [strokeWidth, setStrokeWidth] = useState(2);
@@ -232,9 +235,9 @@ export default function SvgEditor() {
     <div className="flex flex-col h-full">
       <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div>
-          <h1 className="text-3xl font-bold">SVG Editor</h1>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
           <p className="text-muted-foreground mt-1">
-            Create and edit SVG graphics
+            {t("subtitle")}
           </p>
         </div>
       </div>

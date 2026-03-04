@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -106,6 +107,9 @@ function getReadableTextColor(hex: string): string {
 }
 
 export default function ColorConverter() {
+  const t = useTranslations("Tools.ColorConverter");
+  const tCommon = useTranslations("Common");
+
   const [hex, setHex] = useState<string>("");
   const [rgb, setRgb] = useState<{ r: string; g: string; b: string }>({
     r: "",
@@ -228,8 +232,8 @@ export default function ColorConverter() {
       <div className="flex-1 overflow-auto p-6">
         <Card className="shadow-none">
           <CardHeader>
-            <CardTitle>Color Converter</CardTitle>
-            <CardDescription>Convert between HEX, RGB, and HSL</CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("subtitle")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
@@ -247,7 +251,7 @@ export default function ColorConverter() {
                   onClick={() => copy(hex, "HEX")}
                   disabled={!hex}
                 >
-                  Copy
+                  {t("copyHex")}
                 </Button>
               </div>
             </div>
@@ -281,7 +285,7 @@ export default function ColorConverter() {
                   onClick={() => copy(rgbString, "RGB")}
                   disabled={!rgbString}
                 >
-                  Copy RGB
+                  {t("copyRgb")}
                 </Button>
               </div>
             </div>
@@ -315,15 +319,15 @@ export default function ColorConverter() {
                   onClick={() => copy(hslString, "HSL")}
                   disabled={!hslString}
                 >
-                  Copy HSL
+                  {t("copyHsl")}
                 </Button>
               </div>
             </div>
-            <p className="text-sm text-gray-500">Preview color:</p>
+            <p className="text-sm text-gray-500">{t("previewColor")}</p>
             <div className="h-16 rounded border" style={preview} />
             {cssVars && (
               <div className="space-y-2">
-                <Label>CSS Variables</Label>
+                <Label>{t("cssVariables")}</Label>
                 <div className="flex items-center gap-2">
                   <pre className="flex-1 whitespace-pre-wrap text-xs p-2 border rounded bg-muted overflow-auto">
                     {cssVars}
@@ -333,14 +337,14 @@ export default function ColorConverter() {
                     variant="outline"
                     onClick={() => copy(cssVars, "CSS variables")}
                   >
-                    Copy
+                    {t("copyCss")}
                   </Button>
                 </div>
               </div>
             )}
             {palette.length > 0 && (
               <div className="space-y-2">
-                <Label>Shades & Tints</Label>
+                <Label>{t("shadesAndTints")}</Label>
                 <div className="grid grid-cols-5 gap-2">
                   {palette.map((p) => (
                     <button
@@ -363,7 +367,7 @@ export default function ColorConverter() {
             )}
             {complementary && (
               <div className="space-y-2">
-                <Label>Complementary</Label>
+                <Label>{t("complementary")}</Label>
                 <div className="flex gap-2">
                   <div
                     className="h-10 flex-1 rounded border"
@@ -380,13 +384,13 @@ export default function ColorConverter() {
                     variant="outline"
                     onClick={() => copy(complementary, "Complementary HEX")}
                   >
-                    Copy Complementary HEX
+                    {t("copyComplementary")}
                   </Button>
                 </div>
               </div>
             )}
             <Button variant="outline" className="w-full" onClick={clearAll}>
-              Clear
+              {tCommon("clear")}
             </Button>
           </CardContent>
         </Card>
