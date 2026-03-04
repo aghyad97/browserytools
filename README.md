@@ -15,9 +15,6 @@ A comprehensive collection of **80+ browser-based tools** built with Next.js, Ty
 - **Color Correction**: Adjust brightness, contrast, saturation, hue, and more
 - **Color Converter**: Convert between HEX, RGB, and HSL with live preview
 - **SVG Tools**: Edit and manipulate SVG vector graphics
-- **Image Resizer**: Resize to exact dimensions, percentage, or preset sizes
-- **EXIF Viewer**: View camera metadata, GPS coordinates, and shooting settings
-- **Color Blindness Simulator**: Preview images as seen with deuteranopia, protanopia, tritanopia, and achromatopsia
 
 ### 📁 File Tools
 
@@ -31,7 +28,6 @@ A comprehensive collection of **80+ browser-based tools** built with Next.js, Ty
 - **Video Editor**: Trim, convert, and edit video files
 - **Audio Editor**: Edit and process audio files
 - **Mic & Camera Tester**: Check your camera preview and test microphone levels
-- **Screen Recorder**: Record your screen, window, or tab — no extensions needed
 
 ### 📝 Text & Language Tools
 
@@ -81,7 +77,6 @@ A comprehensive collection of **80+ browser-based tools** built with Next.js, Ty
 - **Aspect Ratio Calculator**: Calculate and scale aspect ratios
 - **BMI Calculator**: Body Mass Index in metric or imperial with healthy range
 - **Tip Calculator**: Bill splitting and tip calculation per person
-- **Roman Numeral Converter**: Convert between Roman and Arabic numerals with step-by-step breakdown
 
 ### ⚡ Productivity Tools
 
@@ -98,7 +93,7 @@ A comprehensive collection of **80+ browser-based tools** built with Next.js, Ty
 - **JWT Decoder**: Decode and inspect JSON Web Tokens
 - **Hash Generator**: Generate MD5, SHA-256, SHA-512 hashes
 - **Password Generator**: Generate secure passwords with custom rules
-- **Password Strength Checker**: Analyze password entropy and crack time
+- **Password Strength**: Analyze password entropy and crack time
 - **Text Encryption**: AES-256-GCM encryption via the Web Crypto API
 - **HTTP Status Codes**: Reference for all 1xx–5xx status codes
 - **Unix Timestamp Converter**: Epoch ↔ human-readable date
@@ -111,7 +106,11 @@ A comprehensive collection of **80+ browser-based tools** built with Next.js, Ty
 
 - **CSS Gradient Generator**: Visual linear, radial, and conic gradient builder
 - **Color Palette Generator**: Generate harmonious palettes from a base color
+- **Image Resizer**: Resize to exact dimensions, percentage, or preset sizes
+- **Screen Recorder**: Record your screen, window, or tab — no extensions needed
 - **Color Contrast Checker**: WCAG AA/AAA accessibility contrast ratio checker
+- **Color Blindness Simulator**: Preview images as seen with deuteranopia, protanopia, tritanopia, and achromatopsia
+- **EXIF Viewer**: View camera metadata, GPS coordinates, and shooting settings
 - **Emoji Picker**: Browse, search, and copy Unicode emojis
 
 ## 🛠️ Tech Stack
