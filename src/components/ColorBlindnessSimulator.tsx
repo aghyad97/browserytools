@@ -214,7 +214,7 @@ export default function ColorBlindnessSimulator() {
                     {imageDims.w} × {imageDims.h}px
                   </Badge>
                 )}
-                {processing && <Badge variant="outline" className="animate-pulse">Processing...</Badge>}
+                {processing && <Badge variant="outline" className="animate-pulse">{t("processing")}</Badge>}
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => fileInputRef.current?.click()}>

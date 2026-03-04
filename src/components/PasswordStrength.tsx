@@ -128,15 +128,15 @@ export default function PasswordStrength() {
   const formatTimeToCrack = (sec: number | null): string => {
     if (sec === null) return t("strengthInstant");
     if (sec === -1) return t("strengthLessThan1s");
-    if (sec < 60) return `${Math.round(sec)} seconds`;
-    if (sec < 3600) return `${Math.round(sec / 60)} minutes`;
-    if (sec < 86400) return `${Math.round(sec / 3600)} hours`;
-    if (sec < 2592000) return `${Math.round(sec / 86400)} days`;
-    if (sec < 31536000) return `${Math.round(sec / 2592000)} months`;
+    if (sec < 60) return t("strengthSeconds", { n: Math.round(sec) });
+    if (sec < 3600) return t("strengthMinutes", { n: Math.round(sec / 60) });
+    if (sec < 86400) return t("strengthHours", { n: Math.round(sec / 3600) });
+    if (sec < 2592000) return t("strengthDays", { n: Math.round(sec / 86400) });
+    if (sec < 31536000) return t("strengthMonths", { n: Math.round(sec / 2592000) });
     const years = sec / 31536000;
-    if (years < 1000) return `${Math.round(years)} years`;
-    if (years < 1e6) return `${Math.round(years / 1000)} thousand years`;
-    if (years < 1e9) return `${Math.round(years / 1e6)} million years`;
+    if (years < 1000) return t("strengthYears", { n: Math.round(years) });
+    if (years < 1e6) return t("strengthThousandYears", { n: Math.round(years / 1000) });
+    if (years < 1e9) return t("strengthMillionYears", { n: Math.round(years / 1e6) });
     return t("strengthCenturies");
   };
 

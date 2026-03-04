@@ -84,14 +84,14 @@ const PRESETS = [
 ];
 
 const DIRECTION_PRESETS = [
-  { icon: ArrowUp, label: "Up (0deg)", angle: 0 },
-  { icon: ArrowUpRight, label: "Up-Right (45deg)", angle: 45 },
-  { icon: ArrowRight, label: "Right (90deg)", angle: 90 },
-  { icon: ArrowDownRight, label: "Down-Right (135deg)", angle: 135 },
-  { icon: ArrowDown, label: "Down (180deg)", angle: 180 },
-  { icon: ArrowDownLeft, label: "Down-Left (225deg)", angle: 225 },
-  { icon: ArrowLeft, label: "Left (270deg)", angle: 270 },
-  { icon: ArrowUpLeft, label: "Up-Left (315deg)", angle: 315 },
+  { icon: ArrowUp, key: "dirUp" as const, angle: 0 },
+  { icon: ArrowUpRight, key: "dirUpRight" as const, angle: 45 },
+  { icon: ArrowRight, key: "dirRight" as const, angle: 90 },
+  { icon: ArrowDownRight, key: "dirDownRight" as const, angle: 135 },
+  { icon: ArrowDown, key: "dirDown" as const, angle: 180 },
+  { icon: ArrowDownLeft, key: "dirDownLeft" as const, angle: 225 },
+  { icon: ArrowLeft, key: "dirLeft" as const, angle: 270 },
+  { icon: ArrowUpLeft, key: "dirUpLeft" as const, angle: 315 },
 ];
 
 const POSITION_OPTIONS = [
@@ -241,7 +241,7 @@ export default function CssGradientGenerator() {
                     {DIRECTION_PRESETS.map((p) => {
                       const Icon = p.icon;
                       return (
-                        <Button key={p.angle} variant={angle === p.angle ? "default" : "outline"} size="sm" onClick={() => setAngle(p.angle)} title={p.label}>
+                        <Button key={p.angle} variant={angle === p.angle ? "default" : "outline"} size="sm" onClick={() => setAngle(p.angle)} title={t(p.key)}>
                           <Icon className="w-4 h-4" />
                         </Button>
                       );
@@ -303,7 +303,7 @@ export default function CssGradientGenerator() {
               <div className="space-y-2">
                 {[...stops].sort((a, b) => a.position - b.position).map((stop) => (
                   <div key={stop.id} className="grid grid-cols-[44px_1fr_1fr_36px] gap-3 items-center p-3 border rounded-lg bg-muted/30">
-                    <input type="color" value={stop.color} onChange={(e) => updateStop(stop.id, "color", e.target.value)} className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5" title="Pick color" />
+                    <input type="color" value={stop.color} onChange={(e) => updateStop(stop.id, "color", e.target.value)} className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5" title={t("pickColor")} />
                     <div className="space-y-1">
                       <div className="flex justify-between text-xs text-muted-foreground"><span>{t("stopPosition")}</span><span className="font-mono">{stop.position}%</span></div>
                       <Slider min={0} max={100} step={1} value={[stop.position]} onValueChange={([v]) => updateStop(stop.id, "position", v)} />

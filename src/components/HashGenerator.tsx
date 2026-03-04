@@ -257,7 +257,7 @@ export default function HashGenerator() {
                           <div className="flex items-center gap-2">
                             <Badge variant="outline">{result.algorithm}</Badge>
                             <span className="text-sm text-muted-foreground">
-                              {result.length} characters
+                              {t("hashLength", { count: result.length })}
                             </span>
                           </div>
                           <Button

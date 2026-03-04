@@ -217,7 +217,7 @@ export default function ColorPaletteGenerator() {
   const copyColor = useCallback(async (value: string, label: string) => {
     try {
       await navigator.clipboard.writeText(value);
-      toast.success(`${label} copied`);
+      toast.success(t("colorCopied", { label }));
     } catch {
       toast.error(t("copyFailed"));
     }
@@ -355,7 +355,7 @@ export default function ColorPaletteGenerator() {
                       <button
                         className="text-[9px] text-muted-foreground truncate w-full text-left hover:text-primary transition-colors"
                         onClick={() => copyColor(`hsl(${color.h}, ${color.s}%, ${color.l}%)`, "HSL")}
-                        title="Copy HSL"
+                        title={t("copyHSL")}
                       >
                         hsl({color.h},{color.s}%,{color.l}%)
                       </button>

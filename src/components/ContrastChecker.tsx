@@ -187,7 +187,7 @@ export default function ContrastChecker() {
             </div>
             <Button variant="outline" onClick={swap} className="w-full">
               <ArrowLeftRight className="w-4 h-4 mr-2" />
-              Swap Colors
+              {t("swapColors")}
             </Button>
           </CardContent>
         </Card>
@@ -263,7 +263,7 @@ export default function ContrastChecker() {
                       cursor: "default",
                     }}
                   >
-                    Button Component
+                    {t("previewButton")}
                   </button>
                 </div>
                 <div
@@ -275,7 +275,7 @@ export default function ContrastChecker() {
                     display: "inline-block",
                   }}
                 >
-                  UI Component Example
+                  {t("previewUI")}
                 </div>
               </div>
             </div>

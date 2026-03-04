@@ -396,7 +396,7 @@ export default function RegexTester() {
                 {matchDetails.map((m, idx) => (
                   <div key={`${m.index}-${idx}`} className="text-xs">
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline">Match {idx + 1}</Badge>
+                      <Badge variant="outline">{t("matchLabel", { n: idx + 1 })}</Badge>
                       <span className="font-mono">"{m.match}"</span>
                       <span className="text-muted-foreground">@ {m.index}</span>
                       {m.indices?.span && (

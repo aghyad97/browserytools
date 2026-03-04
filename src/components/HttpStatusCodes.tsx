@@ -145,7 +145,7 @@ export default function HttpStatusCodes() {
         <TabsList className="flex flex-wrap h-auto gap-1">
           {CATEGORIES.map((cat) => (
             <TabsTrigger key={cat.id} value={cat.id} className="text-sm">
-              {cat.label}
+              {cat.id === "all" ? t("categoryAll") : cat.label}
               <span className="ml-1 text-xs text-muted-foreground">
                 ({cat.id === "all" ? STATUS_CODES.length : STATUS_CODES.filter((s) => s.category === cat.id).length})
               </span>

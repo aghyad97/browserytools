@@ -503,7 +503,11 @@
       "formatSameAsSource": "Same as Source",
       "formatWebPRecommended": "WebP (Recommended)",
       "tabBasic": "Basic",
-      "tabAdvanced": "Advanced"
+      "tabAdvanced": "Advanced",
+      "imageTooLarge": "Image size should be less than 25MB",
+      "compressedSuccess": "Image compressed successfully!",
+      "compressFailed": "Failed to compress image. Please try again.",
+      "downloadedSuccess": "Image downloaded!"
     },
     "ImageConverter": {
       "dropImageHere": "Drop your image here",
@@ -556,7 +560,10 @@
       "copyRgb": "Copy RGB",
       "copyHsl": "Copy HSL",
       "copyCss": "Copy",
-      "copyComplementary": "Copy Complementary HEX"
+      "copyComplementary": "Copy Complementary HEX",
+      "copiedLabel": "{label} copied",
+      "copyFailed": "Copy failed",
+      "paletteBase": "Base"
     },
     "PDFTools": {
       "dropHere": "Drop PDFs here or click to select",
@@ -583,12 +590,29 @@
       "selectedFile": "Selected File",
       "pageRanges": "Page Ranges",
       "pageRangesHint": "Examples: 1-3,5,7-9 or 1,3,5 for individual pages",
+      "pageRangesPlaceholder": "e.g., 1-3,5,7-9",
       "pageRangesHelp": "Separate ranges with commas. Single pages or ranges are supported.",
       "firstPage": "First page",
       "allPages": "All pages",
       "first3Pages": "First 3 pages",
       "splitting": "Splitting...",
-      "splitAction": "Split PDF"
+      "splitAction": "Split PDF",
+      "errorReadingFile": "Error reading {name}: Invalid PDF file",
+      "addedPdfs": "Successfully added {count} PDF(s)!",
+      "errorLoadingPdfs": "Error loading PDFs",
+      "removedFile": "Removed {name}",
+      "needTwoPdfs": "Add at least 2 PDFs to merge",
+      "mergedSuccess": "PDFs merged successfully!",
+      "errorMerging": "Error merging PDFs",
+      "splitSuccess": "PDF split successfully! Created {count} file(s).",
+      "errorSplitting": "Error splitting PDF. Check page ranges.",
+      "compressedSuccess": "Compressed successfully! {before} → {after} ({ratio}% reduction)",
+      "alreadyOptimized": "Could not compress further - file is already optimized",
+      "errorCompressing": "Error compressing PDF",
+      "rotatedSuccess": "PDF rotated {degrees}° successfully!",
+      "errorRotating": "Error rotating PDF",
+      "passwordComingSoon": "Password protection feature coming soon!",
+      "errorPassword": "Error adding password protection"
     },
     "ZipTools": {
       "createZip": "Create ZIP",
@@ -603,7 +627,14 @@
       "creatingZip": "Creating ZIP file...",
       "extractingZip": "Extracting ZIP file...",
       "creatingZipBtn": "Creating ZIP...",
-      "createZipBtn": "Create ZIP"
+      "createZipBtn": "Create ZIP",
+      "filesAddedSuccess": "Files added successfully!",
+      "errorAddingFiles": "Error adding files",
+      "extractedSuccess": "ZIP file extracted successfully!",
+      "errorExtracting": "Error extracting ZIP file",
+      "addFilesToCreate": "Add files to create ZIP",
+      "zipCreatedSuccess": "ZIP file created successfully!",
+      "errorCreatingZip": "Error creating ZIP file"
     },
     "SpreadsheetViewer": {
       "dropHere": "Drop spreadsheet here or click to select",
@@ -612,7 +643,9 @@
       "selectColumnChart": "Select column for chart",
       "hideChart": "Hide Chart",
       "showChart": "Show Chart",
-      "exportCsv": "Export CSV"
+      "exportCsv": "Export CSV",
+      "fileLoadedSuccess": "File loaded successfully!",
+      "errorLoadingFile": "Error loading file"
     },
     "FileConverter": {
       "title": "File Converter",
@@ -634,7 +667,14 @@
       "xmlDesc": "Root with row children",
       "yamlDesc": "List of key-value maps",
       "rowCount": "{count} row",
-      "rowCountPlural": "{count} rows"
+      "rowCountPlural": "{count} rows",
+      "pasteSomeDataFirst": "Paste some data first.",
+      "convertedRows": "Converted {count} row to {format}",
+      "convertedRowsPlural": "Converted {count} rows to {format}",
+      "detectedFormat": "Detected format: {format}",
+      "couldNotDetect": "Could not auto-detect format. Please select manually.",
+      "copiedToClipboard": "Copied to clipboard",
+      "downloadedAs": "Downloaded as .{ext}"
     },
     "VideoEditor": {
       "dropHere": "Drop your video here",
@@ -660,7 +700,13 @@
       "convertAction": "Convert Video",
       "processedPreview": "Processed Preview",
       "processedPlaceholder": "Processed video will appear here",
-      "downloadProcessed": "Download Processed Video"
+      "downloadProcessed": "Download Processed Video",
+      "videoTooLarge": "Video size should be less than 100MB",
+      "trimmedSuccess": "Video trimmed successfully!",
+      "trimFailed": "Failed to trim video. Please try again.",
+      "convertedSuccess": "Video converted successfully!",
+      "convertFailed": "Failed to convert video. Please try again.",
+      "downloadedSuccess": "Video downloaded!"
     },
     "AudioEditor": {
       "title": "Audio Editor",
@@ -676,7 +722,17 @@
       "resetSpeed": "Reset Speed",
       "appliedEffects": "Applied Effects",
       "selection": "Selection: {start}s - {end}s",
-      "seconds": "{count} seconds"
+      "seconds": "{count} seconds",
+      "invalidAudioFile": "Please select a valid audio file",
+      "fileLoadedSuccess": "Audio file loaded successfully",
+      "errorLoadingFile": "Error loading audio file",
+      "errorProcessingFile": "Error processing audio file",
+      "fadeInApplied": "Fade in applied",
+      "fadeOutApplied": "Fade out applied",
+      "echoApplied": "Echo effect applied",
+      "speedSet": "Playback speed set to {speed}x",
+      "processingDownload": "Processing audio for download...",
+      "errorProcessingDownload": "Error processing audio for download"
     },
     "MicCameraTester": {
       "title": "Mic & Camera Tester",
@@ -687,7 +743,12 @@
       "chooseMic": "Choose microphone",
       "startPreview": "Start Preview",
       "stop": "Stop",
-      "micLevel": "Mic Level"
+      "micLevel": "Mic Level",
+      "errorListingDevices": "Could not list media devices",
+      "previewStarted": "Preview started",
+      "errorAccessingDevices": "Could not access camera/microphone",
+      "defaultCamera": "Camera",
+      "defaultMicrophone": "Microphone"
     },
     "TextCaseConverter": {
       "inputTitle": "Input Text",
@@ -791,7 +852,15 @@
       "charsBytes": "{chars} chars / {bytes} bytes",
       "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
-      "copyFailed": "Failed to copy to clipboard"
+      "copyFailed": "Failed to copy to clipboard",
+      "binaryInput": "Binary Input",
+      "hexInput": "Hex Input",
+      "octalInput": "Octal Input",
+      "decimalInput": "Decimal Input",
+      "binaryOutput": "Binary Output",
+      "hexOutput": "Hex Output",
+      "octalOutput": "Octal Output",
+      "decimalOutput": "Decimal Output"
     },
     "TextRepeater": {
       "textToRepeatTitle": "Text to Repeat",
@@ -873,7 +942,17 @@
       "downloadedMd": "Downloaded document.md",
       "editorCleared": "Editor cleared",
       "sampleLoaded": "Sample content loaded",
-      "nothingToPreview": "Nothing to preview yet. Start typing in the editor."
+      "nothingToPreview": "Nothing to preview yet. Start typing in the editor.",
+      "toolbarBold": "Bold",
+      "toolbarItalic": "Italic",
+      "toolbarLink": "Link",
+      "toolbarInlineCode": "Inline Code",
+      "toolbarHeading": "Heading",
+      "toolbarListItem": "List Item",
+      "toolbarBlockquote": "Blockquote",
+      "toolbarHorizontalRule": "Horizontal Rule",
+      "toolbarImage": "Image",
+      "toolbarCodeBlock": "Code Block"
     },
     "MarkdownToHtml": {
       "title": "Markdown to HTML",
@@ -917,7 +996,12 @@
       "htmlMinified": "HTML minified!",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy",
-      "downloaded": "Downloaded"
+      "downloaded": "Downloaded",
+      "ariaHtmlInput": "HTML input",
+      "ariaHtmlOutput": "HTML output",
+      "ariaCopy": "Copy",
+      "ariaDownload": "Download",
+      "processingFailed": "Processing failed"
     },
     "CodeHighlighter": {
       "title": "Code Formatter",
@@ -950,7 +1034,11 @@
       "noReduction": "No reduction",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy",
-      "downloaded": "Downloaded"
+      "downloaded": "Downloaded",
+      "ariaCssInput": "CSS input",
+      "ariaCssOutput": "CSS output",
+      "ariaCopy": "Copy",
+      "ariaDownload": "Download"
     },
     "SqlFormatter": {
       "title": "SQL Formatter",
@@ -977,7 +1065,12 @@
       "minificationFailed": "Minification failed",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy",
-      "downloaded": "Downloaded"
+      "downloaded": "Downloaded",
+      "dialectStandard": "Standard SQL",
+      "ariaSqlInput": "SQL input",
+      "ariaSqlOutput": "SQL output",
+      "ariaCopy": "Copy",
+      "ariaDownload": "Download"
     },
     "WordFrequency": {
       "inputTitle": "Input Text",
@@ -1275,7 +1368,83 @@
       "invalidJsonSimple": "Invalid JSON format",
       "invalidCsvFormat": "Invalid CSV format",
       "sampleDataLoaded": "Sample data loaded",
-      "columnExists": "Column name already exists"
+      "columnExists": "Column name already exists",
+      "customizationHeading": "Customization",
+      "customizationSubtitle": "Customize your chart appearance, colors, and behavior",
+      "tabGeneral": "General",
+      "tabColors": "Colors",
+      "tabText": "Text",
+      "tabLayout": "Layout",
+      "chartTitleLabel": "Chart Title",
+      "chartTitlePlaceholder": "Enter chart title",
+      "titleColor": "Title Color",
+      "subtitleLabel": "Subtitle (Optional)",
+      "subtitlePlaceholder": "Enter subtitle",
+      "subtitleColor": "Subtitle Color",
+      "widthPx": "Width (px)",
+      "heightPx": "Height (px)",
+      "showLegend": "Show Legend",
+      "showTooltip": "Show Tooltip",
+      "showGrid": "Show Grid",
+      "gridColor": "Grid Color",
+      "colorScheme": "Color Scheme",
+      "colorSchemeDefault": "Default",
+      "colorSchemePreset": "Theme Preset",
+      "colorSchemeCustom": "Custom Colors",
+      "themePresets": "Theme Presets",
+      "useInOrder": "Use in order",
+      "randomizeFromTheme": "Randomize from theme",
+      "seriesColors": "Series Colors",
+      "xAxisLabel": "X-Axis Label",
+      "xAxisPlaceholder": "Enter X-axis label",
+      "yAxisLabel": "Y-Axis Label",
+      "yAxisPlaceholder": "Enter Y-axis label",
+      "showXAxis": "Show X-Axis",
+      "showYAxis": "Show Y-Axis",
+      "fillOpacity": "Fill Opacity: {val}",
+      "strokeWidth": "Stroke Width: {val}",
+      "smoothCurves": "Smooth Curves",
+      "barChartHeading": "Bar Chart",
+      "barWidth": "Bar Width: {val}",
+      "barGap": "Bar Gap: {val}",
+      "lineChartHeading": "Line Chart",
+      "lineStrokeWidth": "Stroke Width: {val}",
+      "dotSize": "Dot Size: {val}",
+      "smoothLines": "Smooth Lines",
+      "showDots": "Show Dots",
+      "pieChartHeading": "Pie Chart",
+      "pieInnerRadius": "Inner Radius: {val}",
+      "pieOuterRadius": "Outer Radius: {val}",
+      "labelPosition": "Label Position",
+      "labelInside": "Inside",
+      "labelOutside": "Outside",
+      "labelCenter": "Center",
+      "showLabels": "Show Labels",
+      "radialChartHeading": "Radial Chart",
+      "radialInnerRadius": "Inner Radius: {val}",
+      "radialOuterRadius": "Outer Radius: {val}",
+      "angles": "Angles",
+      "colorAddedToPalette": "Color added to custom palette",
+      "appliedTheme": "Applied {name} theme",
+      "appliedThemeInOrder": "Applied theme colors in order",
+      "appliedThemeRandomized": "Applied randomized theme colors",
+      "exportFormat": "Export Format",
+      "filename": "Filename",
+      "filenamePlaceholder": "Enter filename",
+      "includeData": "Include Data",
+      "includeConfiguration": "Include Configuration",
+      "exportAs": "Export as {format}",
+      "pngImage": "PNG Image",
+      "pdfDocument": "PDF Document",
+      "chartNotFound": "Chart not found",
+      "exportedAsPng": "Chart exported as PNG",
+      "failedExportPng": "Failed to export PNG",
+      "exportedAsPdf": "Chart exported as PDF",
+      "failedExportPdf": "Failed to export PDF",
+      "exportedAsJson": "Chart exported as JSON",
+      "failedExportJson": "Failed to export JSON",
+      "unsupportedFormat": "Unsupported export format",
+      "formatSuffix": "Format"
     },
     "YamlJsonConverter": {
       "yamlToJson": "YAML to JSON",
@@ -1542,7 +1711,13 @@
       "yourBmiResult": "Your BMI Result",
       "healthyWeightRange": "Healthy Weight Range",
       "disclaimer": "BMI is a screening tool, not a diagnostic measure.",
-      "enterWeightHeight": "Enter your weight and height to calculate BMI"
+      "enterWeightHeight": "Enter your weight and height to calculate BMI",
+      "categoryUnderweight": "Underweight",
+      "categoryNormal": "Normal weight",
+      "categoryOverweight": "Overweight",
+      "categoryObeseI": "Obese Class I",
+      "categoryObeseII": "Obese Class II",
+      "categoryObeseIII": "Obese Class III"
     },
     "Calculator": {
       "basic": "Basic",
@@ -1659,7 +1834,9 @@
       "customSplit": "Custom Split",
       "differentAmountsPerPerson": "Different amounts per person",
       "pays": "pays",
-      "enterBillPrompt": "Enter a bill amount to get started"
+      "enterBillPrompt": "Enter a bill amount to get started",
+      "summaryCopied": "Summary copied to clipboard",
+      "copyFailed": "Failed to copy"
     },
     "UnitConverter": {
       "converter": "Converter",
@@ -1698,7 +1875,9 @@
       "liveExchangeRate": "Live Exchange Rate",
       "rawRate": "Raw Rate",
       "formattedCurrency": "Formatted Currency",
-      "localized": "Localized"
+      "localized": "Localized",
+      "fetchError": "Unable to fetch rates. Using any cached data if available.",
+      "errorLabel": "Error"
     },
     "InvoiceGenerator": {
       "tabs": {
@@ -1743,7 +1922,35 @@
       "readyToExportDesc": "Your invoice is ready to be downloaded as a professional PDF document.",
       "pdfPageSize": "PDF Page Size",
       "downloadPdf": "Download PDF Invoice",
-      "pdfNote": "The PDF will be generated with all your invoice details and can be printed or emailed to your client."
+      "pdfNote": "The PDF will be generated with all your invoice details and can be printed or emailed to your client.",
+      "manageSubtitle": "Manage your saved invoices or create a new one",
+      "newInvoice": "New Invoice",
+      "searchFilter": "Search & Filter",
+      "searchInvoices": "Search Invoices",
+      "searchPlaceholder": "Search by invoice number, company, or client...",
+      "sortBy": "Sort By",
+      "sortLastModified": "Last Modified",
+      "sortInvoiceNumber": "Invoice Number",
+      "sortTotalAmount": "Total Amount",
+      "order": "Order",
+      "newestFirst": "Newest First",
+      "oldestFirst": "Oldest First",
+      "noInvoicesFound": "No Invoices Found",
+      "noInvoicesSearchMsg": "No invoices match your search criteria.",
+      "noInvoicesMsg": "You haven't created any invoices yet.",
+      "createFirstInvoice": "Create Your First Invoice",
+      "open": "Open",
+      "untitledCompany": "Untitled Company",
+      "noClient": "No client",
+      "deleteInvoice": "Delete Invoice",
+      "deleteConfirm": "Are you sure you want to delete invoice {number}? This action cannot be undone.",
+      "delete": "Delete",
+      "cancel": "Cancel",
+      "totalInvoices": "Total Invoices",
+      "totalValue": "Total Value",
+      "overdue": "Overdue",
+      "invoiceDeleted": "Invoice Deleted",
+      "invoiceDuplicated": "Invoice Duplicated"
     },
     "NumberBaseConverter": {
       "title": "Number Base Converter",
@@ -1752,7 +1959,8 @@
       "binary": "Binary",
       "octal": "Octal",
       "hexadecimal": "Hexadecimal",
-      "clear": "Clear"
+      "clear": "Clear",
+      "conversionFailed": "Conversion failed"
     },
     "RomanNumeralConverter": {
       "title": "Roman Numeral Converter",
@@ -1766,7 +1974,12 @@
       "stepByStep": "Step by Step",
       "runningTotal": "Running Total",
       "remaining": "Remaining",
-      "referenceTable": "Reference Table"
+      "referenceTable": "Reference Table",
+      "errorInvalidChars": "Invalid Roman numeral — only I, V, X, L, C, D, M allowed",
+      "errorInvalidFormat": "Invalid Roman numeral — check the numeral format",
+      "errorOutOfRange": "Enter a number between 1 and 3999",
+      "copiedToClipboard": "Copied to clipboard",
+      "failedToCopy": "Failed to copy"
     },
     "PasswordGenerator": {
       "generatorOptionsTitle": "Generator Options",
@@ -1899,7 +2112,8 @@
       "emptyInput": "Empty input",
       "hashesGeneratedToast": "Hashes generated",
       "copiedToClipboard": "Copied to clipboard",
-      "copyFailed": "Copy failed"
+      "copyFailed": "Copy failed",
+      "hashLength": "{count} characters"
     },
     "RegexTester": {
       "title": "Regex Tester",
@@ -1915,7 +2129,8 @@
       "replacementPlaceholder": "Type a replacement to preview",
       "matchesCount": "Matches: {count}",
       "captureGroups": "Capture Groups",
-      "noCaptureGroups": "(no capture groups)"
+      "noCaptureGroups": "(no capture groups)",
+      "matchLabel": "Match {n}"
     },
     "CronParser": {
       "title": "Cron Tools",
@@ -1984,7 +2199,15 @@
       "strongPasswordGenerated": "Strong password generated",
       "strengthInstant": "Instant",
       "strengthLessThan1s": "Less than 1 second",
-      "strengthCenturies": "Centuries"
+      "strengthCenturies": "Centuries",
+      "strengthSeconds": "{n} seconds",
+      "strengthMinutes": "{n} minutes",
+      "strengthHours": "{n} hours",
+      "strengthDays": "{n} days",
+      "strengthMonths": "{n} months",
+      "strengthYears": "{n} years",
+      "strengthThousandYears": "{n} thousand years",
+      "strengthMillionYears": "{n} million years"
     },
     "TextEncryption": {
       "securityNote": "Your data never leaves your browser. All encryption is performed locally using the Web Crypto API.",
@@ -2026,7 +2249,8 @@
       "useCaseLabel": "Use case:",
       "copyStatusCode": "Copy status code",
       "codeCopied": "Code {code} copied",
-      "failedToCopy": "Failed to copy"
+      "failedToCopy": "Failed to copy",
+      "categoryAll": "All"
     },
     "UUIDGenerator": {
       "generatorSettingsTitle": "Generator Settings",
@@ -2102,7 +2326,16 @@
       "cssCopied": "CSS copied to clipboard",
       "copyFailed": "Failed to copy CSS",
       "exportedPNG": "Gradient exported as PNG",
-      "loaded": "Loaded"
+      "loaded": "Loaded",
+      "pickColor": "Pick color",
+      "dirUp": "Up (0deg)",
+      "dirUpRight": "Up-Right (45deg)",
+      "dirRight": "Right (90deg)",
+      "dirDownRight": "Down-Right (135deg)",
+      "dirDown": "Down (180deg)",
+      "dirDownLeft": "Down-Left (225deg)",
+      "dirLeft": "Left (270deg)",
+      "dirUpLeft": "Up-Left (315deg)"
     },
     "ColorPaletteGenerator": {
       "title": "Color Palette Generator",
@@ -2131,7 +2364,8 @@
       "schemeSplitComplementary": "Split-Complementary (3 colors)",
       "schemeTetradic": "Tetradic/Square (4 colors)",
       "schemeShades": "Shades (10 variations)",
-      "schemeMonochromatic": "Monochromatic (10 variations)"
+      "schemeMonochromatic": "Monochromatic (10 variations)",
+      "colorCopied": "{label} copied"
     },
     "ImageResizer": {
       "title": "Image Resizer",
@@ -2271,7 +2505,8 @@
       "categoryObjects": "Objects",
       "categorySymbols": "Symbols",
       "categoryFlags": "Flags",
-      "copied": "Copied"
+      "copied": "Copied",
+      "footerCount": "{emojiCount} emojis across {catCount} categories."
     },
     "ScreenRecorder": {
       "title": "Screen Recorder",

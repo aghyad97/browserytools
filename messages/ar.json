@@ -482,7 +482,9 @@
       "preview": "معاينة",
       "previewDesc": "ارفع لقطة شاشة — ستتلاءم تلقائياً مع الإطار بزوايا دائرية وقص دقيق.",
       "saveImage": "حفظ الصورة",
-      "copyToClipboard": "نسخ إلى الحافظة"
+      "copyToClipboard": "نسخ إلى الحافظة",
+      "outputAspectDefault": "افتراضي",
+      "clipboardCopyFailed": "تعذّر نسخ الصورة إلى الحافظة. يرجى تجربة التحميل بدلاً من ذلك."
     },
     "ImageCompression": {
       "sizeReduction": "نسبة التخفيض",
@@ -501,7 +503,11 @@
       "formatSameAsSource": "نفس الصيغة الأصلية",
       "formatWebPRecommended": "WebP (موصى به)",
       "tabBasic": "أساسي",
-      "tabAdvanced": "متقدم"
+      "tabAdvanced": "متقدم",
+      "imageTooLarge": "حجم الصورة يجب أن يكون أقل من 25 ميغابايت",
+      "compressedSuccess": "تم ضغط الصورة بنجاح!",
+      "compressFailed": "فشل ضغط الصورة. يرجى المحاولة مجدداً.",
+      "downloadedSuccess": "تم تحميل الصورة!"
     },
     "ImageConverter": {
       "dropImageHere": "أفلت صورتك هنا",
@@ -509,7 +515,15 @@
       "size": "الحجم",
       "targetFormat": "الصيغة المستهدفة",
       "quality": "الجودة",
-      "convertedImagePlaceholder": "ستظهر الصورة المحولة هنا"
+      "convertedImagePlaceholder": "ستظهر الصورة المحولة هنا",
+      "imageTooLarge": "حجم الصورة يجب أن يكون أقل من 15 ميغابايت",
+      "heicConverted": "تم تحويل HEIC إلى JPEG للمعاينة",
+      "heicFailed": "فشل قراءة HEIC. يرجى تجربة ملف آخر.",
+      "convertedSuccess": "تم تحويل الصورة بنجاح!",
+      "convertFailed": "فشل تحويل الصورة. يرجى المحاولة مجدداً.",
+      "downloadedSuccess": "تم تحميل الصورة!",
+      "altOriginal": "الأصلية",
+      "altConverted": "المحوّلة"
     },
     "ColorCorrection": {
       "dropImageHere": "أفلت صورتك هنا",
@@ -528,7 +542,12 @@
     },
     "SvgEditor": {
       "title": "محرر SVG",
-      "subtitle": "إنشاء وتحرير رسومات SVG"
+      "subtitle": "إنشاء وتحرير رسومات SVG",
+      "canvasNotInitialized": "لم تتم تهيئة اللوحة",
+      "errorCreatingShape": "خطأ في إنشاء الشكل",
+      "downloadedSuccess": "تم تحميل SVG بنجاح",
+      "enterTextPrompt": "أدخل النص:",
+      "enterTextDefault": "مرحباً"
     },
     "ColorConverter": {
       "title": "محوّل الألوان",
@@ -541,7 +560,10 @@
       "copyRgb": "نسخ RGB",
       "copyHsl": "نسخ HSL",
       "copyCss": "نسخ",
-      "copyComplementary": "نسخ اللون المكمل HEX"
+      "copyComplementary": "نسخ اللون المكمل HEX",
+      "copiedLabel": "تم نسخ {label}",
+      "copyFailed": "فشل النسخ",
+      "paletteBase": "أساس"
     },
     "PDFTools": {
       "dropHere": "أفلت ملفات PDF هنا أو انقر للاختيار",
@@ -573,7 +595,24 @@
       "allPages": "جميع الصفحات",
       "first3Pages": "أول 3 صفحات",
       "splitting": "جارٍ التقسيم...",
-      "splitAction": "تقسيم PDF"
+      "splitAction": "تقسيم PDF",
+      "pageRangesPlaceholder": "مثال: 1-3,5,7-9",
+      "errorReadingFile": "خطأ في قراءة {name}: ملف PDF غير صالح",
+      "addedPdfs": "تمت إضافة {count} ملف/ملفات PDF بنجاح!",
+      "errorLoadingPdfs": "خطأ في تحميل ملفات PDF",
+      "removedFile": "تمت إزالة {name}",
+      "needTwoPdfs": "أضف ملفَي PDF على الأقل للدمج",
+      "mergedSuccess": "تم دمج ملفات PDF بنجاح!",
+      "errorMerging": "خطأ في دمج ملفات PDF",
+      "splitSuccess": "تم تقسيم PDF بنجاح! تم إنشاء {count} ملف/ملفات.",
+      "errorSplitting": "خطأ في تقسيم PDF. تحقق من نطاقات الصفحات.",
+      "compressedSuccess": "تم الضغط بنجاح! {before} ← {after} ({ratio}% تخفيض)",
+      "alreadyOptimized": "تعذّر الضغط أكثر — الملف محسّن مسبقاً",
+      "errorCompressing": "خطأ في ضغط PDF",
+      "rotatedSuccess": "تم تدوير PDF {degrees}° بنجاح!",
+      "errorRotating": "خطأ في تدوير PDF",
+      "passwordComingSoon": "ميزة حماية كلمة المرور قريباً!",
+      "errorPassword": "خطأ في إضافة حماية كلمة المرور"
     },
     "ZipTools": {
       "createZip": "إنشاء ZIP",
@@ -588,7 +627,14 @@
       "creatingZip": "جارٍ إنشاء ملف ZIP...",
       "extractingZip": "جارٍ فك ضغط ملف ZIP...",
       "creatingZipBtn": "جارٍ الإنشاء...",
-      "createZipBtn": "إنشاء ZIP"
+      "createZipBtn": "إنشاء ZIP",
+      "filesAddedSuccess": "تمت إضافة الملفات بنجاح!",
+      "errorAddingFiles": "خطأ في إضافة الملفات",
+      "extractedSuccess": "تم فك ضغط ملف ZIP بنجاح!",
+      "errorExtracting": "خطأ في فك ضغط ملف ZIP",
+      "addFilesToCreate": "أضف ملفات لإنشاء ZIP",
+      "zipCreatedSuccess": "تم إنشاء ملف ZIP بنجاح!",
+      "errorCreatingZip": "خطأ في إنشاء ملف ZIP"
     },
     "SpreadsheetViewer": {
       "dropHere": "أفلت جدول البيانات هنا أو انقر للاختيار",
@@ -597,7 +643,9 @@
       "selectColumnChart": "اختر عموداً للرسم البياني",
       "hideChart": "إخفاء الرسم البياني",
       "showChart": "إظهار الرسم البياني",
-      "exportCsv": "تصدير CSV"
+      "exportCsv": "تصدير CSV",
+      "fileLoadedSuccess": "تم تحميل الملف بنجاح!",
+      "errorLoadingFile": "خطأ في تحميل الملف"
     },
     "FileConverter": {
       "title": "محوّل الملفات",
@@ -619,7 +667,14 @@
       "xmlDesc": "جذر مع عناصر صف",
       "yamlDesc": "قائمة من خرائط المفاتيح والقيم",
       "rowCount": "{count} صف",
-      "rowCountPlural": "{count} صفوف"
+      "rowCountPlural": "{count} صفوف",
+      "pasteSomeDataFirst": "الصق بعض البيانات أولاً.",
+      "convertedRows": "تم تحويل {count} صف إلى {format}",
+      "convertedRowsPlural": "تم تحويل {count} صفوف إلى {format}",
+      "detectedFormat": "الصيغة المكتشفة: {format}",
+      "couldNotDetect": "تعذّر الكشف التلقائي عن الصيغة. يرجى الاختيار يدوياً.",
+      "copiedToClipboard": "تم النسخ إلى الحافظة",
+      "downloadedAs": "تم التحميل بصيغة .{ext}"
     },
     "VideoEditor": {
       "dropHere": "أفلت الفيديو هنا",
@@ -645,7 +700,13 @@
       "convertAction": "تحويل الفيديو",
       "processedPreview": "معاينة الناتج",
       "processedPlaceholder": "سيظهر الفيديو المعالج هنا",
-      "downloadProcessed": "تحميل الفيديو المعالج"
+      "downloadProcessed": "تحميل الفيديو المعالج",
+      "videoTooLarge": "حجم الفيديو يجب أن يكون أقل من 100 ميغابايت",
+      "trimmedSuccess": "تم قص الفيديو بنجاح!",
+      "trimFailed": "فشل قص الفيديو. يرجى المحاولة مجدداً.",
+      "convertedSuccess": "تم تحويل الفيديو بنجاح!",
+      "convertFailed": "فشل تحويل الفيديو. يرجى المحاولة مجدداً.",
+      "downloadedSuccess": "تم تحميل الفيديو!"
     },
     "AudioEditor": {
       "title": "محرر الصوت",
@@ -661,7 +722,17 @@
       "resetSpeed": "إعادة السرعة",
       "appliedEffects": "التأثيرات المطبّقة",
       "selection": "التحديد: {start}ث - {end}ث",
-      "seconds": "{count} ثانية"
+      "seconds": "{count} ثانية",
+      "invalidAudioFile": "يرجى اختيار ملف صوتي صالح",
+      "fileLoadedSuccess": "تم تحميل ملف الصوت بنجاح",
+      "errorLoadingFile": "خطأ في تحميل ملف الصوت",
+      "errorProcessingFile": "خطأ في معالجة ملف الصوت",
+      "fadeInApplied": "تم تطبيق التلاشي الداخلي",
+      "fadeOutApplied": "تم تطبيق التلاشي الخارجي",
+      "echoApplied": "تم تطبيق تأثير الصدى",
+      "speedSet": "تم ضبط سرعة التشغيل على {speed}×",
+      "processingDownload": "جارٍ معالجة الصوت للتحميل...",
+      "errorProcessingDownload": "خطأ في معالجة الصوت للتحميل"
     },
     "MicCameraTester": {
       "title": "اختبار الميكروفون والكاميرا",
@@ -672,7 +743,12 @@
       "chooseMic": "اختر الميكروفون",
       "startPreview": "بدء المعاينة",
       "stop": "إيقاف",
-      "micLevel": "مستوى الميكروفون"
+      "micLevel": "مستوى الميكروفون",
+      "errorListingDevices": "تعذّر سرد الأجهزة",
+      "previewStarted": "بدأت المعاينة",
+      "errorAccessingDevices": "تعذّر الوصول إلى الكاميرا/الميكروفون",
+      "defaultCamera": "الكاميرا",
+      "defaultMicrophone": "الميكروفون"
     },
     "TextCaseConverter": {
       "inputTitle": "النص المدخل",
@@ -776,7 +852,15 @@
       "charsBytes": "{chars} حرف / {bytes} بايت",
       "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "copyFailed": "فشل النسخ إلى الحافظة"
+      "copyFailed": "فشل النسخ إلى الحافظة",
+      "binaryInput": "إدخال ثنائي",
+      "hexInput": "إدخال سادس عشر",
+      "octalInput": "إدخال ثماني",
+      "decimalInput": "إدخال عشري",
+      "binaryOutput": "ناتج ثنائي",
+      "hexOutput": "ناتج سادس عشر",
+      "octalOutput": "ناتج ثماني",
+      "decimalOutput": "ناتج عشري"
     },
     "TextRepeater": {
       "textToRepeatTitle": "النص المراد تكراره",
@@ -858,7 +942,17 @@
       "downloadedMd": "تم تحميل document.md",
       "editorCleared": "تم مسح المحرر",
       "sampleLoaded": "تم تحميل المحتوى التجريبي",
-      "nothingToPreview": "لا يوجد شيء للمعاينة بعد. ابدأ الكتابة في المحرر."
+      "nothingToPreview": "لا يوجد شيء للمعاينة بعد. ابدأ الكتابة في المحرر.",
+      "toolbarBold": "عريض",
+      "toolbarItalic": "مائل",
+      "toolbarLink": "رابط",
+      "toolbarInlineCode": "كود مضمّن",
+      "toolbarHeading": "عنوان",
+      "toolbarListItem": "عنصر قائمة",
+      "toolbarBlockquote": "اقتباس",
+      "toolbarHorizontalRule": "خط أفقي",
+      "toolbarImage": "صورة",
+      "toolbarCodeBlock": "كتلة كود"
     },
     "MarkdownToHtml": {
       "title": "Markdown إلى HTML",
@@ -902,7 +996,12 @@
       "htmlMinified": "تم ضغط HTML!",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ",
-      "downloaded": "تم التحميل"
+      "downloaded": "تم التحميل",
+      "ariaHtmlInput": "إدخال HTML",
+      "ariaHtmlOutput": "ناتج HTML",
+      "ariaCopy": "نسخ",
+      "ariaDownload": "تحميل",
+      "processingFailed": "فشلت المعالجة"
     },
     "CodeHighlighter": {
       "title": "منسّق الكود",
@@ -1260,7 +1359,83 @@
       "invalidJsonSimple": "صيغة JSON غير صالحة",
       "invalidCsvFormat": "صيغة CSV غير صالحة",
       "sampleDataLoaded": "تم تحميل البيانات التجريبية",
-      "columnExists": "اسم العمود موجود بالفعل"
+      "columnExists": "اسم العمود موجود بالفعل",
+      "customizationHeading": "التخصيص",
+      "customizationSubtitle": "خصّص مظهر مخططك وألوانه وسلوكه",
+      "tabGeneral": "عام",
+      "tabColors": "الألوان",
+      "tabText": "النص",
+      "tabLayout": "التخطيط",
+      "chartTitleLabel": "عنوان المخطط",
+      "chartTitlePlaceholder": "أدخل عنوان المخطط",
+      "titleColor": "لون العنوان",
+      "subtitleLabel": "العنوان الفرعي (اختياري)",
+      "subtitlePlaceholder": "أدخل العنوان الفرعي",
+      "subtitleColor": "لون العنوان الفرعي",
+      "widthPx": "العرض (بكسل)",
+      "heightPx": "الارتفاع (بكسل)",
+      "showLegend": "إظهار المفتاح",
+      "showTooltip": "إظهار تلميح الأداة",
+      "showGrid": "إظهار الشبكة",
+      "gridColor": "لون الشبكة",
+      "colorScheme": "نظام الألوان",
+      "colorSchemeDefault": "افتراضي",
+      "colorSchemePreset": "ثيم مسبق",
+      "colorSchemeCustom": "ألوان مخصصة",
+      "themePresets": "ثيمات مسبقة",
+      "useInOrder": "استخدام بالترتيب",
+      "randomizeFromTheme": "ترتيب عشوائي من الثيم",
+      "seriesColors": "ألوان السلاسل",
+      "xAxisLabel": "تسمية المحور X",
+      "xAxisPlaceholder": "أدخل تسمية المحور X",
+      "yAxisLabel": "تسمية المحور Y",
+      "yAxisPlaceholder": "أدخل تسمية المحور Y",
+      "showXAxis": "إظهار المحور X",
+      "showYAxis": "إظهار المحور Y",
+      "fillOpacity": "شفافية التعبئة: {val}",
+      "strokeWidth": "عرض الخط: {val}",
+      "smoothCurves": "منحنيات ناعمة",
+      "barChartHeading": "مخطط أعمدة",
+      "barWidth": "عرض العمود: {val}",
+      "barGap": "فجوة الأعمدة: {val}",
+      "lineChartHeading": "مخطط خطي",
+      "lineStrokeWidth": "عرض الخط: {val}",
+      "dotSize": "حجم النقطة: {val}",
+      "smoothLines": "خطوط ناعمة",
+      "showDots": "إظهار النقاط",
+      "pieChartHeading": "مخطط دائري",
+      "pieInnerRadius": "نصف القطر الداخلي: {val}",
+      "pieOuterRadius": "نصف القطر الخارجي: {val}",
+      "labelPosition": "موضع التسمية",
+      "labelInside": "داخل",
+      "labelOutside": "خارج",
+      "labelCenter": "وسط",
+      "showLabels": "إظهار التسميات",
+      "radialChartHeading": "مخطط شعاعي",
+      "radialInnerRadius": "نصف القطر الداخلي: {val}",
+      "radialOuterRadius": "نصف القطر الخارجي: {val}",
+      "angles": "الزوايا",
+      "colorAddedToPalette": "تم إضافة اللون إلى اللوحة المخصصة",
+      "appliedTheme": "تم تطبيق ثيم {name}",
+      "appliedThemeInOrder": "تم تطبيق ألوان الثيم بالترتيب",
+      "appliedThemeRandomized": "تم تطبيق ألوان الثيم بشكل عشوائي",
+      "exportFormat": "صيغة التصدير",
+      "filename": "اسم الملف",
+      "filenamePlaceholder": "أدخل اسم الملف",
+      "includeData": "تضمين البيانات",
+      "includeConfiguration": "تضمين الإعدادات",
+      "exportAs": "تصدير بصيغة {format}",
+      "pngImage": "صورة PNG",
+      "pdfDocument": "مستند PDF",
+      "chartNotFound": "المخطط غير موجود",
+      "exportedAsPng": "تم تصدير المخطط بصيغة PNG",
+      "failedExportPng": "فشل تصدير PNG",
+      "exportedAsPdf": "تم تصدير المخطط بصيغة PDF",
+      "failedExportPdf": "فشل تصدير PDF",
+      "exportedAsJson": "تم تصدير المخطط بصيغة JSON",
+      "failedExportJson": "فشل تصدير JSON",
+      "unsupportedFormat": "صيغة التصدير غير مدعومة",
+      "formatSuffix": "تنسيق"
     },
     "YamlJsonConverter": {
       "yamlToJson": "YAML إلى JSON",
@@ -1527,7 +1702,13 @@
       "yourBmiResult": "نتيجة مؤشر كتلة جسمك",
       "healthyWeightRange": "نطاق الوزن الصحي",
       "disclaimer": "مؤشر كتلة الجسم أداة للفحص وليس تشخيصاً.",
-      "enterWeightHeight": "أدخل وزنك وطولك لحساب المؤشر"
+      "enterWeightHeight": "أدخل وزنك وطولك لحساب المؤشر",
+      "categoryUnderweight": "نقص الوزن",
+      "categoryNormal": "الوزن الطبيعي",
+      "categoryOverweight": "زيادة الوزن",
+      "categoryObeseI": "السمنة الدرجة الأولى",
+      "categoryObeseII": "السمنة الدرجة الثانية",
+      "categoryObeseIII": "السمنة الدرجة الثالثة"
     },
     "Calculator": {
       "basic": "أساسي",
@@ -1644,7 +1825,9 @@
       "customSplit": "تقسيم مخصص",
       "differentAmountsPerPerson": "مبالغ مختلفة لكل شخص",
       "pays": "يدفع",
-      "enterBillPrompt": "أدخل مبلغ الفاتورة للبدء"
+      "enterBillPrompt": "أدخل مبلغ الفاتورة للبدء",
+      "summaryCopied": "تم نسخ الملخص",
+      "copyFailed": "فشل النسخ"
     },
     "UnitConverter": {
       "converter": "محوّل",
@@ -1683,7 +1866,9 @@
       "liveExchangeRate": "سعر الصرف الحي",
       "rawRate": "السعر الخام",
       "formattedCurrency": "العملة المنسقة",
-      "localized": "محلي"
+      "localized": "محلي",
+      "fetchError": "تعذّر جلب أسعار الصرف. سيتم استخدام البيانات المخزنة إن توفرت.",
+      "errorLabel": "خطأ"
     },
     "InvoiceGenerator": {
       "tabs": {
@@ -1728,7 +1913,35 @@
       "readyToExportDesc": "فاتورتك جاهزة للتنزيل كمستند PDF احترافي.",
       "pdfPageSize": "حجم صفحة PDF",
       "downloadPdf": "تنزيل فاتورة PDF",
-      "pdfNote": "سيتم إنشاء ملف PDF بجميع تفاصيل فاتورتك ويمكن طباعته أو إرساله بالبريد الإلكتروني لعميلك."
+      "pdfNote": "سيتم إنشاء ملف PDF بجميع تفاصيل فاتورتك ويمكن طباعته أو إرساله بالبريد الإلكتروني لعميلك.",
+      "manageSubtitle": "إدارة فواتيرك المحفوظة أو إنشاء فاتورة جديدة",
+      "newInvoice": "فاتورة جديدة",
+      "searchFilter": "البحث والتصفية",
+      "searchInvoices": "البحث في الفواتير",
+      "searchPlaceholder": "ابحث برقم الفاتورة أو الشركة أو العميل...",
+      "sortBy": "ترتيب حسب",
+      "sortLastModified": "آخر تعديل",
+      "sortInvoiceNumber": "رقم الفاتورة",
+      "sortTotalAmount": "المبلغ الإجمالي",
+      "order": "الترتيب",
+      "newestFirst": "الأحدث أولاً",
+      "oldestFirst": "الأقدم أولاً",
+      "noInvoicesFound": "لا توجد فواتير",
+      "noInvoicesSearchMsg": "لا توجد فواتير تطابق معايير البحث.",
+      "noInvoicesMsg": "لم تقم بإنشاء أي فاتورة بعد.",
+      "createFirstInvoice": "إنشاء فاتورتك الأولى",
+      "open": "فتح",
+      "untitledCompany": "شركة بدون اسم",
+      "noClient": "لا يوجد عميل",
+      "deleteInvoice": "حذف الفاتورة",
+      "deleteConfirm": "هل أنت متأكد من حذف الفاتورة {number}؟ لا يمكن التراجع عن هذا الإجراء.",
+      "delete": "حذف",
+      "cancel": "إلغاء",
+      "totalInvoices": "إجمالي الفواتير",
+      "totalValue": "القيمة الإجمالية",
+      "overdue": "متأخر",
+      "invoiceDeleted": "تم حذف الفاتورة",
+      "invoiceDuplicated": "تم تكرار الفاتورة"
     },
     "NumberBaseConverter": {
       "title": "محوّل قاعدة الأعداد",
@@ -1737,7 +1950,8 @@
       "binary": "ثنائي",
       "octal": "ثماني",
       "hexadecimal": "سداسي عشري",
-      "clear": "مسح"
+      "clear": "مسح",
+      "conversionFailed": "فشل التحويل"
     },
     "RomanNumeralConverter": {
       "title": "محوّل الأرقام الرومانية",
@@ -1751,7 +1965,12 @@
       "stepByStep": "خطوة بخطوة",
       "runningTotal": "المجموع الجاري",
       "remaining": "المتبقي",
-      "referenceTable": "جدول المرجع"
+      "referenceTable": "جدول المرجع",
+      "errorInvalidChars": "أرقام رومانية غير صحيحة — يُسمح فقط بـ I و V و X و L و C و D و M",
+      "errorInvalidFormat": "أرقام رومانية غير صحيحة — تحقق من تنسيق الأرقام",
+      "errorOutOfRange": "أدخل رقماً بين 1 و 3999",
+      "copiedToClipboard": "تم النسخ إلى الحافظة",
+      "failedToCopy": "فشل النسخ"
     },
     "PasswordGenerator": {
       "generatorOptionsTitle": "خيارات التوليد",
@@ -1884,7 +2103,8 @@
       "emptyInput": "المدخل فارغ",
       "hashesGeneratedToast": "تم توليد التجزئات",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "copyFailed": "فشل النسخ"
+      "copyFailed": "فشل النسخ",
+      "hashLength": "{count} حرفاً"
     },
     "RegexTester": {
       "title": "اختبار التعابير النمطية",
@@ -1900,7 +2120,8 @@
       "replacementPlaceholder": "اكتب نصاً للاستبدال لمعاينته",
       "matchesCount": "التطابقات: {count}",
       "captureGroups": "مجموعات الالتقاط",
-      "noCaptureGroups": "(لا توجد مجموعات التقاط)"
+      "noCaptureGroups": "(لا توجد مجموعات التقاط)",
+      "matchLabel": "تطابق {n}"
     },
     "CronParser": {
       "title": "أدوات Cron",
@@ -1969,7 +2190,15 @@
       "strongPasswordGenerated": "تم توليد كلمة مرور قوية",
       "strengthInstant": "فوري",
       "strengthLessThan1s": "أقل من ثانية",
-      "strengthCenturies": "قرون"
+      "strengthCenturies": "قرون",
+      "strengthSeconds": "{n} ثانية",
+      "strengthMinutes": "{n} دقيقة",
+      "strengthHours": "{n} ساعة",
+      "strengthDays": "{n} يوم",
+      "strengthMonths": "{n} شهر",
+      "strengthYears": "{n} سنة",
+      "strengthThousandYears": "{n} ألف سنة",
+      "strengthMillionYears": "{n} مليون سنة"
     },
     "TextEncryption": {
       "securityNote": "بياناتك لا تغادر متصفحك. يتم التشفير محلياً باستخدام واجهة Web Crypto API.",
@@ -2011,7 +2240,8 @@
       "useCaseLabel": "حالة الاستخدام:",
       "copyStatusCode": "نسخ رمز الحالة",
       "codeCopied": "تم نسخ الرمز {code}",
-      "failedToCopy": "فشل النسخ"
+      "failedToCopy": "فشل النسخ",
+      "categoryAll": "الكل"
     },
     "UUIDGenerator": {
       "generatorSettingsTitle": "إعدادات التوليد",
@@ -2087,7 +2317,16 @@
       "cssCopied": "تم نسخ CSS إلى الحافظة",
       "copyFailed": "فشل نسخ CSS",
       "exportedPNG": "تم تصدير التدرج بصيغة PNG",
-      "loaded": "تم التحميل"
+      "loaded": "تم التحميل",
+      "pickColor": "اختر اللون",
+      "dirUp": "للأعلى (0°)",
+      "dirUpRight": "أعلى اليمين (45°)",
+      "dirRight": "لليمين (90°)",
+      "dirDownRight": "أسفل اليمين (135°)",
+      "dirDown": "للأسفل (180°)",
+      "dirDownLeft": "أسفل اليسار (225°)",
+      "dirLeft": "لليسار (270°)",
+      "dirUpLeft": "أعلى اليسار (315°)"
     },
     "ColorPaletteGenerator": {
       "title": "مولّد لوحة الألوان",
@@ -2116,7 +2355,8 @@
       "schemeSplitComplementary": "تكاملي منقسم (3 ألوان)",
       "schemeTetradic": "رباعي/مربع (4 ألوان)",
       "schemeShades": "درجات (10 تنويعات)",
-      "schemeMonochromatic": "أحادي اللون (10 تنويعات)"
+      "schemeMonochromatic": "أحادي اللون (10 تنويعات)",
+      "colorCopied": "تم نسخ {label}"
     },
     "ImageResizer": {
       "title": "تغيير حجم الصور",
@@ -2256,7 +2496,8 @@
       "categoryObjects": "أشياء",
       "categorySymbols": "رموز",
       "categoryFlags": "أعلام",
-      "copied": "تم نسخ"
+      "copied": "تم نسخ",
+      "footerCount": "{emojiCount} رمز تعبيري في {catCount} فئات."
     },
     "ScreenRecorder": {
       "title": "مسجّل الشاشة",

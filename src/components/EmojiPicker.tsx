@@ -729,7 +729,7 @@ export default function EmojiPicker() {
         )}
 
         <p className="text-xs text-muted-foreground text-center">
-          {t("footer")} {ALL_EMOJIS.length} emojis across {CATEGORIES.length} categories.
+          {t("footer")} {t("footerCount", { emojiCount: ALL_EMOJIS.length, catCount: CATEGORIES.length })}
         </p>
       </div>
     </div>
