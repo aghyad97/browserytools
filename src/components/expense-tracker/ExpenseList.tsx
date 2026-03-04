@@ -58,6 +58,7 @@ import { Expense } from "@/store/expense-store";
 import ExpenseForm from "./ExpenseForm";
 import { toast } from "sonner";
 import NumberFlow from "@number-flow/react";
+import { useTranslations } from "next-intl";
 
 interface ExpenseListProps {
   limit?: number;
@@ -68,6 +69,7 @@ export default function ExpenseList({
   limit,
   showActions = true,
 }: ExpenseListProps) {
+  const t = useTranslations("Tools.ExpenseTracker");
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
@@ -155,7 +157,7 @@ export default function ExpenseList({
   const handleDelete = (expenseId: string) => {
     deleteExpense(expenseId);
     setDeleteDialogOpen(null);
-    toast.success("Expense deleted successfully");
+    toast.success(t("expenseDeleted"));
   };
 
   const handleFormSuccess = () => {

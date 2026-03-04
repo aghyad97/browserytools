@@ -32,6 +32,7 @@ import { format } from "date-fns";
 import { cn } from "@/lib/utils";
 import { useExpenseStore } from "@/store/expense-store";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface ExpenseFormData {
   description: string;
@@ -55,6 +56,7 @@ export default function ExpenseForm({
   editMode = false,
   expenseId,
 }: ExpenseFormProps) {
+  const t = useTranslations("Tools.ExpenseTracker");
   const [isOpen, setIsOpen] = useState(false);
   const [newTag, setNewTag] = useState("");
   const [tagOpen, setTagOpen] = useState(false);
@@ -119,7 +121,7 @@ export default function ExpenseForm({
     try {
       // Ensure category is not undefined before submitting
       if (!formData.category) {
-        toast.error("Please select a category");
+        toast.error(t("selectCategoryError"));
         return;
       }
 
@@ -130,10 +132,10 @@ export default function ExpenseForm({
 
       if (editMode && expenseId) {
         updateExpense(expenseId, expenseData);
-        toast.success("Expense updated successfully");
+        toast.success(t("expenseUpdated"));
       } else {
         addExpense(expenseData);
-        toast.success("Expense added successfully");
+        toast.success(t("expenseAdded"));
       }
 
       setFormData({
@@ -147,7 +149,7 @@ export default function ExpenseForm({
       setSelectedDate(new Date());
       onSuccess?.();
     } catch (error) {
-      toast.error("Failed to save expense");
+      toast.error(t("errorSavingExpense"));
     } finally {
       setIsSubmitting(false);
     }
