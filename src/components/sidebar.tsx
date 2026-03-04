@@ -17,6 +17,7 @@ import { Search } from "lucide-react";
 import { findToolByHref } from "@/lib/tools-config";
 import { searchTools } from "@/lib/search-utils";
 import Logo from "./logo";
+import { useTranslations } from "next-intl";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -24,6 +25,8 @@ export default function Sidebar() {
   const { setCurrentTool } = useToolStore();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const activeToolRef = useRef<HTMLAnchorElement>(null);
+  const t = useTranslations("Sidebar");
+  const tc = useTranslations("ToolsConfig");
 
   // Set current tool based on pathname
   useEffect(() => {
@@ -93,12 +96,12 @@ export default function Sidebar() {
       </div>
 
       <div className="p-4 relative">
-        <Search className="w-4 h-4 absolute left-6 top-1/2 transform -translate-y-1/2 text-muted-foreground z-10" />
+        <Search className="w-4 h-4 absolute left-6 rtl:left-auto rtl:right-6 top-1/2 transform -translate-y-1/2 text-muted-foreground z-10" />
         <Input
-          placeholder="Search tools..."
+          placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-10"
+          className="pl-10 rtl:pl-4 rtl:pr-10"
         />
       </div>
 
@@ -108,7 +111,7 @@ export default function Sidebar() {
           {filteredTools.map((category) => (
             <div key={category.category}>
               <h3 className="mb-2 px-2 text-sm font-medium text-muted-foreground">
-                {category.category}
+                {tc(`categories.${category.id}` as any)}
               </h3>
               <div className="space-y-1">
                 {category.items.map((tool) => (
@@ -128,12 +131,12 @@ export default function Sidebar() {
                           )}
                         >
                           <tool.icon className="w-4 h-4 shrink-0" />
-                          <span className="truncate">{tool.name}</span>
+                          <span className="truncate">{tc(`tools.${tool.href.replace('/tools/', '')}.name` as any)}</span>
                         </Link>
                       </TooltipTrigger>
                       {!tool.available && (
                         <TooltipContent>
-                          <p>Coming Soon</p>
+                          <p>{t("comingSoon")}</p>
                         </TooltipContent>
                       )}
                     </Tooltip>

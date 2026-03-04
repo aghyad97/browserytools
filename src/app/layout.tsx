@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { Toaster } from "sonner";
 import { Providers } from "@/providers/providers";
@@ -12,7 +13,7 @@ export const metadata: Metadata = {
     template: "%s | BrowseryTools",
   },
   description:
-    "Essential browser-based tools for productivity. No servers. Full privacy. Convert files, compress images, generate passwords, format code, and more - all in your browser.",
+    "Essential browser-based tools for productivity. No servers. Full privacy. Convert files, compress images, generate passwords, format code, and more - all in your browser. أدوات متصفح مجانية للإنتاجية.",
   keywords: [
     "browser tools",
     "productivity tools",
@@ -26,6 +27,11 @@ export const metadata: Metadata = {
     "client-side tools",
     "no server required",
     "free online tools",
+    "أدوات متصفح",
+    "أدوات مجانية",
+    "أدوات إنتاجية",
+    "خصوصية تامة",
+    "بدون خوادم",
   ],
   authors: [{ name: "aghyadev" }],
   creator: "aghyadev",
@@ -38,6 +44,9 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://browserytools.com"),
   alternates: {
     canonical: "/",
+    languages: {
+      "x-default": "https://browserytools.com",
+    },
   },
   openGraph: {
     type: "website",
@@ -76,7 +85,6 @@ export const metadata: Metadata = {
       "max-snippet": -1,
     },
   },
-
   category: "technology",
   classification: "Productivity Tools",
   referrer: "origin-when-cross-origin",
@@ -125,8 +133,23 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" dir="ltr" suppressHydrationWarning>
+      <head>
+        {/* IBM Plex Sans Arabic — loaded via standard Google Fonts link to avoid Turbopack font bundling issues */}
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
+        <link
+          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap"
+          rel="stylesheet"
+        />
+      </head>
       <body className={geist.className}>
+        <Script
+          id="lang-dir-init"
+          strategy="beforeInteractive"
+        >{`(function(){try{var s=localStorage.getItem('browsery-locale');var lang=s||(navigator.language&&navigator.language.startsWith('ar')?'ar':'en');document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');}catch(e){}})();`}</Script>
         <Providers>
           {children}
           <Toaster richColors position="top-right" />

@@ -74,6 +74,7 @@ export interface Tool {
 
 export interface ToolCategory {
   category: string;
+  id: string;
   items: Tool[];
   order: number;
 }
@@ -81,6 +82,7 @@ export interface ToolCategory {
 export const tools: ToolCategory[] = [
   {
     category: "Image Tools",
+    id: "imageTools",
     order: 1,
     items: [
       {
@@ -156,6 +158,7 @@ export const tools: ToolCategory[] = [
   },
   {
     category: "File Tools",
+    id: "fileTools",
     order: 2,
     items: [
       {
@@ -203,6 +206,7 @@ export const tools: ToolCategory[] = [
 
   {
     category: "Media Tools",
+    id: "mediaTools",
     order: 3,
     items: [
       {
@@ -248,6 +252,7 @@ export const tools: ToolCategory[] = [
   },
   {
     category: "Text & Language Tools",
+    id: "textLanguage",
     order: 4,
     items: [
       {
@@ -403,6 +408,7 @@ export const tools: ToolCategory[] = [
   },
   {
     category: "Data Tools",
+    id: "dataTools",
     order: 5,
     items: [
       {
@@ -529,6 +535,7 @@ export const tools: ToolCategory[] = [
   },
   {
     category: "Math & Finance Tools",
+    id: "mathFinance",
     order: 6,
     items: [
       {
@@ -666,6 +673,7 @@ export const tools: ToolCategory[] = [
   },
   {
     category: "Productivity Tools",
+    id: "productivity",
     order: 7,
     items: [
       {
@@ -732,6 +740,7 @@ export const tools: ToolCategory[] = [
   },
   {
     category: "Security & Development Tools",
+    id: "securityDev",
     order: 8,
     items: [
       {
@@ -856,6 +865,7 @@ export const tools: ToolCategory[] = [
   },
   {
     category: "Design Tools",
+    id: "designTools",
     order: 9,
     items: [
       {

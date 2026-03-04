@@ -11,10 +11,13 @@ import { usePathname } from "next/navigation";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import Sidebar from "./sidebar";
 import { ThemeSwitcher } from "./theme-switcher";
+import { LanguageSwitcher } from "./language-switcher";
+import { useTranslations } from "next-intl";
 
 export default function Header() {
   const pathname = usePathname();
   const { currentTool, setCurrentTool } = useToolStore();
+  const t = useTranslations("Header");
 
   // Reset tool context when not on tools routes
   useEffect(() => {
@@ -29,9 +32,9 @@ export default function Header() {
       `
 ## Tool Request
 
-**Tool Name:** 
-**Description:** 
-**Use Case:** 
+**Tool Name:**
+**Description:**
+**Use Case:**
 **Priority:** Low/Medium/High
 
 **Additional Details:**
@@ -56,7 +59,7 @@ Please describe what this tool should do and how it would help users.
                 <Button
                   variant="ghost"
                   size="icon"
-                  aria-label="Open navigation menu"
+                  aria-label={t("openMenu")}
                 >
                   <Menu className="h-5 w-5" />
                 </Button>
@@ -97,12 +100,12 @@ Please describe what this tool should do and how it would help users.
               href="/gh"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Visit our GitHub repository"
+              aria-label={t("github")}
             >
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Visit our GitHub repository"
+                aria-label={t("github")}
               >
                 <Github className="h-4 w-4" />
               </Button>
@@ -111,17 +114,18 @@ Please describe what this tool should do and how it would help users.
               href="/x"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="Follow us on X (Twitter)"
+              aria-label={t("twitter")}
             >
               <Button
                 variant="ghost"
                 size="icon"
-                aria-label="Follow us on X (Twitter)"
+                aria-label={t("twitter")}
               >
                 <XLogo className="h-4 w-4" />
               </Button>
             </Link>
             <ThemeSwitcher />
+            <LanguageSwitcher />
           </div>
 
           {/* Request tool button - smaller on mobile */}
@@ -132,7 +136,7 @@ Please describe what this tool should do and how it would help users.
             className="hidden sm:flex"
           >
             <Hammer className="h-4 w-4 mr-2" />
-            Request a tool
+            {t("requestTool")}
           </Button>
 
           <Link
@@ -140,13 +144,13 @@ Please describe what this tool should do and how it would help users.
             target="_blank"
             rel="noopener noreferrer"
             className="sm:hidden"
-            aria-label="Follow us on X (Twitter)"
+            aria-label={t("twitter")}
           >
             <Button
               className="sm:hidden"
               variant="outline"
               size="icon"
-              aria-label="Follow us on X (Twitter)"
+              aria-label={t("twitter")}
             >
               <XLogo className="h-4 w-4" />
             </Button>
@@ -154,22 +158,23 @@ Please describe what this tool should do and how it would help users.
 
           {/* Mobile request tool button */}
           <ThemeSwitcher className="sm:hidden" variant="outline" />
+          <LanguageSwitcher className="sm:hidden" variant="outline" />
 
           {/* Coffee button - smaller on mobile */}
           <Link
             href="/coffee"
             target="_blank"
             rel="noopener noreferrer"
-            aria-label="Buy me a coffee"
+            aria-label={t("coffee")}
           >
             <Button size="sm" className="hidden sm:flex">
               <Coffee className="h-4 w-4 mr-2" />
-              Buy me a coffee
+              {t("coffee")}
             </Button>
             <Button
               size="icon"
               className="sm:hidden"
-              aria-label="Buy me a coffee"
+              aria-label={t("coffee")}
             >
               <Coffee className="h-4 w-4" />
             </Button>

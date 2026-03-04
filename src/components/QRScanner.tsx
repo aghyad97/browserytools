@@ -620,11 +620,11 @@ export default function QRScanner() {
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Permission Status: {permissionStatus} | Browser:{" "}
-                        {navigator.userAgent.includes("Chrome")
+                        {typeof navigator !== "undefined" && navigator.userAgent.includes("Chrome")
                           ? "Chrome"
-                          : navigator.userAgent.includes("Firefox")
+                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Firefox")
                           ? "Firefox"
-                          : navigator.userAgent.includes("Safari")
+                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Safari")
                           ? "Safari"
                           : "Other"}
                       </p>
