@@ -1,3 +1,5 @@
+"use client";
+
 import {
   Accordion,
   AccordionItem,
@@ -5,61 +7,48 @@ import {
   AccordionContent,
 } from "@/components/ui/accordion";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 export default function HomeFAQ() {
+  const t = useTranslations("Home");
+
   return (
     <div className="container mx-auto px-4 pb-12">
       <div className="mt-10 border rounded-lg p-4 md:p-6 bg-background">
-        <h2 className="text-2xl font-semibold mb-4 text-left">FAQ</h2>
+        <h2 className="text-2xl font-semibold mb-4 text-start">{t("faq.title")}</h2>
         <Accordion type="single" collapsible className="w-full">
           <AccordionItem value="item-1">
-            <AccordionTrigger>What is BrowseryTools?</AccordionTrigger>
-            <AccordionContent>
-              BrowseryTools is a collection of free, open-source, browser-based
-              utilities for images, files, text, audio/video and more—no sign
-              up, no servers.
-            </AccordionContent>
+            <AccordionTrigger>{t("faq.q1")}</AccordionTrigger>
+            <AccordionContent>{t("faq.a1")}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-2">
-            <AccordionTrigger>Do my files leave my device?</AccordionTrigger>
-            <AccordionContent>
-              No. All processing happens locally in your browser using Web APIs
-              like WebAssembly and Web Workers. Your files are not uploaded to a
-              server.
-            </AccordionContent>
+            <AccordionTrigger>{t("faq.q2")}</AccordionTrigger>
+            <AccordionContent>{t("faq.a2")}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-3">
-            <AccordionTrigger>Is it really free?</AccordionTrigger>
-            <AccordionContent>
-              Yes. All tools are free to use with no limits. If you find them
-              useful, consider sharing the site and buying me a coffee.
-            </AccordionContent>
+            <AccordionTrigger>{t("faq.q3")}</AccordionTrigger>
+            <AccordionContent>{t("faq.a3")}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-4">
-            <AccordionTrigger>Can I request a new tool?</AccordionTrigger>
+            <AccordionTrigger>{t("faq.q4")}</AccordionTrigger>
             <AccordionContent>
-              Absolutely. You can request or upvote ideas on our{" "}
+              {t("faq.a4_pre")}{" "}
               <Link href="/gh" className="underline" target="_blank">
-                GitHub page
+                {t("faq.a4_link")}
               </Link>
               .
             </AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-5">
-            <AccordionTrigger>Does it work offline?</AccordionTrigger>
-            <AccordionContent>
-              Many tools continue to work after the initial load, but full
-              offline support depends on your browser caching. We&apos;re
-              improving this over time.
-            </AccordionContent>
+            <AccordionTrigger>{t("faq.q5")}</AccordionTrigger>
+            <AccordionContent>{t("faq.a5")}</AccordionContent>
           </AccordionItem>
           <AccordionItem value="item-6">
-            <AccordionTrigger>Is BrowseryTools open source?</AccordionTrigger>
+            <AccordionTrigger>{t("faq.q6")}</AccordionTrigger>
             <AccordionContent>
-              Yes. BrowseryTools is fully open source. You can view the code,
-              report issues, and contribute on our{" "}
+              {t("faq.a6_pre")}{" "}
               <Link href="/gh" className="underline" target="_blank">
-                GitHub repo
+                {t("faq.a6_link")}
               </Link>
               .
             </AccordionContent>

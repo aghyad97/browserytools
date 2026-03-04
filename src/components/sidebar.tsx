@@ -86,10 +86,10 @@ export default function Sidebar() {
   }, [pathname, search, filteredTools]);
 
   return (
-    <div className="w-full lg:w-64 h-full flex flex-col border-r">
+    <div className="w-full lg:w-64 h-full flex flex-col border-e">
       {/* Header */}
       <div className="mt-4 flex items-center">
-        <Link href="/" className="flex items-center space-x-2 px-4">
+        <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse px-4">
           <Logo />
           <span className="font-semibold text-xl">BrowseryTools</span>
         </Link>
@@ -124,7 +124,7 @@ export default function Sidebar() {
                           }
                           href={tool.available ? tool.href : "#"}
                           className={cn(
-                            "flex items-center space-x-2 px-2 py-1.5 rounded-md hover:bg-accent",
+                            "flex items-center space-x-2 rtl:space-x-reverse px-2 py-1.5 rounded-md hover:bg-accent",
                             "text-sm transition-colors duration-150",
                             pathname === tool.href && "bg-accent",
                             !tool.available && "opacity-50 cursor-not-allowed"
@@ -148,7 +148,7 @@ export default function Sidebar() {
 
           {filteredTools.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No tools found</p>
+              <p className="text-muted-foreground">{t("noToolsFound")}</p>
             </div>
           )}
         </div>

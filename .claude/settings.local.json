@@ -10,7 +10,13 @@
       "Bash(npm test:*)",
       "Bash(python3:*)",
       "Bash(npx tsc:*)",
-      "Bash(npx:*)"
+      "Bash(npx:*)",
+      "Bash(git checkout:*)",
+      "Bash(bun run:*)",
+      "Bash(git stash:*)",
+      "Bash(git add:*)",
+      "Bash(git:*)",
+      "WebFetch(domain:next-intl.dev)"
     ]
   }
 }

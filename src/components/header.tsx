@@ -4,6 +4,7 @@ import { Button } from "./ui/button";
 import { Hammer, Github, Coffee, Menu } from "lucide-react";
 import { XLogo } from "@phosphor-icons/react";
 import { useToolStore } from "@/store/tool-store";
+import { useLanguageStore } from "@/store/language-store";
 import Logo from "./logo";
 import Link from "next/link";
 import { useEffect } from "react";
@@ -17,6 +18,7 @@ import { useTranslations } from "next-intl";
 export default function Header() {
   const pathname = usePathname();
   const { currentTool, setCurrentTool } = useToolStore();
+  const { dir } = useLanguageStore();
   const t = useTranslations("Header");
 
   // Reset tool context when not on tools routes
@@ -64,7 +66,7 @@ Please describe what this tool should do and how it would help users.
                   <Menu className="h-5 w-5" />
                 </Button>
               </SheetTrigger>
-              <SheetContent side="left" className="w-80 p-0">
+              <SheetContent side={dir === "rtl" ? "right" : "left"} className="w-80 p-0">
                 <Sidebar />
               </SheetContent>
             </Sheet>
@@ -82,7 +84,7 @@ Please describe what this tool should do and how it would help users.
                 </h1>
               </div>
             ) : (
-              <div className="flex flex-row gap-2">
+              <div className="flex flex-row gap-2 rtl:flex-row-reverse">
                 <Logo />
                 <h1 className="text-sm md:text-xl font-semibold">
                   BrowseryTools
@@ -135,7 +137,7 @@ Please describe what this tool should do and how it would help users.
             onClick={handleRequestTool}
             className="hidden sm:flex"
           >
-            <Hammer className="h-4 w-4 mr-2" />
+            <Hammer className="h-4 w-4 me-2" />
             {t("requestTool")}
           </Button>
 

@@ -6,6 +6,7 @@ import Link from "next/link";
 import { StarIcon } from "@/components/ui/icons";
 import { getRelativeTime, cn } from "@/lib/utils";
 import NumberFlow from "@number-flow/react";
+import { useTranslations } from "next-intl";
 
 interface GitHubStats {
   stars: number;
@@ -15,6 +16,7 @@ interface GitHubStats {
 const ease = [0.16, 1, 0.3, 1] as const;
 
 export default function GitHubStarBanner() {
+  const t = useTranslations("Home");
   const [stats, setStats] = useState<GitHubStats>({
     stars: 0,
     lastUpdate: "",
@@ -55,16 +57,16 @@ export default function GitHubStarBanner() {
             <Link
               href="https://github.com/aghyad97/browserytools"
               target="_blank"
-              className="h-10 cursor-pointer flex w-auto items-center space-x-1 rounded-full bg-muted px-3 group border-2 border-white dark:border-black/10 whitespace-pre shadow hover:shadow-md"
+              className="h-10 cursor-pointer flex w-auto items-center space-x-1 rtl:space-x-reverse rounded-full bg-muted px-3 group border-2 border-white dark:border-black/10 whitespace-pre shadow hover:shadow-md"
             >
               <p className="font-medium text-primary text-sm">
-                Star Project on GitHub
+                {t("starProject")}
               </p>
               <div className="flex items-center rounded-full px-2 py-1 text-center font-medium text-sm ">
                 <StarIcon />
                 <NumberFlow
                   value={stats.stars}
-                  className={cn("tabular-nums", "ml-1")}
+                  className={cn("tabular-nums", "ms-1")}
                   transformTiming={{
                     duration: 1000,
                     easing: "ease-out",

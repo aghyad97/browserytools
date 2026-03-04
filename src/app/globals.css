@@ -82,7 +82,8 @@ body {
 }
 
 /* Arabic font activation */
-html[lang="ar"] {
+html[lang="ar"],
+html[lang="ar"] body {
   font-family: "IBM Plex Sans Arabic", sans-serif;
 }
 

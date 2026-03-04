@@ -19,6 +19,8 @@ interface HomePageProps {
 
 export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
   const t = useTranslations("Tools.HomePage");
+  const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const { viewMode, setViewMode } = usePreferencesStore();
   const { getFavoriteTools } = useFavoritesStore();
@@ -81,7 +83,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
               <Sparkles className="h-4 w-4 text-violet-500 shrink-0" />
               <span className="inline-flex items-center gap-1.5">
                 <span className="rounded-full bg-violet-500 px-2 py-0.5 text-xs font-semibold text-white">
-                  NEW
+                  {tCommon("new")}
                 </span>
                 <span className="font-medium text-foreground">
                   {newToolsCount} {t("newToolsAdded")}
@@ -118,13 +120,13 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
         <div className="mb-4">
           <div className="flex items-center gap-3">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
+              <Search className="absolute start-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 type="text"
                 placeholder={t("searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-10 w-full"
+                className="ps-10 w-full"
               />
             </div>
             <div
@@ -165,32 +167,36 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
         <div className="mb-12 overflow-x-auto">
           <div className="flex items-center gap-2 min-w-max">
             {[
-              "All",
+              { key: "All", label: t("allCategory"), id: "All" },
               ...allCategories
                 .sort((a, b) => a.order - b.order)
-                .map((c) => c.category),
-            ].map((cat) => (
+                .map((c) => ({
+                  key: c.category,
+                  label: tc(`categories.${c.id}` as any),
+                  id: c.id,
+                })),
+            ].map(({ key, label }) => (
               <button
-                key={cat}
+                key={key}
                 type="button"
-                onClick={() => setSelectedCategory(cat)}
-                aria-pressed={selectedCategory === cat}
+                onClick={() => setSelectedCategory(key)}
+                aria-pressed={selectedCategory === key}
                 className={`inline-flex items-center gap-2 rounded-full border px-3 py-1 text-sm transition-colors whitespace-nowrap ${
-                  selectedCategory === cat
+                  selectedCategory === key
                     ? "bg-primary text-primary-foreground border-primary"
                     : "bg-background text-foreground hover:bg-muted border-input"
                 }`}
               >
                 <span
                   className={`text-xs px-1.5 py-0.5 rounded-full ${
-                    selectedCategory === cat
+                    selectedCategory === key
                       ? "bg-primary-foreground/20 text-primary-foreground"
                       : "bg-muted text-muted-foreground"
                   }`}
                 >
-                  {getToolCount(cat)}
+                  {getToolCount(key)}
                 </span>
-                <span>{cat}</span>
+                <span>{label}</span>
               </button>
             ))}
           </div>
@@ -215,8 +221,8 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                 )
                 .map((category) => (
                   <div key={category.category}>
-                    <h2 className="text-2xl font-semibold mb-6 text-left">
-                      {category.category}
+                    <h2 className="text-2xl font-semibold mb-6 text-start">
+                      {tc(`categories.${category.id}` as any)}
                     </h2>
                     {viewMode === "grid" ? (
                       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -249,7 +255,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
               {isClient && favoriteTools.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">
+                    <h3 className="text-xl font-medium mb-2 text-start text-muted-foreground">
                       {t("favoriteTools")}
                     </h3>
                   </div>
@@ -277,7 +283,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
               {isClient && recentTools.length > 0 && (
                 <div>
                   <div className="flex items-center gap-2 mb-2">
-                    <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">
+                    <h3 className="text-xl font-medium mb-2 text-start text-muted-foreground">
                       {t("recentlyUsed")}
                     </h3>
                   </div>
@@ -300,8 +306,8 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                     )
                     .map((category) => (
                       <div key={category.category}>
-                        <h3 className="text-xl font-medium mb-4 text-left text-muted-foreground">
-                          {category.category}
+                        <h3 className="text-xl font-medium mb-4 text-start text-muted-foreground">
+                          {tc(`categories.${category.id}` as any)}
                         </h3>
                         {viewMode === "grid" ? (
                           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">

@@ -40,7 +40,9 @@
     "yes": "Yes",
     "no": "No",
     "comingSoon": "Coming Soon",
-    "new": "New"
+    "new": "New",
+    "addToFavorites": "Add to favorites",
+    "removeFromFavorites": "Remove from favorites"
   },
   "Header": {
     "requestTool": "Request a tool",
@@ -57,14 +59,33 @@
   "Sidebar": {
     "searchPlaceholder": "Search tools...",
     "logoAlt": "BrowseryTools",
-    "comingSoon": "Coming Soon"
+    "comingSoon": "Coming Soon",
+    "noToolsFound": "No tools found"
   },
   "Home": {
     "hero": "Essential Browser-Based Productivity Tools",
     "subtitle": "No servers. Full privacy. Everything runs in your browser.",
     "searchPlaceholder": "Search 80+ tools...",
     "newBadge": "New",
-    "viewAll": "View all tools"
+    "viewAll": "View all tools",
+    "starProject": "Star Project on GitHub",
+    "faq": {
+      "title": "FAQ",
+      "q1": "What is BrowseryTools?",
+      "a1": "BrowseryTools is a collection of free, open-source, browser-based utilities for images, files, text, audio/video and more—no sign up, no servers.",
+      "q2": "Do my files leave my device?",
+      "a2": "No. All processing happens locally in your browser using Web APIs like WebAssembly and Web Workers. Your files are not uploaded to a server.",
+      "q3": "Is it really free?",
+      "a3": "Yes. All tools are free to use with no limits. If you find them useful, consider sharing the site and buying me a coffee.",
+      "q4": "Can I request a new tool?",
+      "a4_pre": "Absolutely. You can request or upvote ideas on our",
+      "a4_link": "GitHub page",
+      "q5": "Does it work offline?",
+      "a5": "Many tools continue to work after the initial load, but full offline support depends on your browser caching. We're improving this over time.",
+      "q6": "Is BrowseryTools open source?",
+      "a6_pre": "Yes. BrowseryTools is fully open source. You can view the code, report issues, and contribute on our",
+      "a6_link": "GitHub repo"
+    }
   },
   "ToolsConfig": {
     "categories": {
@@ -461,7 +482,9 @@
       "preview": "Preview",
       "previewDesc": "Upload a screenshot - it will automatically fit the frame with rounded corners and precise clipping.",
       "saveImage": "Save image",
-      "copyToClipboard": "Copy to clipboard"
+      "copyToClipboard": "Copy to clipboard",
+      "outputAspectDefault": "Default",
+      "clipboardCopyFailed": "Could not copy image to clipboard. Please try downloading instead."
     },
     "ImageCompression": {
       "sizeReduction": "Size Reduction",
@@ -488,7 +511,15 @@
       "size": "Size",
       "targetFormat": "Target Format",
       "quality": "Quality",
-      "convertedImagePlaceholder": "Converted image will appear here"
+      "convertedImagePlaceholder": "Converted image will appear here",
+      "imageTooLarge": "Image size should be less than 15MB",
+      "heicConverted": "Converted HEIC to JPEG for preview",
+      "heicFailed": "Failed to read HEIC. Please try another file.",
+      "convertedSuccess": "Image converted successfully!",
+      "convertFailed": "Failed to convert image. Please try again.",
+      "downloadedSuccess": "Image downloaded!",
+      "altOriginal": "Original",
+      "altConverted": "Converted"
     },
     "ColorCorrection": {
       "dropImageHere": "Drop your image here",
@@ -507,7 +538,12 @@
     },
     "SvgEditor": {
       "title": "SVG Editor",
-      "subtitle": "Create and edit SVG graphics"
+      "subtitle": "Create and edit SVG graphics",
+      "canvasNotInitialized": "Canvas not initialized",
+      "errorCreatingShape": "Error creating shape",
+      "downloadedSuccess": "SVG downloaded successfully",
+      "enterTextPrompt": "Enter text:",
+      "enterTextDefault": "Hello"
     },
     "ColorConverter": {
       "title": "Color Converter",

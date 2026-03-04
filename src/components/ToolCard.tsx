@@ -13,6 +13,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { useTranslations } from "next-intl";
 
 interface ToolCardProps {
   tool: Tool & { category: string };
@@ -30,6 +31,14 @@ export default function ToolCard({
   const { isFavorite, toggleFavorite } = useFavoritesStore();
   const isFavorited = isFavorite(tool.href);
   const IconComponent = tool.icon;
+  const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
+
+  const slug = tool.href.startsWith("/tools/")
+    ? tool.href.replace("/tools/", "")
+    : null;
+  const toolName = slug ? tc(`tools.${slug}.name` as any) : tool.name;
+  const toolDesc = slug ? tc(`tools.${slug}.description` as any) : tool.description;
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
@@ -58,10 +67,10 @@ export default function ToolCard({
               </div>
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2">
-                  <h3 className="font-medium text-sm truncate">{tool.name}</h3>
+                  <h3 className="font-medium text-sm truncate">{toolName}</h3>
                 </div>
                 <p className="text-xs text-muted-foreground line-clamp-1">
-                  {tool.description}
+                  {toolDesc}
                 </p>
               </div>
               {showFavoriteButton && tool.available && (
@@ -71,7 +80,9 @@ export default function ToolCard({
                   className="h-6 w-6 p-0 hover:bg-transparent"
                   onClick={handleFavoriteClick}
                   aria-label={
-                    isFavorited ? "Remove from favorites" : "Add to favorites"
+                    isFavorited
+                      ? tCommon("removeFromFavorites")
+                      : tCommon("addToFavorites")
                   }
                 >
                   <Heart
@@ -85,14 +96,14 @@ export default function ToolCard({
               )}
               {!tool.available ? (
                 <Badge variant="secondary" className="text-[10px] rounded-xl">
-                  Soon
+                  {tCommon("comingSoon")}
                 </Badge>
               ) : isToolNew(tool.creationDate) ? (
                 <Badge
                   variant="default"
                   className="text-[10px] -top-4 -left-4 shadow-sm rounded-xl bg-green-100 text-green-700 hover:bg-green-200 border border-green-200"
                 >
-                  New
+                  {tCommon("new")}
                 </Badge>
               ) : null}
             </div>
@@ -117,13 +128,13 @@ export default function ToolCard({
           }`}
         >
           {/* Status Badge - Overlapping Top Right Corner */}
-          <div className="absolute top-0.5 right-0.5 z-10">
+          <div className="absolute top-0.5 end-0.5 z-10">
             {!tool.available && (
               <Badge
                 variant="secondary"
                 className="text-[10px] px-1 py-0 shadow-sm rounded-md"
               >
-                Soon
+                {tCommon("comingSoon")}
               </Badge>
             )}
           </div>
@@ -137,7 +148,7 @@ export default function ToolCard({
 
               {/* Tool Name */}
               <h3 className="font-medium text-xs leading-tight truncate">
-                {tool.name}
+                {toolName}
               </h3>
             </div>
           </CardContent>
@@ -162,36 +173,38 @@ export default function ToolCard({
                 tool.available ? "hover:shadow-sm cursor-pointer" : "opacity-50"
               }`}
             >
-              {/* Badges - Top Left Corner */}
-              <div className="absolute top-0.5 left-1 z-10">
+              {/* Badges - Top Start Corner */}
+              <div className="absolute top-0.5 start-1 z-10">
                 {!tool.available && (
                   <Badge
                     variant="secondary"
                     className="text-xs shadow-sm rounded-xl"
                   >
-                    Soon
+                    {tCommon("comingSoon")}
                   </Badge>
                 )}
                 {tool.available && isToolNew(tool.creationDate) && (
                   <Badge
                     variant="default"
-                    className="text-xs shadow-sm -top-2 -left-4 absolute rounded-xl bg-green-100 text-green-700 hover:bg-green-200 border border-green-200"
+                    className="text-xs shadow-sm -top-2 -start-4 absolute rounded-xl bg-green-100 text-green-700 hover:bg-green-200 border border-green-200"
                   >
-                    New
+                    {tCommon("new")}
                   </Badge>
                 )}
               </div>
 
-              {/* Favorite Button - Top Right Corner */}
+              {/* Favorite Button - Top End Corner */}
               {showFavoriteButton && tool.available && (
-                <div className="absolute top-0.5 right-1 z-10">
+                <div className="absolute top-0.5 end-1 z-10">
                   <Button
                     variant="ghost"
                     size="sm"
                     className="h-6 w-6 p-0 hover:bg-transparent"
                     onClick={handleFavoriteClick}
                     aria-label={
-                      isFavorited ? "Remove from favorites" : "Add to favorites"
+                      isFavorited
+                        ? tCommon("removeFromFavorites")
+                        : tCommon("addToFavorites")
                     }
                   >
                     <Heart
@@ -215,7 +228,7 @@ export default function ToolCard({
                   {/* Tool Name */}
                   <div className="space-y-2">
                     <h3 className="font-medium text-sm leading-tight">
-                      {tool.name}
+                      {toolName}
                     </h3>
                   </div>
                 </div>
@@ -224,7 +237,7 @@ export default function ToolCard({
           </Link>
         </TooltipTrigger>
         <TooltipContent side="top" className="max-w-xs">
-          <p className="text-sm">{tool.description}</p>
+          <p className="text-sm">{toolDesc}</p>
         </TooltipContent>
       </Tooltip>
     </TooltipProvider>
