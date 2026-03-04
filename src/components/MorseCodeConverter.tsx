@@ -14,6 +14,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Copy, RotateCcw, ArrowLeftRight, ChevronDown, ChevronUp } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const MORSE_MAP: Record<string, string> = {
   A: ".-",
@@ -105,6 +106,9 @@ function morseToText(morse: string): string {
 const REFERENCE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
 
 export default function MorseCodeConverter() {
+  const t = useTranslations("Tools.MorseCodeConverter");
+  const tCommon = useTranslations("Common");
+
   const [activeTab, setActiveTab] = useState<"text-to-morse" | "morse-to-text">(
     "text-to-morse"
   );
@@ -118,12 +122,12 @@ export default function MorseCodeConverter() {
   const handleCopyOutput = useCallback(() => {
     const val = activeTab === "text-to-morse" ? morseOutput : textOutput;
     if (!val.trim()) {
-      toast.error("Nothing to copy");
+      toast.error(t("nothingToCopy"));
       return;
     }
     navigator.clipboard.writeText(val);
-    toast.success("Copied to clipboard");
-  }, [activeTab, morseOutput, textOutput]);
+    toast.success(t("copiedToClipboard"));
+  }, [activeTab, morseOutput, textOutput, t]);
 
   const handleSwap = useCallback(() => {
     if (activeTab === "text-to-morse") {
@@ -153,8 +157,8 @@ export default function MorseCodeConverter() {
       >
         <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
           <TabsList>
-            <TabsTrigger value="text-to-morse">Text → Morse</TabsTrigger>
-            <TabsTrigger value="morse-to-text">Morse → Text</TabsTrigger>
+            <TabsTrigger value="text-to-morse">{t("textToMorse")}</TabsTrigger>
+            <TabsTrigger value="morse-to-text">{t("morseToText")}</TabsTrigger>
           </TabsList>
           <div className="flex gap-2">
             <Button
@@ -164,7 +168,7 @@ export default function MorseCodeConverter() {
               className="flex items-center gap-2"
             >
               <ArrowLeftRight className="w-4 h-4" />
-              Swap
+              {t("swap")}
             </Button>
             <Button
               variant="outline"
@@ -173,7 +177,7 @@ export default function MorseCodeConverter() {
               className="flex items-center gap-2"
             >
               <RotateCcw className="w-4 h-4" />
-              Clear
+              {tCommon("clear")}
             </Button>
             <Button
               size="sm"
@@ -181,7 +185,7 @@ export default function MorseCodeConverter() {
               className="flex items-center gap-2"
             >
               <Copy className="w-4 h-4" />
-              Copy Output
+              {t("copyOutput")}
             </Button>
           </div>
         </div>
@@ -191,21 +195,21 @@ export default function MorseCodeConverter() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Text Input</CardTitle>
-                <CardDescription>Type your text to encode</CardDescription>
+                <CardTitle>{t("textInputTitle")}</CardTitle>
+                <CardDescription>{t("textInputDesc")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea
-                  placeholder="Enter text here..."
+                  placeholder={t("textInputPlaceholder")}
                   value={textInput}
                   onChange={(e) => setTextInput(e.target.value)}
                   className="min-h-[240px] resize-none"
                   rows={10}
                 />
                 <div className="mt-2 flex gap-2">
-                  <Badge variant="secondary">{textInput.length} chars</Badge>
+                  <Badge variant="secondary">{textInput.length} {t("chars")}</Badge>
                   <Badge variant="secondary">
-                    {textInput.trim() ? textInput.trim().split(/\s+/).length : 0} words
+                    {textInput.trim() ? textInput.trim().split(/\s+/).length : 0} {t("words")}
                   </Badge>
                 </div>
               </CardContent>
@@ -213,21 +217,19 @@ export default function MorseCodeConverter() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Morse Code Output</CardTitle>
-                <CardDescription>
-                  Letters separated by spaces, words by " / "
-                </CardDescription>
+                <CardTitle>{t("morseOutputTitle")}</CardTitle>
+                <CardDescription>{t("morseOutputDesc")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea
                   value={morseOutput}
                   readOnly
-                  placeholder="Morse code will appear here..."
+                  placeholder={t("morseOutputPlaceholder")}
                   className="min-h-[240px] resize-none bg-muted font-mono text-sm"
                   rows={10}
                 />
                 <div className="mt-2">
-                  <Badge variant="secondary">{morseOutput.length} chars</Badge>
+                  <Badge variant="secondary">{morseOutput.length} {t("chars")}</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -239,40 +241,38 @@ export default function MorseCodeConverter() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Morse Code Input</CardTitle>
-                <CardDescription>
-                  Use dots and dashes; separate letters with spaces, words with " / "
-                </CardDescription>
+                <CardTitle>{t("morseInputTitle")}</CardTitle>
+                <CardDescription>{t("morseInputDesc")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea
-                  placeholder="e.g., .... . .-.. .-.. --- / .-- --- .-. .-.. -.."
+                  placeholder={t("morseInputPlaceholder")}
                   value={morseInput}
                   onChange={(e) => setMorseInput(e.target.value)}
                   className="min-h-[240px] resize-none font-mono text-sm"
                   rows={10}
                 />
                 <div className="mt-2">
-                  <Badge variant="secondary">{morseInput.length} chars</Badge>
+                  <Badge variant="secondary">{morseInput.length} {t("chars")}</Badge>
                 </div>
               </CardContent>
             </Card>
 
             <Card>
               <CardHeader>
-                <CardTitle>Text Output</CardTitle>
-                <CardDescription>Decoded plain text</CardDescription>
+                <CardTitle>{t("textOutputTitle")}</CardTitle>
+                <CardDescription>{t("textOutputDesc")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <Textarea
                   value={textOutput}
                   readOnly
-                  placeholder="Decoded text will appear here..."
+                  placeholder={t("textOutputPlaceholder")}
                   className="min-h-[240px] resize-none bg-muted"
                   rows={10}
                 />
                 <div className="mt-2">
-                  <Badge variant="secondary">{textOutput.length} chars</Badge>
+                  <Badge variant="secondary">{textOutput.length} {t("chars")}</Badge>
                 </div>
               </CardContent>
             </Card>
@@ -288,8 +288,8 @@ export default function MorseCodeConverter() {
         >
           <div className="flex items-center justify-between">
             <div>
-              <CardTitle>Morse Code Reference</CardTitle>
-              <CardDescription>A–Z, 0–9 character table</CardDescription>
+              <CardTitle>{t("referenceTitle")}</CardTitle>
+              <CardDescription>{t("referenceDesc")}</CardDescription>
             </div>
             {showReference ? (
               <ChevronUp className="w-5 h-5 text-muted-foreground" />

@@ -11,7 +11,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Label } from "@/components/ui/label";
 import {
   Copy,
   Download,
@@ -23,6 +22,7 @@ import {
   Hash,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 type SortMode =
   | "az"
@@ -35,6 +35,9 @@ type SortMode =
   | null;
 
 export default function TextSorter() {
+  const t = useTranslations("Tools.TextSorter");
+  const tCommon = useTranslations("Common");
+
   const [input, setInput] = useState("");
   const [removeDuplicates, setRemoveDuplicates] = useState(false);
   const [trimWhitespace, setTrimWhitespace] = useState(true);
@@ -132,7 +135,7 @@ export default function TextSorter() {
 
   const handleSort = (mode: SortMode) => {
     if (!input.trim()) {
-      toast.error("Please enter some text first");
+      toast.error(t("enterTextFirst"));
       return;
     }
     setActiveMode(mode);
@@ -140,16 +143,16 @@ export default function TextSorter() {
 
   const handleCopy = () => {
     if (!output) {
-      toast.error("Nothing to copy");
+      toast.error(t("nothingToCopy"));
       return;
     }
     navigator.clipboard.writeText(output);
-    toast.success("Copied to clipboard");
+    toast.success(t("copiedToClipboard"));
   };
 
   const handleDownload = () => {
     if (!output) {
-      toast.error("Nothing to download");
+      toast.error(t("nothingToDownload"));
       return;
     }
     const blob = new Blob([output], { type: "text/plain" });
@@ -159,7 +162,7 @@ export default function TextSorter() {
     a.download = "sorted-text.txt";
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Downloaded sorted-text.txt");
+    toast.success(t("downloaded"));
   };
 
   const handleClear = () => {
@@ -168,13 +171,13 @@ export default function TextSorter() {
   };
 
   const sortButtons: { label: string; mode: SortMode; icon: React.ReactNode }[] = [
-    { label: "Sort A → Z", mode: "az", icon: <ArrowUpAZ className="w-4 h-4" /> },
-    { label: "Sort Z → A", mode: "za", icon: <ArrowDownAZ className="w-4 h-4" /> },
-    { label: "Length ↑", mode: "length-asc", icon: <Hash className="w-4 h-4" /> },
-    { label: "Length ↓", mode: "length-desc", icon: <Hash className="w-4 h-4" /> },
-    { label: "Numeric", mode: "numeric", icon: <Hash className="w-4 h-4" /> },
-    { label: "Shuffle", mode: "shuffle", icon: <Shuffle className="w-4 h-4" /> },
-    { label: "Reverse", mode: "reverse", icon: <FlipVertical className="w-4 h-4" /> },
+    { label: t("sortAZ"), mode: "az", icon: <ArrowUpAZ className="w-4 h-4" /> },
+    { label: t("sortZA"), mode: "za", icon: <ArrowDownAZ className="w-4 h-4" /> },
+    { label: t("lengthAsc"), mode: "length-asc", icon: <Hash className="w-4 h-4" /> },
+    { label: t("lengthDesc"), mode: "length-desc", icon: <Hash className="w-4 h-4" /> },
+    { label: t("numeric"), mode: "numeric", icon: <Hash className="w-4 h-4" /> },
+    { label: t("shuffle"), mode: "shuffle", icon: <Shuffle className="w-4 h-4" /> },
+    { label: t("reverse"), mode: "reverse", icon: <FlipVertical className="w-4 h-4" /> },
   ];
 
   const ToggleOption = ({
@@ -206,8 +209,8 @@ export default function TextSorter() {
           }`}
         />
         <div
-          className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform shadow-sm ${
-            checked ? "translate-x-4" : "translate-x-0"
+          className={`absolute top-0.5 start-0.5 w-4 h-4 rounded-full bg-white transition-transform shadow-sm ${
+            checked ? "translate-x-4 rtl:-translate-x-4" : "translate-x-0"
           }`}
         />
       </div>
@@ -220,10 +223,8 @@ export default function TextSorter() {
       {/* Sort Buttons */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Sort Options</CardTitle>
-          <CardDescription>
-            Choose a sort method to apply to the input text
-          </CardDescription>
+          <CardTitle>{t("sortOptionsTitle")}</CardTitle>
+          <CardDescription>{t("sortOptionsDesc")}</CardDescription>
         </CardHeader>
         <CardContent>
           <div className="flex flex-wrap gap-2 mb-4">
@@ -243,30 +244,30 @@ export default function TextSorter() {
 
           <div className="border-t pt-4">
             <p className="text-sm font-medium text-muted-foreground mb-3">
-              Options
+              {t("optionsLabel")}
             </p>
             <div className="flex flex-wrap gap-x-6 gap-y-3">
               <ToggleOption
                 id="remove-duplicates"
-                label="Remove Duplicates"
+                label={t("removeDuplicates")}
                 checked={removeDuplicates}
                 onChange={setRemoveDuplicates}
               />
               <ToggleOption
                 id="trim-whitespace"
-                label="Trim Whitespace"
+                label={t("trimWhitespace")}
                 checked={trimWhitespace}
                 onChange={setTrimWhitespace}
               />
               <ToggleOption
                 id="remove-empty"
-                label="Remove Empty Lines"
+                label={t("removeEmptyLines")}
                 checked={removeEmptyLines}
                 onChange={setRemoveEmptyLines}
               />
               <ToggleOption
                 id="case-insensitive"
-                label="Case Insensitive Sort"
+                label={t("caseInsensitive")}
                 checked={caseInsensitive}
                 onChange={setCaseInsensitive}
               />
@@ -279,12 +280,12 @@ export default function TextSorter() {
         {/* Input */}
         <Card>
           <CardHeader>
-            <CardTitle>Input Text</CardTitle>
-            <CardDescription>Enter one item per line</CardDescription>
+            <CardTitle>{t("inputTitle")}</CardTitle>
+            <CardDescription>{t("inputDesc")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Textarea
-              placeholder="Enter text here, one item per line..."
+              placeholder={t("inputPlaceholder")}
               value={input}
               onChange={(e) => setInput(e.target.value)}
               className="min-h-[320px] resize-none font-mono text-sm"
@@ -292,8 +293,8 @@ export default function TextSorter() {
             />
             <div className="flex justify-between items-center mt-3">
               <div className="flex gap-3">
-                <Badge variant="secondary">{inputLines} lines</Badge>
-                <Badge variant="secondary">{input.length} chars</Badge>
+                <Badge variant="secondary">{inputLines} {t("lines")}</Badge>
+                <Badge variant="secondary">{input.length} {t("chars")}</Badge>
               </div>
               <Button
                 variant="outline"
@@ -302,7 +303,7 @@ export default function TextSorter() {
                 className="flex items-center gap-2"
               >
                 <RotateCcw className="w-4 h-4" />
-                Clear
+                {tCommon("clear")}
               </Button>
             </div>
           </CardContent>
@@ -311,14 +312,14 @@ export default function TextSorter() {
         {/* Output */}
         <Card>
           <CardHeader>
-            <CardTitle>Output</CardTitle>
+            <CardTitle>{t("outputTitle")}</CardTitle>
             <CardDescription>
-              {activeMode ? `Sorted / processed result` : "Result will appear here"}
+              {activeMode ? t("outputDesc") : t("outputPlaceholderEmpty")}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Textarea
-              placeholder="Output will appear here after sorting..."
+              placeholder={t("outputPlaceholder")}
               value={output}
               readOnly
               className="min-h-[320px] resize-none font-mono text-sm bg-muted"
@@ -326,8 +327,8 @@ export default function TextSorter() {
             />
             <div className="flex justify-between items-center mt-3">
               <div className="flex gap-3">
-                <Badge variant="secondary">{outputLines} lines</Badge>
-                <Badge variant="secondary">{output.length} chars</Badge>
+                <Badge variant="secondary">{outputLines} {t("lines")}</Badge>
+                <Badge variant="secondary">{output.length} {t("chars")}</Badge>
               </div>
               <div className="flex gap-2">
                 <Button
@@ -338,7 +339,7 @@ export default function TextSorter() {
                   className="flex items-center gap-2"
                 >
                   <Download className="w-4 h-4" />
-                  Download
+                  {tCommon("download")}
                 </Button>
                 <Button
                   size="sm"
@@ -347,7 +348,7 @@ export default function TextSorter() {
                   className="flex items-center gap-2"
                 >
                   <Copy className="w-4 h-4" />
-                  Copy
+                  {tCommon("copy")}
                 </Button>
               </div>
             </div>
