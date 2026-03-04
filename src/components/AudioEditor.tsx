@@ -78,7 +78,7 @@ export default function AudioEditor() {
   ) => {
     const file = event.target.files?.[0];
     if (!file?.type.startsWith("audio/")) {
-      toast.error("Please select a valid audio file");
+      toast.error(t("invalidAudioFile"));
       return;
     }
 
@@ -96,9 +96,9 @@ export default function AudioEditor() {
         setIsPlaying(false);
       });
 
-      toast.success("Audio file loaded successfully");
+      toast.success(t("fileLoadedSuccess"));
     } catch (error) {
-      toast.error("Error loading audio file");
+      toast.error(t("errorLoadingFile"));
       reset();
     }
   };
@@ -118,7 +118,7 @@ export default function AudioEditor() {
       setAudioBuffer(audioBuffer);
       drawWaveform(audioBuffer);
     } catch (error) {
-      toast.error("Error processing audio file");
+      toast.error(t("errorProcessingFile"));
     }
   };
 
@@ -218,7 +218,7 @@ export default function AudioEditor() {
     if (!audioBuffer) return;
 
     addEffect({ type: "echo", value: 0.3 });
-    toast.success("Echo effect applied");
+    toast.success(t("echoApplied"));
 
     if (audioBuffer) {
       drawWaveform(audioBuffer);
@@ -265,9 +265,9 @@ export default function AudioEditor() {
         source.stop();
       }, audioBuffer.duration * 1000);
 
-      toast.success("Processing audio for download...");
+      toast.success(t("processingDownload"));
     } catch (error) {
-      toast.error("Error processing audio for download");
+      toast.error(t("errorProcessingDownload"));
     }
   };
 

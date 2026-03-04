@@ -284,7 +284,7 @@ export default function FileConverter() {
   const [rowCount, setRowCount] = useState<number | null>(null);
 
   const convert = useCallback(() => {
-    if (!input.trim()) { toast.error("Paste some data first."); return; }
+    if (!input.trim()) { toast.error(t("pasteSomeDataFirst")); return; }
     setError(null);
     try {
       const rows = toData(input, fromFmt);
@@ -306,7 +306,7 @@ export default function FileConverter() {
       setFromFmt(detected);
       toast.success(`Detected format: ${FORMAT_LABELS[detected]}`);
     } else {
-      toast.error("Could not auto-detect format. Please select manually.");
+      toast.error(t("couldNotDetect"));
     }
   };
 
@@ -320,7 +320,7 @@ export default function FileConverter() {
   const copyOutput = async () => {
     if (!output) return;
     await navigator.clipboard.writeText(output);
-    toast.success("Copied to clipboard");
+    toast.success(t("copiedToClipboard"));
   };
 
   const downloadOutput = () => {

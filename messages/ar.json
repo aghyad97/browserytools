@@ -1345,7 +1345,8 @@
       "copyFailed": "فشل النسخ",
       "cameraAccessGranted": "تم منح صلاحية الكاميرا!",
       "cameraTestSuccessful": "نجح اختبار الكاميرا! يمكنك الآن بدء المسح.",
-      "cameraAccessGrantedStart": "تم منح صلاحية الكاميرا! انقر على الزر أدناه لبدء مسح الباركود"
+      "cameraAccessGrantedStart": "تم منح صلاحية الكاميرا! انقر على الزر أدناه لبدء مسح الباركود",
+      "checkBrowserSettingsToast": "يرجى التحقق من إعدادات متصفحك لتفعيل الوصول إلى الكاميرا"
     },
     "Charts": {
       "chartTypeTitle": "نوع الرسم البياني",
@@ -1783,7 +1784,24 @@
       "manageExpenses": "إدارة مصروفاتك",
       "addExpense": "إضافة مصروف",
       "expenses": "المصروفات",
-      "budgets": "الميزانيات"
+      "budgets": "الميزانيات",
+      "expenseDeleted": "تم حذف المصروف بنجاح",
+      "selectCategoryError": "يرجى اختيار فئة",
+      "budgetUpdated": "تم تحديث الميزانية بنجاح",
+      "budgetCreated": "تم إنشاء الميزانية بنجاح",
+      "errorSavingBudget": "فشل حفظ الميزانية",
+      "budgetDeleted": "تم حذف الميزانية بنجاح",
+      "expenseUpdated": "تم تحديث المصروف بنجاح",
+      "expenseAdded": "تم إضافة المصروف بنجاح",
+      "errorSavingExpense": "فشل حفظ المصروف",
+      "noExpensesToExport": "لا توجد مصروفات للتصدير",
+      "noBudgetsToExport": "لا توجد ميزانيات للتصدير",
+      "errorExportingData": "فشل تصدير البيانات",
+      "downloadedExpensesTemplate": "تم تنزيل قالب المصروفات",
+      "downloadedBudgetsTemplate": "تم تنزيل قالب الميزانيات",
+      "errorDownloadingTemplate": "فشل تنزيل القالب",
+      "dataCleared": "تم مسح جميع البيانات",
+      "errorClearingData": "فشل مسح البيانات"
     },
     "LoanCalculator": {
       "title": "حاسبة القرض",
@@ -1974,7 +1992,12 @@
       "totalValue": "القيمة الإجمالية",
       "overdue": "متأخر",
       "invoiceDeleted": "تم حذف الفاتورة",
-      "invoiceDuplicated": "تم تكرار الفاتورة"
+      "invoiceDuplicated": "تم تكرار الفاتورة",
+      "invoiceSaved": "تم حفظ الفاتورة",
+      "invoiceLoaded": "تم تحميل الفاتورة",
+      "newInvoiceCreated": "تم إنشاء فاتورة جديدة",
+      "invoiceGenerated": "تم إنشاء الفاتورة",
+      "errorGenerating": "خطأ في إنشاء الفاتورة"
     },
     "NumberBaseConverter": {
       "title": "محوّل قاعدة الأعداد",

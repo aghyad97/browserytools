@@ -371,7 +371,7 @@ export default function BarcodeScanner() {
     if (settingsUrl) {
       window.open(settingsUrl, "_blank");
     } else {
-      toast.info("Please check your browser settings to enable camera access");
+      toast.info(t("checkBrowserSettingsToast"));
     }
   };
 

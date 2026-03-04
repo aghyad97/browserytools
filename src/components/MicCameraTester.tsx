@@ -55,7 +55,7 @@ export default function MicCameraTester() {
       if (!selectedMic && microphones[0])
         setSelectedMic(microphones[0].deviceId);
     } catch (e) {
-      toast.error("Could not list media devices");
+      toast.error(t("errorListingDevices"));
     }
   };
 
@@ -93,9 +93,9 @@ export default function MicCameraTester() {
         await videoRef.current.play();
       }
       setupAudioLevel(s);
-      toast.success("Preview started");
+      toast.success(t("previewStarted"));
     } catch (e) {
-      toast.error("Could not access camera/microphone");
+      toast.error(t("errorAccessingDevices"));
     }
   };
 

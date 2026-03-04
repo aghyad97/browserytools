@@ -148,7 +148,7 @@ export default function PDFTools() {
         toast.success(`Successfully added ${validFiles.length} PDF(s)!`);
       }
     } catch (error) {
-      toast.error("Error loading PDFs");
+      toast.error(t("errorLoadingPdfs"));
     } finally {
       setLoading(false);
     }
@@ -195,7 +195,7 @@ export default function PDFTools() {
 
   const mergePDFs = async () => {
     if (files.length < 2) {
-      toast.error("Add at least 2 PDFs to merge");
+      toast.error(t("needTwoPdfs"));
       return;
     }
 
@@ -214,9 +214,9 @@ export default function PDFTools() {
 
       const mergedPdfFile = await mergedPdf.save();
       downloadPdf(mergedPdfFile, "merged.pdf");
-      toast.success("PDFs merged successfully!");
+      toast.success(t("mergedSuccess"));
     } catch (error) {
-      toast.error("Error merging PDFs");
+      toast.error(t("errorMerging"));
     } finally {
       setLoading(false);
     }
@@ -339,10 +339,10 @@ export default function PDFTools() {
           )} → ${formatBytes(compressedSize)} (${compressionRatio}% reduction)`
         );
       } else {
-        toast.info("Could not compress further - file is already optimized");
+        toast.info(t("alreadyOptimized"));
       }
     } catch (error) {
-      toast.error("Error compressing PDF");
+      toast.error(t("errorCompressing"));
     } finally {
       setLoading(false);
     }
@@ -381,7 +381,7 @@ export default function PDFTools() {
       );
       toast.success(`PDF rotated ${degrees}° successfully!`);
     } catch (error) {
-      toast.error("Error rotating PDF");
+      toast.error(t("errorRotating"));
     } finally {
       setLoading(false);
     }
@@ -394,9 +394,9 @@ export default function PDFTools() {
 
       // Note: pdf-lib doesn't support password protection directly
       // This is a placeholder for future implementation
-      toast.info("Password protection feature coming soon!");
+      toast.info(t("passwordComingSoon"));
     } catch (error) {
-      toast.error("Error adding password protection");
+      toast.error(t("errorPassword"));
     } finally {
       setLoading(false);
     }

@@ -164,7 +164,7 @@ export default function InvoiceGenerator() {
   const handleSaveInvoice = () => {
     if (invoiceData) {
       saveInvoice(invoiceData);
-      toast.success("Invoice Saved");
+      toast.success(t("invoiceSaved"));
     }
   };
 
@@ -172,14 +172,14 @@ export default function InvoiceGenerator() {
     setCurrentInvoice(invoice);
     setShowManager(false);
     setActiveTab("details");
-    toast.success("Invoice Loaded");
+    toast.success(t("invoiceLoaded"));
   };
 
   const handleCreateNew = () => {
     createNewInvoice();
     setShowManager(false);
     setActiveTab("details");
-    toast.success("New Invoice Created");
+    toast.success(t("newInvoiceCreated"));
   };
 
   const handleBackToManager = () => {
@@ -451,9 +451,9 @@ export default function InvoiceGenerator() {
       // Save the PDF
       pdf.save(`invoice-${invoiceData.invoiceNumber}.pdf`);
 
-      toast.success("Invoice Generated");
+      toast.success(t("invoiceGenerated"));
     } catch (error) {
-      toast.error("Error");
+      toast.error(t("errorGenerating"));
     }
   };
 

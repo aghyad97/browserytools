@@ -1345,7 +1345,8 @@
       "copyFailed": "Copy failed",
       "cameraAccessGranted": "Camera access granted!",
       "cameraTestSuccessful": "Camera test successful! You can now start scanning.",
-      "cameraAccessGrantedStart": "Camera access granted! Click the button below to start scanning barcodes"
+      "cameraAccessGrantedStart": "Camera access granted! Click the button below to start scanning barcodes",
+      "checkBrowserSettingsToast": "Please check your browser settings to enable camera access"
     },
     "Charts": {
       "chartTypeTitle": "Chart Type",
@@ -1783,7 +1784,24 @@
       "manageExpenses": "Manage your expenses",
       "addExpense": "Add Expense",
       "expenses": "Expenses",
-      "budgets": "Budgets"
+      "budgets": "Budgets",
+      "expenseDeleted": "Expense deleted successfully",
+      "selectCategoryError": "Please select a category",
+      "budgetUpdated": "Budget updated successfully",
+      "budgetCreated": "Budget created successfully",
+      "errorSavingBudget": "Failed to save budget",
+      "budgetDeleted": "Budget deleted successfully",
+      "expenseUpdated": "Expense updated successfully",
+      "expenseAdded": "Expense added successfully",
+      "errorSavingExpense": "Failed to save expense",
+      "noExpensesToExport": "No expenses to export",
+      "noBudgetsToExport": "No budgets to export",
+      "errorExportingData": "Failed to export data",
+      "downloadedExpensesTemplate": "Downloaded expenses template",
+      "downloadedBudgetsTemplate": "Downloaded budgets template",
+      "errorDownloadingTemplate": "Failed to download template",
+      "dataCleared": "All data cleared",
+      "errorClearingData": "Failed to clear data"
     },
     "LoanCalculator": {
       "title": "Loan Calculator",
@@ -1974,7 +1992,12 @@
       "totalValue": "Total Value",
       "overdue": "Overdue",
       "invoiceDeleted": "Invoice Deleted",
-      "invoiceDuplicated": "Invoice Duplicated"
+      "invoiceDuplicated": "Invoice Duplicated",
+      "invoiceSaved": "Invoice Saved",
+      "invoiceLoaded": "Invoice Loaded",
+      "newInvoiceCreated": "New Invoice Created",
+      "invoiceGenerated": "Invoice Generated",
+      "errorGenerating": "Error generating invoice"
     },
     "NumberBaseConverter": {
       "title": "Number Base Converter",
