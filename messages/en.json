@@ -612,7 +612,10 @@
       "rotatedSuccess": "PDF rotated {degrees}° successfully!",
       "errorRotating": "Error rotating PDF",
       "passwordComingSoon": "Password protection feature coming soon!",
-      "errorPassword": "Error adding password protection"
+      "errorPassword": "Error adding password protection",
+      "errorLoadingPdf": "Failed to load PDF. Please check if the file is valid.",
+      "loading": "Loading...",
+      "pageOf": "Page {current} of {total}"
     },
     "ZipTools": {
       "createZip": "Create ZIP",

@@ -12,6 +12,7 @@ import {
   X,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useTranslations } from "next-intl";
 
 // Initialize PDF.js worker
 if (typeof window !== "undefined") {
@@ -24,6 +25,7 @@ interface PDFPreviewProps {
 }
 
 export function PDFPreview({ pdfData, onClose }: PDFPreviewProps) {
+  const t = useTranslations("Tools.PDFTools");
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
@@ -45,7 +47,7 @@ export function PDFPreview({ pdfData, onClose }: PDFPreviewProps) {
         await renderPage(1, pdfDoc);
       } catch (error) {
         console.error("Error loading PDF:", error);
-        setError("Failed to load PDF. Please check if the file is valid.");
+        setError(t("errorLoadingPdf"));
       } finally {
         setLoading(false);
       }
@@ -110,7 +112,7 @@ export function PDFPreview({ pdfData, onClose }: PDFPreviewProps) {
             <ChevronLeft className="w-4 h-4" />
           </Button>
           <span className="text-sm">
-            {loading ? "Loading..." : `Page ${currentPage} of ${totalPages}`}
+            {loading ? t("loading") : t("pageOf", { current: currentPage, total: totalPages })}
           </span>
           <Button
             variant="outline"

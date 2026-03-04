@@ -612,7 +612,10 @@
       "rotatedSuccess": "تم تدوير PDF {degrees}° بنجاح!",
       "errorRotating": "خطأ في تدوير PDF",
       "passwordComingSoon": "ميزة حماية كلمة المرور قريباً!",
-      "errorPassword": "خطأ في إضافة حماية كلمة المرور"
+      "errorPassword": "خطأ في إضافة حماية كلمة المرور",
+      "errorLoadingPdf": "فشل تحميل الملف. يرجى التحقق من صحة الملف.",
+      "loading": "جارٍ التحميل...",
+      "pageOf": "الصفحة {current} من {total}"
     },
     "ZipTools": {
       "createZip": "إنشاء ZIP",
