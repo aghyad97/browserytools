@@ -6,7 +6,7 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint --dir src",
+    "lint": "eslint src",
     "validate": "node scripts/validate-tools.js",
     "test-validation": "node scripts/test-validation.js",
     "tool-release": "node scripts/update-tool-release.js",
