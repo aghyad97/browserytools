@@ -86,7 +86,7 @@ Please describe what this tool should do and how it would help users.
                 </h1>
               </div>
             ) : (
-              <div className="flex flex-row gap-2 rtl:flex-row-reverse">
+              <div className="flex flex-row gap-2">
                 <Logo />
                 <h1 className="text-sm md:text-xl font-semibold">
                   {tCommon("siteName")}
