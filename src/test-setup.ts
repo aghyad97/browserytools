@@ -242,19 +242,43 @@ vi.mock("next/image", () => ({
   },
 }));
 
-// Mock next-intl so components using useTranslations work without a provider
-vi.mock("next-intl", () => ({
-  useTranslations: () => (key: string) => key,
-  useLocale: () => "en",
-  useFormatter: () => ({
-    dateTime: (date: Date) => date.toLocaleString(),
-    number: (n: number) => String(n),
-    relativeTime: (date: Date) => date.toLocaleString(),
-    list: (items: string[]) => items.join(", "),
-  }),
-  NextIntlClientProvider: ({ children }: { children: unknown }) => children,
-  getTranslations: async () => (key: string) => key,
-}));
+// Mock next-intl — load real English messages so existing tests still find
+// the English strings they were written against.
+vi.mock("next-intl", async () => {
+  const { default: enMessages } = await import("../messages/en.json");
+
+  function lookup(obj: Record<string, unknown>, path: string): string | undefined {
+    const keys = path.split(".");
+    let cur: unknown = obj;
+    for (const key of keys) {
+      if (cur === null || typeof cur !== "object") return undefined;
+      cur = (cur as Record<string, unknown>)[key];
+    }
+    return typeof cur === "string" ? cur : undefined;
+  }
+
+  function makeT(namespace?: string) {
+    return (key: string, values?: Record<string, unknown>): string => {
+      const fullPath = namespace ? `${namespace}.${key}` : key;
+      const translation = lookup(enMessages as unknown as Record<string, unknown>, fullPath) ?? key;
+      if (!values) return translation;
+      return translation.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? `{${k}}`));
+    };
+  }
+
+  return {
+    useTranslations: (namespace?: string) => makeT(namespace),
+    useLocale: () => "en",
+    useFormatter: () => ({
+      dateTime: (date: Date) => date.toLocaleString(),
+      number: (n: number) => String(n),
+      relativeTime: (date: Date) => date.toLocaleString(),
+      list: (items: string[]) => items.join(", "),
+    }),
+    NextIntlClientProvider: ({ children }: { children: unknown }) => children,
+    getTranslations: async (namespace?: string) => makeT(namespace),
+  };
+});
 
 // ── Global beforeEach reset ───────────────────────────────────────────────────
 beforeEach(() => {
