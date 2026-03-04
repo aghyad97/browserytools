@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,12 +11,14 @@ import { useTranslations } from "next-intl";
 
 type Mode = "yaml-to-json" | "json-to-yaml";
 
-const SAMPLE_YAML = ["name: BrowseryTools","version: 1.0.0","features:","  - JSON Formatter","  - YAML Converter","meta:","  author: Dev Team","active: true","count: 42"].join("\n");
-
-const SAMPLE_JSON = JSON.stringify({ name: "BrowseryTools", version: "1.0.0", features: ["JSON Formatter","YAML Converter","URL Encoder"], meta: { author: "Dev Team", license: "MIT", tags: ["tool","dev","browser"] }, active: true, count: 42 }, null, 2);
-
 export default function YamlJsonConverter() {
   const t = useTranslations("Tools.YamlJsonConverter");
+  const tCommon = useTranslations("Common");
+  const sampleYaml = useMemo(() => {
+    const n = tCommon("siteName");
+    return [`name: ${n}`,"version: 1.0.0","features:","  - JSON Formatter","  - YAML Converter","meta:","  author: Dev Team","active: true","count: 42"].join("\n");
+  }, [tCommon]);
+  const sampleJson = useMemo(() => JSON.stringify({ name: tCommon("siteName"), version: "1.0.0", features: ["JSON Formatter","YAML Converter","URL Encoder"], meta: { author: "Dev Team", license: "MIT", tags: ["tool","dev","browser"] }, active: true, count: 42 }, null, 2), [tCommon]);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState("yaml-to-json" as Mode);
@@ -71,7 +73,7 @@ export default function YamlJsonConverter() {
   };
 
   const handleLoadSample = () => {
-    setInput(mode === "yaml-to-json" ? SAMPLE_YAML : SAMPLE_JSON);
+    setInput(mode === "yaml-to-json" ? sampleYaml : sampleJson);
     setError("");
   };
 

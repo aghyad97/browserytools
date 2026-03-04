@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -10,15 +10,6 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { toast } from "sonner";
 import { Copy, Trash2, CheckCircle2, XCircle, AlignLeft, Minimize2, FlaskConical, FileJson } from "lucide-react";
 import { useTranslations } from "next-intl";
-
-const SAMPLE_JSON = JSON.stringify({
-  name: "BrowseryTools",
-  version: "1.0.0",
-  features: ["JSON Formatter","YAML Converter","URL Encoder"],
-  meta: { author: "Dev Team", license: "MIT", tags: ["tool","dev","browser"] },
-  active: true,
-  count: 42,
-}, null, 2);
 
 type ValidationState = "idle" | "valid" | "invalid";
 type IndentSize = "2" | "4";
@@ -61,6 +52,15 @@ function findErrorLine(input: string, msg: string): number | null {
 
 export default function JsonFormatter() {
   const t = useTranslations("Tools.JsonFormatter");
+  const tCommon = useTranslations("Common");
+  const sampleJson = useMemo(() => JSON.stringify({
+    name: tCommon("siteName"),
+    version: "1.0.0",
+    features: ["JSON Formatter","YAML Converter","URL Encoder"],
+    meta: { author: "Dev Team", license: "MIT", tags: ["tool","dev","browser"] },
+    active: true,
+    count: 42,
+  }, null, 2), [tCommon]);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [indentSize, setIndentSize] = useState("2" as IndentSize);
@@ -126,7 +126,7 @@ export default function JsonFormatter() {
     catch { toast.error(t("failedToCopy")); }
   };
 
-  const handleLoadSample = () => { setInput(SAMPLE_JSON); setOutput(""); resetError(); };
+  const handleLoadSample = () => { setInput(sampleJson); setOutput(""); resetError(); };
   const stats = getJsonStats(input);
 
   return (

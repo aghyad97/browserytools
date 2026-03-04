@@ -179,9 +179,12 @@ function parseMarkdown(md: string): string {
   return output.join("\n");
 }
 
-// ─── Sample Markdown ────────────────────────────────────────────────────────
+// ─── Component ───────────────────────────────────────────────────────────────
 
-const SAMPLE_MARKDOWN = `# Welcome to Markdown to HTML
+export default function MarkdownToHtml() {
+  const t = useTranslations("Tools.MarkdownToHtml");
+  const tCommon = useTranslations("Common");
+  const sampleMarkdown = useMemo(() => `# Welcome to Markdown to HTML
 
 ## Features
 
@@ -189,7 +192,7 @@ This converter supports **bold**, *italic*, ~~strikethrough~~, and \`inline code
 
 ### Links and Images
 
-[Visit BrowseryTools](https://browserytools.com) — your favorite browser toolbox.
+[Visit ${tCommon("siteName")}](https://browserytools.com) — your favorite browser toolbox.
 
 ### Lists
 
@@ -224,13 +227,7 @@ function greet(name) {
 ---
 
 Paragraphs are separated by blank lines and rendered correctly.
-`;
-
-// ─── Component ───────────────────────────────────────────────────────────────
-
-export default function MarkdownToHtml() {
-  const t = useTranslations("Tools.MarkdownToHtml");
-  const tCommon = useTranslations("Common");
+`, [tCommon]);
   const [markdown, setMarkdown] = useState("");
   const [viewMode, setViewMode] = useState<"preview" | "source">("preview");
 
@@ -270,8 +267,8 @@ export default function MarkdownToHtml() {
   const handleClear = useCallback(() => setMarkdown(""), []);
 
   const handleLoadSample = useCallback(
-    () => setMarkdown(SAMPLE_MARKDOWN),
-    []
+    () => setMarkdown(sampleMarkdown),
+    [sampleMarkdown]
   );
 
   return (
