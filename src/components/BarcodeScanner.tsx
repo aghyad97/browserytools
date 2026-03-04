@@ -597,7 +597,7 @@ export default function BarcodeScanner() {
 
                     {/* No Barcode Alert */}
                     {showNoBarcodeAlert && (
-                      <Alert className="text-left">
+                      <Alert className="text-start">
                         <AlertCircle className="h-4 w-4" />
                         <AlertDescription>
                           <div className="flex items-center justify-between">

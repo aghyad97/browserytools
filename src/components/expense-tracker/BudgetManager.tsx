@@ -323,7 +323,7 @@ export default function BudgetManager() {
           </p>
         </div>
         <Button onClick={() => setShowForm(true)}>
-          <PlusIcon className="h-4 w-4 mr-2" />
+          <PlusIcon className="h-4 w-4 me-2" />
           Create Budget
         </Button>
       </div>
@@ -336,7 +336,7 @@ export default function BudgetManager() {
               your spending limits.
             </p>
             <Button onClick={() => setShowForm(true)}>
-              <PlusIcon className="h-4 w-4 mr-2" />
+              <PlusIcon className="h-4 w-4 me-2" />
               Create Your First Budget
             </Button>
           </CardContent>
@@ -367,7 +367,7 @@ export default function BudgetManager() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleEdit(budget)}>
-                          <EditIcon className="mr-2 h-4 w-4" />
+                          <EditIcon className="me-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>
                         <AlertDialog>
@@ -375,7 +375,7 @@ export default function BudgetManager() {
                             <DropdownMenuItem
                               onSelect={(e) => e.preventDefault()}
                             >
-                              <TrashIcon className="mr-2 h-4 w-4" />
+                              <TrashIcon className="me-2 h-4 w-4" />
                               Delete
                             </DropdownMenuItem>
                           </AlertDialogTrigger>

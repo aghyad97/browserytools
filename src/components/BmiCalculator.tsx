@@ -189,8 +189,8 @@ export default function BmiCalculator() {
           >
             {t("imperial")}
           </Button>
-          <Button variant="ghost" size="sm" className="ml-auto" onClick={handleClear}>
-            <RotateCcw className="w-4 h-4 mr-1.5" /> {t("reset")}
+          <Button variant="ghost" size="sm" className="ms-auto" onClick={handleClear}>
+            <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
           </Button>
         </div>
 
@@ -333,7 +333,7 @@ export default function BmiCalculator() {
                       style={{ backgroundColor: cat.color }}
                     />
                     <span className="font-medium">{t(cat.labelKey as Parameters<typeof t>[0])}</span>
-                    <span className="ml-auto opacity-70">
+                    <span className="ms-auto opacity-70">
                       {cat.min}
                       {cat.max < 60 ? `–${cat.max}` : "+"}
                     </span>

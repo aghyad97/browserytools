@@ -209,7 +209,7 @@ export default function HabitTracker() {
             </div>
           </div>
           <Button onClick={() => setShowAdd((v) => !v)} variant={showAdd ? "outline" : "default"}>
-            {showAdd ? <><X className="w-4 h-4 mr-2" />{t("cancel")}</> : <><Plus className="w-4 h-4 mr-2" />{t("addHabit")}</>}
+            {showAdd ? <><X className="w-4 h-4 me-2" />{t("cancel")}</> : <><Plus className="w-4 h-4 me-2" />{t("addHabit")}</>}
           </Button>
         </div>
 
@@ -285,7 +285,7 @@ export default function HabitTracker() {
                 </div>
               </div>
               <Button onClick={addHabit} className="w-full">
-                <Plus className="w-4 h-4 mr-2" />
+                <Plus className="w-4 h-4 me-2" />
                 {t("addHabit")}
               </Button>
             </CardContent>

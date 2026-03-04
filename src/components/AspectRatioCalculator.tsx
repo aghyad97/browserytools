@@ -120,10 +120,10 @@ export default function AspectRatioCalculator() {
                     <button
                       key={r.label}
                       onClick={() => { setDimW(String(r.w * 100)); setDimH(String(r.h * 100)); }}
-                      className="text-left p-2.5 rounded-lg border hover:border-primary hover:bg-primary/5 transition-colors text-sm"
+                      className="text-start p-2.5 rounded-lg border hover:border-primary hover:bg-primary/5 transition-colors text-sm"
                     >
                       <span className="font-semibold">{r.w}:{r.h}</span>
-                      <span className="text-muted-foreground ml-2 text-xs">{r.label.split(" ")[1]}</span>
+                      <span className="text-muted-foreground ms-2 text-xs">{r.label.split(" ")[1]}</span>
                     </button>
                   ))}
                 </div>

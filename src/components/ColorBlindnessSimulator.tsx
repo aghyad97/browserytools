@@ -218,11 +218,11 @@ export default function ColorBlindnessSimulator() {
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
-                  <ImageIcon className="w-4 h-4 mr-2" />
+                  <ImageIcon className="w-4 h-4 me-2" />
                   {t("changeImage")}
                 </Button>
                 <Button variant="outline" onClick={downloadSim} disabled={!simSrc}>
-                  <Download className="w-4 h-4 mr-2" />
+                  <Download className="w-4 h-4 me-2" />
                   {t("download")}
                 </Button>
               </div>

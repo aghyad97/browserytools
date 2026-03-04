@@ -146,7 +146,7 @@ export default function HttpStatusCodes() {
           {CATEGORIES.map((cat) => (
             <TabsTrigger key={cat.id} value={cat.id} className="text-sm">
               {cat.id === "all" ? t("categoryAll") : cat.label}
-              <span className="ml-1 text-xs text-muted-foreground">
+              <span className="ms-1 text-xs text-muted-foreground">
                 ({cat.id === "all" ? STATUS_CODES.length : STATUS_CODES.filter((s) => s.category === cat.id).length})
               </span>
             </TabsTrigger>

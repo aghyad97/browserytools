@@ -348,7 +348,7 @@ export function ChartDataEditor({
                 <thead>
                   <tr className="border-b">
                     {headers.map((header, index) => (
-                      <th key={index} className="text-left p-2 border-r">
+                      <th key={index} className="text-start p-2 border-r">
                         <div className="flex items-center gap-2">
                           <Input
                             value={headerEdits[header] ?? header}
@@ -379,7 +379,7 @@ export function ChartDataEditor({
                         </div>
                       </th>
                     ))}
-                    <th className="text-left p-2">{t("actions")}</th>
+                    <th className="text-start p-2">{t("actions")}</th>
                   </tr>
                 </thead>
                 <tbody>

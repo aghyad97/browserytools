@@ -292,7 +292,7 @@ export default function UUIDGenerator() {
             )}
 
             <Button onClick={generateUUIDs} className="w-full" size="lg">
-              <RefreshCw className="h-4 w-4 mr-2" />
+              <RefreshCw className="h-4 w-4 me-2" />
               {t("generateUUIDs")}
             </Button>
           </CardContent>
@@ -326,15 +326,15 @@ export default function UUIDGenerator() {
                     variant="outline"
                     size="sm"
                   >
-                    <Copy className="h-4 w-4 mr-2" />
+                    <Copy className="h-4 w-4 me-2" />
                     {t("copyAll")}
                   </Button>
                   <Button onClick={downloadUUIDs} variant="outline" size="sm">
-                    <Download className="h-4 w-4 mr-2" />
+                    <Download className="h-4 w-4 me-2" />
                     {t("download")}
                   </Button>
                   <Button onClick={clearUUIDs} variant="outline" size="sm">
-                    <Trash2 className="h-4 w-4 mr-2" />
+                    <Trash2 className="h-4 w-4 me-2" />
                     {t("clear")}
                   </Button>
                 </div>

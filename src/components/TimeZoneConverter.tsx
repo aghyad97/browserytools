@@ -350,13 +350,13 @@ export default function TimeZoneConverter() {
                       {time.timezone}
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-end">
                     <div className="font-mono text-sm">{time.time}</div>
                     <div className="text-xs text-muted-foreground">
                       {time.date}
                     </div>
                   </div>
-                  <div className="ml-2">
+                  <div className="ms-2">
                     <Badge variant="outline" className="text-xs">
                       {time.offset}
                     </Badge>

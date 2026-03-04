@@ -219,7 +219,7 @@ export default function LoanCalculator() {
                     <thead className="sticky top-0 bg-muted">
                       <tr>
                         {[t("month"), t("payment"), t("principal"), t("interest"), t("balance")].map((h) => (
-                          <th key={h} className="px-4 py-2 text-left font-medium text-muted-foreground">{h}</th>
+                          <th key={h} className="px-4 py-2 text-start font-medium text-muted-foreground">{h}</th>
                         ))}
                       </tr>
                     </thead>

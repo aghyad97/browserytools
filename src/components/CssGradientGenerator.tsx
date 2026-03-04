@@ -298,7 +298,7 @@ export default function CssGradientGenerator() {
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label>{t("colorStops")}</Label>
-                <Button variant="outline" size="sm" onClick={addStop}><Plus className="w-4 h-4 mr-1" />{t("addStop")}</Button>
+                <Button variant="outline" size="sm" onClick={addStop}><Plus className="w-4 h-4 me-1" />{t("addStop")}</Button>
               </div>
               <div className="space-y-2">
                 {[...stops].sort((a, b) => a.position - b.position).map((stop) => (
@@ -327,8 +327,8 @@ export default function CssGradientGenerator() {
             </div>
 
             <div className="flex gap-2">
-              <Button onClick={copyCSS} className="flex-1"><Copy className="w-4 h-4 mr-2" />{t("copyCSS")}</Button>
-              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 mr-2" />{t("exportPNG")}</Button>
+              <Button onClick={copyCSS} className="flex-1"><Copy className="w-4 h-4 me-2" />{t("copyCSS")}</Button>
+              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 me-2" />{t("exportPNG")}</Button>
             </div>
           </CardContent>
         </Card>

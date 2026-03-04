@@ -101,7 +101,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                   );
                   setShowNewBanner(false);
                 }}
-                className="ml-1 rounded-full p-0.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="ms-1 rounded-full p-0.5 text-muted-foreground hover:text-foreground transition-colors"
                 aria-label={t("dismiss")}
               >
                 <X className="h-3.5 w-3.5" />

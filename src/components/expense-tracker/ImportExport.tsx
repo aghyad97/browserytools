@@ -283,14 +283,14 @@ export default function ImportExport() {
                       disabled={isImporting}
                       className="flex-1"
                     >
-                      <UploadIcon className="h-4 w-4 mr-2" />
+                      <UploadIcon className="h-4 w-4 me-2" />
                       {isImporting ? "Importing..." : "Choose File"}
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => handleDownloadTemplate(importType)}
                     >
-                      <FileIcon className="h-4 w-4 mr-2" />
+                      <FileIcon className="h-4 w-4 me-2" />
                       Download Template
                     </Button>
                   </div>
@@ -364,7 +364,7 @@ export default function ImportExport() {
                         disabled={expenses.length === 0}
                         className="w-full"
                       >
-                        <DownloadIcon className="h-4 w-4 mr-2" />
+                        <DownloadIcon className="h-4 w-4 me-2" />
                         Export Expenses
                       </Button>
                     </div>
@@ -389,7 +389,7 @@ export default function ImportExport() {
                         disabled={budgets.length === 0}
                         className="w-full"
                       >
-                        <DownloadIcon className="h-4 w-4 mr-2" />
+                        <DownloadIcon className="h-4 w-4 me-2" />
                         Export Budgets
                       </Button>
                     </div>
@@ -416,7 +416,7 @@ export default function ImportExport() {
                     >
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" className="w-full">
-                          <TrashIcon className="h-4 w-4 mr-2" />
+                          <TrashIcon className="h-4 w-4 me-2" />
                           Clear All Data
                         </Button>
                       </AlertDialogTrigger>

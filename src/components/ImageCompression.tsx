@@ -199,7 +199,7 @@ export default function ImageCompression() {
       <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         {image && compressedImage && (
           <div className="flex items-center gap-4">
-            <div className="text-right">
+            <div className="text-end">
               <p className="text-sm font-medium">{t("sizeReduction")}</p>
               <p className="text-2xl font-bold text-green-500">
                 {compressionRatio}%

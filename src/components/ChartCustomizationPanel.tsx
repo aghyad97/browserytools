@@ -153,19 +153,19 @@ export function ChartCustomizationPanel({
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="general">
-            <Settings className="h-4 w-4 mr-2" />
+            <Settings className="h-4 w-4 me-2" />
             {t("tabGeneral")}
           </TabsTrigger>
           <TabsTrigger value="colors">
-            <Palette className="h-4 w-4 mr-2" />
+            <Palette className="h-4 w-4 me-2" />
             {t("tabColors")}
           </TabsTrigger>
           <TabsTrigger value="text">
-            <Type className="h-4 w-4 mr-2" />
+            <Type className="h-4 w-4 me-2" />
             {t("tabText")}
           </TabsTrigger>
           <TabsTrigger value="layout">
-            <Layout className="h-4 w-4 mr-2" />
+            <Layout className="h-4 w-4 me-2" />
             {t("tabLayout")}
           </TabsTrigger>
         </TabsList>

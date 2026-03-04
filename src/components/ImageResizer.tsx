@@ -238,7 +238,7 @@ export default function ImageResizer() {
                     {original.width}x{original.height}px | {original.format} | {formatBytes(original.size)}
                   </p>
                 </div>
-                <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}><RefreshCw className="w-4 h-4 mr-1" />{t("change")}</Button>
+                <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}><RefreshCw className="w-4 h-4 me-1" />{t("change")}</Button>
               </div>
             )}
             <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) loadImage(file); }} />
@@ -380,7 +380,7 @@ export default function ImageResizer() {
                   </Button>
                   {resizedUrl && (
                     <Button variant="outline" onClick={downloadResized}>
-                      <Download className="w-4 h-4 mr-2" />{t("download")}
+                      <Download className="w-4 h-4 me-2" />{t("download")}
                     </Button>
                   )}
                 </div>

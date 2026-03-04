@@ -478,7 +478,7 @@ export default function ExifViewer() {
                 {exifGroups && <Badge className="bg-green-500 text-white">{t("exifDataFound")}</Badge>}
               </div>
               <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
-                <Upload className="w-4 h-4 mr-2" />
+                <Upload className="w-4 h-4 me-2" />
                 {t("loadAnother")}
               </Button>
               <input

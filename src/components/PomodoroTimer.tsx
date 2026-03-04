@@ -394,7 +394,7 @@ export default function PomodoroTimer() {
                     }`}
                   />
                 ))}
-                <span className="text-xs text-muted-foreground ml-1.5">
+                <span className="text-xs text-muted-foreground ms-1.5">
                   {currentSessionNumber
                     ? t("sessionOf", { current: currentSessionNumber, total: settings.sessionsBeforeLongBreak })
                     : sessionLabels[sessionType]}
@@ -413,7 +413,7 @@ export default function PomodoroTimer() {
                     : "bg-blue-500 hover:bg-blue-600"
                   }`}
                 >
-                  {isRunning ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ml-0.5" />}
+                  {isRunning ? <Pause className="w-6 h-6" /> : <Play className="w-6 h-6 ms-0.5" />}
                 </Button>
                 <Button variant="outline" size="icon" onClick={handleSkip} className="rounded-full w-11 h-11" title="Skip">
                   <SkipForward className="w-4 h-4" />

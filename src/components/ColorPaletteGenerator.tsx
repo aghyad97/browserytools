@@ -310,10 +310,10 @@ export default function ColorPaletteGenerator() {
                 <Label>{t("baseColor")}</Label>
                 <input type="color" value={baseColor} onChange={(e) => handleBaseChange(e.target.value)} className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5" />
               </div>
-              <Button variant="outline" onClick={randomize}><RefreshCw className="w-4 h-4 mr-2" />{t("randomPalette")}</Button>
-              <Button variant="outline" onClick={copyAsCSSVars}><Copy className="w-4 h-4 mr-2" />{t("cssVariables")}</Button>
-              <Button variant="outline" onClick={copyAsJSON}><Copy className="w-4 h-4 mr-2" />{t("copyJSON")}</Button>
-              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 mr-2" />{t("exportPNG")}</Button>
+              <Button variant="outline" onClick={randomize}><RefreshCw className="w-4 h-4 me-2" />{t("randomPalette")}</Button>
+              <Button variant="outline" onClick={copyAsCSSVars}><Copy className="w-4 h-4 me-2" />{t("cssVariables")}</Button>
+              <Button variant="outline" onClick={copyAsJSON}><Copy className="w-4 h-4 me-2" />{t("copyJSON")}</Button>
+              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 me-2" />{t("exportPNG")}</Button>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -339,21 +339,21 @@ export default function ColorPaletteGenerator() {
                     </div>
                     <div className="p-2 space-y-1 bg-background">
                       <button
-                        className="text-xs font-mono truncate w-full text-left hover:text-primary transition-colors"
+                        className="text-xs font-mono truncate w-full text-start hover:text-primary transition-colors"
                         onClick={() => copyColor(color.hex.toUpperCase(), "HEX")}
                         title={t("copyHex")}
                       >
                         {color.hex.toUpperCase()}
                       </button>
                       <button
-                        className="text-[9px] text-muted-foreground truncate w-full text-left hover:text-primary transition-colors"
+                        className="text-[9px] text-muted-foreground truncate w-full text-start hover:text-primary transition-colors"
                         onClick={() => copyColor(`rgb(${color.r}, ${color.g}, ${color.b})`, "RGB")}
                         title={t("copyRGB")}
                       >
                         rgb({color.r},{color.g},{color.b})
                       </button>
                       <button
-                        className="text-[9px] text-muted-foreground truncate w-full text-left hover:text-primary transition-colors"
+                        className="text-[9px] text-muted-foreground truncate w-full text-start hover:text-primary transition-colors"
                         onClick={() => copyColor(`hsl(${color.h}, ${color.s}%, ${color.l}%)`, "HSL")}
                         title={t("copyHSL")}
                       >

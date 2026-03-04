@@ -219,7 +219,7 @@ export default function ExpenseTracker() {
                   </CardDescription>
                 </div>
                 <Button onClick={() => setActiveTab("overview")}>
-                  <PlusIcon className="h-4 w-4 mr-2" />
+                  <PlusIcon className="h-4 w-4 me-2" />
                   {t("addExpense")}
                 </Button>
               </div>

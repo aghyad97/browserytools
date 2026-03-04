@@ -151,7 +151,7 @@ export default function TodoList() {
               </SelectContent>
             </Select>
             <Button onClick={handleAddTodo} disabled={!newTodoText.trim()}>
-              <Plus className="h-4 w-4 mr-2" />
+              <Plus className="h-4 w-4 me-2" />
               {t("addButton")}
             </Button>
           </div>
@@ -289,7 +289,7 @@ export default function TodoList() {
                           </div>
                           <div className="flex items-center gap-2">
                             <Badge className={priorityColors[todo.priority]}>
-                              <PriorityIcon className="h-3 w-3 mr-1" />
+                              <PriorityIcon className="h-3 w-3 me-1" />
                               {priorityLabels[todo.priority]}
                             </Badge>
                             <Button

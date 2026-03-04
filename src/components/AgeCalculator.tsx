@@ -276,9 +276,9 @@ export default function AgeCalculator() {
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="flex-1 justify-start text-left font-normal"
+                        className="flex-1 justify-start text-start font-normal"
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {birthDate
                           ? format(birthDate, "PPP")
                           : t("selectBirthDate")}
@@ -396,7 +396,7 @@ export default function AgeCalculator() {
                     variant="outline"
                     className="w-full"
                   >
-                    <Copy className="h-4 w-4 mr-2" />
+                    <Copy className="h-4 w-4 me-2" />
                     {t("copyAgeInfo")}
                   </Button>
                 </div>
@@ -443,9 +443,9 @@ export default function AgeCalculator() {
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-full justify-start text-left font-normal"
+                        className="w-full justify-start text-start font-normal"
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {person1BirthDate
                           ? format(person1BirthDate, "PPP")
                           : t("selectBirthDate")}
@@ -470,9 +470,9 @@ export default function AgeCalculator() {
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-full justify-start text-left font-normal"
+                        className="w-full justify-start text-start font-normal"
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {person2BirthDate
                           ? format(person2BirthDate, "PPP")
                           : t("selectBirthDate")}
@@ -538,7 +538,7 @@ export default function AgeCalculator() {
                     variant="outline"
                     className="w-full"
                   >
-                    <Copy className="h-4 w-4 mr-2" />
+                    <Copy className="h-4 w-4 me-2" />
                     {t("copyAgeDiff")}
                   </Button>
                 </div>

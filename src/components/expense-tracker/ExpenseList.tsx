@@ -119,7 +119,7 @@ export default function ExpenseList({
                     <Skeleton className="h-4 w-32" />
                     <Skeleton className="h-3 w-24" />
                   </div>
-                  <div className="text-right space-y-2">
+                  <div className="text-end space-y-2">
                     <Skeleton className="h-4 w-16" />
                     <Skeleton className="h-3 w-12" />
                   </div>
@@ -319,14 +319,14 @@ export default function ExpenseList({
                           className="cursor-pointer"
                           onClick={() => handleEdit(expense)}
                         >
-                          <EditIcon className="mr-2 h-4 w-4" />
+                          <EditIcon className="me-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-red-600 cursor-pointer"
                           onClick={() => handleDelete(expense.id)}
                         >
-                          <TrashIcon className="mr-2 h-4 w-4" />
+                          <TrashIcon className="me-2 h-4 w-4" />
                           Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -353,7 +353,7 @@ export default function ExpenseList({
                     </p>
                   )}
                 </div>
-                <div className="text-right">
+                <div className="text-end">
                   <div className="font-medium">
                     {isClient ? (
                       <NumberFlow
@@ -399,7 +399,7 @@ export default function ExpenseList({
                     onClick={() => handleEdit(expense)}
                     className="flex-1"
                   >
-                    <EditIcon className="mr-2 h-4 w-4" />
+                    <EditIcon className="me-2 h-4 w-4" />
                     Edit
                   </Button>
                   <AlertDialog
@@ -413,7 +413,7 @@ export default function ExpenseList({
                   >
                     <AlertDialogTrigger asChild>
                       <Button variant="outline" size="sm" className="flex-1">
-                        <TrashIcon className="mr-2 h-4 w-4" />
+                        <TrashIcon className="me-2 h-4 w-4" />
                         Delete
                       </Button>
                     </AlertDialogTrigger>

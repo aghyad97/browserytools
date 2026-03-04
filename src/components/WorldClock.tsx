@@ -200,7 +200,7 @@ export default function WorldClock() {
           <div className="flex items-center gap-2 flex-wrap">
             <Select value={selectedTz} onValueChange={handleAddCity}>
               <SelectTrigger className="w-52 h-9">
-                <Plus className="w-4 h-4 mr-1 shrink-0" />
+                <Plus className="w-4 h-4 me-1 shrink-0" />
                 <SelectValue placeholder={t("addCity")} />
               </SelectTrigger>
               <SelectContent className="max-h-72">
@@ -262,7 +262,7 @@ export default function WorldClock() {
                   <div className="flex items-baseline gap-2 mb-2">
                     <span dir="ltr" className="text-3xl font-mono font-bold tracking-tight tabular-nums">{data.time}</span>
                     <span className="text-sm font-medium text-muted-foreground">{data.ampm}</span>
-                    <span className="ml-auto">
+                    <span className="ms-auto">
                       {data.isDaytime ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-400" />}
                     </span>
                   </div>

@@ -249,7 +249,7 @@ export default function TipCalculator() {
                 onChange={(e) =>
                   setPeople(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))
                 }
-                className="w-20 ml-2"
+                className="w-20 ms-2"
               />
             </div>
           </CardContent>
@@ -289,7 +289,7 @@ export default function TipCalculator() {
               <CardTitle className="text-base flex items-center justify-between">
                 {t("summary")}
                 <Button size="sm" variant="ghost" onClick={handleCopySummary}>
-                  <Copy className="w-4 h-4 mr-1.5" /> {t("copy")}
+                  <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
                 </Button>
               </CardTitle>
             </CardHeader>
@@ -387,7 +387,7 @@ export default function TipCalculator() {
                         />
                       </div>
                       {splitCalc && splitCalc[idx] && (
-                        <div className="text-sm text-right min-w-[80px]">
+                        <div className="text-sm text-end min-w-[80px]">
                           <span className="text-muted-foreground">{t("pays")} </span>
                           <span className="font-semibold">${fmt(splitCalc[idx].total)}</span>
                         </div>
@@ -403,7 +403,7 @@ export default function TipCalculator() {
         {/* Reset */}
         <div className="flex justify-end">
           <Button variant="outline" size="sm" onClick={handleReset}>
-            <RotateCcw className="w-4 h-4 mr-1.5" /> {t("reset")}
+            <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
           </Button>
         </div>
       </div>

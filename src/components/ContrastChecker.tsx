@@ -186,7 +186,7 @@ export default function ContrastChecker() {
               </div>
             </div>
             <Button variant="outline" onClick={swap} className="w-full">
-              <ArrowLeftRight className="w-4 h-4 mr-2" />
+              <ArrowLeftRight className="w-4 h-4 me-2" />
               {t("swapColors")}
             </Button>
           </CardContent>
@@ -201,7 +201,7 @@ export default function ContrastChecker() {
                 <p className="text-5xl font-bold font-mono tracking-tight">{ratioStr}</p>
               </div>
               <Button variant="outline" onClick={copyRatio} disabled={ratio === null}>
-                <Copy className="w-4 h-4 mr-2" />
+                <Copy className="w-4 h-4 me-2" />
                 {t("copy")}
               </Button>
             </div>
@@ -293,7 +293,7 @@ export default function ContrastChecker() {
                 <button
                   key={p.label}
                   onClick={() => applyPreset(p)}
-                  className="flex items-center gap-2 p-2 rounded-lg border hover:border-primary hover:bg-muted/30 transition-all text-left"
+                  className="flex items-center gap-2 p-2 rounded-lg border hover:border-primary hover:bg-muted/30 transition-all text-start"
                 >
                   <div className="flex flex-shrink-0">
                     <div className="w-5 h-5 rounded-l border" style={{ backgroundColor: p.fg }} />

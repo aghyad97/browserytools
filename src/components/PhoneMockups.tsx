@@ -892,7 +892,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                           className="w-full justify-start"
                         >
                           <span
-                            className="mr-2 inline-block h-4 w-4 rounded"
+                            className="me-2 inline-block h-4 w-4 rounded"
                             style={{ backgroundColor: shadowColor }}
                           />
                           {shadowColor}
@@ -942,7 +942,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                       disabled={!useBackground}
                     >
                       <span
-                        className="mr-2 inline-block h-4 w-4 rounded"
+                        className="me-2 inline-block h-4 w-4 rounded"
                         style={{ backgroundColor }}
                       />
                       {backgroundColor}

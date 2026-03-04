@@ -293,11 +293,11 @@ export default function ExpenseForm({
               <Button
                 variant="outline"
                 className={cn(
-                  "w-full justify-start text-left font-normal",
+                  "w-full justify-start text-start font-normal",
                   !selectedDate && "text-muted-foreground"
                 )}
               >
-                <CalendarIcon className="mr-2 h-4 w-4" />
+                <CalendarIcon className="me-2 h-4 w-4" />
                 {selectedDate ? format(selectedDate, "PPP") : "Pick a date"}
               </Button>
             </PopoverTrigger>
@@ -371,7 +371,7 @@ export default function ExpenseForm({
                   <button
                     type="button"
                     onClick={() => removeTag(tag)}
-                    className="ml-1 hover:bg-destructive hover:text-destructive-foreground rounded-full p-0.5"
+                    className="ms-1 hover:bg-destructive hover:text-destructive-foreground rounded-full p-0.5"
                   >
                     <XIcon className="h-3 w-3" />
                   </button>

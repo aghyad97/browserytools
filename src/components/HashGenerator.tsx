@@ -185,12 +185,12 @@ export default function HashGenerator() {
                 >
                   {isGenerating ? (
                     <>
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                      <RefreshCw className="h-4 w-4 me-2 animate-spin" />
                       {t("generating")}
                     </>
                   ) : (
                     <>
-                      <Hash className="h-4 w-4 mr-2" />
+                      <Hash className="h-4 w-4 me-2" />
                       {t("generateHashes")}
                     </>
                   )}
@@ -237,7 +237,7 @@ export default function HashGenerator() {
                 <div className="space-y-4">
                   <div className="flex gap-2">
                     <Button onClick={copyAllHashes} variant="outline" size="sm">
-                      <Copy className="h-4 w-4 mr-2" />
+                      <Copy className="h-4 w-4 me-2" />
                       {t("copyAll")}
                     </Button>
                     <Button
@@ -245,7 +245,7 @@ export default function HashGenerator() {
                       variant="outline"
                       size="sm"
                     >
-                      <Download className="h-4 w-4 mr-2" />
+                      <Download className="h-4 w-4 me-2" />
                       {t("download")}
                     </Button>
                   </div>
