@@ -31,8 +31,10 @@ import {
   FlipHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function QRScanner() {
+  const t = useTranslations("Tools.QRScanner");
   const [scannedData, setScannedData] = useState<string>("");
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string>("");
@@ -179,7 +181,7 @@ export default function QRScanner() {
       setCameraStream(stream);
       setIsScanning(true);
       setPermissionStatus("granted");
-      toast.success("Camera access granted!");
+      toast.success(t("cameraAccessGranted"));
     } catch (err: any) {
       console.error("Camera error:", err);
 
@@ -272,9 +274,9 @@ export default function QRScanner() {
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -395,7 +397,7 @@ export default function QRScanner() {
       });
       testStream.getTracks().forEach((track) => track.stop());
 
-      toast.success("Camera test successful! You can now start scanning.");
+      toast.success(t("cameraTestSuccessful"));
       setPermissionStatus("granted");
     } catch (err: any) {
       console.error("Camera test failed:", err);
@@ -407,8 +409,8 @@ export default function QRScanner() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <Tabs defaultValue="camera" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="camera">Camera Scan</TabsTrigger>
-          <TabsTrigger value="upload">Upload Image</TabsTrigger>
+          <TabsTrigger value="camera">{t("cameraScan")}</TabsTrigger>
+          <TabsTrigger value="upload">{t("uploadImage")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="camera" className="space-y-6">
@@ -416,10 +418,10 @@ export default function QRScanner() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Camera className="h-5 w-5" />
-                Camera Scanner
+                {t("cameraScannerTitle")}
               </CardTitle>
               <CardDescription>
-                Use your device camera to scan QR codes in real-time
+                {t("cameraScannerDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -430,7 +432,7 @@ export default function QRScanner() {
                   return (
                     <Alert variant={guidance.variant}>
                       {guidance.icon}
-                      <div className="ml-2">
+                      <div className="ms-2">
                         <h4 className="font-semibold">{guidance.title}</h4>
                         <p className="text-sm mt-1">{guidance.message}</p>
                         <div className="flex gap-2 mt-3">
@@ -441,24 +443,24 @@ export default function QRScanner() {
                                 size="sm"
                                 variant="outline"
                               >
-                                <Settings className="h-4 w-4 mr-2" />
-                                Open Settings
+                                <Settings className="h-4 w-4 me-2" />
+                                {t("openSettings")}
                               </Button>
                               <Button
                                 onClick={testCameraAccess}
                                 size="sm"
                                 variant="outline"
                               >
-                                <Camera className="h-4 w-4 mr-2" />
-                                Test Camera
+                                <Camera className="h-4 w-4 me-2" />
+                                {t("testCamera")}
                               </Button>
                               <Button
                                 onClick={() => window.location.reload()}
                                 size="sm"
                                 variant="outline"
                               >
-                                <RefreshCw className="h-4 w-4 mr-2" />
-                                Refresh Page
+                                <RefreshCw className="h-4 w-4 me-2" />
+                                {t("refreshPage")}
                               </Button>
                             </>
                           ) : (
@@ -469,9 +471,9 @@ export default function QRScanner() {
                                 disabled={isRequestingPermission}
                               >
                                 {isRequestingPermission ? (
-                                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                                  <RefreshCw className="h-4 w-4 me-2 animate-spin" />
                                 ) : (
-                                  <Shield className="h-4 w-4 mr-2" />
+                                  <Shield className="h-4 w-4 me-2" />
                                 )}
                                 {guidance.action}
                               </Button>
@@ -480,8 +482,8 @@ export default function QRScanner() {
                                 size="sm"
                                 variant="outline"
                               >
-                                <Camera className="h-4 w-4 mr-2" />
-                                Test Camera
+                                <Camera className="h-4 w-4 me-2" />
+                                {t("testCamera")}
                               </Button>
                             </>
                           )}
@@ -497,8 +499,7 @@ export default function QRScanner() {
                 <div className="text-center py-8">
                   <Camera className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
                   <p className="text-muted-foreground mb-4">
-                    Camera access granted! Click the button below to start
-                    scanning QR codes
+                    {t("cameraAccessGrantedStart")}
                   </p>
                   <Button
                     onClick={startCamera}
@@ -506,11 +507,11 @@ export default function QRScanner() {
                     disabled={isRequestingPermission}
                   >
                     {isRequestingPermission ? (
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                      <RefreshCw className="h-4 w-4 me-2 animate-spin" />
                     ) : (
-                      <Camera className="h-4 w-4 mr-2" />
+                      <Camera className="h-4 w-4 me-2" />
                     )}
-                    Start Camera
+                    {t("startCamera")}
                   </Button>
                 </div>
               )}
@@ -535,25 +536,24 @@ export default function QRScanner() {
                   <div className="text-center space-y-3">
                     <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                       <Search className="h-4 w-4" />
-                      <span>Scanning for QR codes...</span>
+                      <span>{t("scanningFor")}</span>
                       <div className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         <span>{scanningDuration}s</span>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      Point your camera at a QR code
+                      {t("pointCamera")}
                     </p>
 
                     {/* No QR Code Alert */}
                     {showNoQRAlert && (
-                      <Alert className="text-left">
+                      <Alert className="text-left rtl:text-right">
                         <AlertCircle className="h-4 w-4" />
                         <AlertDescription>
                           <div className="flex items-center justify-between">
                             <span>
-                              No QR code detected. Make sure the code is clearly
-                              visible and well-lit.
+                              {t("noQRDetected")}
                             </span>
                             <Button
                               onClick={dismissNoQRAlert}
@@ -576,10 +576,10 @@ export default function QRScanner() {
                         className="flex items-center gap-2"
                       >
                         <FlipHorizontal className="h-4 w-4" />
-                        {isFlipped ? "Normal" : "Flip"}
+                        {isFlipped ? t("normal") : t("flip")}
                       </Button>
                       <Button onClick={stopCamera} variant="outline">
-                        Stop Scanning
+                        {t("stopScanning")}
                       </Button>
                     </div>
                   </div>
@@ -667,15 +667,15 @@ export default function QRScanner() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Upload className="h-5 w-5" />
-                Image Upload
+                {t("imageUploadTitle")}
               </CardTitle>
               <CardDescription>
-                Upload an image containing a QR code to scan
+                {t("imageUploadDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="image-upload">Select Image</Label>
+                <Label htmlFor="image-upload">{t("selectImage")}</Label>
                 <Input
                   id="image-upload"
                   type="file"
@@ -702,8 +702,7 @@ export default function QRScanner() {
                       <AlertDescription>
                         <div className="flex items-center justify-between">
                           <span>
-                            No QR code found in this image. Try uploading a
-                            clearer image with a visible QR code.
+                            {t("noQRInImage")}
                           </span>
                           <Button
                             onClick={() => setShowNoQRAlert(false)}
@@ -729,12 +728,12 @@ export default function QRScanner() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />
-              Scan Result
+              {t("scanResult")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label>Detected Data</Label>
+              <Label>{t("detectedData")}</Label>
               <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all">
                 {scannedData}
               </div>
@@ -751,12 +750,12 @@ export default function QRScanner() {
                 variant="outline"
                 size="sm"
               >
-                <Copy className="h-4 w-4 mr-2" />
-                Copy
+                <Copy className="h-4 w-4 me-2" />
+                {t("copy")}
               </Button>
               <Button onClick={downloadResult} variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Download
+                <Download className="h-4 w-4 me-2" />
+                {t("download")}
               </Button>
               {isUrl(scannedData) && (
                 <Button
@@ -764,11 +763,11 @@ export default function QRScanner() {
                   variant="outline"
                   size="sm"
                 >
-                  Open Link
+                  {t("openLink")}
                 </Button>
               )}
               <Button onClick={clearResults} variant="outline" size="sm">
-                Clear
+                {t("clear")}
               </Button>
             </div>
           </CardContent>

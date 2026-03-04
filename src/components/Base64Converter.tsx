@@ -18,12 +18,13 @@ import {
   Download,
   Copy,
   FileText,
-  Image,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 type ConversionMode = "encode" | "decode";
 
 export default function Base64Converter() {
+  const t = useTranslations("Tools.Base64Converter");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<ConversionMode>("encode");
@@ -34,7 +35,7 @@ export default function Base64Converter() {
 
   const handleTextConversion = () => {
     if (!input.trim()) {
-      toast.error("Please enter some input");
+      toast.error(t("enterSomeInput"));
       return;
     }
 
@@ -46,10 +47,10 @@ export default function Base64Converter() {
         const decoded = atob(input);
         setOutput(decoded);
       }
-      toast.success("Conversion successful");
+      toast.success(t("conversionSuccessful"));
     } catch (error) {
       toast.error(
-        mode === "decode" ? "Invalid Base64 string" : "Conversion failed"
+        mode === "decode" ? t("invalidBase64") : t("conversionFailed")
       );
     }
   };
@@ -70,15 +71,15 @@ export default function Base64Converter() {
         const text = await file.text();
         setInput(text);
       }
-      toast.success("File loaded successfully");
+      toast.success(t("fileLoadedSuccessfully"));
     } catch (error) {
-      toast.error("Error processing file");
+      toast.error(t("errorProcessingFile"));
     }
   };
 
   const handleDownload = () => {
     if (!output) {
-      toast.error("No output to download");
+      toast.error(t("noOutputToDownload"));
       return;
     }
 
@@ -108,23 +109,23 @@ export default function Base64Converter() {
       a.click();
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
-      toast.success("File downloaded successfully");
+      toast.success(t("fileDownloadedSuccessfully"));
     } catch (error) {
-      toast.error("Error downloading file");
+      toast.error(t("errorDownloadingFile"));
     }
   };
 
   const copyToClipboard = async () => {
     if (!output) {
-      toast.error("No output to copy");
+      toast.error(t("noOutputToCopy"));
       return;
     }
 
     try {
       await navigator.clipboard.writeText(output);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (error) {
-      toast.error("Failed to copy to clipboard");
+      toast.error(t("failedToCopy"));
     }
   };
 
@@ -157,16 +158,16 @@ export default function Base64Converter() {
               value={mode}
               onValueChange={(v) => setMode(v as ConversionMode)}
             >
-              <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select mode" />
+              <SelectTrigger className="w-[220px]">
+                <SelectValue placeholder={t("selectMode")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="encode">Encode to Base64</SelectItem>
-                <SelectItem value="decode">Decode from Base64</SelectItem>
+                <SelectItem value="encode">{t("encodeToBase64")}</SelectItem>
+                <SelectItem value="decode">{t("decodeFromBase64")}</SelectItem>
               </SelectContent>
             </Select>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
               <input
                 type="file"
                 onChange={handleFileUpload}
@@ -176,14 +177,14 @@ export default function Base64Converter() {
               <label htmlFor="file-upload">
                 <Button variant="outline" asChild>
                   <span>
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload File
+                    <Upload className="h-4 w-4 me-2" />
+                    {t("uploadFile")}
                   </span>
                 </Button>
               </label>
               <Button onClick={handleTextConversion}>
-                <ArrowRightLeft className="h-4 w-4 mr-2" />
-                Convert
+                <ArrowRightLeft className="h-4 w-4 me-2" />
+                {t("convert")}
               </Button>
             </div>
           </div>
@@ -191,14 +192,15 @@ export default function Base64Converter() {
           <div className="grid grid-cols-2 gap-4">
             <Card className="p-4">
               <Textarea
-                placeholder={`Enter text to ${mode}...`}
-                className="min-h-[400px] font-mono"
+                placeholder={mode === "encode" ? t("inputPlaceholderEncode") : t("inputPlaceholderDecode")}
+                className="min-h-[400px] font-mono text-left"
+                dir="ltr"
                 value={input}
                 onChange={handleInputChange}
               />
               {fileInfo && (
                 <div className="flex items-center mt-2 text-sm text-muted-foreground">
-                  <FileText className="h-4 w-4 mr-2" />
+                  <FileText className="h-4 w-4 me-2" />
                   {fileInfo.name}
                 </div>
               )}
@@ -207,13 +209,14 @@ export default function Base64Converter() {
             <Card className="p-4">
               <div className="relative">
                 <Textarea
-                  placeholder="Output will appear here..."
-                  className="min-h-[400px] font-mono"
+                  placeholder={t("outputPlaceholder")}
+                  className="min-h-[400px] font-mono text-left"
+                  dir="ltr"
                   value={output}
                   readOnly
                 />
                 {output && (
-                  <div className="absolute top-2 right-2 flex space-x-2">
+                  <div className="absolute top-2 end-2 flex space-x-2 rtl:space-x-reverse">
                     <Button size="icon" onClick={copyToClipboard} aria-label="Copy">
                       <Copy className="h-4 w-4" />
                     </Button>

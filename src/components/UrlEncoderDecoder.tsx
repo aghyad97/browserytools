@@ -9,11 +9,13 @@ import { Switch } from "@/components/ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Copy, Trash2, ArrowRightLeft, FileText } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const SAMPLE_URL = "https://example.com/search?q=hello world&lang=en&filter=a+b";
 const SAMPLE_TEXT = "Hello World! Special chars: @#$%^&*() URL: https://example.com/path?foo=bar";
 
 export default function UrlEncoderDecoder() {
+  const t = useTranslations("Tools.UrlEncoderDecoder");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [tab, setTab] = useState("encode");
@@ -31,28 +33,28 @@ export default function UrlEncoderDecoder() {
   }, [input, tab, fullUrl]);
 
   const handleEncode = () => {
-    if (!input.trim()) { toast.error("Please enter input"); return; }
+    if (!input.trim()) { toast.error(t("pleaseEnterInput")); return; }
     try {
       setOutput(fullUrl ? encodeURI(input) : encodeURIComponent(input));
-      toast.success("Encoded successfully");
-    } catch (e) { toast.error("Encoding failed: " + (e instanceof Error ? e.message : String(e))); }
+      toast.success(t("encodedSuccessfully"));
+    } catch (e) { toast.error(t("encodingFailed", { msg: e instanceof Error ? e.message : String(e) })); }
   };
 
   const handleDecode = () => {
-    if (!input.trim()) { toast.error("Please enter input"); return; }
+    if (!input.trim()) { toast.error(t("pleaseEnterInput")); return; }
     try {
       setOutput(decodeURIComponent(input));
-      toast.success("Decoded successfully");
-    } catch (e) { toast.error("Decoding failed: " + (e instanceof Error ? e.message : String(e))); }
+      toast.success(t("decodedSuccessfully"));
+    } catch (e) { toast.error(t("decodingFailed", { msg: e instanceof Error ? e.message : String(e) })); }
   };
 
   const handleSwap = () => { setInput(output); setOutput(input); };
   const handleClear = () => { setInput(""); setOutput(""); };
 
   const handleCopy = async () => {
-    if (!output) { toast.error("Nothing to copy"); return; }
-    try { await navigator.clipboard.writeText(output); toast.success("Copied to clipboard"); }
-    catch { toast.error("Failed to copy to clipboard"); }
+    if (!output) { toast.error(t("nothingToCopy")); return; }
+    try { await navigator.clipboard.writeText(output); toast.success(t("copiedToClipboard")); }
+    catch { toast.error(t("failedToCopy")); }
   };
 
   const handleLoadSample = () => { setInput(fullUrl ? SAMPLE_URL : SAMPLE_TEXT); };
@@ -64,36 +66,36 @@ export default function UrlEncoderDecoder() {
           <Tabs value={tab} onValueChange={setTab}>
             <div className="flex flex-wrap items-center gap-2">
               <TabsList>
-                <TabsTrigger value="encode">Encode</TabsTrigger>
-                <TabsTrigger value="decode">Decode</TabsTrigger>
+                <TabsTrigger value="encode">{t("encode")}</TabsTrigger>
+                <TabsTrigger value="decode">{t("decode")}</TabsTrigger>
               </TabsList>
               <Button onClick={tab === "encode" ? handleEncode : handleDecode}>
-                {tab === "encode" ? "Encode" : "Decode"}
+                {tab === "encode" ? t("encodeBtn") : t("decodeBtn")}
               </Button>
-              <Button variant="outline" onClick={handleSwap}><ArrowRightLeft className="h-4 w-4 mr-2" />Swap</Button>
-              <Button variant="outline" onClick={handleCopy}><Copy className="h-4 w-4 mr-2" />Copy</Button>
-              <Button variant="outline" onClick={handleLoadSample}><FileText className="h-4 w-4 mr-2" />Load Sample</Button>
-              <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 mr-2" />Clear</Button>
-              <div className="flex items-center gap-2 ml-auto">
+              <Button variant="outline" onClick={handleSwap}><ArrowRightLeft className="h-4 w-4 me-2" />{t("swap")}</Button>
+              <Button variant="outline" onClick={handleCopy}><Copy className="h-4 w-4 me-2" />{t("copy")}</Button>
+              <Button variant="outline" onClick={handleLoadSample}><FileText className="h-4 w-4 me-2" />{t("loadSample")}</Button>
+              <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 me-2" />{t("clear")}</Button>
+              <div className="flex items-center gap-2 ms-auto">
                 <Switch id="full-url" checked={fullUrl} onCheckedChange={setFullUrl} />
-                <Label htmlFor="full-url" className="text-sm text-muted-foreground whitespace-nowrap">Encode full URL</Label>
+                <Label htmlFor="full-url" className="text-sm text-muted-foreground whitespace-nowrap">{t("encodeFullUrl")}</Label>
               </div>
             </div>
             <TabsContent value={tab} className="mt-4">
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
                 <Card className="p-4 flex flex-col gap-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">{tab === "encode" ? "Text to encode" : "Text to decode"}</span>
-                    {input && <span className="text-xs text-muted-foreground">{input.length} chars</span>}
+                    <span className="text-sm font-medium">{tab === "encode" ? t("textToEncode") : t("textToDecode")}</span>
+                    {input && <span className="text-xs text-muted-foreground">{input.length} {t("chars")}</span>}
                   </div>
-                  <Textarea placeholder="Enter text here..." className="min-h-[420px] font-mono text-sm resize-none" value={input} onChange={(e) => setInput(e.target.value)} />
+                  <Textarea placeholder={t("inputPlaceholder")} className="min-h-[420px] font-mono text-sm resize-none" dir="ltr" value={input} onChange={(e) => setInput(e.target.value)} />
                 </Card>
                 <Card className="p-4 flex flex-col gap-2">
                   <div className="flex items-center justify-between">
-                    <span className="text-sm font-medium">Output</span>
-                    {output && <span className="text-xs text-muted-foreground">{output.length} chars</span>}
+                    <span className="text-sm font-medium">{t("output")}</span>
+                    {output && <span className="text-xs text-muted-foreground">{output.length} {t("chars")}</span>}
                   </div>
-                  <Textarea placeholder="Output will appear here..." className="min-h-[420px] font-mono text-sm resize-none" value={output} readOnly />
+                  <Textarea placeholder={t("outputPlaceholder")} className="min-h-[420px] font-mono text-sm resize-none" dir="ltr" value={output} readOnly />
                 </Card>
               </div>
             </TabsContent>
