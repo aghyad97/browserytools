@@ -58,6 +58,7 @@ import { Expense } from "@/store/expense-store";
 import ExpenseForm from "./ExpenseForm";
 import { toast } from "sonner";
 import NumberFlow from "@number-flow/react";
+import { useTranslations } from "next-intl";
 
 interface ExpenseListProps {
   limit?: number;
@@ -68,6 +69,7 @@ export default function ExpenseList({
   limit,
   showActions = true,
 }: ExpenseListProps) {
+  const t = useTranslations("Tools.ExpenseTracker");
   const [searchTerm, setSearchTerm] = useState("");
   const [categoryFilter, setCategoryFilter] = useState("all");
   const [editingExpense, setEditingExpense] = useState<Expense | null>(null);
@@ -117,7 +119,7 @@ export default function ExpenseList({
                     <Skeleton className="h-4 w-32" />
                     <Skeleton className="h-3 w-24" />
                   </div>
-                  <div className="text-right space-y-2">
+                  <div className="text-end space-y-2">
                     <Skeleton className="h-4 w-16" />
                     <Skeleton className="h-3 w-12" />
                   </div>
@@ -155,7 +157,7 @@ export default function ExpenseList({
   const handleDelete = (expenseId: string) => {
     deleteExpense(expenseId);
     setDeleteDialogOpen(null);
-    toast.success("Expense deleted successfully");
+    toast.success(t("expenseDeleted"));
   };
 
   const handleFormSuccess = () => {
@@ -223,7 +225,7 @@ export default function ExpenseList({
         <div className="relative flex-1">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search expenses..."
+            placeholder={t("searchExpensesPlaceholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -231,7 +233,7 @@ export default function ExpenseList({
         </div>
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
           <SelectTrigger className="w-full sm:w-[200px]">
-            <SelectValue placeholder="Filter by category" />
+            <SelectValue placeholder={t("filterByCategoryPlaceholder")} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Categories</SelectItem>
@@ -317,14 +319,14 @@ export default function ExpenseList({
                           className="cursor-pointer"
                           onClick={() => handleEdit(expense)}
                         >
-                          <EditIcon className="mr-2 h-4 w-4" />
+                          <EditIcon className="me-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>
                         <DropdownMenuItem
                           className="text-red-600 cursor-pointer"
                           onClick={() => handleDelete(expense.id)}
                         >
-                          <TrashIcon className="mr-2 h-4 w-4" />
+                          <TrashIcon className="me-2 h-4 w-4" />
                           Delete
                         </DropdownMenuItem>
                       </DropdownMenuContent>
@@ -351,7 +353,7 @@ export default function ExpenseList({
                     </p>
                   )}
                 </div>
-                <div className="text-right">
+                <div className="text-end">
                   <div className="font-medium">
                     {isClient ? (
                       <NumberFlow
@@ -397,7 +399,7 @@ export default function ExpenseList({
                     onClick={() => handleEdit(expense)}
                     className="flex-1"
                   >
-                    <EditIcon className="mr-2 h-4 w-4" />
+                    <EditIcon className="me-2 h-4 w-4" />
                     Edit
                   </Button>
                   <AlertDialog
@@ -411,7 +413,7 @@ export default function ExpenseList({
                   >
                     <AlertDialogTrigger asChild>
                       <Button variant="outline" size="sm" className="flex-1">
-                        <TrashIcon className="mr-2 h-4 w-4" />
+                        <TrashIcon className="me-2 h-4 w-4" />
                         Delete
                       </Button>
                     </AlertDialogTrigger>

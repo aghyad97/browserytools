@@ -44,8 +44,10 @@ import {
   generateExampleBudgetsCSV,
 } from "@/lib/csv-utils";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function ImportExport() {
+  const t = useTranslations("Tools.ExpenseTracker");
   const [isImporting, setIsImporting] = useState(false);
   const [importType, setImportType] = useState<"expenses" | "budgets">(
     "expenses"
@@ -166,7 +168,7 @@ export default function ImportExport() {
       if (type === "expenses") {
         const data = exportExpenses();
         if (data.length === 0) {
-          toast.error("No expenses to export");
+          toast.error(t("noExpensesToExport"));
           return;
         }
         const csv = exportExpensesToCSV(data);
@@ -178,7 +180,7 @@ export default function ImportExport() {
       } else {
         const data = exportBudgets();
         if (data.length === 0) {
-          toast.error("No budgets to export");
+          toast.error(t("noBudgetsToExport"));
           return;
         }
         const csv = exportBudgetsToCSV(data);
@@ -189,7 +191,7 @@ export default function ImportExport() {
         toast.success(`Exported ${data.length} budgets`);
       }
     } catch (error) {
-      toast.error("Failed to export data");
+      toast.error(t("errorExportingData"));
     }
   };
 
@@ -198,14 +200,14 @@ export default function ImportExport() {
       if (type === "expenses") {
         const csv = generateExampleExpensesCSV();
         downloadCSV(csv, "expenses-template.csv");
-        toast.success("Downloaded expenses template");
+        toast.success(t("downloadedExpensesTemplate"));
       } else {
         const csv = generateExampleBudgetsCSV();
         downloadCSV(csv, "budgets-template.csv");
-        toast.success("Downloaded budgets template");
+        toast.success(t("downloadedBudgetsTemplate"));
       }
     } catch (error) {
-      toast.error("Failed to download template");
+      toast.error(t("errorDownloadingTemplate"));
     }
   };
 
@@ -213,9 +215,9 @@ export default function ImportExport() {
     try {
       clearAllData();
       setClearDialogOpen(false);
-      toast.success("All data cleared");
+      toast.success(t("dataCleared"));
     } catch (error) {
-      toast.error("Failed to clear data");
+      toast.error(t("errorClearingData"));
       console.error("Error clearing data:", error);
     }
   };
@@ -281,14 +283,14 @@ export default function ImportExport() {
                       disabled={isImporting}
                       className="flex-1"
                     >
-                      <UploadIcon className="h-4 w-4 mr-2" />
+                      <UploadIcon className="h-4 w-4 me-2" />
                       {isImporting ? "Importing..." : "Choose File"}
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => handleDownloadTemplate(importType)}
                     >
-                      <FileIcon className="h-4 w-4 mr-2" />
+                      <FileIcon className="h-4 w-4 me-2" />
                       Download Template
                     </Button>
                   </div>
@@ -362,7 +364,7 @@ export default function ImportExport() {
                         disabled={expenses.length === 0}
                         className="w-full"
                       >
-                        <DownloadIcon className="h-4 w-4 mr-2" />
+                        <DownloadIcon className="h-4 w-4 me-2" />
                         Export Expenses
                       </Button>
                     </div>
@@ -387,7 +389,7 @@ export default function ImportExport() {
                         disabled={budgets.length === 0}
                         className="w-full"
                       >
-                        <DownloadIcon className="h-4 w-4 mr-2" />
+                        <DownloadIcon className="h-4 w-4 me-2" />
                         Export Budgets
                       </Button>
                     </div>
@@ -414,7 +416,7 @@ export default function ImportExport() {
                     >
                       <AlertDialogTrigger asChild>
                         <Button variant="destructive" className="w-full">
-                          <TrashIcon className="h-4 w-4 mr-2" />
+                          <TrashIcon className="h-4 w-4 me-2" />
                           Clear All Data
                         </Button>
                       </AlertDialogTrigger>

@@ -9,6 +9,7 @@ import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Copy, Download, RefreshCw, UserCircle2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 // Data pools
 const FIRST_NAMES = ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank", "Grace", "Henry", "Isabella", "James", "Kate", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn", "Rachel", "Sam", "Tina", "Uma", "Victor", "Wendy", "Xander", "Yara", "Zoe"];
@@ -43,6 +44,7 @@ interface FieldConfig {
 }
 
 export default function FakeDataGenerator() {
+  const t = useTranslations("Tools.FakeDataGenerator");
   const [count, setCount] = useState(10);
   const [format, setFormat] = useState<"json" | "csv">("json");
   const [output, setOutput] = useState("");
@@ -70,7 +72,7 @@ export default function FakeDataGenerator() {
 
   const generate = () => {
     if (enabledFields.length === 0) {
-      toast.error("Select at least one field");
+      toast.error(t("selectAtLeastOneField"));
       return;
     }
     const rows = Array.from({ length: Math.max(1, Math.min(count, 1000)) }, () => {
@@ -91,16 +93,16 @@ export default function FakeDataGenerator() {
       );
       setOutput([headers, ...csvRows].join("\n"));
     }
-    toast.success(`Generated ${rows.length} records`);
+    toast.success(t("generatedRecords", { count: rows.length }));
   };
 
   const handleCopy = async () => {
     if (!output) return;
     try {
       await navigator.clipboard.writeText(output);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
   };
 
@@ -128,8 +130,8 @@ export default function FakeDataGenerator() {
             <UserCircle2 className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Fake Data Generator</h1>
-            <p className="text-sm text-muted-foreground">Generate realistic test data — 100% offline, no data sent anywhere</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
           </div>
         </div>
 
@@ -137,10 +139,10 @@ export default function FakeDataGenerator() {
           {/* Controls */}
           <div className="space-y-4">
             <Card>
-              <CardHeader className="pb-3"><CardTitle className="text-sm">Settings</CardTitle></CardHeader>
+              <CardHeader className="pb-3"><CardTitle className="text-sm">{t("settingsTitle")}</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 <div className="space-y-1.5">
-                  <Label>Number of records</Label>
+                  <Label>{t("numberOfRecords")}</Label>
                   <Input
                     type="number"
                     min={1}
@@ -150,7 +152,7 @@ export default function FakeDataGenerator() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Format</Label>
+                  <Label>{t("format")}</Label>
                   <div className="flex gap-2">
                     {(["json", "csv"] as const).map((f) => (
                       <Button
@@ -171,8 +173,8 @@ export default function FakeDataGenerator() {
             <Card>
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm flex items-center justify-between">
-                  Fields
-                  <Badge variant="secondary">{enabledFields.length} selected</Badge>
+                  {t("fieldsTitle")}
+                  <Badge variant="secondary">{t("selectedCount", { count: enabledFields.length })}</Badge>
                 </CardTitle>
               </CardHeader>
               <CardContent className="space-y-2">
@@ -190,7 +192,7 @@ export default function FakeDataGenerator() {
             </Card>
 
             <Button onClick={generate} className="w-full gap-2">
-              <RefreshCw className="w-4 h-4" /> Generate Data
+              <RefreshCw className="w-4 h-4" /> {t("generateData")}
             </Button>
           </div>
 
@@ -199,13 +201,13 @@ export default function FakeDataGenerator() {
             <Card className="h-full">
               <CardHeader className="pb-3">
                 <CardTitle className="text-sm flex items-center justify-between">
-                  Output
+                  {t("outputTitle")}
                   <div className="flex gap-2">
                     <Button size="sm" variant="outline" onClick={handleCopy} disabled={!output}>
-                      <Copy className="w-3.5 h-3.5 mr-1.5" /> Copy
+                      <Copy className="w-3.5 h-3.5 me-1.5" /> {t("copy")}
                     </Button>
                     <Button size="sm" variant="outline" onClick={handleDownload} disabled={!output}>
-                      <Download className="w-3.5 h-3.5 mr-1.5" /> Download
+                      <Download className="w-3.5 h-3.5 me-1.5" /> {t("download")}
                     </Button>
                   </div>
                 </CardTitle>
@@ -214,7 +216,7 @@ export default function FakeDataGenerator() {
                 <textarea
                   readOnly
                   value={output}
-                  placeholder="Click 'Generate Data' to create fake records..."
+                  placeholder={t("outputPlaceholder")}
                   className="w-full min-h-[60vh] font-mono text-xs bg-muted/50 rounded-lg p-3 resize-none outline-none"
                 />
               </CardContent>

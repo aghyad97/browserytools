@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -51,6 +52,7 @@ interface Column {
 }
 
 export default function SpreadsheetViewer() {
+  const t = useTranslations("Tools.SpreadsheetViewer");
   const [data, setData] = useState<DataRow[]>([]);
   const [columns, setColumns] = useState<Column[]>([]);
   const [filteredData, setFilteredData] = useState<DataRow[]>([]);
@@ -97,10 +99,10 @@ export default function SpreadsheetViewer() {
       setData(parsedData);
       setFilteredData(parsedData);
       setSelectedColumn(cols[0].key);
-      toast.success("File loaded successfully!");
+      toast.success(t("fileLoadedSuccess"));
     } catch (error) {
       console.error(error);
-      toast.error("Error loading file");
+      toast.error(t("errorLoadingFile"));
     }
   }, []);
 
@@ -196,12 +198,12 @@ export default function SpreadsheetViewer() {
         {data.length > 0 && (
           <div className="flex items-center gap-2">
             <Button variant="outline" onClick={() => setShowChart(!showChart)}>
-              <BarChart3 className="w-4 h-4 mr-2" />
-              {showChart ? "Hide Chart" : "Show Chart"}
+              <BarChart3 className="w-4 h-4 me-2" />
+              {showChart ? t("hideChart") : t("showChart")}
             </Button>
             <Button variant="outline" onClick={downloadCSV}>
-              <Download className="w-4 h-4 mr-2" />
-              Export CSV
+              <Download className="w-4 h-4 me-2" />
+              {t("exportCsv")}
             </Button>
           </div>
         )}
@@ -231,10 +233,10 @@ export default function SpreadsheetViewer() {
                   </div>
                   <div className="text-center">
                     <h3 className="text-lg font-semibold">
-                      Drop spreadsheet here or click to select
+                      {t("dropHere")}
                     </h3>
                     <p className="text-sm text-muted-foreground mt-1">
-                      Supports CSV, XLSX, and XLS files
+                      {t("supportedFormats")}
                     </p>
                   </div>
                 </div>
@@ -245,12 +247,12 @@ export default function SpreadsheetViewer() {
               <Card className="p-4">
                 <div className="flex items-center space-x-4">
                   <div className="relative flex-1">
-                    <Search className="absolute left-2 top-2.5 h-4 w-4 text-muted-foreground" />
+                    <Search className="absolute left-2 rtl:left-auto rtl:right-2 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
-                      placeholder="Search in data..."
+                      placeholder={t("searchPlaceholder")}
                       value={search}
                       onChange={(e) => handleSearch(e.target.value)}
-                      className="pl-8"
+                      className="pl-8 rtl:pl-3 rtl:pr-8"
                     />
                   </div>
                   {showChart && (
@@ -259,7 +261,7 @@ export default function SpreadsheetViewer() {
                       onValueChange={setSelectedColumn}
                     >
                       <SelectTrigger className="w-[200px]">
-                        <SelectValue placeholder="Select column for chart" />
+                        <SelectValue placeholder={t("selectColumnChart")} />
                       </SelectTrigger>
                       <SelectContent>
                         {columns.map((column) => (

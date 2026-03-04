@@ -15,6 +15,7 @@ import { toast } from "sonner";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 import { Copy, RotateCcw, Check, Code2 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const LANGUAGE_OPTIONS = [
   { value: "javascript", label: "JavaScript" },
@@ -86,6 +87,7 @@ class DataProcessor {
 };
 
 export default function CodeHighlighter() {
+  const t = useTranslations("Tools.CodeHighlighter");
   const [language, setLanguage] = useState("javascript");
   const [code, setCode] = useState(
     SAMPLE_CODE[language as keyof typeof SAMPLE_CODE] || ""
@@ -104,13 +106,13 @@ export default function CodeHighlighter() {
     navigator.clipboard.writeText(code);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
-    toast.success("Copied to clipboard!");
+    toast.success(t("copiedToClipboard"));
   };
 
   const resetCode = () => {
     const sampleCode = SAMPLE_CODE[language as keyof typeof SAMPLE_CODE] || "";
     setCode(sampleCode);
-    toast.info("Reset to sample code");
+    toast.info(t("resetToSample"));
   };
 
   const handleLanguageChange = (value: string) => {
@@ -129,7 +131,7 @@ export default function CodeHighlighter() {
             <div className="flex items-center justify-between">
               <Select value={language} onValueChange={handleLanguageChange}>
                 <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder="Select language" />
+                  <SelectValue placeholder={t("selectLanguage")} />
                 </SelectTrigger>
                 <SelectContent>
                   {LANGUAGE_OPTIONS.map((option) => (
@@ -158,21 +160,21 @@ export default function CodeHighlighter() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[600px]">
             <Card className="flex flex-col">
               <div className="p-2 bg-muted font-medium text-sm border-b">
-                Input
+                {t("inputLabel")}
               </div>
               <div className="flex-1 p-4">
                 <Textarea
                   value={code}
                   onChange={(e) => setCode(e.target.value)}
-                  className="w-full h-[500px] font-mono text-sm resize-none"
-                  placeholder="Enter your code here..."
+                  className="w-full h-[500px] font-mono text-sm resize-none text-left rtl:text-left"
+                  placeholder={t("codePlaceholder")}
                 />
               </div>
             </Card>
 
             <Card className="flex flex-col">
               <div className="p-2 bg-muted font-medium text-sm border-b">
-                Output
+                {t("outputLabel")}
               </div>
               <div className="flex-1 p-4 bg-[#0d1117] overflow-auto max-h-[500px]">
                 <pre className="whitespace-pre-wrap">

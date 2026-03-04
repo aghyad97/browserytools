@@ -22,6 +22,7 @@ import { Calendar } from "@/components/ui/calendar";
 import { Copy, Calendar as CalendarIcon, Users } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface AgeResult {
   years: number;
@@ -47,6 +48,7 @@ interface AgeDifference {
 }
 
 export default function AgeCalculator() {
+  const t = useTranslations("Tools.AgeCalculator");
   const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
   const [ageResult, setAgeResult] = useState<AgeResult | null>(null);
   const [person1BirthDate, setPerson1BirthDate] = useState<Date | undefined>(
@@ -198,12 +200,12 @@ export default function AgeCalculator() {
 
   const handleCalculateAge = () => {
     if (!birthDate) {
-      toast.error("Missing birth date");
+      toast.error(t("errorMissingBirthDate"));
       return;
     }
 
     if (birthDate > new Date()) {
-      toast.error("Future date");
+      toast.error(t("errorFutureDate"));
       return;
     }
 
@@ -213,12 +215,12 @@ export default function AgeCalculator() {
 
   const handleCalculateDifference = () => {
     if (!person1BirthDate || !person2BirthDate) {
-      toast.error("Missing birth dates");
+      toast.error(t("errorMissingBirthDates"));
       return;
     }
 
     if (person1BirthDate > new Date() || person2BirthDate > new Date()) {
-      toast.error("Future dates");
+      toast.error(t("errorFutureDates"));
       return;
     }
 
@@ -234,9 +236,9 @@ export default function AgeCalculator() {
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -251,8 +253,8 @@ export default function AgeCalculator() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <Tabs defaultValue="single" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="single">Single Age</TabsTrigger>
-          <TabsTrigger value="difference">Age Difference</TabsTrigger>
+          <TabsTrigger value="single">{t("tabSingle")}</TabsTrigger>
+          <TabsTrigger value="difference">{t("tabDifference")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="single" className="space-y-6">
@@ -260,26 +262,26 @@ export default function AgeCalculator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <CalendarIcon className="h-5 w-5" />
-                Calculate Age
+                {t("calculateAgeTitle")}
               </CardTitle>
               <CardDescription>
-                Select a birth date to calculate the exact age
+                {t("calculateAgeDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label>Birth Date</Label>
+                <Label>{t("birthDateLabel")}</Label>
                 <div className="flex gap-2">
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="flex-1 justify-start text-left font-normal"
+                        className="flex-1 justify-start text-start font-normal"
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {birthDate
                           ? format(birthDate, "PPP")
-                          : "Select birth date"}
+                          : t("selectBirthDate")}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
@@ -295,13 +297,13 @@ export default function AgeCalculator() {
                     </PopoverContent>
                   </Popover>
                   <Button onClick={setCurrentDate} variant="outline" size="sm">
-                    Example
+                    {t("exampleButton")}
                   </Button>
                 </div>
               </div>
 
               <Button onClick={handleCalculateAge} className="w-full">
-                Calculate Age
+                {t("calculateAgeButton")}
               </Button>
 
               {ageResult && (
@@ -311,21 +313,21 @@ export default function AgeCalculator() {
                       <div className="text-3xl font-bold text-primary">
                         {ageResult.years}
                       </div>
-                      <div className="text-sm text-muted-foreground">Years</div>
+                      <div className="text-sm text-muted-foreground">{t("years")}</div>
                     </div>
                     <div className="text-center p-4 border rounded-lg">
                       <div className="text-3xl font-bold text-primary">
                         {ageResult.months}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        Months
+                        {t("months")}
                       </div>
                     </div>
                     <div className="text-center p-4 border rounded-lg">
                       <div className="text-3xl font-bold text-primary">
                         {ageResult.days}
                       </div>
-                      <div className="text-sm text-muted-foreground">Days</div>
+                      <div className="text-sm text-muted-foreground">{t("days")}</div>
                     </div>
                   </div>
 
@@ -335,7 +337,7 @@ export default function AgeCalculator() {
                         {ageResult.totalDays.toLocaleString()}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        Total Days
+                        {t("totalDays")}
                       </div>
                     </div>
                     <div className="text-center p-3 border rounded">
@@ -343,7 +345,7 @@ export default function AgeCalculator() {
                         {ageResult.totalHours.toLocaleString()}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        Total Hours
+                        {t("totalHours")}
                       </div>
                     </div>
                     <div className="text-center p-3 border rounded">
@@ -351,7 +353,7 @@ export default function AgeCalculator() {
                         {ageResult.totalMinutes.toLocaleString()}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        Total Minutes
+                        {t("totalMinutes")}
                       </div>
                     </div>
                     <div className="text-center p-3 border rounded">
@@ -359,28 +361,28 @@ export default function AgeCalculator() {
                         {ageResult.totalSeconds.toLocaleString()}
                       </div>
                       <div className="text-xs text-muted-foreground">
-                        Total Seconds
+                        {t("totalSeconds")}
                       </div>
                     </div>
                   </div>
 
                   <div className="space-y-3">
                     <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">Next Birthday:</span>
-                      <span>{ageResult.nextBirthday}</span>
+                      <span className="font-medium">{t("nextBirthday")}</span>
+                      <span dir="ltr">{ageResult.nextBirthday}</span>
                     </div>
                     <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">Days until Birthday:</span>
+                      <span className="font-medium">{t("daysUntilBirthday")}</span>
                       <Badge variant="secondary">
-                        {ageResult.daysUntilBirthday} days
+                        {ageResult.daysUntilBirthday} {t("daysLabel")}
                       </Badge>
                     </div>
                     <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">Zodiac Sign:</span>
+                      <span className="font-medium">{t("zodiacSign")}</span>
                       <Badge variant="outline">{ageResult.zodiacSign}</Badge>
                     </div>
                     <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">Born on:</span>
+                      <span className="font-medium">{t("bornOn")}</span>
                       <span>{ageResult.dayOfWeek}</span>
                     </div>
                   </div>
@@ -394,8 +396,8 @@ export default function AgeCalculator() {
                     variant="outline"
                     className="w-full"
                   >
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy Age Information
+                    <Copy className="h-4 w-4 me-2" />
+                    {t("copyAgeInfo")}
                   </Button>
                 </div>
               )}
@@ -408,45 +410,45 @@ export default function AgeCalculator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Users className="h-5 w-5" />
-                Age Difference Calculator
+                {t("ageDiffTitle")}
               </CardTitle>
-              <CardDescription>Compare ages between two people</CardDescription>
+              <CardDescription>{t("ageDiffDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label htmlFor="person1-name">Person 1 Name</Label>
+                  <Label htmlFor="person1-name">{t("person1Name")}</Label>
                   <Input
                     id="person1-name"
                     value={person1Name}
                     onChange={(e) => setPerson1Name(e.target.value)}
-                    placeholder="Enter name"
+                    placeholder={t("enterName")}
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="person2-name">Person 2 Name</Label>
+                  <Label htmlFor="person2-name">{t("person2Name")}</Label>
                   <Input
                     id="person2-name"
                     value={person2Name}
                     onChange={(e) => setPerson2Name(e.target.value)}
-                    placeholder="Enter name"
+                    placeholder={t("enterName")}
                   />
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Person 1 Birth Date</Label>
+                  <Label>{t("person1BirthDate")}</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-full justify-start text-left font-normal"
+                        className="w-full justify-start text-start font-normal"
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {person1BirthDate
                           ? format(person1BirthDate, "PPP")
-                          : "Select birth date"}
+                          : t("selectBirthDate")}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
@@ -463,17 +465,17 @@ export default function AgeCalculator() {
                   </Popover>
                 </div>
                 <div className="space-y-2">
-                  <Label>Person 2 Birth Date</Label>
+                  <Label>{t("person2BirthDate")}</Label>
                   <Popover>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
-                        className="w-full justify-start text-left font-normal"
+                        className="w-full justify-start text-start font-normal"
                       >
-                        <CalendarIcon className="mr-2 h-4 w-4" />
+                        <CalendarIcon className="me-2 h-4 w-4" />
                         {person2BirthDate
                           ? format(person2BirthDate, "PPP")
-                          : "Select birth date"}
+                          : t("selectBirthDate")}
                       </Button>
                     </PopoverTrigger>
                     <PopoverContent className="w-auto p-0" align="start">
@@ -492,21 +494,21 @@ export default function AgeCalculator() {
               </div>
 
               <Button onClick={handleCalculateDifference} className="w-full">
-                Calculate Age Difference
+                {t("calculateDiffButton")}
               </Button>
 
               {ageDifference && (
                 <div className="space-y-4">
                   <div className="text-center p-4 border rounded-lg bg-muted">
                     <div className="text-lg font-semibold mb-2">
-                      Age Difference
+                      {t("ageDifferenceLabel")}
                     </div>
-                    <div className="text-2xl font-bold text-primary">
-                      {ageDifference.years} years, {ageDifference.months}{" "}
-                      months, {ageDifference.days} days
+                    <div className="text-2xl font-bold text-primary" dir="ltr">
+                      {ageDifference.years} {t("years")}, {ageDifference.months}{" "}
+                      {t("months")}, {ageDifference.days} {t("days")}
                     </div>
-                    <div className="text-sm text-muted-foreground mt-2">
-                      {ageDifference.totalDays.toLocaleString()} total days
+                    <div className="text-sm text-muted-foreground mt-2" dir="ltr">
+                      {ageDifference.totalDays.toLocaleString()} {t("totalDaysLabel")}
                     </div>
                   </div>
 
@@ -515,14 +517,14 @@ export default function AgeCalculator() {
                       <div className="font-semibold text-green-600">
                         {ageDifference.olderPerson}
                       </div>
-                      <div className="text-sm text-muted-foreground">Older</div>
+                      <div className="text-sm text-muted-foreground">{t("older")}</div>
                     </div>
                     <div className="p-3 border rounded text-center">
                       <div className="font-semibold text-blue-600">
                         {ageDifference.youngerPerson}
                       </div>
                       <div className="text-sm text-muted-foreground">
-                        Younger
+                        {t("younger")}
                       </div>
                     </div>
                   </div>
@@ -536,8 +538,8 @@ export default function AgeCalculator() {
                     variant="outline"
                     className="w-full"
                   >
-                    <Copy className="h-4 w-4 mr-2" />
-                    Copy Age Difference
+                    <Copy className="h-4 w-4 me-2" />
+                    {t("copyAgeDiff")}
                   </Button>
                 </div>
               )}

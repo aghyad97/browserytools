@@ -25,8 +25,10 @@ import {
   Eye,
   Code,
 } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 export function Charts() {
+  const t = useTranslations("Tools.Charts");
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [data, setData] = useState<ChartDataPoint[]>(SAMPLE_DATA.bar);
   const [settings, setSettings] = useState<ChartSettings>(
@@ -65,13 +67,13 @@ export function Charts() {
     <div className="container mx-auto p-4 max-w-7xl">
       <div className="flex flex-col lg:flex-row gap-4 min-h-screen">
         {/* Left Sidebar - Controls */}
-        <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pr-4 scrollbar-hide max-h-screen">
+        <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pe-4 scrollbar-hide max-h-screen">
           {/* Chart Type Selection */}
           <Card className="shadow-none">
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <BarChart3 className="h-5 w-5" />
-                Chart Type
+                {t("chartTypeTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -98,7 +100,7 @@ export function Charts() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Settings className="h-5 w-5" />
-                Customization
+                {t("customizationTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -116,7 +118,7 @@ export function Charts() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Download className="h-5 w-5" />
-                Export
+                {t("exportTitle")}
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -138,17 +140,16 @@ export function Charts() {
                 <div>
                   <CardTitle className="flex items-center gap-2">
                     <Eye className="h-5 w-5" />
-                    Chart Preview
+                    {t("chartPreviewTitle")}
                   </CardTitle>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Create beautiful, customizable charts with full control over
-                    every detail
+                    {t("chartPreviewDesc")}
                   </p>
                 </div>
                 <Tabs value={activeTab} onValueChange={setActiveTab}>
                   <TabsList>
-                    <TabsTrigger value="preview">Preview</TabsTrigger>
-                    <TabsTrigger value="code">Code</TabsTrigger>
+                    <TabsTrigger value="preview">{t("preview")}</TabsTrigger>
+                    <TabsTrigger value="code">{t("code")}</TabsTrigger>
                   </TabsList>
                 </Tabs>
               </div>
@@ -168,15 +169,15 @@ export function Charts() {
                 <TabsContent value="code" className="space-y-4">
                   <div className="space-y-4">
                     <div>
-                      <h4 className="font-medium mb-2">Chart Configuration</h4>
-                      <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm">
+                      <h4 className="font-medium mb-2">{t("chartConfig")}</h4>
+                      <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm" dir="ltr">
                         <code>{JSON.stringify(settings, null, 2)}</code>
                       </pre>
                     </div>
 
                     <div>
-                      <h4 className="font-medium mb-2">Chart Data</h4>
-                      <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm">
+                      <h4 className="font-medium mb-2">{t("chartData")}</h4>
+                      <pre className="bg-muted p-4 rounded-lg overflow-x-auto text-sm" dir="ltr">
                         <code>{JSON.stringify(data, null, 2)}</code>
                       </pre>
                     </div>
@@ -193,8 +194,8 @@ export function Charts() {
               onClick={resetToDefaults}
               className="w-full"
             >
-              <RotateCcw className="h-4 w-4 mr-2" />
-              Reset to Defaults
+              <RotateCcw className="h-4 w-4 me-2" />
+              {t("resetToDefaults")}
             </Button>
           </div>
         </div>

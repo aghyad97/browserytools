@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { blogPosts, getFeaturedPosts } from "@/lib/blog-data";
 import { Clock, Tag } from "lucide-react";
+import { BlogHeroTitle, BlogPrivacyCta, BlogSectionLabel } from "@/components/blog-client-text";
 
 export const metadata = {
   title: "Blog — Privacy, Security & Free Tool Guides | BrowseryTools",
@@ -56,7 +57,7 @@ export default function BlogPage() {
       <div className="text-center space-y-4">
         <Badge className="mb-2">Privacy-First Tools</Badge>
         <h1 className="text-4xl font-bold tracking-tight">
-          BrowseryTools Blog
+          <BlogHeroTitle />
         </h1>
         <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
           Guides, tips and tutorials on using free browser-based tools that respect your privacy.
@@ -67,7 +68,7 @@ export default function BlogPage() {
       {/* Featured posts */}
       {featured.length > 0 && (
         <section>
-          <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">Featured</h2>
+          <BlogSectionLabel section="featured" />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             {featured.map((post) => (
               <PostCard key={post.slug} post={post} featured />
@@ -78,7 +79,7 @@ export default function BlogPage() {
 
       {/* All posts */}
       <section>
-        <h2 className="text-sm font-semibold uppercase tracking-wider text-muted-foreground mb-4">All Posts</h2>
+        <BlogSectionLabel section="allPosts" />
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
           {rest.map((post) => (
             <PostCard key={post.slug} post={post} />
@@ -87,20 +88,7 @@ export default function BlogPage() {
       </section>
 
       {/* CTA */}
-      <section className="rounded-2xl border-2 border-dashed p-8 text-center space-y-3">
-        <div className="text-4xl">🔒</div>
-        <h2 className="text-xl font-bold">All Your Data Stays on Your Device</h2>
-        <p className="text-muted-foreground max-w-lg mx-auto text-sm">
-          Every tool on BrowseryTools runs entirely in your browser. No files are uploaded to any server.
-          No accounts. No ads. Forever free.
-        </p>
-        <Link
-          href="/"
-          className="inline-flex items-center gap-2 bg-primary text-primary-foreground px-5 py-2.5 rounded-lg font-medium text-sm hover:opacity-90 transition-opacity mt-2"
-        >
-          Explore All Tools →
-        </Link>
-      </section>
+      <BlogPrivacyCta />
     </div>
   );
 }

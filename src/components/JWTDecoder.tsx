@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -35,6 +36,7 @@ interface JWTPayload {
 }
 
 export default function JWTDecoder() {
+  const t = useTranslations("Tools.JWTDecoder");
   const [jwtToken, setJwtToken] = useState<string>("");
   const [decodedJWT, setDecodedJWT] = useState<JWTPayload | null>(null);
   const [showSignature, setShowSignature] = useState<boolean>(false);
@@ -151,7 +153,7 @@ export default function JWTDecoder() {
 
   const handleDecode = () => {
     if (!jwtToken.trim()) {
-      toast.error("Empty token");
+      toast.error(t("emptyToken"));
       return;
     }
 
@@ -159,18 +161,18 @@ export default function JWTDecoder() {
     setDecodedJWT(result);
 
     if (result.isValid) {
-      toast.success("JWT decoded successfully");
+      toast.success(t("decodedSuccess"));
     } else {
-      toast.error("JWT validation failed");
+      toast.error(t("decodedFailed"));
     }
   };
 
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -194,39 +196,40 @@ export default function JWTDecoder() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              JWT Token Input
+              {t("inputTitle")}
             </CardTitle>
             <CardDescription>
-              Paste your JWT token to decode and validate
+              {t("inputDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="jwt-input">JWT Token</Label>
+              <Label htmlFor="jwt-input">{t("jwtTokenLabel")}</Label>
               <Textarea
                 id="jwt-input"
                 value={jwtToken}
                 onChange={(e) => setJwtToken(e.target.value)}
-                placeholder="Paste your JWT token here..."
+                placeholder={t("jwtTokenPlaceholder")}
+                dir="ltr"
                 className="min-h-[120px] font-mono text-sm"
               />
             </div>
 
             <div className="flex gap-2">
               <Button onClick={handleDecode} className="flex-1">
-                Decode JWT
+                {t("decodeJWT")}
               </Button>
               <Button onClick={loadSampleJWT} variant="outline">
-                Load Sample
+                {t("loadSample")}
               </Button>
               <Button onClick={clearAll} variant="outline">
-                Clear
+                {t("clear")}
               </Button>
             </div>
 
             {jwtToken && (
-              <div className="text-xs text-muted-foreground">
-                Token length: {jwtToken.length} characters
+              <div className="text-xs text-muted-foreground" dir="ltr">
+                {t("tokenLength", { count: jwtToken.length })}
               </div>
             )}
           </CardContent>
@@ -235,7 +238,7 @@ export default function JWTDecoder() {
         {/* Validation Status */}
         <Card>
           <CardHeader>
-            <CardTitle>Validation Status</CardTitle>
+            <CardTitle>{t("validationStatus")}</CardTitle>
           </CardHeader>
           <CardContent>
             {decodedJWT ? (
@@ -245,14 +248,14 @@ export default function JWTDecoder() {
                     <>
                       <CheckCircle className="h-5 w-5 text-green-500" />
                       <span className="font-semibold text-green-600">
-                        Valid JWT
+                        {t("validJWT")}
                       </span>
                     </>
                   ) : (
                     <>
                       <AlertCircle className="h-5 w-5 text-red-500" />
                       <span className="font-semibold text-red-600">
-                        Invalid JWT
+                        {t("invalidJWT")}
                       </span>
                     </>
                   )}
@@ -273,12 +276,12 @@ export default function JWTDecoder() {
 
                 {decodedJWT.expiration && (
                   <div className="space-y-2">
-                    <h4 className="font-semibold">Token Timeline</h4>
+                    <h4 className="font-semibold">{t("tokenTimeline")}</h4>
                     <div className="space-y-1 text-sm">
                       {decodedJWT.issuedAt && (
                         <div className="flex justify-between">
-                          <span>Issued At:</span>
-                          <span>
+                          <span>{t("issuedAt")}</span>
+                          <span dir="ltr">
                             {formatTimestamp(
                               decodedJWT.issuedAt.getTime() / 1000
                             )}
@@ -287,8 +290,8 @@ export default function JWTDecoder() {
                       )}
                       {decodedJWT.notBefore && (
                         <div className="flex justify-between">
-                          <span>Not Before:</span>
-                          <span>
+                          <span>{t("notBefore")}</span>
+                          <span dir="ltr">
                             {formatTimestamp(
                               decodedJWT.notBefore.getTime() / 1000
                             )}
@@ -296,8 +299,9 @@ export default function JWTDecoder() {
                         </div>
                       )}
                       <div className="flex justify-between">
-                        <span>Expires:</span>
+                        <span>{t("expires")}</span>
                         <span
+                          dir="ltr"
                           className={
                             isTokenExpired(
                               decodedJWT.expiration.getTime() / 1000
@@ -318,7 +322,7 @@ export default function JWTDecoder() {
             ) : (
               <div className="text-center py-8 text-muted-foreground">
                 <Shield className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                <p>Enter a JWT token to see validation status</p>
+                <p>{t("enterTokenPrompt")}</p>
               </div>
             )}
           </CardContent>
@@ -332,7 +336,7 @@ export default function JWTDecoder() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                Header
+                {t("header")}
                 <Button
                   onClick={() =>
                     copyToClipboard(JSON.stringify(decodedJWT.header, null, 2))
@@ -345,17 +349,17 @@ export default function JWTDecoder() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-60">
+              <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-60" dir="ltr">
                 {JSON.stringify(decodedJWT.header, null, 2)}
               </pre>
               <div className="mt-2 flex flex-wrap gap-1">
                 {decodedJWT.header.alg && (
                   <Badge variant="outline">
-                    Algorithm: {decodedJWT.header.alg}
+                    {t("algorithm")} {decodedJWT.header.alg}
                   </Badge>
                 )}
                 {decodedJWT.header.typ && (
-                  <Badge variant="outline">Type: {decodedJWT.header.typ}</Badge>
+                  <Badge variant="outline">{t("type")} {decodedJWT.header.typ}</Badge>
                 )}
               </div>
             </CardContent>
@@ -365,7 +369,7 @@ export default function JWTDecoder() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                Payload
+                {t("payload")}
                 <Button
                   onClick={() =>
                     copyToClipboard(JSON.stringify(decodedJWT.payload, null, 2))
@@ -378,23 +382,23 @@ export default function JWTDecoder() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-60">
+              <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-60" dir="ltr">
                 {JSON.stringify(decodedJWT.payload, null, 2)}
               </pre>
               <div className="mt-2 flex flex-wrap gap-1">
                 {decodedJWT.payload.sub && (
                   <Badge variant="outline">
-                    Subject: {decodedJWT.payload.sub}
+                    {t("subject")} {decodedJWT.payload.sub}
                   </Badge>
                 )}
                 {decodedJWT.payload.iss && (
                   <Badge variant="outline">
-                    Issuer: {decodedJWT.payload.iss}
+                    {t("issuer")} {decodedJWT.payload.iss}
                   </Badge>
                 )}
                 {decodedJWT.payload.aud && (
                   <Badge variant="outline">
-                    Audience: {decodedJWT.payload.aud}
+                    {t("audience")} {decodedJWT.payload.aud}
                   </Badge>
                 )}
               </div>
@@ -405,7 +409,7 @@ export default function JWTDecoder() {
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
-                Signature
+                {t("signature")}
                 <div className="flex gap-1">
                   <Button
                     onClick={() => setShowSignature(!showSignature)}
@@ -429,13 +433,13 @@ export default function JWTDecoder() {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="text-xs bg-muted p-3 rounded font-mono break-all">
+              <div className="text-xs bg-muted p-3 rounded font-mono break-all" dir="ltr">
                 {showSignature
                   ? decodedJWT.signature
                   : "••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••••"}
               </div>
               <div className="mt-2 text-xs text-muted-foreground">
-                Signature length: {decodedJWT.signature.length} characters
+                {t("signatureLength", { count: decodedJWT.signature.length })}
               </div>
             </CardContent>
           </Card>
@@ -445,44 +449,44 @@ export default function JWTDecoder() {
       {/* JWT Information */}
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>JWT Information</CardTitle>
+          <CardTitle>{t("jwtInformation")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold mb-2">Standard Claims</h4>
+              <h4 className="font-semibold mb-2">{t("standardClaims")}</h4>
               <ul className="space-y-1 text-sm text-muted-foreground">
                 <li>
-                  <strong>iss:</strong> Issuer - who created the token
+                  <strong>iss:</strong> {t("claimIss")}
                 </li>
                 <li>
-                  <strong>sub:</strong> Subject - who the token is about
+                  <strong>sub:</strong> {t("claimSub")}
                 </li>
                 <li>
-                  <strong>aud:</strong> Audience - who the token is for
+                  <strong>aud:</strong> {t("claimAud")}
                 </li>
                 <li>
-                  <strong>exp:</strong> Expiration time
+                  <strong>exp:</strong> {t("claimExp")}
                 </li>
                 <li>
-                  <strong>nbf:</strong> Not before time
+                  <strong>nbf:</strong> {t("claimNbf")}
                 </li>
                 <li>
-                  <strong>iat:</strong> Issued at time
+                  <strong>iat:</strong> {t("claimIat")}
                 </li>
                 <li>
-                  <strong>jti:</strong> JWT ID - unique identifier
+                  <strong>jti:</strong> {t("claimJti")}
                 </li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Security Notes</h4>
+              <h4 className="font-semibold mb-2">{t("securityNotes")}</h4>
               <ul className="space-y-1 text-sm text-muted-foreground">
-                <li>• Never share JWT tokens in public</li>
-                <li>• Check expiration times</li>
-                <li>• Verify the signature in production</li>
-                <li>• Use HTTPS for token transmission</li>
-                <li>• Store tokens securely</li>
+                <li>• {t("secNote1")}</li>
+                <li>• {t("secNote2")}</li>
+                <li>• {t("secNote3")}</li>
+                <li>• {t("secNote4")}</li>
+                <li>• {t("secNote5")}</li>
               </ul>
             </div>
           </div>

@@ -230,15 +230,15 @@ ${filteredExpenses
         </div>
         <div className="flex gap-2">
           <Button onClick={exportToCSV} variant="outline">
-            <DownloadIcon className="h-4 w-4 mr-2" />
+            <DownloadIcon className="h-4 w-4 me-2" />
             Export CSV
           </Button>
           <Button onClick={exportToJSON} variant="outline">
-            <DownloadIcon className="h-4 w-4 mr-2" />
+            <DownloadIcon className="h-4 w-4 me-2" />
             Export JSON
           </Button>
           <Button onClick={generateTextReport} variant="outline">
-            <FileTextIcon className="h-4 w-4 mr-2" />
+            <FileTextIcon className="h-4 w-4 me-2" />
             Export TXT
           </Button>
         </div>
@@ -409,7 +409,7 @@ ${filteredExpenses
                             {percentage.toFixed(1)}%
                           </span>
                         </div>
-                        <div className="text-right">
+                        <div className="text-end">
                           <div className="font-medium">
                             <NumberFlow
                               value={amount}
@@ -446,7 +446,7 @@ ${filteredExpenses
                     <div>
                       <div className="font-medium">{month.month}</div>
                     </div>
-                    <div className="text-right">
+                    <div className="text-end">
                       <div className="text-2xl font-bold">
                         <NumberFlow
                           value={month.amount}

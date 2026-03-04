@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -33,6 +34,9 @@ const defaultAdjustments: Adjustment = {
 };
 
 export default function ColorCorrection() {
+  const t = useTranslations("Tools.ColorCorrection");
+  const tCommon = useTranslations("Common");
+
   const [image, setImage] = useState<string | null>(null);
   const [adjustments, setAdjustments] =
     useState<Adjustment>(defaultAdjustments);
@@ -168,15 +172,15 @@ export default function ColorCorrection() {
   };
 
   const adjustmentControls = [
-    { key: "brightness", label: "Brightness", min: 0, max: 200, step: 1 },
-    { key: "contrast", label: "Contrast", min: -100, max: 100, step: 1 },
-    { key: "saturation", label: "Saturation", min: 0, max: 200, step: 1 },
-    { key: "temperature", label: "Temperature", min: -100, max: 100, step: 1 },
-    { key: "tint", label: "Tint", min: -100, max: 100, step: 1 },
-    { key: "vibrance", label: "Vibrance", min: -100, max: 100, step: 1 },
-    { key: "exposure", label: "Exposure", min: -100, max: 100, step: 1 },
-    { key: "highlights", label: "Highlights", min: -100, max: 100, step: 1 },
-    { key: "shadows", label: "Shadows", min: -100, max: 100, step: 1 },
+    { key: "brightness", label: t("brightness"), min: 0, max: 200, step: 1 },
+    { key: "contrast", label: t("contrast"), min: -100, max: 100, step: 1 },
+    { key: "saturation", label: t("saturation"), min: 0, max: 200, step: 1 },
+    { key: "temperature", label: t("temperature"), min: -100, max: 100, step: 1 },
+    { key: "tint", label: t("tint"), min: -100, max: 100, step: 1 },
+    { key: "vibrance", label: t("vibrance"), min: -100, max: 100, step: 1 },
+    { key: "exposure", label: t("exposure"), min: -100, max: 100, step: 1 },
+    { key: "highlights", label: t("highlights"), min: -100, max: 100, step: 1 },
+    { key: "shadows", label: t("shadows"), min: -100, max: 100, step: 1 },
   ];
 
   return (
@@ -204,10 +208,10 @@ export default function ColorCorrection() {
                 </div>
                 <div className="text-center">
                   <h3 className="text-lg font-semibold mb-1">
-                    Drop your image here
+                    {t("dropImageHere")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Supports PNG, JPG or JPEG files
+                    {t("supportedFormats")}
                   </p>
                 </div>
               </div>
@@ -242,10 +246,10 @@ export default function ColorCorrection() {
           <Tabs defaultValue="basic">
             <TabsList className="w-full">
               <TabsTrigger value="basic" className="flex-1">
-                Basic
+                {t("tabBasic")}
               </TabsTrigger>
               <TabsTrigger value="advanced" className="flex-1">
-                Advanced
+                {t("tabAdvanced")}
               </TabsTrigger>
             </TabsList>
             <TabsContent value="basic" className="space-y-4">
@@ -304,8 +308,8 @@ export default function ColorCorrection() {
 
           {image && (
             <Button onClick={handleDownload} className="w-full mt-4" size="lg">
-              <Download className="w-4 h-4 mr-2" />
-              Download
+              <Download className="w-4 h-4 me-2" />
+              {tCommon("download")}
             </Button>
           )}
         </Card>

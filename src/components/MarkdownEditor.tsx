@@ -32,6 +32,7 @@ import {
   CodeSquare,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const SAMPLE_MARKDOWN = `# Welcome to the Markdown Editor
 
@@ -110,6 +111,8 @@ function countWords(text: string): number {
 }
 
 export default function MarkdownEditor() {
+  const t = useTranslations("Tools.MarkdownEditor");
+  const tCommon = useTranslations("Common");
   const [markdown, setMarkdown] = useState(SAMPLE_MARKDOWN);
   const [viewMode, setViewMode] = useState<ViewMode>("split");
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -163,30 +166,30 @@ export default function MarkdownEditor() {
 
   const handleCopyMarkdown = () => {
     if (!markdown.trim()) {
-      toast.error("Nothing to copy");
+      toast.error(t("nothingToCopy"));
       return;
     }
     navigator.clipboard.writeText(markdown);
-    toast.success("Markdown copied to clipboard");
+    toast.success(t("markdownCopied"));
   };
 
   const handleCopyHtml = () => {
     if (!markdown.trim()) {
-      toast.error("Nothing to copy");
+      toast.error(t("nothingToCopy"));
       return;
     }
     const previewEl = document.getElementById("md-preview-content");
     if (previewEl) {
       navigator.clipboard.writeText(previewEl.innerHTML);
-      toast.success("HTML copied to clipboard");
+      toast.success(t("htmlCopied"));
     } else {
-      toast.error("Switch to Preview or Split view first, then copy HTML.");
+      toast.error(t("switchToPreview"));
     }
   };
 
   const handleDownload = () => {
     if (!markdown.trim()) {
-      toast.error("Nothing to download");
+      toast.error(t("nothingToDownload"));
       return;
     }
     const blob = new Blob([markdown], { type: "text/markdown" });
@@ -196,17 +199,17 @@ export default function MarkdownEditor() {
     a.download = "document.md";
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Downloaded document.md");
+    toast.success(t("downloadedMd"));
   };
 
   const handleClear = () => {
     setMarkdown("");
-    toast.success("Editor cleared");
+    toast.success(t("editorCleared"));
   };
 
   const handleLoadSample = () => {
     setMarkdown(SAMPLE_MARKDOWN);
-    toast.success("Sample content loaded");
+    toast.success(t("sampleLoaded"));
   };
 
   const wordCount = countWords(markdown);
@@ -219,7 +222,7 @@ export default function MarkdownEditor() {
       className="md-preview prose prose-sm dark:prose-invert max-w-none p-4"
     >
       <ReactMarkdown remarkPlugins={[remarkGfm]}>
-        {markdown || "*Nothing to preview yet. Start typing in the editor.*"}
+        {markdown || `*${t("nothingToPreview")}*`}
       </ReactMarkdown>
     </div>
   );
@@ -232,31 +235,31 @@ export default function MarkdownEditor() {
             <div>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="w-5 h-5" />
-                Markdown Editor
+                {t("title")}
               </CardTitle>
               <CardDescription>
-                Write and preview Markdown with GitHub Flavored Markdown support
+                {t("description")}
               </CardDescription>
             </div>
             <div className="flex flex-wrap gap-2 shrink-0">
               <Button variant="outline" size="sm" onClick={handleCopyMarkdown}>
-                <Copy className="w-4 h-4 mr-1" />
-                Copy MD
+                <Copy className="w-4 h-4 me-1" />
+                {t("copyMd")}
               </Button>
               <Button variant="outline" size="sm" onClick={handleCopyHtml}>
-                <AlignLeft className="w-4 h-4 mr-1" />
-                Copy HTML
+                <AlignLeft className="w-4 h-4 me-1" />
+                {t("copyHtml")}
               </Button>
               <Button variant="outline" size="sm" onClick={handleDownload}>
-                <Download className="w-4 h-4 mr-1" />
-                Download .md
+                <Download className="w-4 h-4 me-1" />
+                {t("downloadMd")}
               </Button>
               <Button variant="outline" size="sm" onClick={handleLoadSample}>
-                Load Sample
+                {t("loadSample")}
               </Button>
               <Button variant="outline" size="sm" onClick={handleClear}>
-                <RotateCcw className="w-4 h-4 mr-1" />
-                Clear
+                <RotateCcw className="w-4 h-4 me-1" />
+                {tCommon("clear")}
               </Button>
             </div>
           </div>
@@ -286,9 +289,9 @@ export default function MarkdownEditor() {
             onValueChange={(v) => setViewMode(v as ViewMode)}
           >
             <TabsList>
-              <TabsTrigger value="editor">Editor</TabsTrigger>
-              <TabsTrigger value="preview">Preview</TabsTrigger>
-              <TabsTrigger value="split">Split</TabsTrigger>
+              <TabsTrigger value="editor">{t("tabEditor")}</TabsTrigger>
+              <TabsTrigger value="preview">{t("tabPreview")}</TabsTrigger>
+              <TabsTrigger value="split">{t("tabSplit")}</TabsTrigger>
             </TabsList>
 
             <TabsContent value="editor" className="mt-3">
@@ -296,8 +299,8 @@ export default function MarkdownEditor() {
                 ref={textareaRef}
                 value={markdown}
                 onChange={(e) => setMarkdown(e.target.value)}
-                placeholder="Start writing Markdown..."
-                className="font-mono text-sm resize-none"
+                placeholder={t("startWriting")}
+                className="font-mono text-sm resize-none text-left rtl:text-left"
                 style={{ minHeight: "520px" }}
               />
             </TabsContent>
@@ -315,20 +318,20 @@ export default function MarkdownEditor() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="flex flex-col gap-1">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    Editor
+                    {t("editorLabel")}
                   </p>
                   <Textarea
                     ref={splitTextareaRef}
                     value={markdown}
                     onChange={(e) => setMarkdown(e.target.value)}
-                    placeholder="Start writing Markdown..."
-                    className="font-mono text-sm resize-none"
+                    placeholder={t("startWriting")}
+                    className="font-mono text-sm resize-none text-left rtl:text-left"
                     style={{ minHeight: "520px" }}
                   />
                 </div>
                 <div className="flex flex-col gap-1">
                   <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    Preview
+                    {t("previewLabel")}
                   </p>
                   <div
                     className="border rounded-md overflow-auto"
@@ -343,9 +346,9 @@ export default function MarkdownEditor() {
 
           <Separator className="mt-4" />
           <div className="flex items-center gap-4 pt-3 text-xs text-muted-foreground">
-            <span>{charCount.toLocaleString()} characters</span>
-            <span>{wordCount.toLocaleString()} words</span>
-            <span>{lineCount.toLocaleString()} lines</span>
+            <span>{charCount.toLocaleString()} {t("characters")}</span>
+            <span>{wordCount.toLocaleString()} {t("words")}</span>
+            <span>{lineCount.toLocaleString()} {t("lines")}</span>
           </div>
         </CardContent>
       </Card>

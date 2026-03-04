@@ -39,8 +39,10 @@ import {
   FlipHorizontal,
 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function BarcodeScanner() {
+  const t = useTranslations("Tools.BarcodeScanner");
   const [scannedData, setScannedData] = useState<string>("");
   const [barcodeType, setBarcodeType] = useState<string>("");
   const [isScanning, setIsScanning] = useState(false);
@@ -201,7 +203,7 @@ export default function BarcodeScanner() {
       setCameraStream(stream);
       setIsScanning(true);
       setPermissionStatus("granted");
-      toast.success("Camera access granted!");
+      toast.success(t("cameraAccessGranted"));
     } catch (err: any) {
       console.error("Camera error:", err);
 
@@ -230,7 +232,7 @@ export default function BarcodeScanner() {
           setCameraStream(fallbackStream);
           setIsScanning(true);
           setPermissionStatus("granted");
-          toast.success("Camera access granted with fallback settings!");
+          toast.success(t("cameraAccessGranted"));
         } catch (fallbackErr) {
           setError("Unable to access camera with any settings.");
         }
@@ -302,9 +304,9 @@ export default function BarcodeScanner() {
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -369,17 +371,16 @@ export default function BarcodeScanner() {
     if (settingsUrl) {
       window.open(settingsUrl, "_blank");
     } else {
-      toast.info("Please check your browser settings to enable camera access");
+      toast.info(t("checkBrowserSettingsToast"));
     }
   };
 
   const getPermissionGuidance = () => {
     if (permissionStatus === "denied") {
       return {
-        title: "Camera Access Denied",
-        message:
-          "Camera access was blocked. Please check your browser settings or try the manual permission request below.",
-        action: "Open Settings",
+        title: t("cameraAccessDeniedTitle"),
+        message: t("cameraAccessDeniedMsg"),
+        action: t("openSettings"),
         icon: <Settings className="h-5 w-5" />,
         variant: "destructive" as const,
       };
@@ -388,12 +389,11 @@ export default function BarcodeScanner() {
       permissionStatus === "unknown"
     ) {
       return {
-        title: "Camera Permission Required",
-        message:
-          "This tool needs camera access to scan barcodes. Your browser should show a permission prompt when you click the button below.",
+        title: t("cameraPermissionRequiredTitle"),
+        message: t("cameraPermissionRequiredMsg"),
         action: isRequestingPermission
-          ? "Requesting..."
-          : "Request Camera Access",
+          ? t("requesting")
+          : t("requestCameraAccess"),
         icon: <Shield className="h-5 w-5" />,
         variant: "default" as const,
       };
@@ -424,7 +424,7 @@ export default function BarcodeScanner() {
       });
       testStream.getTracks().forEach((track) => track.stop());
 
-      toast.success("Camera test successful! You can now start scanning.");
+      toast.success(t("cameraTestSuccessful"));
       setPermissionStatus("granted");
     } catch (err: any) {
       console.error("Camera test failed:", err);
@@ -458,8 +458,8 @@ export default function BarcodeScanner() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <Tabs defaultValue="camera" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="camera">Camera Scan</TabsTrigger>
-          <TabsTrigger value="upload">Upload Image</TabsTrigger>
+          <TabsTrigger value="camera">{t("cameraScan")}</TabsTrigger>
+          <TabsTrigger value="upload">{t("uploadImage")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="camera" className="space-y-6">
@@ -467,10 +467,10 @@ export default function BarcodeScanner() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Camera className="h-5 w-5" />
-                Camera Scanner
+                {t("cameraScannerTitle")}
               </CardTitle>
               <CardDescription>
-                Use your device camera to scan barcodes in real-time
+                {t("cameraScannerDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -481,7 +481,7 @@ export default function BarcodeScanner() {
                   return (
                     <Alert variant={guidance.variant}>
                       {guidance.icon}
-                      <div className="ml-2">
+                      <div className="ms-2">
                         <h4 className="font-semibold">{guidance.title}</h4>
                         <p className="text-sm mt-1">{guidance.message}</p>
                         <div className="flex gap-2 mt-3">
@@ -492,24 +492,24 @@ export default function BarcodeScanner() {
                                 size="sm"
                                 variant="outline"
                               >
-                                <Settings className="h-4 w-4 mr-2" />
-                                Open Settings
+                                <Settings className="h-4 w-4 me-2" />
+                                {t("openSettings")}
                               </Button>
                               <Button
                                 onClick={testCameraAccess}
                                 size="sm"
                                 variant="outline"
                               >
-                                <Camera className="h-4 w-4 mr-2" />
-                                Test Camera
+                                <Camera className="h-4 w-4 me-2" />
+                                {t("testCamera")}
                               </Button>
                               <Button
                                 onClick={() => window.location.reload()}
                                 size="sm"
                                 variant="outline"
                               >
-                                <RefreshCw className="h-4 w-4 mr-2" />
-                                Refresh Page
+                                <RefreshCw className="h-4 w-4 me-2" />
+                                {t("refreshPage")}
                               </Button>
                             </>
                           ) : (
@@ -520,9 +520,9 @@ export default function BarcodeScanner() {
                                 disabled={isRequestingPermission}
                               >
                                 {isRequestingPermission ? (
-                                  <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                                  <RefreshCw className="h-4 w-4 me-2 animate-spin" />
                                 ) : (
-                                  <Shield className="h-4 w-4 mr-2" />
+                                  <Shield className="h-4 w-4 me-2" />
                                 )}
                                 {guidance.action}
                               </Button>
@@ -531,8 +531,8 @@ export default function BarcodeScanner() {
                                 size="sm"
                                 variant="outline"
                               >
-                                <Camera className="h-4 w-4 mr-2" />
-                                Test Camera
+                                <Camera className="h-4 w-4 me-2" />
+                                {t("testCamera")}
                               </Button>
                             </>
                           )}
@@ -548,8 +548,7 @@ export default function BarcodeScanner() {
                 <div className="text-center py-8">
                   <Barcode className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
                   <p className="text-muted-foreground mb-4">
-                    Camera access granted! Click the button below to start
-                    scanning barcodes
+                    {t("cameraAccessGrantedStart")}
                   </p>
                   <Button
                     onClick={startCamera}
@@ -557,11 +556,11 @@ export default function BarcodeScanner() {
                     disabled={isRequestingPermission}
                   >
                     {isRequestingPermission ? (
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
+                      <RefreshCw className="h-4 w-4 me-2 animate-spin" />
                     ) : (
-                      <Camera className="h-4 w-4 mr-2" />
+                      <Camera className="h-4 w-4 me-2" />
                     )}
-                    Start Camera
+                    {t("startCamera")}
                   </Button>
                 </div>
               )}
@@ -586,25 +585,24 @@ export default function BarcodeScanner() {
                   <div className="text-center space-y-3">
                     <div className="flex items-center justify-center gap-2 text-sm text-muted-foreground">
                       <Search className="h-4 w-4" />
-                      <span>Scanning for barcodes...</span>
+                      <span>{t("scanningFor")}</span>
                       <div className="flex items-center gap-1">
                         <Clock className="h-3 w-3" />
                         <span>{scanningDuration}s</span>
                       </div>
                     </div>
                     <p className="text-sm text-muted-foreground">
-                      Point your camera at a barcode
+                      {t("pointCamera")}
                     </p>
 
                     {/* No Barcode Alert */}
                     {showNoBarcodeAlert && (
-                      <Alert className="text-left">
+                      <Alert className="text-start">
                         <AlertCircle className="h-4 w-4" />
                         <AlertDescription>
                           <div className="flex items-center justify-between">
                             <span>
-                              No barcode detected. Make sure the code is clearly
-                              visible and well-lit.
+                              {t("noBarcodeDetected")}
                             </span>
                             <Button
                               onClick={dismissNoBarcodeAlert}
@@ -627,10 +625,10 @@ export default function BarcodeScanner() {
                         className="flex items-center gap-2"
                       >
                         <FlipHorizontal className="h-4 w-4" />
-                        {isFlipped ? "Normal" : "Flip"}
+                        {isFlipped ? t("normal") : t("flip")}
                       </Button>
                       <Button onClick={stopCamera} variant="outline">
-                        Stop Scanning
+                        {t("stopScanning")}
                       </Button>
                     </div>
                   </div>
@@ -671,11 +669,11 @@ export default function BarcodeScanner() {
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Permission Status: {permissionStatus} | Browser:{" "}
-                        {navigator.userAgent.includes("Chrome")
+                        {typeof navigator !== "undefined" && navigator.userAgent.includes("Chrome")
                           ? "Chrome"
-                          : navigator.userAgent.includes("Firefox")
+                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Firefox")
                           ? "Firefox"
-                          : navigator.userAgent.includes("Safari")
+                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Safari")
                           ? "Safari"
                           : "Other"}
                       </p>
@@ -718,15 +716,15 @@ export default function BarcodeScanner() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Upload className="h-5 w-5" />
-                Image Upload
+                {t("imageUploadTitle")}
               </CardTitle>
               <CardDescription>
-                Upload an image containing a barcode to scan
+                {t("imageUploadDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="image-upload">Select Image</Label>
+                <Label htmlFor="image-upload">{t("selectImage")}</Label>
                 <Input
                   id="image-upload"
                   type="file"
@@ -753,8 +751,7 @@ export default function BarcodeScanner() {
                       <AlertDescription>
                         <div className="flex items-center justify-between">
                           <span>
-                            No barcode found in this image. Try uploading a
-                            clearer image with a visible barcode.
+                            {t("noBarcodeInImage")}
                           </span>
                           <Button
                             onClick={() => setShowNoBarcodeAlert(false)}
@@ -780,19 +777,19 @@ export default function BarcodeScanner() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <CheckCircle className="h-5 w-5 text-green-500" />
-              Scan Result
+              {t("scanResult")}
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Barcode Data</Label>
-                <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all">
+                <Label>{t("barcodeData")}</Label>
+                <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all" dir="ltr">
                   {scannedData}
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Barcode Type</Label>
+                <Label>{t("barcodeType")}</Label>
                 <div className="p-3 bg-muted rounded-lg">{barcodeType}</div>
               </div>
             </div>
@@ -802,10 +799,10 @@ export default function BarcodeScanner() {
               <Badge variant="outline">{scannedData.length} characters</Badge>
               {validateBarcode(scannedData, barcodeType) ? (
                 <Badge variant="default" className="bg-green-500">
-                  Valid
+                  {t("valid")}
                 </Badge>
               ) : (
-                <Badge variant="destructive">Invalid Format</Badge>
+                <Badge variant="destructive">{t("invalidFormat")}</Badge>
               )}
             </div>
 
@@ -815,15 +812,15 @@ export default function BarcodeScanner() {
                 variant="outline"
                 size="sm"
               >
-                <Copy className="h-4 w-4 mr-2" />
-                Copy Data
+                <Copy className="h-4 w-4 me-2" />
+                {t("copyData")}
               </Button>
               <Button onClick={downloadResult} variant="outline" size="sm">
-                <Download className="h-4 w-4 mr-2" />
-                Download Result
+                <Download className="h-4 w-4 me-2" />
+                {t("downloadResult")}
               </Button>
               <Button onClick={clearResults} variant="outline" size="sm">
-                Clear
+                {t("clear")}
               </Button>
             </div>
           </CardContent>
@@ -832,7 +829,7 @@ export default function BarcodeScanner() {
 
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>Supported Barcode Types</CardTitle>
+          <CardTitle>{t("supportedBarcodeTypes")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">

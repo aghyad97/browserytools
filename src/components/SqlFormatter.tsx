@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/select";
 import { Copy, Download, RotateCcw, Database, Minimize2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 // ── Sample ────────────────────────────────────────────────────────────────────
 
@@ -104,7 +105,7 @@ function uppercaseKeywords(sql: string): string {
 
 function formatSql(sql: string, commaFirst: boolean): string {
   // Normalise whitespace, uppercase keywords
-  let s = uppercaseKeywords(sql.replace(/\s+/g, " ").trim());
+  const s = uppercaseKeywords(sql.replace(/\s+/g, " ").trim());
 
   const lines: string[] = [];
   let current = "";
@@ -242,6 +243,8 @@ function minifySql(sql: string): string {
 type Dialect = "standard" | "mysql" | "postgresql" | "sqlite";
 
 export default function SqlFormatter() {
+  const t = useTranslations("Tools.SqlFormatter");
+  const tCommon = useTranslations("Common");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [dialect, setDialect] = useState<Dialect>("standard");
@@ -262,43 +265,43 @@ export default function SqlFormatter() {
 
   const handleFormat = useCallback(() => {
     if (!input.trim()) {
-      toast.error("Please enter a SQL query");
+      toast.error(t("enterSqlQuery"));
       return;
     }
     try {
       const result = formatSql(input, commaFirst);
       setOutput(result);
       setMode("format");
-      toast.success("SQL formatted");
+      toast.success(t("sqlFormatted"));
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Formatting failed");
+      toast.error(e instanceof Error ? e.message : t("formattingFailed"));
     }
-  }, [input, commaFirst]);
+  }, [input, commaFirst, t]);
 
   const handleMinify = useCallback(() => {
     if (!input.trim()) {
-      toast.error("Please enter a SQL query");
+      toast.error(t("enterSqlQuery"));
       return;
     }
     try {
       const result = minifySql(input);
       setOutput(result);
       setMode("minify");
-      toast.success("SQL minified");
+      toast.success(t("sqlMinified"));
     } catch (e) {
-      toast.error(e instanceof Error ? e.message : "Minification failed");
+      toast.error(e instanceof Error ? e.message : t("minificationFailed"));
     }
-  }, [input]);
+  }, [input, t]);
 
   const handleCopy = useCallback(async () => {
     if (!output) return;
     try {
       await navigator.clipboard.writeText(output);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
-  }, [output]);
+  }, [output, t]);
 
   const handleDownload = useCallback(() => {
     if (!output) return;
@@ -309,8 +312,8 @@ export default function SqlFormatter() {
     a.download = `query-${mode ?? "output"}.sql`;
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Downloaded");
-  }, [output, mode]);
+    toast.success(t("downloaded"));
+  }, [output, mode, t]);
 
   const handleClear = useCallback(() => {
     setInput("");
@@ -327,15 +330,15 @@ export default function SqlFormatter() {
             <Database className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">SQL Formatter</h1>
-            <p className="text-sm text-muted-foreground">Format, beautify, and minify SQL queries</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
         </div>
 
         {/* Controls */}
         <div className="flex flex-wrap items-end gap-3">
           <div className="space-y-1">
-            <Label className="text-xs">Dialect</Label>
+            <Label className="text-xs">{t("dialect")}</Label>
             <Select value={dialect} onValueChange={(v) => setDialect(v as Dialect)}>
               <SelectTrigger className="w-40 h-9">
                 <SelectValue />
@@ -350,37 +353,37 @@ export default function SqlFormatter() {
           </div>
 
           <div className="space-y-1">
-            <Label className="text-xs">Comma style</Label>
+            <Label className="text-xs">{t("commaStyle")}</Label>
             <div className="flex gap-1">
               <Button
                 size="sm"
                 variant={!commaFirst ? "default" : "outline"}
                 onClick={() => setCommaFirst(false)}
               >
-                Trailing
+                {t("trailing")}
               </Button>
               <Button
                 size="sm"
                 variant={commaFirst ? "default" : "outline"}
                 onClick={() => setCommaFirst(true)}
               >
-                Leading
+                {t("leading")}
               </Button>
             </div>
           </div>
 
-          <div className="flex gap-2 ml-auto flex-wrap">
+          <div className="flex gap-2 ms-auto flex-wrap">
             <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_SQL)}>
-              Sample Query
+              {t("sampleQuery")}
             </Button>
             <Button size="sm" onClick={handleFormat} disabled={!input.trim()}>
-              <Sparkles className="w-4 h-4 mr-1.5" /> Format
+              <Sparkles className="w-4 h-4 me-1.5" /> {t("formatButton")}
             </Button>
             <Button size="sm" variant="secondary" onClick={handleMinify} disabled={!input.trim()}>
-              <Minimize2 className="w-4 h-4 mr-1.5" /> Minify
+              <Minimize2 className="w-4 h-4 me-1.5" /> {t("minifyButton")}
             </Button>
             <Button variant="outline" size="sm" onClick={handleClear}>
-              <RotateCcw className="w-4 h-4 mr-1.5" /> Clear
+              <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
             </Button>
           </div>
         </div>
@@ -391,10 +394,10 @@ export default function SqlFormatter() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
-                SQL Input
+                {t("sqlInput")}
                 <div className="flex gap-2">
-                  <Badge variant="secondary">{inputStats.lines} lines</Badge>
-                  <Badge variant="secondary">{inputStats.chars} chars</Badge>
+                  <Badge variant="secondary">{inputStats.lines} {t("lines")}</Badge>
+                  <Badge variant="secondary">{inputStats.chars} {t("chars")}</Badge>
                 </div>
               </CardTitle>
             </CardHeader>
@@ -402,8 +405,8 @@ export default function SqlFormatter() {
               <textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Paste your SQL query here..."
-                className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5"
+                placeholder={t("sqlInputPlaceholder")}
+                className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5 text-left rtl:text-left"
                 spellCheck={false}
                 aria-label="SQL input"
               />
@@ -415,18 +418,18 @@ export default function SqlFormatter() {
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
                 <span>
-                  Output
+                  {t("outputLabel")}
                   {mode && (
-                    <Badge variant="outline" className="ml-2 text-xs">
-                      {mode === "format" ? "Formatted" : "Minified"}
+                    <Badge variant="outline" className="ms-2 text-xs">
+                      {mode === "format" ? t("formatted") : t("minified")}
                     </Badge>
                   )}
                 </span>
                 <div className="flex items-center gap-2">
                   {output && (
                     <div className="flex gap-2">
-                      <Badge variant="secondary">{outputStats.lines} lines</Badge>
-                      <Badge variant="secondary">{outputStats.chars} chars</Badge>
+                      <Badge variant="secondary">{outputStats.lines} {t("lines")}</Badge>
+                      <Badge variant="secondary">{outputStats.chars} {t("chars")}</Badge>
                     </div>
                   )}
                   <div className="flex gap-1">
@@ -458,8 +461,8 @@ export default function SqlFormatter() {
               <textarea
                 value={output}
                 readOnly
-                placeholder="Formatted SQL will appear here..."
-                className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5"
+                placeholder={t("sqlOutputPlaceholder")}
+                className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5 text-left rtl:text-left"
                 aria-label="SQL output"
               />
             </CardContent>

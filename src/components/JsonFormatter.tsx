@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,15 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 import { Copy, Trash2, CheckCircle2, XCircle, AlignLeft, Minimize2, FlaskConical, FileJson } from "lucide-react";
-
-const SAMPLE_JSON = JSON.stringify({
-  name: "BrowseryTools",
-  version: "1.0.0",
-  features: ["JSON Formatter","YAML Converter","URL Encoder"],
-  meta: { author: "Dev Team", license: "MIT", tags: ["tool","dev","browser"] },
-  active: true,
-  count: 42,
-}, null, 2);
+import { useTranslations } from "next-intl";
 
 type ValidationState = "idle" | "valid" | "invalid";
 type IndentSize = "2" | "4";
@@ -59,6 +51,16 @@ function findErrorLine(input: string, msg: string): number | null {
 }
 
 export default function JsonFormatter() {
+  const t = useTranslations("Tools.JsonFormatter");
+  const tCommon = useTranslations("Common");
+  const sampleJson = useMemo(() => JSON.stringify({
+    name: tCommon("siteName"),
+    version: "1.0.0",
+    features: ["JSON Formatter","YAML Converter","URL Encoder"],
+    meta: { author: "Dev Team", license: "MIT", tags: ["tool","dev","browser"] },
+    active: true,
+    count: 42,
+  }, null, 2), [tCommon]);
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [indentSize, setIndentSize] = useState("2" as IndentSize);
@@ -72,46 +74,46 @@ export default function JsonFormatter() {
   }, []);
 
   const handleFormat = () => {
-    if (!input.trim()) { toast.error("Please enter JSON input"); return; }
+    if (!input.trim()) { toast.error(t("enterJsonInput")); return; }
     try {
       let parsed = JSON.parse(input);
       if (sortKeys) parsed = sortKeysDeep(parsed);
       setOutput(JSON.stringify(parsed, null, parseInt(indentSize, 10)));
       setValidationState("valid"); setErrorMessage(""); setErrorLine(null);
-      toast.success("JSON formatted successfully");
+      toast.success(t("formattedSuccess"));
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setOutput(""); setValidationState("invalid");
       setErrorMessage(msg); setErrorLine(findErrorLine(input, msg));
-      toast.error("Invalid JSON");
+      toast.error(t("invalidJson"));
     }
   };
 
   const handleMinify = () => {
-    if (!input.trim()) { toast.error("Please enter JSON input"); return; }
+    if (!input.trim()) { toast.error(t("enterJsonInput")); return; }
     try {
       setOutput(JSON.stringify(JSON.parse(input)));
       setValidationState("valid"); setErrorMessage(""); setErrorLine(null);
-      toast.success("JSON minified");
+      toast.success(t("minifiedSuccess"));
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setOutput(""); setValidationState("invalid");
       setErrorMessage(msg); setErrorLine(findErrorLine(input, msg));
-      toast.error("Invalid JSON");
+      toast.error(t("invalidJson"));
     }
   };
 
   const handleValidate = () => {
-    if (!input.trim()) { toast.error("Please enter JSON input"); return; }
+    if (!input.trim()) { toast.error(t("enterJsonInput")); return; }
     try {
       JSON.parse(input);
       setValidationState("valid"); setErrorMessage(""); setErrorLine(null);
-      toast.success("JSON is valid");
+      toast.success(t("isValid"));
     } catch (e) {
       const msg = e instanceof Error ? e.message : String(e);
       setValidationState("invalid");
       setErrorMessage(msg); setErrorLine(findErrorLine(input, msg));
-      toast.error("Invalid JSON");
+      toast.error(t("invalidJson"));
     }
   };
 
@@ -119,12 +121,12 @@ export default function JsonFormatter() {
 
   const handleCopy = async () => {
     const text = output || input;
-    if (!text) { toast.error("Nothing to copy"); return; }
-    try { await navigator.clipboard.writeText(text); toast.success("Copied to clipboard"); }
-    catch { toast.error("Failed to copy to clipboard"); }
+    if (!text) { toast.error(t("nothingToCopy")); return; }
+    try { await navigator.clipboard.writeText(text); toast.success(t("copiedToClipboard")); }
+    catch { toast.error(t("failedToCopy")); }
   };
 
-  const handleLoadSample = () => { setInput(SAMPLE_JSON); setOutput(""); resetError(); };
+  const handleLoadSample = () => { setInput(sampleJson); setOutput(""); resetError(); };
   const stats = getJsonStats(input);
 
   return (
@@ -132,14 +134,14 @@ export default function JsonFormatter() {
       <div className="flex-1 overflow-auto p-6">
         <div className="max-w-7xl mx-auto space-y-4">
           <div className="flex flex-wrap items-center gap-2">
-            <Button onClick={handleFormat}><AlignLeft className="h-4 w-4 mr-2" />Format</Button>
-            <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 mr-2" />Minify</Button>
-            <Button variant="outline" onClick={handleValidate}><FlaskConical className="h-4 w-4 mr-2" />Validate</Button>
-            <Button variant="outline" onClick={handleCopy}><Copy className="h-4 w-4 mr-2" />Copy</Button>
-            <Button variant="outline" onClick={handleLoadSample}><FileJson className="h-4 w-4 mr-2" />Load Sample</Button>
-            <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 mr-2" />Clear</Button>
-            <div className="flex items-center gap-2 ml-auto flex-wrap">
-              <Label htmlFor="indent-select" className="text-sm text-muted-foreground whitespace-nowrap">Indent:</Label>
+            <Button onClick={handleFormat}><AlignLeft className="h-4 w-4 me-2" />{t("format")}</Button>
+            <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 me-2" />{t("minify")}</Button>
+            <Button variant="outline" onClick={handleValidate}><FlaskConical className="h-4 w-4 me-2" />{t("validate")}</Button>
+            <Button variant="outline" onClick={handleCopy}><Copy className="h-4 w-4 me-2" />{t("copy")}</Button>
+            <Button variant="outline" onClick={handleLoadSample}><FileJson className="h-4 w-4 me-2" />{t("loadSample")}</Button>
+            <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 me-2" />{t("clear")}</Button>
+            <div className="flex items-center gap-2 ms-auto flex-wrap">
+              <Label htmlFor="indent-select" className="text-sm text-muted-foreground whitespace-nowrap">{t("indent")}</Label>
               <Select value={indentSize} onValueChange={(v) => setIndentSize(v as IndentSize)}>
                 <SelectTrigger id="indent-select" className="w-[100px]"><SelectValue /></SelectTrigger>
                 <SelectContent>
@@ -149,7 +151,7 @@ export default function JsonFormatter() {
               </Select>
               <div className="flex items-center gap-2">
                 <Switch id="sort-keys" checked={sortKeys} onCheckedChange={setSortKeys} />
-                <Label htmlFor="sort-keys" className="text-sm text-muted-foreground whitespace-nowrap">Sort keys</Label>
+                <Label htmlFor="sort-keys" className="text-sm text-muted-foreground whitespace-nowrap">{t("sortKeys")}</Label>
               </div>
             </div>
           </div>
@@ -159,9 +161,9 @@ export default function JsonFormatter() {
                 ? <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
                 : <XCircle className="h-4 w-4 mt-0.5 shrink-0" />}
               <div>
-                {validationState === "valid" ? "JSON is valid" : (
-                  <><span className="font-medium">Parse error: </span>{errorMessage}
-                  {errorLine !== null && <span className="ml-1">(near line {errorLine})</span>}
+                {validationState === "valid" ? t("validJson") : (
+                  <><span className="font-medium">{t("parseError")} </span>{errorMessage}
+                  {errorLine !== null && <span className="ms-1">{t("nearLine", { line: errorLine })}</span>}
                   </>
                 )}
               </div>
@@ -170,27 +172,29 @@ export default function JsonFormatter() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
             <Card className="p-4 flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Input</span>
+                <span className="text-sm font-medium">{t("input")}</span>
                 <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                  {input && <span>{input.length} chars</span>}
-                  {stats && <span>{stats.keys} keys</span>}
+                  {input && <span>{input.length} {t("chars")}</span>}
+                  {stats && <span>{stats.keys} {t("keys")}</span>}
                 </div>
               </div>
               <Textarea
-                placeholder="Paste your JSON here..."
-                className="min-h-[420px] font-mono text-sm resize-none"
+                placeholder={t("inputPlaceholder")}
+                className="min-h-[420px] font-mono text-sm resize-none text-left"
+                dir="ltr"
                 value={input}
                 onChange={(e) => { setInput(e.target.value); resetError(); }}
               />
             </Card>
             <Card className="p-4 flex flex-col gap-2">
               <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">Output</span>
-                {output && <span className="text-xs text-muted-foreground">{output.length} chars</span>}
+                <span className="text-sm font-medium">{t("output")}</span>
+                {output && <span className="text-xs text-muted-foreground">{output.length} {t("chars")}</span>}
               </div>
               <Textarea
-                placeholder="Formatted output will appear here..."
-                className="min-h-[420px] font-mono text-sm resize-none"
+                placeholder={t("outputPlaceholder")}
+                className="min-h-[420px] font-mono text-sm resize-none text-left"
+                dir="ltr"
                 value={output}
                 readOnly
               />

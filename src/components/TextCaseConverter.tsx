@@ -10,11 +10,15 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function TextCaseConverter() {
+  const t = useTranslations("Tools.TextCaseConverter");
+  const tCommon = useTranslations("Common");
+
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
   const [activeCase, setActiveCase] = useState("uppercase");
@@ -83,7 +87,7 @@ export default function TextCaseConverter() {
 
   const handleConvert = (caseType: string) => {
     if (!inputText.trim()) {
-      toast.error("No text to convert");
+      toast.error(t("noTextToConvert"));
       return;
     }
 
@@ -97,12 +101,12 @@ export default function TextCaseConverter() {
 
   const handleCopy = () => {
     if (!outputText) {
-      toast.error("Nothing to copy");
+      toast.error(t("nothingToCopy"));
       return;
     }
 
     navigator.clipboard.writeText(outputText);
-    toast.success("Copied to clipboard");
+    toast.success(t("copiedToClipboard"));
   };
 
   const handleClear = () => {
@@ -130,21 +134,19 @@ export default function TextCaseConverter() {
         {/* Input Section */}
         <Card>
           <CardHeader>
-            <CardTitle>Input Text</CardTitle>
-            <CardDescription>
-              Enter the text you want to convert
-            </CardDescription>
+            <CardTitle>{t("inputTitle")}</CardTitle>
+            <CardDescription>{t("inputDesc")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Textarea
-              placeholder="Enter your text here..."
+              placeholder={t("inputPlaceholder")}
               value={inputText}
               onChange={(e) => handleInputChange(e.target.value)}
               className="min-h-[200px] resize-none"
             />
             <div className="flex justify-between items-center mt-4">
               <span className="text-sm text-muted-foreground">
-                {inputText.length} characters
+                {inputText.length} {t("characters")}
               </span>
               <Button
                 variant="outline"
@@ -153,7 +155,7 @@ export default function TextCaseConverter() {
                 className="flex items-center gap-2"
               >
                 <RotateCcw className="w-4 h-4" />
-                Clear
+                {tCommon("clear")}
               </Button>
             </div>
           </CardContent>
@@ -162,21 +164,19 @@ export default function TextCaseConverter() {
         {/* Output Section */}
         <Card>
           <CardHeader>
-            <CardTitle>Converted Text</CardTitle>
-            <CardDescription>
-              Your text converted to the selected case
-            </CardDescription>
+            <CardTitle>{t("outputTitle")}</CardTitle>
+            <CardDescription>{t("outputDesc")}</CardDescription>
           </CardHeader>
           <CardContent>
             <Textarea
-              placeholder="Converted text will appear here..."
+              placeholder={t("outputPlaceholder")}
               value={outputText}
               readOnly
               className="min-h-[200px] resize-none bg-muted"
             />
             <div className="flex justify-between items-center mt-4">
               <span className="text-sm text-muted-foreground">
-                {outputText.length} characters
+                {outputText.length} {t("characters")}
               </span>
               <Button
                 onClick={handleCopy}
@@ -184,7 +184,7 @@ export default function TextCaseConverter() {
                 className="flex items-center gap-2"
               >
                 <Copy className="w-4 h-4" />
-                Copy
+                {tCommon("copy")}
               </Button>
             </div>
           </CardContent>
@@ -194,10 +194,8 @@ export default function TextCaseConverter() {
       {/* Case Options */}
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>Case Options</CardTitle>
-          <CardDescription>
-            Click on any case type to convert your text
-          </CardDescription>
+          <CardTitle>{t("caseOptions")}</CardTitle>
+          <CardDescription>{t("caseOptionsDesc")}</CardDescription>
         </CardHeader>
         <CardContent>
           <Tabs value={activeCase} onValueChange={setActiveCase}>
@@ -206,19 +204,19 @@ export default function TextCaseConverter() {
                 value="uppercase"
                 onClick={() => handleConvert("uppercase")}
               >
-                UPPER
+                {t("upper")}
               </TabsTrigger>
               <TabsTrigger
                 value="lowercase"
                 onClick={() => handleConvert("lowercase")}
               >
-                lower
+                {t("lower")}
               </TabsTrigger>
               <TabsTrigger
                 value="titlecase"
                 onClick={() => handleConvert("titlecase")}
               >
-                Title
+                {t("title")}
               </TabsTrigger>
               <TabsTrigger
                 value="camelcase"
@@ -254,13 +252,13 @@ export default function TextCaseConverter() {
                 value="sentencecase"
                 onClick={() => handleConvert("sentencecase")}
               >
-                Sentence
+                {t("sentence")}
               </TabsTrigger>
               <TabsTrigger
                 value="alternatingcase"
                 onClick={() => handleConvert("alternatingcase")}
               >
-                aLtErNaTiNg
+                {t("alternating")}
               </TabsTrigger>
             </TabsList>
           </Tabs>
@@ -271,7 +269,7 @@ export default function TextCaseConverter() {
               onClick={() => handleConvert("inverse")}
               className="w-full"
             >
-              InVeRsE cAsE
+              {t("inverseCase")}
             </Button>
           </div>
         </CardContent>

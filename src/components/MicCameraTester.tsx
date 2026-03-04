@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -25,6 +26,7 @@ interface MediaDeviceInfoLite {
 }
 
 export default function MicCameraTester() {
+  const t = useTranslations("Tools.MicCameraTester");
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [cameras, setCameras] = useState<MediaDeviceInfoLite[]>([]);
   const [mics, setMics] = useState<MediaDeviceInfoLite[]>([]);
@@ -53,7 +55,7 @@ export default function MicCameraTester() {
       if (!selectedMic && microphones[0])
         setSelectedMic(microphones[0].deviceId);
     } catch (e) {
-      toast.error("Could not list media devices");
+      toast.error(t("errorListingDevices"));
     }
   };
 
@@ -91,9 +93,9 @@ export default function MicCameraTester() {
         await videoRef.current.play();
       }
       setupAudioLevel(s);
-      toast.success("Preview started");
+      toast.success(t("previewStarted"));
     } catch (e) {
-      toast.error("Could not access camera/microphone");
+      toast.error(t("errorAccessingDevices"));
     }
   };
 
@@ -154,18 +156,18 @@ export default function MicCameraTester() {
       <div className="flex-1 overflow-auto p-6">
         <Card>
           <CardHeader>
-            <CardTitle>Mic & Camera Tester</CardTitle>
+            <CardTitle>{t("title")}</CardTitle>
             <CardDescription>
-              Preview your camera and check microphone input level
+              {t("subtitle")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Camera</Label>
+                <Label>{t("camera")}</Label>
                 <Select value={selectedCam} onValueChange={setSelectedCam}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose camera" />
+                    <SelectValue placeholder={t("chooseCamera")} />
                   </SelectTrigger>
                   <SelectContent>
                     {cameras.map((c) => (
@@ -177,10 +179,10 @@ export default function MicCameraTester() {
                 </Select>
               </div>
               <div className="space-y-2">
-                <Label>Microphone</Label>
+                <Label>{t("microphone")}</Label>
                 <Select value={selectedMic} onValueChange={setSelectedMic}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Choose microphone" />
+                    <SelectValue placeholder={t("chooseMic")} />
                   </SelectTrigger>
                   <SelectContent>
                     {mics.map((m) => (
@@ -194,13 +196,13 @@ export default function MicCameraTester() {
             </div>
 
             <div className="flex gap-2">
-              <Button onClick={startPreview}>Start Preview</Button>
+              <Button onClick={startPreview}>{t("startPreview")}</Button>
               <Button
                 variant="outline"
                 onClick={stopCurrent}
                 disabled={!stream}
               >
-                Stop
+                {t("stop")}
               </Button>
             </div>
 
@@ -214,7 +216,7 @@ export default function MicCameraTester() {
                 />
               </div>
               <div className="space-y-2">
-                <Label>Mic Level</Label>
+                <Label>{t("micLevel")}</Label>
                 <div className="h-3 w-full bg-muted rounded">
                   <div
                     className="h-3 rounded bg-green-500 transition-[width] duration-100"

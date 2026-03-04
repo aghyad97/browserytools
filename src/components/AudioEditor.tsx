@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -24,6 +25,7 @@ import {
 } from "lucide-react";
 
 export default function AudioEditor() {
+  const t = useTranslations("Tools.AudioEditor");
   const {
     audioFile,
     audioBuffer,
@@ -76,7 +78,7 @@ export default function AudioEditor() {
   ) => {
     const file = event.target.files?.[0];
     if (!file?.type.startsWith("audio/")) {
-      toast.error("Please select a valid audio file");
+      toast.error(t("invalidAudioFile"));
       return;
     }
 
@@ -94,9 +96,9 @@ export default function AudioEditor() {
         setIsPlaying(false);
       });
 
-      toast.success("Audio file loaded successfully");
+      toast.success(t("fileLoadedSuccess"));
     } catch (error) {
-      toast.error("Error loading audio file");
+      toast.error(t("errorLoadingFile"));
       reset();
     }
   };
@@ -116,7 +118,7 @@ export default function AudioEditor() {
       setAudioBuffer(audioBuffer);
       drawWaveform(audioBuffer);
     } catch (error) {
-      toast.error("Error processing audio file");
+      toast.error(t("errorProcessingFile"));
     }
   };
 
@@ -216,7 +218,7 @@ export default function AudioEditor() {
     if (!audioBuffer) return;
 
     addEffect({ type: "echo", value: 0.3 });
-    toast.success("Echo effect applied");
+    toast.success(t("echoApplied"));
 
     if (audioBuffer) {
       drawWaveform(audioBuffer);
@@ -263,9 +265,9 @@ export default function AudioEditor() {
         source.stop();
       }, audioBuffer.duration * 1000);
 
-      toast.success("Processing audio for download...");
+      toast.success(t("processingDownload"));
     } catch (error) {
-      toast.error("Error processing audio for download");
+      toast.error(t("errorProcessingDownload"));
     }
   };
 
@@ -273,9 +275,9 @@ export default function AudioEditor() {
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
       <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div>
-          <h1 className="text-3xl font-bold">Audio Editor</h1>
+          <h1 className="text-3xl font-bold">{t("title")}</h1>
           <p className="text-muted-foreground mt-1">
-            Edit and process audio files in your browser
+            {t("subtitle")}
           </p>
         </div>
       </div>
@@ -304,14 +306,14 @@ export default function AudioEditor() {
                 >
                   <Upload className="w-8 h-8 text-muted-foreground mb-2" />
                   <p className="text-sm text-muted-foreground">
-                    Drop audio file here or click to upload
+                    {t("dropHere")}
                   </p>
                 </label>
               ) : (
                 <div className="text-center">
                   <p className="font-medium">{audioFile.name}</p>
                   <p className="text-sm text-muted-foreground mt-1">
-                    {Math.round(duration)} seconds
+                    {t("seconds", { count: Math.round(duration) })}
                   </p>
                 </div>
               )}
@@ -329,14 +331,14 @@ export default function AudioEditor() {
               />
 
               <div className="text-sm text-muted-foreground text-center">
-                Current Time: {currentTime.toFixed(2)}s / {duration.toFixed(2)}s
+                {t("currentTime", { current: currentTime.toFixed(2), total: duration.toFixed(2) })}
               </div>
 
               <Tabs defaultValue="playback" className="space-y-4">
                 <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="playback">Playback</TabsTrigger>
-                  <TabsTrigger value="effects">Effects</TabsTrigger>
-                  <TabsTrigger value="trim">Trim</TabsTrigger>
+                  <TabsTrigger value="playback">{t("tabPlayback")}</TabsTrigger>
+                  <TabsTrigger value="effects">{t("tabEffects")}</TabsTrigger>
+                  <TabsTrigger value="trim">{t("tabTrim")}</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="playback" className="space-y-4">
@@ -393,33 +395,33 @@ export default function AudioEditor() {
                       variant="outline"
                       onClick={() => applyFadeEffect("fadeIn")}
                     >
-                      <Sun className="h-4 w-4 mr-2" />
-                      Fade In
+                      <Sun className="h-4 w-4 me-2" />
+                      {t("fadeIn")}
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => applyFadeEffect("fadeOut")}
                     >
-                      <Moon className="h-4 w-4 mr-2" />
-                      Fade Out
+                      <Moon className="h-4 w-4 me-2" />
+                      {t("fadeOut")}
                     </Button>
                     <Button variant="outline" onClick={applyEchoEffect}>
-                      <Radio className="h-4 w-4 mr-2" />
-                      Add Echo
+                      <Radio className="h-4 w-4 me-2" />
+                      {t("addEcho")}
                     </Button>
                     <Button
                       variant="outline"
                       onClick={() => changePlaybackSpeed(1)}
                     >
-                      <Music2 className="h-4 w-4 mr-2" />
-                      Reset Speed
+                      <Music2 className="h-4 w-4 me-2" />
+                      {t("resetSpeed")}
                     </Button>
                   </div>
 
                   {effects.length > 0 && (
                     <div className="mt-4">
                       <h3 className="text-sm font-medium mb-2">
-                        Applied Effects
+                        {t("appliedEffects")}
                       </h3>
                       <div className="space-y-2">
                         {effects.map((effect) => (
@@ -448,8 +450,7 @@ export default function AudioEditor() {
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
                       <span className="text-sm text-muted-foreground">
-                        Selection: {selection.start.toFixed(2)}s -{" "}
-                        {selection.end.toFixed(2)}s
+                        {t("selection", { start: selection.start.toFixed(2), end: selection.end.toFixed(2) })}
                       </span>
                     </div>
                     <div className="flex items-center space-x-2">

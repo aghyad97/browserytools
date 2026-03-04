@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Content() {
   return (
     <div>
@@ -17,7 +19,7 @@ export default function Content() {
       <h2>JSON Formatter &amp; Validator</h2>
 
       <p>
-        JSON is the lingua franca of modern APIs. When you're staring at a minified 3KB blob returned by an endpoint, the <a href="/tools/json-formatter">JSON Formatter</a> makes it instantly readable.
+        JSON is the lingua franca of modern APIs. When you're staring at a minified 3KB blob returned by an endpoint, the <Link href="/tools/json-formatter">JSON Formatter</Link> makes it instantly readable.
       </p>
 
       <h3>What it does</h3>
@@ -48,12 +50,12 @@ curl -s https://api.example.com/user/42
   }
 }`}</code></pre>
 
-      <a href="/tools/json-formatter" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open JSON Formatter →</a>
+      <Link href="/tools/json-formatter" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open JSON Formatter →</Link>
 
       <h2>Base64 Encoder / Decoder</h2>
 
       <p>
-        Base64 encoding appears everywhere: email attachments (MIME), embedding images in CSS, encoding binary data for APIs, and storing credentials in config files. The <a href="/tools/base64">Base64 tool</a> handles both encoding and decoding with support for standard Base64 and URL-safe Base64 variants.
+        Base64 encoding appears everywhere: email attachments (MIME), embedding images in CSS, encoding binary data for APIs, and storing credentials in config files. The <Link href="/tools/base64">Base64 tool</Link> handles both encoding and decoding with support for standard Base64 and URL-safe Base64 variants.
       </p>
 
       <h3>When you need it</h3>
@@ -70,7 +72,7 @@ echo "dXNlcjpwYXNzd29yZA==" | base64 -d
 
 # Same thing — paste into BrowseryTools Base64 Decoder, no terminal needed`}</code></pre>
 
-      <a href="/tools/base64" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Base64 Encoder/Decoder →</a>
+      <Link href="/tools/base64" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Base64 Encoder/Decoder →</Link>
 
       <h2>JWT Decoder</h2>
 
@@ -79,7 +81,7 @@ echo "dXNlcjpwYXNzd29yZA==" | base64 -d
       </p>
 
       <p>
-        The <a href="/tools/jwt-decoder">JWT Decoder</a> accepts a JWT string and immediately displays the decoded header, payload, and signature verification status. It highlights the expiry time (<code>exp</code> claim), issued-at time (<code>iat</code>), and tells you whether the token is currently valid, expired, or not-yet-valid.
+        The <Link href="/tools/jwt-decoder">JWT Decoder</Link> accepts a JWT string and immediately displays the decoded header, payload, and signature verification status. It highlights the expiry time (<code>exp</code> claim), issued-at time (<code>iat</code>), and tells you whether the token is currently valid, expired, or not-yet-valid.
       </p>
 
       <div style={{background: "rgba(239,68,68,0.07)", border: "1px solid rgba(239,68,68,0.2)", borderRadius: "12px", padding: "16px 20px", margin: "24px 0"}}>
@@ -94,12 +96,12 @@ echo "dXNlcjpwYXNzd29yZA==" | base64 -d
 // Payload: { "sub": "user_42", "exp": 1709000000 }
 // Status:  ⚠ Expired (expired 3 days ago)`}</code></pre>
 
-      <a href="/tools/jwt-decoder" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open JWT Decoder →</a>
+      <Link href="/tools/jwt-decoder" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open JWT Decoder →</Link>
 
       <h2>UUID Generator</h2>
 
       <p>
-        Universally Unique Identifiers (UUIDs) are essential for database primary keys, idempotency keys, correlation IDs, and distributed system design. The <a href="/tools/uuid-generator">UUID Generator</a> produces cryptographically random v4 UUIDs using <code>crypto.randomUUID()</code> — the browser-native API that produces properly random identifiers, not pseudo-random ones.
+        Universally Unique Identifiers (UUIDs) are essential for database primary keys, idempotency keys, correlation IDs, and distributed system design. The <Link href="/tools/uuid-generator">UUID Generator</Link> produces cryptographically random v4 UUIDs using <code>crypto.randomUUID()</code> — the browser-native API that produces properly random identifiers, not pseudo-random ones.
       </p>
 
       <h3>Use cases</h3>
@@ -115,12 +117,12 @@ echo "dXNlcjpwYXNzd29yZA==" | base64 -d
 f47ac10b-58cc-4372-a567-0e02b2c3d479
 6ba7b810-9dad-11d1-80b4-00c04fd430c8`}</code></pre>
 
-      <a href="/tools/uuid-generator" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open UUID Generator →</a>
+      <Link href="/tools/uuid-generator" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open UUID Generator →</Link>
 
       <h2>Hash Generator</h2>
 
       <p>
-        Cryptographic hashing is used for checksums, password storage (never raw!), content-addressable storage, and data integrity verification. The <a href="/tools/hash-generator">Hash Generator</a> computes MD5, SHA-1, SHA-256, and SHA-512 hashes using the browser's native <code>crypto.subtle.digest()</code> API — the same underlying implementation your OS uses.
+        Cryptographic hashing is used for checksums, password storage (never raw!), content-addressable storage, and data integrity verification. The <Link href="/tools/hash-generator">Hash Generator</Link> computes MD5, SHA-1, SHA-256, and SHA-512 hashes using the browser's native <code>crypto.subtle.digest()</code> API — the same underlying implementation your OS uses.
       </p>
 
       <h3>When developers reach for this</h3>
@@ -139,12 +141,12 @@ SHA-1:  3f4a7b2e1c9d5f0a8b3e6c4d2a1f7e9b5c0d8a2
 SHA-256: 9b2e4f1a7c3d6e0b8f5a2c4d7e1b3f6a9c2e5d0b8f3a6c1e4d7b0f9a2c5e8
 SHA-512: 2c4a6e8f0b1d3f5a7c9e1b3d5f7a9c1e3b5d7f9a1c3e5b7d9f1a3c5e7b9d...`}</code></pre>
 
-      <a href="/tools/hash-generator" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Hash Generator →</a>
+      <Link href="/tools/hash-generator" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Hash Generator →</Link>
 
       <h2>Regex Tester</h2>
 
       <p>
-        Regular expressions are powerful and notoriously difficult to write correctly under pressure. The <a href="/tools/regex-tester">Regex Tester</a> gives you a real-time environment: as you type your pattern and test string, matches are highlighted instantly. It supports all JavaScript regex flags (<code>g</code>, <code>i</code>, <code>m</code>, <code>s</code>, <code>u</code>) and shows captured groups in a structured view.
+        Regular expressions are powerful and notoriously difficult to write correctly under pressure. The <Link href="/tools/regex-tester">Regex Tester</Link> gives you a real-time environment: as you type your pattern and test string, matches are highlighted instantly. It supports all JavaScript regex flags (<code>g</code>, <code>i</code>, <code>m</code>, <code>s</code>, <code>u</code>) and shows captured groups in a structured view.
       </p>
 
       <h3>Practical examples</h3>
@@ -163,12 +165,12 @@ Test string:
 
 Matches:  [192.168.1.42]  [10.0.0.1]`}</code></pre>
 
-      <a href="/tools/regex-tester" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Regex Tester →</a>
+      <Link href="/tools/regex-tester" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Regex Tester →</Link>
 
       <h2>URL Encoder / Decoder</h2>
 
       <p>
-        URLs can only contain a limited set of ASCII characters. Special characters — spaces, ampersands, equals signs, non-ASCII text — must be percent-encoded. The <a href="/tools/url-encoder">URL Encoder/Decoder</a> handles both directions and distinguishes between <code>encodeURI</code> (encodes a full URL, preserving structure characters) and <code>encodeURIComponent</code> (encodes a URL parameter value, encoding everything).
+        URLs can only contain a limited set of ASCII characters. Special characters — spaces, ampersands, equals signs, non-ASCII text — must be percent-encoded. The <Link href="/tools/url-encoder">URL Encoder/Decoder</Link> handles both directions and distinguishes between <code>encodeURI</code> (encodes a full URL, preserving structure characters) and <code>encodeURIComponent</code> (encodes a URL parameter value, encoding everything).
       </p>
 
       <pre style={{background: "rgba(128,128,128,0.08)", border: "1px solid rgba(128,128,128,0.2)", borderRadius: "10px", padding: "16px", overflowX: "auto", fontSize: "13px", lineHeight: "1.6"}}><code>{`Input:   "search query with spaces & symbols=true"
@@ -177,12 +179,12 @@ Encoded: search%20query%20with%20spaces%20%26%20symbols%3Dtrue
 // Useful when constructing query parameters manually or debugging
 // 400/422 errors caused by unencoded special characters in API requests`}</code></pre>
 
-      <a href="/tools/url-encoder" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open URL Encoder/Decoder →</a>
+      <Link href="/tools/url-encoder" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open URL Encoder/Decoder →</Link>
 
       <h2>YAML ↔ JSON Converter</h2>
 
       <p>
-        Configuration files often come in YAML (Kubernetes manifests, GitHub Actions workflows, Helm charts, Docker Compose), while APIs and code work with JSON. The <a href="/tools/yaml-json">YAML ↔ JSON Converter</a> translates between both formats instantly, preserving types, nested structures, and array ordering.
+        Configuration files often come in YAML (Kubernetes manifests, GitHub Actions workflows, Helm charts, Docker Compose), while APIs and code work with JSON. The <Link href="/tools/yaml-json">YAML ↔ JSON Converter</Link> translates between both formats instantly, preserving types, nested structures, and array ordering.
       </p>
 
       <pre style={{background: "rgba(128,128,128,0.08)", border: "1px solid rgba(128,128,128,0.2)", borderRadius: "10px", padding: "16px", overflowX: "auto", fontSize: "13px", lineHeight: "1.6"}}><code>{`# YAML input (Kubernetes deployment snippet):
@@ -205,12 +207,12 @@ spec:
   }
 }`}</code></pre>
 
-      <a href="/tools/yaml-json" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open YAML ↔ JSON Converter →</a>
+      <Link href="/tools/yaml-json" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open YAML ↔ JSON Converter →</Link>
 
       <h2>Cron Expression Parser</h2>
 
       <p>
-        Cron expressions are concise but cryptic. A single mistake in a cron schedule can mean a job runs every minute instead of once a month. The <a href="/tools/cron-parser">Cron Parser</a> translates any cron expression into plain English, shows you the next 10 scheduled run times, and validates the expression against standard and extended cron formats.
+        Cron expressions are concise but cryptic. A single mistake in a cron schedule can mean a job runs every minute instead of once a month. The <Link href="/tools/cron-parser">Cron Parser</Link> translates any cron expression into plain English, shows you the next 10 scheduled run times, and validates the expression against standard and extended cron formats.
       </p>
 
       <pre style={{background: "rgba(128,128,128,0.08)", border: "1px solid rgba(128,128,128,0.2)", borderRadius: "10px", padding: "16px", overflowX: "auto", fontSize: "13px", lineHeight: "1.6"}}><code>{`Expression: 0 2 * * 1
@@ -222,12 +224,12 @@ Meaning: Every 15 minutes between 9 AM and 5 PM, Monday through Friday
 Expression: 0 0 1 * *
 Meaning: At midnight on the 1st of every month`}</code></pre>
 
-      <a href="/tools/cron-parser" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Cron Parser →</a>
+      <Link href="/tools/cron-parser" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Cron Parser →</Link>
 
       <h2>Number Base Converter</h2>
 
       <p>
-        Systems programmers, embedded developers, and anyone working close to hardware regularly need to convert between binary, octal, decimal, and hexadecimal. The <a href="/tools/number-base-converter">Number Base Converter</a> converts between all four bases simultaneously and handles both integer and large number inputs.
+        Systems programmers, embedded developers, and anyone working close to hardware regularly need to convert between binary, octal, decimal, and hexadecimal. The <Link href="/tools/number-base-converter">Number Base Converter</Link> converts between all four bases simultaneously and handles both integer and large number inputs.
       </p>
 
       <h3>Common scenarios</h3>
@@ -250,7 +252,7 @@ Hexadecimal: FF
 Octal 644 → Binary: 110 100 100
 → Owner: read+write, Group: read, Others: read`}</code></pre>
 
-      <a href="/tools/number-base-converter" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Number Base Converter →</a>
+      <Link href="/tools/number-base-converter" style={{display: "inline-block", margin: "8px 0 24px", padding: "8px 18px", background: "rgba(99,102,241,0.1)", border: "1px solid rgba(99,102,241,0.3)", borderRadius: "8px", textDecoration: "none", fontWeight: "600", fontSize: "14px"}}>Open Number Base Converter →</Link>
 
       {/* Summary table */}
       <h2>Quick Reference: All Developer Tools at a Glance</h2>
@@ -338,10 +340,10 @@ Octal 644 → Binary: 110 100 100
       </p>
 
       <ul>
-        <li><strong>Image tools:</strong> <a href="/tools/image-compression">Image compression</a>, <a href="/tools/bg-removal">AI background removal</a>, <a href="/tools/image-resizer">resizing</a>, <a href="/tools/image-converter">format conversion</a></li>
-        <li><strong>Text tools:</strong> <a href="/tools/markdown-editor">Markdown editor</a>, <a href="/tools/text-diff">text diff</a>, <a href="/tools/text-case">case converter</a>, <a href="/tools/lorem-ipsum">Lorem ipsum generator</a></li>
-        <li><strong>Security tools:</strong> <a href="/tools/password-generator">Password generator</a>, <a href="/tools/password-strength">password strength checker</a>, <a href="/tools/text-encryption">text encryption</a></li>
-        <li><strong>Productivity:</strong> <a href="/tools/pomodoro">Pomodoro timer</a>, <a href="/tools/todo">todo list</a>, <a href="/tools/notepad">notepad</a>, <a href="/tools/world-clock">world clock</a></li>
+        <li><strong>Image tools:</strong> <Link href="/tools/image-compression">Image compression</Link>, <Link href="/tools/bg-removal">AI background removal</Link>, <Link href="/tools/image-resizer">resizing</Link>, <Link href="/tools/image-converter">format conversion</Link></li>
+        <li><strong>Text tools:</strong> <Link href="/tools/markdown-editor">Markdown editor</Link>, <Link href="/tools/text-diff">text diff</Link>, <Link href="/tools/text-case">case converter</Link>, <Link href="/tools/lorem-ipsum">Lorem ipsum generator</Link></li>
+        <li><strong>Security tools:</strong> <Link href="/tools/password-generator">Password generator</Link>, <Link href="/tools/password-strength">password strength checker</Link>, <Link href="/tools/text-encryption">text encryption</Link></li>
+        <li><strong>Productivity:</strong> <Link href="/tools/pomodoro">Pomodoro timer</Link>, <Link href="/tools/todo">todo list</Link>, <Link href="/tools/notepad">notepad</Link>, <Link href="/tools/world-clock">world clock</Link></li>
       </ul>
 
       {/* Inline SVG illustration */}
@@ -369,23 +371,23 @@ Octal 644 → Binary: 110 100 100
           All 10 developer tools above — plus dozens more — are free, instant, and require no account, no install, and no configuration. Open a tool and start working in under 3 seconds.
         </p>
         <div style={{display: "flex", gap: "12px", justifyContent: "center", flexWrap: "wrap"}}>
-          <a
+          <Link
             href="/tools/json-formatter"
             style={{display: "inline-flex", alignItems: "center", gap: "8px", background: "rgb(245,158,11)", color: "white", padding: "12px 24px", borderRadius: "10px", fontWeight: "600", textDecoration: "none", fontSize: "15px"}}
           >
             Open JSON Formatter →
-          </a>
-          <a
+          </Link>
+          <Link
             href="/"
             style={{display: "inline-flex", alignItems: "center", gap: "8px", background: "rgba(245,158,11,0.15)", border: "1px solid rgba(245,158,11,0.4)", color: "inherit", padding: "12px 24px", borderRadius: "10px", fontWeight: "600", textDecoration: "none", fontSize: "15px"}}
           >
             Browse All Tools
-          </a>
+          </Link>
         </div>
       </div>
 
       <p style={{fontSize: "14px", opacity: 0.7}}>
-        Related tools: <a href="/tools/json-formatter">JSON Formatter</a> · <a href="/tools/jwt-decoder">JWT Decoder</a> · <a href="/tools/hash-generator">Hash Generator</a> · <a href="/tools/regex-tester">Regex Tester</a> · <a href="/tools/base64">Base64</a> · <a href="/tools/uuid-generator">UUID Generator</a> · <a href="/tools/cron-parser">Cron Parser</a> · <a href="/tools/yaml-json">YAML ↔ JSON</a>
+        Related tools: <Link href="/tools/json-formatter">JSON Formatter</Link> · <Link href="/tools/jwt-decoder">JWT Decoder</Link> · <Link href="/tools/hash-generator">Hash Generator</Link> · <Link href="/tools/regex-tester">Regex Tester</Link> · <Link href="/tools/base64">Base64</Link> · <Link href="/tools/uuid-generator">UUID Generator</Link> · <Link href="/tools/cron-parser">Cron Parser</Link> · <Link href="/tools/yaml-json">YAML ↔ JSON</Link>
       </p>
 
     </div>

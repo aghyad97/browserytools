@@ -11,6 +11,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 // Minimal diff using diff-match-patch algorithm port
 // To avoid heavy deps, implement a simple line-based diff for MVP
@@ -43,6 +44,8 @@ function diffLines(a: string, b: string): DiffPart[] {
 }
 
 export default function TextDiffViewer() {
+  const t = useTranslations("Tools.TextDiffViewer");
+
   const [left, setLeft] = useState<string>("");
   const [right, setRight] = useState<string>("");
 
@@ -56,9 +59,9 @@ export default function TextDiffViewer() {
     });
     try {
       await navigator.clipboard.writeText(lines.join("\n"));
-      toast.success("Patch copied");
+      toast.success(t("patchCopied"));
     } catch {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -66,10 +69,8 @@ export default function TextDiffViewer() {
     <div className="container mx-auto p-6 max-w-6xl">
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>Text Diff Viewer</CardTitle>
-          <CardDescription>
-            Compare two texts side by side and copy a simple patch
-          </CardDescription>
+          <CardTitle>{t("title")}</CardTitle>
+          <CardDescription>{t("desc")}</CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -77,23 +78,23 @@ export default function TextDiffViewer() {
               value={left}
               onChange={(e) => setLeft(e.target.value)}
               className="min-h-[260px] font-mono text-sm"
-              placeholder="Original text"
+              placeholder={t("originalPlaceholder")}
             />
             <Textarea
               value={right}
               onChange={(e) => setRight(e.target.value)}
               className="min-h-[260px] font-mono text-sm"
-              placeholder="Modified text"
+              placeholder={t("modifiedPlaceholder")}
             />
           </div>
           <div className="flex justify-end">
             <Button variant="outline" onClick={copyPatch}>
-              Copy Patch
+              {t("copyPatch")}
             </Button>
           </div>
           <div className="border rounded overflow-hidden">
             <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="p-3 border-r bg-muted/30">
+              <div className="p-3 border-r rtl:border-r-0 rtl:border-l bg-muted/30">
                 {left.split(/\r?\n/).map((line, i) => (
                   <div
                     key={i}

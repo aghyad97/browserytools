@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Content() {
   return (
     <div>
@@ -6,7 +8,7 @@ export default function Content() {
         user data is a liability, Lorem Ipsum is useless for anything beyond paragraph filler, and
         hand-crafting 500 test records in JSON is a way to ruin an afternoon. Fake data generators
         exist to solve exactly this problem — and the{" "}
-        <a href="/tools/fake-data">BrowseryTools Fake Data Generator</a> does it for free, locally,
+        <Link href="/tools/fake-data">BrowseryTools Fake Data Generator</Link> does it for free, locally,
         with no account, no row limits, and no subscription.
       </p>
       <p>
@@ -131,7 +133,7 @@ export default function Content() {
 
       <h2>How to Use the Generator</h2>
       <p>
-        Open <a href="/tools/fake-data">/tools/fake-data</a>. The interface gives you three controls:
+        Open <Link href="/tools/fake-data">/tools/fake-data</Link>. The interface gives you three controls:
       </p>
       <ol>
         <li>
@@ -382,7 +384,7 @@ describe('POST /api/users', () => {
         right foundation, and generating it should take 30 seconds.
       </p>
       <p>
-        Open the <a href="/tools/fake-data">BrowseryTools Fake Data Generator</a>, select your fields,
+        Open the <Link href="/tools/fake-data">BrowseryTools Fake Data Generator</Link>, select your fields,
         set your record count, choose JSON or CSV, and hit Generate. No account, no row limit, no cost,
         nothing uploaded anywhere.
       </p>
@@ -394,21 +396,21 @@ describe('POST /api/users', () => {
           Up to 1,000 records. JSON or CSV. Names, emails, addresses, UUIDs, credit cards, and more.
           Free, local, no account required.
         </p>
-        <a
+        <Link
           href="/tools/fake-data"
           style={{display: "inline-flex", alignItems: "center", gap: "8px", background: "rgb(22,163,74)", color: "white", padding: "12px 28px", borderRadius: "10px", fontWeight: "700", textDecoration: "none", fontSize: "16px"}}
         >
           Open Fake Data Generator →
-        </a>
+        </Link>
       </div>
 
       <p style={{fontSize: "14px", opacity: 0.7}}>
         Related tools:{" "}
-        <a href="/tools/json-formatter">JSON Formatter</a> ·{" "}
-        <a href="/tools/uuid-generator">UUID Generator</a> ·{" "}
-        <a href="/tools/regex-tester">Regex Tester</a> ·{" "}
-        <a href="/tools/csv-to-json">CSV to JSON</a> ·{" "}
-        <a href="/">All BrowseryTools</a>
+        <Link href="/tools/json-formatter">JSON Formatter</Link> ·{" "}
+        <Link href="/tools/uuid-generator">UUID Generator</Link> ·{" "}
+        <Link href="/tools/regex-tester">Regex Tester</Link> ·{" "}
+        <Link href="/tools/csv-to-json">CSV to JSON</Link> ·{" "}
+        <Link href="/">All BrowseryTools</Link>
       </p>
     </div>
   );

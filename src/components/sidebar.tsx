@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useToolStore } from "@/store/tool-store";
+import { useLanguageStore } from "@/store/language-store";
 import {
   Tooltip,
   TooltipContent,
@@ -17,6 +18,7 @@ import { Search } from "lucide-react";
 import { findToolByHref } from "@/lib/tools-config";
 import { searchTools } from "@/lib/search-utils";
 import Logo from "./logo";
+import { useTranslations } from "next-intl";
 
 export default function Sidebar() {
   const pathname = usePathname();
@@ -24,6 +26,10 @@ export default function Sidebar() {
   const { setCurrentTool } = useToolStore();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const activeToolRef = useRef<HTMLAnchorElement>(null);
+  const { dir } = useLanguageStore();
+  const t = useTranslations("Sidebar");
+  const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
 
   // Set current tool based on pathname
   useEffect(() => {
@@ -83,32 +89,32 @@ export default function Sidebar() {
   }, [pathname, search, filteredTools]);
 
   return (
-    <div className="w-full lg:w-64 h-full flex flex-col border-r">
+    <div className="w-full lg:w-64 h-full flex flex-col border-e">
       {/* Header */}
       <div className="mt-4 flex items-center">
-        <Link href="/" className="flex items-center space-x-2 px-4">
+        <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse px-4">
           <Logo />
-          <span className="font-semibold text-xl">BrowseryTools</span>
+          <span className="font-semibold text-xl">{tCommon("siteName")}</span>
         </Link>
       </div>
 
       <div className="p-4 relative">
-        <Search className="w-4 h-4 absolute left-6 top-1/2 transform -translate-y-1/2 text-muted-foreground z-10" />
+        <Search className="w-4 h-4 absolute left-6 rtl:left-auto rtl:right-6 top-1/2 transform -translate-y-1/2 text-muted-foreground z-10" />
         <Input
-          placeholder="Search tools..."
+          placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="pl-10"
+          className="pl-10 rtl:pl-4 rtl:pr-10"
         />
       </div>
 
       {/* Scrollable tools list */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 px-2">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 px-2" dir={dir}>
         <div className="space-y-6 p-2">
           {filteredTools.map((category) => (
             <div key={category.category}>
               <h3 className="mb-2 px-2 text-sm font-medium text-muted-foreground">
-                {category.category}
+                {tc(`categories.${category.id}` as any)}
               </h3>
               <div className="space-y-1">
                 {category.items.map((tool) => (
@@ -121,19 +127,19 @@ export default function Sidebar() {
                           }
                           href={tool.available ? tool.href : "#"}
                           className={cn(
-                            "flex items-center space-x-2 px-2 py-1.5 rounded-md hover:bg-accent",
+                            "flex items-center space-x-2 rtl:space-x-reverse px-2 py-1.5 rounded-md hover:bg-accent",
                             "text-sm transition-colors duration-150",
                             pathname === tool.href && "bg-accent",
                             !tool.available && "opacity-50 cursor-not-allowed"
                           )}
                         >
                           <tool.icon className="w-4 h-4 shrink-0" />
-                          <span className="truncate">{tool.name}</span>
+                          <span className="truncate">{tc(`tools.${tool.href.replace('/tools/', '')}.name` as any)}</span>
                         </Link>
                       </TooltipTrigger>
                       {!tool.available && (
                         <TooltipContent>
-                          <p>Coming Soon</p>
+                          <p>{t("comingSoon")}</p>
                         </TooltipContent>
                       )}
                     </Tooltip>
@@ -145,7 +151,7 @@ export default function Sidebar() {
 
           {filteredTools.length === 0 && (
             <div className="text-center py-12">
-              <p className="text-muted-foreground">No tools found</p>
+              <p className="text-muted-foreground">{t("noToolsFound")}</p>
             </div>
           )}
         </div>

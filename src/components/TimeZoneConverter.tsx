@@ -21,6 +21,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Copy, Clock, Globe, Calendar } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface TimeZoneInfo {
   timezone: string;
@@ -31,6 +32,7 @@ interface TimeZoneInfo {
 }
 
 export default function TimeZoneConverter() {
+  const t = useTranslations("Tools.TimeZoneConverter");
   const [fromTimeZone, setFromTimeZone] = useState<string>("");
   const [toTimeZone, setToTimeZone] = useState<string>("");
   const [inputDateTime, setInputDateTime] = useState<string>("");
@@ -144,18 +146,14 @@ export default function TimeZoneConverter() {
 
   const convertTime = () => {
     if (!fromTimeZone || !toTimeZone || !inputDateTime) {
-      toast.error(
-        "Missing information please select both timezones and enter date/time"
-      );
-
+      toast.error(t("errorMissingInfo"));
       return;
     }
 
     try {
       const inputDate = new Date(inputDateTime);
       if (isNaN(inputDate.getTime())) {
-        toast.error("Invalid date please enter a valid date and time");
-
+        toast.error(t("errorInvalidDate"));
         return;
       }
 
@@ -188,18 +186,16 @@ export default function TimeZoneConverter() {
 
       setConvertedTimes(times);
     } catch (error) {
-      toast.error(
-        "Conversion error unable to convert the time please check your input"
-      );
+      toast.error(t("errorConversion"));
     }
   };
 
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -222,15 +218,15 @@ export default function TimeZoneConverter() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Clock className="h-5 w-5" />
-              Time Converter
+              {t("timeConverterTitle")}
             </CardTitle>
             <CardDescription>
-              Convert a specific date and time between time zones
+              {t("timeConverterDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="space-y-2">
-              <Label htmlFor="datetime">Date & Time</Label>
+              <Label htmlFor="datetime">{t("dateTimeLabel")}</Label>
               <div className="flex gap-2">
                 <Input
                   id="datetime"
@@ -238,23 +234,24 @@ export default function TimeZoneConverter() {
                   value={inputDateTime}
                   onChange={(e) => setInputDateTime(e.target.value)}
                   className="flex-1"
+                  dir="ltr"
                 />
                 <Button
                   onClick={setCurrentDateTime}
                   variant="outline"
                   size="sm"
                 >
-                  Now
+                  {t("nowButton")}
                 </Button>
               </div>
             </div>
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>From Timezone</Label>
+                <Label>{t("fromTimezone")}</Label>
                 <Select value={fromTimeZone} onValueChange={setFromTimeZone}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select timezone" />
+                    <SelectValue placeholder={t("selectTimezone")} />
                   </SelectTrigger>
                   <SelectContent>
                     {timezones.map((tz) => (
@@ -267,10 +264,10 @@ export default function TimeZoneConverter() {
               </div>
 
               <div className="space-y-2">
-                <Label>To Timezone</Label>
+                <Label>{t("toTimezone")}</Label>
                 <Select value={toTimeZone} onValueChange={setToTimeZone}>
                   <SelectTrigger>
-                    <SelectValue placeholder="Select timezone" />
+                    <SelectValue placeholder={t("selectTimezone")} />
                   </SelectTrigger>
                   <SelectContent>
                     {timezones.map((tz) => (
@@ -284,12 +281,12 @@ export default function TimeZoneConverter() {
             </div>
 
             <Button onClick={convertTime} className="w-full">
-              Convert Time
+              {t("convertButton")}
             </Button>
 
             {convertedTimes.length > 0 && (
               <div className="space-y-3">
-                <h3 className="font-semibold">Conversion Result</h3>
+                <h3 className="font-semibold">{t("conversionResult")}</h3>
                 {convertedTimes.map((time, index) => (
                   <div key={index} className="p-3 border rounded-lg">
                     <div className="flex items-center justify-between mb-2">
@@ -330,10 +327,10 @@ export default function TimeZoneConverter() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Globe className="h-5 w-5" />
-              World Clock
+              {t("worldClockTitle")}
             </CardTitle>
             <CardDescription>
-              Current time in major cities around the world
+              {t("worldClockDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent>
@@ -353,13 +350,13 @@ export default function TimeZoneConverter() {
                       {time.timezone}
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="text-end">
                     <div className="font-mono text-sm">{time.time}</div>
                     <div className="text-xs text-muted-foreground">
                       {time.date}
                     </div>
                   </div>
-                  <div className="ml-2">
+                  <div className="ms-2">
                     <Badge variant="outline" className="text-xs">
                       {time.offset}
                     </Badge>
@@ -376,13 +373,13 @@ export default function TimeZoneConverter() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Calendar className="h-5 w-5" />
-            Time Zone Quick Reference
+            {t("quickRefTitle")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
-              <h4 className="font-semibold mb-2">Americas</h4>
+              <h4 className="font-semibold mb-2">{t("americas")}</h4>
               <ul className="space-y-1 text-muted-foreground">
                 <li>New York: EST/EDT</li>
                 <li>Chicago: CST/CDT</li>
@@ -391,7 +388,7 @@ export default function TimeZoneConverter() {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Europe</h4>
+              <h4 className="font-semibold mb-2">{t("europe")}</h4>
               <ul className="space-y-1 text-muted-foreground">
                 <li>London: GMT/BST</li>
                 <li>Paris: CET/CEST</li>
@@ -400,7 +397,7 @@ export default function TimeZoneConverter() {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Asia</h4>
+              <h4 className="font-semibold mb-2">{t("asia")}</h4>
               <ul className="space-y-1 text-muted-foreground">
                 <li>Tokyo: JST</li>
                 <li>Shanghai: CST</li>
@@ -409,7 +406,7 @@ export default function TimeZoneConverter() {
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Oceania</h4>
+              <h4 className="font-semibold mb-2">{t("oceania")}</h4>
               <ul className="space-y-1 text-muted-foreground">
                 <li>Sydney: AEST/AEDT</li>
                 <li>Melbourne: AEST/AEDT</li>

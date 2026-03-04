@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -27,6 +28,7 @@ import ExpenseReports from "./expense-tracker/ExpenseReports";
 import ImportExport from "./expense-tracker/ImportExport";
 
 export default function ExpenseTracker() {
+  const t = useTranslations("Tools.ExpenseTracker");
   const [activeTab, setActiveTab] = useState("overview");
   const [isClient, setIsClient] = useState(false);
   const { getTotalExpenses, getFilteredExpenses } = useExpenseStore();
@@ -78,12 +80,12 @@ export default function ExpenseTracker() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Total Expenses
+              {t("totalExpenses")}
             </CardTitle>
             <ReceiptIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold" dir="ltr">
               $
               <NumberFlow
                 value={totalExpenses}
@@ -95,18 +97,18 @@ export default function ExpenseTracker() {
             </div>
             <p className="text-xs text-muted-foreground">
               <NumberFlow value={expenseCount} />
-              transaction{expenseCount !== 1 ? "s" : ""}
+              {" "}{t("transactions")}
             </p>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">This Month</CardTitle>
+            <CardTitle className="text-sm font-medium">{t("thisMonth")}</CardTitle>
             <BarChart3Icon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold" dir="ltr">
               $
               <NumberFlow
                 value={useExpenseStore
@@ -125,7 +127,7 @@ export default function ExpenseTracker() {
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              Current month spending
+              {t("currentMonthSpending")}
             </p>
           </CardContent>
         </Card>
@@ -133,12 +135,12 @@ export default function ExpenseTracker() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">
-              Average per Transaction
+              {t("averagePerTransaction")}
             </CardTitle>
             <SettingsIcon className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">
+            <div className="text-2xl font-bold" dir="ltr">
               $
               <NumberFlow
                 value={expenseCount > 0 ? totalExpenses / expenseCount : 0}
@@ -149,7 +151,7 @@ export default function ExpenseTracker() {
               />
             </div>
             <p className="text-xs text-muted-foreground">
-              Based on filtered data
+              {t("basedOnFilteredData")}
             </p>
           </CardContent>
         </Card>
@@ -162,20 +164,20 @@ export default function ExpenseTracker() {
         className="space-y-6"
       >
         <TabsList className="grid w-full grid-cols-6">
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="expenses">Expenses</TabsTrigger>
-          <TabsTrigger value="charts">Charts</TabsTrigger>
-          <TabsTrigger value="budgets">Budgets</TabsTrigger>
-          <TabsTrigger value="reports">Reports</TabsTrigger>
-          <TabsTrigger value="import-export">Import/Export</TabsTrigger>
+          <TabsTrigger value="overview">{t("tabs.overview")}</TabsTrigger>
+          <TabsTrigger value="expenses">{t("tabs.expenses")}</TabsTrigger>
+          <TabsTrigger value="charts">{t("tabs.charts")}</TabsTrigger>
+          <TabsTrigger value="budgets">{t("tabs.budgets")}</TabsTrigger>
+          <TabsTrigger value="reports">{t("tabs.reports")}</TabsTrigger>
+          <TabsTrigger value="import-export">{t("tabs.importExport")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <Card>
               <CardHeader>
-                <CardTitle>Recent Expenses</CardTitle>
-                <CardDescription>Your latest transactions</CardDescription>
+                <CardTitle>{t("recentExpenses")}</CardTitle>
+                <CardDescription>{t("latestTransactions")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ExpenseList limit={5} showActions={false} />
@@ -184,8 +186,8 @@ export default function ExpenseTracker() {
 
             <Card>
               <CardHeader>
-                <CardTitle>Quick Add Expense</CardTitle>
-                <CardDescription>Add a new expense quickly</CardDescription>
+                <CardTitle>{t("quickAddExpense")}</CardTitle>
+                <CardDescription>{t("addExpenseQuickly")}</CardDescription>
               </CardHeader>
               <CardContent>
                 <ExpenseForm onSuccess={() => setActiveTab("expenses")} />
@@ -195,9 +197,9 @@ export default function ExpenseTracker() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Spending Overview</CardTitle>
+              <CardTitle>{t("spendingOverview")}</CardTitle>
               <CardDescription>
-                Visual representation of your expenses
+                {t("visualRepresentation")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -211,14 +213,14 @@ export default function ExpenseTracker() {
             <CardHeader>
               <div className="flex items-center justify-between">
                 <div>
-                  <CardTitle>All Expenses</CardTitle>
+                  <CardTitle>{t("allExpenses")}</CardTitle>
                   <CardDescription>
-                    Manage your expense transactions
+                    {t("manageExpenses")}
                   </CardDescription>
                 </div>
                 <Button onClick={() => setActiveTab("overview")}>
-                  <PlusIcon className="h-4 w-4 mr-2" />
-                  Add Expense
+                  <PlusIcon className="h-4 w-4 me-2" />
+                  {t("addExpense")}
                 </Button>
               </div>
             </CardHeader>

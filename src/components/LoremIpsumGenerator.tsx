@@ -23,6 +23,7 @@ import { Switch } from "@/components/ui/switch";
 import { Copy, RotateCcw, FileText } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const loremWords = [
   "lorem",
@@ -204,6 +205,7 @@ const loremSentences = [
 ];
 
 export default function LoremIpsumGenerator() {
+  const t = useTranslations("Tools.LoremIpsumGenerator");
   const [generatedText, setGeneratedText] = useState("");
   const [count, setCount] = useState(5);
   const [type, setType] = useState<"words" | "sentences" | "paragraphs">(
@@ -258,12 +260,12 @@ export default function LoremIpsumGenerator() {
 
   const handleCopy = () => {
     if (!generatedText) {
-      toast.error("No text to copy");
+      toast.error(t("noTextToCopy"));
       return;
     }
 
     navigator.clipboard.writeText(generatedText);
-    toast.success("Copied to clipboard");
+    toast.success(t("copiedToClipboard"));
   };
 
   const handleClear = () => {
@@ -283,12 +285,12 @@ export default function LoremIpsumGenerator() {
         {/* Controls */}
         <Card>
           <CardHeader>
-            <CardTitle>Generator Options</CardTitle>
-            <CardDescription>Customize your Lorem Ipsum text</CardDescription>
+            <CardTitle>{t("generatorOptions")}</CardTitle>
+            <CardDescription>{t("generatorOptionsDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label htmlFor="type">Generate</Label>
+              <Label htmlFor="type">{t("generate")}</Label>
               <Select
                 value={type}
                 onValueChange={(value: "words" | "sentences" | "paragraphs") =>
@@ -299,15 +301,15 @@ export default function LoremIpsumGenerator() {
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="words">Words</SelectItem>
-                  <SelectItem value="sentences">Sentences</SelectItem>
-                  <SelectItem value="paragraphs">Paragraphs</SelectItem>
+                  <SelectItem value="words">{t("words")}</SelectItem>
+                  <SelectItem value="sentences">{t("sentences")}</SelectItem>
+                  <SelectItem value="paragraphs">{t("paragraphs")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             <div className="space-y-2">
-              <Label htmlFor="count">Count</Label>
+              <Label htmlFor="count">{t("count")}</Label>
               <Input
                 id="count"
                 type="number"
@@ -315,35 +317,36 @@ export default function LoremIpsumGenerator() {
                 max="1000"
                 value={count}
                 onChange={(e) => handleCountChange(e.target.value)}
-                placeholder="Enter count"
+                placeholder={t("count")}
+                dir="ltr"
               />
               <p className="text-xs text-muted-foreground">
-                Maximum 1000 {type}
+                {t("maxCount", { type })}
               </p>
             </div>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
               <Switch
                 id="start-with-lorem"
                 checked={startWithLorem}
                 onCheckedChange={setStartWithLorem}
                 disabled={type === "words"}
               />
-              <Label htmlFor="start-with-lorem">Start with "Lorem ipsum"</Label>
+              <Label htmlFor="start-with-lorem">{t("startWithLorem")}</Label>
             </div>
 
             <div className="space-y-2">
               <Button onClick={generateLoremIpsum} className="w-full">
-                <FileText className="w-4 h-4 mr-2" />
-                Generate Text
+                <FileText className="w-4 h-4 me-2" />
+                {t("generateText")}
               </Button>
               <Button
                 variant="outline"
                 onClick={handleClear}
                 className="w-full"
               >
-                <RotateCcw className="w-4 h-4 mr-2" />
-                Clear
+                <RotateCcw className="w-4 h-4 me-2" />
+                {t("clear")}
               </Button>
             </div>
           </CardContent>
@@ -353,21 +356,22 @@ export default function LoremIpsumGenerator() {
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <CardTitle>Generated Text</CardTitle>
+              <CardTitle>{t("generatedTextTitle")}</CardTitle>
               <CardDescription>
-                Your Lorem Ipsum placeholder text
+                {t("generatedTextDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent>
               <Textarea
-                placeholder="Generated text will appear here..."
+                placeholder={t("generatedTextPlaceholder")}
                 value={generatedText}
                 readOnly
                 className="min-h-[400px] resize-none bg-muted"
+                dir="ltr"
               />
               <div className="flex justify-between items-center mt-4">
                 <span className="text-sm text-muted-foreground">
-                  <NumberFlow value={generatedText.length} /> characters
+                  <NumberFlow value={generatedText.length} /> {t("characters")}
                 </span>
                 <Button
                   onClick={handleCopy}
@@ -375,7 +379,7 @@ export default function LoremIpsumGenerator() {
                   className="flex items-center gap-2"
                 >
                   <Copy className="w-4 h-4" />
-                  Copy Text
+                  {t("copyText")}
                 </Button>
               </div>
             </CardContent>
@@ -386,9 +390,9 @@ export default function LoremIpsumGenerator() {
       {/* Quick Generate Buttons */}
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>Quick Generate</CardTitle>
+          <CardTitle>{t("quickGenerate")}</CardTitle>
           <CardDescription>
-            Generate common amounts with one click
+            {t("quickGenerateDesc")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -401,7 +405,7 @@ export default function LoremIpsumGenerator() {
                 generateLoremIpsum();
               }}
             >
-              1 Paragraph
+              {t("oneParagraph")}
             </Button>
             <Button
               variant="outline"
@@ -411,7 +415,7 @@ export default function LoremIpsumGenerator() {
                 generateLoremIpsum();
               }}
             >
-              3 Paragraphs
+              {t("threeParagraphs")}
             </Button>
             <Button
               variant="outline"
@@ -421,7 +425,7 @@ export default function LoremIpsumGenerator() {
                 generateLoremIpsum();
               }}
             >
-              50 Words
+              {t("fiftyWords")}
             </Button>
             <Button
               variant="outline"
@@ -431,7 +435,7 @@ export default function LoremIpsumGenerator() {
                 generateLoremIpsum();
               }}
             >
-              5 Sentences
+              {t("fiveSentences")}
             </Button>
           </div>
         </CardContent>
@@ -440,13 +444,9 @@ export default function LoremIpsumGenerator() {
       {/* Info */}
       <Card className="mt-6">
         <CardContent className="p-6">
-          <h3 className="font-semibold mb-2">About Lorem Ipsum</h3>
+          <h3 className="font-semibold mb-2">{t("aboutLoremTitle")}</h3>
           <p className="text-sm text-muted-foreground">
-            Lorem Ipsum is simply dummy text of the printing and typesetting
-            industry. It has been the industry's standard dummy text ever since
-            the 1500s, when an unknown printer took a galley of type and
-            scrambled it to make a type specimen book. It is commonly used in
-            web design, graphic design, and publishing as placeholder text.
+            {t("aboutLoremDesc")}
           </p>
         </CardContent>
       </Card>

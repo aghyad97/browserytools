@@ -1,6 +1,8 @@
 "use client";
 
 import { useState, useEffect, useCallback, useMemo } from "react";
+import { useTranslations } from "next-intl";
+import { useLanguageStore } from "@/store/language-store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -66,14 +68,17 @@ interface ClockData {
   isBusinessHours: boolean;
 }
 
-function getClockData(timezone: string): ClockData {
+function getClockData(timezone: string, locale = "en"): ClockData {
   const now = new Date();
+  // Use Latin numerals for Arabic to keep time digits readable
+  const timeLocale = locale === "ar" ? "ar-u-nu-latn" : "en-US";
+  const dateLocale = locale === "ar" ? "ar-SA" : "en-US";
 
-  const timeParts = new Intl.DateTimeFormat("en-US", {
+  const timeParts = new Intl.DateTimeFormat(timeLocale, {
     timeZone: timezone, hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true,
   }).formatToParts(now);
 
-  const dateParts = new Intl.DateTimeFormat("en-US", {
+  const dateParts = new Intl.DateTimeFormat(dateLocale, {
     timeZone: timezone, weekday: "short", month: "short", day: "numeric",
   }).formatToParts(now);
 
@@ -130,6 +135,8 @@ function formatDiff(diffMinutes: number): string {
 }
 
 export default function WorldClock() {
+  const t = useTranslations("Tools.WorldClock");
+  const { locale } = useLanguageStore();
   const [cities, setCities] = useState<CityConfig[]>(DEFAULT_CITIES);
   const [clockDataMap, setClockDataMap] = useState<Record<string, ClockData>>({});
   const [sortByOffset, setSortByOffset] = useState(false);
@@ -140,10 +147,10 @@ export default function WorldClock() {
   const updateClocks = useCallback(() => {
     const map: Record<string, ClockData> = {};
     cities.forEach((c) => {
-      try { map[c.id] = getClockData(c.timezone); } catch {}
+      try { map[c.id] = getClockData(c.timezone, locale); } catch {}
     });
     setClockDataMap(map);
-  }, [cities]);
+  }, [cities, locale]);
 
   useEffect(() => {
     updateClocks();
@@ -156,19 +163,20 @@ export default function WorldClock() {
   }, []);
 
   const handleAddCity = (tzId: string) => {
-    const found = ALL_TIMEZONES.find((t) => t.id === tzId);
+    const found = ALL_TIMEZONES.find((tz) => tz.id === tzId);
     if (!found) return;
+    const cityName = t(`cities.${found.id}` as any);
     if (cities.some((c) => c.id === found.id)) {
-      toast.info(`${found.city} is already displayed.`);
+      toast.info(t("alreadyDisplayed", { city: cityName }));
       return;
     }
     setCities((prev) => [...prev, found]);
     setSelectedTz("");
-    toast.success(`Added ${found.city}`);
+    toast.success(t("added", { city: cityName }));
   };
 
   const availableToAdd = useMemo(
-    () => ALL_TIMEZONES.filter((t) => !cities.some((c) => c.id === t.id)),
+    () => ALL_TIMEZONES.filter((tz) => !cities.some((c) => c.id === tz.id)),
     [cities]
   );
 
@@ -190,21 +198,21 @@ export default function WorldClock() {
               <Globe className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">World Clock</h1>
-              <p className="text-sm text-muted-foreground">Current time across {cities.length} cities</p>
+              <h1 className="text-2xl font-bold">{t("title")}</h1>
+              <p className="text-sm text-muted-foreground">{t("citiesCount", { count: cities.length })}</p>
             </div>
           </div>
 
           <div className="flex items-center gap-2 flex-wrap">
             <Select value={selectedTz} onValueChange={handleAddCity}>
               <SelectTrigger className="w-52 h-9">
-                <Plus className="w-4 h-4 mr-1 shrink-0" />
-                <SelectValue placeholder="Add city..." />
+                <Plus className="w-4 h-4 me-1 shrink-0" />
+                <SelectValue placeholder={t("addCity")} />
               </SelectTrigger>
               <SelectContent className="max-h-72">
-                {availableToAdd.map((t) => (
-                  <SelectItem key={t.id} value={t.id}>
-                    {t.flag} {t.city}
+                {availableToAdd.map((tz) => (
+                  <SelectItem key={tz.id} value={tz.id}>
+                    {tz.flag} {t(`cities.${tz.id}` as any)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -215,7 +223,7 @@ export default function WorldClock() {
               onClick={() => setSortByOffset((s) => !s)}
               className="h-9 gap-1.5"
             >
-              <ArrowUpDown className="w-3.5 h-3.5" /> Sort by UTC
+              <ArrowUpDown className="w-3.5 h-3.5" /> {t("sortByUTC")}
             </Button>
           </div>
         </div>
@@ -232,18 +240,19 @@ export default function WorldClock() {
                     <div className="flex items-center gap-2">
                       <span className="text-2xl leading-none">{city.flag}</span>
                       <div>
-                        <div className="font-semibold text-sm leading-tight">{city.city}</div>
-                        <div className="text-xs text-muted-foreground">{city.country}</div>
+                        <div className="font-semibold text-sm leading-tight">{t(`cities.${city.id}` as any)}</div>
+                        <div className="text-xs text-muted-foreground">{t(`countries.${city.country}` as any)}</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
                         variant="ghost" size="icon" className="h-7 w-7"
                         onClick={async () => {
+                          const cityName = t(`cities.${city.id}` as any);
                           try {
-                            await navigator.clipboard.writeText(`${city.city}: ${data.time} ${data.ampm} (${data.utcOffset}) — ${data.dayOfWeek}, ${data.date}`);
-                            toast.success(`Copied ${city.city} time`);
-                          } catch { toast.error("Failed to copy"); }
+                            await navigator.clipboard.writeText(`${cityName}: ${data.time} ${data.ampm} (${data.utcOffset}) — ${data.dayOfWeek}, ${data.date}`);
+                            toast.success(t("copiedCity", { city: cityName }));
+                          } catch { toast.error(t("failedCopy")); }
                         }}
                       >
                         <Copy className="w-3.5 h-3.5" />
@@ -258,9 +267,9 @@ export default function WorldClock() {
                   </div>
 
                   <div className="flex items-baseline gap-2 mb-2">
-                    <span className="text-3xl font-mono font-bold tracking-tight tabular-nums">{data.time}</span>
+                    <span dir="ltr" className="text-3xl font-mono font-bold tracking-tight tabular-nums">{data.time}</span>
                     <span className="text-sm font-medium text-muted-foreground">{data.ampm}</span>
-                    <span className="ml-auto">
+                    <span className="ms-auto">
                       {data.isDaytime ? <Sun className="w-5 h-5 text-amber-400" /> : <Moon className="w-5 h-5 text-indigo-400" />}
                     </span>
                   </div>
@@ -268,12 +277,12 @@ export default function WorldClock() {
                   <div className="text-sm text-muted-foreground mb-3">{data.dayOfWeek}, {data.date}</div>
 
                   <div className="flex flex-wrap gap-1.5">
-                    <Badge variant="secondary" className="text-xs font-mono">{data.utcOffset}</Badge>
-                    <Badge variant="secondary" className={`text-xs ${diff === 0 ? "bg-primary/10 text-primary" : "text-muted-foreground"}`}>
+                    <Badge variant="secondary" className="text-xs font-mono" dir="ltr">{data.utcOffset}</Badge>
+                    <Badge variant="secondary" className={`text-xs ${diff === 0 ? "bg-primary/10 text-primary" : "text-muted-foreground"}`} dir="ltr">
                       {formatDiff(diff)}
                     </Badge>
                     <Badge variant="secondary" className={`text-xs ${data.isBusinessHours ? "bg-emerald-500/15 text-emerald-700 dark:text-emerald-400" : "text-muted-foreground"}`}>
-                      {data.isBusinessHours ? "Business hours" : "Off hours"}
+                      {data.isBusinessHours ? t("businessHours") : t("offHours")}
                     </Badge>
                   </div>
                 </CardContent>
@@ -283,9 +292,9 @@ export default function WorldClock() {
         </div>
 
         <div className="flex flex-wrap gap-4 text-xs text-muted-foreground pt-2">
-          <span className="flex items-center gap-1.5"><Sun className="w-3.5 h-3.5 text-amber-400" /> Day (6am–8pm)</span>
-          <span className="flex items-center gap-1.5"><Moon className="w-3.5 h-3.5 text-indigo-400" /> Night</span>
-          <span className="flex items-center gap-1.5"><span className="inline-block w-2 h-2 rounded-full bg-emerald-500" /> Business hours (8am–6pm)</span>
+          <span className="flex items-center gap-1.5"><Sun className="w-3.5 h-3.5 text-amber-400" /> {t("dayLabel")}</span>
+          <span className="flex items-center gap-1.5"><Moon className="w-3.5 h-3.5 text-indigo-400" /> {t("nightLabel")}</span>
+          <span className="flex items-center gap-1.5"><span className="inline-block w-2 h-2 rounded-full bg-emerald-500" /> {t("businessLabel")}</span>
         </div>
       </div>
     </div>

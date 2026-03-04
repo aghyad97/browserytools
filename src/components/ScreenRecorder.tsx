@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -37,6 +38,7 @@ function formatSize(bytes: number): string {
 }
 
 export default function ScreenRecorder() {
+  const t = useTranslations("Tools.ScreenRecorder");
   const [isRecording, setIsRecording] = useState(false);
   const [includeAudio, setIncludeAudio] = useState(false);
   const [videoQuality, setVideoQuality] = useState<"720" | "1080" | "max">("720");
@@ -119,7 +121,7 @@ export default function ScreenRecorder() {
         };
         setRecordings((prev) => [entry, ...prev]);
         setPreviewUrl(url);
-        toast.success(`Recording saved (${formatDuration(duration)})`);
+        toast.success(`${t("recordingSaved")} (${formatDuration(duration)})`);
       };
 
       // Stop recording if user stops screen share
@@ -139,13 +141,13 @@ export default function ScreenRecorder() {
         setElapsed(Math.round((Date.now() - startTimeRef.current) / 1000));
       }, 1000);
 
-      toast.success("Recording started");
+      toast.success(t("recordingStarted"));
     } catch (err) {
       const msg = err instanceof Error ? err.message : "Failed to start recording";
       if (msg.includes("Permission denied") || msg.includes("NotAllowedError")) {
-        toast.error("Screen sharing permission denied");
+        toast.error(t("permissionDenied"));
       } else {
-        toast.error(msg);
+        toast.error(msg || t("startFailed"));
       }
     }
   };
@@ -174,7 +176,7 @@ export default function ScreenRecorder() {
     a.href = entry.url;
     a.download = `recording-${entry.createdAt.toISOString().slice(0, 19).replace(/[:]/g, "-")}.webm`;
     a.click();
-    toast.success("Download started");
+    toast.success(t("downloadStarted"));
   };
 
   const deleteRecording = (id: string) => {
@@ -196,8 +198,8 @@ export default function ScreenRecorder() {
             <Monitor className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Screen Recorder</h1>
-            <p className="text-sm text-muted-foreground">Record your screen entirely in the browser — nothing uploaded</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
         </div>
 
@@ -207,7 +209,7 @@ export default function ScreenRecorder() {
             <CardContent className="pt-6 space-y-5">
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
-                  <Label>Include Microphone</Label>
+                  <Label>{t("includeMicrophone")}</Label>
                   <Switch
                     checked={includeAudio}
                     onCheckedChange={setIncludeAudio}
@@ -215,7 +217,7 @@ export default function ScreenRecorder() {
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Video Quality</Label>
+                  <Label>{t("videoQuality")}</Label>
                   <Select
                     value={videoQuality}
                     onValueChange={(v) => setVideoQuality(v as "720" | "1080" | "max")}
@@ -225,9 +227,9 @@ export default function ScreenRecorder() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="720">720p (Recommended)</SelectItem>
-                      <SelectItem value="1080">1080p</SelectItem>
-                      <SelectItem value="max">Maximum</SelectItem>
+                      <SelectItem value="720">{t("quality720")}</SelectItem>
+                      <SelectItem value="1080">{t("quality1080")}</SelectItem>
+                      <SelectItem value="max">{t("qualityMax")}</SelectItem>
                     </SelectContent>
                   </Select>
                 </div>
@@ -238,24 +240,24 @@ export default function ScreenRecorder() {
                   <div className="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/20">
                     <CircleDot className="w-5 h-5 text-destructive animate-pulse" />
                     <div>
-                      <div className="font-semibold text-destructive">Recording</div>
-                      <div className="text-sm font-mono">{formatDuration(elapsed)}</div>
+                      <div className="font-semibold text-destructive">{t("recording")}</div>
+                      <div className="text-sm font-mono" dir="ltr">{formatDuration(elapsed)}</div>
                     </div>
                   </div>
                   <Button variant="destructive" className="w-full gap-2" onClick={stopRecording}>
-                    <Square className="w-4 h-4" /> Stop Recording
+                    <Square className="w-4 h-4" /> {t("stopRecording")}
                   </Button>
                 </div>
               ) : (
                 <Button className="w-full gap-2" onClick={startRecording}>
-                  <CircleDot className="w-4 h-4" /> Start Recording
+                  <CircleDot className="w-4 h-4" /> {t("startRecording")}
                 </Button>
               )}
 
               <div className="text-xs text-muted-foreground space-y-1">
-                <p>• Recordings are saved locally in your browser</p>
-                <p>• Nothing is uploaded to any server</p>
-                <p>• Output format: WebM (H.264/VP9)</p>
+                <p>• {t("privacyNote1")}</p>
+                <p>• {t("privacyNote2")}</p>
+                <p>• {t("privacyNote3")}</p>
               </div>
             </CardContent>
           </Card>
@@ -272,7 +274,7 @@ export default function ScreenRecorder() {
                 />
               ) : (
                 <div className="flex items-center justify-center h-[200px] rounded-lg bg-muted/50 text-muted-foreground text-sm">
-                  Preview will appear here
+                  {t("previewPlaceholder")}
                 </div>
               )}
             </CardContent>
@@ -282,7 +284,7 @@ export default function ScreenRecorder() {
         {/* Recordings list */}
         {recordings.length > 0 && (
           <div className="space-y-3">
-            <h2 className="text-sm font-semibold">Recordings ({recordings.length})</h2>
+            <h2 className="text-sm font-semibold">{t("recordingsCount")} ({recordings.length})</h2>
             {recordings.map((entry) => (
               <Card key={entry.id} className={`cursor-pointer transition-colors ${previewUrl === entry.url ? "border-primary" : ""}`}>
                 <CardContent className="pt-4 pb-4">

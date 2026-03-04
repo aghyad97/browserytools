@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -92,7 +93,7 @@ interface RomanToNumberStep {
 
 function romanToNumber(
   roman: string
-): { value: number; steps: RomanToNumberStep[]; error?: string } | null {
+): { value: number; steps: RomanToNumberStep[]; errorKey?: string } | null {
   if (!roman) return null;
 
   const upper = roman.toUpperCase().trim();
@@ -100,14 +101,14 @@ function romanToNumber(
 
   // Validate characters
   if (/[^IVXLCDM]/.test(upper)) {
-    return { value: 0, steps: [], error: "Invalid Roman numeral — only I, V, X, L, C, D, M allowed" };
+    return { value: 0, steps: [], errorKey: "errorInvalidChars" };
   }
 
   // Validate Roman numeral rules (basic)
   const validPattern =
     /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
   if (!validPattern.test(upper)) {
-    return { value: 0, steps: [], error: "Invalid Roman numeral — check the numeral format" };
+    return { value: 0, steps: [], errorKey: "errorInvalidFormat" };
   }
 
   const steps: RomanToNumberStep[] = [];
@@ -161,6 +162,7 @@ function romanToNumber(
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function RomanNumeralConverter() {
+  const t = useTranslations("Tools.RomanNumeralConverter");
   const [tab, setTab] = useState<"toRoman" | "toNumber">("toRoman");
 
   // Number → Roman state
@@ -174,7 +176,7 @@ export default function RomanNumeralConverter() {
   const toRomanResult = useMemo(() => {
     const n = parseInt(numberInput, 10);
     if (!numberInput.trim() || isNaN(n)) return null;
-    if (n < 1 || n > 3999) return { error: "Enter a number between 1 and 3999" };
+    if (n < 1 || n > 3999) return { errorKey: "errorOutOfRange" };
     return numberToRoman(n);
   }, [numberInput]);
 
@@ -184,26 +186,26 @@ export default function RomanNumeralConverter() {
   }, [romanInput]);
 
   const handleCopyRoman = useCallback(async () => {
-    const val = toRomanResult && !("error" in toRomanResult) ? toRomanResult.roman : "";
+    const val = toRomanResult && !("errorKey" in toRomanResult) ? toRomanResult.roman : "";
     if (!val) return;
     try {
       await navigator.clipboard.writeText(val);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
-  }, [toRomanResult]);
+  }, [toRomanResult, t]);
 
   const handleCopyNumber = useCallback(async () => {
-    const val = toNumberResult && !toNumberResult.error ? String(toNumberResult.value) : "";
+    const val = toNumberResult && !toNumberResult.errorKey ? String(toNumberResult.value) : "";
     if (!val) return;
     try {
       await navigator.clipboard.writeText(val);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
-  }, [toNumberResult]);
+  }, [toNumberResult, t]);
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
@@ -214,9 +216,9 @@ export default function RomanNumeralConverter() {
             <Hash className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Roman Numeral Converter</h1>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
             <p className="text-sm text-muted-foreground">
-              Convert between Arabic numbers and Roman numerals
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -224,10 +226,10 @@ export default function RomanNumeralConverter() {
         <Tabs value={tab} onValueChange={(v) => setTab(v as "toRoman" | "toNumber")}>
           <TabsList className="w-full">
             <TabsTrigger value="toRoman" className="flex-1">
-              Number → Roman
+              {t("numberToRoman")}
             </TabsTrigger>
             <TabsTrigger value="toNumber" className="flex-1">
-              Roman → Number
+              {t("romanToNumber")}
             </TabsTrigger>
           </TabsList>
 
@@ -235,7 +237,7 @@ export default function RomanNumeralConverter() {
           <TabsContent value="toRoman" className="space-y-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Enter a number (1–3999)</CardTitle>
+                <CardTitle className="text-base">{t("enterNumber")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Input
@@ -254,17 +256,17 @@ export default function RomanNumeralConverter() {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center justify-between">
-                    Result
+                    {t("result")}
                     {"roman" in toRomanResult && (
                       <Button size="sm" variant="ghost" onClick={handleCopyRoman}>
-                        <Copy className="w-4 h-4 mr-1.5" /> Copy
+                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
                       </Button>
                     )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {"error" in toRomanResult ? (
-                    <p className="text-destructive text-sm">{toRomanResult.error}</p>
+                  {"errorKey" in toRomanResult ? (
+                    <p className="text-destructive text-sm">{t(toRomanResult.errorKey as Parameters<typeof t>[0])}</p>
                   ) : (
                     <>
                       <div className="text-4xl font-bold font-mono tracking-wider text-center py-2">
@@ -273,8 +275,8 @@ export default function RomanNumeralConverter() {
 
                       {/* Step-by-step breakdown */}
                       <div>
-                        <p className="text-sm font-medium mb-2">Step-by-step breakdown</p>
-                        <div className="space-y-1.5">
+                        <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
+                        <div className="space-y-1.5" dir="ltr">
                           {toRomanResult.steps.map((step, i) => (
                             <div
                               key={i}
@@ -285,8 +287,8 @@ export default function RomanNumeralConverter() {
                               </Badge>
                               <span className="text-muted-foreground">=</span>
                               <span className="font-medium">{step.value.toLocaleString()}</span>
-                              <span className="text-muted-foreground ml-auto text-xs">
-                                Remaining: {step.remaining.toLocaleString()}
+                              <span className="text-muted-foreground ms-auto text-xs">
+                                {t("remaining")}: {step.remaining.toLocaleString()}
                               </span>
                             </div>
                           ))}
@@ -311,7 +313,7 @@ export default function RomanNumeralConverter() {
           <TabsContent value="toNumber" className="space-y-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Enter a Roman numeral</CardTitle>
+                <CardTitle className="text-base">{t("enterRoman")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Input
@@ -328,17 +330,17 @@ export default function RomanNumeralConverter() {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center justify-between">
-                    Result
-                    {!toNumberResult.error && (
+                    {t("result")}
+                    {!toNumberResult.errorKey && (
                       <Button size="sm" variant="ghost" onClick={handleCopyNumber}>
-                        <Copy className="w-4 h-4 mr-1.5" /> Copy
+                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
                       </Button>
                     )}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {toNumberResult.error ? (
-                    <p className="text-destructive text-sm">{toNumberResult.error}</p>
+                  {toNumberResult.errorKey ? (
+                    <p className="text-destructive text-sm">{t(toNumberResult.errorKey as Parameters<typeof t>[0])}</p>
                   ) : (
                     <>
                       <div className="text-4xl font-bold tabular-nums text-center py-2">
@@ -347,8 +349,8 @@ export default function RomanNumeralConverter() {
 
                       {/* Step-by-step breakdown */}
                       <div>
-                        <p className="text-sm font-medium mb-2">Step-by-step breakdown</p>
-                        <div className="space-y-1.5">
+                        <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
+                        <div className="space-y-1.5" dir="ltr">
                           {toNumberResult.steps.map((step, i) => (
                             <div
                               key={i}
@@ -369,8 +371,8 @@ export default function RomanNumeralConverter() {
                               >
                                 {step.operation === "subtract" ? "−" : "+"}{step.value}
                               </span>
-                              <span className="text-muted-foreground ml-auto text-xs">
-                                Running total: {step.runningTotal}
+                              <span className="text-muted-foreground ms-auto text-xs">
+                                {t("runningTotal")}: {step.runningTotal}
                               </span>
                             </div>
                           ))}
@@ -399,7 +401,7 @@ export default function RomanNumeralConverter() {
         {/* Reference table */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Reference Table</CardTitle>
+            <CardTitle className="text-base">{t("referenceTable")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">

@@ -7,10 +7,13 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
 import { Copy, Download, Trash2, BookOpen } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const STORAGE_KEY = "browserytools-notepad";
 
 export default function Notepad() {
+  const t = useTranslations("Tools.Notepad");
+  const tCommon = useTranslations("Common");
   const [text, setText] = useState("");
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -45,9 +48,9 @@ export default function Notepad() {
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
   };
 
@@ -60,13 +63,13 @@ export default function Notepad() {
     a.download = `notepad-${Date.now()}.txt`;
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Downloaded as .txt");
+    toast.success(t("downloadedTxt"));
   };
 
   const handleClear = () => {
     setText("");
     try { localStorage.removeItem(STORAGE_KEY); } catch {}
-    toast.success("Notepad cleared");
+    toast.success(t("notepadCleared"));
   };
 
   return (
@@ -78,19 +81,19 @@ export default function Notepad() {
               <BookOpen className="w-6 h-6 text-primary" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold">Notepad</h1>
-              <p className="text-sm text-muted-foreground">Scratchpad that auto-saves locally</p>
+              <h1 className="text-2xl font-bold">{t("title")}</h1>
+              <p className="text-sm text-muted-foreground">{t("description")}</p>
             </div>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="outline" size="sm" onClick={handleCopy} disabled={!text}>
-              <Copy className="w-4 h-4 mr-1.5" /> Copy
+              <Copy className="w-4 h-4 me-1.5" /> {tCommon("copy")}
             </Button>
             <Button variant="outline" size="sm" onClick={handleDownload} disabled={!text}>
-              <Download className="w-4 h-4 mr-1.5" /> Download
+              <Download className="w-4 h-4 me-1.5" /> {tCommon("download")}
             </Button>
             <Button variant="outline" size="sm" onClick={handleClear} disabled={!text}>
-              <Trash2 className="w-4 h-4 mr-1.5" /> Clear
+              <Trash2 className="w-4 h-4 me-1.5" /> {tCommon("clear")}
             </Button>
           </div>
         </div>
@@ -100,7 +103,7 @@ export default function Notepad() {
             <Textarea
               value={text}
               onChange={(e) => setText(e.target.value)}
-              placeholder="Start typing… your notes are saved automatically."
+              placeholder={t("placeholder")}
               className="min-h-[65vh] resize-none font-mono text-sm border-0 focus-visible:ring-0 p-0"
               aria-label="Notepad"
             />
@@ -109,18 +112,18 @@ export default function Notepad() {
 
         <div className="flex items-center justify-between text-xs text-muted-foreground px-1">
           <div className="flex gap-4">
-            <span>{wordCount} words</span>
-            <span>{charCount} characters</span>
-            <span>{lineCount} lines</span>
+            <span>{wordCount} {t("words")}</span>
+            <span>{charCount} {t("characters")}</span>
+            <span>{lineCount} {t("lines")}</span>
           </div>
           <div className="flex items-center gap-2">
             {lastSaved && (
               <Badge variant="outline" className="text-xs font-normal">
-                Saved {lastSaved.toLocaleTimeString()}
+                {t("saved")} {lastSaved.toLocaleTimeString()}
               </Badge>
             )}
             <Badge variant="outline" className="text-xs font-normal">
-              Auto-saves locally
+              {t("autoSavesLocally")}
             </Badge>
           </div>
         </div>

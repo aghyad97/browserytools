@@ -80,3 +80,15 @@ body {
     scrollbar-width: none;
   }
 }
+
+/* Arabic font activation */
+html[lang="ar"],
+html[lang="ar"] body {
+  font-family: "IBM Plex Sans Arabic", sans-serif;
+}
+
+/* Keep number inputs LTR for usability in RTL mode */
+html[lang="ar"] input[type="number"] {
+  direction: ltr;
+  text-align: right;
+}

@@ -50,6 +50,7 @@ import {
 } from "lucide-react";
 import { useInvoiceStore, InvoiceData } from "@/store/invoice-store";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface InvoiceManagerProps {
   onSelectInvoice: (invoice: InvoiceData) => void;
@@ -60,6 +61,7 @@ export default function InvoiceManager({
   onSelectInvoice,
   onCreateNew,
 }: InvoiceManagerProps) {
+  const t = useTranslations("Tools.InvoiceGenerator");
   const { invoices, deleteInvoice, duplicateInvoice } = useInvoiceStore();
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<"date" | "name" | "total">("date");
@@ -95,14 +97,14 @@ export default function InvoiceManager({
 
   const handleDeleteInvoice = (id: string, invoiceNumber: string) => {
     deleteInvoice(id);
-    toast.success("Invoice Deleted");
+    toast.success(t("invoiceDeleted"));
   };
 
   const handleDuplicateInvoice = (id: string) => {
     const duplicated = duplicateInvoice(id);
     if (duplicated) {
       onSelectInvoice(duplicated);
-      toast.success("Invoice Duplicated");
+      toast.success(t("invoiceDuplicated"));
     }
   };
 
@@ -125,12 +127,12 @@ export default function InvoiceManager({
       <div className="flex items-center justify-between">
         <div>
           <p className="text-muted-foreground">
-            Manage your saved invoices or create a new one
+            {t("manageSubtitle")}
           </p>
         </div>
         <Button onClick={onCreateNew} className="flex items-center gap-2">
           <Plus className="w-4 h-4" />
-          New Invoice
+          {t("newInvoice")}
         </Button>
       </div>
 
@@ -139,22 +141,22 @@ export default function InvoiceManager({
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Search className="w-5 h-5" />
-            Search & Filter
+            {t("searchFilter")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="search">Search Invoices</Label>
+              <Label htmlFor="search">{t("searchInvoices")}</Label>
               <Input
                 id="search"
-                placeholder="Search by invoice number, company, or client..."
+                placeholder={t("searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
             </div>
             <div className="space-y-2">
-              <Label>Sort By</Label>
+              <Label>{t("sortBy")}</Label>
               <Select
                 value={sortBy}
                 onValueChange={(val: "date" | "name" | "total") =>
@@ -165,14 +167,14 @@ export default function InvoiceManager({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="date">Last Modified</SelectItem>
-                  <SelectItem value="name">Invoice Number</SelectItem>
-                  <SelectItem value="total">Total Amount</SelectItem>
+                  <SelectItem value="date">{t("sortLastModified")}</SelectItem>
+                  <SelectItem value="name">{t("sortInvoiceNumber")}</SelectItem>
+                  <SelectItem value="total">{t("sortTotalAmount")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
             <div className="space-y-2">
-              <Label>Order</Label>
+              <Label>{t("order")}</Label>
               <Select
                 value={sortOrder}
                 onValueChange={(val: "asc" | "desc") => setSortOrder(val)}
@@ -181,8 +183,8 @@ export default function InvoiceManager({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="desc">Newest First</SelectItem>
-                  <SelectItem value="asc">Oldest First</SelectItem>
+                  <SelectItem value="desc">{t("newestFirst")}</SelectItem>
+                  <SelectItem value="asc">{t("oldestFirst")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
@@ -198,16 +200,14 @@ export default function InvoiceManager({
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <FileText className="w-16 h-16 text-muted-foreground mb-4" />
                 <h3 className="text-lg font-semibold mb-2">
-                  No Invoices Found
+                  {t("noInvoicesFound")}
                 </h3>
                 <p className="text-muted-foreground text-center mb-4">
-                  {searchQuery
-                    ? "No invoices match your search criteria."
-                    : "You haven't created any invoices yet."}
+                  {searchQuery ? t("noInvoicesSearchMsg") : t("noInvoicesMsg")}
                 </p>
                 <Button onClick={onCreateNew}>
-                  <Plus className="w-4 h-4 mr-2" />
-                  Create Your First Invoice
+                  <Plus className="w-4 h-4 me-2" />
+                  {t("createFirstInvoice")}
                 </Button>
               </CardContent>
             </Card>
@@ -225,7 +225,7 @@ export default function InvoiceManager({
                       {invoice.invoiceNumber}
                     </CardTitle>
                     <CardDescription className="mt-1">
-                      {invoice.company.name || "Untitled Company"}
+                      {invoice.company.name || t("untitledCompany")}
                     </CardDescription>
                   </div>
                   <Badge variant="secondary" className="text-xs">
@@ -244,7 +244,7 @@ export default function InvoiceManager({
                   </div>
                   <div className="flex items-center gap-2 text-muted-foreground">
                     <FileText className="w-4 h-4" />
-                    <span>{invoice.client.name || "No client"}</span>
+                    <span>{invoice.client.name || t("noClient")}</span>
                   </div>
                   <div className="flex items-center gap-2">
                     <DollarSign className="w-4 h-4 text-green-600" />
@@ -260,7 +260,7 @@ export default function InvoiceManager({
                     onClick={() => onSelectInvoice(invoice)}
                     className="flex-1"
                   >
-                    Open
+                    {t("open")}
                   </Button>
                   <Button
                     size="sm"
@@ -281,14 +281,13 @@ export default function InvoiceManager({
                     </AlertDialogTrigger>
                     <AlertDialogContent>
                       <AlertDialogHeader>
-                        <AlertDialogTitle>Delete Invoice</AlertDialogTitle>
+                        <AlertDialogTitle>{t("deleteInvoice")}</AlertDialogTitle>
                         <AlertDialogDescription>
-                          Are you sure you want to delete invoice{" "}
-                          {invoice.invoiceNumber}? This action cannot be undone.
+                          {t("deleteConfirm", { number: invoice.invoiceNumber })}
                         </AlertDialogDescription>
                       </AlertDialogHeader>
                       <AlertDialogFooter>
-                        <AlertDialogCancel>Cancel</AlertDialogCancel>
+                        <AlertDialogCancel>{t("cancel")}</AlertDialogCancel>
                         <AlertDialogAction
                           onClick={() =>
                             handleDeleteInvoice(
@@ -298,7 +297,7 @@ export default function InvoiceManager({
                           }
                           className="bg-red-600 hover:bg-red-700"
                         >
-                          Delete
+                          {t("delete")}
                         </AlertDialogAction>
                       </AlertDialogFooter>
                     </AlertDialogContent>
@@ -318,7 +317,7 @@ export default function InvoiceManager({
               <div>
                 <div className="text-2xl font-bold">{invoices.length}</div>
                 <div className="text-sm text-muted-foreground">
-                  Total Invoices
+                  {t("totalInvoices")}
                 </div>
               </div>
               <div>
@@ -328,7 +327,7 @@ export default function InvoiceManager({
                     "USD"
                   )}
                 </div>
-                <div className="text-sm text-muted-foreground">Total Value</div>
+                <div className="text-sm text-muted-foreground">{t("totalValue")}</div>
               </div>
               <div>
                 <div className="text-2xl font-bold">
@@ -337,7 +336,7 @@ export default function InvoiceManager({
                       .length
                   }
                 </div>
-                <div className="text-sm text-muted-foreground">Overdue</div>
+                <div className="text-sm text-muted-foreground">{t("overdue")}</div>
               </div>
             </div>
           </CardContent>

@@ -24,6 +24,7 @@ import { Copy, Download, RotateCcw, QrCode } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import QRCode from "qrcode";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 // QR Code generator using the qrcode package
 const generateQRCode = async (
@@ -56,6 +57,7 @@ const generateQRCode = async (
 };
 
 export default function QRCodeGenerator() {
+  const t = useTranslations("Tools.QRCodeGenerator");
   const [inputText, setInputText] = useState("");
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
   const [size, setSize] = useState(256);
@@ -65,7 +67,7 @@ export default function QRCodeGenerator() {
 
   const generateQR = async () => {
     if (!inputText.trim()) {
-      toast.error("No text to encode");
+      toast.error(t("noTextToEncode"));
       return;
     }
 
@@ -78,13 +80,13 @@ export default function QRCodeGenerator() {
       );
       setQrCodeDataUrl(qrCode);
     } catch (error) {
-      toast.error("Error generating QR code");
+      toast.error(t("errorGenerating"));
     }
   };
 
   const handleCopy = async () => {
     if (!qrCodeDataUrl) {
-      toast.error("No QR code to copy");
+      toast.error(t("noTextToEncode"));
       return;
     }
 
@@ -92,7 +94,7 @@ export default function QRCodeGenerator() {
       if (format === "svg") {
         // For SVG, copy the raw SVG content as text
         await navigator.clipboard.writeText(qrCodeDataUrl);
-        toast.success("Copied to clipboard");
+        toast.success(t("copiedToClipboard"));
       } else {
         // For PNG/JPEG, convert data URL to blob and copy to clipboard
         const response = await fetch(qrCodeDataUrl);
@@ -102,16 +104,16 @@ export default function QRCodeGenerator() {
             [blob.type]: blob,
           }),
         ]);
-        toast.success("Copied to clipboard");
+        toast.success(t("copiedToClipboard"));
       }
     } catch (error) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
   const handleDownload = async () => {
     if (!inputText.trim()) {
-      toast.error("No text to encode");
+      toast.error(t("noTextToEncode"));
       return;
     }
 
@@ -144,9 +146,9 @@ export default function QRCodeGenerator() {
         URL.revokeObjectURL(link.href);
       }
 
-      toast.success("Download started");
+      toast.success(t("downloadStarted"));
     } catch (error) {
-      toast.error("Download failed");
+      toast.error(t("downloadFailed"));
     }
   };
 
@@ -184,28 +186,29 @@ export default function QRCodeGenerator() {
     <div className="container mx-auto p-4 max-w-7xl">
       <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
         {/* Input Section - Sticky Sidebar */}
-        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
+        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pe-4 scrollbar-hide">
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle>Input</CardTitle>
+              <CardTitle>{t("inputTitle")}</CardTitle>
               <CardDescription>
-                Enter the text or URL you want to encode
+                {t("inputDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="input-text">Text or URL</Label>
+                <Label htmlFor="input-text">{t("textOrUrl")}</Label>
                 <Textarea
                   id="input-text"
-                  placeholder="Enter text, URL, email, or other data to encode..."
+                  placeholder={t("inputPlaceholder")}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  className="min-h-[120px] resize-none"
+                  className="min-h-[120px] resize-none text-left"
+                  dir="ltr"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label>Quick Samples</Label>
+                <Label>{t("quickSamples")}</Label>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
@@ -254,15 +257,15 @@ export default function QRCodeGenerator() {
           {/* Settings */}
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle>Settings</CardTitle>
+              <CardTitle>{t("settingsTitle")}</CardTitle>
               <CardDescription>
-                Customize your QR code appearance
+                {t("settingsDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="size">
-                  Size: <NumberFlow value={size} />
+                  {t("size")} <NumberFlow value={size} />
                   px
                 </Label>
                 <Slider
@@ -277,7 +280,7 @@ export default function QRCodeGenerator() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="error-correction">Error Correction Level</Label>
+                <Label htmlFor="error-correction">{t("errorCorrectionLevel")}</Label>
                 <Select
                   value={errorCorrectionLevel}
                   onValueChange={setErrorCorrectionLevel}
@@ -295,7 +298,7 @@ export default function QRCodeGenerator() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="format">Download Format</Label>
+                <Label htmlFor="format">{t("downloadFormat")}</Label>
                 <Select value={format} onValueChange={setFormat}>
                   <SelectTrigger>
                     <SelectValue />
@@ -309,12 +312,13 @@ export default function QRCodeGenerator() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="filename">Download Filename</Label>
+                <Label htmlFor="filename">{t("downloadFilename")}</Label>
                 <Input
                   id="filename"
                   value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
                   placeholder="qrcode"
+                  dir="ltr"
                 />
               </div>
             </CardContent>
@@ -325,8 +329,8 @@ export default function QRCodeGenerator() {
         <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit space-y-4">
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle>QR Code</CardTitle>
-              <CardDescription>Your generated QR code</CardDescription>
+              <CardTitle>{t("qrCodeTitle")}</CardTitle>
+              <CardDescription>{t("qrCodeDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center space-y-4">
@@ -341,7 +345,7 @@ export default function QRCodeGenerator() {
                       ) : (
                         <img
                           src={qrCodeDataUrl}
-                          alt="Generated QR Code"
+                          alt={t("generatedQrAlt")}
                           className="max-w-full h-auto"
                         />
                       )}
@@ -352,7 +356,7 @@ export default function QRCodeGenerator() {
                         className="flex items-center gap-2"
                       >
                         <Copy className="w-4 h-4" />
-                        Copy
+                        {t("copy")}
                       </Button>
                       <Button
                         onClick={handleDownload}
@@ -360,14 +364,14 @@ export default function QRCodeGenerator() {
                         className="flex items-center gap-2"
                       >
                         <Download className="w-4 h-4" />
-                        Download {format.toUpperCase()}
+                        {t("download", { format: format.toUpperCase() })}
                       </Button>
                     </div>
                   </>
                 ) : (
                   <div className="flex flex-col items-center justify-center h-64 text-muted-foreground">
                     <QrCode className="w-16 h-16 mb-4" />
-                    <p>Enter text to generate QR code</p>
+                    <p>{t("enterTextToGenerate")}</p>
                   </div>
                 )}
               </div>
@@ -377,31 +381,31 @@ export default function QRCodeGenerator() {
           {/* Info */}
           <Card className="shadow-none">
             <CardContent className="p-6">
-              <h3 className="font-semibold mb-2">QR Code Types</h3>
+              <h3 className="font-semibold mb-2">{t("qrCodeTypes")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-muted-foreground">
                 <div>
-                  <p className="font-medium mb-1">URLs</p>
-                  <p>https://www.example.com</p>
+                  <p className="font-medium mb-1">{t("typeUrls")}</p>
+                  <p dir="ltr">https://www.example.com</p>
                 </div>
                 <div>
-                  <p className="font-medium mb-1">Email</p>
-                  <p>mailto:contact@example.com</p>
+                  <p className="font-medium mb-1">{t("typeEmail")}</p>
+                  <p dir="ltr">mailto:contact@example.com</p>
                 </div>
                 <div>
-                  <p className="font-medium mb-1">Phone</p>
-                  <p>tel:+1234567890</p>
+                  <p className="font-medium mb-1">{t("typePhone")}</p>
+                  <p dir="ltr">tel:+1234567890</p>
                 </div>
                 <div>
-                  <p className="font-medium mb-1">SMS</p>
-                  <p>sms:+1234567890:Message</p>
+                  <p className="font-medium mb-1">{t("typeSms")}</p>
+                  <p dir="ltr">sms:+1234567890:Message</p>
                 </div>
                 <div>
-                  <p className="font-medium mb-1">WiFi</p>
-                  <p>WIFI:T:WPA;S:Network;P:Password;;</p>
+                  <p className="font-medium mb-1">{t("typeWifi")}</p>
+                  <p dir="ltr">WIFI:T:WPA;S:Network;P:Password;;</p>
                 </div>
                 <div>
-                  <p className="font-medium mb-1">Plain Text</p>
-                  <p>Any text you want to share</p>
+                  <p className="font-medium mb-1">{t("typePlainText")}</p>
+                  <p>{t("typePlainTextDesc")}</p>
                 </div>
               </div>
             </CardContent>

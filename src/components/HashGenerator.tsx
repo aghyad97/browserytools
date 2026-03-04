@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -24,6 +25,7 @@ interface HashResult {
 }
 
 export default function HashGenerator() {
+  const t = useTranslations("Tools.HashGenerator");
   const [inputText, setInputText] = useState<string>("");
   const [hashResults, setHashResults] = useState<HashResult[]>([]);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -69,7 +71,7 @@ export default function HashGenerator() {
 
   const generateHashes = async () => {
     if (!inputText.trim()) {
-      toast.error("Empty input");
+      toast.error(t("emptyInput"));
       return;
     }
 
@@ -96,15 +98,15 @@ export default function HashGenerator() {
     setHashResults(results);
     setIsGenerating(false);
 
-    toast("Hashes generated");
+    toast(t("hashesGeneratedToast"));
   };
 
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -115,9 +117,9 @@ export default function HashGenerator() {
 
     try {
       await navigator.clipboard.writeText(allHashes);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -150,8 +152,8 @@ export default function HashGenerator() {
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <Tabs defaultValue="text" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
-          <TabsTrigger value="text">Text Input</TabsTrigger>
-          <TabsTrigger value="results">Hash Results</TabsTrigger>
+          <TabsTrigger value="text">{t("textInputTab")}</TabsTrigger>
+          <TabsTrigger value="results">{t("resultsTab")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="text" className="space-y-6">
@@ -159,18 +161,18 @@ export default function HashGenerator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <FileText className="h-5 w-5" />
-                Input Text
+                {t("inputTitle")}
               </CardTitle>
-              <CardDescription>Enter the text you want to hash</CardDescription>
+              <CardDescription>{t("inputDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="input-text">Text to Hash</Label>
+                <Label htmlFor="input-text">{t("textToHashLabel")}</Label>
                 <Textarea
                   id="input-text"
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
-                  placeholder="Enter your text here..."
+                  placeholder={t("textToHashPlaceholder")}
                   className="min-h-[120px]"
                 />
               </div>
@@ -183,29 +185,29 @@ export default function HashGenerator() {
                 >
                   {isGenerating ? (
                     <>
-                      <RefreshCw className="h-4 w-4 mr-2 animate-spin" />
-                      Generating...
+                      <RefreshCw className="h-4 w-4 me-2 animate-spin" />
+                      {t("generating")}
                     </>
                   ) : (
                     <>
-                      <Hash className="h-4 w-4 mr-2" />
-                      Generate Hashes
+                      <Hash className="h-4 w-4 me-2" />
+                      {t("generateHashes")}
                     </>
                   )}
                 </Button>
                 <Button onClick={loadSampleText} variant="outline">
-                  Load Sample
+                  {t("loadSample")}
                 </Button>
                 <Button onClick={clearAll} variant="outline">
-                  Clear
+                  {t("clear")}
                 </Button>
               </div>
 
               {inputText && (
                 <div className="text-sm text-muted-foreground">
-                  <div>Characters: {inputText.length}</div>
+                  <div>{t("characters")} {inputText.length}</div>
                   <div>
-                    Words:{" "}
+                    {t("words")}{" "}
                     {
                       inputText
                         .trim()
@@ -213,7 +215,7 @@ export default function HashGenerator() {
                         .filter((word) => word.length > 0).length
                     }
                   </div>
-                  <div>Lines: {inputText.split("\n").length}</div>
+                  <div>{t("lines")} {inputText.split("\n").length}</div>
                 </div>
               )}
             </CardContent>
@@ -223,11 +225,11 @@ export default function HashGenerator() {
         <TabsContent value="results" className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Generated Hashes</CardTitle>
+              <CardTitle>{t("generatedHashesTitle")}</CardTitle>
               <CardDescription>
                 {hashResults.length > 0
-                  ? `${hashResults.length} hash values generated`
-                  : "No hashes generated yet"}
+                  ? t("hashesGenerated", { count: hashResults.length })
+                  : t("noHashesYet")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -235,16 +237,16 @@ export default function HashGenerator() {
                 <div className="space-y-4">
                   <div className="flex gap-2">
                     <Button onClick={copyAllHashes} variant="outline" size="sm">
-                      <Copy className="h-4 w-4 mr-2" />
-                      Copy All
+                      <Copy className="h-4 w-4 me-2" />
+                      {t("copyAll")}
                     </Button>
                     <Button
                       onClick={downloadHashes}
                       variant="outline"
                       size="sm"
                     >
-                      <Download className="h-4 w-4 mr-2" />
-                      Download
+                      <Download className="h-4 w-4 me-2" />
+                      {t("download")}
                     </Button>
                   </div>
 
@@ -255,7 +257,7 @@ export default function HashGenerator() {
                           <div className="flex items-center gap-2">
                             <Badge variant="outline">{result.algorithm}</Badge>
                             <span className="text-sm text-muted-foreground">
-                              {result.length} characters
+                              {t("hashLength", { count: result.length })}
                             </span>
                           </div>
                           <Button
@@ -266,7 +268,7 @@ export default function HashGenerator() {
                             <Copy className="h-4 w-4" />
                           </Button>
                         </div>
-                        <div className="font-mono text-sm bg-muted p-2 rounded break-all">
+                        <div className="font-mono text-sm bg-muted p-2 rounded break-all" dir="ltr">
                           {result.hash}
                         </div>
                       </div>
@@ -276,7 +278,7 @@ export default function HashGenerator() {
               ) : (
                 <div className="text-center py-8 text-muted-foreground">
                   <Hash className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                  <p>Generate hashes to see results here</p>
+                  <p>{t("generateToSeeResults")}</p>
                 </div>
               )}
             </CardContent>
@@ -287,12 +289,12 @@ export default function HashGenerator() {
       {/* Algorithm Information */}
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>Hash Algorithms</CardTitle>
+          <CardTitle>{t("algorithmInfo")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold mb-2">Algorithm Details</h4>
+              <h4 className="font-semibold mb-2">{t("algorithmDetails")}</h4>
               <div className="space-y-2">
                 {algorithms.map((alg) => (
                   <div
@@ -321,31 +323,31 @@ export default function HashGenerator() {
               </div>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Security Recommendations</h4>
+              <h4 className="font-semibold mb-2">{t("securityRecommendations")}</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
                 <li className="flex items-start gap-2">
                   <Badge variant="destructive" className="text-xs">
-                    Avoid
+                    {t("avoid")}
                   </Badge>
-                  <span>MD5 and SHA-1 are cryptographically broken</span>
+                  <span>{t("avoidDesc")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Badge variant="default" className="text-xs bg-green-500">
-                    Recommended
+                    {t("recommended")}
                   </Badge>
-                  <span>Use SHA-256 for most applications</span>
+                  <span>{t("recommendedDesc")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Badge variant="secondary" className="text-xs">
-                    High Security
+                    {t("highSecurity")}
                   </Badge>
-                  <span>Use SHA-384 or SHA-512 for high-security needs</span>
+                  <span>{t("highSecurityDesc")}</span>
                 </li>
                 <li className="flex items-start gap-2">
                   <Badge variant="outline" className="text-xs">
-                    Note
+                    {t("note")}
                   </Badge>
-                  <span>Always use proper salt for password hashing</span>
+                  <span>{t("noteDesc")}</span>
                 </li>
               </ul>
             </div>

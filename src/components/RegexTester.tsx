@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -21,6 +22,7 @@ import {
 } from "@/components/ui/select";
 
 export default function RegexTester() {
+  const t = useTranslations("Tools.RegexTester");
   const [pattern, setPattern] = useState<string>("");
   const [flags, setFlags] = useState<string>("g");
   const [text, setText] = useState<string>("");
@@ -289,18 +291,18 @@ export default function RegexTester() {
     <div className="container mx-auto p-6 max-w-5xl">
       <Card>
         <CardHeader>
-          <CardTitle>Regex Tester</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <CardDescription>
-            Test JavaScript regular expressions with live highlighting
+            {t("description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
             <div className="space-y-2 md:col-span-3">
-              <label className="text-sm font-medium">Preset</label>
+              <label className="text-sm font-medium">{t("presetLabel")}</label>
               <Select onValueChange={applyPreset}>
                 <SelectTrigger className="w-full">
-                  <SelectValue placeholder="Choose a preset (optional)" />
+                  <SelectValue placeholder={t("presetPlaceholder")} />
                 </SelectTrigger>
                 <SelectContent>
                   {presetOptions.map((p) => (
@@ -312,19 +314,21 @@ export default function RegexTester() {
               </Select>
             </div>
             <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-medium">Pattern</label>
+              <label className="text-sm font-medium">{t("patternLabel")}</label>
               <Input
                 value={pattern}
                 onChange={(e) => setPattern(e.target.value)}
                 placeholder="e.g., ^https?://(.*)$"
+                dir="ltr"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Flags</label>
+              <label className="text-sm font-medium">{t("flagsLabel")}</label>
               <Input
                 value={flags}
                 onChange={(e) => setFlags(e.target.value)}
                 placeholder="g i m s u y d"
+                dir="ltr"
               />
               <div className="flex gap-1 flex-wrap text-xs text-muted-foreground">
                 {["g", "i", "m", "s", "u", "y", "d"].map((f) => (
@@ -343,37 +347,39 @@ export default function RegexTester() {
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Input</label>
+              <label className="text-sm font-medium">{t("inputLabel")}</label>
               <Textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 className="min-h-[220px] font-mono text-sm"
+                dir="ltr"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Output</label>
-              <div className="min-h-[220px] p-3 border rounded bg-muted font-mono text-sm break-words whitespace-pre-wrap">
+              <label className="text-sm font-medium">{t("outputLabel")}</label>
+              <div className="min-h-[220px] p-3 border rounded bg-muted font-mono text-sm break-words whitespace-pre-wrap" dir="ltr">
                 {highlighted}
               </div>
             </div>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
             <div className="space-y-2">
-              <label className="text-sm font-medium">Replacement</label>
+              <label className="text-sm font-medium">{t("replacementLabel")}</label>
               <Input
                 value={replacement}
                 onChange={(e) => setReplacement(e.target.value)}
                 placeholder="Use $1, $<name>, etc."
+                dir="ltr"
               />
             </div>
             <div className="space-y-2">
-              <label className="text-sm font-medium">Replaced Output</label>
-              <div className="min-h-[42px] p-3 border rounded bg-muted font-mono text-sm break-words whitespace-pre-wrap">
+              <label className="text-sm font-medium">{t("replacedOutputLabel")}</label>
+              <div className="min-h-[42px] p-3 border rounded bg-muted font-mono text-sm break-words whitespace-pre-wrap" dir="ltr">
                 {replacedOutput !== null ? (
                   replacedOutput
                 ) : (
                   <span className="text-muted-foreground">
-                    Type a replacement to preview
+                    {t("replacementPlaceholder")}
                   </span>
                 )}
               </div>
@@ -381,16 +387,16 @@ export default function RegexTester() {
           </div>
           <div className="text-sm text-destructive h-5">{error}</div>
           <div className="text-sm text-muted-foreground">
-            Matches: {matches.length}
+            {t("matchesCount", { count: matches.length })}
           </div>
           {matchDetails.length > 0 ? (
             <div className="space-y-2">
-              <div className="text-sm font-medium">Capture Groups</div>
+              <div className="text-sm font-medium">{t("captureGroups")}</div>
               <div className="space-y-3">
                 {matchDetails.map((m, idx) => (
                   <div key={`${m.index}-${idx}`} className="text-xs">
                     <div className="flex items-center gap-2">
-                      <Badge variant="outline">Match {idx + 1}</Badge>
+                      <Badge variant="outline">{t("matchLabel", { n: idx + 1 })}</Badge>
                       <span className="font-mono">"{m.match}"</span>
                       <span className="text-muted-foreground">@ {m.index}</span>
                       {m.indices?.span && (
@@ -446,7 +452,7 @@ export default function RegexTester() {
                       </div>
                     ) : (
                       <div className="text-muted-foreground">
-                        (no capture groups)
+                        {t("noCaptureGroups")}
                       </div>
                     )}
                   </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -47,6 +48,7 @@ const PRESETS = [
 ];
 
 export default function ContrastChecker() {
+  const t = useTranslations("Tools.ContrastChecker");
   const [fg, setFg] = useState("#1D4ED8");
   const [bg, setBg] = useState("#FFFFFF");
   const [fgInput, setFgInput] = useState("#1D4ED8");
@@ -103,9 +105,9 @@ export default function ContrastChecker() {
     if (ratio === null) return;
     try {
       await navigator.clipboard.writeText(ratioStr);
-      toast.success("Contrast ratio copied");
+      toast.success(t("ratioCopied"));
     } catch {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   }, [ratio, ratioStr]);
 
@@ -121,9 +123,9 @@ export default function ContrastChecker() {
 
   const PassBadge = ({ pass }: { pass: boolean }) =>
     pass ? (
-      <Badge className="bg-green-500 text-white gap-1"><CheckCircle className="w-3 h-3" />Pass</Badge>
+      <Badge className="bg-green-500 text-white gap-1"><CheckCircle className="w-3 h-3" />{t("pass")}</Badge>
     ) : (
-      <Badge variant="destructive" className="gap-1"><XCircle className="w-3 h-3" />Fail</Badge>
+      <Badge variant="destructive" className="gap-1"><XCircle className="w-3 h-3" />{t("fail")}</Badge>
     );
 
   return (
@@ -134,20 +136,20 @@ export default function ContrastChecker() {
             <Eye className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Contrast Checker</h1>
-            <p className="text-sm text-muted-foreground">WCAG color contrast accessibility checker</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
         </div>
 
         {/* Color Inputs */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Colors</CardTitle>
+            <CardTitle className="text-base">{t("colors")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Foreground Color</Label>
+                <Label>{t("foregroundColor")}</Label>
                 <div className="flex gap-2">
                   <div className="relative">
                     <input
@@ -166,7 +168,7 @@ export default function ContrastChecker() {
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Background Color</Label>
+                <Label>{t("backgroundColor")}</Label>
                 <div className="flex gap-2">
                   <input
                     type="color"
@@ -184,8 +186,8 @@ export default function ContrastChecker() {
               </div>
             </div>
             <Button variant="outline" onClick={swap} className="w-full">
-              <ArrowLeftRight className="w-4 h-4 mr-2" />
-              Swap Colors
+              <ArrowLeftRight className="w-4 h-4 me-2" />
+              {t("swapColors")}
             </Button>
           </CardContent>
         </Card>
@@ -195,12 +197,12 @@ export default function ContrastChecker() {
           <CardContent className="pt-6 pb-6">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm text-muted-foreground mb-1">Contrast Ratio</p>
+                <p className="text-sm text-muted-foreground mb-1">{t("contrastRatio")}</p>
                 <p className="text-5xl font-bold font-mono tracking-tight">{ratioStr}</p>
               </div>
               <Button variant="outline" onClick={copyRatio} disabled={ratio === null}>
-                <Copy className="w-4 h-4 mr-2" />
-                Copy
+                <Copy className="w-4 h-4 me-2" />
+                {t("copy")}
               </Button>
             </div>
           </CardContent>
@@ -210,16 +212,16 @@ export default function ContrastChecker() {
         {checks && (
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-base">WCAG Compliance</CardTitle>
-              <CardDescription>Web Content Accessibility Guidelines 2.1</CardDescription>
+              <CardTitle className="text-base">{t("wcagCompliance")}</CardTitle>
+              <CardDescription>{t("wcagDescription")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: "AA Normal Text", sublabel: "≥ 4.5:1", pass: checks.aaNormal },
-                  { label: "AA Large Text", sublabel: "≥ 3:1 (18pt+ or 14pt+ bold)", pass: checks.aaLarge },
-                  { label: "AAA Normal Text", sublabel: "≥ 7:1", pass: checks.aaaNormal },
-                  { label: "AAA Large Text", sublabel: "≥ 4.5:1", pass: checks.aaaLarge },
+                  { label: t("aaNormal"), sublabel: t("aaNormalSub"), pass: checks.aaNormal },
+                  { label: t("aaLarge"), sublabel: t("aaLargeSub"), pass: checks.aaLarge },
+                  { label: t("aaaNormal"), sublabel: t("aaaNormalSub"), pass: checks.aaaNormal },
+                  { label: t("aaaLarge"), sublabel: t("aaaLargeSub"), pass: checks.aaaLarge },
                 ].map(({ label, sublabel, pass }) => (
                   <div key={label} className={`p-3 rounded-lg border ${pass ? "bg-green-50 dark:bg-green-950/20 border-green-200 dark:border-green-800" : "bg-red-50 dark:bg-red-950/20 border-red-200 dark:border-red-800"}`}>
                     <div className="flex items-center justify-between mb-1">
@@ -237,16 +239,16 @@ export default function ContrastChecker() {
         {/* Live Preview */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Preview</CardTitle>
+            <CardTitle className="text-base">{t("preview")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="rounded-lg overflow-hidden border" style={{ backgroundColor: bg, color: fg }}>
               <div className="p-6 space-y-4">
                 <p style={{ fontSize: "16px", fontWeight: "normal" }}>
-                  Normal text (16px) — The quick brown fox jumps over the lazy dog
+                  {t("previewNormalText")}
                 </p>
                 <p style={{ fontSize: "24px", fontWeight: "bold" }}>
-                  Large text (24px bold) — Accessibility matters
+                  {t("previewLargeText")}
                 </p>
                 <div>
                   <button
@@ -261,7 +263,7 @@ export default function ContrastChecker() {
                       cursor: "default",
                     }}
                   >
-                    Button Component
+                    {t("previewButton")}
                   </button>
                 </div>
                 <div
@@ -273,7 +275,7 @@ export default function ContrastChecker() {
                     display: "inline-block",
                   }}
                 >
-                  UI Component Example
+                  {t("previewUI")}
                 </div>
               </div>
             </div>
@@ -283,7 +285,7 @@ export default function ContrastChecker() {
         {/* Presets */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Presets</CardTitle>
+            <CardTitle className="text-base">{t("presets")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
@@ -291,7 +293,7 @@ export default function ContrastChecker() {
                 <button
                   key={p.label}
                   onClick={() => applyPreset(p)}
-                  className="flex items-center gap-2 p-2 rounded-lg border hover:border-primary hover:bg-muted/30 transition-all text-left"
+                  className="flex items-center gap-2 p-2 rounded-lg border hover:border-primary hover:bg-muted/30 transition-all text-start"
                 >
                   <div className="flex flex-shrink-0">
                     <div className="w-5 h-5 rounded-l border" style={{ backgroundColor: p.fg }} />

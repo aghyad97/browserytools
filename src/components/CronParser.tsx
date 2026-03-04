@@ -1,6 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -23,6 +24,7 @@ import cronstrue from "cronstrue";
 import { toast } from "sonner";
 
 export default function CronParser() {
+  const t = useTranslations("Tools.CronParser");
   const [activeTab, setActiveTab] = useState<string>("parse");
   const [expr, setExpr] = useState<string>("*/5 * * * *");
   const [count, setCount] = useState<number>(5);
@@ -89,16 +91,16 @@ export default function CronParser() {
       <div className="flex-1 overflow-auto p-6">
         <Card className="shadow-none">
           <CardHeader>
-            <CardTitle>Cron Tools</CardTitle>
+            <CardTitle>{t("title")}</CardTitle>
             <CardDescription>
-              Parse, build, and understand cron expressions
+              {t("description")}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2">
-                <TabsTrigger value="parse">Parser</TabsTrigger>
-                <TabsTrigger value="build">Builder</TabsTrigger>
+                <TabsTrigger value="parse">{t("parserTab")}</TabsTrigger>
+                <TabsTrigger value="build">{t("builderTab")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="parse" className="space-y-4">
@@ -140,7 +142,8 @@ export default function CronParser() {
                           Math.max(1, Math.min(20, Number(e.target.value) || 5))
                         )
                       }
-                      placeholder="Count"
+                      placeholder={t("countPlaceholder")}
+                      dir="ltr"
                     />
                   </div>
                 </div>
@@ -154,11 +157,11 @@ export default function CronParser() {
                 )}
                 <div className="space-y-2">
                   <div className="text-sm text-muted-foreground">
-                    Next runs:
+                    {t("nextRuns")}
                   </div>
                   <ul className="text-sm list-disc pl-5">
                     {parseResult.next.length === 0 && (
-                      <li>No matches (check expression)</li>
+                      <li>{t("noMatches")}</li>
                     )}
                     {parseResult.next.map((s, i) => (
                       <li key={i}>{s}</li>
@@ -172,31 +175,36 @@ export default function CronParser() {
                   <Input
                     value={min}
                     onChange={(e) => setMin(e.target.value)}
-                    placeholder="Minute"
+                    placeholder={t("minutePlaceholder")}
+                    dir="ltr"
                   />
                   <Input
                     value={hour}
                     onChange={(e) => setHour(e.target.value)}
-                    placeholder="Hour"
+                    placeholder={t("hourPlaceholder")}
+                    dir="ltr"
                   />
                   <Input
                     value={dom}
                     onChange={(e) => setDom(e.target.value)}
-                    placeholder="Day of Month"
+                    placeholder={t("dayOfMonthPlaceholder")}
+                    dir="ltr"
                   />
                   <Input
                     value={mon}
                     onChange={(e) => setMon(e.target.value)}
-                    placeholder="Month"
+                    placeholder={t("monthPlaceholder")}
+                    dir="ltr"
                   />
                   <Input
                     value={dow}
                     onChange={(e) => setDow(e.target.value)}
-                    placeholder="Day of Week"
+                    placeholder={t("dayOfWeekPlaceholder")}
+                    dir="ltr"
                   />
                 </div>
                 <div className="text-sm">
-                  Expression: <span className="font-mono">{builtExpr}</span>
+                  {t("expressionLabel")} <span className="font-mono" dir="ltr">{builtExpr}</span>
                 </div>
                 <div className="text-sm text-muted-foreground">
                   {builderPreview.description}
@@ -208,7 +216,7 @@ export default function CronParser() {
                 )}
                 <div className="space-y-2">
                   <div className="text-sm text-muted-foreground">
-                    Next runs:
+                    {t("nextRuns")}
                   </div>
                   <ul className="text-sm list-disc pl-5">
                     {builderPreview.next.map((s, i) => (
@@ -227,7 +235,7 @@ export default function CronParser() {
                       setDow("*");
                     }}
                   >
-                    Every day at 00:00
+                    {t("presetEveryDay")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -239,7 +247,7 @@ export default function CronParser() {
                       setDow("*");
                     }}
                   >
-                    Every hour
+                    {t("presetEveryHour")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -251,7 +259,7 @@ export default function CronParser() {
                       setDow("1-5");
                     }}
                   >
-                    Weekdays at 09:00
+                    {t("presetWeekdays9")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -263,7 +271,7 @@ export default function CronParser() {
                       setDow("*");
                     }}
                   >
-                    Every 15 minutes
+                    {t("presetEvery15")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -275,7 +283,7 @@ export default function CronParser() {
                       setDow("*");
                     }}
                   >
-                    Every 30 minutes
+                    {t("presetEvery30")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -287,7 +295,7 @@ export default function CronParser() {
                       setDow("1-5");
                     }}
                   >
-                    Weekdays at 08:30
+                    {t("presetWeekdays830")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -299,7 +307,7 @@ export default function CronParser() {
                       setDow("0");
                     }}
                   >
-                    Weekly on Sunday 00:00
+                    {t("presetWeeklySunday")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -311,7 +319,7 @@ export default function CronParser() {
                       setDow("*");
                     }}
                   >
-                    Monthly on 1st at 09:00
+                    {t("presetMonthly1st")}
                   </Button>
                   <Button
                     variant="secondary"
@@ -323,7 +331,7 @@ export default function CronParser() {
                       setDow("*");
                     }}
                   >
-                    Quarterly, 1st day 00:00
+                    {t("presetQuarterly")}
                   </Button>
                 </div>
                 <div className="flex justify-end gap-2">
@@ -332,15 +340,15 @@ export default function CronParser() {
                     onClick={async () => {
                       try {
                         await navigator.clipboard.writeText(builtExpr);
-                        toast.success("Copied to clipboard");
+                        toast.success(t("copiedToClipboard"));
                       } catch {
-                        toast.error("Copy failed");
+                        toast.error(t("copyFailed"));
                       }
                     }}
                   >
-                    Copy expression
+                    {t("copyExpression")}
                   </Button>
-                  <Button onClick={applyFromBuilder}>Use in Parser</Button>
+                  <Button onClick={applyFromBuilder}>{t("useInParser")}</Button>
                 </div>
               </TabsContent>
             </Tabs>

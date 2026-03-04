@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { ChartSettings, THEME_PRESETS } from "@/types/chart";
 import type { ChartType } from "@/types/chart";
 // No inner cards here; this component is rendered inside an outer Card
@@ -36,6 +37,7 @@ export function ChartCustomizationPanel({
   dataKeys,
   chartType,
 }: ChartCustomizationPanelProps) {
+  const t = useTranslations("Tools.Charts");
   const [customColor, setCustomColor] = useState("#3b82f6");
 
   const updateSetting = <K extends keyof ChartSettings>(
@@ -67,7 +69,7 @@ export function ChartCustomizationPanel({
     if (customColor && !settings.customColors.includes(customColor)) {
       const newColors = [...settings.customColors, customColor];
       updateSetting("customColors", newColors);
-      toast.success("Color added to custom palette");
+      toast.success(t("colorAddedToPalette"));
     }
   };
 
@@ -87,7 +89,7 @@ export function ChartCustomizationPanel({
       // keep customColors in sync for display purposes
       customColors: preset.colors,
     });
-    toast.success(`Applied ${preset.name} theme`);
+    toast.success(t("appliedTheme", { name: preset.name }));
   };
 
   const getColorForDataKey = (key: string, index: number): string => {
@@ -123,7 +125,7 @@ export function ChartCustomizationPanel({
       colorScheme: "custom",
       customColors: newColors,
     });
-    toast.success("Applied theme colors in order");
+    toast.success(t("appliedThemeInOrder"));
   };
 
   const applyThemeRandomToCustom = () => {
@@ -136,35 +138,35 @@ export function ChartCustomizationPanel({
       colorScheme: "custom",
       customColors: shuffled,
     });
-    toast.success("Applied randomized theme colors");
+    toast.success(t("appliedThemeRandomized"));
   };
 
   return (
     <div className="space-y-6">
       <div>
-        <h3 className="text-lg font-semibold">Customization</h3>
+        <h3 className="text-lg font-semibold">{t("customizationHeading")}</h3>
         <p className="text-sm text-muted-foreground">
-          Customize your chart appearance, colors, and behavior
+          {t("customizationSubtitle")}
         </p>
       </div>
 
       <Tabs defaultValue="general" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="general">
-            <Settings className="h-4 w-4 mr-2" />
-            General
+            <Settings className="h-4 w-4 me-2" />
+            {t("tabGeneral")}
           </TabsTrigger>
           <TabsTrigger value="colors">
-            <Palette className="h-4 w-4 mr-2" />
-            Colors
+            <Palette className="h-4 w-4 me-2" />
+            {t("tabColors")}
           </TabsTrigger>
           <TabsTrigger value="text">
-            <Type className="h-4 w-4 mr-2" />
-            Text
+            <Type className="h-4 w-4 me-2" />
+            {t("tabText")}
           </TabsTrigger>
           <TabsTrigger value="layout">
-            <Layout className="h-4 w-4 mr-2" />
-            Layout
+            <Layout className="h-4 w-4 me-2" />
+            {t("tabLayout")}
           </TabsTrigger>
         </TabsList>
 
@@ -172,15 +174,15 @@ export function ChartCustomizationPanel({
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="title">Chart Title</Label>
+                <Label htmlFor="title">{t("chartTitleLabel")}</Label>
                 <Input
                   id="title"
                   value={settings.title}
                   onChange={(e) => updateSetting("title", e.target.value)}
-                  placeholder="Enter chart title"
+                  placeholder={t("chartTitlePlaceholder")}
                 />
                 <div className="mt-2">
-                  <Label>Title Color</Label>
+                  <Label>{t("titleColor")}</Label>
                   <Input
                     type="color"
                     value={settings.titleColor || "#000000"}
@@ -191,15 +193,15 @@ export function ChartCustomizationPanel({
                 </div>
               </div>
               <div>
-                <Label htmlFor="subtitle">Subtitle (Optional)</Label>
+                <Label htmlFor="subtitle">{t("subtitleLabel")}</Label>
                 <Input
                   id="subtitle"
                   value={settings.subtitle || ""}
                   onChange={(e) => updateSetting("subtitle", e.target.value)}
-                  placeholder="Enter subtitle"
+                  placeholder={t("subtitlePlaceholder")}
                 />
                 <div className="mt-2">
-                  <Label>Subtitle Color</Label>
+                  <Label>{t("subtitleColor")}</Label>
                   <Input
                     type="color"
                     value={settings.subtitleColor || "#666666"}
@@ -213,7 +215,7 @@ export function ChartCustomizationPanel({
 
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="width">Width (px)</Label>
+                <Label htmlFor="width">{t("widthPx")}</Label>
                 <Input
                   id="width"
                   type="number"
@@ -226,7 +228,7 @@ export function ChartCustomizationPanel({
                 />
               </div>
               <div>
-                <Label htmlFor="height">Height (px)</Label>
+                <Label htmlFor="height">{t("heightPx")}</Label>
                 <Input
                   id="height"
                   type="number"
@@ -242,7 +244,7 @@ export function ChartCustomizationPanel({
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label htmlFor="show-legend">Show Legend</Label>
+                <Label htmlFor="show-legend">{t("showLegend")}</Label>
                 <Switch
                   id="show-legend"
                   checked={settings.showLegend}
@@ -252,7 +254,7 @@ export function ChartCustomizationPanel({
                 />
               </div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="show-tooltip">Show Tooltip</Label>
+                <Label htmlFor="show-tooltip">{t("showTooltip")}</Label>
                 <Switch
                   id="show-tooltip"
                   checked={settings.showTooltip}
@@ -263,7 +265,7 @@ export function ChartCustomizationPanel({
               </div>
               <div className="grid grid-cols-2 gap-2 items-center">
                 <div className="flex items-center justify-between">
-                  <Label htmlFor="show-grid">Show Grid</Label>
+                  <Label htmlFor="show-grid">{t("showGrid")}</Label>
                   <Switch
                     id="show-grid"
                     checked={settings.showGrid}
@@ -277,7 +279,7 @@ export function ChartCustomizationPanel({
                     !settings.showGrid ? "opacity-50 pointer-events-none" : ""
                   }
                 >
-                  <Label>Grid Color</Label>
+                  <Label>{t("gridColor")}</Label>
                   <Input
                     type="color"
                     value={settings.gridColor || "#e5e7eb"}
@@ -292,7 +294,7 @@ export function ChartCustomizationPanel({
         <TabsContent value="colors" className="space-y-4">
           <div className="space-y-4">
             <div>
-              <Label>Color Scheme</Label>
+              <Label>{t("colorScheme")}</Label>
               <Select
                 value={settings.colorScheme}
                 onValueChange={(value: "default" | "custom" | "preset") =>
@@ -303,16 +305,16 @@ export function ChartCustomizationPanel({
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="default">Default</SelectItem>
-                  <SelectItem value="preset">Theme Preset</SelectItem>
-                  <SelectItem value="custom">Custom Colors</SelectItem>
+                  <SelectItem value="default">{t("colorSchemeDefault")}</SelectItem>
+                  <SelectItem value="preset">{t("colorSchemePreset")}</SelectItem>
+                  <SelectItem value="custom">{t("colorSchemeCustom")}</SelectItem>
                 </SelectContent>
               </Select>
             </div>
 
             {settings.colorScheme === "preset" && (
               <div>
-                <Label>Theme Presets</Label>
+                <Label>{t("themePresets")}</Label>
                 <div className="grid grid-cols-2 gap-2 mt-2">
                   {THEME_PRESETS.map((preset) => (
                     <Button
@@ -347,14 +349,14 @@ export function ChartCustomizationPanel({
                     variant="outline"
                     onClick={applyThemeOrderToCustom}
                   >
-                    Use in order
+                    {t("useInOrder")}
                   </Button>
                   <Button
                     size="sm"
                     variant="outline"
                     onClick={applyThemeRandomToCustom}
                   >
-                    Randomize from theme
+                    {t("randomizeFromTheme")}
                   </Button>
                 </div>
               </div>
@@ -363,7 +365,7 @@ export function ChartCustomizationPanel({
             {settings.colorScheme === "custom" && (
               <div className="space-y-4">
                 <div>
-                  <Label>Series Colors</Label>
+                  <Label>{t("seriesColors")}</Label>
                   <div className="space-y-2 mt-2">
                     {dataKeys.map((key, index) => {
                       const current =
@@ -409,28 +411,28 @@ export function ChartCustomizationPanel({
           <div className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="x-axis-label">X-Axis Label</Label>
+                <Label htmlFor="x-axis-label">{t("xAxisLabel")}</Label>
                 <Input
                   id="x-axis-label"
                   value={settings.xAxisLabel || ""}
                   onChange={(e) => updateSetting("xAxisLabel", e.target.value)}
-                  placeholder="Enter X-axis label"
+                  placeholder={t("xAxisPlaceholder")}
                 />
               </div>
               <div>
-                <Label htmlFor="y-axis-label">Y-Axis Label</Label>
+                <Label htmlFor="y-axis-label">{t("yAxisLabel")}</Label>
                 <Input
                   id="y-axis-label"
                   value={settings.yAxisLabel || ""}
                   onChange={(e) => updateSetting("yAxisLabel", e.target.value)}
-                  placeholder="Enter Y-axis label"
+                  placeholder={t("yAxisPlaceholder")}
                 />
               </div>
             </div>
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label htmlFor="show-x-axis">Show X-Axis</Label>
+                <Label htmlFor="show-x-axis">{t("showXAxis")}</Label>
                 <Switch
                   id="show-x-axis"
                   checked={settings.showXAxis}
@@ -440,7 +442,7 @@ export function ChartCustomizationPanel({
                 />
               </div>
               <div className="flex items-center justify-between">
-                <Label htmlFor="show-y-axis">Show Y-Axis</Label>
+                <Label htmlFor="show-y-axis">{t("showYAxis")}</Label>
                 <Switch
                   id="show-y-axis"
                   checked={settings.showYAxis}
@@ -461,7 +463,7 @@ export function ChartCustomizationPanel({
                 <div className="space-y-3">
                   <div>
                     <Label>
-                      Fill Opacity: {settings.areaSettings.fillOpacity}
+                      {t("fillOpacity", { val: settings.areaSettings.fillOpacity })}
                     </Label>
                     <Slider
                       value={[settings.areaSettings.fillOpacity]}
@@ -480,7 +482,7 @@ export function ChartCustomizationPanel({
                   </div>
                   <div>
                     <Label>
-                      Stroke Width: {settings.areaSettings.strokeWidth}
+                      {t("strokeWidth", { val: settings.areaSettings.strokeWidth })}
                     </Label>
                     <Slider
                       value={[settings.areaSettings.strokeWidth]}
@@ -498,7 +500,7 @@ export function ChartCustomizationPanel({
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="area-smooth">Smooth Curves</Label>
+                    <Label htmlFor="area-smooth">{t("smoothCurves")}</Label>
                     <Switch
                       id="area-smooth"
                       checked={settings.areaSettings.smooth}
@@ -514,10 +516,10 @@ export function ChartCustomizationPanel({
             {/* Bar Chart Settings */}
             {chartType === "bar" && settings.barSettings && (
               <div>
-                <h4 className="font-medium mb-3">Bar Chart</h4>
+                <h4 className="font-medium mb-3">{t("barChartHeading")}</h4>
                 <div className="space-y-3">
                   <div>
-                    <Label>Bar Width: {settings.barSettings.barWidth}</Label>
+                    <Label>{t("barWidth", { val: settings.barSettings.barWidth })}</Label>
                     <Slider
                       value={[settings.barSettings.barWidth]}
                       onValueChange={([value]) =>
@@ -530,7 +532,7 @@ export function ChartCustomizationPanel({
                     />
                   </div>
                   <div>
-                    <Label>Bar Gap: {settings.barSettings.barGap}</Label>
+                    <Label>{t("barGap", { val: settings.barSettings.barGap })}</Label>
                     <Slider
                       value={[settings.barSettings.barGap]}
                       onValueChange={([value]) =>
@@ -549,11 +551,11 @@ export function ChartCustomizationPanel({
             {/* Line Chart Settings */}
             {chartType === "line" && settings.lineSettings && (
               <div>
-                <h4 className="font-medium mb-3">Line Chart</h4>
+                <h4 className="font-medium mb-3">{t("lineChartHeading")}</h4>
                 <div className="space-y-3">
                   <div>
                     <Label>
-                      Stroke Width: {settings.lineSettings.strokeWidth}
+                      {t("lineStrokeWidth", { val: settings.lineSettings.strokeWidth })}
                     </Label>
                     <Slider
                       value={[settings.lineSettings.strokeWidth]}
@@ -571,7 +573,7 @@ export function ChartCustomizationPanel({
                     />
                   </div>
                   <div>
-                    <Label>Dot Size: {settings.lineSettings.dotSize}</Label>
+                    <Label>{t("dotSize", { val: settings.lineSettings.dotSize })}</Label>
                     <Slider
                       value={[settings.lineSettings.dotSize]}
                       onValueChange={([value]) =>
@@ -584,7 +586,7 @@ export function ChartCustomizationPanel({
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="line-smooth">Smooth Lines</Label>
+                    <Label htmlFor="line-smooth">{t("smoothLines")}</Label>
                     <Switch
                       id="line-smooth"
                       checked={settings.lineSettings.smooth}
@@ -594,7 +596,7 @@ export function ChartCustomizationPanel({
                     />
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="line-dots">Show Dots</Label>
+                    <Label htmlFor="line-dots">{t("showDots")}</Label>
                     <Switch
                       id="line-dots"
                       checked={settings.lineSettings.showDots}
@@ -610,11 +612,11 @@ export function ChartCustomizationPanel({
             {/* Pie/Radial Settings */}
             {chartType === "pie" && settings.pieSettings && (
               <div>
-                <h4 className="font-medium mb-3">Pie Chart</h4>
+                <h4 className="font-medium mb-3">{t("pieChartHeading")}</h4>
                 <div className="space-y-3">
                   <div>
                     <Label>
-                      Inner Radius: {settings.pieSettings.innerRadius}
+                      {t("pieInnerRadius", { val: settings.pieSettings.innerRadius })}
                     </Label>
                     <Slider
                       value={[settings.pieSettings.innerRadius]}
@@ -629,7 +631,7 @@ export function ChartCustomizationPanel({
                   </div>
                   <div>
                     <Label>
-                      Outer Radius: {settings.pieSettings.outerRadius}
+                      {t("pieOuterRadius", { val: settings.pieSettings.outerRadius })}
                     </Label>
                     <Slider
                       value={[settings.pieSettings.outerRadius]}
@@ -643,7 +645,7 @@ export function ChartCustomizationPanel({
                     />
                   </div>
                   <div>
-                    <Label>Label Position</Label>
+                    <Label>{t("labelPosition")}</Label>
                     <Select
                       value={settings.pieSettings.labelPosition}
                       onValueChange={(value: "inside" | "outside" | "center") =>
@@ -658,14 +660,14 @@ export function ChartCustomizationPanel({
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="inside">Inside</SelectItem>
-                        <SelectItem value="outside">Outside</SelectItem>
-                        <SelectItem value="center">Center</SelectItem>
+                        <SelectItem value="inside">{t("labelInside")}</SelectItem>
+                        <SelectItem value="outside">{t("labelOutside")}</SelectItem>
+                        <SelectItem value="center">{t("labelCenter")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="pie-labels">Show Labels</Label>
+                    <Label htmlFor="pie-labels">{t("showLabels")}</Label>
                     <Switch
                       id="pie-labels"
                       checked={settings.pieSettings.showLabels}
@@ -684,11 +686,11 @@ export function ChartCustomizationPanel({
 
             {chartType === "radial" && settings.radialSettings && (
               <div>
-                <h4 className="font-medium mb-3">Radial Chart</h4>
+                <h4 className="font-medium mb-3">{t("radialChartHeading")}</h4>
                 <div className="space-y-3">
                   <div>
                     <Label>
-                      Inner Radius: {settings.radialSettings.innerRadius}
+                      {t("radialInnerRadius", { val: settings.radialSettings.innerRadius })}
                     </Label>
                     <Slider
                       value={[settings.radialSettings.innerRadius]}
@@ -707,7 +709,7 @@ export function ChartCustomizationPanel({
                   </div>
                   <div>
                     <Label>
-                      Outer Radius: {settings.radialSettings.outerRadius}
+                      {t("radialOuterRadius", { val: settings.radialSettings.outerRadius })}
                     </Label>
                     <Slider
                       value={[settings.radialSettings.outerRadius]}
@@ -725,7 +727,7 @@ export function ChartCustomizationPanel({
                     />
                   </div>
                   <div>
-                    <Label>Angles</Label>
+                    <Label>{t("angles")}</Label>
                     <div className="grid grid-cols-2 gap-3">
                       <Slider
                         value={[settings.radialSettings.startAngle]}
@@ -756,7 +758,7 @@ export function ChartCustomizationPanel({
                     </div>
                   </div>
                   <div className="flex items-center justify-between">
-                    <Label htmlFor="radial-labels">Show Labels</Label>
+                    <Label htmlFor="radial-labels">{t("showLabels")}</Label>
                     <Switch
                       id="radial-labels"
                       checked={settings.radialSettings.showLabels}

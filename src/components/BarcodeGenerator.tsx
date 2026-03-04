@@ -22,6 +22,7 @@ import { Slider } from "@/components/ui/slider";
 import { Copy, Download, RotateCcw, BarChart3 } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 // Barcode types supported by JsBarcode
 const BARCODE_TYPES = [
@@ -68,6 +69,7 @@ const SAMPLE_DATA = {
 };
 
 export default function BarcodeGenerator() {
+  const t = useTranslations("Tools.BarcodeGenerator");
   const [inputText, setInputText] = useState("");
   const [barcodeType, setBarcodeType] = useState("CODE128");
   const [width, setWidth] = useState(2);
@@ -80,7 +82,7 @@ export default function BarcodeGenerator() {
 
   const generateBarcode = async () => {
     if (!inputText.trim()) {
-      toast.error("No text to encode");
+      toast.error(t("noTextToEncode"));
       return;
     }
 
@@ -105,14 +107,14 @@ export default function BarcodeGenerator() {
       JsBarcode(canvas, inputText, options);
     } catch (error) {
       console.error("Error generating barcode:", error);
-      toast.error("Error generating barcode");
+      toast.error(t("errorGenerating"));
     }
   };
 
   const handleCopy = async () => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      toast.error("No barcode to copy");
+      toast.error(t("noBarcodeToDownload"));
       return;
     }
 
@@ -124,18 +126,18 @@ export default function BarcodeGenerator() {
               [blob.type]: blob,
             }),
           ]);
-          toast.success("Copied to clipboard");
+          toast.success(t("copiedToClipboard"));
         }
       });
     } catch (error) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
   const handleDownload = async () => {
     const canvas = canvasRef.current;
     if (!canvas) {
-      toast.error("No barcode to download");
+      toast.error(t("noBarcodeToDownload"));
       return;
     }
 
@@ -147,9 +149,9 @@ export default function BarcodeGenerator() {
       link.click();
       document.body.removeChild(link);
 
-      toast.success("Download started");
+      toast.success(t("downloadStarted"));
     } catch (error) {
-      toast.error("Download failed");
+      toast.error(t("downloadFailed"));
     }
   };
 
@@ -183,17 +185,17 @@ export default function BarcodeGenerator() {
     <div className="container mx-auto p-4 max-w-7xl">
       <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
         {/* Input Section - Sticky Sidebar */}
-        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
+        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pe-4 scrollbar-hide">
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle>Input</CardTitle>
+              <CardTitle>{t("inputTitle")}</CardTitle>
               <CardDescription>
-                Enter the data you want to encode as a barcode
+                {t("inputDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="barcode-type">Barcode Type</Label>
+                <Label htmlFor="barcode-type">{t("barcodeType")}</Label>
                 <Select value={barcodeType} onValueChange={setBarcodeType}>
                   <SelectTrigger>
                     <SelectValue />
@@ -214,17 +216,18 @@ export default function BarcodeGenerator() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="input-text">Data to Encode</Label>
+                <Label htmlFor="input-text">{t("dataToEncode")}</Label>
                 <Input
                   id="input-text"
-                  placeholder="Enter data to encode..."
+                  placeholder={t("dataPlaceholder")}
                   value={inputText}
                   onChange={(e) => setInputText(e.target.value)}
+                  dir="ltr"
                 />
               </div>
 
               <div className="space-y-2">
-                <Label>Sample Data</Label>
+                <Label>{t("sampleData")}</Label>
                 <div className="grid grid-cols-2 gap-2">
                   <Button
                     variant="outline"
@@ -273,15 +276,15 @@ export default function BarcodeGenerator() {
           {/* Settings */}
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle>Settings</CardTitle>
+              <CardTitle>{t("settingsTitle")}</CardTitle>
               <CardDescription>
-                Customize your barcode appearance
+                {t("settingsDesc")}
               </CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="width">
-                  Bar Width: <NumberFlow value={width} />
+                  {t("barWidth")} <NumberFlow value={width} />
                 </Label>
                 <Slider
                   id="width"
@@ -296,7 +299,7 @@ export default function BarcodeGenerator() {
 
               <div className="space-y-2">
                 <Label htmlFor="height">
-                  Height: <NumberFlow value={height} />
+                  {t("height")} <NumberFlow value={height} />
                   px
                 </Label>
                 <Slider
@@ -312,7 +315,7 @@ export default function BarcodeGenerator() {
 
               <div className="space-y-2">
                 <Label htmlFor="font-size">
-                  Font Size: <NumberFlow value={fontSize} />
+                  {t("fontSize")} <NumberFlow value={fontSize} />
                   px
                 </Label>
                 <Slider
@@ -328,7 +331,7 @@ export default function BarcodeGenerator() {
 
               <div className="space-y-2">
                 <Label htmlFor="margin">
-                  Margin: <NumberFlow value={margin} />
+                  {t("margin")} <NumberFlow value={margin} />
                   px
                 </Label>
                 <Slider
@@ -343,12 +346,13 @@ export default function BarcodeGenerator() {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="filename">Download Filename</Label>
+                <Label htmlFor="filename">{t("downloadFilename")}</Label>
                 <Input
                   id="filename"
                   value={fileName}
                   onChange={(e) => setFileName(e.target.value)}
                   placeholder="barcode"
+                  dir="ltr"
                 />
               </div>
             </CardContent>
@@ -359,8 +363,8 @@ export default function BarcodeGenerator() {
         <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit space-y-4">
           <Card className="shadow-none">
             <CardHeader>
-              <CardTitle>Barcode</CardTitle>
-              <CardDescription>Your generated barcode</CardDescription>
+              <CardTitle>{t("barcodeTitle")}</CardTitle>
+              <CardDescription>{t("barcodeDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
               <div className="flex flex-col items-center space-y-4">
@@ -377,7 +381,7 @@ export default function BarcodeGenerator() {
                     className="flex items-center gap-2"
                   >
                     <Copy className="w-4 h-4" />
-                    Copy
+                    {t("copy")}
                   </Button>
                   <Button
                     onClick={handleDownload}
@@ -385,7 +389,7 @@ export default function BarcodeGenerator() {
                     className="flex items-center gap-2"
                   >
                     <Download className="w-4 h-4" />
-                    Download PNG
+                    {t("downloadPng")}
                   </Button>
                 </div>
               </div>
@@ -395,7 +399,7 @@ export default function BarcodeGenerator() {
           {/* Info */}
           <Card className="shadow-none">
             <CardContent className="p-6">
-              <h3 className="font-semibold mb-2">Barcode Types</h3>
+              <h3 className="font-semibold mb-2">{t("barcodeTypesTitle")}</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-muted-foreground">
                 {BARCODE_TYPES.map((type) => (
                   <div key={type.value}>

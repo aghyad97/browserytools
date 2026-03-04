@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -76,6 +77,7 @@ function applySimulation(imageData: ImageData, type: SimType): ImageData {
 }
 
 export default function ColorBlindnessSimulator() {
+  const t = useTranslations("Tools.ColorBlindnessSimulator");
   const [originalSrc, setOriginalSrc] = useState<string | null>(null);
   const [simSrc, setSimSrc] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<SimType>("deuteranopia");
@@ -111,7 +113,7 @@ export default function ColorBlindnessSimulator() {
       setSimSrc(canvas.toDataURL("image/png"));
       setImageDims({ w: img.naturalWidth, h: img.naturalHeight });
     } catch (err) {
-      toast.error("Failed to process image");
+      toast.error(t("processError"));
       console.error(err);
     } finally {
       setProcessing(false);
@@ -121,7 +123,7 @@ export default function ColorBlindnessSimulator() {
   const handleFile = useCallback(
     (file: File) => {
       if (!file.type.startsWith("image/")) {
-        toast.error("Please upload a JPG, PNG, or WebP image");
+        toast.error(t("uploadError"));
         return;
       }
       const reader = new FileReader();
@@ -158,7 +160,7 @@ export default function ColorBlindnessSimulator() {
     a.href = simSrc;
     a.download = `${activeTab}-simulation.png`;
     a.click();
-    toast.success("Image downloaded");
+    toast.success(t("downloaded"));
   };
 
   const info = SIM_INFO[activeTab];
@@ -171,8 +173,8 @@ export default function ColorBlindnessSimulator() {
             <Eye className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Color Blindness Simulator</h1>
-            <p className="text-sm text-muted-foreground">See images as color-blind users do</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
         </div>
 
@@ -189,8 +191,8 @@ export default function ColorBlindnessSimulator() {
                 <Upload className="w-8 h-8 text-muted-foreground" />
               </div>
               <div>
-                <p className="font-medium">Drop an image here or click to upload</p>
-                <p className="text-sm text-muted-foreground mt-1">JPG, PNG, WebP supported</p>
+                <p className="font-medium">{t("dropImage")}</p>
+                <p className="text-sm text-muted-foreground mt-1">{t("supportedFormats")}</p>
               </div>
               <input
                 ref={fileInputRef}
@@ -212,16 +214,16 @@ export default function ColorBlindnessSimulator() {
                     {imageDims.w} × {imageDims.h}px
                   </Badge>
                 )}
-                {processing && <Badge variant="outline" className="animate-pulse">Processing...</Badge>}
+                {processing && <Badge variant="outline" className="animate-pulse">{t("processing")}</Badge>}
               </div>
               <div className="flex gap-2">
                 <Button variant="outline" onClick={() => fileInputRef.current?.click()}>
-                  <ImageIcon className="w-4 h-4 mr-2" />
-                  Change Image
+                  <ImageIcon className="w-4 h-4 me-2" />
+                  {t("changeImage")}
                 </Button>
                 <Button variant="outline" onClick={downloadSim} disabled={!simSrc}>
-                  <Download className="w-4 h-4 mr-2" />
-                  Download
+                  <Download className="w-4 h-4 me-2" />
+                  {t("download")}
                 </Button>
               </div>
               <input
@@ -235,10 +237,10 @@ export default function ColorBlindnessSimulator() {
 
             <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SimType)}>
               <TabsList className="grid grid-cols-4 w-full">
-                <TabsTrigger value="deuteranopia">Green-blind</TabsTrigger>
-                <TabsTrigger value="protanopia">Red-blind</TabsTrigger>
-                <TabsTrigger value="tritanopia">Blue-blind</TabsTrigger>
-                <TabsTrigger value="achromatopsia">No Color</TabsTrigger>
+                <TabsTrigger value="deuteranopia">{t("tabGreenBlind")}</TabsTrigger>
+                <TabsTrigger value="protanopia">{t("tabRedBlind")}</TabsTrigger>
+                <TabsTrigger value="tritanopia">{t("tabBlueBlind")}</TabsTrigger>
+                <TabsTrigger value="achromatopsia">{t("tabNoColor")}</TabsTrigger>
               </TabsList>
 
               {(["deuteranopia", "protanopia", "tritanopia", "achromatopsia"] as SimType[]).map((type) => (
@@ -246,17 +248,17 @@ export default function ColorBlindnessSimulator() {
                   <Card>
                     <CardHeader className="pb-2">
                       <CardTitle className="text-base flex items-center gap-2">
-                        {SIM_INFO[type].label}
-                        <Badge variant="secondary">{SIM_INFO[type].description}</Badge>
+                        {t(`${type}Label` as any)}
+                        <Badge variant="secondary">{t(`${type}Desc` as any)}</Badge>
                       </CardTitle>
-                      <CardDescription className="text-sm">{SIM_INFO[type].detail}</CardDescription>
+                      <CardDescription className="text-sm">{t(`${type}Detail` as any)}</CardDescription>
                     </CardHeader>
                   </Card>
 
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Card>
                       <CardHeader className="pb-2">
-                        <CardTitle className="text-sm text-muted-foreground">Original</CardTitle>
+                        <CardTitle className="text-sm text-muted-foreground">{t("original")}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-3 pt-0">
                         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -265,7 +267,7 @@ export default function ColorBlindnessSimulator() {
                     </Card>
                     <Card>
                       <CardHeader className="pb-2">
-                        <CardTitle className="text-sm text-muted-foreground">{SIM_INFO[type].label} Simulation</CardTitle>
+                        <CardTitle className="text-sm text-muted-foreground">{SIM_INFO[type].label} {t("simulation")}</CardTitle>
                       </CardHeader>
                       <CardContent className="p-3 pt-0">
                         {simSrc && !processing ? (
@@ -273,7 +275,7 @@ export default function ColorBlindnessSimulator() {
                           <img src={simSrc} alt={`${type} simulation`} className="w-full rounded-md object-contain max-h-64" />
                         ) : (
                           <div className="w-full h-40 bg-muted rounded-md flex items-center justify-center">
-                            <p className="text-sm text-muted-foreground">{processing ? "Processing..." : "Simulation will appear here"}</p>
+                            <p className="text-sm text-muted-foreground">{processing ? t("processing") : t("simulationAppears")}</p>
                           </div>
                         )}
                       </CardContent>

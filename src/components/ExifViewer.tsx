@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -327,6 +328,7 @@ interface FileInfo {
 }
 
 export default function ExifViewer() {
+  const t = useTranslations("Tools.ExifViewer");
   const [fileInfo, setFileInfo] = useState<FileInfo | null>(null);
   const [exifGroups, setExifGroups] = useState<Partial<ExifGroups> | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
@@ -336,7 +338,7 @@ export default function ExifViewer() {
 
   const handleFile = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) {
-      toast.error("Please upload an image file");
+      toast.error(t("uploadError"));
       return;
     }
     setLoading(true);
@@ -381,17 +383,17 @@ export default function ExifViewer() {
         setLoading(false);
       };
       img.onerror = () => {
-        toast.error("Failed to load image");
+        toast.error(t("loadError"));
         setLoading(false);
       };
       img.src = objUrl;
     };
     reader.onerror = () => {
-      toast.error("Failed to read file");
+      toast.error(t("readError"));
       setLoading(false);
     };
     reader.readAsArrayBuffer(file);
-  }, []);
+  }, [t]);
 
   const handleDrop = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -412,7 +414,7 @@ export default function ExifViewer() {
           {entries.map((e, i) => (
             <div key={i} className={`flex items-start gap-4 px-4 py-2.5 text-sm ${i % 2 === 0 ? "bg-muted/20" : ""}`}>
               <span className="font-medium text-muted-foreground min-w-[160px] shrink-0">{e.label}</span>
-              <span className="break-all">{e.value}</span>
+              <span className="break-all" dir="ltr">{e.value}</span>
             </div>
           ))}
         </div>
@@ -428,8 +430,8 @@ export default function ExifViewer() {
             <FileImage className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">EXIF Viewer</h1>
-            <p className="text-sm text-muted-foreground">Read photo metadata and camera settings</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
         </div>
 
@@ -445,8 +447,8 @@ export default function ExifViewer() {
                 <Upload className="w-8 h-8 text-muted-foreground" />
               </div>
               <div>
-                <p className="font-medium">Drop a photo here or click to upload</p>
-                <p className="text-sm text-muted-foreground mt-1">JPEG files with EXIF data recommended</p>
+                <p className="font-medium">{t("dropPhoto")}</p>
+                <p className="text-sm text-muted-foreground mt-1">{t("jpegRecommended")}</p>
               </div>
               <input
                 ref={fileInputRef}
@@ -462,7 +464,7 @@ export default function ExifViewer() {
         {loading && (
           <Card>
             <CardContent className="pt-8 pb-8 text-center">
-              <p className="text-muted-foreground animate-pulse">Reading file metadata...</p>
+              <p className="text-muted-foreground animate-pulse">{t("readingMetadata")}</p>
             </CardContent>
           </Card>
         )}
@@ -473,11 +475,11 @@ export default function ExifViewer() {
               <div className="flex gap-2 items-center flex-wrap">
                 <Badge variant="outline">{fileInfo.width} × {fileInfo.height}px</Badge>
                 <Badge variant="outline">{formatBytes(fileInfo.size)}</Badge>
-                {exifGroups && <Badge className="bg-green-500 text-white">EXIF Data Found</Badge>}
+                {exifGroups && <Badge className="bg-green-500 text-white">{t("exifDataFound")}</Badge>}
               </div>
               <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
-                <Upload className="w-4 h-4 mr-2" />
-                Load Another
+                <Upload className="w-4 h-4 me-2" />
+                {t("loadAnother")}
               </Button>
               <input
                 ref={fileInputRef}
@@ -501,19 +503,19 @@ export default function ExifViewer() {
               {/* File Info */}
               <div>
                 <h3 className="flex items-center gap-2 text-sm font-semibold mb-2 text-muted-foreground uppercase tracking-wide">
-                  <HardDrive className="w-4 h-4" /> File
+                  <HardDrive className="w-4 h-4" /> {t("fileSection")}
                 </h3>
                 <div className="rounded-lg border overflow-hidden">
                   {[
-                    { label: "File Name", value: fileInfo.name },
-                    { label: "File Size", value: formatBytes(fileInfo.size) },
-                    { label: "File Type", value: fileInfo.type },
-                    { label: "Dimensions", value: `${fileInfo.width} × ${fileInfo.height} pixels` },
-                    { label: "Last Modified", value: fileInfo.lastModified },
+                    { label: t("fileName"), value: fileInfo.name },
+                    { label: t("fileSize"), value: formatBytes(fileInfo.size) },
+                    { label: t("fileType"), value: fileInfo.type },
+                    { label: t("dimensions"), value: `${fileInfo.width} × ${fileInfo.height} ${t("pixels")}` },
+                    { label: t("lastModified"), value: fileInfo.lastModified },
                   ].map((e, i) => (
                     <div key={i} className={`flex items-start gap-4 px-4 py-2.5 text-sm ${i % 2 === 0 ? "bg-muted/20" : ""}`}>
                       <span className="font-medium text-muted-foreground min-w-[160px] shrink-0">{e.label}</span>
-                      <span className="break-all">{e.value}</span>
+                      <span className="break-all" dir="ltr">{e.value}</span>
                     </div>
                   ))}
                 </div>
@@ -521,13 +523,13 @@ export default function ExifViewer() {
 
               {exifGroups ? (
                 <>
-                  <GroupSection title="Camera" icon={<Camera className="w-4 h-4" />} entries={exifGroups.camera ?? []} />
-                  <GroupSection title="Settings" icon={<Settings className="w-4 h-4" />} entries={exifGroups.settings ?? []} />
-                  <GroupSection title="Date / Time" icon={<Clock className="w-4 h-4" />} entries={exifGroups.datetime ?? []} />
+                  <GroupSection title={t("cameraSection")} icon={<Camera className="w-4 h-4" />} entries={exifGroups.camera ?? []} />
+                  <GroupSection title={t("settingsSection")} icon={<Settings className="w-4 h-4" />} entries={exifGroups.settings ?? []} />
+                  <GroupSection title={t("datetimeSection")} icon={<Clock className="w-4 h-4" />} entries={exifGroups.datetime ?? []} />
 
                   {(exifGroups.gps?.length ?? 0) > 0 && (
                     <>
-                      <GroupSection title="GPS" icon={<MapPin className="w-4 h-4" />} entries={exifGroups.gps ?? []} />
+                      <GroupSection title={t("gpsSection")} icon={<MapPin className="w-4 h-4" />} entries={exifGroups.gps ?? []} />
                       {mapsUrl && (
                         <a
                           href={mapsUrl}
@@ -536,7 +538,7 @@ export default function ExifViewer() {
                           className="inline-flex items-center gap-2 text-sm text-primary underline underline-offset-2 hover:opacity-80"
                         >
                           <MapPin className="w-4 h-4" />
-                          View on Google Maps
+                          {t("viewOnMaps")}
                         </a>
                       )}
                     </>
@@ -546,7 +548,7 @@ export default function ExifViewer() {
                 <Card className="border-dashed">
                   <CardContent className="pt-5 pb-5">
                     <CardDescription>
-                      Full EXIF data requires a JPEG with embedded EXIF metadata. This file either has no EXIF data or uses an unsupported format. File information (name, size, dimensions) is shown above.
+                      {t("noExifMessage")}
                     </CardDescription>
                   </CardContent>
                 </Card>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -61,6 +62,7 @@ function calculateLoan(principal: number, annualRate: number, months: number) {
 }
 
 export default function LoanCalculator() {
+  const t = useTranslations("Tools.LoanCalculator");
   const [principal, setPrincipal] = useState("10000");
   const [rate, setRate] = useState("5");
   const [years, setYears] = useState("3");
@@ -87,27 +89,28 @@ export default function LoanCalculator() {
             <DollarSign className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Loan Calculator</h1>
-            <p className="text-sm text-muted-foreground">Calculate monthly payments and total interest</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
           </div>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
-            <CardHeader><CardTitle className="text-base">Loan Details</CardTitle></CardHeader>
+            <CardHeader><CardTitle className="text-base">{t("loanDetails")}</CardTitle></CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-1.5">
-                <Label>Loan Amount ($)</Label>
+                <Label>{t("loanAmount")}</Label>
                 <Input
                   type="number"
                   min="0"
                   value={principal}
                   onChange={(e) => setPrincipal(e.target.value)}
                   placeholder="10000"
+                  dir="ltr"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>Annual Interest Rate (%)</Label>
+                <Label>{t("annualInterestRate")}</Label>
                 <Input
                   type="number"
                   min="0"
@@ -116,10 +119,11 @@ export default function LoanCalculator() {
                   value={rate}
                   onChange={(e) => setRate(e.target.value)}
                   placeholder="5"
+                  dir="ltr"
                 />
               </div>
               <div className="space-y-1.5">
-                <Label>Loan Term (years)</Label>
+                <Label>{t("loanTerm")}</Label>
                 <Input
                   type="number"
                   min="0.5"
@@ -128,6 +132,7 @@ export default function LoanCalculator() {
                   value={years}
                   onChange={(e) => setYears(e.target.value)}
                   placeholder="3"
+                  dir="ltr"
                 />
               </div>
             </CardContent>
@@ -138,43 +143,43 @@ export default function LoanCalculator() {
               <>
                 <Card className="bg-primary text-primary-foreground">
                   <CardContent className="pt-6">
-                    <div className="text-sm opacity-80 mb-1">Monthly Payment</div>
-                    <div className="text-4xl font-bold">{formatCurrency(result.monthlyPayment)}</div>
+                    <div className="text-sm opacity-80 mb-1">{t("monthlyPayment")}</div>
+                    <div className="text-4xl font-bold" dir="ltr">{formatCurrency(result.monthlyPayment)}</div>
                   </CardContent>
                 </Card>
 
                 <div className="grid grid-cols-2 gap-3">
                   <Card>
                     <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">Total Payment</div>
-                      <div className="text-xl font-bold">{formatCurrency(result.totalPayment)}</div>
+                      <div className="text-xs text-muted-foreground">{t("totalPayment")}</div>
+                      <div className="text-xl font-bold" dir="ltr">{formatCurrency(result.totalPayment)}</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">Total Interest</div>
-                      <div className="text-xl font-bold text-orange-500">{formatCurrency(result.totalInterest)}</div>
+                      <div className="text-xs text-muted-foreground">{t("totalInterest")}</div>
+                      <div className="text-xl font-bold text-orange-500" dir="ltr">{formatCurrency(result.totalInterest)}</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">Principal</div>
-                      <div className="text-xl font-bold">{principalPct}%</div>
+                      <div className="text-xs text-muted-foreground">{t("principal")}</div>
+                      <div className="text-xl font-bold" dir="ltr">{principalPct}%</div>
                     </CardContent>
                   </Card>
                   <Card>
                     <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">Interest Ratio</div>
-                      <div className="text-xl font-bold text-orange-500">{interestPct}%</div>
+                      <div className="text-xs text-muted-foreground">{t("interestRatio")}</div>
+                      <div className="text-xl font-bold text-orange-500" dir="ltr">{interestPct}%</div>
                     </CardContent>
                   </Card>
                 </div>
 
                 {/* Visual breakdown bar */}
                 <div className="space-y-1">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>Principal {principalPct}%</span>
-                    <span>Interest {interestPct}%</span>
+                  <div className="flex justify-between text-xs text-muted-foreground" dir="ltr">
+                    <span>{t("principal")} {principalPct}%</span>
+                    <span>{t("interest")} {interestPct}%</span>
                   </div>
                   <div className="h-3 rounded-full overflow-hidden bg-muted flex">
                     <div
@@ -191,7 +196,7 @@ export default function LoanCalculator() {
             ) : (
               <Card>
                 <CardContent className="pt-6 text-center text-muted-foreground">
-                  Enter loan details to see results
+                  {t("enterDetails")}
                 </CardContent>
               </Card>
             )}
@@ -204,7 +209,7 @@ export default function LoanCalculator() {
               onClick={() => setShowSchedule(!showSchedule)}
               className="text-sm text-primary underline underline-offset-4 hover:opacity-80"
             >
-              {showSchedule ? "Hide" : "Show"} amortization schedule ({months} payments)
+              {showSchedule ? t("hideSchedule") : t("showSchedule")} ({months} {t("payments")})
             </button>
 
             {showSchedule && (
@@ -213,8 +218,8 @@ export default function LoanCalculator() {
                   <table className="w-full text-sm">
                     <thead className="sticky top-0 bg-muted">
                       <tr>
-                        {["Month", "Payment", "Principal", "Interest", "Balance"].map((h) => (
-                          <th key={h} className="px-4 py-2 text-left font-medium text-muted-foreground">{h}</th>
+                        {[t("month"), t("payment"), t("principal"), t("interest"), t("balance")].map((h) => (
+                          <th key={h} className="px-4 py-2 text-start font-medium text-muted-foreground">{h}</th>
                         ))}
                       </tr>
                     </thead>

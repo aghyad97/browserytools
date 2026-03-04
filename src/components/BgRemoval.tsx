@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
@@ -15,6 +16,9 @@ const config: Config = {
 };
 
 export default function BgRemoval() {
+  const t = useTranslations("Tools.BgRemoval");
+  const tCommon = useTranslations("Common");
+
   type ImageItem = {
     id: string;
     name: string;
@@ -312,12 +316,12 @@ export default function BgRemoval() {
             ) : (
               <Eye className="w-4 h-4" />
             )}
-            {showAfter ? "Show Before" : "Show After"}
+            {showAfter ? t("showBefore") : t("showAfter")}
           </Button>
           {isProcessingAll && (
             <div className="flex items-center gap-2 text-sm text-muted-foreground">
               <Loader2 className="w-4 h-4 animate-spin" />
-              Processing...
+              {t("processing")}
             </div>
           )}
         </div>
@@ -333,12 +337,12 @@ export default function BgRemoval() {
             {isZipping ? (
               <>
                 <Loader2 className="w-4 h-4 animate-spin" />
-                Preparing Zip...
+                {t("preparingZip")}
               </>
             ) : (
               <>
                 <Download className="w-4 h-4" />
-                Download All ({items.filter((i) => i.processedBlob).length})
+                {t("downloadAll", { count: items.filter((i) => i.processedBlob).length })}
               </>
             )}
           </Button>
@@ -349,7 +353,7 @@ export default function BgRemoval() {
               className="flex items-center gap-2"
             >
               <Trash2 className="w-4 h-4" />
-              Clear All
+              {t("clearAll")}
             </Button>
           )}
         </div>
@@ -385,14 +389,16 @@ export default function BgRemoval() {
                   <Upload className="w-10 h-10 text-primary" />
                 </div>
                 <h3 className="text-lg font-semibold mb-2">
-                  Drop your images here
+                  {t("dropImagesHere")}
                 </h3>
                 <p className="text-muted-foreground text-sm">
-                  Supports PNG, JPG or JPEG files. Multiple files allowed.
+                  {t("supportedFormats")}
                 </p>
                 {items.length > 0 && (
                   <p className="text-xs text-muted-foreground mt-2">
-                    {items.length} image{items.length !== 1 ? "s" : ""} loaded
+                    {items.length === 1
+                      ? t("imagesLoaded", { count: items.length })
+                      : t("imagesLoadedPlural", { count: items.length })}
                   </p>
                 )}
               </motion.div>
@@ -430,7 +436,7 @@ export default function BgRemoval() {
                               <Loader2 className="w-5 h-5 animate-spin" />
                               <Progress value={it.progress} className="w-3/4" />
                               <span className="text-xs text-muted-foreground">
-                                Removing background...
+                                {t("removingBackground")}
                               </span>
                             </div>
                           )}
@@ -442,7 +448,7 @@ export default function BgRemoval() {
                                 ✕
                               </div>
                               <span className="text-xs text-center px-2">
-                                Failed to process
+                                {t("failedToProcess")}
                               </span>
                             </div>
                           )}
@@ -456,12 +462,12 @@ export default function BgRemoval() {
                           <div className="flex items-center justify-between gap-2">
                             <div className="text-xs text-muted-foreground">
                               {it.status === "done"
-                                ? "Ready"
+                                ? t("statusReady")
                                 : it.status === "processing"
-                                ? "Processing..."
+                                ? t("statusProcessing")
                                 : it.status === "error"
-                                ? "Error"
-                                : "Waiting"}
+                                ? t("statusError")
+                                : t("statusWaiting")}
                             </div>
                             <div className="flex items-center gap-1">
                               {it.processedBlob && (
@@ -471,8 +477,8 @@ export default function BgRemoval() {
                                   onClick={() => handleDownloadOne(it)}
                                   className="h-7 px-2"
                                 >
-                                  <Download className="w-3 h-3 mr-1" />
-                                  Download
+                                  <Download className="w-3 h-3 me-1" />
+                                  {tCommon("download")}
                                 </Button>
                               )}
                               <Button

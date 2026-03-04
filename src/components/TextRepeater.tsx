@@ -15,20 +15,24 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const MAX_OUTPUT_CHARS = 1_000_000;
 
 type SeparatorPreset = "newline" | "space" | "comma" | "pipe" | "none" | "custom";
 
-const SEPARATOR_PRESETS: { label: string; key: SeparatorPreset; value: string }[] = [
-  { label: "Newline", key: "newline", value: "\n" },
-  { label: "Space", key: "space", value: " " },
-  { label: "Comma", key: "comma", value: ", " },
-  { label: "Pipe", key: "pipe", value: " | " },
-  { label: "None", key: "none", value: "" },
-];
-
 export default function TextRepeater() {
+  const t = useTranslations("Tools.TextRepeater");
+  const tCommon = useTranslations("Common");
+
+  const SEPARATOR_PRESETS: { labelKey: string; key: SeparatorPreset; value: string }[] = [
+    { labelKey: "sepNewline", key: "newline", value: "\n" },
+    { labelKey: "sepSpace", key: "space", value: " " },
+    { labelKey: "sepComma", key: "comma", value: ", " },
+    { labelKey: "sepPipe", key: "pipe", value: " | " },
+    { labelKey: "sepNone", key: "none", value: "" },
+  ];
+
   const [text, setText] = useState("");
   const [count, setCount] = useState(5);
   const [separatorPreset, setSeparatorPreset] = useState<SeparatorPreset>("newline");
@@ -66,16 +70,16 @@ export default function TextRepeater() {
 
   const handleCopy = useCallback(() => {
     if (!output) {
-      toast.error("Nothing to copy");
+      toast.error(t("nothingToCopy"));
       return;
     }
     navigator.clipboard.writeText(output);
-    toast.success("Copied to clipboard");
-  }, [output]);
+    toast.success(t("copiedToClipboard"));
+  }, [output, t]);
 
   const handleDownload = useCallback(() => {
     if (!output) {
-      toast.error("Nothing to download");
+      toast.error(t("nothingToDownload"));
       return;
     }
     const blob = new Blob([output], { type: "text/plain" });
@@ -85,8 +89,8 @@ export default function TextRepeater() {
     a.download = "repeated-text.txt";
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Downloaded repeated-text.txt");
-  }, [output]);
+    toast.success(t("downloaded"));
+  }, [output, t]);
 
   const handleClear = useCallback(() => {
     setText("");
@@ -102,27 +106,27 @@ export default function TextRepeater() {
         <div className="space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Text to Repeat</CardTitle>
-              <CardDescription>Enter the text you want repeated</CardDescription>
+              <CardTitle>{t("textToRepeatTitle")}</CardTitle>
+              <CardDescription>{t("textToRepeatDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
               <Textarea
-                placeholder="Enter your text here..."
+                placeholder={t("textPlaceholder")}
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 className="min-h-[140px] resize-none"
                 rows={6}
               />
               <div className="mt-2">
-                <Badge variant="secondary">{text.length} chars</Badge>
+                <Badge variant="secondary">{text.length} {t("chars")}</Badge>
               </div>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Repeat Count</CardTitle>
-              <CardDescription>1 – 10,000</CardDescription>
+              <CardTitle>{t("repeatCountTitle")}</CardTitle>
+              <CardDescription>{t("repeatCountDesc")}</CardDescription>
             </CardHeader>
             <CardContent>
               <Input
@@ -138,8 +142,8 @@ export default function TextRepeater() {
 
           <Card>
             <CardHeader>
-              <CardTitle>Separator</CardTitle>
-              <CardDescription>What goes between repetitions</CardDescription>
+              <CardTitle>{t("separatorTitle")}</CardTitle>
+              <CardDescription>{t("separatorDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3">
               <div className="flex flex-wrap gap-2">
@@ -150,7 +154,7 @@ export default function TextRepeater() {
                     variant={separatorPreset === p.key ? "default" : "outline"}
                     onClick={() => setSeparatorPreset(p.key)}
                   >
-                    {p.label}
+                    {t(p.labelKey as any)}
                   </Button>
                 ))}
                 <Button
@@ -158,20 +162,20 @@ export default function TextRepeater() {
                   variant={separatorPreset === "custom" ? "default" : "outline"}
                   onClick={() => setSeparatorPreset("custom")}
                 >
-                  Custom
+                  {t("customBtn")}
                 </Button>
               </div>
 
               {separatorPreset === "custom" && (
                 <div className="space-y-1.5">
                   <Label htmlFor="custom-sep" className="text-sm">
-                    Custom separator
+                    {t("customSeparatorLabel")}
                   </Label>
                   <Input
                     id="custom-sep"
                     value={customSeparator}
                     onChange={(e) => setCustomSeparator(e.target.value)}
-                    placeholder="e.g., ---"
+                    placeholder={t("customSeparatorPlaceholder")}
                     className="font-mono"
                   />
                 </div>
@@ -185,7 +189,7 @@ export default function TextRepeater() {
             className="w-full flex items-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
-            Clear All
+            {t("clearAll")}
           </Button>
         </div>
 
@@ -195,13 +199,13 @@ export default function TextRepeater() {
             <CardHeader>
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <CardTitle>Output</CardTitle>
+                  <CardTitle>{t("outputTitle")}</CardTitle>
                   <CardDescription>
                     {overLimit
-                      ? "Output exceeds 1M characters — reduce count or text length"
+                      ? t("outputTooLarge")
                       : output
-                      ? `Repeated ${count}x`
-                      : "Result will appear here"}
+                      ? t("repeatedCount", { count })
+                      : t("resultPlaceholder")}
                   </CardDescription>
                 </div>
                 <div className="flex gap-2">
@@ -213,7 +217,7 @@ export default function TextRepeater() {
                     className="flex items-center gap-2"
                   >
                     <Download className="w-4 h-4" />
-                    Download
+                    {tCommon("download")}
                   </Button>
                   <Button
                     size="sm"
@@ -222,7 +226,7 @@ export default function TextRepeater() {
                     className="flex items-center gap-2"
                   >
                     <Copy className="w-4 h-4" />
-                    Copy
+                    {tCommon("copy")}
                   </Button>
                 </div>
               </div>
@@ -232,11 +236,10 @@ export default function TextRepeater() {
                 <div className="min-h-[400px] flex items-center justify-center border rounded-md bg-destructive/5 border-destructive/20">
                   <div className="text-center p-6 space-y-2">
                     <p className="font-semibold text-destructive">
-                      Output too large
+                      {t("outputTooLargeTitle")}
                     </p>
                     <p className="text-sm text-muted-foreground">
-                      The result would exceed 1,000,000 characters. Please
-                      reduce the repeat count or shorten your input text.
+                      {t("outputTooLargeDesc")}
                     </p>
                   </div>
                 </div>
@@ -244,7 +247,7 @@ export default function TextRepeater() {
                 <Textarea
                   value={output}
                   readOnly
-                  placeholder="Output will appear here as you type..."
+                  placeholder={t("outputPlaceholder")}
                   className="min-h-[400px] resize-none font-mono text-sm bg-muted"
                   rows={18}
                 />
@@ -252,8 +255,8 @@ export default function TextRepeater() {
 
               {!overLimit && (
                 <div className="flex gap-3 mt-3 flex-wrap">
-                  <Badge variant="secondary">{output.length} chars</Badge>
-                  <Badge variant="secondary">{outputLines} lines</Badge>
+                  <Badge variant="secondary">{output.length} {t("chars")}</Badge>
+                  <Badge variant="secondary">{outputLines} {t("lines")}</Badge>
                 </div>
               )}
             </CardContent>

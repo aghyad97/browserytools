@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -35,6 +36,7 @@ interface PasswordStrength {
 }
 
 export default function PasswordGenerator() {
+  const t = useTranslations("Tools.PasswordGenerator");
   const [password, setPassword] = useState("");
   const [options, setOptions] = useState<PasswordOptions>({
     length: 12,
@@ -47,7 +49,7 @@ export default function PasswordGenerator() {
   });
   const [strength, setStrength] = useState<PasswordStrength>({
     score: 0,
-    label: "Very Weak",
+    label: t("strengthVeryWeak"),
     color: "text-red-500",
     feedback: [],
   });
@@ -93,7 +95,7 @@ export default function PasswordGenerator() {
     }
 
     if (charset === "") {
-      toast.error("No character set selected");
+      toast.error(t("noCharset"));
       return;
     }
 
@@ -114,7 +116,7 @@ export default function PasswordGenerator() {
 
     // Length check
     if (pwd.length < 8) {
-      feedback.push("Use at least 8 characters");
+      feedback.push(t("feedbackMin8"));
     } else if (pwd.length >= 12) {
       score += 25;
     } else {
@@ -125,43 +127,43 @@ export default function PasswordGenerator() {
     if (/[a-z]/.test(pwd)) {
       score += 10;
     } else {
-      feedback.push("Add lowercase letters");
+      feedback.push(t("feedbackAddLower"));
     }
 
     if (/[A-Z]/.test(pwd)) {
       score += 10;
     } else {
-      feedback.push("Add uppercase letters");
+      feedback.push(t("feedbackAddUpper"));
     }
 
     if (/[0-9]/.test(pwd)) {
       score += 10;
     } else {
-      feedback.push("Add numbers");
+      feedback.push(t("feedbackAddNumbers"));
     }
 
     if (/[^A-Za-z0-9]/.test(pwd)) {
       score += 15;
     } else {
-      feedback.push("Add symbols");
+      feedback.push(t("feedbackAddSymbols"));
     }
 
     // Pattern checks
     if (/(.)\1{2,}/.test(pwd)) {
       score -= 10;
-      feedback.push("Avoid repeating characters");
+      feedback.push(t("feedbackAvoidRepeating"));
     }
 
     if (/123|abc|qwe|asd|zxc/i.test(pwd)) {
       score -= 10;
-      feedback.push("Avoid common patterns");
+      feedback.push(t("feedbackAvoidPatterns"));
     }
 
     // Common words check (simplified)
     const commonWords = ["password", "123456", "qwerty", "admin", "letmein"];
     if (commonWords.some((word) => pwd.toLowerCase().includes(word))) {
       score -= 20;
-      feedback.push("Avoid common words");
+      feedback.push(t("feedbackAvoidCommon"));
     }
 
     // Determine strength level
@@ -169,19 +171,19 @@ export default function PasswordGenerator() {
     let color: string;
 
     if (score < 20) {
-      label = "Very Weak";
+      label = t("strengthVeryWeak");
       color = "text-red-500";
     } else if (score < 40) {
-      label = "Weak";
+      label = t("strengthWeak");
       color = "text-orange-500";
     } else if (score < 60) {
-      label = "Fair";
+      label = t("strengthFair");
       color = "text-yellow-500";
     } else if (score < 80) {
-      label = "Good";
+      label = t("strengthGood");
       color = "text-blue-500";
     } else {
-      label = "Strong";
+      label = t("strengthStrong");
       color = "text-green-500";
     }
 
@@ -189,25 +191,25 @@ export default function PasswordGenerator() {
       score: Math.max(0, Math.min(100, score)),
       label,
       color,
-      feedback: feedback.length > 0 ? feedback : ["Password looks good!"],
+      feedback: feedback.length > 0 ? feedback : [t("feedbackLooksGood")],
     });
   };
 
   const handleCopy = () => {
     if (!password) {
-      toast.error("No password to copy");
+      toast.error(t("noPassword"));
       return;
     }
 
     navigator.clipboard.writeText(password);
-    toast.success("Copied to clipboard");
+    toast.success(t("copiedToClipboard"));
   };
 
   const handleClear = () => {
     setPassword("");
     setStrength({
       score: 0,
-      label: "Very Weak",
+      label: t("strengthVeryWeak"),
       color: "text-red-500",
       feedback: [],
     });
@@ -237,17 +239,17 @@ export default function PasswordGenerator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Key className="w-5 h-5" />
-              Generator Options
+              {t("generatorOptionsTitle")}
             </CardTitle>
             <CardDescription>
-              Customize your password generation settings
+              {t("generatorOptionsDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Length */}
             <div className="space-y-2">
               <Label>
-                Length: <NumberFlow value={options.length} /> characters
+                {t("lengthLabel", { count: options.length })}
               </Label>
               <Slider
                 min={4}
@@ -263,11 +265,11 @@ export default function PasswordGenerator() {
 
             {/* Character Types */}
             <div className="space-y-4">
-              <Label>Character Types</Label>
+              <Label>{t("characterTypes")}</Label>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="uppercase" className="text-sm">
-                    Uppercase (A-Z)
+                    {t("uppercase")}
                   </Label>
                   <Switch
                     id="uppercase"
@@ -279,7 +281,7 @@ export default function PasswordGenerator() {
                 </div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="lowercase" className="text-sm">
-                    Lowercase (a-z)
+                    {t("lowercase")}
                   </Label>
                   <Switch
                     id="lowercase"
@@ -291,7 +293,7 @@ export default function PasswordGenerator() {
                 </div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="numbers" className="text-sm">
-                    Numbers (0-9)
+                    {t("numbers")}
                   </Label>
                   <Switch
                     id="numbers"
@@ -303,7 +305,7 @@ export default function PasswordGenerator() {
                 </div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="symbols" className="text-sm">
-                    Symbols (!@#$...)
+                    {t("symbols")}
                   </Label>
                   <Switch
                     id="symbols"
@@ -318,11 +320,11 @@ export default function PasswordGenerator() {
 
             {/* Advanced Options */}
             <div className="space-y-4">
-              <Label>Advanced Options</Label>
+              <Label>{t("advancedOptions")}</Label>
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
                   <Label htmlFor="exclude-similar" className="text-sm">
-                    Exclude Similar (il1Lo0O)
+                    {t("excludeSimilar")}
                   </Label>
                   <Switch
                     id="exclude-similar"
@@ -334,7 +336,7 @@ export default function PasswordGenerator() {
                 </div>
                 <div className="flex items-center justify-between">
                   <Label htmlFor="exclude-ambiguous" className="text-sm">
-                    Exclude Ambiguous ({"{}[]()/\\'\"~,;.<>"})
+                    {t("excludeAmbiguous")} ({"{}[]()/\\'\"~,;.<>"})
                   </Label>
                   <Switch
                     id="exclude-ambiguous"
@@ -349,8 +351,8 @@ export default function PasswordGenerator() {
 
             {/* Generate Button */}
             <Button onClick={generatePassword} className="w-full">
-              <RefreshCw className="w-4 h-4 mr-2" />
-              Generate Password
+              <RefreshCw className="w-4 h-4 me-2" />
+              {t("generatePassword")}
             </Button>
           </CardContent>
         </Card>
@@ -360,22 +362,23 @@ export default function PasswordGenerator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Lock className="w-5 h-5" />
-              Generated Password
+              {t("generatedPasswordTitle")}
             </CardTitle>
             <CardDescription>
-              Your secure password with strength analysis
+              {t("generatedPasswordDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {/* Password Display */}
             <div className="space-y-2">
-              <Label>Password</Label>
+              <Label>{t("passwordLabel")}</Label>
               <div className="flex gap-2">
                 <Input
                   value={password}
                   readOnly
+                  dir="ltr"
                   className="font-mono text-lg bg-muted"
-                  placeholder="Generated password will appear here..."
+                  placeholder={t("passwordPlaceholder")}
                 />
                 <Button onClick={handleCopy} disabled={!password} size="sm">
                   <Copy className="w-4 h-4" />
@@ -386,13 +389,13 @@ export default function PasswordGenerator() {
             {/* Feedback */}
             {password && (
               <div className="space-y-2">
-                <Label>Feedback</Label>
+                <Label>{t("feedbackLabel")}</Label>
                 <ul className="text-sm space-y-1">
                   {strength.feedback.map((item, index) => (
                     <li key={index} className="flex items-center gap-2">
                       <span
                         className={`w-1 h-1 rounded-full ${
-                          item.includes("good") || item.includes("Good")
+                          item.includes("good") || item.includes("Good") || item.includes("جيدة") || item.includes("ممتازة")
                             ? "bg-green-500"
                             : "bg-yellow-500"
                         }`}
@@ -412,7 +415,7 @@ export default function PasswordGenerator() {
                 className="flex items-center gap-2"
               >
                 <RotateCcw className="w-4 h-4" />
-                Clear
+                {t("clear")}
               </Button>
             </div>
           </CardContent>
@@ -422,9 +425,9 @@ export default function PasswordGenerator() {
       {/* Quick Generate */}
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>Quick Generate</CardTitle>
+          <CardTitle>{t("quickGenerate")}</CardTitle>
           <CardDescription>
-            Generate passwords with common configurations
+            {t("quickGenerateDesc")}
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -444,7 +447,7 @@ export default function PasswordGenerator() {
                 generatePassword();
               }}
             >
-              Basic (8 chars)
+              {t("basicPreset")}
             </Button>
             <Button
               variant="outline"
@@ -461,7 +464,7 @@ export default function PasswordGenerator() {
                 generatePassword();
               }}
             >
-              Standard (12 chars)
+              {t("standardPreset")}
             </Button>
             <Button
               variant="outline"
@@ -478,7 +481,7 @@ export default function PasswordGenerator() {
                 generatePassword();
               }}
             >
-              Strong (16 chars)
+              {t("strongPreset")}
             </Button>
             <Button
               variant="outline"
@@ -495,7 +498,7 @@ export default function PasswordGenerator() {
                 generatePassword();
               }}
             >
-              Maximum (24 chars)
+              {t("maximumPreset")}
             </Button>
           </div>
         </CardContent>
@@ -506,7 +509,7 @@ export default function PasswordGenerator() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Shield className="w-5 h-5" />
-            Password Security Tips
+            {t("securityTipsTitle")}
           </CardTitle>
         </CardHeader>
         <CardContent>
@@ -514,29 +517,29 @@ export default function PasswordGenerator() {
             <ul className="space-y-2">
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                Use at least 12 characters for better security
+                {t("tip1")}
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                Include uppercase, lowercase, numbers, and symbols
+                {t("tip2")}
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-green-500 mt-1">✓</span>
-                Avoid common words and patterns
+                {t("tip3")}
               </li>
             </ul>
             <ul className="space-y-2">
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                Don't reuse passwords across accounts
+                {t("warn1")}
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                Don't use personal information
+                {t("warn2")}
               </li>
               <li className="flex items-start gap-2">
                 <span className="text-red-500 mt-1">✗</span>
-                Don't share passwords with others
+                {t("warn3")}
               </li>
             </ul>
           </div>

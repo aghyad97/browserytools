@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -68,6 +69,7 @@ function generateRandomKey(length = 24): string {
   return Array.from(arr, (b) => chars[b % chars.length]).join("");
 }
 export default function TextEncryption() {
+  const t = useTranslations("Tools.TextEncryption");
   const [inputText, setInputText] = useState("");
   const [password, setPassword] = useState("");
   const [outputText, setOutputText] = useState("");
@@ -77,33 +79,33 @@ export default function TextEncryption() {
   const copyToClipboard = useCallback(async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
-    } catch { toast.error("Failed to copy"); }
-  }, []);
+      toast.success(t("copiedToClipboard"));
+    } catch { toast.error(t("failedToCopy")); }
+  }, [t]);
   const doEncrypt = async () => {
-    if (!inputText.trim()) { toast.error("Enter text to encrypt"); return; }
-    if (!password) { toast.error("Enter an encryption password"); return; }
+    if (!inputText.trim()) { toast.error(t("enterTextToEncrypt")); return; }
+    if (!password) { toast.error(t("enterEncryptionPassword")); return; }
     setIsProcessing(true); setError(null);
     try {
       const result = await encryptText(inputText, password);
       setOutputText(result);
-      toast.success("Text encrypted successfully");
+      toast.success(t("encryptedSuccess"));
     } catch (e) {
-      const msg = (e instanceof Error ? e.message : "Encryption failed");
-      setError(msg); toast.error("Encryption failed");
+      const msg = (e instanceof Error ? e.message : t("encryptionFailed"));
+      setError(msg); toast.error(t("encryptionFailed"));
     } finally { setIsProcessing(false); }
   };
 
   const doDecrypt = async () => {
-    if (!inputText.trim()) { toast.error("Enter text to decrypt"); return; }
-    if (!password) { toast.error("Enter the decryption password"); return; }
+    if (!inputText.trim()) { toast.error(t("enterTextToDecrypt")); return; }
+    if (!password) { toast.error(t("enterDecryptionPassword")); return; }
     setIsProcessing(true); setError(null);
     try {
       const result = await decryptText(inputText, password);
       setOutputText(result);
-      toast.success("Text decrypted successfully");
+      toast.success(t("decryptedSuccess"));
     } catch {
-      const msg = "Decryption failed. Wrong password or corrupted data.";
+      const msg = t("decryptionFailed");
       setError(msg); toast.error(msg);
     } finally { setIsProcessing(false); }
   };
@@ -112,7 +114,7 @@ export default function TextEncryption() {
   const doGenerateKey = () => {
     setPassword(generateRandomKey(24));
     setShowPassword(true);
-    toast.success("Random encryption key generated");
+    toast.success(t("randomKeyGenerated"));
   };
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl space-y-6">
@@ -120,7 +122,7 @@ export default function TextEncryption() {
       <Alert className="border-green-200 bg-green-50 dark:bg-green-950 dark:border-green-800">
         <Shield className="h-4 w-4 text-green-600" />
         <AlertDescription className="text-green-700 dark:text-green-300">
-          Your data never leaves your browser. All encryption is performed locally using the Web Crypto API.
+          {t("securityNote")}
         </AlertDescription>
       </Alert>
       {/* Password input */}
@@ -128,23 +130,24 @@ export default function TextEncryption() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <KeyRound className="h-5 w-5" />
-            Encryption Key
+            {t("encryptionKeyTitle")}
           </CardTitle>
           <CardDescription>
-            Used to encrypt and decrypt. Keep it secret — you need it to decrypt later.
+            {t("encryptionKeyDesc")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-3">
           <div className="space-y-1">
-            <Label htmlFor="enc-password">Password / Key</Label>
+            <Label htmlFor="enc-password">{t("passwordKeyLabel")}</Label>
             <div className="relative">
               <Input
                 id="enc-password"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter encryption password..."
+                placeholder={t("passwordPlaceholder")}
                 className="pr-10 font-mono"
+                dir="ltr"
                 autoComplete="off"
               />
               <Button variant="ghost" size="icon" className="absolute right-1 top-1/2 -translate-y-1/2 h-7 w-7"
@@ -155,16 +158,16 @@ export default function TextEncryption() {
           </div>
           <Button onClick={doGenerateKey} variant="outline" size="sm" className="gap-2">
             <RefreshCw className="h-4 w-4" />
-            Generate Random Key
+            {t("generateRandomKey")}
           </Button>
           <div className="text-xs text-muted-foreground space-y-1">
             <div className="flex items-center gap-1">
               <Info className="h-3 w-3" />
-              <span>Algorithm: AES-256-GCM</span>
+              <span>{t("algorithmInfo")}</span>
             </div>
             <div className="flex items-center gap-1">
               <Info className="h-3 w-3" />
-              <span>Key derivation: PBKDF2 with SHA-256, 100,000 iterations</span>
+              <span>{t("kdfInfo")}</span>
             </div>
           </div>
         </CardContent>
@@ -174,21 +177,22 @@ export default function TextEncryption() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lock className="h-5 w-5" />
-            Text Encryption
+            {t("textEncryptionTitle")}
           </CardTitle>
           <CardDescription>
-            Enter your text, set a password above, then encrypt or decrypt.
+            {t("textEncryptionDesc")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="enc-input">Input Text</Label>
+            <Label htmlFor="enc-input">{t("inputTextLabel")}</Label>
             <Textarea
               id="enc-input"
               value={inputText}
               onChange={(e) => setInputText(e.target.value)}
-              placeholder="Enter text to encrypt, or paste encrypted text to decrypt..."
+              placeholder={t("inputTextPlaceholder")}
               className="min-h-[120px] font-mono text-sm"
+              dir="ltr"
             />
           </div>
           {error && (
@@ -199,24 +203,25 @@ export default function TextEncryption() {
           <div className="flex flex-wrap gap-2">
             <Button onClick={doEncrypt} disabled={isProcessing} className="gap-2">
               <Lock className="h-4 w-4" />
-              {isProcessing ? "Processing..." : "Encrypt"}
+              {isProcessing ? t("processing") : t("encrypt")}
             </Button>
             <Button onClick={doDecrypt} disabled={isProcessing} variant="outline" className="gap-2">
               <Unlock className="h-4 w-4" />
-              Decrypt
+              {t("decrypt")}
             </Button>
             <Button onClick={doClear} variant="ghost" className="gap-2">
               <Trash2 className="h-4 w-4" />
-              Clear
+              {t("clear")}
             </Button>
           </div>
           {outputText && (
             <div className="space-y-2">
-              <Label>Output</Label>
+              <Label>{t("outputLabel")}</Label>
               <div className="relative">
                 <Textarea
                   value={outputText}
                   readOnly
+                  dir="ltr"
                   className="min-h-[120px] font-mono text-sm bg-muted pr-12"
                 />
                 <Button

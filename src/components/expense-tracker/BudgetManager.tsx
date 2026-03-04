@@ -49,6 +49,7 @@ import { useExpenseStore } from "@/store/expense-store";
 import { Budget } from "@/store/expense-store";
 import { toast } from "sonner";
 import NumberFlow from "@number-flow/react";
+import { useTranslations } from "next-intl";
 
 interface BudgetFormData {
   category: string | undefined;
@@ -57,6 +58,7 @@ interface BudgetFormData {
 }
 
 export default function BudgetManager() {
+  const t = useTranslations("Tools.ExpenseTracker");
   const [editingBudget, setEditingBudget] = useState<Budget | null>(null);
   const [showForm, setShowForm] = useState(false);
 
@@ -107,7 +109,7 @@ export default function BudgetManager() {
     try {
       // Ensure category is not undefined before submitting
       if (!formData.category) {
-        toast.error("Please select a category");
+        toast.error(t("selectCategoryError"));
         return;
       }
 
@@ -118,10 +120,10 @@ export default function BudgetManager() {
 
       if (editingBudget) {
         updateBudget(editingBudget.id, budgetData);
-        toast.success("Budget updated successfully");
+        toast.success(t("budgetUpdated"));
       } else {
         addBudget(budgetData);
-        toast.success("Budget created successfully");
+        toast.success(t("budgetCreated"));
       }
 
       setFormData({
@@ -132,7 +134,7 @@ export default function BudgetManager() {
       setEditingBudget(null);
       setShowForm(false);
     } catch (error) {
-      toast.error("Failed to save budget");
+      toast.error(t("errorSavingBudget"));
     } finally {
       setIsSubmitting(false);
     }
@@ -150,7 +152,7 @@ export default function BudgetManager() {
 
   const handleDelete = (budgetId: string) => {
     deleteBudget(budgetId);
-    toast.success("Budget deleted successfully");
+    toast.success(t("budgetDeleted"));
   };
 
   const handleCancel = () => {
@@ -321,7 +323,7 @@ export default function BudgetManager() {
           </p>
         </div>
         <Button onClick={() => setShowForm(true)}>
-          <PlusIcon className="h-4 w-4 mr-2" />
+          <PlusIcon className="h-4 w-4 me-2" />
           Create Budget
         </Button>
       </div>
@@ -334,7 +336,7 @@ export default function BudgetManager() {
               your spending limits.
             </p>
             <Button onClick={() => setShowForm(true)}>
-              <PlusIcon className="h-4 w-4 mr-2" />
+              <PlusIcon className="h-4 w-4 me-2" />
               Create Your First Budget
             </Button>
           </CardContent>
@@ -365,7 +367,7 @@ export default function BudgetManager() {
                       </DropdownMenuTrigger>
                       <DropdownMenuContent align="end">
                         <DropdownMenuItem onClick={() => handleEdit(budget)}>
-                          <EditIcon className="mr-2 h-4 w-4" />
+                          <EditIcon className="me-2 h-4 w-4" />
                           Edit
                         </DropdownMenuItem>
                         <AlertDialog>
@@ -373,7 +375,7 @@ export default function BudgetManager() {
                             <DropdownMenuItem
                               onSelect={(e) => e.preventDefault()}
                             >
-                              <TrashIcon className="mr-2 h-4 w-4" />
+                              <TrashIcon className="me-2 h-4 w-4" />
                               Delete
                             </DropdownMenuItem>
                           </AlertDialogTrigger>

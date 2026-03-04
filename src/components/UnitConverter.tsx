@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -110,6 +111,9 @@ const conversionCategories: ConversionCategory[] = [
 ];
 
 export default function UnitConverter() {
+  const t = useTranslations("Tools.UnitConverter");
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const tAny = t as any;
   const [activeCategory, setActiveCategory] = useState("Length");
   const [fromUnit, setFromUnit] = useState("Meter");
   const [toUnit, setToUnit] = useState("Kilometer");
@@ -298,10 +302,10 @@ export default function UnitConverter() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calculator className="w-5 h-5" />
-                  {category.name} Converter
+                  {tAny(`categories.${category.name}`)} {t("converter")}
                 </CardTitle>
                 <CardDescription>
-                  Convert between different {category.name.toLowerCase()} units
+                  {t("convertBetween")} {String(tAny(`categories.${category.name}`)).toLowerCase()} {t("units")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -310,7 +314,7 @@ export default function UnitConverter() {
                   <div className="space-y-4">
                     {/* From Unit */}
                     <div className="space-y-2">
-                      <Label htmlFor="from-unit">From</Label>
+                      <Label htmlFor="from-unit">{t("from")}</Label>
                       <Select
                         value={fromUnit}
                         onValueChange={handleFromUnitChange}
@@ -329,13 +333,14 @@ export default function UnitConverter() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="from-value">Value</Label>
+                      <Label htmlFor="from-value">{t("value")}</Label>
                       <Input
                         id="from-value"
                         type="number"
-                        placeholder="Enter value"
+                        placeholder={t("enterValue")}
                         value={fromValue}
                         onChange={(e) => handleFromValueChange(e.target.value)}
+                        dir="ltr"
                       />
                     </div>
 
@@ -353,7 +358,7 @@ export default function UnitConverter() {
 
                     {/* To Unit */}
                     <div className="space-y-2">
-                      <Label htmlFor="to-unit">To</Label>
+                      <Label htmlFor="to-unit">{t("to")}</Label>
                       <Select value={toUnit} onValueChange={handleToUnitChange}>
                         <SelectTrigger>
                           <SelectValue />
@@ -369,26 +374,27 @@ export default function UnitConverter() {
                     </div>
 
                     <div className="space-y-2">
-                      <Label htmlFor="to-value">Converted Value</Label>
+                      <Label htmlFor="to-value">{t("convertedValue")}</Label>
                       <Input
                         id="to-value"
                         type="number"
-                        placeholder="Converted value"
+                        placeholder={t("convertedValue")}
                         value={toValue}
                         onChange={(e) => handleToValueChange(e.target.value)}
                         readOnly
                         className="bg-muted"
+                        dir="ltr"
                       />
                     </div>
                   </div>
 
                   {/* Results Section - Right Side */}
                   <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">Result</h3>
+                    <h3 className="text-lg font-semibold">{t("result")}</h3>
 
                     {/* Conversion Result */}
                     {fromValue && toValue && fromUnitData && toUnitData ? (
-                      <div className="p-4 bg-muted rounded-lg">
+                      <div className="p-4 bg-muted rounded-lg" dir="ltr">
                         <p className="text-lg font-medium">
                           <NumberFlow value={parseFloat(fromValue)} />{" "}
                           {fromUnitData.symbol} ={" "}
@@ -399,7 +405,7 @@ export default function UnitConverter() {
                         {/* Working Calculation */}
                         <div className="mt-3 p-3 bg-background rounded border">
                           <p className="text-sm font-medium text-muted-foreground mb-2">
-                            Working:
+                            {t("working")}
                           </p>
                           {activeCategory === "Temperature" ? (
                             <div className="text-sm space-y-1">
@@ -427,7 +433,7 @@ export default function UnitConverter() {
                                 • {fromValue} {fromUnitData.symbol} ×{" "}
                                 {fromUnitData.factor} ={" "}
                                 {parseFloat(fromValue) * fromUnitData.factor}{" "}
-                                (base unit)
+                                ({t("baseUnit")})
                               </p>
                               <p>
                                 • {parseFloat(fromValue) * fromUnitData.factor}{" "}
@@ -452,7 +458,7 @@ export default function UnitConverter() {
                       </div>
                     ) : (
                       <div className="p-4 bg-muted rounded-lg text-center text-muted-foreground">
-                        Enter a value to see the conversion result
+                        {t("enterValuePrompt")}
                       </div>
                     )}
                   </div>
@@ -466,11 +472,11 @@ export default function UnitConverter() {
       {/* Quick Conversions */}
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>Quick Conversions</CardTitle>
-          <CardDescription>Common conversion examples</CardDescription>
+          <CardTitle>{t("quickConversions")}</CardTitle>
+          <CardDescription>{t("commonExamples")}</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm" dir="ltr">
             <div className="p-3 bg-muted rounded-lg">
               <p className="font-medium">Length</p>
               <p>1 meter = 3.281 feet</p>

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -36,6 +37,7 @@ interface FileEntry {
 }
 
 export default function ZipTool() {
+  const t = useTranslations("Tools.ZipTools");
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [zipContent, setZipContent] = useState<FileEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -50,9 +52,9 @@ export default function ZipTool() {
         data: file,
       }));
       setFiles((prev) => [...prev, ...fileEntries]);
-      toast.success("Files added successfully!");
+      toast.success(t("filesAddedSuccess"));
     } catch (error) {
-      toast.error("Error adding files");
+      toast.error(t("errorAddingFiles"));
     }
   }, []);
 
@@ -87,9 +89,9 @@ export default function ZipTool() {
       }
 
       setZipContent(extractedFiles);
-      toast.success("ZIP file extracted successfully!");
+      toast.success(t("extractedSuccess"));
     } catch (error) {
-      toast.error("Error extracting ZIP file");
+      toast.error(t("errorExtracting"));
     } finally {
       setLoading(false);
     }
@@ -118,7 +120,7 @@ export default function ZipTool() {
 
   const createZip = async () => {
     if (files.length === 0) {
-      toast.error("Add files to create ZIP");
+      toast.error(t("addFilesToCreate"));
       return;
     }
 
@@ -156,9 +158,9 @@ export default function ZipTool() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      toast.success("ZIP file created successfully!");
+      toast.success(t("zipCreatedSuccess"));
     } catch (error) {
-      toast.error("Error creating ZIP file");
+      toast.error(t("errorCreatingZip"));
     } finally {
       setLoading(false);
       setProgress(0);
@@ -199,12 +201,12 @@ export default function ZipTool() {
           <Tabs defaultValue="compress" className="space-y-6">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="compress">
-                <FileArchive className="w-4 h-4 mr-2" />
-                Create ZIP
+                <FileArchive className="w-4 h-4 me-2" />
+                {t("createZip")}
               </TabsTrigger>
               <TabsTrigger value="extract">
-                <FileOutput className="w-4 h-4 mr-2" />
-                Extract ZIP
+                <FileOutput className="w-4 h-4 me-2" />
+                {t("extractZip")}
               </TabsTrigger>
             </TabsList>
 
@@ -228,10 +230,10 @@ export default function ZipTool() {
                     <Upload className="w-8 h-8 text-muted-foreground" />
                     <div>
                       <h3 className="font-semibold">
-                        Drop files here or click to select
+                        {t("dropFilesCompress")}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Add files to create a ZIP archive
+                        {t("addFilesDesc")}
                       </p>
                     </div>
                   </div>
@@ -243,9 +245,9 @@ export default function ZipTool() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>File Name</TableHead>
-                        <TableHead>Size</TableHead>
-                        <TableHead className="w-[100px]">Actions</TableHead>
+                        <TableHead>{t("tableFileName")}</TableHead>
+                        <TableHead>{t("tableSize")}</TableHead>
+                        <TableHead className="w-[100px]">{t("tableActions")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>
@@ -276,7 +278,7 @@ export default function ZipTool() {
                     {loading && (
                       <div className="space-y-2">
                         <div className="flex justify-between text-sm">
-                          <span>Creating ZIP file...</span>
+                          <span>{t("creatingZip")}</span>
                           <span>{Math.round(progress)}%</span>
                         </div>
                         <Progress value={progress} />
@@ -290,13 +292,13 @@ export default function ZipTool() {
                     >
                       {loading ? (
                         <>
-                          <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                          Creating ZIP...
+                          <Loader2 className="w-4 h-4 me-2 animate-spin" />
+                          {t("creatingZipBtn")}
                         </>
                       ) : (
                         <>
-                          <FileArchive className="w-4 h-4 mr-2" />
-                          Create ZIP
+                          <FileArchive className="w-4 h-4 me-2" />
+                          {t("createZipBtn")}
                         </>
                       )}
                     </Button>
@@ -325,10 +327,10 @@ export default function ZipTool() {
                     <Folder className="w-8 h-8 text-muted-foreground" />
                     <div>
                       <h3 className="font-semibold">
-                        Drop ZIP file here or click to select
+                        {t("dropFileExtract")}
                       </h3>
                       <p className="text-sm text-muted-foreground">
-                        Extract contents of a ZIP file
+                        {t("extractContents")}
                       </p>
                     </div>
                   </div>
@@ -339,7 +341,7 @@ export default function ZipTool() {
                 <Card className="p-4">
                   <div className="space-y-2">
                     <div className="flex justify-between text-sm">
-                      <span>Extracting ZIP file...</span>
+                      <span>{t("extractingZip")}</span>
                       <span>{Math.round(progress)}%</span>
                     </div>
                     <Progress value={progress} />
@@ -352,9 +354,9 @@ export default function ZipTool() {
                   <Table>
                     <TableHeader>
                       <TableRow>
-                        <TableHead>File Name</TableHead>
-                        <TableHead>Size</TableHead>
-                        <TableHead className="w-[100px]">Actions</TableHead>
+                        <TableHead>{t("tableFileName")}</TableHead>
+                        <TableHead>{t("tableSize")}</TableHead>
+                        <TableHead className="w-[100px]">{t("tableActions")}</TableHead>
                       </TableRow>
                     </TableHeader>
                     <TableBody>

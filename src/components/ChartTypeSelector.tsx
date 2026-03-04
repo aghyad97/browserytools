@@ -12,6 +12,7 @@ import {
   CircleDot,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { useTranslations } from "next-intl";
 
 interface ChartTypeSelectorProps {
   selectedType: ChartType;
@@ -21,43 +22,43 @@ interface ChartTypeSelectorProps {
 const chartTypes = [
   {
     type: "area" as ChartType,
-    name: "Area Chart",
-    description: "Shows data trends over time with filled areas",
+    nameKey: "areaChart" as const,
+    descKey: "areaChartDesc" as const,
     icon: AreaChart,
     color: "bg-blue-500",
   },
   {
     type: "bar" as ChartType,
-    name: "Bar Chart",
-    description: "Compares values across categories",
+    nameKey: "barChart" as const,
+    descKey: "barChartDesc" as const,
     icon: BarChart3,
     color: "bg-green-500",
   },
   {
     type: "line" as ChartType,
-    name: "Line Chart",
-    description: "Displays trends and changes over time",
+    nameKey: "lineChart" as const,
+    descKey: "lineChartDesc" as const,
     icon: LineChart,
     color: "bg-purple-500",
   },
   {
     type: "pie" as ChartType,
-    name: "Pie Chart",
-    description: "Shows proportions of a whole",
+    nameKey: "pieChart" as const,
+    descKey: "pieChartDesc" as const,
     icon: PieChart,
     color: "bg-orange-500",
   },
   {
     type: "radar" as ChartType,
-    name: "Radar Chart",
-    description: "Compares multiple variables in a circular format",
+    nameKey: "radarChart" as const,
+    descKey: "radarChartDesc" as const,
     icon: Radar,
     color: "bg-pink-500",
   },
   {
     type: "radial" as ChartType,
-    name: "Radial Chart",
-    description: "Shows data in a circular bar format",
+    nameKey: "radialChart" as const,
+    descKey: "radialChartDesc" as const,
     icon: CircleDot,
     color: "bg-teal-500",
   },
@@ -67,12 +68,13 @@ export function ChartTypeSelector({
   selectedType,
   onTypeChange,
 }: ChartTypeSelectorProps) {
+  const t = useTranslations("Tools.Charts");
   return (
     <div className="space-y-4">
       <div>
-        <h3 className="text-lg font-semibold">Chart Type</h3>
+        <h3 className="text-lg font-semibold">{t("chartTypeTitle")}</h3>
         <p className="text-sm text-muted-foreground">
-          Choose the type of chart you want to create
+          {t("chartTypeDesc")}
         </p>
       </div>
 
@@ -91,15 +93,15 @@ export function ChartTypeSelector({
               onClick={() => onTypeChange(chart.type)}
             >
               <CardContent className="p-4">
-                <div className="flex items-start space-x-3">
+                <div className="flex items-start space-x-3 rtl:space-x-reverse">
                   <div className={cn("p-2 rounded-lg text-white", chart.color)}>
                     <Icon className="h-5 w-5" />
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h4 className="font-medium text-sm">{chart.name}</h4>
+                    <h4 className="font-medium text-sm">{t(chart.nameKey)}</h4>
                     <p className="text-xs text-muted-foreground mt-1">
-                      {chart.description}
+                      {t(chart.descKey)}
                     </p>
                   </div>
 

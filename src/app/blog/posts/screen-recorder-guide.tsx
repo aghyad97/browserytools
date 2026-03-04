@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Content() {
   return (
     <div>
@@ -13,7 +15,7 @@ export default function Content() {
         Here is what most people do not realize: your browser already knows how to record your screen.
         The <strong>Screen Capture API</strong> (<code>getDisplayMedia</code>) is a W3C standard that
         has been shipping in every major browser for years. The{" "}
-        <a href="/tools/screen-recorder">BrowseryTools Screen Recorder</a> puts a clean, practical
+        <Link href="/tools/screen-recorder">BrowseryTools Screen Recorder</Link> puts a clean, practical
         interface on top of it — so you can record your screen, a specific window, or a single browser
         tab without installing anything, creating an account, or paying a cent.
       </p>
@@ -95,7 +97,7 @@ export default function Content() {
       </p>
       <ol>
         <li>
-          <strong>Open the tool:</strong> Go to <a href="/tools/screen-recorder">/tools/screen-recorder</a>.
+          <strong>Open the tool:</strong> Go to <Link href="/tools/screen-recorder">/tools/screen-recorder</Link>.
           No login, no setup, nothing to install. The tool is ready the moment the page loads.
         </li>
         <li>
@@ -343,7 +345,7 @@ ffmpeg -i recording.webm -c:v libx264 -c:a aac output.mp4`}</code></pre>
         subscription, no privacy tradeoffs.
       </p>
       <p>
-        Open the <a href="/tools/screen-recorder">BrowseryTools Screen Recorder</a>, click Start,
+        Open the <Link href="/tools/screen-recorder">BrowseryTools Screen Recorder</Link>, click Start,
         capture what you need, and download it. The whole process from opening the tool to having a
         WebM file on your desktop takes under two minutes.
       </p>
@@ -355,20 +357,20 @@ ffmpeg -i recording.webm -c:v libx264 -c:a aac output.mp4`}</code></pre>
           Capture your screen, window, or browser tab. Download as WebM. Nothing is uploaded anywhere.
           No account, no extension, no cost.
         </p>
-        <a
+        <Link
           href="/tools/screen-recorder"
           style={{display: "inline-flex", alignItems: "center", gap: "8px", background: "rgb(239,68,68)", color: "white", padding: "12px 28px", borderRadius: "10px", fontWeight: "700", textDecoration: "none", fontSize: "16px"}}
         >
           Open Screen Recorder →
-        </a>
+        </Link>
       </div>
 
       <p style={{fontSize: "14px", opacity: 0.7}}>
         Related tools:{" "}
-        <a href="/tools/image-compression">Image Compression</a> ·{" "}
-        <a href="/tools/bg-removal">Background Removal</a> ·{" "}
-        <a href="/tools/image-converter">Image Converter</a> ·{" "}
-        <a href="/">All BrowseryTools</a>
+        <Link href="/tools/image-compression">Image Compression</Link> ·{" "}
+        <Link href="/tools/bg-removal">Background Removal</Link> ·{" "}
+        <Link href="/tools/image-converter">Image Converter</Link> ·{" "}
+        <Link href="/">All BrowseryTools</Link>
       </p>
     </div>
   );

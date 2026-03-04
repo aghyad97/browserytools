@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Copy, Download, RotateCcw, Code2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const SAMPLE_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Sample</title></head><body><h1>Hello World</h1><p>This is a <strong>sample</strong> HTML document.</p><ul><li>Item 1</li><li>Item 2</li></ul></body></html>`;
 
@@ -73,6 +74,8 @@ function minifyHtml(html: string): string {
 }
 
 export default function HtmlFormatter() {
+  const t = useTranslations("Tools.HtmlFormatter");
+  const tCommon = useTranslations("Common");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [indentSize, setIndentSize] = useState(2);
@@ -81,7 +84,7 @@ export default function HtmlFormatter() {
 
   const handleProcess = () => {
     if (!input.trim()) {
-      toast.error("Please enter HTML to process");
+      toast.error(t("enterHtmlToProcess"));
       return;
     }
     setError("");
@@ -90,7 +93,7 @@ export default function HtmlFormatter() {
         ? formatHtml(input, indentSize)
         : minifyHtml(input);
       setOutput(result);
-      toast.success(mode === "format" ? "HTML formatted!" : "HTML minified!");
+      toast.success(mode === "format" ? t("htmlFormatted") : t("htmlMinified"));
     } catch (e) {
       const msg = e instanceof Error ? e.message : "Processing failed";
       setError(msg);
@@ -102,9 +105,9 @@ export default function HtmlFormatter() {
     if (!output) return;
     try {
       await navigator.clipboard.writeText(output);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
   };
 
@@ -117,7 +120,7 @@ export default function HtmlFormatter() {
     a.download = `formatted-${Date.now()}.html`;
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Downloaded");
+    toast.success(t("downloaded"));
   };
 
   const handleClear = () => {
@@ -134,8 +137,8 @@ export default function HtmlFormatter() {
             <Code2 className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">HTML Formatter</h1>
-            <p className="text-sm text-muted-foreground">Format or minify HTML code</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
         </div>
 
@@ -146,20 +149,20 @@ export default function HtmlFormatter() {
               size="sm"
               onClick={() => setMode("format")}
             >
-              Format
+              {t("formatButton")}
             </Button>
             <Button
               variant={mode === "minify" ? "default" : "outline"}
               size="sm"
               onClick={() => setMode("minify")}
             >
-              Minify
+              {t("minifyButton")}
             </Button>
           </div>
 
           {mode === "format" && (
             <div className="flex items-center gap-2">
-              <Label className="text-sm">Indent size:</Label>
+              <Label className="text-sm">{t("indentSize")}</Label>
               <Input
                 type="number"
                 min={1}
@@ -171,12 +174,12 @@ export default function HtmlFormatter() {
             </div>
           )}
 
-          <div className="ml-auto flex gap-2">
+          <div className="ms-auto flex gap-2">
             <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_HTML)}>
-              Load Sample
+              {t("loadSample")}
             </Button>
             <Button variant="outline" size="sm" onClick={handleClear}>
-              <RotateCcw className="w-4 h-4 mr-1.5" /> Clear
+              <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
             </Button>
           </div>
         </div>
@@ -185,7 +188,7 @@ export default function HtmlFormatter() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
-                Input HTML
+                {t("inputHtml")}
                 <Badge variant="secondary">{input.length} chars</Badge>
               </CardTitle>
             </CardHeader>
@@ -193,8 +196,8 @@ export default function HtmlFormatter() {
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder="Paste your HTML here..."
-                className="min-h-[50vh] font-mono text-sm resize-none"
+                placeholder={t("htmlInputPlaceholder")}
+                className="min-h-[50vh] font-mono text-sm resize-none text-left rtl:text-left"
                 aria-label="HTML input"
               />
             </CardContent>
@@ -203,7 +206,7 @@ export default function HtmlFormatter() {
           <Card>
             <CardHeader className="pb-2">
               <CardTitle className="text-sm font-medium flex items-center justify-between">
-                Output
+                {t("outputLabel")}
                 <div className="flex gap-1">
                   <Button size="icon" variant="ghost" className="h-7 w-7" onClick={handleCopy} disabled={!output} aria-label="Copy">
                     <Copy className="w-3.5 h-3.5" />
@@ -221,8 +224,8 @@ export default function HtmlFormatter() {
                 <Textarea
                   value={output}
                   readOnly
-                  placeholder="Formatted HTML will appear here..."
-                  className="min-h-[50vh] font-mono text-sm resize-none"
+                  placeholder={t("htmlOutputPlaceholder")}
+                  className="min-h-[50vh] font-mono text-sm resize-none text-left rtl:text-left"
                   aria-label="HTML output"
                 />
               )}
@@ -232,7 +235,7 @@ export default function HtmlFormatter() {
 
         <div className="flex justify-center">
           <Button onClick={handleProcess} disabled={!input.trim()} size="lg">
-            {mode === "format" ? "Format HTML" : "Minify HTML"}
+            {mode === "format" ? t("formatHtml") : t("minifyHtml")}
           </Button>
         </div>
       </div>

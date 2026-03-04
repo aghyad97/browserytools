@@ -16,6 +16,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Download, Upload, RotateCcw, Plus, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 interface ChartDataEditorProps {
   chartType: ChartType;
@@ -28,6 +29,7 @@ export function ChartDataEditor({
   data,
   onDataChange,
 }: ChartDataEditorProps) {
+  const t = useTranslations("Tools.Charts");
   const [jsonInput, setJsonInput] = useState("");
   const [csvInput, setCsvInput] = useState("");
   const [activeTab, setActiveTab] = useState("table");
@@ -109,12 +111,12 @@ export function ChartDataEditor({
         setTableData(cleanedData);
         setCsvInput(convertToCSV(cleanedData));
         setHeaders(Object.keys(cleanedData[0]));
-        toast.success("Data updated successfully");
+        toast.success(t("dataUpdated"));
       } else {
-        toast.error("Invalid JSON format. Expected an array of objects.");
+        toast.error(t("invalidJsonFormat"));
       }
     } catch (error) {
-      toast.error("Invalid JSON format");
+      toast.error(t("invalidJsonSimple"));
     }
   };
 
@@ -127,12 +129,12 @@ export function ChartDataEditor({
         setTableData(cleanedData);
         setJsonInput(JSON.stringify(cleanedData, null, 2));
         setHeaders(Object.keys(cleanedData[0]));
-        toast.success("Data updated successfully");
+        toast.success(t("dataUpdated"));
       } else {
-        toast.error("Invalid CSV format");
+        toast.error(t("invalidCsvFormat"));
       }
     } catch (error) {
-      toast.error("Invalid CSV format");
+      toast.error(t("invalidCsvFormat"));
     }
   };
 
@@ -257,7 +259,7 @@ export function ChartDataEditor({
       return;
     }
     if (headers.includes(trimmed)) {
-      toast.error("Column name already exists");
+      toast.error(t("columnExists"));
       setHeaderEdits((prev) => {
         const { [oldName]: _, ...rest } = prev;
         return rest;
@@ -287,7 +289,7 @@ export function ChartDataEditor({
     setJsonInput(JSON.stringify(cleanedData, null, 2));
     setCsvInput(convertToCSV(cleanedData));
     setHeaders(Object.keys(cleanedData[0] || {}));
-    toast.success("Sample data loaded");
+    toast.success(t("sampleDataLoaded"));
   };
 
   const exportData = () => {
@@ -304,27 +306,27 @@ export function ChartDataEditor({
   return (
     <div className="space-y-4">
       <div className="mt-4">
-        <h3 className="text-lg font-semibold">Chart Data</h3>
+        <h3 className="text-lg font-semibold">{t("chartDataTitle")}</h3>
         <p className="text-sm text-muted-foreground">
-          Input your data using the table, JSON, or CSV format
+          {t("chartDataDesc")}
         </p>
         <div className="flex gap-2 mt-3">
           <Button variant="outline" size="sm" onClick={loadSampleData}>
-            <RotateCcw className="h-4 w-4 mr-2" />
-            Load Sample
+            <RotateCcw className="h-4 w-4 me-2" />
+            {t("loadSample")}
           </Button>
           <Button variant="outline" size="sm" onClick={exportData}>
-            <Download className="h-4 w-4 mr-2" />
-            Export
+            <Download className="h-4 w-4 me-2" />
+            {t("export")}
           </Button>
         </div>
       </div>
 
       <Tabs value={activeTab} onValueChange={setActiveTab}>
         <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="table">Table</TabsTrigger>
-          <TabsTrigger value="json">JSON</TabsTrigger>
-          <TabsTrigger value="csv">CSV</TabsTrigger>
+          <TabsTrigger value="table">{t("tableTab")}</TabsTrigger>
+          <TabsTrigger value="json">{t("jsonTab")}</TabsTrigger>
+          <TabsTrigger value="csv">{t("csvTab")}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="table" className="space-y-4">
@@ -332,12 +334,12 @@ export function ChartDataEditor({
             <div className="flex items-center justify-between">
               <div className="flex gap-2">
                 <Button size="sm" onClick={addRow}>
-                  <Plus className="h-4 w-4 mr-1" />
-                  Row
+                  <Plus className="h-4 w-4 me-1" />
+                  {t("addRow")}
                 </Button>
                 <Button size="sm" variant="outline" onClick={addColumn}>
-                  <Plus className="h-4 w-4 mr-1" />
-                  Column
+                  <Plus className="h-4 w-4 me-1" />
+                  {t("addColumn")}
                 </Button>
               </div>
             </div>
@@ -346,7 +348,7 @@ export function ChartDataEditor({
                 <thead>
                   <tr className="border-b">
                     {headers.map((header, index) => (
-                      <th key={index} className="text-left p-2 border-r">
+                      <th key={index} className="text-start p-2 border-r">
                         <div className="flex items-center gap-2">
                           <Input
                             value={headerEdits[header] ?? header}
@@ -377,7 +379,7 @@ export function ChartDataEditor({
                         </div>
                       </th>
                     ))}
-                    <th className="text-left p-2">Actions</th>
+                    <th className="text-start p-2">{t("actions")}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -427,21 +429,22 @@ export function ChartDataEditor({
         <TabsContent value="json" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">JSON Format</CardTitle>
+              <CardTitle className="text-sm">{t("jsonTab")} Format</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="json-input">JSON Data</Label>
+                <Label htmlFor="json-input">{t("jsonData")}</Label>
                 <Textarea
                   id="json-input"
                   value={jsonInput}
                   onChange={(e) => setJsonInput(e.target.value)}
-                  placeholder="Enter JSON data..."
+                  placeholder={t("jsonPlaceholder")}
                   className="min-h-[200px] font-mono text-sm"
+                  dir="ltr"
                 />
               </div>
               <Button onClick={handleJsonSubmit} className="w-full">
-                Update Chart Data
+                {t("updateChartData")}
               </Button>
             </CardContent>
           </Card>
@@ -450,21 +453,22 @@ export function ChartDataEditor({
         <TabsContent value="csv" className="space-y-4">
           <Card>
             <CardHeader>
-              <CardTitle className="text-sm">CSV Format</CardTitle>
+              <CardTitle className="text-sm">{t("csvTab")} Format</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <div>
-                <Label htmlFor="csv-input">CSV Data</Label>
+                <Label htmlFor="csv-input">{t("csvData")}</Label>
                 <Textarea
                   id="csv-input"
                   value={csvInput}
                   onChange={(e) => setCsvInput(e.target.value)}
-                  placeholder="Enter CSV data..."
+                  placeholder={t("csvPlaceholder")}
                   className="min-h-[200px] font-mono text-sm"
+                  dir="ltr"
                 />
               </div>
               <Button onClick={handleCsvSubmit} className="w-full">
-                Update Chart Data
+                {t("updateChartData")}
               </Button>
             </CardContent>
           </Card>
@@ -474,7 +478,7 @@ export function ChartDataEditor({
       {data.length === 0 && (
         <Alert>
           <AlertDescription>
-            No data available. Please add some data to create your chart.
+            {t("noDataAlert")}
           </AlertDescription>
         </Alert>
       )}

@@ -22,18 +22,22 @@ import {
 import NumberFlow from "@number-flow/react";
 import { useTextCounterStore } from "@/store/text-counter-store";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function TextCounter() {
+  const t = useTranslations("Tools.TextCounter");
+  const tCommon = useTranslations("Common");
+
   const { text, stats, setText, clearText } = useTextCounterStore();
 
   const handleCopy = () => {
     if (!text) {
-      toast.error("No text to copy");
+      toast.error(t("noTextToCopy"));
       return;
     }
 
     navigator.clipboard.writeText(text);
-    toast.success("Copied to clipboard");
+    toast.success(t("copiedToClipboard"));
   };
 
   const handleClear = () => {
@@ -65,7 +69,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   }) => (
     <Card>
       <CardContent className="p-4">
-        <div className="flex items-center space-x-4">
+        <div className="flex items-center space-x-4 rtl:space-x-reverse">
           <div className="p-2 bg-primary/10 rounded-lg">
             <Icon className="w-5 h-5 text-primary" />
           </div>
@@ -73,7 +77,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             <p className="text-2xl font-bold">
               <NumberFlow value={value} />
               {suffix && (
-                <span className="text-lg text-muted-foreground ml-1">
+                <span className="text-lg text-muted-foreground ms-1">
                   {suffix}
                 </span>
               )}
@@ -91,12 +95,12 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       {/* Text Input - Full Width */}
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Text Input</CardTitle>
-          <CardDescription>Enter or paste your text to analyze</CardDescription>
+          <CardTitle>{t("inputTitle")}</CardTitle>
+          <CardDescription>{t("inputDesc")}</CardDescription>
         </CardHeader>
         <CardContent>
           <Textarea
-            placeholder="Enter your text here to see detailed statistics..."
+            placeholder={t("inputPlaceholder")}
             value={text}
             onChange={(e) => setText(e.target.value)}
             className="min-h-[200px] resize-none"
@@ -104,7 +108,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           <div className="flex justify-between items-center mt-4">
             <div className="flex gap-2">
               <Button variant="outline" size="sm" onClick={handleSampleText}>
-                Load Sample
+                {t("loadSample")}
               </Button>
               <Button
                 variant="outline"
@@ -113,7 +117,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
                 className="flex items-center gap-2"
               >
                 <RotateCcw className="w-4 h-4" />
-                Clear
+                {tCommon("clear")}
               </Button>
             </div>
             <Button
@@ -122,7 +126,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
               className="flex items-center gap-2"
             >
               <Copy className="w-4 h-4" />
-              Copy Text
+              {t("copyText")}
             </Button>
           </div>
         </CardContent>
@@ -132,60 +136,60 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
       <div className="mt-6">
         <Card>
           <CardHeader>
-            <CardTitle>Statistics</CardTitle>
-            <CardDescription>Detailed analysis of your text</CardDescription>
+            <CardTitle>{t("statisticsTitle")}</CardTitle>
+            <CardDescription>{t("statisticsDesc")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
               <StatCard
                 icon={Type}
-                title="Characters"
+                title={t("characters")}
                 value={stats.characters}
-                description="Including spaces"
+                description={t("charactersIncSpaces")}
               />
               <StatCard
                 icon={Hash}
-                title="Characters"
+                title={t("characters")}
                 value={stats.charactersNoSpaces}
-                description="Without spaces"
+                description={t("charactersNoSpaces")}
               />
               <StatCard
                 icon={FileText}
-                title="Words"
+                title={t("words")}
                 value={stats.words}
-                description="Total word count"
+                description={t("totalWordCount")}
               />
               <StatCard
-                title="Lines"
+                title={t("lines")}
                 value={stats.lines}
-                description="Line breaks"
+                description={t("lineBreaks")}
                 icon={AlignLeft}
               />
               <StatCard
-                title="Paragraphs"
+                title={t("paragraphs")}
                 value={stats.paragraphs}
-                description="Paragraph breaks"
+                description={t("paragraphBreaks")}
                 icon={FileText}
               />
               <StatCard
-                title="Sentences"
+                title={t("sentences")}
                 value={stats.sentences}
-                description="Sentence count"
+                description={t("sentenceCount")}
                 icon={Type}
               />
               <StatCard
-                title="Reading Time"
+                title={t("readingTime")}
                 value={stats.readingTime}
-                description="225 words per minute"
+                description={t("readingTimeDesc")}
                 icon={Clock}
-                suffix="min"
+                suffix={t("minSuffix")}
               />
               <StatCard
-                title="Speaking Time"
+                title={t("speakingTime")}
                 value={stats.speakingTime}
-                description="155 words per minute"
+                description={t("speakingTimeDesc")}
                 icon={Mic}
-                suffix="min"
+                suffix={t("minSuffix")}
               />
             </div>
           </CardContent>

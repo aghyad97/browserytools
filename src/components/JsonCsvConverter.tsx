@@ -17,12 +17,14 @@ import { useEffect, useRef } from "react";
 import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
 import "highlight.js/styles/github-dark.css";
+import { useTranslations } from "next-intl";
 
 type ConversionMode = "jsonToCsv" | "csvToJson";
 // Register the languages
 hljs.registerLanguage("json", json);
 
 export default function JsonCsvConverter() {
+  const t = useTranslations("Tools.JsonCsvConverter");
   const outputRef = useRef<HTMLPreElement>(null);
 
   const [input, setInput] = useState("");
@@ -59,7 +61,7 @@ export default function JsonCsvConverter() {
 
       return csvRows.join("\n");
     } catch (error) {
-      throw new Error("Invalid JSON format");
+      throw new Error(t("invalidJsonFormat"));
     }
   };
 
@@ -79,13 +81,13 @@ export default function JsonCsvConverter() {
 
       return JSON.stringify(jsonArray, null, 2);
     } catch (error) {
-      throw new Error("Invalid CSV format");
+      throw new Error(t("invalidCsvFormat"));
     }
   };
 
   const handleConvert = () => {
     if (!input.trim()) {
-      toast.error("Please enter some input");
+      toast.error(t("enterSomeInput"));
       return;
     }
 
@@ -95,15 +97,15 @@ export default function JsonCsvConverter() {
           ? convertJsonToCsv(input)
           : convertCsvToJson(input);
       setOutput(result);
-      toast.success("Conversion successful");
+      toast.success(t("conversionSuccessful"));
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "Conversion failed");
+      toast.error(error instanceof Error ? error.message : t("conversionSuccessful"));
     }
   };
 
   const handleDownload = () => {
     if (!output) {
-      toast.error("No output to download");
+      toast.error(t("noOutputToDownload"));
       return;
     }
 
@@ -118,7 +120,7 @@ export default function JsonCsvConverter() {
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
-    toast.success("File downloaded successfully");
+    toast.success(t("fileDownloadedSuccessfully"));
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -129,10 +131,10 @@ export default function JsonCsvConverter() {
     reader.onload = (e) => {
       const content = e.target?.result as string;
       setInput(content);
-      toast.success("File loaded successfully");
+      toast.success(t("fileLoadedSuccessfully"));
     };
     reader.onerror = () => {
-      toast.error("Error reading file");
+      toast.error(t("errorReadingFile"));
     };
     reader.readAsText(file);
   };
@@ -182,15 +184,15 @@ export default function JsonCsvConverter() {
               onValueChange={(v) => setMode(v as ConversionMode)}
             >
               <SelectTrigger className="w-[180px]">
-                <SelectValue placeholder="Select mode" />
+                <SelectValue placeholder={t("selectMode")} />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="jsonToCsv">JSON to CSV</SelectItem>
-                <SelectItem value="csvToJson">CSV to JSON</SelectItem>
+                <SelectItem value="jsonToCsv">{t("jsonToCsv")}</SelectItem>
+                <SelectItem value="csvToJson">{t("csvToJson")}</SelectItem>
               </SelectContent>
             </Select>
 
-            <div className="flex items-center space-x-2">
+            <div className="flex items-center space-x-2 rtl:space-x-reverse">
               <input
                 type="file"
                 accept={mode === "jsonToCsv" ? ".json" : ".csv"}
@@ -201,14 +203,14 @@ export default function JsonCsvConverter() {
               <label htmlFor="file-upload">
                 <Button variant="outline" asChild>
                   <span>
-                    <Upload className="h-4 w-4 mr-2" />
-                    Upload {mode === "jsonToCsv" ? "JSON" : "CSV"}
+                    <Upload className="h-4 w-4 me-2" />
+                    {mode === "jsonToCsv" ? t("uploadJson") : t("uploadCsv")}
                   </span>
                 </Button>
               </label>
               <Button onClick={handleConvert}>
-                <ArrowRightLeft className="h-4 w-4 mr-2" />
-                Convert
+                <ArrowRightLeft className="h-4 w-4 me-2" />
+                {t("convert")}
               </Button>
             </div>
           </div>
@@ -216,10 +218,9 @@ export default function JsonCsvConverter() {
           <div className="grid grid-cols-2 gap-4">
             <Card className="p-4">
               <Textarea
-                placeholder={`Enter your ${
-                  mode === "jsonToCsv" ? "JSON" : "CSV"
-                } here...`}
-                className="min-h-[400px] font-mono"
+                placeholder={mode === "jsonToCsv" ? t("inputPlaceholderJson") : t("inputPlaceholderCsv")}
+                className="min-h-[400px] font-mono text-left"
+                dir="ltr"
                 value={input}
                 onChange={handleInputChange}
               />
@@ -230,14 +231,16 @@ export default function JsonCsvConverter() {
                 {mode === "csvToJson" ? (
                   <pre
                     ref={outputRef}
-                    className="language-json min-h-[400px] font-mono p-4 overflow-auto"
+                    className="language-json min-h-[400px] font-mono p-4 overflow-auto text-left"
+                    dir="ltr"
                   >
                     <code>{output}</code>
                   </pre>
                 ) : (
                   <Textarea
-                    placeholder="Output will appear here..."
-                    className="min-h-[400px] font-mono"
+                    placeholder={t("outputPlaceholder")}
+                    className="min-h-[400px] font-mono text-left"
+                    dir="ltr"
                     value={output}
                     readOnly
                   />
@@ -245,7 +248,7 @@ export default function JsonCsvConverter() {
                 {output && (
                   <Button
                     size="icon"
-                    className="absolute top-2 right-2"
+                    className="absolute top-2 end-2"
                     onClick={handleDownload}
                   >
                     <Download className="h-4 w-4" />
