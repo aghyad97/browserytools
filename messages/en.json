@@ -3020,5 +3020,15 @@
       "newToolsAdded": "new tools just added!",
       "exploreBelow": "— Explore them below"
     }
+  },
+  "Blog": {
+    "blogTitle": "BrowseryTools Blog",
+    "backToTools": "Back to Tools",
+    "footerNote": "All tools at BrowseryTools run entirely in your browser — no uploads, no accounts, no ads.",
+    "privacyTitle": "All Your Data Stays on Your Device",
+    "privacyDesc": "Every tool on BrowseryTools runs entirely in your browser. No files are uploaded to any server. No accounts. No ads. Forever free.",
+    "exploreTools": "Explore All Tools →",
+    "featured": "Featured",
+    "allPosts": "All Posts"
   }
 }
