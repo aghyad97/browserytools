@@ -1,30 +1,37 @@
 "use client";
 
 import { useEffect } from "react";
-import { usePathname } from "next/navigation";
 import { useLanguageStore } from "@/store/language-store";
 
 /**
  * Replaces the English brand name in the browser tab title with the
- * locale-appropriate name whenever the route or locale changes.
- * Must be rendered inside the app shell so it runs on every navigation.
+ * locale-appropriate name. Uses a MutationObserver on <title> so it catches
+ * both the initial render and every subsequent Next.js client-side navigation.
  */
 export function DynamicTitle() {
-  const pathname = usePathname();
   const { locale } = useLanguageStore();
 
   useEffect(() => {
-    // Small delay to let Next.js update document.title first after navigation
-    const timer = setTimeout(() => {
+    const applyLocale = () => {
       if (locale === "ar") {
         document.title = document.title.replace(/BrowseryTools/g, "أدواتك");
       } else {
         document.title = document.title.replace(/أدواتك/g, "BrowseryTools");
       }
-    }, 0);
+    };
 
-    return () => clearTimeout(timer);
-  }, [locale, pathname]);
+    // Apply immediately on locale change
+    applyLocale();
+
+    // Watch <title> for future changes made by Next.js on navigation
+    const titleEl = document.querySelector("title");
+    if (!titleEl) return;
+
+    const observer = new MutationObserver(applyLocale);
+    observer.observe(titleEl, { childList: true });
+
+    return () => observer.disconnect();
+  }, [locale]);
 
   return null;
 }
