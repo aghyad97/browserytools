@@ -20,6 +20,7 @@ export default function Header() {
   const { currentTool, setCurrentTool } = useToolStore();
   const { dir } = useLanguageStore();
   const t = useTranslations("Header");
+  const tc = useTranslations("ToolsConfig");
 
   // Reset tool context when not on tools routes
   useEffect(() => {
@@ -80,7 +81,7 @@ Please describe what this tool should do and how it would help users.
             {currentTool ? (
               <div>
                 <h1 className="text-sm md:text-md font-semibold">
-                  {currentTool.name}
+                  {tc(`tools.${currentTool.href.replace("/tools/", "")}.name` as any)}
                 </h1>
               </div>
             ) : (
