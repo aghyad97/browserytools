@@ -74,7 +74,7 @@ export default function VideoEditor() {
     if (file) {
       if (file.size > 100 * 1024 * 1024) {
         // 100MB limit
-        toast.error("Video size should be less than 100MB");
+        toast.error(t("videoTooLarge"));
         return;
       }
 
@@ -197,7 +197,7 @@ export default function VideoEditor() {
         const url = URL.createObjectURL(blob);
         setProcessedVideo(url);
         setIsProcessing(false);
-        toast.success("Video trimmed successfully!");
+        toast.success(t("trimmedSuccess"));
       };
 
       // Start recording
@@ -225,7 +225,7 @@ export default function VideoEditor() {
       mediaRecorder.stop();
     } catch (error) {
       console.error("Error trimming video:", error);
-      toast.error("Failed to trim video. Please try again.");
+      toast.error(t("trimFailed"));
       setIsProcessing(false);
     }
   };
@@ -270,7 +270,7 @@ export default function VideoEditor() {
         const url = URL.createObjectURL(blob);
         setProcessedVideo(url);
         setIsProcessing(false);
-        toast.success("Video converted successfully!");
+        toast.success(t("convertedSuccess"));
       };
 
       // Start recording
@@ -297,7 +297,7 @@ export default function VideoEditor() {
       mediaRecorder.stop();
     } catch (error) {
       console.error("Error converting video:", error);
-      toast.error("Failed to convert video. Please try again.");
+      toast.error(t("convertFailed"));
       setIsProcessing(false);
     }
   };
@@ -315,7 +315,7 @@ export default function VideoEditor() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success("Video downloaded!");
+    toast.success(t("downloadedSuccess"));
   };
 
   const handleReset = () => {

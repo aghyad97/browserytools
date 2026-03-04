@@ -99,10 +99,10 @@ export default function SpreadsheetViewer() {
       setData(parsedData);
       setFilteredData(parsedData);
       setSelectedColumn(cols[0].key);
-      toast.success("File loaded successfully!");
+      toast.success(t("fileLoadedSuccess"));
     } catch (error) {
       console.error(error);
-      toast.error("Error loading file");
+      toast.error(t("errorLoadingFile"));
     }
   }, []);
 

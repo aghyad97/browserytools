@@ -187,21 +187,15 @@ export default function QRScanner() {
 
       if (err.name === "NotAllowedError") {
         setPermissionStatus("denied");
-        setError(
-          "Camera access denied. You may need to allow camera access when prompted by your browser, or check your browser settings if no prompt appeared."
-        );
+        setError(t("errorAccessDenied"));
       } else if (err.name === "NotFoundError") {
-        setError("No camera found on this device.");
+        setError(t("errorNoCameraFound"));
       } else if (err.name === "NotSupportedError") {
-        setError("Camera is not supported on this device or browser.");
+        setError(t("errorCameraNotSupportedDevice"));
       } else if (err.name === "NotReadableError") {
-        setError(
-          "Camera is already in use by another application. Please close other camera apps and try again."
-        );
+        setError(t("errorCameraInUse"));
       } else if (err.name === "OverconstrainedError") {
-        setError(
-          "Camera settings not supported. Trying with default settings..."
-        );
+        setError(t("errorOverconstrained"));
         // Try again with basic settings
         try {
           const fallbackStream = await navigator.mediaDevices.getUserMedia({
@@ -210,9 +204,9 @@ export default function QRScanner() {
           setCameraStream(fallbackStream);
           setIsScanning(true);
           setPermissionStatus("granted");
-          toast.success("Camera access granted with fallback settings!");
+          toast.success(t("cameraFallbackGranted"));
         } catch (fallbackErr) {
-          setError("Unable to access camera with any settings.");
+          setError(t("errorNoFallbackSettings"));
         }
       } else {
         setError(
@@ -331,9 +325,7 @@ export default function QRScanner() {
       settingsUrl = "about:preferences#privacy";
     } else if (userAgent.includes("safari")) {
       // Safari doesn't allow opening settings directly
-      toast.info(
-        "Please go to Safari > Preferences > Websites > Camera to enable camera access"
-      );
+      toast.info(t("safariSettingsToast"));
       return;
     } else if (userAgent.includes("edge")) {
       settingsUrl = "edge://settings/content/camera";
@@ -342,17 +334,16 @@ export default function QRScanner() {
     if (settingsUrl) {
       window.open(settingsUrl, "_blank");
     } else {
-      toast.info("Please check your browser settings to enable camera access");
+      toast.info(t("checkBrowserSettingsToast"));
     }
   };
 
   const getPermissionGuidance = () => {
     if (permissionStatus === "denied") {
       return {
-        title: "Camera Access Denied",
-        message:
-          "Camera access was blocked. Please check your browser settings or try the manual permission request below.",
-        action: "Open Settings",
+        title: t("cameraAccessDeniedTitle"),
+        message: t("cameraAccessDeniedMsg"),
+        action: t("openSettings"),
         icon: <Settings className="h-5 w-5" />,
         variant: "destructive" as const,
       };
@@ -361,12 +352,9 @@ export default function QRScanner() {
       permissionStatus === "unknown"
     ) {
       return {
-        title: "Camera Permission Required",
-        message:
-          "This tool needs camera access to scan QR codes. Your browser should show a permission prompt when you click the button below.",
-        action: isRequestingPermission
-          ? "Requesting..."
-          : "Request Camera Access",
+        title: t("cameraPermissionRequiredTitle"),
+        message: t("cameraPermissionRequiredMsg"),
+        action: isRequestingPermission ? t("requesting") : t("requestCameraAccess"),
         icon: <Shield className="h-5 w-5" />,
         variant: "default" as const,
       };
@@ -385,7 +373,7 @@ export default function QRScanner() {
       );
 
       if (videoDevices.length === 0) {
-        setError("No camera devices found on this device.");
+        setError(t("errorNoCamerasFound"));
         return;
       }
 
@@ -593,13 +581,11 @@ export default function QRScanner() {
                     {error}
                     {permissionStatus === "denied" && (
                       <div className="mt-2 space-y-2">
-                        <p className="text-sm">To fix this:</p>
+                        <p className="text-sm">{t("fixTitle")}</p>
                         <ol className="text-sm list-decimal list-inside space-y-1">
-                          <li>
-                            Click the camera icon in your browser's address bar
-                          </li>
-                          <li>Select "Allow" for camera access</li>
-                          <li>Refresh this page</li>
+                          <li>{t("fixStep1")}</li>
+                          <li>{t("fixStep2")}</li>
+                          <li>{t("fixStep3")}</li>
                         </ol>
                       </div>
                     )}
@@ -614,9 +600,7 @@ export default function QRScanner() {
                   <AlertDescription>
                     <div className="space-y-2">
                       <p>
-                        <strong>Privacy Note:</strong> Your camera feed is
-                        processed locally in your browser. No images or video
-                        are sent to any server.
+                        <strong>{t("privacyNote")}</strong> {t("privacyNoteDesc")}
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Permission Status: {permissionStatus} | Browser:{" "}
@@ -639,20 +623,13 @@ export default function QRScanner() {
                   <Info className="h-4 w-4" />
                   <AlertDescription>
                     <div className="space-y-2">
-                      <p className="font-medium">Troubleshooting Tips:</p>
+                      <p className="font-medium">{t("troubleshootingTitle")}</p>
                       <ul className="text-sm space-y-1 list-disc list-inside">
-                        <li>
-                          Make sure you're using HTTPS (required for camera
-                          access)
-                        </li>
-                        <li>Check if other websites can access your camera</li>
-                        <li>Try restarting your browser</li>
-                        <li>
-                          Ensure no other applications are using the camera
-                        </li>
-                        <li>
-                          Check your operating system's camera privacy settings
-                        </li>
+                        <li>{t("tip1")}</li>
+                        <li>{t("tip2")}</li>
+                        <li>{t("tip3")}</li>
+                        <li>{t("tip4")}</li>
+                        <li>{t("tip5")}</li>
                       </ul>
                     </div>
                   </AlertDescription>
@@ -741,7 +718,7 @@ export default function QRScanner() {
 
             <div className="flex flex-wrap gap-2">
               {isUrl(scannedData) && <Badge variant="secondary">URL</Badge>}
-              <Badge variant="outline">{scannedData.length} characters</Badge>
+              <Badge variant="outline">{t("charCount", { count: scannedData.length })}</Badge>
             </div>
 
             <div className="flex gap-2">

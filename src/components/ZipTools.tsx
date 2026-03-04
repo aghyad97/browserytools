@@ -52,9 +52,9 @@ export default function ZipTool() {
         data: file,
       }));
       setFiles((prev) => [...prev, ...fileEntries]);
-      toast.success("Files added successfully!");
+      toast.success(t("filesAddedSuccess"));
     } catch (error) {
-      toast.error("Error adding files");
+      toast.error(t("errorAddingFiles"));
     }
   }, []);
 
@@ -89,9 +89,9 @@ export default function ZipTool() {
       }
 
       setZipContent(extractedFiles);
-      toast.success("ZIP file extracted successfully!");
+      toast.success(t("extractedSuccess"));
     } catch (error) {
-      toast.error("Error extracting ZIP file");
+      toast.error(t("errorExtracting"));
     } finally {
       setLoading(false);
     }
@@ -120,7 +120,7 @@ export default function ZipTool() {
 
   const createZip = async () => {
     if (files.length === 0) {
-      toast.error("Add files to create ZIP");
+      toast.error(t("addFilesToCreate"));
       return;
     }
 
@@ -158,9 +158,9 @@ export default function ZipTool() {
       document.body.removeChild(link);
       URL.revokeObjectURL(url);
 
-      toast.success("ZIP file created successfully!");
+      toast.success(t("zipCreatedSuccess"));
     } catch (error) {
-      toast.error("Error creating ZIP file");
+      toast.error(t("errorCreatingZip"));
     } finally {
       setLoading(false);
       setProgress(0);
