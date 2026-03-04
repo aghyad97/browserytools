@@ -93,7 +93,7 @@ interface RomanToNumberStep {
 
 function romanToNumber(
   roman: string
-): { value: number; steps: RomanToNumberStep[]; error?: string } | null {
+): { value: number; steps: RomanToNumberStep[]; errorKey?: string } | null {
   if (!roman) return null;
 
   const upper = roman.toUpperCase().trim();
@@ -101,14 +101,14 @@ function romanToNumber(
 
   // Validate characters
   if (/[^IVXLCDM]/.test(upper)) {
-    return { value: 0, steps: [], error: "Invalid Roman numeral — only I, V, X, L, C, D, M allowed" };
+    return { value: 0, steps: [], errorKey: "errorInvalidChars" };
   }
 
   // Validate Roman numeral rules (basic)
   const validPattern =
     /^M{0,3}(CM|CD|D?C{0,3})(XC|XL|L?X{0,3})(IX|IV|V?I{0,3})$/;
   if (!validPattern.test(upper)) {
-    return { value: 0, steps: [], error: "Invalid Roman numeral — check the numeral format" };
+    return { value: 0, steps: [], errorKey: "errorInvalidFormat" };
   }
 
   const steps: RomanToNumberStep[] = [];
@@ -176,7 +176,7 @@ export default function RomanNumeralConverter() {
   const toRomanResult = useMemo(() => {
     const n = parseInt(numberInput, 10);
     if (!numberInput.trim() || isNaN(n)) return null;
-    if (n < 1 || n > 3999) return { error: "Enter a number between 1 and 3999" };
+    if (n < 1 || n > 3999) return { errorKey: "errorOutOfRange" };
     return numberToRoman(n);
   }, [numberInput]);
 
@@ -186,26 +186,26 @@ export default function RomanNumeralConverter() {
   }, [romanInput]);
 
   const handleCopyRoman = useCallback(async () => {
-    const val = toRomanResult && !("error" in toRomanResult) ? toRomanResult.roman : "";
+    const val = toRomanResult && !("errorKey" in toRomanResult) ? toRomanResult.roman : "";
     if (!val) return;
     try {
       await navigator.clipboard.writeText(val);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
-  }, [toRomanResult]);
+  }, [toRomanResult, t]);
 
   const handleCopyNumber = useCallback(async () => {
-    const val = toNumberResult && !toNumberResult.error ? String(toNumberResult.value) : "";
+    const val = toNumberResult && !toNumberResult.errorKey ? String(toNumberResult.value) : "";
     if (!val) return;
     try {
       await navigator.clipboard.writeText(val);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
-  }, [toNumberResult]);
+  }, [toNumberResult, t]);
 
   return (
     <div className="min-h-screen bg-background p-4 md:p-8">
@@ -265,8 +265,8 @@ export default function RomanNumeralConverter() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {"error" in toRomanResult ? (
-                    <p className="text-destructive text-sm">{toRomanResult.error}</p>
+                  {"errorKey" in toRomanResult ? (
+                    <p className="text-destructive text-sm">{t(toRomanResult.errorKey as Parameters<typeof t>[0])}</p>
                   ) : (
                     <>
                       <div className="text-4xl font-bold font-mono tracking-wider text-center py-2">
@@ -331,7 +331,7 @@ export default function RomanNumeralConverter() {
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center justify-between">
                     {t("result")}
-                    {!toNumberResult.error && (
+                    {!toNumberResult.errorKey && (
                       <Button size="sm" variant="ghost" onClick={handleCopyNumber}>
                         <Copy className="w-4 h-4 mr-1.5" /> {t("copy")}
                       </Button>
@@ -339,8 +339,8 @@ export default function RomanNumeralConverter() {
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {toNumberResult.error ? (
-                    <p className="text-destructive text-sm">{toNumberResult.error}</p>
+                  {toNumberResult.errorKey ? (
+                    <p className="text-destructive text-sm">{t(toNumberResult.errorKey as Parameters<typeof t>[0])}</p>
                   ) : (
                     <>
                       <div className="text-4xl font-bold tabular-nums text-center py-2">

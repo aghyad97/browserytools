@@ -12,7 +12,7 @@ import { RotateCcw, Scale } from "lucide-react";
 // ── BMI Categories ─────────────────────────────────────────────────────────────
 
 interface BmiCategory {
-  label: string;
+  labelKey: string;
   min: number;
   max: number;
   color: string;
@@ -23,7 +23,7 @@ interface BmiCategory {
 
 const CATEGORIES: BmiCategory[] = [
   {
-    label: "Underweight",
+    labelKey: "categoryUnderweight",
     min: 0,
     max: 18.5,
     color: "#3b82f6",
@@ -32,7 +32,7 @@ const CATEGORIES: BmiCategory[] = [
     badgeClass: "bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200",
   },
   {
-    label: "Normal weight",
+    labelKey: "categoryNormal",
     min: 18.5,
     max: 25,
     color: "#22c55e",
@@ -41,7 +41,7 @@ const CATEGORIES: BmiCategory[] = [
     badgeClass: "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200",
   },
   {
-    label: "Overweight",
+    labelKey: "categoryOverweight",
     min: 25,
     max: 30,
     color: "#f59e0b",
@@ -50,7 +50,7 @@ const CATEGORIES: BmiCategory[] = [
     badgeClass: "bg-amber-100 text-amber-800 dark:bg-amber-900 dark:text-amber-200",
   },
   {
-    label: "Obese Class I",
+    labelKey: "categoryObeseI",
     min: 30,
     max: 35,
     color: "#f97316",
@@ -59,7 +59,7 @@ const CATEGORIES: BmiCategory[] = [
     badgeClass: "bg-orange-100 text-orange-800 dark:bg-orange-900 dark:text-orange-200",
   },
   {
-    label: "Obese Class II",
+    labelKey: "categoryObeseII",
     min: 35,
     max: 40,
     color: "#ef4444",
@@ -68,7 +68,7 @@ const CATEGORIES: BmiCategory[] = [
     badgeClass: "bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200",
   },
   {
-    label: "Obese Class III",
+    labelKey: "categoryObeseIII",
     min: 40,
     max: 60,
     color: "#7f1d1d",
@@ -82,9 +82,7 @@ const GAUGE_MIN = 10;
 const GAUGE_MAX = 50;
 
 function getBmiCategory(bmi: number): BmiCategory {
-  return (
-    CATEGORIES.find((c) => bmi >= c.min && bmi < c.max) ?? CATEGORIES[CATEGORIES.length - 1]
-  );
+  return CATEGORIES.find((c) => bmi >= c.min && bmi < c.max) ?? CATEGORIES[CATEGORIES.length - 1];
 }
 
 function bmiToGaugePercent(bmi: number): number {
@@ -286,7 +284,7 @@ export default function BmiCalculator() {
                 <div className="text-5xl font-bold tabular-nums">{result.bmi.toFixed(1)}</div>
                 <div>
                   <Badge className={result.category.badgeClass + " text-sm px-3 py-1"}>
-                    {result.category.label}
+                    {t(result.category.labelKey as Parameters<typeof t>[0])}
                   </Badge>
                 </div>
               </div>
@@ -325,16 +323,16 @@ export default function BmiCalculator() {
               <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
                 {CATEGORIES.map((cat) => (
                   <div
-                    key={cat.label}
+                    key={cat.labelKey}
                     className={`flex items-center gap-1.5 text-xs rounded-md px-2 py-1 ${
-                      cat.label === result.category.label ? cat.badgeClass : "text-muted-foreground"
+                      cat.labelKey === result.category.labelKey ? cat.badgeClass : "text-muted-foreground"
                     }`}
                   >
                     <span
                       className="inline-block w-2 h-2 rounded-full flex-shrink-0"
                       style={{ backgroundColor: cat.color }}
                     />
-                    <span className="font-medium">{cat.label}</span>
+                    <span className="font-medium">{t(cat.labelKey as Parameters<typeof t>[0])}</span>
                     <span className="ml-auto opacity-70">
                       {cat.min}
                       {cat.max < 60 ? `–${cat.max}` : "+"}

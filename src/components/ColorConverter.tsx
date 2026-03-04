@@ -181,9 +181,9 @@ export default function ColorConverter() {
     if (!text) return;
     try {
       await navigator.clipboard.writeText(text);
-      toast.success(`${label} copied`);
+      toast.success(t("copiedLabel", { label }));
     } catch {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -205,7 +205,7 @@ export default function ColorConverter() {
     return steps.map((dL) => {
       const { r, g, b } = hslToRgb(baseH, baseS, clamp(baseL + dL, 0, 100));
       return {
-        label: dL === 0 ? "Base" : dL > 0 ? `+${dL}` : String(dL),
+        label: dL === 0 ? t("paletteBase") : dL > 0 ? `+${dL}` : String(dL),
         hex: rgbToHex(r, g, b),
       };
     });

@@ -132,7 +132,7 @@ export default function SvgEditor() {
 
   const addShape = (type: Tool) => {
     if (!drawRef.current) {
-      toast.error("Canvas not initialized");
+      toast.error(t("canvasNotInitialized"));
       return;
     }
 
@@ -163,7 +163,7 @@ export default function SvgEditor() {
             .stroke({ color, width: strokeWidth });
           break;
         case "text":
-          const text = prompt("Enter text:", "Hello");
+          const text = prompt(t("enterTextPrompt"), t("enterTextDefault"));
           if (text) {
             element = drawRef.current
               .text(text)
@@ -185,7 +185,7 @@ export default function SvgEditor() {
         addToUndoStack({ type: "add", element });
       }
     } catch (error) {
-      toast.error("Error creating shape");
+      toast.error(t("errorCreatingShape"));
       console.error(error);
     }
   };
@@ -228,7 +228,7 @@ export default function SvgEditor() {
     link.click();
     document.body.removeChild(link);
     URL.revokeObjectURL(url);
-    toast.success("SVG downloaded successfully");
+    toast.success(t("downloadedSuccess"));
   };
 
   return (

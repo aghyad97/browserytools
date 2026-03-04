@@ -707,9 +707,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
         await navigator.clipboard.writeText(dataUrl);
         // Optionally, you can add a toast here to inform about data URL copy
       } catch (_) {
-        alert(
-          "Could not copy image to clipboard. Please try downloading instead."
-        );
+        alert(t("clipboardCopyFailed"));
       }
     }
   };
@@ -1000,10 +998,10 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                     onValueChange={(v) => setOutputAspect(v as any)}
                   >
                     <UiSelectTrigger>
-                      <UiSelectValue placeholder="Default" />
+                      <UiSelectValue placeholder={t("outputAspectDefault")} />
                     </UiSelectTrigger>
                     <UiSelectContent>
-                      <UiSelectItem value="Default">Default</UiSelectItem>
+                      <UiSelectItem value="Default">{t("outputAspectDefault")}</UiSelectItem>
                       <UiSelectItem value="1:1">1:1</UiSelectItem>
                       <UiSelectItem value="16:9">16:9</UiSelectItem>
                       <UiSelectItem value="9:16">9:16</UiSelectItem>

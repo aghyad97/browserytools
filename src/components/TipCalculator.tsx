@@ -104,9 +104,9 @@ export default function TipCalculator() {
       .join("\n");
     try {
       await navigator.clipboard.writeText(lines);
-      toast.success("Summary copied to clipboard");
+      toast.success(t("summaryCopied"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("copyFailed"));
     }
   }, [calc, bill, tipPercent, people]);
 

@@ -46,7 +46,7 @@ export default function ImageConverter() {
     if (file) {
       if (file.size > 15 * 1024 * 1024) {
         // 15MB limit
-        toast.error("Image size should be less than 15MB");
+        toast.error(t("imageTooLarge"));
         return;
       }
 
@@ -67,12 +67,12 @@ export default function ImageConverter() {
               name: file.name.replace(/\.heic$/i, ".jpg"),
             });
             setConvertedImage(null);
-            toast.success("Converted HEIC to JPEG for preview");
+            toast.success(t("heicConverted"));
           };
           reader.readAsDataURL(blob);
           return;
         } catch (e) {
-          toast.error("Failed to read HEIC. Please try another file.");
+          toast.error(t("heicFailed"));
           return;
         }
       }
@@ -130,10 +130,10 @@ export default function ImageConverter() {
       const decodedStr = atob(base64str);
       setConvertedSize(decodedStr.length);
 
-      toast.success("Image converted successfully!");
+      toast.success(t("convertedSuccess"));
     } catch (error) {
       console.error(error);
-      toast.error("Failed to convert image. Please try again.");
+      toast.error(t("convertFailed"));
     }
   };
 
@@ -152,7 +152,7 @@ export default function ImageConverter() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success("Image downloaded!");
+    toast.success(t("downloadedSuccess"));
   };
 
   const formatOption = formatOptions.find((f) => f.value === targetFormat);
@@ -183,7 +183,7 @@ export default function ImageConverter() {
                   <div className="w-full h-full relative">
                     <img
                       src={image.url}
-                      alt="Original"
+                      alt={t("altOriginal")}
                       className="w-full h-full object-contain"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
@@ -258,7 +258,7 @@ export default function ImageConverter() {
                   <div className="w-full h-full relative">
                     <img
                       src={convertedImage}
-                      alt="Converted"
+                      alt={t("altConverted")}
                       className="w-full h-full object-contain"
                     />
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">

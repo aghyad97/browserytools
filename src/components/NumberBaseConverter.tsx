@@ -66,7 +66,7 @@ export default function NumberBaseConverter() {
         hex: num.toString(16).toUpperCase(),
       });
     } catch (e) {
-      toast.error("Conversion failed");
+      toast.error(t("conversionFailed"));
     }
   };
 

@@ -206,9 +206,7 @@ export default function CurrencyConverter() {
         }
       } catch (e: any) {
         if (!cancelled && !rates) {
-          setError(
-            "Unable to fetch rates. Using any cached data if available."
-          );
+          setError(t("fetchError"));
         }
       } finally {
         if (!cancelled) setLoading(false);
@@ -448,7 +446,7 @@ export default function CurrencyConverter() {
                       <div className="w-3 h-3 rounded-full bg-destructive flex-shrink-0"></div>
                       <div className="flex-1">
                         <p className="text-sm font-medium text-destructive mb-1">
-                          Error
+                          {t("errorLabel")}
                         </p>
                         <p className="text-sm text-destructive/80">{error}</p>
                       </div>

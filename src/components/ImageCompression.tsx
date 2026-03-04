@@ -68,7 +68,7 @@ export default function ImageCompression() {
     if (file) {
       if (file.size > 25 * 1024 * 1024) {
         // 25MB limit
-        toast.error("Image size should be less than 25MB");
+        toast.error(t("imageTooLarge"));
         return;
       }
 
@@ -153,10 +153,10 @@ export default function ImageCompression() {
 
       setCompressedImage(compressed);
       setCompressedSize(compressedBytes);
-      toast.success("Image compressed successfully!");
+      toast.success(t("compressedSuccess"));
     } catch (error) {
       console.error(error);
-      toast.error("Failed to compress image. Please try again.");
+      toast.error(t("compressFailed"));
     } finally {
       setLoading(false);
     }
@@ -177,7 +177,7 @@ export default function ImageCompression() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-    toast.success("Image downloaded!");
+    toast.success(t("downloadedSuccess"));
   };
 
   const handleCompareMove = (e: React.MouseEvent<HTMLDivElement>) => {

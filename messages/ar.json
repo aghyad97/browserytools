@@ -1034,7 +1034,11 @@
       "noReduction": "لا تخفيض",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ",
-      "downloaded": "تم التحميل"
+      "downloaded": "تم التحميل",
+      "ariaCssInput": "إدخال CSS",
+      "ariaCssOutput": "ناتج CSS",
+      "ariaCopy": "نسخ",
+      "ariaDownload": "تحميل"
     },
     "SqlFormatter": {
       "title": "منسّق SQL",
@@ -1061,7 +1065,12 @@
       "minificationFailed": "فشل الضغط",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ",
-      "downloaded": "تم التحميل"
+      "downloaded": "تم التحميل",
+      "dialectStandard": "SQL قياسي",
+      "ariaSqlInput": "إدخال SQL",
+      "ariaSqlOutput": "ناتج SQL",
+      "ariaCopy": "نسخ",
+      "ariaDownload": "تحميل"
     },
     "WordFrequency": {
       "inputTitle": "النص المدخل",
