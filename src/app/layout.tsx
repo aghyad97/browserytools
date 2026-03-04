@@ -149,7 +149,7 @@ export default function RootLayout({
         <Script
           id="lang-dir-init"
           strategy="beforeInteractive"
-        >{`(function(){try{var s=localStorage.getItem('browsery-locale');var lang=s||(navigator.language&&navigator.language.startsWith('ar')?'ar':'en');document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');}catch(e){}})();`}</Script>
+        >{`(function(){try{var raw=localStorage.getItem('browsery-locale');var lang='en';if(raw){var parsed=JSON.parse(raw);lang=(parsed&&parsed.state&&parsed.state.locale)||'en';}else if(navigator.language&&navigator.language.startsWith('ar')){lang='ar';}document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');}catch(e){}})();`}</Script>
         <Providers>
           {children}
           <Toaster richColors position="top-right" />
