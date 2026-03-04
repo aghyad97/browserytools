@@ -105,7 +105,7 @@ function uppercaseKeywords(sql: string): string {
 
 function formatSql(sql: string, commaFirst: boolean): string {
   // Normalise whitespace, uppercase keywords
-  let s = uppercaseKeywords(sql.replace(/\s+/g, " ").trim());
+  const s = uppercaseKeywords(sql.replace(/\s+/g, " ").trim());
 
   const lines: string[] = [];
   let current = "";
