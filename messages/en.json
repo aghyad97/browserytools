@@ -1645,7 +1645,60 @@
       "alreadyDisplayed": "{city} is already displayed.",
       "added": "Added {city}",
       "copiedCity": "Copied {city} time",
-      "failedCopy": "Failed to copy"
+      "failedCopy": "Failed to copy",
+      "cities": {
+        "new-york": "New York",
+        "london": "London",
+        "paris": "Paris",
+        "dubai": "Dubai",
+        "tokyo": "Tokyo",
+        "sydney": "Sydney",
+        "los-angeles": "Los Angeles",
+        "chicago": "Chicago",
+        "toronto": "Toronto",
+        "singapore": "Singapore",
+        "hong-kong": "Hong Kong",
+        "berlin": "Berlin",
+        "madrid": "Madrid",
+        "moscow": "Moscow",
+        "istanbul": "Istanbul",
+        "cairo": "Cairo",
+        "johannesburg": "Johannesburg",
+        "mumbai": "Mumbai",
+        "bangkok": "Bangkok",
+        "seoul": "Seoul",
+        "shanghai": "Shanghai",
+        "auckland": "Auckland",
+        "sao-paulo": "Sao Paulo",
+        "mexico-city": "Mexico City",
+        "riyadh": "Riyadh",
+        "karachi": "Karachi"
+      },
+      "countries": {
+        "United States": "United States",
+        "United Kingdom": "United Kingdom",
+        "France": "France",
+        "UAE": "UAE",
+        "Japan": "Japan",
+        "Australia": "Australia",
+        "Canada": "Canada",
+        "Singapore": "Singapore",
+        "China": "China",
+        "Germany": "Germany",
+        "Spain": "Spain",
+        "Russia": "Russia",
+        "Turkey": "Turkey",
+        "Egypt": "Egypt",
+        "South Africa": "South Africa",
+        "India": "India",
+        "Thailand": "Thailand",
+        "South Korea": "South Korea",
+        "New Zealand": "New Zealand",
+        "Brazil": "Brazil",
+        "Mexico": "Mexico",
+        "Saudi Arabia": "Saudi Arabia",
+        "Pakistan": "Pakistan"
+      }
     },
     "Stopwatch": {
       "title": "Stopwatch",
@@ -1801,7 +1854,9 @@
       "downloadedBudgetsTemplate": "Downloaded budgets template",
       "errorDownloadingTemplate": "Failed to download template",
       "dataCleared": "All data cleared",
-      "errorClearingData": "Failed to clear data"
+      "errorClearingData": "Failed to clear data",
+      "searchExpensesPlaceholder": "Search expenses...",
+      "filterByCategoryPlaceholder": "Filter by category"
     },
     "LoanCalculator": {
       "title": "Loan Calculator",
@@ -1997,7 +2052,20 @@
       "invoiceLoaded": "Invoice Loaded",
       "newInvoiceCreated": "New Invoice Created",
       "invoiceGenerated": "Invoice Generated",
-      "errorGenerating": "Error generating invoice"
+      "errorGenerating": "Error generating invoice",
+      "companyNamePlaceholder": "Your Company Name",
+      "companyEmailPlaceholder": "company@example.com",
+      "companyAddressPlaceholder": "123 Business St",
+      "cityPlaceholder": "City",
+      "statePlaceholder": "State",
+      "phonePlaceholder": "(555) 123-4567",
+      "taxIdPlaceholder": "Tax ID Number",
+      "clientNamePlaceholder": "Client Company Name",
+      "clientEmailPlaceholder": "client@example.com",
+      "clientAddressPlaceholder": "123 Client St",
+      "itemDescriptionPlaceholder": "Product or service description",
+      "notesPlaceholder": "Additional notes or comments...",
+      "termsPlaceholder": "Payment terms and conditions..."
     },
     "NumberBaseConverter": {
       "title": "Number Base Converter",
@@ -2297,7 +2365,259 @@
       "copyStatusCode": "Copy status code",
       "codeCopied": "Code {code} copied",
       "failedToCopy": "Failed to copy",
-      "categoryAll": "All"
+      "categoryAll": "All",
+      "codes": {
+        "100": {
+          "text": "Continue",
+          "description": "The client should continue with the request. Used to tell the client that the initial part of the request has been received.",
+          "useCase": "Server acknowledges partial request; client should proceed."
+        },
+        "101": {
+          "text": "Switching Protocols",
+          "description": "Server is switching to a different protocol as requested by the client.",
+          "useCase": "WebSocket handshake upgrade from HTTP."
+        },
+        "102": {
+          "text": "Processing",
+          "description": "Server has received and is processing the request, but no response is available yet.",
+          "useCase": "Preventing timeout on long-running WebDAV requests."
+        },
+        "103": {
+          "text": "Early Hints",
+          "description": "Used to return some response headers before final HTTP message.",
+          "useCase": "Preloading resources before the full response is ready."
+        },
+        "200": {
+          "text": "OK",
+          "description": "The request was successful. The meaning depends on the HTTP method used.",
+          "useCase": "Standard response for successful GET, POST, PUT, DELETE."
+        },
+        "201": {
+          "text": "Created",
+          "description": "The request succeeded and a new resource was created as a result.",
+          "useCase": "POST request that successfully created a new user or record."
+        },
+        "202": {
+          "text": "Accepted",
+          "description": "Request received but not yet acted upon. Processing happens asynchronously.",
+          "useCase": "Triggering a background job or async task via API."
+        },
+        "203": {
+          "text": "Non-Authoritative Information",
+          "description": "Returned metadata is not from the origin server but from a local or third-party copy.",
+          "useCase": "Proxy servers transforming or caching responses."
+        },
+        "204": {
+          "text": "No Content",
+          "description": "Request succeeded but there is no content to send in the response.",
+          "useCase": "DELETE or PUT that does not need to return data."
+        },
+        "206": {
+          "text": "Partial Content",
+          "description": "The server is delivering only part of the resource due to a range header sent by the client.",
+          "useCase": "Video streaming or resumable file downloads."
+        },
+        "207": {
+          "text": "Multi-Status",
+          "description": "Multiple status codes for multiple sub-requests in WebDAV.",
+          "useCase": "WebDAV PROPFIND responses with multiple resource statuses."
+        },
+        "208": {
+          "text": "Already Reported",
+          "description": "Members of a DAV binding already enumerated in a previous reply.",
+          "useCase": "WebDAV responses avoiding repetition of members."
+        },
+        "226": {
+          "text": "IM Used",
+          "description": "Server fulfilled a GET request and the response is a result of instance manipulations.",
+          "useCase": "Delta encoding in HTTP responses."
+        },
+        "301": {
+          "text": "Moved Permanently",
+          "description": "The URL of the requested resource has changed permanently. The new URL is given in the response.",
+          "useCase": "SEO-friendly permanent redirect from old URL to new URL."
+        },
+        "302": {
+          "text": "Found",
+          "description": "The URL of the requested resource has changed temporarily. Further changes may occur.",
+          "useCase": "Temporary redirect while a page is being updated."
+        },
+        "303": {
+          "text": "See Other",
+          "description": "Server sends this response to direct the client to get the requested resource at another URI with a GET request.",
+          "useCase": "Redirecting after a POST form submission."
+        },
+        "304": {
+          "text": "Not Modified",
+          "description": "Used for caching. Tells the client that the response has not changed, so it can use its cached version.",
+          "useCase": "Browser cache validation with ETag or Last-Modified headers."
+        },
+        "307": {
+          "text": "Temporary Redirect",
+          "description": "Server sends this response to direct the client to get the requested resource at another URI with the same method.",
+          "useCase": "Temporary redirect preserving the original HTTP method."
+        },
+        "308": {
+          "text": "Permanent Redirect",
+          "description": "Permanent redirect that preserves the HTTP method used in the original request.",
+          "useCase": "Permanent API endpoint migration preserving POST method."
+        },
+        "400": {
+          "text": "Bad Request",
+          "description": "Server cannot process the request due to malformed syntax or invalid request message framing.",
+          "useCase": "Invalid JSON body or missing required query parameters."
+        },
+        "401": {
+          "text": "Unauthorized",
+          "description": "Authentication is required and has not been provided or is invalid.",
+          "useCase": "API request without a valid token or session."
+        },
+        "402": {
+          "text": "Payment Required",
+          "description": "Reserved for future use; sometimes used for digital payment requirements.",
+          "useCase": "Paywall or subscription required to access content."
+        },
+        "403": {
+          "text": "Forbidden",
+          "description": "Client does not have access rights to the content. Unlike 401, the identity is known.",
+          "useCase": "Authenticated user trying to access admin-only resource."
+        },
+        "404": {
+          "text": "Not Found",
+          "description": "The server cannot find the requested resource. The URL is not recognized.",
+          "useCase": "Accessing a page or resource that does not exist."
+        },
+        "405": {
+          "text": "Method Not Allowed",
+          "description": "The request method is known but is not supported for the target resource.",
+          "useCase": "Sending DELETE to an endpoint that only supports GET."
+        },
+        "406": {
+          "text": "Not Acceptable",
+          "description": "Server cannot produce a response matching the list of acceptable values defined in the request headers.",
+          "useCase": "API returning only JSON but client asks for XML."
+        },
+        "408": {
+          "text": "Request Timeout",
+          "description": "Server did not receive a complete request message within the time it was prepared to wait.",
+          "useCase": "Client takes too long to send the request body."
+        },
+        "409": {
+          "text": "Conflict",
+          "description": "The request conflicts with the current state of the server.",
+          "useCase": "Trying to create a username that already exists."
+        },
+        "410": {
+          "text": "Gone",
+          "description": "The target resource is no longer available and will not be available again.",
+          "useCase": "Permanently deleted content with no forwarding address."
+        },
+        "411": {
+          "text": "Length Required",
+          "description": "Server refused the request because the Content-Length header field is missing.",
+          "useCase": "POST request without Content-Length header."
+        },
+        "413": {
+          "text": "Payload Too Large",
+          "description": "Server refuses the request because the payload is larger than the server is willing to process.",
+          "useCase": "File upload exceeding the maximum allowed size."
+        },
+        "414": {
+          "text": "URI Too Long",
+          "description": "The URI requested by the client is longer than the server is willing to interpret.",
+          "useCase": "Extremely long query strings in GET requests."
+        },
+        "415": {
+          "text": "Unsupported Media Type",
+          "description": "Server refuses to accept the request because the payload format is in an unsupported format.",
+          "useCase": "Sending XML to an API endpoint that only accepts JSON."
+        },
+        "422": {
+          "text": "Unprocessable Entity",
+          "description": "Server understands the content type but is unable to process the instructions.",
+          "useCase": "Form data with valid JSON but invalid field values."
+        },
+        "423": {
+          "text": "Locked",
+          "description": "The resource being accessed is locked.",
+          "useCase": "WebDAV resource locked by another user."
+        },
+        "425": {
+          "text": "Too Early",
+          "description": "Indicates the server is unwilling to risk processing a request that might be replayed.",
+          "useCase": "Early data in TLS 1.3 connections."
+        },
+        "429": {
+          "text": "Too Many Requests",
+          "description": "User has sent too many requests in a given amount of time (rate limiting).",
+          "useCase": "API rate limit exceeded; client should back off."
+        },
+        "431": {
+          "text": "Request Header Fields Too Large",
+          "description": "Server refuses to process the request because the header fields are too large.",
+          "useCase": "Cookies or custom headers exceeding server limits."
+        },
+        "451": {
+          "text": "Unavailable For Legal Reasons",
+          "description": "Server is denying access to a resource due to legal demands.",
+          "useCase": "Content blocked due to DMCA takedown or legal order."
+        },
+        "500": {
+          "text": "Internal Server Error",
+          "description": "Server has encountered a situation it does not know how to handle.",
+          "useCase": "Unhandled exception in server-side code."
+        },
+        "501": {
+          "text": "Not Implemented",
+          "description": "Request method is not supported by the server and cannot be handled.",
+          "useCase": "Server does not support PATCH method on a resource."
+        },
+        "502": {
+          "text": "Bad Gateway",
+          "description": "Server, acting as a gateway, got an invalid response from upstream server.",
+          "useCase": "Nginx receiving a bad response from the backend app server."
+        },
+        "503": {
+          "text": "Service Unavailable",
+          "description": "Server is not ready to handle the request. Common causes are down for maintenance or overloaded.",
+          "useCase": "Server under maintenance or experiencing high traffic."
+        },
+        "504": {
+          "text": "Gateway Timeout",
+          "description": "Server acting as a gateway did not get a timely response from the upstream server.",
+          "useCase": "Upstream API taking too long to respond."
+        },
+        "505": {
+          "text": "HTTP Version Not Supported",
+          "description": "HTTP version used in the request is not supported by the server.",
+          "useCase": "Client using HTTP/3 with a server that only supports HTTP/1.1."
+        },
+        "506": {
+          "text": "Variant Also Negotiates",
+          "description": "Server has an internal configuration error in transparent content negotiation.",
+          "useCase": "Misconfigured content negotiation on the server."
+        },
+        "507": {
+          "text": "Insufficient Storage",
+          "description": "Server is unable to store the representation needed to complete the request.",
+          "useCase": "WebDAV server running out of storage space."
+        },
+        "508": {
+          "text": "Loop Detected",
+          "description": "Server detected an infinite loop while processing the request.",
+          "useCase": "WebDAV request creating circular references."
+        },
+        "510": {
+          "text": "Not Extended",
+          "description": "Further extensions to the request are required for the server to fulfil it.",
+          "useCase": "Client needs to send an HTTP Extension Framework request."
+        },
+        "511": {
+          "text": "Network Authentication Required",
+          "description": "Client needs to authenticate to gain network access.",
+          "useCase": "Captive portal requiring login before accessing the internet."
+        }
+      }
     },
     "UUIDGenerator": {
       "generatorSettingsTitle": "Generator Settings",

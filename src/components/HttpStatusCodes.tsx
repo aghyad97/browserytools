@@ -94,9 +94,19 @@ export default function HttpStatusCodes() {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
+  const translatedCodes = useMemo(() =>
+    STATUS_CODES.map((s) => ({
+      ...s,
+      text: t(`codes.${s.code}.text` as any),
+      description: t(`codes.${s.code}.description` as any),
+      useCase: t(`codes.${s.code}.useCase` as any),
+    })),
+    [t]
+  );
+
   const filtered = useMemo(() => {
     const q = search.toLowerCase().trim();
-    return STATUS_CODES.filter((s) => {
+    return translatedCodes.filter((s) => {
       const matchesCategory = activeCategory === "all" || s.category === activeCategory;
       if (!q) return matchesCategory;
       return matchesCategory && (
@@ -106,7 +116,7 @@ export default function HttpStatusCodes() {
         s.useCase.toLowerCase().includes(q)
       );
     });
-  }, [search, activeCategory]);
+  }, [search, activeCategory, translatedCodes]);
 
   const copyCode = async (code: number) => {
     try {

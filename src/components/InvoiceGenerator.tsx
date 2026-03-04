@@ -698,7 +698,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="Your Company Name"
+                      placeholder={t("companyNamePlaceholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -715,7 +715,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="company@example.com"
+                      placeholder={t("companyEmailPlaceholder")}
                     />
                   </div>
                 </div>
@@ -733,7 +733,7 @@ export default function InvoiceGenerator() {
                         },
                       })
                     }
-                    placeholder="123 Business St"
+                    placeholder={t("companyAddressPlaceholder")}
                   />
                 </div>
 
@@ -751,7 +751,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="City"
+                      placeholder={t("cityPlaceholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -767,7 +767,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="State"
+                      placeholder={t("statePlaceholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -802,7 +802,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="(555) 123-4567"
+                      placeholder={t("phonePlaceholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -818,7 +818,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="Tax ID Number"
+                      placeholder={t("taxIdPlaceholder")}
                     />
                   </div>
                 </div>
@@ -851,7 +851,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="Client Company Name"
+                      placeholder={t("clientNamePlaceholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -868,7 +868,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="client@example.com"
+                      placeholder={t("clientEmailPlaceholder")}
                     />
                   </div>
                 </div>
@@ -886,7 +886,7 @@ export default function InvoiceGenerator() {
                         },
                       })
                     }
-                    placeholder="123 Client St"
+                    placeholder={t("clientAddressPlaceholder")}
                   />
                 </div>
 
@@ -904,7 +904,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="City"
+                      placeholder={t("cityPlaceholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -920,7 +920,7 @@ export default function InvoiceGenerator() {
                           },
                         })
                       }
-                      placeholder="State"
+                      placeholder={t("statePlaceholder")}
                     />
                   </div>
                   <div className="space-y-2">
@@ -954,7 +954,7 @@ export default function InvoiceGenerator() {
                         },
                       })
                     }
-                    placeholder="(555) 123-4567"
+                    placeholder={t("phonePlaceholder")}
                   />
                 </div>
               </CardContent>
@@ -991,7 +991,7 @@ export default function InvoiceGenerator() {
                             e.target.value
                           )
                         }
-                        placeholder="Product or service description"
+                        placeholder={t("itemDescriptionPlaceholder")}
                       />
                     </div>
                     <div className="space-y-2">
@@ -1160,7 +1160,7 @@ export default function InvoiceGenerator() {
                     onChange={(e) =>
                       updateInvoiceData({ notes: e.target.value })
                     }
-                    placeholder="Additional notes or comments..."
+                    placeholder={t("notesPlaceholder")}
                     rows={3}
                   />
                 </div>
@@ -1172,7 +1172,7 @@ export default function InvoiceGenerator() {
                     onChange={(e) =>
                       updateInvoiceData({ terms: e.target.value })
                     }
-                    placeholder="Payment terms and conditions..."
+                    placeholder={t("termsPlaceholder")}
                     rows={3}
                   />
                 </div>

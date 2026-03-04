@@ -225,7 +225,7 @@ export default function ExpenseList({
         <div className="relative flex-1">
           <SearchIcon className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
           <Input
-            placeholder="Search expenses..."
+            placeholder={t("searchExpensesPlaceholder")}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
             className="pl-10"
@@ -233,7 +233,7 @@ export default function ExpenseList({
         </div>
         <Select value={categoryFilter} onValueChange={setCategoryFilter}>
           <SelectTrigger className="w-full sm:w-[200px]">
-            <SelectValue placeholder="Filter by category" />
+            <SelectValue placeholder={t("filterByCategoryPlaceholder")} />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All Categories</SelectItem>

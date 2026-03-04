@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
+import { useLanguageStore } from "@/store/language-store";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
@@ -67,14 +68,17 @@ interface ClockData {
   isBusinessHours: boolean;
 }
 
-function getClockData(timezone: string): ClockData {
+function getClockData(timezone: string, locale = "en"): ClockData {
   const now = new Date();
+  // Use Latin numerals for Arabic to keep time digits readable
+  const timeLocale = locale === "ar" ? "ar-u-nu-latn" : "en-US";
+  const dateLocale = locale === "ar" ? "ar-SA" : "en-US";
 
-  const timeParts = new Intl.DateTimeFormat("en-US", {
+  const timeParts = new Intl.DateTimeFormat(timeLocale, {
     timeZone: timezone, hour: "numeric", minute: "2-digit", second: "2-digit", hour12: true,
   }).formatToParts(now);
 
-  const dateParts = new Intl.DateTimeFormat("en-US", {
+  const dateParts = new Intl.DateTimeFormat(dateLocale, {
     timeZone: timezone, weekday: "short", month: "short", day: "numeric",
   }).formatToParts(now);
 
@@ -132,6 +136,7 @@ function formatDiff(diffMinutes: number): string {
 
 export default function WorldClock() {
   const t = useTranslations("Tools.WorldClock");
+  const { locale } = useLanguageStore();
   const [cities, setCities] = useState<CityConfig[]>(DEFAULT_CITIES);
   const [clockDataMap, setClockDataMap] = useState<Record<string, ClockData>>({});
   const [sortByOffset, setSortByOffset] = useState(false);
@@ -142,10 +147,10 @@ export default function WorldClock() {
   const updateClocks = useCallback(() => {
     const map: Record<string, ClockData> = {};
     cities.forEach((c) => {
-      try { map[c.id] = getClockData(c.timezone); } catch {}
+      try { map[c.id] = getClockData(c.timezone, locale); } catch {}
     });
     setClockDataMap(map);
-  }, [cities]);
+  }, [cities, locale]);
 
   useEffect(() => {
     updateClocks();
@@ -160,13 +165,14 @@ export default function WorldClock() {
   const handleAddCity = (tzId: string) => {
     const found = ALL_TIMEZONES.find((tz) => tz.id === tzId);
     if (!found) return;
+    const cityName = t(`cities.${found.id}` as any);
     if (cities.some((c) => c.id === found.id)) {
-      toast.info(t("alreadyDisplayed", { city: found.city }));
+      toast.info(t("alreadyDisplayed", { city: cityName }));
       return;
     }
     setCities((prev) => [...prev, found]);
     setSelectedTz("");
-    toast.success(t("added", { city: found.city }));
+    toast.success(t("added", { city: cityName }));
   };
 
   const availableToAdd = useMemo(
@@ -206,7 +212,7 @@ export default function WorldClock() {
               <SelectContent className="max-h-72">
                 {availableToAdd.map((tz) => (
                   <SelectItem key={tz.id} value={tz.id}>
-                    {tz.flag} {tz.city}
+                    {tz.flag} {t(`cities.${tz.id}` as any)}
                   </SelectItem>
                 ))}
               </SelectContent>
@@ -234,17 +240,18 @@ export default function WorldClock() {
                     <div className="flex items-center gap-2">
                       <span className="text-2xl leading-none">{city.flag}</span>
                       <div>
-                        <div className="font-semibold text-sm leading-tight">{city.city}</div>
-                        <div className="text-xs text-muted-foreground">{city.country}</div>
+                        <div className="font-semibold text-sm leading-tight">{t(`cities.${city.id}` as any)}</div>
+                        <div className="text-xs text-muted-foreground">{t(`countries.${city.country}` as any)}</div>
                       </div>
                     </div>
                     <div className="flex items-center gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                       <Button
                         variant="ghost" size="icon" className="h-7 w-7"
                         onClick={async () => {
+                          const cityName = t(`cities.${city.id}` as any);
                           try {
-                            await navigator.clipboard.writeText(`${city.city}: ${data.time} ${data.ampm} (${data.utcOffset}) — ${data.dayOfWeek}, ${data.date}`);
-                            toast.success(t("copiedCity", { city: city.city }));
+                            await navigator.clipboard.writeText(`${cityName}: ${data.time} ${data.ampm} (${data.utcOffset}) — ${data.dayOfWeek}, ${data.date}`);
+                            toast.success(t("copiedCity", { city: cityName }));
                           } catch { toast.error(t("failedCopy")); }
                         }}
                       >
