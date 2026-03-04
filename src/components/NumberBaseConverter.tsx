@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -30,6 +31,7 @@ const validators: Record<BaseKey, RegExp> = {
 };
 
 export default function NumberBaseConverter() {
+  const t = useTranslations("Tools.NumberBaseConverter");
   const [values, setValues] = useState<Record<BaseKey, string>>({
     bin: "",
     oct: "",
@@ -74,55 +76,59 @@ export default function NumberBaseConverter() {
     <div className="container mx-auto p-6 max-w-3xl">
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>Number Base Converter</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <CardDescription>
-            Convert between binary, octal, decimal and hexadecimal
+            {t("subtitle")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="bin">Binary</Label>
+            <Label htmlFor="bin">{t("binary")}</Label>
             <Input
               id="bin"
               placeholder="e.g., 101011"
               value={values.bin}
               onChange={(e) => updateAll("bin", e.target.value)}
               className={errorBase === "bin" ? "border-destructive" : ""}
+              dir="ltr"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="oct">Octal</Label>
+            <Label htmlFor="oct">{t("octal")}</Label>
             <Input
               id="oct"
               placeholder="e.g., 53"
               value={values.oct}
               onChange={(e) => updateAll("oct", e.target.value)}
               className={errorBase === "oct" ? "border-destructive" : ""}
+              dir="ltr"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="dec">Decimal</Label>
+            <Label htmlFor="dec">{t("decimal")}</Label>
             <Input
               id="dec"
               placeholder="e.g., 43"
               value={values.dec}
               onChange={(e) => updateAll("dec", e.target.value)}
               className={errorBase === "dec" ? "border-destructive" : ""}
+              dir="ltr"
             />
           </div>
           <div className="space-y-2">
-            <Label htmlFor="hex">Hexadecimal</Label>
+            <Label htmlFor="hex">{t("hexadecimal")}</Label>
             <Input
               id="hex"
               placeholder="e.g., 2B"
               value={values.hex}
               onChange={(e) => updateAll("hex", e.target.value)}
               className={errorBase === "hex" ? "border-destructive" : ""}
+              dir="ltr"
             />
           </div>
           <div className="pt-2">
             <Button variant="outline" onClick={clearAll} className="w-full">
-              Clear
+              {t("clear")}
             </Button>
           </div>
         </CardContent>

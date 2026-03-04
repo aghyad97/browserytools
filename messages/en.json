@@ -79,89 +79,338 @@
       "designTools": "Design & Visual"
     },
     "tools": {
-      "bg-removal": { "name": "Background Removal", "description": "Remove background from your images instantly using AI. Supports PNG, JPG. No watermark, completely free." },
-      "phone-mockups": { "name": "Phone Mockups", "description": "Place screenshots into iPhone/Android device frames. Upload, choose a frame, and export." },
-      "image-compression": { "name": "Image Compression", "description": "Compress images to reduce file size while maintaining quality. Supports JPG, PNG, WebP." },
-      "image-converter": { "name": "Format Converter", "description": "Convert images between JPG, PNG, WebP, GIF, BMP, TIFF, and SVG. Batch conversion supported." },
-      "color-correction": { "name": "Color Correction", "description": "Adjust colors, brightness, contrast, saturation, and hue in images." },
-      "svg": { "name": "SVG Tools", "description": "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths." },
-      "color-converter": { "name": "Color Converter", "description": "Convert between HEX, RGB, and HSL with live preview." },
-      "pdf": { "name": "PDF Tools", "description": "Merge, split, compress, and manipulate PDF files. Extract text, rotate pages." },
-      "zip": { "name": "Zip Tools", "description": "Create, extract, and manage ZIP archives. Supports password protection." },
-      "spreadsheet": { "name": "Spreadsheet Viewer", "description": "View and edit spreadsheet files (XLSX, CSV) in your browser." },
-      "file-converter": { "name": "File Converter", "description": "Convert files between different formats. Supports documents, images, and more." },
-      "video": { "name": "Video Editor", "description": "Edit videos in your browser. Trim, merge, and add effects." },
-      "audio": { "name": "Audio Editor", "description": "Edit audio files. Trim, merge, and adjust volume." },
-      "mic-camera": { "name": "Mic & Camera Tester", "description": "Test your microphone and camera without any app installation." },
-      "compress-video": { "name": "Video Compressor", "description": "Compress video files to reduce size while maintaining quality." },
-      "text-case": { "name": "Text Case Converter", "description": "Convert text between different cases: uppercase, lowercase, title case, camelCase, and more." },
-      "text-counter": { "name": "Text Counter", "description": "Count characters, words, sentences, and paragraphs in your text." },
-      "text-diff": { "name": "Text Diff", "description": "Compare two texts and highlight the differences." },
-      "text-sorter": { "name": "Text Sorter", "description": "Sort lines of text alphabetically, numerically, or by length." },
-      "text-binary": { "name": "Text to Binary", "description": "Convert text to binary and binary back to text." },
-      "text-repeater": { "name": "Text Repeater", "description": "Repeat text a specified number of times with custom separators." },
-      "morse-code": { "name": "Morse Code", "description": "Encode and decode Morse code. Convert text to dots and dashes." },
-      "markdown-editor": { "name": "Markdown Editor", "description": "Write and preview Markdown in real time." },
-      "markdown-html": { "name": "Markdown to HTML", "description": "Convert Markdown to HTML instantly." },
-      "html-formatter": { "name": "HTML Formatter", "description": "Format and beautify HTML code for readability." },
-      "code-format": { "name": "Code Formatter", "description": "Format code in multiple languages: JavaScript, Python, CSS, and more." },
-      "css-minifier": { "name": "CSS Minifier", "description": "Minify CSS code to reduce file size." },
-      "sql-formatter": { "name": "SQL Formatter", "description": "Format and beautify SQL queries." },
-      "word-frequency": { "name": "Word Frequency", "description": "Analyze word frequency in text." },
-      "notepad": { "name": "Notepad", "description": "A simple in-browser notepad that auto-saves your text." },
-      "json-formatter": { "name": "JSON Formatter", "description": "Format, validate, and minify JSON with syntax highlighting." },
-      "json-csv": { "name": "JSON to CSV", "description": "Convert between JSON and CSV formats." },
-      "base64": { "name": "Base64 Converter", "description": "Encode and decode Base64 strings." },
-      "qr-generator": { "name": "QR Generator", "description": "Generate QR codes from text, URLs, or any data." },
-      "qr-scanner": { "name": "QR Scanner", "description": "Scan and decode QR codes from your camera or uploaded images." },
-      "barcode-generator": { "name": "Barcode Generator", "description": "Generate barcodes in multiple formats: EAN, UPC, Code128, and more." },
-      "barcode-scanner": { "name": "Barcode Scanner", "description": "Scan and decode barcodes from your camera or images." },
-      "charts": { "name": "Chart Builder", "description": "Create bar, line, pie, and area charts from your data." },
-      "yaml-json": { "name": "YAML to JSON", "description": "Convert between YAML and JSON formats." },
-      "url-encoder": { "name": "URL Encoder/Decoder", "description": "Encode and decode URLs and query parameters." },
-      "fake-data": { "name": "Fake Data Generator", "description": "Generate realistic fake data: names, emails, addresses, and more." },
-      "lorem-ipsum": { "name": "Lorem Ipsum Generator", "description": "Generate placeholder Lorem Ipsum text in various formats." },
-      "calculator": { "name": "Calculator", "description": "A full-featured scientific calculator." },
-      "unit-converter": { "name": "Unit Converter", "description": "Convert between units of length, weight, temperature, and more." },
-      "loan-calculator": { "name": "Loan Calculator", "description": "Calculate monthly payments, interest, and total cost of loans." },
-      "percentage-calculator": { "name": "Percentage Calculator", "description": "Calculate percentages, percentage change, and ratio." },
-      "aspect-ratio": { "name": "Aspect Ratio Calculator", "description": "Calculate and maintain aspect ratios for images and videos." },
-      "expense-tracker": { "name": "Expense Tracker", "description": "Track your personal expenses with categories and charts." },
-      "invoice": { "name": "Invoice Generator", "description": "Create and export professional invoices as PDF." },
-      "bmi-calculator": { "name": "BMI Calculator", "description": "Calculate your Body Mass Index and health category." },
-      "tip-calculator": { "name": "Tip Calculator", "description": "Calculate tip amounts and split bills." },
-      "roman-numeral": { "name": "Roman Numeral Converter", "description": "Convert between Roman numerals and decimal numbers." },
-      "currency-converter": { "name": "Currency Converter", "description": "Convert between world currencies with live exchange rates." },
-      "number-base-converter": { "name": "Number Base Converter", "description": "Convert numbers between binary, octal, decimal, and hexadecimal." },
-      "todo": { "name": "Todo List", "description": "Manage tasks with a persistent to-do list." },
-      "timer": { "name": "Timer", "description": "A simple countdown timer with alarm." },
-      "pomodoro": { "name": "Pomodoro Timer", "description": "Stay focused with the Pomodoro productivity technique." },
-      "world-clock": { "name": "World Clock", "description": "View the current time in cities around the world." },
-      "stopwatch": { "name": "Stopwatch", "description": "A precise stopwatch with lap tracking." },
-      "habit-tracker": { "name": "Habit Tracker", "description": "Build and track daily habits with streaks." },
-      "password-generator": { "name": "Password Generator", "description": "Generate strong, secure passwords with custom rules." },
-      "jwt-decoder": { "name": "JWT Decoder", "description": "Decode and inspect JSON Web Tokens without verification." },
-      "hash-generator": { "name": "Hash Generator", "description": "Generate MD5, SHA-1, SHA-256, and other cryptographic hashes." },
-      "regex-tester": { "name": "Regex Tester", "description": "Test and debug regular expressions with live matching." },
-      "cron-parser": { "name": "Cron Parser", "description": "Parse and explain cron expressions in plain English." },
-      "password-strength": { "name": "Password Strength Checker", "description": "Analyze the strength of your passwords." },
-      "text-encryption": { "name": "Text Encryption", "description": "Encrypt and decrypt text using AES and other algorithms." },
-      "http-status": { "name": "HTTP Status Codes", "description": "Reference guide for all HTTP status codes with descriptions." },
-      "uuid-generator": { "name": "UUID Generator", "description": "Generate UUIDs v4 and other versions instantly." },
-      "css-gradient": { "name": "CSS Gradient Generator", "description": "Generate beautiful CSS gradients visually." },
-      "color-palette": { "name": "Color Palette Generator", "description": "Generate color palettes from images or create custom ones." },
-      "image-resizer": { "name": "Image Resizer", "description": "Resize images to specific dimensions while preserving quality." },
-      "contrast-checker": { "name": "Contrast Checker", "description": "Check color contrast ratios for WCAG accessibility compliance." },
-      "color-blindness": { "name": "Color Blindness Simulator", "description": "Simulate how your designs look to users with color vision deficiencies." },
-      "exif-viewer": { "name": "EXIF Viewer", "description": "View EXIF metadata embedded in photos." },
-      "emoji-picker": { "name": "Emoji Picker", "description": "Browse and copy emojis with search and categories." },
-      "screen-recorder": { "name": "Screen Recorder", "description": "Record your screen directly in the browser. No app needed." },
-      "rich-editor": { "name": "Rich Text Editor", "description": "A full-featured rich text editor with formatting tools." },
-      "typing-test": { "name": "Typing Test", "description": "Test and improve your typing speed and accuracy." },
-      "timezone-converter": { "name": "Timezone Converter", "description": "Convert times between different timezones." },
-      "age-calculator": { "name": "Age Calculator", "description": "Calculate exact age from a birth date." },
-      "unix-timestamp": { "name": "Unix Timestamp", "description": "Convert between Unix timestamps and human-readable dates." },
-      "svg-png": { "name": "SVG to PNG", "description": "Convert SVG files to PNG images." }
+      "bg-removal": {
+        "name": "Background Removal",
+        "description": "Remove background from your images instantly using AI. Supports PNG, JPG. No watermark, completely free."
+      },
+      "phone-mockups": {
+        "name": "Phone Mockups",
+        "description": "Place screenshots into iPhone/Android device frames. Upload, choose a frame, and export."
+      },
+      "image-compression": {
+        "name": "Image Compression",
+        "description": "Compress images to reduce file size while maintaining quality. Supports JPG, PNG, WebP."
+      },
+      "image-converter": {
+        "name": "Format Converter",
+        "description": "Convert images between JPG, PNG, WebP, GIF, BMP, TIFF, and SVG. Batch conversion supported."
+      },
+      "color-correction": {
+        "name": "Color Correction",
+        "description": "Adjust colors, brightness, contrast, saturation, and hue in images."
+      },
+      "svg": {
+        "name": "SVG Tools",
+        "description": "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths."
+      },
+      "color-converter": {
+        "name": "Color Converter",
+        "description": "Convert between HEX, RGB, and HSL with live preview."
+      },
+      "pdf": {
+        "name": "PDF Tools",
+        "description": "Merge, split, compress, and manipulate PDF files. Extract text, rotate pages."
+      },
+      "zip": {
+        "name": "Zip Tools",
+        "description": "Create, extract, and manage ZIP archives. Supports password protection."
+      },
+      "spreadsheet": {
+        "name": "Spreadsheet Viewer",
+        "description": "View and edit spreadsheet files (XLSX, CSV) in your browser."
+      },
+      "file-converter": {
+        "name": "File Converter",
+        "description": "Convert files between different formats. Supports documents, images, and more."
+      },
+      "video": {
+        "name": "Video Editor",
+        "description": "Edit videos in your browser. Trim, merge, and add effects."
+      },
+      "audio": {
+        "name": "Audio Editor",
+        "description": "Edit audio files. Trim, merge, and adjust volume."
+      },
+      "mic-camera": {
+        "name": "Mic & Camera Tester",
+        "description": "Test your microphone and camera without any app installation."
+      },
+      "compress-video": {
+        "name": "Video Compressor",
+        "description": "Compress video files to reduce size while maintaining quality."
+      },
+      "text-case": {
+        "name": "Text Case Converter",
+        "description": "Convert text between different cases: uppercase, lowercase, title case, camelCase, and more."
+      },
+      "text-counter": {
+        "name": "Text Counter",
+        "description": "Count characters, words, sentences, and paragraphs in your text."
+      },
+      "text-diff": {
+        "name": "Text Diff",
+        "description": "Compare two texts and highlight the differences."
+      },
+      "text-sorter": {
+        "name": "Text Sorter",
+        "description": "Sort lines of text alphabetically, numerically, or by length."
+      },
+      "text-binary": {
+        "name": "Text to Binary",
+        "description": "Convert text to binary and binary back to text."
+      },
+      "text-repeater": {
+        "name": "Text Repeater",
+        "description": "Repeat text a specified number of times with custom separators."
+      },
+      "morse-code": {
+        "name": "Morse Code",
+        "description": "Encode and decode Morse code. Convert text to dots and dashes."
+      },
+      "markdown-editor": {
+        "name": "Markdown Editor",
+        "description": "Write and preview Markdown in real time."
+      },
+      "markdown-html": {
+        "name": "Markdown to HTML",
+        "description": "Convert Markdown to HTML instantly."
+      },
+      "html-formatter": {
+        "name": "HTML Formatter",
+        "description": "Format and beautify HTML code for readability."
+      },
+      "code-format": {
+        "name": "Code Formatter",
+        "description": "Format code in multiple languages: JavaScript, Python, CSS, and more."
+      },
+      "css-minifier": {
+        "name": "CSS Minifier",
+        "description": "Minify CSS code to reduce file size."
+      },
+      "sql-formatter": {
+        "name": "SQL Formatter",
+        "description": "Format and beautify SQL queries."
+      },
+      "word-frequency": {
+        "name": "Word Frequency",
+        "description": "Analyze word frequency in text."
+      },
+      "notepad": {
+        "name": "Notepad",
+        "description": "A simple in-browser notepad that auto-saves your text."
+      },
+      "json-formatter": {
+        "name": "JSON Formatter",
+        "description": "Format, validate, and minify JSON with syntax highlighting."
+      },
+      "json-csv": {
+        "name": "JSON to CSV",
+        "description": "Convert between JSON and CSV formats."
+      },
+      "base64": {
+        "name": "Base64 Converter",
+        "description": "Encode and decode Base64 strings."
+      },
+      "qr-generator": {
+        "name": "QR Generator",
+        "description": "Generate QR codes from text, URLs, or any data."
+      },
+      "qr-scanner": {
+        "name": "QR Scanner",
+        "description": "Scan and decode QR codes from your camera or uploaded images."
+      },
+      "barcode-generator": {
+        "name": "Barcode Generator",
+        "description": "Generate barcodes in multiple formats: EAN, UPC, Code128, and more."
+      },
+      "barcode-scanner": {
+        "name": "Barcode Scanner",
+        "description": "Scan and decode barcodes from your camera or images."
+      },
+      "charts": {
+        "name": "Chart Builder",
+        "description": "Create bar, line, pie, and area charts from your data."
+      },
+      "yaml-json": {
+        "name": "YAML to JSON",
+        "description": "Convert between YAML and JSON formats."
+      },
+      "url-encoder": {
+        "name": "URL Encoder/Decoder",
+        "description": "Encode and decode URLs and query parameters."
+      },
+      "fake-data": {
+        "name": "Fake Data Generator",
+        "description": "Generate realistic fake data: names, emails, addresses, and more."
+      },
+      "lorem-ipsum": {
+        "name": "Lorem Ipsum Generator",
+        "description": "Generate placeholder Lorem Ipsum text in various formats."
+      },
+      "calculator": {
+        "name": "Calculator",
+        "description": "A full-featured scientific calculator."
+      },
+      "unit-converter": {
+        "name": "Unit Converter",
+        "description": "Convert between units of length, weight, temperature, and more."
+      },
+      "loan-calculator": {
+        "name": "Loan Calculator",
+        "description": "Calculate monthly payments, interest, and total cost of loans."
+      },
+      "percentage-calculator": {
+        "name": "Percentage Calculator",
+        "description": "Calculate percentages, percentage change, and ratio."
+      },
+      "aspect-ratio": {
+        "name": "Aspect Ratio Calculator",
+        "description": "Calculate and maintain aspect ratios for images and videos."
+      },
+      "expense-tracker": {
+        "name": "Expense Tracker",
+        "description": "Track your personal expenses with categories and charts."
+      },
+      "invoice": {
+        "name": "Invoice Generator",
+        "description": "Create and export professional invoices as PDF."
+      },
+      "bmi-calculator": {
+        "name": "BMI Calculator",
+        "description": "Calculate your Body Mass Index and health category."
+      },
+      "tip-calculator": {
+        "name": "Tip Calculator",
+        "description": "Calculate tip amounts and split bills."
+      },
+      "roman-numeral": {
+        "name": "Roman Numeral Converter",
+        "description": "Convert between Roman numerals and decimal numbers."
+      },
+      "currency-converter": {
+        "name": "Currency Converter",
+        "description": "Convert between world currencies with live exchange rates."
+      },
+      "number-base-converter": {
+        "name": "Number Base Converter",
+        "description": "Convert numbers between binary, octal, decimal, and hexadecimal."
+      },
+      "todo": {
+        "name": "Todo List",
+        "description": "Manage tasks with a persistent to-do list."
+      },
+      "timer": {
+        "name": "Timer",
+        "description": "A simple countdown timer with alarm."
+      },
+      "pomodoro": {
+        "name": "Pomodoro Timer",
+        "description": "Stay focused with the Pomodoro productivity technique."
+      },
+      "world-clock": {
+        "name": "World Clock",
+        "description": "View the current time in cities around the world."
+      },
+      "stopwatch": {
+        "name": "Stopwatch",
+        "description": "A precise stopwatch with lap tracking."
+      },
+      "habit-tracker": {
+        "name": "Habit Tracker",
+        "description": "Build and track daily habits with streaks."
+      },
+      "password-generator": {
+        "name": "Password Generator",
+        "description": "Generate strong, secure passwords with custom rules."
+      },
+      "jwt-decoder": {
+        "name": "JWT Decoder",
+        "description": "Decode and inspect JSON Web Tokens without verification."
+      },
+      "hash-generator": {
+        "name": "Hash Generator",
+        "description": "Generate MD5, SHA-1, SHA-256, and other cryptographic hashes."
+      },
+      "regex-tester": {
+        "name": "Regex Tester",
+        "description": "Test and debug regular expressions with live matching."
+      },
+      "cron-parser": {
+        "name": "Cron Parser",
+        "description": "Parse and explain cron expressions in plain English."
+      },
+      "password-strength": {
+        "name": "Password Strength Checker",
+        "description": "Analyze the strength of your passwords."
+      },
+      "text-encryption": {
+        "name": "Text Encryption",
+        "description": "Encrypt and decrypt text using AES and other algorithms."
+      },
+      "http-status": {
+        "name": "HTTP Status Codes",
+        "description": "Reference guide for all HTTP status codes with descriptions."
+      },
+      "uuid-generator": {
+        "name": "UUID Generator",
+        "description": "Generate UUIDs v4 and other versions instantly."
+      },
+      "css-gradient": {
+        "name": "CSS Gradient Generator",
+        "description": "Generate beautiful CSS gradients visually."
+      },
+      "color-palette": {
+        "name": "Color Palette Generator",
+        "description": "Generate color palettes from images or create custom ones."
+      },
+      "image-resizer": {
+        "name": "Image Resizer",
+        "description": "Resize images to specific dimensions while preserving quality."
+      },
+      "contrast-checker": {
+        "name": "Contrast Checker",
+        "description": "Check color contrast ratios for WCAG accessibility compliance."
+      },
+      "color-blindness": {
+        "name": "Color Blindness Simulator",
+        "description": "Simulate how your designs look to users with color vision deficiencies."
+      },
+      "exif-viewer": {
+        "name": "EXIF Viewer",
+        "description": "View EXIF metadata embedded in photos."
+      },
+      "emoji-picker": {
+        "name": "Emoji Picker",
+        "description": "Browse and copy emojis with search and categories."
+      },
+      "screen-recorder": {
+        "name": "Screen Recorder",
+        "description": "Record your screen directly in the browser. No app needed."
+      },
+      "rich-editor": {
+        "name": "Rich Text Editor",
+        "description": "A full-featured rich text editor with formatting tools."
+      },
+      "typing-test": {
+        "name": "Typing Test",
+        "description": "Test and improve your typing speed and accuracy."
+      },
+      "timezone-converter": {
+        "name": "Timezone Converter",
+        "description": "Convert times between different timezones."
+      },
+      "age-calculator": {
+        "name": "Age Calculator",
+        "description": "Calculate exact age from a birth date."
+      },
+      "unix-timestamp": {
+        "name": "Unix Timestamp",
+        "description": "Convert between Unix timestamps and human-readable dates."
+      },
+      "svg-png": {
+        "name": "SVG to PNG",
+        "description": "Convert SVG files to PNG images."
+      }
     }
   },
   "Tools": {
@@ -723,7 +972,7 @@
     "Notepad": {
       "title": "Notepad",
       "description": "Scratchpad that auto-saves locally",
-      "placeholder": "Start typing\u2026 your notes are saved automatically.",
+      "placeholder": "Start typing… your notes are saved automatically.",
       "autoSavesLocally": "Auto-saves locally",
       "saved": "Saved",
       "words": "words",
@@ -1085,6 +1334,403 @@
       "aboutLoremDesc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It is commonly used in web design, graphic design, and publishing as placeholder text.",
       "noTextToCopy": "No text to copy",
       "copiedToClipboard": "Copied to clipboard"
+    },
+    "TodoList": {
+      "title": "Todo List",
+      "addNewTodo": "Add New Todo",
+      "placeholder": "What needs to be done?",
+      "addButton": "Add",
+      "yourTodos": "Your Todos",
+      "clearCompleted": "Clear Completed",
+      "noTodosFound": "No todos found",
+      "addFirstTodo": "Add your first todo above to get started!",
+      "allCompleted": "All todos are completed!",
+      "noCompletedYet": "No completed todos yet",
+      "tabAll": "All",
+      "tabActive": "Active",
+      "tabCompleted": "Completed",
+      "total": "Total",
+      "priorityLow": "Low",
+      "priorityMedium": "Medium",
+      "priorityHigh": "High",
+      "created": "Created",
+      "toastAdded": "Todo added successfully!",
+      "toastDeleted": "Todo deleted!",
+      "toastUpdated": "Todo status updated!",
+      "toastCleared": "Completed todos cleared!",
+      "toastEmpty": "Please enter a todo text"
+    },
+    "Timer": {
+      "title": "Timer & Countdown",
+      "description": "Minimal timer with animated digits, fullscreen, and completion sound.",
+      "countdown": "Countdown",
+      "stopwatch": "Stopwatch",
+      "hours": "Hours",
+      "minutes": "Minutes",
+      "seconds": "Seconds",
+      "apply": "Apply",
+      "start": "Start",
+      "pause": "Pause",
+      "countsUpFrom0": "Counts up from 0.",
+      "testSound": "Test sound"
+    },
+    "PomodoroTimer": {
+      "title": "Pomodoro Timer",
+      "subtitle": "Stay focused, take breaks",
+      "settings": "Settings",
+      "workDuration": "Work Duration (min)",
+      "shortBreak": "Short Break (min)",
+      "longBreak": "Long Break (min)",
+      "sessionsBeforeLongBreak": "Sessions before long break",
+      "soundNotifications": "Sound notifications",
+      "autoAdvance": "Auto-advance to next session",
+      "focus": "Focus",
+      "shortBreakLabel": "Short Break",
+      "longBreakLabel": "Long Break",
+      "focusTime": "Focus Time",
+      "sessionOf": "Session {current} of {total}",
+      "todayStats": "Today's Stats",
+      "sessionsDone": "Sessions Done",
+      "breaksTaken": "Breaks Taken",
+      "focusSessionComplete": "Focus session complete! Time for a break.",
+      "breakOver": "Break over! Ready to focus?",
+      "pauseFirst": "Pause the timer before switching sessions.",
+      "workFor": "Work for",
+      "thenTake": "then take a",
+      "shortBreakMin": "short break. After",
+      "sessions": "sessions, enjoy a",
+      "longBreakMin": "long break.",
+      "min": "min"
+    },
+    "WorldClock": {
+      "title": "World Clock",
+      "citiesCount": "Current time across {count} cities",
+      "addCity": "Add city...",
+      "sortByUTC": "Sort by UTC",
+      "businessHours": "Business hours",
+      "offHours": "Off hours",
+      "dayLabel": "Day (6am–8pm)",
+      "nightLabel": "Night",
+      "businessLabel": "Business hours (8am–6pm)",
+      "alreadyDisplayed": "{city} is already displayed.",
+      "added": "Added {city}",
+      "copiedCity": "Copied {city} time",
+      "failedCopy": "Failed to copy"
+    },
+    "Stopwatch": {
+      "title": "Stopwatch",
+      "subtitle": "Precise lap tracking with keyboard shortcuts",
+      "start": "Start",
+      "pause": "Pause",
+      "lap": "Lap",
+      "reset": "Reset",
+      "laps": "Laps",
+      "exportCSV": "Export CSV",
+      "lapColumn": "Lap",
+      "lapTime": "Lap Time",
+      "totalTime": "Total Time",
+      "best": "Best",
+      "slowest": "Slowest",
+      "noLapsToExport": "No laps to export",
+      "lapsExported": "Laps exported as CSV",
+      "keyboardHint": "Keyboard:",
+      "startPauseKey": "start/pause",
+      "lapKey": "lap",
+      "resetKey": "reset"
+    },
+    "HabitTracker": {
+      "title": "Habit Tracker",
+      "subtitle": "Build streaks, track progress",
+      "addHabit": "Add Habit",
+      "cancel": "Cancel",
+      "totalHabits": "Total Habits",
+      "doneToday": "Done Today",
+      "bestStreak": "Best Streak",
+      "newHabit": "New Habit",
+      "habitName": "Habit Name",
+      "habitNamePlaceholder": "e.g. Read for 30 minutes",
+      "emoji": "Emoji",
+      "color": "Color",
+      "noHabitsYet": "No habits yet. Add your first habit to start tracking!",
+      "done": "Done",
+      "save": "Save",
+      "dayStreak": "day streak",
+      "best": "best",
+      "markDone": "Mark as done",
+      "markIncomplete": "Mark as incomplete",
+      "editName": "Edit name",
+      "deleteHabit": "Delete habit",
+      "confirmDelete": "Delete \"{name}\"? This cannot be undone.",
+      "habitAdded": "Habit \"{name}\" added!",
+      "habitDeleted": "Habit deleted",
+      "habitUpdated": "Habit updated",
+      "enterHabitName": "Please enter a habit name",
+      "dayMon": "M",
+      "dayTue": "T",
+      "dayWed": "W",
+      "dayThu": "T",
+      "dayFri": "F",
+      "daySat": "S",
+      "daySun": "S"
+    },
+    "AspectRatioCalculator": {
+      "title": "Aspect Ratio Calculator",
+      "subtitle": "Calculate and convert aspect ratios",
+      "dimensionsToRatio": "Dimensions to Ratio",
+      "ratioToScale": "Ratio to Scale",
+      "enterDimensions": "Enter Dimensions",
+      "width": "Width",
+      "height": "Height",
+      "simplifiedRatio": "Simplified Ratio",
+      "decimal": "Decimal",
+      "commonRatios": "Common Ratios",
+      "scaleToNewDimension": "Scale to New Dimension",
+      "ratioWidth": "Ratio Width",
+      "ratioHeight": "Ratio Height",
+      "knownWidthFindHeight": "Known Width, Find Height",
+      "knownHeightFindWidth": "Known Height, Find Width"
+    },
+    "BmiCalculator": {
+      "title": "BMI Calculator",
+      "subtitle": "Calculate your Body Mass Index",
+      "metric": "Metric",
+      "imperial": "Imperial",
+      "reset": "Reset",
+      "enterMeasurements": "Enter Measurements",
+      "weightKg": "Weight (kg)",
+      "heightCm": "Height (cm)",
+      "weightLbs": "Weight (lbs)",
+      "height": "Height",
+      "feet": "ft",
+      "inches": "in",
+      "yourBmiResult": "Your BMI Result",
+      "healthyWeightRange": "Healthy Weight Range",
+      "disclaimer": "BMI is a screening tool, not a diagnostic measure.",
+      "enterWeightHeight": "Enter your weight and height to calculate BMI"
+    },
+    "Calculator": {
+      "basic": "Basic",
+      "scientific": "Scientific",
+      "expressionPlaceholder": "0",
+      "keyboardShortcuts": "Keyboard Shortcuts",
+      "shortcutNumbers": "0–9",
+      "shortcutOperations": "+ - × ÷",
+      "shortcutOr": "Enter",
+      "shortcutCalculate": "Calculate",
+      "shortcutClear": "Clear (Escape)",
+      "shortcutBackspace": "Delete (Backspace)",
+      "shortcutDecimal": "Decimal (.)",
+      "shortcutPercentage": "Percentage (%)",
+      "shortcutPlusMinus": "Toggle Sign"
+    },
+    "ExpenseTracker": {
+      "totalExpenses": "Total Expenses",
+      "transactions": "transactions",
+      "thisMonth": "This Month",
+      "currentMonthSpending": "Current month spending",
+      "averagePerTransaction": "Average per transaction",
+      "basedOnFilteredData": "Based on filtered data",
+      "tabs": {
+        "overview": "Overview",
+        "expenses": "Expenses",
+        "charts": "Charts",
+        "budgets": "Budgets",
+        "reports": "Reports",
+        "importExport": "Import / Export"
+      },
+      "recentExpenses": "Recent Expenses",
+      "latestTransactions": "Latest transactions",
+      "quickAddExpense": "Quick Add Expense",
+      "addExpenseQuickly": "Add an expense quickly",
+      "spendingOverview": "Spending Overview",
+      "visualRepresentation": "Visual representation of your spending",
+      "allExpenses": "All Expenses",
+      "manageExpenses": "Manage your expenses",
+      "addExpense": "Add Expense",
+      "expenses": "Expenses",
+      "budgets": "Budgets"
+    },
+    "LoanCalculator": {
+      "title": "Loan Calculator",
+      "subtitle": "Calculate loan payments and schedules",
+      "loanDetails": "Loan Details",
+      "loanAmount": "Loan Amount",
+      "annualInterestRate": "Annual Interest Rate (%)",
+      "loanTerm": "Loan Term (months)",
+      "monthlyPayment": "Monthly Payment",
+      "totalPayment": "Total Payment",
+      "totalInterest": "Total Interest",
+      "principal": "Principal",
+      "interestRatio": "Interest Ratio",
+      "interest": "Interest",
+      "enterDetails": "Enter loan details to calculate",
+      "showSchedule": "Show Schedule",
+      "hideSchedule": "Hide Schedule",
+      "payments": "payments",
+      "month": "Month",
+      "payment": "Payment",
+      "balance": "Balance"
+    },
+    "PercentageCalculator": {
+      "title": "Percentage Calculator",
+      "subtitle": "Calculate percentages easily",
+      "sections": {
+        "whatIsXofY": "What is X% of Y?",
+        "xIsWhatPctOfY": "X is what % of Y?",
+        "percentageChange": "Percentage Change",
+        "addSubtractPct": "Add/Subtract Percentage",
+        "reversePct": "Reverse Percentage"
+      },
+      "inputs": {
+        "percentageX": "Percentage X",
+        "numberY": "Number Y",
+        "numberX": "Number X",
+        "originalValue": "Original Value",
+        "newValue": "New Value",
+        "baseNumber": "Base Number",
+        "percentageAdded": "Percentage Added",
+        "finalValue": "Final Value"
+      },
+      "result": "Result",
+      "increase": "Increase",
+      "decrease": "Decrease",
+      "difference": "Difference",
+      "percentage": "Percentage",
+      "after": "After"
+    },
+    "TipCalculator": {
+      "title": "Tip Calculator",
+      "subtitle": "Calculate tips and split bills",
+      "billAmount": "Bill Amount",
+      "tipPercentage": "Tip Percentage",
+      "custom": "Custom",
+      "numberOfPeople": "Number of People",
+      "rounding": "Rounding",
+      "roundingNone": "None",
+      "roundingTotal": "Round Total",
+      "roundingPerson": "Round Per Person",
+      "summary": "Summary",
+      "copy": "Copy",
+      "tip": "Tip",
+      "total": "Total",
+      "bill": "Bill",
+      "perPerson": "Per Person",
+      "people": "people",
+      "person": "Person",
+      "reset": "Reset",
+      "enableCustomSplit": "Enable Custom Split",
+      "disableCustomSplit": "Disable Custom Split",
+      "customSplit": "Custom Split",
+      "differentAmountsPerPerson": "Different amounts per person",
+      "pays": "pays",
+      "enterBillPrompt": "Enter a bill amount to get started"
+    },
+    "UnitConverter": {
+      "converter": "Converter",
+      "convertBetween": "Convert between",
+      "units": "units",
+      "from": "From",
+      "value": "Value",
+      "enterValue": "Enter value",
+      "to": "To",
+      "convertedValue": "Converted Value",
+      "result": "Result",
+      "working": "Working",
+      "baseUnit": "Base Unit",
+      "enterValuePrompt": "Enter a value to convert",
+      "quickConversions": "Quick Conversions",
+      "commonExamples": "Common conversion examples",
+      "categories": {
+        "Length": "Length",
+        "Weight": "Weight",
+        "Temperature": "Temperature",
+        "Area": "Area",
+        "Volume": "Volume",
+        "Speed": "Speed",
+        "Time": "Time",
+        "Digital": "Digital",
+        "Energy": "Energy",
+        "Pressure": "Pressure"
+      }
+    },
+    "CurrencyConverter": {
+      "amount": "Amount",
+      "fromCurrency": "From Currency",
+      "toCurrency": "To Currency",
+      "exchangeRate": "Exchange Rate",
+      "conversionResult": "Conversion Result",
+      "liveExchangeRate": "Live Exchange Rate",
+      "rawRate": "Raw Rate",
+      "formattedCurrency": "Formatted Currency",
+      "localized": "Localized"
+    },
+    "InvoiceGenerator": {
+      "tabs": {
+        "details": "Details",
+        "items": "Items",
+        "preview": "Preview",
+        "export": "Export"
+      },
+      "saveInvoice": "Save Invoice",
+      "backToManager": "Back to Manager",
+      "invoiceDetails": "Invoice Details",
+      "basicInvoiceInfo": "Basic invoice information",
+      "invoiceNumber": "Invoice Number",
+      "invoiceDate": "Invoice Date",
+      "dueDate": "Due Date",
+      "currency": "Currency",
+      "companyDetails": "Company Details",
+      "companyInfo": "Your company information",
+      "companyName": "Company Name",
+      "clientDetails": "Client Details",
+      "clientInfo": "Client information",
+      "clientName": "Client Name",
+      "billTo": "Bill To",
+      "invoiceItems": "Invoice Items",
+      "addProducts": "Add products or services",
+      "description": "Description",
+      "quantity": "Quantity",
+      "rate": "Rate",
+      "amount": "Amount",
+      "addItem": "Add Item",
+      "invoiceSummary": "Invoice Summary",
+      "subtotal": "Subtotal",
+      "discount": "Discount",
+      "tax": "Tax",
+      "taxRate": "Tax Rate",
+      "total": "Total",
+      "notes": "Notes",
+      "termsConditions": "Terms & Conditions",
+      "exportInvoice": "Export Invoice",
+      "downloadAsPdf": "Download your invoice as a PDF document",
+      "readyToExport": "Ready to Export",
+      "readyToExportDesc": "Your invoice is ready to be downloaded as a professional PDF document.",
+      "pdfPageSize": "PDF Page Size",
+      "downloadPdf": "Download PDF Invoice",
+      "pdfNote": "The PDF will be generated with all your invoice details and can be printed or emailed to your client."
+    },
+    "NumberBaseConverter": {
+      "title": "Number Base Converter",
+      "subtitle": "Convert between number bases",
+      "decimal": "Decimal",
+      "binary": "Binary",
+      "octal": "Octal",
+      "hexadecimal": "Hexadecimal",
+      "clear": "Clear"
+    },
+    "RomanNumeralConverter": {
+      "title": "Roman Numeral Converter",
+      "subtitle": "Convert between Arabic and Roman numerals",
+      "numberToRoman": "Number to Roman",
+      "romanToNumber": "Roman to Number",
+      "enterNumber": "Enter Number",
+      "enterRoman": "Enter Roman Numeral",
+      "result": "Result",
+      "copy": "Copy",
+      "stepByStep": "Step by Step",
+      "runningTotal": "Running Total",
+      "remaining": "Remaining",
+      "referenceTable": "Reference Table"
     }
   }
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -33,6 +34,7 @@ function applyRounding(value: number, mode: RoundMode, context: "total" | "perso
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function TipCalculator() {
+  const t = useTranslations("Tools.TipCalculator");
   const [billStr, setBillStr] = useState("");
   const [tipMode, setTipMode] = useState<"quick" | "custom">("quick");
   const [quickTip, setQuickTip] = useState(18);
@@ -141,15 +143,15 @@ export default function TipCalculator() {
             <Receipt className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Tip Calculator</h1>
-            <p className="text-sm text-muted-foreground">Calculate tip and split bills easily</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
           </div>
         </div>
 
         {/* Bill amount */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Bill Amount</CardTitle>
+            <CardTitle className="text-base">{t("billAmount")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="relative">
@@ -172,7 +174,7 @@ export default function TipCalculator() {
         {/* Tip percentage */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Tip Percentage</CardTitle>
+            <CardTitle className="text-base">{t("tipPercentage")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="flex flex-wrap gap-2">
@@ -194,7 +196,7 @@ export default function TipCalculator() {
                 variant={tipMode === "custom" ? "default" : "outline"}
                 onClick={() => setTipMode("custom")}
               >
-                Custom
+                {t("custom")}
               </Button>
             </div>
             {tipMode === "custom" && (
@@ -218,7 +220,7 @@ export default function TipCalculator() {
         {/* Number of people */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Number of People</CardTitle>
+            <CardTitle className="text-base">{t("numberOfPeople")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-4">
@@ -256,15 +258,15 @@ export default function TipCalculator() {
         {/* Rounding */}
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-base">Rounding</CardTitle>
+            <CardTitle className="text-base">{t("rounding")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="flex flex-wrap gap-2">
               {(
                 [
-                  ["none", "No rounding"],
-                  ["total", "Round up total"],
-                  ["person", "Round per person"],
+                  ["none", t("roundingNone")],
+                  ["total", t("roundingTotal")],
+                  ["person", t("roundingPerson")],
                 ] as [RoundMode, string][]
               ).map(([val, label]) => (
                 <Button
@@ -285,25 +287,25 @@ export default function TipCalculator() {
           <Card className="border-primary/30">
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center justify-between">
-                Summary
+                {t("summary")}
                 <Button size="sm" variant="ghost" onClick={handleCopySummary}>
-                  <Copy className="w-4 h-4 mr-1.5" /> Copy
+                  <Copy className="w-4 h-4 mr-1.5" /> {t("copy")}
                 </Button>
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               {/* Overall totals */}
-              <div className="grid grid-cols-3 gap-3 text-center">
+              <div className="grid grid-cols-3 gap-3 text-center" dir="ltr">
                 <div className="rounded-lg bg-muted p-3">
-                  <div className="text-xs text-muted-foreground mb-1">Tip ({tipPercent}%)</div>
+                  <div className="text-xs text-muted-foreground mb-1">{t("tip")} ({tipPercent}%)</div>
                   <div className="text-xl font-bold">${fmt(calc.tipAmount)}</div>
                 </div>
                 <div className="rounded-lg bg-primary text-primary-foreground p-3">
-                  <div className="text-xs opacity-80 mb-1">Total</div>
+                  <div className="text-xs opacity-80 mb-1">{t("total")}</div>
                   <div className="text-xl font-bold">${fmt(calc.total)}</div>
                 </div>
                 <div className="rounded-lg bg-muted p-3">
-                  <div className="text-xs text-muted-foreground mb-1">Bill</div>
+                  <div className="text-xs text-muted-foreground mb-1">{t("bill")}</div>
                   <div className="text-xl font-bold">${fmt(bill)}</div>
                 </div>
               </div>
@@ -312,20 +314,20 @@ export default function TipCalculator() {
               {people > 1 && (
                 <div className="border rounded-lg p-4 space-y-2">
                   <div className="text-sm font-medium flex items-center gap-2">
-                    Per Person
-                    <Badge variant="secondary">{people} people</Badge>
+                    {t("perPerson")}
+                    <Badge variant="secondary">{people} {t("people")}</Badge>
                   </div>
-                  <div className="grid grid-cols-3 gap-3 text-center text-sm">
+                  <div className="grid grid-cols-3 gap-3 text-center text-sm" dir="ltr">
                     <div>
-                      <div className="text-muted-foreground text-xs">Bill</div>
+                      <div className="text-muted-foreground text-xs">{t("bill")}</div>
                       <div className="font-semibold">${fmt(calc.billPerPerson)}</div>
                     </div>
                     <div>
-                      <div className="text-muted-foreground text-xs">Tip</div>
+                      <div className="text-muted-foreground text-xs">{t("tip")}</div>
                       <div className="font-semibold">${fmt(calc.tipPerPerson)}</div>
                     </div>
                     <div>
-                      <div className="text-muted-foreground text-xs">Total</div>
+                      <div className="text-muted-foreground text-xs">{t("total")}</div>
                       <div className="font-bold text-base">${fmt(calc.totalPerPerson)}</div>
                     </div>
                   </div>
@@ -336,7 +338,7 @@ export default function TipCalculator() {
         ) : (
           <Card>
             <CardContent className="py-6 text-center text-muted-foreground text-sm">
-              Enter a bill amount above to see the breakdown
+              {t("enterBillPrompt")}
             </CardContent>
           </Card>
         )}
@@ -346,9 +348,9 @@ export default function TipCalculator() {
           <Card>
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center justify-between">
-                Custom Split
+                {t("customSplit")}
                 <CardDescription className="text-xs mt-0">
-                  Different amounts per person
+                  {t("differentAmountsPerPerson")}
                 </CardDescription>
               </CardTitle>
             </CardHeader>
@@ -358,14 +360,14 @@ export default function TipCalculator() {
                 variant={splitEnabled ? "default" : "outline"}
                 onClick={() => setSplitEnabled((v) => !v)}
               >
-                {splitEnabled ? "Disable" : "Enable"} custom split
+                {splitEnabled ? t("disableCustomSplit") : t("enableCustomSplit")}
               </Button>
 
               {splitEnabled && (
                 <div className="space-y-2">
                   {personAmounts.map((amt, idx) => (
                     <div key={idx} className="flex items-center gap-2">
-                      <Label className="w-20 text-sm flex-shrink-0">Person {idx + 1}</Label>
+                      <Label className="w-20 text-sm flex-shrink-0">{t("person")} {idx + 1}</Label>
                       <div className="relative flex-1">
                         <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
                           $
@@ -386,7 +388,7 @@ export default function TipCalculator() {
                       </div>
                       {splitCalc && splitCalc[idx] && (
                         <div className="text-sm text-right min-w-[80px]">
-                          <span className="text-muted-foreground">pays </span>
+                          <span className="text-muted-foreground">{t("pays")} </span>
                           <span className="font-semibold">${fmt(splitCalc[idx].total)}</span>
                         </div>
                       )}
@@ -401,7 +403,7 @@ export default function TipCalculator() {
         {/* Reset */}
         <div className="flex justify-end">
           <Button variant="outline" size="sm" onClick={handleReset}>
-            <RotateCcw className="w-4 h-4 mr-1.5" /> Reset
+            <RotateCcw className="w-4 h-4 mr-1.5" /> {t("reset")}
           </Button>
         </div>
       </div>

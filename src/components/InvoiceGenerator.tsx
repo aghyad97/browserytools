@@ -50,8 +50,10 @@ import InvoiceManager from "@/components/InvoiceManager";
 import { uniqueCurrencies } from "@/lib/currencies";
 import { setPreferredCurrency } from "@/lib/utils";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function InvoiceGenerator() {
+  const t = useTranslations("Tools.InvoiceGenerator");
   const [activeTab, setActiveTab] = useState("details");
   const [showManager, setShowManager] = useState(true); // Start with manager view
 
@@ -491,11 +493,11 @@ export default function InvoiceGenerator() {
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleBackToManager}>
             <FolderOpen className="w-4 h-4 mr-2" />
-            Back to Manager
+            {t("backToManager")}
           </Button>
           <Button onClick={handleSaveInvoice}>
             <Save className="w-4 h-4 mr-2" />
-            Save Invoice
+            {t("saveInvoice")}
           </Button>
         </div>
       </div>
@@ -504,19 +506,19 @@ export default function InvoiceGenerator() {
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="details" className="flex items-center gap-2">
             <Building2 className="w-4 h-4" />
-            Details
+            {t("tabs.details")}
           </TabsTrigger>
           <TabsTrigger value="items" className="flex items-center gap-2">
             <Hash className="w-4 h-4" />
-            Items
+            {t("tabs.items")}
           </TabsTrigger>
           <TabsTrigger value="preview" className="flex items-center gap-2">
             <Eye className="w-4 h-4" />
-            Preview
+            {t("tabs.preview")}
           </TabsTrigger>
           <TabsTrigger value="export" className="flex items-center gap-2">
             <Download className="w-4 h-4" />
-            Export
+            {t("tabs.export")}
           </TabsTrigger>
         </TabsList>
 
@@ -527,16 +529,16 @@ export default function InvoiceGenerator() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Calendar className="w-5 h-5" />
-                  Invoice Details
+                  {t("invoiceDetails")}
                 </CardTitle>
                 <CardDescription>
-                  Basic invoice information and settings
+                  {t("basicInvoiceInfo")}
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="invoice-number">Invoice Number</Label>
+                    <Label htmlFor="invoice-number">{t("invoiceNumber")}</Label>
                     <Input
                       id="invoice-number"
                       value={invoiceData.invoiceNumber}
@@ -546,7 +548,7 @@ export default function InvoiceGenerator() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="invoice-date">Invoice Date</Label>
+                    <Label htmlFor="invoice-date">{t("invoiceDate")}</Label>
                     <Input
                       id="invoice-date"
                       type="date"
@@ -557,7 +559,7 @@ export default function InvoiceGenerator() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="due-date">Due Date</Label>
+                    <Label htmlFor="due-date">{t("dueDate")}</Label>
                     <Input
                       id="due-date"
                       type="date"
@@ -568,7 +570,7 @@ export default function InvoiceGenerator() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label>Currency</Label>
+                    <Label>{t("currency")}</Label>
                     <Select
                       value={invoiceData.currency}
                       onValueChange={(val) => {
@@ -623,10 +625,10 @@ export default function InvoiceGenerator() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <Building2 className="w-5 h-5" />
-                  Company Details
+                  {t("companyDetails")}
                 </CardTitle>
                 <CardDescription>
-                  Your business information that will appear on the invoice
+                  {t("companyInfo")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
@@ -684,7 +686,7 @@ export default function InvoiceGenerator() {
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="company-name">Company Name *</Label>
+                    <Label htmlFor="company-name">{t("companyName")}</Label>
                     <Input
                       id="company-name"
                       value={invoiceData.company.name}
@@ -828,16 +830,16 @@ export default function InvoiceGenerator() {
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <User className="w-5 h-5" />
-                  Client Details
+                  {t("clientDetails")}
                 </CardTitle>
                 <CardDescription>
-                  Information about the client or customer
+                  {t("clientInfo")}
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label htmlFor="client-name">Client Name *</Label>
+                    <Label htmlFor="client-name">{t("clientName")}</Label>
                     <Input
                       id="client-name"
                       value={invoiceData.client.name}
@@ -965,10 +967,10 @@ export default function InvoiceGenerator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Hash className="w-5 h-5" />
-                Invoice Items
+                {t("invoiceItems")}
               </CardTitle>
               <CardDescription>
-                Add products or services to your invoice
+                {t("addProducts")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -979,7 +981,7 @@ export default function InvoiceGenerator() {
                     className="grid grid-cols-1 md:grid-cols-6 gap-4 p-4 border rounded-lg"
                   >
                     <div className="md:col-span-3 space-y-2">
-                      <Label>Description</Label>
+                      <Label>{t("description")}</Label>
                       <Input
                         value={item.description}
                         onChange={(e) =>
@@ -993,7 +995,7 @@ export default function InvoiceGenerator() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>Quantity</Label>
+                      <Label>{t("quantity")}</Label>
                       <Input
                         type="number"
                         min="0"
@@ -1009,7 +1011,7 @@ export default function InvoiceGenerator() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>Rate</Label>
+                      <Label>{t("rate")}</Label>
                       <Input
                         type="number"
                         min="0"
@@ -1025,7 +1027,7 @@ export default function InvoiceGenerator() {
                       />
                     </div>
                     <div className="space-y-2">
-                      <Label>Amount</Label>
+                      <Label>{t("amount")}</Label>
                       <div className="flex items-center gap-2">
                         <div className="flex items-center h-10 px-3 py-2 text-sm bg-muted border border-input rounded-md">
                           {invoiceData.currency === "USD" && "$"}
@@ -1054,7 +1056,7 @@ export default function InvoiceGenerator() {
                   className="w-full"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Add Item
+                  {t("addItem")}
                 </Button>
               </div>
 
@@ -1064,7 +1066,7 @@ export default function InvoiceGenerator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
                   <div className="space-y-2">
-                    <Label htmlFor="tax-rate">Tax Rate (%)</Label>
+                    <Label htmlFor="tax-rate">{t("taxRate")}</Label>
                     <Input
                       id="tax-rate"
                       type="number"
@@ -1081,7 +1083,7 @@ export default function InvoiceGenerator() {
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="discount">Discount ($)</Label>
+                    <Label htmlFor="discount">{t("discount")}</Label>
                     <Input
                       id="discount"
                       type="number"
@@ -1100,10 +1102,10 @@ export default function InvoiceGenerator() {
 
                 <div className="space-y-4">
                   <div className="p-4 bg-muted rounded-lg">
-                    <h3 className="font-semibold mb-2">Invoice Summary</h3>
-                    <div className="space-y-1 text-sm">
+                    <h3 className="font-semibold mb-2">{t("invoiceSummary")}</h3>
+                    <div className="space-y-1 text-sm" dir="ltr">
                       <div className="flex justify-between">
-                        <span>Subtotal:</span>
+                        <span>{t("subtotal")}:</span>
                         <span>
                           {invoiceData.currency === "USD" && "$"}
                           <NumberFlow value={invoiceData.subtotal} />
@@ -1113,7 +1115,7 @@ export default function InvoiceGenerator() {
                       </div>
                       {invoiceData.discount > 0 && (
                         <div className="flex justify-between text-red-600">
-                          <span>Discount:</span>
+                          <span>{t("discount")}:</span>
                           <span>
                             -{invoiceData.currency === "USD" && "$"}
                             <NumberFlow value={invoiceData.discount} />
@@ -1124,7 +1126,7 @@ export default function InvoiceGenerator() {
                       )}
                       {invoiceData.taxRate > 0 && (
                         <div className="flex justify-between">
-                          <span>Tax ({invoiceData.taxRate}%):</span>
+                          <span>{t("tax")} ({invoiceData.taxRate}%):</span>
                           <span>
                             {invoiceData.currency === "USD" && "$"}
                             <NumberFlow value={invoiceData.taxAmount} />
@@ -1135,7 +1137,7 @@ export default function InvoiceGenerator() {
                       )}
                       <Separator />
                       <div className="flex justify-between font-semibold text-lg">
-                        <span>Total:</span>
+                        <span>{t("total")}:</span>
                         <span>
                           {invoiceData.currency === "USD" && "$"}
                           <NumberFlow value={invoiceData.total} />
@@ -1151,7 +1153,7 @@ export default function InvoiceGenerator() {
               {/* Notes and Terms */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
                 <div className="space-y-2">
-                  <Label htmlFor="notes">Notes</Label>
+                  <Label htmlFor="notes">{t("notes")}</Label>
                   <Textarea
                     id="notes"
                     value={invoiceData.notes}
@@ -1163,7 +1165,7 @@ export default function InvoiceGenerator() {
                   />
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="terms">Terms & Conditions</Label>
+                  <Label htmlFor="terms">{t("termsConditions")}</Label>
                   <Textarea
                     id="terms"
                     value={invoiceData.terms}
@@ -1265,7 +1267,7 @@ export default function InvoiceGenerator() {
                 {/* Bill To Section */}
                 <div className="mb-8">
                   <h3 className="text-lg font-semibold text-gray-800 mb-2">
-                    Bill To:
+                    {t("billTo")}:
                   </h3>
                   <div className="text-gray-600">
                     <p className="font-medium">
@@ -1341,10 +1343,10 @@ export default function InvoiceGenerator() {
 
                 {/* Totals */}
                 <div className="flex justify-end mb-8">
-                  <div className="w-64">
+                  <div className="w-64" dir="ltr">
                     <div className="space-y-2">
                       <div className="flex justify-between text-gray-700">
-                        <span>Subtotal:</span>
+                        <span>{t("subtotal")}:</span>
                         <span>
                           {invoiceData.currency === "USD" && "$"}
                           <NumberFlow value={invoiceData.subtotal} />
@@ -1354,7 +1356,7 @@ export default function InvoiceGenerator() {
                       </div>
                       {invoiceData.discount > 0 && (
                         <div className="flex justify-between text-red-600">
-                          <span>Discount:</span>
+                          <span>{t("discount")}:</span>
                           <span>
                             -{invoiceData.currency === "USD" && "$"}
                             <NumberFlow value={invoiceData.discount} />
@@ -1365,7 +1367,7 @@ export default function InvoiceGenerator() {
                       )}
                       {invoiceData.taxRate > 0 && (
                         <div className="flex justify-between text-gray-700">
-                          <span>Tax ({invoiceData.taxRate}%):</span>
+                          <span>{t("tax")} ({invoiceData.taxRate}%):</span>
                           <span>
                             {invoiceData.currency === "USD" && "$"}
                             <NumberFlow value={invoiceData.taxAmount} />
@@ -1376,7 +1378,7 @@ export default function InvoiceGenerator() {
                       )}
                       <div className="border-t border-gray-300 pt-2">
                         <div className="flex justify-between text-lg font-bold text-gray-800">
-                          <span>Total:</span>
+                          <span>{t("total")}:</span>
                           <span>
                             {invoiceData.currency === "USD" && "$"}
                             <NumberFlow value={invoiceData.total} />
@@ -1395,7 +1397,7 @@ export default function InvoiceGenerator() {
                     {invoiceData.notes && (
                       <div>
                         <h4 className="font-semibold text-gray-800 mb-2">
-                          Notes:
+                          {t("notes")}:
                         </h4>
                         <p>{invoiceData.notes}</p>
                       </div>
@@ -1403,7 +1405,7 @@ export default function InvoiceGenerator() {
                     {invoiceData.terms && (
                       <div>
                         <h4 className="font-semibold text-gray-800 mb-2">
-                          Terms & Conditions:
+                          {t("termsConditions")}:
                         </h4>
                         <p>{invoiceData.terms}</p>
                       </div>
@@ -1420,10 +1422,10 @@ export default function InvoiceGenerator() {
             <CardHeader>
               <CardTitle className="flex items-center gap-2">
                 <Download className="w-5 h-5" />
-                Export Invoice
+                {t("exportInvoice")}
               </CardTitle>
               <CardDescription>
-                Download your invoice as a PDF document
+                {t("downloadAsPdf")}
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -1431,15 +1433,14 @@ export default function InvoiceGenerator() {
                 <div className="p-8 rounded-lg">
                   <FileText className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
                   <h3 className="text-xl font-semibold mb-2">
-                    Ready to Export
+                    {t("readyToExport")}
                   </h3>
                   <p className="text-muted-foreground mb-4">
-                    Your invoice is ready to be downloaded as a professional PDF
-                    document.
+                    {t("readyToExportDesc")}
                   </p>
                   <div className="text-left max-w-md mx-auto">
                     <div className="space-y-2">
-                      <Label>PDF Page Size</Label>
+                      <Label>{t("pdfPageSize")}</Label>
                       <Select
                         value={invoiceData.pageSize}
                         onValueChange={(val: "a4" | "letter") =>
@@ -1458,16 +1459,16 @@ export default function InvoiceGenerator() {
                       </Select>
                     </div>
                   </div>
-                  <div className="space-y-2 text-sm text-muted-foreground mt-2">
-                    <p>Invoice #: {invoiceData.invoiceNumber}</p>
+                  <div className="space-y-2 text-sm text-muted-foreground mt-2" dir="ltr">
+                    <p>{t("invoiceNumber")}: {invoiceData.invoiceNumber}</p>
                     <p>
-                      Total Amount: {invoiceData.currency === "USD" && "$"}
+                      {t("total")}: {invoiceData.currency === "USD" && "$"}
                       <NumberFlow value={invoiceData.total} />
                       {invoiceData.currency !== "USD" &&
                         ` ${invoiceData.currency}`}
                     </p>
                     <p>
-                      Date: {new Date(invoiceData.date).toLocaleDateString()}
+                      {t("invoiceDate")}: {new Date(invoiceData.date).toLocaleDateString()}
                     </p>
                   </div>
                 </div>
@@ -1478,13 +1479,12 @@ export default function InvoiceGenerator() {
                   className="w-full max-w-xs"
                 >
                   <Download className="w-4 h-4 mr-2" />
-                  Download PDF Invoice
+                  {t("downloadPdf")}
                 </Button>
 
                 <div className="text-xs text-muted-foreground">
                   <p>
-                    The PDF will be generated with all your invoice details and
-                    can be printed or emailed to your client.
+                    {t("pdfNote")}
                   </p>
                 </div>
               </div>

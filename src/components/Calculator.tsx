@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "./ui/tabs";
 import { CalculatorIcon } from "lucide-react";
 import { Function } from "@phosphor-icons/react";
+import { useTranslations } from "next-intl";
 
 interface CalculatorState {
   display: string;
@@ -17,6 +18,7 @@ interface CalculatorState {
 }
 
 const Calculator = () => {
+  const t = useTranslations("Tools.Calculator");
   const [mode, setMode] = useState<"basic" | "scientific">("basic");
   const [state, setState] = useState<CalculatorState>({
     display: "0",
@@ -668,22 +670,22 @@ const Calculator = () => {
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="basic" className="flex items-center gap-2">
                 <CalculatorIcon className="h-4 w-4" />
-                Basic
+                {t("basic")}
               </TabsTrigger>
               <TabsTrigger
                 value="scientific"
                 className="flex items-center gap-2"
               >
                 <Function className="h-4 w-4" />
-                Scientific
+                {t("scientific")}
               </TabsTrigger>
             </TabsList>
 
             <TabsContent value="basic" className="space-y-6 mt-6">
               {/* Display */}
-              <div className="bg-muted/50 p-6 rounded-xl text-right space-y-3 border">
+              <div className="bg-muted/50 p-6 rounded-xl text-right space-y-3 border" dir="ltr">
                 <div className="text-sm text-muted-foreground font-mono min-h-[1.5rem] break-all opacity-80">
-                  {state.expression || "Expression will appear here"}
+                  {state.expression || t("expressionPlaceholder")}
                 </div>
                 <div className="text-4xl font-mono min-h-[2.5rem] break-all font-semibold">
                   {state.display}
@@ -709,9 +711,9 @@ const Calculator = () => {
 
             <TabsContent value="scientific" className="space-y-6 mt-6">
               {/* Display */}
-              <div className="bg-muted/50 p-6 rounded-xl text-right space-y-3 border">
+              <div className="bg-muted/50 p-6 rounded-xl text-right space-y-3 border" dir="ltr">
                 <div className="text-sm text-muted-foreground font-mono min-h-[1.5rem] break-all opacity-80">
-                  {state.expression || "Expression will appear here"}
+                  {state.expression || t("expressionPlaceholder")}
                 </div>
                 <div className="text-2xl font-mono min-h-[2.5rem] break-all font-semibold">
                   {state.display}
@@ -754,40 +756,40 @@ const Calculator = () => {
 
           {/* Instructions */}
           <div className="mt-8 p-6 bg-muted/30 rounded-xl border">
-            <h3 className="font-semibold mb-4 text-lg">Keyboard Shortcuts</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm">
+            <h3 className="font-semibold mb-4 text-lg">{t("keyboardShortcuts")}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm" dir="ltr">
               <div className="space-y-1">
                 <p className="text-foreground">
                   •{" "}
                   <kbd className="px-2 py-1 bg-primary text-primary-foreground rounded text-xs font-mono">
                     0-9
                   </kbd>{" "}
-                  Input numbers
+                  {t("shortcutNumbers")}
                 </p>
                 <p className="text-foreground">
                   •{" "}
                   <kbd className="px-2 py-1 bg-primary text-primary-foreground rounded text-xs font-mono">
                     + - * /
                   </kbd>{" "}
-                  Basic operations
+                  {t("shortcutOperations")}
                 </p>
                 <p className="text-foreground">
                   •{" "}
                   <kbd className="px-2 py-1 bg-primary text-primary-foreground rounded text-xs font-mono">
                     Enter
                   </kbd>{" "}
-                  or{" "}
+                  {t("shortcutOr")}{" "}
                   <kbd className="px-2 py-1 bg-primary text-primary-foreground rounded text-xs font-mono">
                     =
                   </kbd>{" "}
-                  Calculate result
+                  {t("shortcutCalculate")}
                 </p>
                 <p className="text-foreground">
                   •{" "}
                   <kbd className="px-2 py-1 bg-destructive text-destructive-foreground rounded text-xs font-mono">
                     Escape
                   </kbd>{" "}
-                  Clear all
+                  {t("shortcutClear")}
                 </p>
               </div>
               <div className="space-y-1">
@@ -796,28 +798,28 @@ const Calculator = () => {
                   <kbd className="px-2 py-1 bg-secondary text-secondary-foreground rounded text-xs font-mono">
                     Backspace
                   </kbd>{" "}
-                  Delete last digit
+                  {t("shortcutBackspace")}
                 </p>
                 <p className="text-foreground">
                   •{" "}
                   <kbd className="px-2 py-1 bg-secondary text-secondary-foreground rounded text-xs font-mono">
                     .
                   </kbd>{" "}
-                  Decimal point
+                  {t("shortcutDecimal")}
                 </p>
                 <p className="text-foreground">
                   •{" "}
                   <kbd className="px-2 py-1 bg-secondary text-secondary-foreground rounded text-xs font-mono">
                     %
                   </kbd>{" "}
-                  Percentage
+                  {t("shortcutPercentage")}
                 </p>
                 <p className="text-foreground">
                   •{" "}
                   <kbd className="px-2 py-1 bg-secondary text-secondary-foreground rounded text-xs font-mono">
                     ±
                   </kbd>{" "}
-                  Plus/minus toggle
+                  {t("shortcutPlusMinus")}
                 </p>
               </div>
             </div>

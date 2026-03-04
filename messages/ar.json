@@ -79,89 +79,338 @@
       "designTools": "التصميم والمرئيات"
     },
     "tools": {
-      "bg-removal": { "name": "إزالة الخلفية", "description": "أزل خلفية صورك فورياً باستخدام الذكاء الاصطناعي. يدعم PNG وJPG. بدون علامة مائية، مجاني تماماً." },
-      "phone-mockups": { "name": "قوالب الهاتف", "description": "ضع لقطات الشاشة داخل إطارات أجهزة iPhone وAndroid. ارفع الصورة، اختر الإطار، وصدّر." },
-      "image-compression": { "name": "ضغط الصور", "description": "اضغط الصور لتقليل حجم الملف مع الحفاظ على الجودة. يدعم JPG وPNG وWebP." },
-      "image-converter": { "name": "محوّل الصيغ", "description": "حوّل الصور بين JPG وPNG وWebP وGIF وBMP وTIFF وSVG." },
-      "color-correction": { "name": "تصحيح الألوان", "description": "اضبط الألوان والسطوع والتباين والتشبع والصبغة في الصور." },
-      "svg": { "name": "أدوات SVG", "description": "حرّر وعدّل ملفات SVG المتجهة. قم بالتحجيم وتعديل الألوان وتحسين المسارات." },
-      "color-converter": { "name": "محوّل الألوان", "description": "حوّل بين HEX وRGB وHSL مع معاينة مباشرة." },
-      "pdf": { "name": "أدوات PDF", "description": "دمج وتقسيم وضغط وتعديل ملفات PDF. استخراج النص وتدوير الصفحات." },
-      "zip": { "name": "أدوات ZIP", "description": "إنشاء واستخراج وإدارة ملفات ZIP. يدعم الحماية بكلمة مرور." },
-      "spreadsheet": { "name": "عارض جداول البيانات", "description": "عرض وتعديل ملفات جداول البيانات (XLSX وCSV) في متصفحك." },
-      "file-converter": { "name": "محوّل الملفات", "description": "حوّل الملفات بين صيغ مختلفة. يدعم المستندات والصور والمزيد." },
-      "video": { "name": "محرر الفيديو", "description": "حرّر مقاطع الفيديو في متصفحك. قص ودمج وإضافة تأثيرات." },
-      "audio": { "name": "محرر الصوت", "description": "حرّر ملفات الصوت. قص ودمج وضبط مستوى الصوت." },
-      "mic-camera": { "name": "اختبار الميكروفون والكاميرا", "description": "اختبر ميكروفونك وكاميرتك بدون أي تطبيق." },
-      "compress-video": { "name": "ضاغط الفيديو", "description": "اضغط ملفات الفيديو لتقليل الحجم مع الحفاظ على الجودة." },
-      "text-case": { "name": "محوّل حالة النص", "description": "حوّل النص بين حالات مختلفة: كبير وصغير وعنوان والمزيد." },
-      "text-counter": { "name": "عداد النص", "description": "عدّ الأحرف والكلمات والجمل والفقرات في نصك." },
-      "text-diff": { "name": "مقارنة النصوص", "description": "قارن نصين وأبرز الاختلافات." },
-      "text-sorter": { "name": "ترتيب النصوص", "description": "رتّب أسطر النص أبجدياً أو رقمياً أو حسب الطول." },
-      "text-binary": { "name": "النص إلى ثنائي", "description": "حوّل النص إلى ثنائي والثنائي إلى نص." },
-      "text-repeater": { "name": "مكرر النص", "description": "كرّر النص عدداً محدداً من المرات مع فواصل مخصصة." },
-      "morse-code": { "name": "شيفرة مورس", "description": "رمّز وفكّ رموز شيفرة مورس. حوّل النص إلى نقاط وشرطات." },
-      "markdown-editor": { "name": "محرر Markdown", "description": "اكتب وشاهد Markdown في الوقت الفعلي." },
-      "markdown-html": { "name": "Markdown إلى HTML", "description": "حوّل Markdown إلى HTML فورياً." },
-      "html-formatter": { "name": "منسّق HTML", "description": "نسّق وجمّل كود HTML لتحسين القراءة." },
-      "code-format": { "name": "منسّق الكود", "description": "نسّق الكود بلغات متعددة: JavaScript وPython وCSS والمزيد." },
-      "css-minifier": { "name": "مضغوط CSS", "description": "اضغط كود CSS لتقليل حجم الملف." },
-      "sql-formatter": { "name": "منسّق SQL", "description": "نسّق وجمّل استعلامات SQL." },
-      "word-frequency": { "name": "تكرار الكلمات", "description": "حلّل تكرار الكلمات في النص." },
-      "notepad": { "name": "المفكرة", "description": "مفكرة بسيطة في المتصفح تحفظ نصك تلقائياً." },
-      "json-formatter": { "name": "منسّق JSON", "description": "نسّق وتحقق وضغط JSON مع تمييز بالألوان." },
-      "json-csv": { "name": "JSON إلى CSV", "description": "حوّل بين صيغتي JSON وCSV." },
-      "base64": { "name": "محوّل Base64", "description": "شفّر وفكّ تشفير نصوص Base64." },
-      "qr-generator": { "name": "مولّد رمز QR", "description": "أنشئ رموز QR من نصوص أو روابط أو أي بيانات." },
-      "qr-scanner": { "name": "قارئ رمز QR", "description": "امسح وفكّ رموز QR من الكاميرا أو الصور المرفوعة." },
-      "barcode-generator": { "name": "مولّد الباركود", "description": "أنشئ باركودات بصيغ متعددة: EAN وUPC وCode128 والمزيد." },
-      "barcode-scanner": { "name": "قارئ الباركود", "description": "امسح وفكّ الباركودات من الكاميرا أو الصور." },
-      "charts": { "name": "منشئ الرسوم البيانية", "description": "أنشئ رسوماً بيانية شريطية وخطية ودائرية ومساحية من بياناتك." },
-      "yaml-json": { "name": "YAML إلى JSON", "description": "حوّل بين صيغتي YAML وJSON." },
-      "url-encoder": { "name": "ترميز/فك ترميز URL", "description": "شفّر وفكّ تشفير روابط URL ومعاملات الاستعلام." },
-      "fake-data": { "name": "مولّد بيانات وهمية", "description": "أنشئ بيانات وهمية واقعية: أسماء وبريد إلكتروني وعناوين والمزيد." },
-      "lorem-ipsum": { "name": "مولّد Lorem Ipsum", "description": "أنشئ نصوص Lorem Ipsum بأشكال متعددة." },
-      "calculator": { "name": "الآلة الحاسبة", "description": "آلة حاسبة علمية متكاملة." },
-      "unit-converter": { "name": "محوّل الوحدات", "description": "حوّل بين وحدات الطول والوزن ودرجة الحرارة والمزيد." },
-      "loan-calculator": { "name": "حاسبة القروض", "description": "احسب الأقساط الشهرية والفائدة والتكلفة الإجمالية للقروض." },
-      "percentage-calculator": { "name": "حاسبة النسبة المئوية", "description": "احسب النسب المئوية والتغيير النسبي والنسب." },
-      "aspect-ratio": { "name": "حاسبة نسبة الأبعاد", "description": "احسب وحافظ على نسب العرض إلى الارتفاع للصور والفيديوهات." },
-      "expense-tracker": { "name": "متتبع المصروفات", "description": "تتبع مصروفاتك الشخصية بفئات ورسوم بيانية." },
-      "invoice": { "name": "مولّد الفواتير", "description": "أنشئ وصدّر فواتير احترافية بصيغة PDF." },
-      "bmi-calculator": { "name": "حاسبة مؤشر كتلة الجسم", "description": "احسب مؤشر كتلة جسمك وفئتك الصحية." },
-      "tip-calculator": { "name": "حاسبة الإكراميات", "description": "احسب مبالغ الإكراميات وقسّم الفاتورة." },
-      "roman-numeral": { "name": "محوّل الأرقام الرومانية", "description": "حوّل بين الأرقام الرومانية والأعداد العشرية." },
-      "currency-converter": { "name": "محوّل العملات", "description": "حوّل بين عملات العالم بأسعار صرف فورية." },
-      "number-base-converter": { "name": "محوّل قواعد الأرقام", "description": "حوّل الأرقام بين الثنائية والثمانية والعشرية والسادس عشري." },
-      "todo": { "name": "قائمة المهام", "description": "أدر مهامك بقائمة مهام دائمة." },
-      "timer": { "name": "المؤقت", "description": "مؤقت عد تنازلي بسيط مع منبه." },
-      "pomodoro": { "name": "مؤقت بومودورو", "description": "حافظ على تركيزك بتقنية بومودورو للإنتاجية." },
-      "world-clock": { "name": "ساعة العالم", "description": "شاهد الوقت الحالي في مدن حول العالم." },
-      "stopwatch": { "name": "ساعة الإيقاف", "description": "ساعة إيقاف دقيقة مع تتبع الأوقات." },
-      "habit-tracker": { "name": "متتبع العادات", "description": "ابنِ وتتبع العادات اليومية مع الاستمرارية." },
-      "password-generator": { "name": "مولّد كلمات المرور", "description": "أنشئ كلمات مرور قوية وآمنة بقواعد مخصصة." },
-      "jwt-decoder": { "name": "فكّ تشفير JWT", "description": "فكّ وفحص رموز JSON Web Tokens بدون تحقق." },
-      "hash-generator": { "name": "مولّد الهاش", "description": "أنشئ هاشات MD5 وSHA-1 وSHA-256 وغيرها." },
-      "regex-tester": { "name": "مختبر Regex", "description": "اختبر وصحّح التعبيرات النمطية مع مطابقة فورية." },
-      "cron-parser": { "name": "محلّل Cron", "description": "حلّل واشرح تعبيرات Cron بلغة بسيطة." },
-      "password-strength": { "name": "قوة كلمة المرور", "description": "حلّل قوة كلمات مرورك." },
-      "text-encryption": { "name": "تشفير النص", "description": "شفّر وفكّ تشفير النصوص باستخدام AES وخوارزميات أخرى." },
-      "http-status": { "name": "رموز HTTP", "description": "دليل مرجعي لجميع رموز حالة HTTP مع الأوصاف." },
-      "uuid-generator": { "name": "مولّد UUID", "description": "أنشئ معرفات UUID v4 وإصدارات أخرى فورياً." },
-      "css-gradient": { "name": "مولّد تدرج CSS", "description": "أنشئ تدرجات CSS جميلة بصرياً." },
-      "color-palette": { "name": "مولّد لوحة الألوان", "description": "أنشئ لوحات ألوان من الصور أو أنشئ لوحات مخصصة." },
-      "image-resizer": { "name": "تغيير حجم الصور", "description": "غيّر حجم الصور إلى أبعاد محددة مع الحفاظ على الجودة." },
-      "contrast-checker": { "name": "فاحص التباين", "description": "افحص نسب تباين الألوان لامتثال إمكانية الوصول WCAG." },
-      "color-blindness": { "name": "محاكي عمى الألوان", "description": "احاكِ كيف تبدو تصاميمك للمستخدمين ذوي ضعف رؤية الألوان." },
-      "exif-viewer": { "name": "عارض EXIF", "description": "اعرض البيانات الوصفية EXIF المضمنة في الصور." },
-      "emoji-picker": { "name": "منتقي الرموز التعبيرية", "description": "تصفح وانسخ الرموز التعبيرية مع بحث وتصنيفات." },
-      "screen-recorder": { "name": "مسجّل الشاشة", "description": "سجّل شاشتك مباشرة في المتصفح. لا يحتاج تطبيق." },
-      "rich-editor": { "name": "محرر النص الغني", "description": "محرر نص غني متكامل مع أدوات التنسيق." },
-      "typing-test": { "name": "اختبار الكتابة", "description": "اختبر وحسّن سرعة كتابتك ودقتها." },
-      "timezone-converter": { "name": "محوّل المناطق الزمنية", "description": "حوّل الأوقات بين مناطق زمنية مختلفة." },
-      "age-calculator": { "name": "حاسبة العمر", "description": "احسب العمر الدقيق من تاريخ الميلاد." },
-      "unix-timestamp": { "name": "Unix Timestamp", "description": "حوّل بين طوابع Unix الزمنية والتواريخ المقروءة." },
-      "svg-png": { "name": "SVG إلى PNG", "description": "حوّل ملفات SVG إلى صور PNG." }
+      "bg-removal": {
+        "name": "إزالة الخلفية",
+        "description": "أزل خلفية صورك فورياً باستخدام الذكاء الاصطناعي. يدعم PNG وJPG. بدون علامة مائية، مجاني تماماً."
+      },
+      "phone-mockups": {
+        "name": "قوالب الهاتف",
+        "description": "ضع لقطات الشاشة داخل إطارات أجهزة iPhone وAndroid. ارفع الصورة، اختر الإطار، وصدّر."
+      },
+      "image-compression": {
+        "name": "ضغط الصور",
+        "description": "اضغط الصور لتقليل حجم الملف مع الحفاظ على الجودة. يدعم JPG وPNG وWebP."
+      },
+      "image-converter": {
+        "name": "محوّل الصيغ",
+        "description": "حوّل الصور بين JPG وPNG وWebP وGIF وBMP وTIFF وSVG."
+      },
+      "color-correction": {
+        "name": "تصحيح الألوان",
+        "description": "اضبط الألوان والسطوع والتباين والتشبع والصبغة في الصور."
+      },
+      "svg": {
+        "name": "أدوات SVG",
+        "description": "حرّر وعدّل ملفات SVG المتجهة. قم بالتحجيم وتعديل الألوان وتحسين المسارات."
+      },
+      "color-converter": {
+        "name": "محوّل الألوان",
+        "description": "حوّل بين HEX وRGB وHSL مع معاينة مباشرة."
+      },
+      "pdf": {
+        "name": "أدوات PDF",
+        "description": "دمج وتقسيم وضغط وتعديل ملفات PDF. استخراج النص وتدوير الصفحات."
+      },
+      "zip": {
+        "name": "أدوات ZIP",
+        "description": "إنشاء واستخراج وإدارة ملفات ZIP. يدعم الحماية بكلمة مرور."
+      },
+      "spreadsheet": {
+        "name": "عارض جداول البيانات",
+        "description": "عرض وتعديل ملفات جداول البيانات (XLSX وCSV) في متصفحك."
+      },
+      "file-converter": {
+        "name": "محوّل الملفات",
+        "description": "حوّل الملفات بين صيغ مختلفة. يدعم المستندات والصور والمزيد."
+      },
+      "video": {
+        "name": "محرر الفيديو",
+        "description": "حرّر مقاطع الفيديو في متصفحك. قص ودمج وإضافة تأثيرات."
+      },
+      "audio": {
+        "name": "محرر الصوت",
+        "description": "حرّر ملفات الصوت. قص ودمج وضبط مستوى الصوت."
+      },
+      "mic-camera": {
+        "name": "اختبار الميكروفون والكاميرا",
+        "description": "اختبر ميكروفونك وكاميرتك بدون أي تطبيق."
+      },
+      "compress-video": {
+        "name": "ضاغط الفيديو",
+        "description": "اضغط ملفات الفيديو لتقليل الحجم مع الحفاظ على الجودة."
+      },
+      "text-case": {
+        "name": "محوّل حالة النص",
+        "description": "حوّل النص بين حالات مختلفة: كبير وصغير وعنوان والمزيد."
+      },
+      "text-counter": {
+        "name": "عداد النص",
+        "description": "عدّ الأحرف والكلمات والجمل والفقرات في نصك."
+      },
+      "text-diff": {
+        "name": "مقارنة النصوص",
+        "description": "قارن نصين وأبرز الاختلافات."
+      },
+      "text-sorter": {
+        "name": "ترتيب النصوص",
+        "description": "رتّب أسطر النص أبجدياً أو رقمياً أو حسب الطول."
+      },
+      "text-binary": {
+        "name": "النص إلى ثنائي",
+        "description": "حوّل النص إلى ثنائي والثنائي إلى نص."
+      },
+      "text-repeater": {
+        "name": "مكرر النص",
+        "description": "كرّر النص عدداً محدداً من المرات مع فواصل مخصصة."
+      },
+      "morse-code": {
+        "name": "شيفرة مورس",
+        "description": "رمّز وفكّ رموز شيفرة مورس. حوّل النص إلى نقاط وشرطات."
+      },
+      "markdown-editor": {
+        "name": "محرر Markdown",
+        "description": "اكتب وشاهد Markdown في الوقت الفعلي."
+      },
+      "markdown-html": {
+        "name": "Markdown إلى HTML",
+        "description": "حوّل Markdown إلى HTML فورياً."
+      },
+      "html-formatter": {
+        "name": "منسّق HTML",
+        "description": "نسّق وجمّل كود HTML لتحسين القراءة."
+      },
+      "code-format": {
+        "name": "منسّق الكود",
+        "description": "نسّق الكود بلغات متعددة: JavaScript وPython وCSS والمزيد."
+      },
+      "css-minifier": {
+        "name": "مضغوط CSS",
+        "description": "اضغط كود CSS لتقليل حجم الملف."
+      },
+      "sql-formatter": {
+        "name": "منسّق SQL",
+        "description": "نسّق وجمّل استعلامات SQL."
+      },
+      "word-frequency": {
+        "name": "تكرار الكلمات",
+        "description": "حلّل تكرار الكلمات في النص."
+      },
+      "notepad": {
+        "name": "المفكرة",
+        "description": "مفكرة بسيطة في المتصفح تحفظ نصك تلقائياً."
+      },
+      "json-formatter": {
+        "name": "منسّق JSON",
+        "description": "نسّق وتحقق وضغط JSON مع تمييز بالألوان."
+      },
+      "json-csv": {
+        "name": "JSON إلى CSV",
+        "description": "حوّل بين صيغتي JSON وCSV."
+      },
+      "base64": {
+        "name": "محوّل Base64",
+        "description": "شفّر وفكّ تشفير نصوص Base64."
+      },
+      "qr-generator": {
+        "name": "مولّد رمز QR",
+        "description": "أنشئ رموز QR من نصوص أو روابط أو أي بيانات."
+      },
+      "qr-scanner": {
+        "name": "قارئ رمز QR",
+        "description": "امسح وفكّ رموز QR من الكاميرا أو الصور المرفوعة."
+      },
+      "barcode-generator": {
+        "name": "مولّد الباركود",
+        "description": "أنشئ باركودات بصيغ متعددة: EAN وUPC وCode128 والمزيد."
+      },
+      "barcode-scanner": {
+        "name": "قارئ الباركود",
+        "description": "امسح وفكّ الباركودات من الكاميرا أو الصور."
+      },
+      "charts": {
+        "name": "منشئ الرسوم البيانية",
+        "description": "أنشئ رسوماً بيانية شريطية وخطية ودائرية ومساحية من بياناتك."
+      },
+      "yaml-json": {
+        "name": "YAML إلى JSON",
+        "description": "حوّل بين صيغتي YAML وJSON."
+      },
+      "url-encoder": {
+        "name": "ترميز/فك ترميز URL",
+        "description": "شفّر وفكّ تشفير روابط URL ومعاملات الاستعلام."
+      },
+      "fake-data": {
+        "name": "مولّد بيانات وهمية",
+        "description": "أنشئ بيانات وهمية واقعية: أسماء وبريد إلكتروني وعناوين والمزيد."
+      },
+      "lorem-ipsum": {
+        "name": "مولّد Lorem Ipsum",
+        "description": "أنشئ نصوص Lorem Ipsum بأشكال متعددة."
+      },
+      "calculator": {
+        "name": "الآلة الحاسبة",
+        "description": "آلة حاسبة علمية متكاملة."
+      },
+      "unit-converter": {
+        "name": "محوّل الوحدات",
+        "description": "حوّل بين وحدات الطول والوزن ودرجة الحرارة والمزيد."
+      },
+      "loan-calculator": {
+        "name": "حاسبة القروض",
+        "description": "احسب الأقساط الشهرية والفائدة والتكلفة الإجمالية للقروض."
+      },
+      "percentage-calculator": {
+        "name": "حاسبة النسبة المئوية",
+        "description": "احسب النسب المئوية والتغيير النسبي والنسب."
+      },
+      "aspect-ratio": {
+        "name": "حاسبة نسبة الأبعاد",
+        "description": "احسب وحافظ على نسب العرض إلى الارتفاع للصور والفيديوهات."
+      },
+      "expense-tracker": {
+        "name": "متتبع المصروفات",
+        "description": "تتبع مصروفاتك الشخصية بفئات ورسوم بيانية."
+      },
+      "invoice": {
+        "name": "مولّد الفواتير",
+        "description": "أنشئ وصدّر فواتير احترافية بصيغة PDF."
+      },
+      "bmi-calculator": {
+        "name": "حاسبة مؤشر كتلة الجسم",
+        "description": "احسب مؤشر كتلة جسمك وفئتك الصحية."
+      },
+      "tip-calculator": {
+        "name": "حاسبة الإكراميات",
+        "description": "احسب مبالغ الإكراميات وقسّم الفاتورة."
+      },
+      "roman-numeral": {
+        "name": "محوّل الأرقام الرومانية",
+        "description": "حوّل بين الأرقام الرومانية والأعداد العشرية."
+      },
+      "currency-converter": {
+        "name": "محوّل العملات",
+        "description": "حوّل بين عملات العالم بأسعار صرف فورية."
+      },
+      "number-base-converter": {
+        "name": "محوّل قواعد الأرقام",
+        "description": "حوّل الأرقام بين الثنائية والثمانية والعشرية والسادس عشري."
+      },
+      "todo": {
+        "name": "قائمة المهام",
+        "description": "أدر مهامك بقائمة مهام دائمة."
+      },
+      "timer": {
+        "name": "المؤقت",
+        "description": "مؤقت عد تنازلي بسيط مع منبه."
+      },
+      "pomodoro": {
+        "name": "مؤقت بومودورو",
+        "description": "حافظ على تركيزك بتقنية بومودورو للإنتاجية."
+      },
+      "world-clock": {
+        "name": "ساعة العالم",
+        "description": "شاهد الوقت الحالي في مدن حول العالم."
+      },
+      "stopwatch": {
+        "name": "ساعة الإيقاف",
+        "description": "ساعة إيقاف دقيقة مع تتبع الأوقات."
+      },
+      "habit-tracker": {
+        "name": "متتبع العادات",
+        "description": "ابنِ وتتبع العادات اليومية مع الاستمرارية."
+      },
+      "password-generator": {
+        "name": "مولّد كلمات المرور",
+        "description": "أنشئ كلمات مرور قوية وآمنة بقواعد مخصصة."
+      },
+      "jwt-decoder": {
+        "name": "فكّ تشفير JWT",
+        "description": "فكّ وفحص رموز JSON Web Tokens بدون تحقق."
+      },
+      "hash-generator": {
+        "name": "مولّد الهاش",
+        "description": "أنشئ هاشات MD5 وSHA-1 وSHA-256 وغيرها."
+      },
+      "regex-tester": {
+        "name": "مختبر Regex",
+        "description": "اختبر وصحّح التعبيرات النمطية مع مطابقة فورية."
+      },
+      "cron-parser": {
+        "name": "محلّل Cron",
+        "description": "حلّل واشرح تعبيرات Cron بلغة بسيطة."
+      },
+      "password-strength": {
+        "name": "قوة كلمة المرور",
+        "description": "حلّل قوة كلمات مرورك."
+      },
+      "text-encryption": {
+        "name": "تشفير النص",
+        "description": "شفّر وفكّ تشفير النصوص باستخدام AES وخوارزميات أخرى."
+      },
+      "http-status": {
+        "name": "رموز HTTP",
+        "description": "دليل مرجعي لجميع رموز حالة HTTP مع الأوصاف."
+      },
+      "uuid-generator": {
+        "name": "مولّد UUID",
+        "description": "أنشئ معرفات UUID v4 وإصدارات أخرى فورياً."
+      },
+      "css-gradient": {
+        "name": "مولّد تدرج CSS",
+        "description": "أنشئ تدرجات CSS جميلة بصرياً."
+      },
+      "color-palette": {
+        "name": "مولّد لوحة الألوان",
+        "description": "أنشئ لوحات ألوان من الصور أو أنشئ لوحات مخصصة."
+      },
+      "image-resizer": {
+        "name": "تغيير حجم الصور",
+        "description": "غيّر حجم الصور إلى أبعاد محددة مع الحفاظ على الجودة."
+      },
+      "contrast-checker": {
+        "name": "فاحص التباين",
+        "description": "افحص نسب تباين الألوان لامتثال إمكانية الوصول WCAG."
+      },
+      "color-blindness": {
+        "name": "محاكي عمى الألوان",
+        "description": "احاكِ كيف تبدو تصاميمك للمستخدمين ذوي ضعف رؤية الألوان."
+      },
+      "exif-viewer": {
+        "name": "عارض EXIF",
+        "description": "اعرض البيانات الوصفية EXIF المضمنة في الصور."
+      },
+      "emoji-picker": {
+        "name": "منتقي الرموز التعبيرية",
+        "description": "تصفح وانسخ الرموز التعبيرية مع بحث وتصنيفات."
+      },
+      "screen-recorder": {
+        "name": "مسجّل الشاشة",
+        "description": "سجّل شاشتك مباشرة في المتصفح. لا يحتاج تطبيق."
+      },
+      "rich-editor": {
+        "name": "محرر النص الغني",
+        "description": "محرر نص غني متكامل مع أدوات التنسيق."
+      },
+      "typing-test": {
+        "name": "اختبار الكتابة",
+        "description": "اختبر وحسّن سرعة كتابتك ودقتها."
+      },
+      "timezone-converter": {
+        "name": "محوّل المناطق الزمنية",
+        "description": "حوّل الأوقات بين مناطق زمنية مختلفة."
+      },
+      "age-calculator": {
+        "name": "حاسبة العمر",
+        "description": "احسب العمر الدقيق من تاريخ الميلاد."
+      },
+      "unix-timestamp": {
+        "name": "Unix Timestamp",
+        "description": "حوّل بين طوابع Unix الزمنية والتواريخ المقروءة."
+      },
+      "svg-png": {
+        "name": "SVG إلى PNG",
+        "description": "حوّل ملفات SVG إلى صور PNG."
+      }
     }
   },
   "Tools": {
@@ -1085,6 +1334,403 @@
       "aboutLoremDesc": "Lorem Ipsum هو نص وهمي شائع في صناعة الطباعة والتنضيد. وقد ظل النص الوهمي القياسي في الصناعة منذ القرن الخامس عشر الميلادي، عندما أخذ طابع مجهول مقطعاً من النص وخلّطه لصنع كتاب نماذج. يُستخدم شائعاً في تصميم الويب والتصميم الجرافيكي والنشر كنص بديل.",
       "noTextToCopy": "لا يوجد نص للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
+    },
+    "TodoList": {
+      "title": "قائمة المهام",
+      "addNewTodo": "إضافة مهمة جديدة",
+      "placeholder": "ما الذي يجب القيام به؟",
+      "addButton": "إضافة",
+      "yourTodos": "مهامك",
+      "clearCompleted": "مسح المكتملة",
+      "noTodosFound": "لا توجد مهام",
+      "addFirstTodo": "أضف مهمتك الأولى للبدء!",
+      "allCompleted": "جميع المهام مكتملة!",
+      "noCompletedYet": "لا توجد مهام مكتملة بعد",
+      "tabAll": "الكل",
+      "tabActive": "نشطة",
+      "tabCompleted": "مكتملة",
+      "total": "الإجمالي",
+      "priorityLow": "منخفضة",
+      "priorityMedium": "متوسطة",
+      "priorityHigh": "عالية",
+      "created": "أُنشئت",
+      "toastAdded": "تمت إضافة المهمة بنجاح!",
+      "toastDeleted": "تم حذف المهمة!",
+      "toastUpdated": "تم تحديث حالة المهمة!",
+      "toastCleared": "تم مسح المهام المكتملة!",
+      "toastEmpty": "الرجاء إدخال نص المهمة"
+    },
+    "Timer": {
+      "title": "المؤقت والعد التنازلي",
+      "description": "مؤقت بسيط مع أرقام متحركة وضع ملء الشاشة وصوت انتهاء.",
+      "countdown": "عد تنازلي",
+      "stopwatch": "ساعة إيقاف",
+      "hours": "ساعات",
+      "minutes": "دقائق",
+      "seconds": "ثواني",
+      "apply": "تطبيق",
+      "start": "ابدأ",
+      "pause": "إيقاف مؤقت",
+      "countsUpFrom0": "يعد تصاعدياً من الصفر.",
+      "testSound": "اختبار الصوت"
+    },
+    "PomodoroTimer": {
+      "title": "مؤقت بومودورو",
+      "subtitle": "ابقَ مركزاً وخذ استراحات",
+      "settings": "الإعدادات",
+      "workDuration": "مدة العمل (دقيقة)",
+      "shortBreak": "استراحة قصيرة (دقيقة)",
+      "longBreak": "استراحة طويلة (دقيقة)",
+      "sessionsBeforeLongBreak": "الجلسات قبل الاستراحة الطويلة",
+      "soundNotifications": "إشعارات صوتية",
+      "autoAdvance": "الانتقال التلقائي للجلسة التالية",
+      "focus": "تركيز",
+      "shortBreakLabel": "استراحة قصيرة",
+      "longBreakLabel": "استراحة طويلة",
+      "focusTime": "وقت التركيز",
+      "sessionOf": "جلسة {current} من {total}",
+      "todayStats": "إحصاءات اليوم",
+      "sessionsDone": "جلسات مكتملة",
+      "breaksTaken": "استراحات مأخوذة",
+      "focusSessionComplete": "انتهت جلسة التركيز! حان وقت الاستراحة.",
+      "breakOver": "انتهت الاستراحة! هل أنت مستعد للتركيز؟",
+      "pauseFirst": "أوقف المؤقت مؤقتاً قبل تغيير الجلسة.",
+      "workFor": "اعمل لمدة",
+      "thenTake": "ثم خذ",
+      "shortBreakMin": "استراحة قصيرة. بعد",
+      "sessions": "جلسات، استمتع بـ",
+      "longBreakMin": "استراحة طويلة.",
+      "min": "دقيقة"
+    },
+    "WorldClock": {
+      "title": "ساعة العالم",
+      "citiesCount": "التوقيت الحالي في {count} مدن",
+      "addCity": "إضافة مدينة...",
+      "sortByUTC": "ترتيب حسب UTC",
+      "businessHours": "ساعات العمل",
+      "offHours": "خارج ساعات العمل",
+      "dayLabel": "نهار (6ص–8م)",
+      "nightLabel": "ليل",
+      "businessLabel": "ساعات العمل (8ص–6م)",
+      "alreadyDisplayed": "{city} معروضة بالفعل.",
+      "added": "تمت إضافة {city}",
+      "copiedCity": "تم نسخ توقيت {city}",
+      "failedCopy": "فشل النسخ"
+    },
+    "Stopwatch": {
+      "title": "ساعة الإيقاف",
+      "subtitle": "تتبع دقيق للفات مع اختصارات لوحة المفاتيح",
+      "start": "ابدأ",
+      "pause": "إيقاف مؤقت",
+      "lap": "لفة",
+      "reset": "إعادة تعيين",
+      "laps": "اللفات",
+      "exportCSV": "تصدير CSV",
+      "lapColumn": "اللفة",
+      "lapTime": "وقت اللفة",
+      "totalTime": "الوقت الكلي",
+      "best": "الأفضل",
+      "slowest": "الأبطأ",
+      "noLapsToExport": "لا توجد لفات للتصدير",
+      "lapsExported": "تم تصدير اللفات بصيغة CSV",
+      "keyboardHint": "لوحة المفاتيح:",
+      "startPauseKey": "ابدأ/أوقف",
+      "lapKey": "لفة",
+      "resetKey": "إعادة"
+    },
+    "HabitTracker": {
+      "title": "متتبع العادات",
+      "subtitle": "ابنِ الاستمرارية وتتبع تقدمك",
+      "addHabit": "إضافة عادة",
+      "cancel": "إلغاء",
+      "totalHabits": "إجمالي العادات",
+      "doneToday": "مكتملة اليوم",
+      "bestStreak": "أفضل استمرارية",
+      "newHabit": "عادة جديدة",
+      "habitName": "اسم العادة",
+      "habitNamePlaceholder": "مثال: اقرأ لمدة 30 دقيقة",
+      "emoji": "إيموجي",
+      "color": "اللون",
+      "noHabitsYet": "لا توجد عادات بعد. أضف عادتك الأولى لتبدأ التتبع!",
+      "done": "مكتملة",
+      "save": "حفظ",
+      "dayStreak": "يوم استمرارية",
+      "best": "الأفضل",
+      "markDone": "وضع علامة مكتمل",
+      "markIncomplete": "وضع علامة غير مكتمل",
+      "editName": "تعديل الاسم",
+      "deleteHabit": "حذف العادة",
+      "confirmDelete": "حذف \"{name}\"؟ لا يمكن التراجع عن هذا.",
+      "habitAdded": "تمت إضافة العادة \"{name}\"!",
+      "habitDeleted": "تم حذف العادة",
+      "habitUpdated": "تم تحديث العادة",
+      "enterHabitName": "الرجاء إدخال اسم العادة",
+      "dayMon": "الا",
+      "dayTue": "الث",
+      "dayWed": "الأ",
+      "dayThu": "الخ",
+      "dayFri": "الج",
+      "daySat": "الس",
+      "daySun": "الأح"
+    },
+    "AspectRatioCalculator": {
+      "title": "حاسبة نسبة الأبعاد",
+      "subtitle": "احسب نسب الأبعاد وحوّلها",
+      "dimensionsToRatio": "الأبعاد إلى نسبة",
+      "ratioToScale": "النسبة إلى مقياس",
+      "enterDimensions": "أدخل الأبعاد",
+      "width": "العرض",
+      "height": "الارتفاع",
+      "simplifiedRatio": "نسبة مبسطة",
+      "decimal": "عشري",
+      "commonRatios": "النسب الشائعة",
+      "scaleToNewDimension": "قياس البُعد الجديد",
+      "ratioWidth": "عرض النسبة",
+      "ratioHeight": "ارتفاع النسبة",
+      "knownWidthFindHeight": "العرض معروف، احسب الارتفاع",
+      "knownHeightFindWidth": "الارتفاع معروف، احسب العرض"
+    },
+    "BmiCalculator": {
+      "title": "حاسبة مؤشر كتلة الجسم",
+      "subtitle": "احسب مؤشر كتلة جسمك",
+      "metric": "متري",
+      "imperial": "إمبريالي",
+      "reset": "إعادة تعيين",
+      "enterMeasurements": "أدخل القياسات",
+      "weightKg": "الوزن (كجم)",
+      "heightCm": "الطول (سم)",
+      "weightLbs": "الوزن (رطل)",
+      "height": "الطول",
+      "feet": "قدم",
+      "inches": "بوصة",
+      "yourBmiResult": "نتيجة مؤشر كتلة جسمك",
+      "healthyWeightRange": "نطاق الوزن الصحي",
+      "disclaimer": "مؤشر كتلة الجسم أداة للفحص وليس تشخيصاً.",
+      "enterWeightHeight": "أدخل وزنك وطولك لحساب المؤشر"
+    },
+    "Calculator": {
+      "basic": "أساسي",
+      "scientific": "علمي",
+      "expressionPlaceholder": "0",
+      "keyboardShortcuts": "اختصارات لوحة المفاتيح",
+      "shortcutNumbers": "0–9",
+      "shortcutOperations": "+ - × ÷",
+      "shortcutOr": "Enter",
+      "shortcutCalculate": "احسب",
+      "shortcutClear": "مسح (Escape)",
+      "shortcutBackspace": "حذف (Backspace)",
+      "shortcutDecimal": "عشري (.)",
+      "shortcutPercentage": "نسبة (%)",
+      "shortcutPlusMinus": "تبديل الإشارة"
+    },
+    "ExpenseTracker": {
+      "totalExpenses": "إجمالي المصروفات",
+      "transactions": "معاملات",
+      "thisMonth": "هذا الشهر",
+      "currentMonthSpending": "إنفاق الشهر الحالي",
+      "averagePerTransaction": "المتوسط لكل معاملة",
+      "basedOnFilteredData": "بناءً على البيانات المفلترة",
+      "tabs": {
+        "overview": "نظرة عامة",
+        "expenses": "المصروفات",
+        "charts": "الرسوم البيانية",
+        "budgets": "الميزانيات",
+        "reports": "التقارير",
+        "importExport": "استيراد / تصدير"
+      },
+      "recentExpenses": "المصروفات الأخيرة",
+      "latestTransactions": "أحدث المعاملات",
+      "quickAddExpense": "إضافة مصروف سريع",
+      "addExpenseQuickly": "أضف مصروفاً بسرعة",
+      "spendingOverview": "نظرة عامة على الإنفاق",
+      "visualRepresentation": "تمثيل بصري لإنفاقك",
+      "allExpenses": "جميع المصروفات",
+      "manageExpenses": "إدارة مصروفاتك",
+      "addExpense": "إضافة مصروف",
+      "expenses": "المصروفات",
+      "budgets": "الميزانيات"
+    },
+    "LoanCalculator": {
+      "title": "حاسبة القرض",
+      "subtitle": "احسب أقساط القرض والجداول الزمنية",
+      "loanDetails": "تفاصيل القرض",
+      "loanAmount": "مبلغ القرض",
+      "annualInterestRate": "معدل الفائدة السنوي (%)",
+      "loanTerm": "مدة القرض (أشهر)",
+      "monthlyPayment": "القسط الشهري",
+      "totalPayment": "إجمالي المدفوعات",
+      "totalInterest": "إجمالي الفائدة",
+      "principal": "المبلغ الأصلي",
+      "interestRatio": "نسبة الفائدة",
+      "interest": "الفائدة",
+      "enterDetails": "أدخل تفاصيل القرض للحساب",
+      "showSchedule": "عرض الجدول",
+      "hideSchedule": "إخفاء الجدول",
+      "payments": "دفعات",
+      "month": "الشهر",
+      "payment": "الدفعة",
+      "balance": "الرصيد"
+    },
+    "PercentageCalculator": {
+      "title": "حاسبة النسبة المئوية",
+      "subtitle": "احسب النسب المئوية بسهولة",
+      "sections": {
+        "whatIsXofY": "ما هو س% من ص؟",
+        "xIsWhatPctOfY": "س هو كم % من ص؟",
+        "percentageChange": "التغيير النسبي",
+        "addSubtractPct": "إضافة/طرح نسبة مئوية",
+        "reversePct": "النسبة العكسية"
+      },
+      "inputs": {
+        "percentageX": "النسبة س",
+        "numberY": "العدد ص",
+        "numberX": "العدد س",
+        "originalValue": "القيمة الأصلية",
+        "newValue": "القيمة الجديدة",
+        "baseNumber": "العدد الأساسي",
+        "percentageAdded": "النسبة المضافة",
+        "finalValue": "القيمة النهائية"
+      },
+      "result": "النتيجة",
+      "increase": "زيادة",
+      "decrease": "انخفاض",
+      "difference": "الفرق",
+      "percentage": "النسبة المئوية",
+      "after": "بعد"
+    },
+    "TipCalculator": {
+      "title": "حاسبة الإكرامية",
+      "subtitle": "احسب الإكراميات وقسّم الفاتورة",
+      "billAmount": "مبلغ الفاتورة",
+      "tipPercentage": "نسبة الإكرامية",
+      "custom": "مخصص",
+      "numberOfPeople": "عدد الأشخاص",
+      "rounding": "التقريب",
+      "roundingNone": "بدون",
+      "roundingTotal": "تقريب المجموع",
+      "roundingPerson": "تقريب للشخص",
+      "summary": "الملخص",
+      "copy": "نسخ",
+      "tip": "الإكرامية",
+      "total": "المجموع",
+      "bill": "الفاتورة",
+      "perPerson": "للشخص",
+      "people": "أشخاص",
+      "person": "شخص",
+      "reset": "إعادة تعيين",
+      "enableCustomSplit": "تفعيل التقسيم المخصص",
+      "disableCustomSplit": "تعطيل التقسيم المخصص",
+      "customSplit": "تقسيم مخصص",
+      "differentAmountsPerPerson": "مبالغ مختلفة لكل شخص",
+      "pays": "يدفع",
+      "enterBillPrompt": "أدخل مبلغ الفاتورة للبدء"
+    },
+    "UnitConverter": {
+      "converter": "محوّل",
+      "convertBetween": "تحويل بين",
+      "units": "وحدات",
+      "from": "من",
+      "value": "القيمة",
+      "enterValue": "أدخل القيمة",
+      "to": "إلى",
+      "convertedValue": "القيمة المحوّلة",
+      "result": "النتيجة",
+      "working": "العملية",
+      "baseUnit": "الوحدة الأساسية",
+      "enterValuePrompt": "أدخل قيمة للتحويل",
+      "quickConversions": "تحويلات سريعة",
+      "commonExamples": "أمثلة شائعة للتحويل",
+      "categories": {
+        "Length": "الطول",
+        "Weight": "الوزن",
+        "Temperature": "درجة الحرارة",
+        "Area": "المساحة",
+        "Volume": "الحجم",
+        "Speed": "السرعة",
+        "Time": "الوقت",
+        "Digital": "رقمي",
+        "Energy": "الطاقة",
+        "Pressure": "الضغط"
+      }
+    },
+    "CurrencyConverter": {
+      "amount": "المبلغ",
+      "fromCurrency": "من العملة",
+      "toCurrency": "إلى العملة",
+      "exchangeRate": "سعر الصرف",
+      "conversionResult": "نتيجة التحويل",
+      "liveExchangeRate": "سعر الصرف الحي",
+      "rawRate": "السعر الخام",
+      "formattedCurrency": "العملة المنسقة",
+      "localized": "محلي"
+    },
+    "InvoiceGenerator": {
+      "tabs": {
+        "details": "التفاصيل",
+        "items": "البنود",
+        "preview": "معاينة",
+        "export": "تصدير"
+      },
+      "saveInvoice": "حفظ الفاتورة",
+      "backToManager": "العودة للمدير",
+      "invoiceDetails": "تفاصيل الفاتورة",
+      "basicInvoiceInfo": "معلومات الفاتورة الأساسية",
+      "invoiceNumber": "رقم الفاتورة",
+      "invoiceDate": "تاريخ الفاتورة",
+      "dueDate": "تاريخ الاستحقاق",
+      "currency": "العملة",
+      "companyDetails": "تفاصيل الشركة",
+      "companyInfo": "معلومات شركتك",
+      "companyName": "اسم الشركة",
+      "clientDetails": "تفاصيل العميل",
+      "clientInfo": "معلومات العميل",
+      "clientName": "اسم العميل",
+      "billTo": "الفاتورة إلى",
+      "invoiceItems": "بنود الفاتورة",
+      "addProducts": "أضف منتجات أو خدمات",
+      "description": "الوصف",
+      "quantity": "الكمية",
+      "rate": "السعر",
+      "amount": "المبلغ",
+      "addItem": "إضافة بند",
+      "invoiceSummary": "ملخص الفاتورة",
+      "subtotal": "المجموع الفرعي",
+      "discount": "الخصم",
+      "tax": "الضريبة",
+      "taxRate": "معدل الضريبة",
+      "total": "الإجمالي",
+      "notes": "الملاحظات",
+      "termsConditions": "الشروط والأحكام",
+      "exportInvoice": "تصدير الفاتورة",
+      "downloadAsPdf": "تنزيل فاتورتك كمستند PDF",
+      "readyToExport": "جاهز للتصدير",
+      "readyToExportDesc": "فاتورتك جاهزة للتنزيل كمستند PDF احترافي.",
+      "pdfPageSize": "حجم صفحة PDF",
+      "downloadPdf": "تنزيل فاتورة PDF",
+      "pdfNote": "سيتم إنشاء ملف PDF بجميع تفاصيل فاتورتك ويمكن طباعته أو إرساله بالبريد الإلكتروني لعميلك."
+    },
+    "NumberBaseConverter": {
+      "title": "محوّل قاعدة الأعداد",
+      "subtitle": "حوّل بين قواعد الأعداد المختلفة",
+      "decimal": "عشري",
+      "binary": "ثنائي",
+      "octal": "ثماني",
+      "hexadecimal": "سداسي عشري",
+      "clear": "مسح"
+    },
+    "RomanNumeralConverter": {
+      "title": "محوّل الأرقام الرومانية",
+      "subtitle": "حوّل بين الأرقام العربية والرومانية",
+      "numberToRoman": "رقم إلى روماني",
+      "romanToNumber": "روماني إلى رقم",
+      "enterNumber": "أدخل رقماً",
+      "enterRoman": "أدخل رقماً رومانياً",
+      "result": "النتيجة",
+      "copy": "نسخ",
+      "stepByStep": "خطوة بخطوة",
+      "runningTotal": "المجموع الجاري",
+      "remaining": "المتبقي",
+      "referenceTable": "جدول المرجع"
     }
   }
 }

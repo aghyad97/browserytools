@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -176,6 +177,7 @@ function setStored(value: StoredRates) {
 }
 
 export default function CurrencyConverter() {
+  const t = useTranslations("Tools.CurrencyConverter");
   const [amount, setAmount] = useState<string>("1");
   const [from, setFrom] = useState<string>("USD");
   const [to, setTo] = useState<string>("EUR");
@@ -265,7 +267,7 @@ export default function CurrencyConverter() {
               <div className="space-y-4">
                 <div className="space-y-2">
                   <Label htmlFor="amount" className="text-sm font-medium">
-                    Amount
+                    {t("amount")}
                   </Label>
                   <div className="relative">
                     <Input
@@ -276,12 +278,13 @@ export default function CurrencyConverter() {
                       onChange={(e) => setAmount(e.target.value)}
                       placeholder="1.00"
                       className="text-lg h-12 pl-4 pr-4"
+                      dir="ltr"
                     />
                   </div>
                 </div>
 
                 <div className="space-y-2">
-                  <Label className="text-sm font-medium">From Currency</Label>
+                  <Label className="text-sm font-medium">{t("fromCurrency")}</Label>
                   <Select value={from} onValueChange={setFrom}>
                     <SelectTrigger className="h-12">
                       <SelectValue />
@@ -315,7 +318,7 @@ export default function CurrencyConverter() {
               </div>
 
               <div className="space-y-2">
-                <Label className="text-sm font-medium">To Currency</Label>
+                <Label className="text-sm font-medium">{t("toCurrency")}</Label>
                 <Select value={to} onValueChange={setTo}>
                   <SelectTrigger className="h-12">
                     <SelectValue />
@@ -339,9 +342,9 @@ export default function CurrencyConverter() {
             {/* Result Section */}
             <div className="p-8 space-y-6 min-h-full">
               <div className="text-center space-y-2 mb-8">
-                <h3 className="text-lg font-semibold">Conversion Result</h3>
+                <h3 className="text-lg font-semibold">{t("conversionResult")}</h3>
                 <p className="text-sm text-muted-foreground">
-                  Live exchange rate conversion
+                  {t("liveExchangeRate")}
                 </p>
               </div>
 
@@ -398,7 +401,7 @@ export default function CurrencyConverter() {
                     <div className="p-6 bg-muted/30 rounded-xl border border-border/50">
                       <div className="space-y-3">
                         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                          Exchange Rate
+                          {t("exchangeRate")}
                         </p>
                         <div className="space-y-2">
                           <p className="text-2xl font-bold">
@@ -410,7 +413,7 @@ export default function CurrencyConverter() {
                             1 {from} = {rate} {to}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            Raw Rate
+                            {t("rawRate")}
                           </p>
                         </div>
                       </div>
@@ -419,7 +422,7 @@ export default function CurrencyConverter() {
                     <div className="p-6 bg-muted/30 rounded-xl border border-border/50">
                       <div className="space-y-3">
                         <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                          Formatted Currency
+                          {t("formattedCurrency")}
                         </p>
                         <div className="space-y-2">
                           <p className="text-2xl font-bold">
@@ -430,7 +433,7 @@ export default function CurrencyConverter() {
                             {formatCurrency(rate, to)}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            Localized
+                            {t("localized")}
                           </p>
                         </div>
                       </div>

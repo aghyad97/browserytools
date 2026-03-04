@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
@@ -105,6 +106,7 @@ const SEGMENTS = CATEGORIES.map((c) => {
 type UnitSystem = "metric" | "imperial";
 
 export default function BmiCalculator() {
+  const t = useTranslations("Tools.BmiCalculator");
   const [unit, setUnit] = useState<UnitSystem>("metric");
 
   // Metric
@@ -168,8 +170,8 @@ export default function BmiCalculator() {
             <Scale className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">BMI Calculator</h1>
-            <p className="text-sm text-muted-foreground">Body Mass Index calculator with visual gauge</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
           </div>
         </div>
 
@@ -180,30 +182,30 @@ export default function BmiCalculator() {
             size="sm"
             onClick={() => setUnit("metric")}
           >
-            Metric (kg / cm)
+            {t("metric")}
           </Button>
           <Button
             variant={unit === "imperial" ? "default" : "outline"}
             size="sm"
             onClick={() => setUnit("imperial")}
           >
-            Imperial (lbs / ft+in)
+            {t("imperial")}
           </Button>
           <Button variant="ghost" size="sm" className="ml-auto" onClick={handleClear}>
-            <RotateCcw className="w-4 h-4 mr-1.5" /> Reset
+            <RotateCcw className="w-4 h-4 mr-1.5" /> {t("reset")}
           </Button>
         </div>
 
         {/* Inputs */}
         <Card>
           <CardHeader>
-            <CardTitle className="text-base">Enter your measurements</CardTitle>
+            <CardTitle className="text-base">{t("enterMeasurements")}</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             {unit === "metric" ? (
               <>
                 <div className="space-y-1.5">
-                  <Label>Weight (kg)</Label>
+                  <Label>{t("weightKg")}</Label>
                   <Input
                     type="number"
                     min="1"
@@ -212,10 +214,11 @@ export default function BmiCalculator() {
                     placeholder="e.g. 70"
                     value={weightKg}
                     onChange={(e) => setWeightKg(e.target.value)}
+                    dir="ltr"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Height (cm)</Label>
+                  <Label>{t("heightCm")}</Label>
                   <Input
                     type="number"
                     min="50"
@@ -224,13 +227,14 @@ export default function BmiCalculator() {
                     placeholder="e.g. 175"
                     value={heightCm}
                     onChange={(e) => setHeightCm(e.target.value)}
+                    dir="ltr"
                   />
                 </div>
               </>
             ) : (
               <>
                 <div className="space-y-1.5">
-                  <Label>Weight (lbs)</Label>
+                  <Label>{t("weightLbs")}</Label>
                   <Input
                     type="number"
                     min="1"
@@ -239,26 +243,29 @@ export default function BmiCalculator() {
                     placeholder="e.g. 154"
                     value={weightLbs}
                     onChange={(e) => setWeightLbs(e.target.value)}
+                    dir="ltr"
                   />
                 </div>
                 <div className="space-y-1.5">
-                  <Label>Height</Label>
+                  <Label>{t("height")}</Label>
                   <div className="flex gap-2">
                     <Input
                       type="number"
                       min="0"
                       max="10"
-                      placeholder="Feet"
+                      placeholder={t("feet")}
                       value={heightFt}
                       onChange={(e) => setHeightFt(e.target.value)}
+                      dir="ltr"
                     />
                     <Input
                       type="number"
                       min="0"
                       max="11"
-                      placeholder="Inches"
+                      placeholder={t("inches")}
                       value={heightIn}
                       onChange={(e) => setHeightIn(e.target.value)}
+                      dir="ltr"
                     />
                   </div>
                 </div>
@@ -271,7 +278,7 @@ export default function BmiCalculator() {
         {result ? (
           <Card>
             <CardHeader className="pb-2">
-              <CardTitle className="text-base">Your BMI Result</CardTitle>
+              <CardTitle className="text-base">{t("yourBmiResult")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-5">
               {/* BMI number + category */}
@@ -338,8 +345,8 @@ export default function BmiCalculator() {
 
               {/* Healthy weight range */}
               <div className="rounded-lg bg-muted px-4 py-3 space-y-1">
-                <p className="text-sm font-medium">Healthy weight range for your height</p>
-                <p className="text-sm text-muted-foreground">
+                <p className="text-sm font-medium">{t("healthyWeightRange")}</p>
+                <p className="text-sm text-muted-foreground" dir="ltr">
                   {result.healthyMin} &ndash; {result.healthyMax}
                   <span className="ml-2 text-xs">(BMI 18.5 &ndash; 24.9)</span>
                 </p>
@@ -347,16 +354,14 @@ export default function BmiCalculator() {
 
               {/* Disclaimer */}
               <p className="text-xs text-muted-foreground border-t pt-3">
-                BMI is a screening tool, not a diagnostic measure. It does not account for muscle
-                mass, bone density, age, or sex. Consult a healthcare professional for a full health
-                assessment.
+                {t("disclaimer")}
               </p>
             </CardContent>
           </Card>
         ) : (
           <Card>
             <CardContent className="py-8 text-center text-muted-foreground">
-              Enter your weight and height above to calculate your BMI
+              {t("enterWeightHeight")}
             </CardContent>
           </Card>
         )}

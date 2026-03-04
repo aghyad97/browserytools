@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -19,6 +20,7 @@ interface CalcSection {
 }
 
 export default function PercentageCalculator() {
+  const t = useTranslations("Tools.PercentageCalculator");
   const [vals, setVals] = useState<Record<string, string>>({});
 
   const get = (key: string) => parseFloat(vals[key] ?? "") || 0;
@@ -26,44 +28,44 @@ export default function PercentageCalculator() {
 
   const sections: CalcSection[] = [
     {
-      title: "What is X% of Y?",
+      title: t("sections.whatIsXofY"),
       inputs: [
-        { label: "Percentage (X)", key: "pct1_x", placeholder: "25" },
-        { label: "Number (Y)", key: "pct1_y", placeholder: "200" },
+        { label: t("inputs.percentageX"), key: "pct1_x", placeholder: "25" },
+        { label: t("inputs.numberY"), key: "pct1_y", placeholder: "200" },
       ],
-      calculate: () => [{ label: "Result", value: fmt((get("pct1_x") / 100) * get("pct1_y")) }],
+      calculate: () => [{ label: t("result"), value: fmt((get("pct1_x") / 100) * get("pct1_y")) }],
     },
     {
-      title: "X is what % of Y?",
+      title: t("sections.xIsWhatPctOfY"),
       inputs: [
-        { label: "Number (X)", key: "pct2_x", placeholder: "50" },
-        { label: "Number (Y)", key: "pct2_y", placeholder: "200" },
+        { label: t("inputs.numberX"), key: "pct2_x", placeholder: "50" },
+        { label: t("inputs.numberY"), key: "pct2_y", placeholder: "200" },
       ],
       calculate: () => [
-        { label: "Percentage", value: fmt(get("pct2_y") !== 0 ? (get("pct2_x") / get("pct2_y")) * 100 : Infinity) + "%" },
+        { label: t("percentage"), value: fmt(get("pct2_y") !== 0 ? (get("pct2_x") / get("pct2_y")) * 100 : Infinity) + "%" },
       ],
     },
     {
-      title: "Percentage Change",
+      title: t("sections.percentageChange"),
       inputs: [
-        { label: "Original value", key: "chg_from", placeholder: "100" },
-        { label: "New value", key: "chg_to", placeholder: "125" },
+        { label: t("inputs.originalValue"), key: "chg_from", placeholder: "100" },
+        { label: t("inputs.newValue"), key: "chg_to", placeholder: "125" },
       ],
       calculate: () => {
         const from = get("chg_from");
         const to = get("chg_to");
         const pct = from !== 0 ? ((to - from) / Math.abs(from)) * 100 : Infinity;
         return [
-          { label: pct >= 0 ? "Increase" : "Decrease", value: fmt(Math.abs(pct)) + "%" },
-          { label: "Difference", value: fmt(to - from) },
+          { label: pct >= 0 ? t("increase") : t("decrease"), value: fmt(Math.abs(pct)) + "%" },
+          { label: t("difference"), value: fmt(to - from) },
         ];
       },
     },
     {
-      title: "Add / Subtract Percentage",
+      title: t("sections.addSubtractPct"),
       inputs: [
-        { label: "Base number", key: "add_base", placeholder: "100" },
-        { label: "Percentage", key: "add_pct", placeholder: "20" },
+        { label: t("inputs.baseNumber"), key: "add_base", placeholder: "100" },
+        { label: t("percentage"), key: "add_pct", placeholder: "20" },
       ],
       calculate: () => {
         const base = get("add_base");
@@ -71,21 +73,21 @@ export default function PercentageCalculator() {
         const inc = base * (1 + pct / 100);
         const dec = base * (1 - pct / 100);
         return [
-          { label: `After +${fmt(pct)}%`, value: fmt(inc) },
-          { label: `After -${fmt(pct)}%`, value: fmt(dec) },
+          { label: `${t("after")} +${fmt(pct)}%`, value: fmt(inc) },
+          { label: `${t("after")} -${fmt(pct)}%`, value: fmt(dec) },
         ];
       },
     },
     {
-      title: "Reverse Percentage (Original from Final)",
+      title: t("sections.reversePct"),
       inputs: [
-        { label: "Final value", key: "rev_final", placeholder: "120" },
-        { label: "Percentage added (%)", key: "rev_pct", placeholder: "20" },
+        { label: t("inputs.finalValue"), key: "rev_final", placeholder: "120" },
+        { label: t("inputs.percentageAdded"), key: "rev_pct", placeholder: "20" },
       ],
       calculate: () => {
         const final = get("rev_final");
         const pct = get("rev_pct");
-        return [{ label: "Original value", value: fmt(final / (1 + pct / 100)) }];
+        return [{ label: t("inputs.originalValue"), value: fmt(final / (1 + pct / 100)) }];
       },
     },
   ];
@@ -98,8 +100,8 @@ export default function PercentageCalculator() {
             <PercentIcon className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Percentage Calculator</h1>
-            <p className="text-sm text-muted-foreground">All percentage calculations in one place</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
           </div>
         </div>
 

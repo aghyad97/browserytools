@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -161,6 +162,7 @@ function romanToNumber(
 // ── Component ─────────────────────────────────────────────────────────────────
 
 export default function RomanNumeralConverter() {
+  const t = useTranslations("Tools.RomanNumeralConverter");
   const [tab, setTab] = useState<"toRoman" | "toNumber">("toRoman");
 
   // Number → Roman state
@@ -214,9 +216,9 @@ export default function RomanNumeralConverter() {
             <Hash className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Roman Numeral Converter</h1>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
             <p className="text-sm text-muted-foreground">
-              Convert between Arabic numbers and Roman numerals
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -224,10 +226,10 @@ export default function RomanNumeralConverter() {
         <Tabs value={tab} onValueChange={(v) => setTab(v as "toRoman" | "toNumber")}>
           <TabsList className="w-full">
             <TabsTrigger value="toRoman" className="flex-1">
-              Number → Roman
+              {t("numberToRoman")}
             </TabsTrigger>
             <TabsTrigger value="toNumber" className="flex-1">
-              Roman → Number
+              {t("romanToNumber")}
             </TabsTrigger>
           </TabsList>
 
@@ -235,7 +237,7 @@ export default function RomanNumeralConverter() {
           <TabsContent value="toRoman" className="space-y-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Enter a number (1–3999)</CardTitle>
+                <CardTitle className="text-base">{t("enterNumber")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Input
@@ -254,10 +256,10 @@ export default function RomanNumeralConverter() {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center justify-between">
-                    Result
+                    {t("result")}
                     {"roman" in toRomanResult && (
                       <Button size="sm" variant="ghost" onClick={handleCopyRoman}>
-                        <Copy className="w-4 h-4 mr-1.5" /> Copy
+                        <Copy className="w-4 h-4 mr-1.5" /> {t("copy")}
                       </Button>
                     )}
                   </CardTitle>
@@ -273,8 +275,8 @@ export default function RomanNumeralConverter() {
 
                       {/* Step-by-step breakdown */}
                       <div>
-                        <p className="text-sm font-medium mb-2">Step-by-step breakdown</p>
-                        <div className="space-y-1.5">
+                        <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
+                        <div className="space-y-1.5" dir="ltr">
                           {toRomanResult.steps.map((step, i) => (
                             <div
                               key={i}
@@ -286,7 +288,7 @@ export default function RomanNumeralConverter() {
                               <span className="text-muted-foreground">=</span>
                               <span className="font-medium">{step.value.toLocaleString()}</span>
                               <span className="text-muted-foreground ml-auto text-xs">
-                                Remaining: {step.remaining.toLocaleString()}
+                                {t("remaining")}: {step.remaining.toLocaleString()}
                               </span>
                             </div>
                           ))}
@@ -311,7 +313,7 @@ export default function RomanNumeralConverter() {
           <TabsContent value="toNumber" className="space-y-4">
             <Card>
               <CardHeader className="pb-3">
-                <CardTitle className="text-base">Enter a Roman numeral</CardTitle>
+                <CardTitle className="text-base">{t("enterRoman")}</CardTitle>
               </CardHeader>
               <CardContent>
                 <Input
@@ -328,10 +330,10 @@ export default function RomanNumeralConverter() {
               <Card>
                 <CardHeader className="pb-2">
                   <CardTitle className="text-base flex items-center justify-between">
-                    Result
+                    {t("result")}
                     {!toNumberResult.error && (
                       <Button size="sm" variant="ghost" onClick={handleCopyNumber}>
-                        <Copy className="w-4 h-4 mr-1.5" /> Copy
+                        <Copy className="w-4 h-4 mr-1.5" /> {t("copy")}
                       </Button>
                     )}
                   </CardTitle>
@@ -347,8 +349,8 @@ export default function RomanNumeralConverter() {
 
                       {/* Step-by-step breakdown */}
                       <div>
-                        <p className="text-sm font-medium mb-2">Step-by-step breakdown</p>
-                        <div className="space-y-1.5">
+                        <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
+                        <div className="space-y-1.5" dir="ltr">
                           {toNumberResult.steps.map((step, i) => (
                             <div
                               key={i}
@@ -370,7 +372,7 @@ export default function RomanNumeralConverter() {
                                 {step.operation === "subtract" ? "−" : "+"}{step.value}
                               </span>
                               <span className="text-muted-foreground ml-auto text-xs">
-                                Running total: {step.runningTotal}
+                                {t("runningTotal")}: {step.runningTotal}
                               </span>
                             </div>
                           ))}
@@ -399,7 +401,7 @@ export default function RomanNumeralConverter() {
         {/* Reference table */}
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base">Reference Table</CardTitle>
+            <CardTitle className="text-base">{t("referenceTable")}</CardTitle>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">

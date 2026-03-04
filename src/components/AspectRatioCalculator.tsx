@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
@@ -30,6 +31,7 @@ const COMMON_RATIOS = [
 ];
 
 export default function AspectRatioCalculator() {
+  const t = useTranslations("Tools.AspectRatioCalculator");
   // Tab 1: Dimensions → Ratio
   const [dimW, setDimW] = useState("1920");
   const [dimH, setDimH] = useState("1080");
@@ -68,40 +70,40 @@ export default function AspectRatioCalculator() {
             <RectangleHorizontal className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Aspect Ratio Calculator</h1>
-            <p className="text-sm text-muted-foreground">Calculate and convert aspect ratios for images and screens</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
           </div>
         </div>
 
         <Tabs defaultValue="dimensions">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="dimensions">Dimensions → Ratio</TabsTrigger>
-            <TabsTrigger value="scale">Ratio → Scale</TabsTrigger>
+            <TabsTrigger value="dimensions">{t("dimensionsToRatio")}</TabsTrigger>
+            <TabsTrigger value="scale">{t("ratioToScale")}</TabsTrigger>
           </TabsList>
 
           <TabsContent value="dimensions" className="space-y-4">
             <Card>
-              <CardHeader><CardTitle className="text-sm">Enter Dimensions</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-sm">{t("enterDimensions")}</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1.5">
-                    <Label>Width (px)</Label>
-                    <Input type="number" value={dimW} onChange={(e) => setDimW(e.target.value)} placeholder="1920" />
+                    <Label>{t("width")}</Label>
+                    <Input type="number" value={dimW} onChange={(e) => setDimW(e.target.value)} placeholder="1920" dir="ltr" />
                   </div>
                   <div className="space-y-1.5">
-                    <Label>Height (px)</Label>
-                    <Input type="number" value={dimH} onChange={(e) => setDimH(e.target.value)} placeholder="1080" />
+                    <Label>{t("height")}</Label>
+                    <Input type="number" value={dimH} onChange={(e) => setDimH(e.target.value)} placeholder="1080" dir="ltr" />
                   </div>
                 </div>
 
                 {dimResult && (
-                  <div className="flex gap-3 flex-wrap pt-2 border-t">
+                  <div className="flex gap-3 flex-wrap pt-2 border-t" dir="ltr">
                     <div className="text-center p-3 rounded-lg bg-primary/10 flex-1">
-                      <div className="text-xs text-muted-foreground mb-1">Simplified Ratio</div>
+                      <div className="text-xs text-muted-foreground mb-1">{t("simplifiedRatio")}</div>
                       <div className="text-2xl font-bold text-primary">{dimResult.ratio}</div>
                     </div>
                     <div className="text-center p-3 rounded-lg bg-muted flex-1">
-                      <div className="text-xs text-muted-foreground mb-1">Decimal</div>
+                      <div className="text-xs text-muted-foreground mb-1">{t("decimal")}</div>
                       <div className="text-2xl font-bold">{dimResult.decimal}</div>
                     </div>
                   </div>
@@ -111,7 +113,7 @@ export default function AspectRatioCalculator() {
 
             {/* Common ratios reference */}
             <Card>
-              <CardHeader><CardTitle className="text-sm">Common Ratios</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-sm">{t("commonRatios")}</CardTitle></CardHeader>
               <CardContent>
                 <div className="grid grid-cols-2 gap-2">
                   {COMMON_RATIOS.map((r) => (
@@ -131,17 +133,17 @@ export default function AspectRatioCalculator() {
 
           <TabsContent value="scale" className="space-y-4">
             <Card>
-              <CardHeader><CardTitle className="text-sm">Scale to New Dimension</CardTitle></CardHeader>
+              <CardHeader><CardTitle className="text-sm">{t("scaleToNewDimension")}</CardTitle></CardHeader>
               <CardContent className="space-y-4">
                 <div className="grid grid-cols-3 gap-4 items-end">
                   <div className="space-y-1.5">
-                    <Label>Ratio Width</Label>
-                    <Input type="number" value={ratioW} onChange={(e) => setRatioW(e.target.value)} placeholder="16" />
+                    <Label>{t("ratioWidth")}</Label>
+                    <Input type="number" value={ratioW} onChange={(e) => setRatioW(e.target.value)} placeholder="16" dir="ltr" />
                   </div>
                   <div className="flex items-end pb-2 justify-center text-muted-foreground font-bold">:</div>
                   <div className="space-y-1.5">
-                    <Label>Ratio Height</Label>
-                    <Input type="number" value={ratioH} onChange={(e) => setRatioH(e.target.value)} placeholder="9" />
+                    <Label>{t("ratioHeight")}</Label>
+                    <Input type="number" value={ratioH} onChange={(e) => setRatioH(e.target.value)} placeholder="9" dir="ltr" />
                   </div>
                 </div>
 
@@ -151,32 +153,33 @@ export default function AspectRatioCalculator() {
                     variant={solveFor === "h" ? "default" : "outline"}
                     onClick={() => setSolveFor("h")}
                   >
-                    Known Width, Find Height
+                    {t("knownWidthFindHeight")}
                   </Button>
                   <Button
                     size="sm"
                     variant={solveFor === "w" ? "default" : "outline"}
                     onClick={() => setSolveFor("w")}
                   >
-                    Known Height, Find Width
+                    {t("knownHeightFindWidth")}
                   </Button>
                 </div>
 
                 <div className="space-y-1.5">
-                  <Label>{solveFor === "h" ? "Width" : "Height"} (px)</Label>
+                  <Label>{solveFor === "h" ? t("width") : t("height")} (px)</Label>
                   <Input
                     type="number"
                     value={knownDim}
                     onChange={(e) => setKnownDim(e.target.value)}
                     placeholder="1280"
+                    dir="ltr"
                   />
                 </div>
 
                 {scaleResult && (
                   <div className="pt-2 border-t">
                     <div className="text-center p-4 rounded-lg bg-primary/10">
-                      <div className="text-xs text-muted-foreground mb-1">{scaleResult.label}</div>
-                      <div className="text-3xl font-bold text-primary">{scaleResult.value} px</div>
+                      <div className="text-xs text-muted-foreground mb-1">{scaleResult.label === "Height" ? t("height") : t("width")}</div>
+                      <div className="text-3xl font-bold text-primary" dir="ltr">{scaleResult.value} px</div>
                     </div>
                   </div>
                 )}
