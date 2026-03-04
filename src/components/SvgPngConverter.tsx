@@ -13,8 +13,10 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Upload } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 export default function SvgPngConverter() {
+  const t = useTranslations("Tools.SvgPngConverter");
   const [svgText, setSvgText] = useState<string>("");
   const [scale, setScale] = useState<number>(2);
 
@@ -22,7 +24,7 @@ export default function SvgPngConverter() {
     const file = acceptedFiles[0];
     if (!file) return;
     if (!file.name.toLowerCase().endsWith(".svg")) {
-      toast.error("Please upload an SVG file");
+      toast.error(t("errorSvgOnly"));
       return;
     }
     const text = await file.text();
@@ -63,7 +65,7 @@ export default function SvgPngConverter() {
       document.body.removeChild(a);
       URL.revokeObjectURL(url);
     } catch (e) {
-      toast.error("Export failed");
+      toast.error(t("errorExportFailed"));
     }
   };
 
@@ -71,9 +73,9 @@ export default function SvgPngConverter() {
     <div className="container mx-auto p-6 max-w-5xl">
       <Card>
         <CardHeader>
-          <CardTitle>SVG ↔ PNG Converter</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <CardDescription>
-            Upload or paste SVG and export PNG at 1x/2x/3x
+            {t("description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
@@ -91,33 +93,34 @@ export default function SvgPngConverter() {
                 <Upload className="w-8 h-8 text-primary" />
               </div>
               <div className="font-medium">
-                Drop SVG here or click to select
+                {t("dropOrClick")}
               </div>
             </div>
           </div>
           <textarea
             value={svgText}
             onChange={(e) => setSvgText(e.target.value)}
-            placeholder="Paste SVG markup here..."
+            placeholder={t("svgPlaceholder")}
             className="w-full min-h-[200px] border rounded p-3 font-mono text-sm"
+            dir="ltr"
           />
           <div className="grid grid-cols-3 gap-3">
             <Button onClick={() => exportPng(1)} disabled={!svgText}>
-              Export 1x
+              {t("export1x")}
             </Button>
             <Button
               onClick={() => exportPng(2)}
               disabled={!svgText}
               variant="secondary"
             >
-              Export 2x
+              {t("export2x")}
             </Button>
             <Button
               onClick={() => exportPng(3)}
               disabled={!svgText}
               variant="secondary"
             >
-              Export 3x
+              {t("export3x")}
             </Button>
           </div>
         </CardContent>

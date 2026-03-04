@@ -19,10 +19,12 @@ import {
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const tzOptions = ["UTC", Intl.DateTimeFormat().resolvedOptions().timeZone];
 
 export default function UnixTimestampConverter() {
+  const t = useTranslations("Tools.UnixTimestampConverter");
   const [epoch, setEpoch] = useState<string>("");
   const [dateStr, setDateStr] = useState<string>("");
   const [tz, setTz] = useState<string>(tzOptions[1] || "UTC");
@@ -111,25 +113,26 @@ export default function UnixTimestampConverter() {
     <div className="container mx-auto p-6 max-w-4xl">
       <Card className="shadow-none">
         <CardHeader>
-          <CardTitle>Unix Timestamp Converter</CardTitle>
+          <CardTitle>{t("title")}</CardTitle>
           <CardDescription>
-            Convert between Epoch seconds/milliseconds and human-readable date
+            {t("description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
-              <Label htmlFor="epoch">Epoch</Label>
+              <Label htmlFor="epoch">{t("epochLabel")}</Label>
               <Input
                 id="epoch"
                 inputMode="numeric"
-                placeholder="e.g., 1736539200 or 1736539200000"
+                placeholder={t("epochPlaceholder")}
                 value={epoch}
                 onChange={(e) => handleEpochChange(e.target.value)}
+                dir="ltr"
               />
             </div>
             <div className="space-y-2">
-              <Label htmlFor="tz">Time Zone</Label>
+              <Label htmlFor="tz">{t("timezoneLabel")}</Label>
               <Select value={tz} onValueChange={setTz}>
                 <SelectTrigger>
                   <SelectValue />
@@ -145,17 +148,18 @@ export default function UnixTimestampConverter() {
             </div>
           </div>
           <div className="space-y-2">
-            <Label htmlFor="date">Date & Time</Label>
+            <Label htmlFor="date">{t("dateTimeLabel")}</Label>
             <Input
               id="date"
-              placeholder="YYYY-MM-DD, HH:MM:SS (uses your locale formatting)"
+              placeholder={t("dateTimePlaceholder")}
               value={dateStr}
               onChange={(e) => handleDateChange(e.target.value)}
+              dir="ltr"
             />
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
             <Button variant="secondary" onClick={now}>
-              Now
+              {t("nowButton")}
             </Button>
             <Button
               variant="outline"
@@ -163,7 +167,7 @@ export default function UnixTimestampConverter() {
                 epoch && setEpoch((Number(epoch) * 1000).toString())
               }
             >
-              ×1000 (to ms)
+              {t("toMsButton")}
             </Button>
             <Button
               variant="outline"
@@ -171,12 +175,12 @@ export default function UnixTimestampConverter() {
                 epoch && setEpoch(Math.floor(Number(epoch) / 1000).toString())
               }
             >
-              ÷1000 (to s)
+              {t("toSButton")}
             </Button>
           </div>
           <div className="pt-2">
             <Button variant="outline" className="w-full" onClick={clearAll}>
-              Clear
+              {t("clearButton")}
             </Button>
           </div>
         </CardContent>

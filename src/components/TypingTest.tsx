@@ -13,6 +13,7 @@ import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Volume2, VolumeX, RotateCcw, RefreshCcw } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 function generateParagraph(wordCount: number): string[] {
   const corpus =
@@ -34,6 +35,7 @@ function calculateWpm(charactersTyped: number, elapsedMs: number): number {
 }
 
 export default function TypingTest() {
+  const t = useTranslations("Tools.TypingTest");
   const [words, setWords] = useState<string[]>(() => generateParagraph(100));
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentInput, setCurrentInput] = useState<string>("");
@@ -210,9 +212,9 @@ export default function TypingTest() {
   return (
     <Card className="container mx-auto max-w-4xl mt-6">
       <CardHeader>
-        <CardTitle>Typing Test</CardTitle>
+        <CardTitle>{t("title")}</CardTitle>
         <CardDescription>
-          Test your typing speed with optional mechanical keyboard clicks.
+          {t("description")}
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -232,14 +234,14 @@ export default function TypingTest() {
               ) : (
                 <VolumeX className="w-4 h-4" />
               )}
-              Click sounds
+              {t("clickSounds")}
             </Label>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={reset} title="Reset (same text)">
+            <Button variant="outline" onClick={reset} title={t("resetTitle")}>
               <RotateCcw className="w-4 h-4" />
             </Button>
-            <Button variant="outline" onClick={newText} title="New text">
+            <Button variant="outline" onClick={newText} title={t("newTextTitle")}>
               <RefreshCcw className="w-4 h-4" />
             </Button>
           </div>
@@ -295,26 +297,27 @@ export default function TypingTest() {
 
         <div className="space-y-2">
           <Label htmlFor="typing" className="sr-only">
-            Type here
+            {t("typeHere")}
           </Label>
           <Input
             id="typing"
             value={currentInput}
             onChange={(e) => onChange(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="Start typing here..."
+            placeholder={t("startTyping")}
             autoFocus
+            dir="ltr"
           />
         </div>
 
         <div className="grid grid-cols-3 gap-3">
-          <Stat label="WPM" value={wpm} />
-          <Stat label="Accuracy" value={`${accuracy}%`} />
-          <Stat label="Errors" value={errorCount} />
+          <Stat label={t("wpm")} value={wpm} />
+          <Stat label={t("accuracy")} value={`${accuracy}%`} />
+          <Stat label={t("errors")} value={errorCount} />
         </div>
 
         <div className="text-sm text-muted-foreground">
-          {isRunning ? "Typing..." : endedAt ? "Completed" : "Idle"} ·{" "}
+          {isRunning ? t("statusTyping") : endedAt ? t("statusCompleted") : t("statusIdle")} ·{" "}
           {Math.floor(elapsedMs / 1000)}s
         </div>
       </CardContent>
