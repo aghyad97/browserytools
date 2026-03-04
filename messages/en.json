@@ -2234,7 +2234,8 @@
       "categoryActivities": "Activities",
       "categoryObjects": "Objects",
       "categorySymbols": "Symbols",
-      "categoryFlags": "Flags"
+      "categoryFlags": "Flags",
+      "copied": "Copied"
     },
     "ScreenRecorder": {
       "title": "Screen Recorder",

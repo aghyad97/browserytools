@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { searchTools } from "@/lib/search-utils";
 import { Input } from "@/components/ui/input";
 import { Search, LayoutGrid, List, Sparkles, X } from "lucide-react";
@@ -17,6 +18,7 @@ interface HomePageProps {
 }
 
 export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
+  const t = useTranslations("Tools.HomePage");
   const [searchQuery, setSearchQuery] = useState(initialSearchQuery);
   const { viewMode, setViewMode } = usePreferencesStore();
   const { getFavoriteTools } = useFavoritesStore();
@@ -82,10 +84,10 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                   NEW
                 </span>
                 <span className="font-medium text-foreground">
-                  {newToolsCount} new tools just added!
+                  {newToolsCount} {t("newToolsAdded")}
                 </span>
                 <span className="text-muted-foreground hidden sm:inline">
-                  — Explore them below
+                  {t("exploreBelow")}
                 </span>
               </span>
               <button
@@ -98,7 +100,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                   setShowNewBanner(false);
                 }}
                 className="ml-1 rounded-full p-0.5 text-muted-foreground hover:text-foreground transition-colors"
-                aria-label="Dismiss"
+                aria-label={t("dismiss")}
               >
                 <X className="h-3.5 w-3.5" />
               </button>
@@ -108,8 +110,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
 
         <div className="mb-8">
           <p className="text-2xl text-center text-muted-foreground">
-            {allTools.filter((tool) => tool.available).length} Productivity
-            browser-based tools. No servers. Full privacy. Open-source.
+            {allTools.filter((tool) => tool.available).length} {t("toolCountSuffix")}
           </p>
         </div>
 
@@ -120,7 +121,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
               <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-muted-foreground w-4 h-4" />
               <Input
                 type="text"
-                placeholder="Search tools by name or description..."
+                placeholder={t("searchPlaceholder")}
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-10 w-full"
@@ -139,7 +140,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                     ? "bg-primary text-primary-foreground border-primary"
                     : "bg-background text-foreground hover:bg-muted border-input"
                 }`}
-                title="Grid view"
+                title={t("gridView")}
               >
                 <LayoutGrid className="h-4 w-4" />
               </button>
@@ -152,7 +153,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                     ? "bg-primary text-primary-foreground border-primary"
                     : "bg-background text-foreground hover:bg-muted border-input"
                 }`}
-                title="List view"
+                title={t("listView")}
               >
                 <List className="h-4 w-4" />
               </button>
@@ -202,7 +203,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
             filteredTools.length === 0 ? (
               <div className="text-center py-12">
                 <p className="text-muted-foreground">
-                  No tools found matching "{searchQuery}"
+                  {t("noResultsPrefix")} "{searchQuery}"
                 </p>
               </div>
             ) : (
@@ -249,7 +250,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">
-                      Favorite Tools
+                      {t("favoriteTools")}
                     </h3>
                   </div>
                   {viewMode === "grid" ? (
@@ -277,7 +278,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                 <div>
                   <div className="flex items-center gap-2 mb-2">
                     <h3 className="text-xl font-medium mb-2 text-left text-muted-foreground">
-                      Recently Used
+                      {t("recentlyUsed")}
                     </h3>
                   </div>
                   <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6 gap-2">

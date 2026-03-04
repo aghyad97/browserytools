@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useCallback, useRef } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -19,7 +20,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Switch } from "@/components/ui/switch";
 import { toast } from "sonner";
 import {
   Upload,
@@ -63,6 +63,7 @@ function formatBytes(bytes: number): string {
   return (bytes / (1024 * 1024)).toFixed(2) + " MB";
 }
 export default function ImageResizer() {
+  const t = useTranslations("Tools.ImageResizer");
   const [original, setOriginal] = useState<ImageInfo | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [resizedUrl, setResizedUrl] = useState<string | null>(null);
@@ -84,7 +85,7 @@ export default function ImageResizer() {
 
   const loadImage = useCallback((file: File) => {
     if (!file.type.startsWith("image/")) {
-      toast.error("Please upload an image file");
+      toast.error(t("uploadError"));
       return;
     }
     const reader = new FileReader();
@@ -104,12 +105,12 @@ export default function ImageResizer() {
         setResizedUrl(null);
         setWidth(img.naturalWidth);
         setHeight(img.naturalHeight);
-        toast.success("Image loaded");
+        toast.success(t("imageLoaded"));
       };
       img.src = src;
     };
     reader.readAsDataURL(file);
-  }, []);
+  }, [t]);
 
   const handleDrop = useCallback((e: React.DragEvent<HTMLButtonElement>) => {
     e.preventDefault();
@@ -159,7 +160,7 @@ export default function ImageResizer() {
 
   const resizeImage = useCallback(async () => {
     if (!original || !previewUrl) {
-      toast.error("Please upload an image first");
+      toast.error(t("uploadFirst"));
       return;
     }
     setProcessing(true);
@@ -180,19 +181,19 @@ export default function ImageResizer() {
       const mime = `image/${outputFormat}`;
       const q = outputFormat === "png" ? undefined : quality / 100;
       canvas.toBlob((blob) => {
-        if (!blob) { toast.error("Resize failed"); return; }
+        if (!blob) { toast.error(t("resizeFailed")); return; }
         const url = URL.createObjectURL(blob);
         setResizedUrl(url);
         setResizedSize(blob.size);
         setResizedWh({ w: newW, h: newH });
-        toast.success(`Image resized to ${newW}x${newH}`);
+        toast.success(`${newW}x${newH}`);
         setProcessing(false);
       }, mime, q);
     } catch (e) {
       toast.error(`Error: ${String(e)}`);
       setProcessing(false);
     }
-  }, [original, previewUrl, outputFormat, quality, computeTargetDimensions]);
+  }, [original, previewUrl, outputFormat, quality, computeTargetDimensions, t]);
 
   const downloadResized = useCallback(() => {
     if (!resizedUrl || !original) return;
@@ -202,8 +203,8 @@ export default function ImageResizer() {
     const baseName = original.name.replace(/\.[^.]+$/, "");
     a.download = `${baseName}_resized.${ext}`;
     a.click();
-    toast.success("Image downloaded");
-  }, [resizedUrl, original, outputFormat]);
+    toast.success(t("downloaded"));
+  }, [resizedUrl, original, outputFormat, t]);
 
   const { w: targetW, h: targetH } = computeTargetDimensions();
 
@@ -212,8 +213,8 @@ export default function ImageResizer() {
       <div className="flex-1 overflow-auto p-6 space-y-6">
         <Card className="shadow-none">
           <CardHeader>
-            <CardTitle>Image Resizer</CardTitle>
-            <CardDescription>Resize images by dimensions, percentage, or preset sizes</CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             {!original ? (
@@ -225,19 +226,19 @@ export default function ImageResizer() {
                 onDrop={handleDrop}
               >
                 <ImageIcon className="w-12 h-12 text-muted-foreground mb-4" />
-                <p className="text-lg font-medium">Drop an image here</p>
-                <p className="text-sm text-muted-foreground mt-1">or click to browse (JPEG, PNG, WebP, GIF)</p>
+                <p className="text-lg font-medium">{t("dropImage")}</p>
+                <p className="text-sm text-muted-foreground mt-1">{t("browseHint")}</p>
               </button>
             ) : (
               <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
                 <ImageIcon className="w-8 h-8 text-primary shrink-0" />
                 <div className="flex-1 min-w-0">
                   <p className="font-medium truncate">{original.name}</p>
-                  <p className="text-sm text-muted-foreground">
+                  <p className="text-sm text-muted-foreground" dir="ltr">
                     {original.width}x{original.height}px | {original.format} | {formatBytes(original.size)}
                   </p>
                 </div>
-                <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}><RefreshCw className="w-4 h-4 mr-1" />Change</Button>
+                <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}><RefreshCw className="w-4 h-4 mr-1" />{t("change")}</Button>
               </div>
             )}
             <input ref={fileInputRef} type="file" accept="image/*" className="hidden" onChange={(e) => { const file = e.target.files?.[0]; if (file) loadImage(file); }} />
@@ -245,13 +246,13 @@ export default function ImageResizer() {
             {original && (
               <>
                 <div className="space-y-2">
-                  <Label>Resize Mode</Label>
+                  <Label>{t("resizeMode")}</Label>
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                     {([
-                      { value: "dimensions", label: "Dimensions" },
-                      { value: "percentage", label: "Percentage" },
-                      { value: "longest-side", label: "Longest Side" },
-                      { value: "preset", label: "Preset Size" },
+                      { value: "dimensions", label: t("modeDimensions") },
+                      { value: "percentage", label: t("modePercentage") },
+                      { value: "longest-side", label: t("modeLongestSide") },
+                      { value: "preset", label: t("modePreset") },
                     ] as const).map((opt) => (
                       <Button
                         key={opt.value}
@@ -269,15 +270,15 @@ export default function ImageResizer() {
                   <div className="space-y-3">
                     <div className="grid grid-cols-[1fr_auto_1fr] gap-3 items-end">
                       <div className="space-y-1">
-                        <Label>Width (px)</Label>
-                        <Input type="number" min="1" max="10000" value={width} onChange={(e) => handleWidthChange(Number(e.target.value))} />
+                        <Label>{t("widthPx")}</Label>
+                        <Input dir="ltr" type="number" min="1" max="10000" value={width} onChange={(e) => handleWidthChange(Number(e.target.value))} />
                       </div>
-                      <button onClick={() => setLockAspect(!lockAspect)} className="mb-1 p-1 rounded hover:bg-muted transition-colors" title={lockAspect ? "Unlock aspect ratio" : "Lock aspect ratio"}>
+                      <button onClick={() => setLockAspect(!lockAspect)} className="mb-1 p-1 rounded hover:bg-muted transition-colors" title={lockAspect ? t("unlockAspect") : t("lockAspect")}>
                         {lockAspect ? <Lock className="w-4 h-4 text-primary" /> : <LockOpen className="w-4 h-4 text-muted-foreground" />}
                       </button>
                       <div className="space-y-1">
-                        <Label>Height (px)</Label>
-                        <Input type="number" min="1" max="10000" value={height} onChange={(e) => handleHeightChange(Number(e.target.value))} />
+                        <Label>{t("heightPx")}</Label>
+                        <Input dir="ltr" type="number" min="1" max="10000" value={height} onChange={(e) => handleHeightChange(Number(e.target.value))} />
                       </div>
                     </div>
                   </div>
@@ -299,14 +300,14 @@ export default function ImageResizer() {
                     </div>
                     <div className="space-y-1">
                       <div className="flex justify-between">
-                        <Label>Custom Percentage</Label>
+                        <Label>{t("customPercentage")}</Label>
                         <span className="text-sm font-mono">{percentage}%</span>
                       </div>
                       <Slider min={1} max={400} step={1} value={[percentage]} onValueChange={([v]) => setPercentage(v)} />
                     </div>
                     {original && (
-                      <p className="text-sm text-muted-foreground">
-                        Output: {Math.round(original.width * percentage / 100)}x{Math.round(original.height * percentage / 100)}px
+                      <p className="text-sm text-muted-foreground" dir="ltr">
+                        {t("outputInfo")}: {Math.round(original.width * percentage / 100)}x{Math.round(original.height * percentage / 100)}px
                       </p>
                     )}
                   </div>
@@ -314,14 +315,14 @@ export default function ImageResizer() {
 
                 {mode === "longest-side" && (
                   <div className="space-y-2">
-                    <Label>Max Longest Side (px)</Label>
-                    <Input type="number" min="1" max="10000" value={longestSide} onChange={(e) => setLongestSide(Number(e.target.value))} />
+                    <Label>{t("maxLongestSide")}</Label>
+                    <Input dir="ltr" type="number" min="1" max="10000" value={longestSide} onChange={(e) => setLongestSide(Number(e.target.value))} />
                   </div>
                 )}
 
                 {(mode === "preset" || mode === "dimensions") && (
                   <div className="space-y-2">
-                    {mode === "preset" && <Label>Preset Sizes</Label>}
+                    {mode === "preset" && <Label>{t("presetSizes")}</Label>}
                     {mode === "preset" && (
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                         {PRESET_SIZES.map((p) => (
@@ -342,7 +343,7 @@ export default function ImageResizer() {
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Output Format</Label>
+                    <Label>{t("outputFormat")}</Label>
                     <Select value={outputFormat} onValueChange={setOutputFormat}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
@@ -355,7 +356,7 @@ export default function ImageResizer() {
                   {!["png"].includes(outputFormat) && (
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <Label>Quality</Label>
+                        <Label>{t("quality")}</Label>
                         <span className="text-sm font-mono">{quality}%</span>
                       </div>
                       <Slider min={10} max={100} step={1} value={[quality]} onValueChange={([v]) => setQuality(v)} />
@@ -366,20 +367,20 @@ export default function ImageResizer() {
                 <div className="flex items-center gap-3 p-3 bg-muted/30 rounded-lg border">
                   <Info className="w-4 h-4 text-muted-foreground shrink-0" />
                   <p className="text-sm text-muted-foreground">
-                    Output: <span className="font-medium text-foreground">{targetW}x{targetH}px</span>
+                    {t("outputInfo")}: <span className="font-medium text-foreground" dir="ltr">{targetW}x{targetH}px</span>
                     {resizedSize > 0 && (
-                      <> &nbsp;&#<span>(size: {formatBytes(resizedSize)})</span></>
+                      <> &nbsp;&#<span>({formatBytes(resizedSize)})</span></>
                     )}
                   </p>
                 </div>
 
                 <div className="flex gap-3">
                   <Button onClick={resizeImage} disabled={processing} className="flex-1">
-                    {processing ? "Resizing..." : "Resize Image"}
+                    {processing ? t("resizing") : t("resizeImage")}
                   </Button>
                   {resizedUrl && (
                     <Button variant="outline" onClick={downloadResized}>
-                      <Download className="w-4 h-4 mr-2" />Download
+                      <Download className="w-4 h-4 mr-2" />{t("download")}
                     </Button>
                   )}
                 </div>
@@ -388,19 +389,19 @@ export default function ImageResizer() {
 
             {resizedUrl && original && (
               <div className="space-y-3">
-                <Label>Before / After Preview</Label>
+                <Label>{t("beforeAfter")}</Label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground font-medium">
-                      Original ‑ {original.width}x{original.height}px | {formatBytes(original.size)}
+                    <p className="text-xs text-muted-foreground font-medium" dir="ltr">
+                      {t("original")} ‑ {original.width}x{original.height}px | {formatBytes(original.size)}
                     </p>
-                    <img src={original.url} alt="Original" className="w-full h-48 object-contain rounded-lg border bg-muted/20" />
+                    <img src={original.url} alt={t("original")} className="w-full h-48 object-contain rounded-lg border bg-muted/20" />
                   </div>
                   <div className="space-y-1">
-                    <p className="text-xs text-muted-foreground font-medium">
-                      Resized — {resizedWh?.w ?? 0}x{resizedWh?.h ?? 0}px | {formatBytes(resizedSize)}
+                    <p className="text-xs text-muted-foreground font-medium" dir="ltr">
+                      {t("resized")} — {resizedWh?.w ?? 0}x{resizedWh?.h ?? 0}px | {formatBytes(resizedSize)}
                     </p>
-                    <img src={resizedUrl} alt="Reszied" className="w-full h-48 object-contain rounded-lg border bg-muted/20" />
+                    <img src={resizedUrl} alt={t("resized")} className="w-full h-48 object-contain rounded-lg border bg-muted/20" />
                   </div>
                 </div>
               </div>

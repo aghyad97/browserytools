@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -119,6 +120,7 @@ function buildGradientCSS(
 }
 
 export default function CssGradientGenerator() {
+  const t = useTranslations("Tools.CssGradientGenerator");
   const [gradientType, setGradientType] = useState<GradientType>("linear");
   const [angle, setAngle] = useState(135);
   const [stops, setStops] = useState<ColorStop[]>([
@@ -144,10 +146,10 @@ export default function CssGradientGenerator() {
 
   const removeStop = useCallback((id: string) => {
     setStops((prev) => {
-      if (prev.length <= 2) { toast.error("Minimum 2 color stops required"); return prev; }
+      if (prev.length <= 2) { toast.error(t("minStopsError")); return prev; }
       return prev.filter((s) => s.id !== id);
     });
-  }, []);
+  }, [t]);
 
   const updateStop = useCallback((id: string, field: keyof ColorStop, value: string | number) => {
     setStops((prev) => prev.map((s) => (s.id === id ? { ...s, [field]: value } : s)));
@@ -156,11 +158,11 @@ export default function CssGradientGenerator() {
   const copyCSS = useCallback(async () => {
     try {
       await navigator.clipboard.writeText(cssOutput);
-      toast.success("CSS copied to clipboard");
+      toast.success(t("cssCopied"));
     } catch {
-      toast.error("Failed to copy CSS");
+      toast.error(t("copyFailed"));
     }
-  }, [cssOutput]);
+  }, [cssOutput, t]);
 
   const exportPNG = useCallback(() => {
     const canvas = document.createElement("canvas");
@@ -198,43 +200,43 @@ export default function CssGradientGenerator() {
       const a = document.createElement("a");
       a.href = url; a.download = "gradient.png"; a.click();
       URL.revokeObjectURL(url);
-      toast.success("Gradient exported as PNG");
+      toast.success(t("exportedPNG"));
     }, "image/png");
-  }, [stops, gradientType, angle, conic.startAngle]);
+  }, [stops, gradientType, angle, conic.startAngle, t]);
 
   const loadPreset = useCallback((preset: (typeof PRESETS)[0]) => {
     setGradientType(preset.type);
     setAngle(preset.angle);
     setStops(preset.stops.map((s) => ({ ...s, id: uid() })));
-    toast.success(`Loaded: ${preset.name}`);
-  }, []);
+    toast.success(`${t("loaded")}: ${preset.name}`);
+  }, [t]);
 
   return (
     <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
       <div className="flex-1 overflow-auto p-6 space-y-6">
         <Card className="shadow-none">
           <CardHeader>
-            <CardTitle>CSS Gradient Generator</CardTitle>
-            <CardDescription>Create beautiful CSS gradients visually with live preview</CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <Tabs value={gradientType} onValueChange={(v) => setGradientType(v as GradientType)}>
               <TabsList className="w-full">
-                <TabsTrigger value="linear" className="flex-1">Linear</TabsTrigger>
-                <TabsTrigger value="radial" className="flex-1">Radial</TabsTrigger>
-                <TabsTrigger value="conic" className="flex-1">Conic</TabsTrigger>
+                <TabsTrigger value="linear" className="flex-1">{t("linear")}</TabsTrigger>
+                <TabsTrigger value="radial" className="flex-1">{t("radial")}</TabsTrigger>
+                <TabsTrigger value="conic" className="flex-1">{t("conic")}</TabsTrigger>
               </TabsList>
 
               <TabsContent value="linear" className="space-y-4 mt-4">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <Label>Angle</Label>
+                    <Label>{t("angle")}</Label>
                     <span className="text-sm text-muted-foreground font-mono">{angle}deg</span>
                   </div>
                   <Slider min={0} max={360} step={1} value={[angle]} onValueChange={([v]) => setAngle(v)} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Direction Presets</Label>
+                  <Label>{t("directionPresets")}</Label>
                   <div className="flex flex-wrap gap-2">
                     {DIRECTION_PRESETS.map((p) => {
                       const Icon = p.icon;
@@ -251,17 +253,17 @@ export default function CssGradientGenerator() {
               <TabsContent value="radial" className="space-y-4 mt-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-2">
-                    <Label>Shape</Label>
+                    <Label>{t("shape")}</Label>
                     <Select value={radial.shape} onValueChange={(v) => setRadial((r) => ({ ...r, shape: v as "circle" | "ellipse" }))}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>
-                        <SelectItem value="circle">Circle</SelectItem>
-                        <SelectItem value="ellipse">Ellipse</SelectItem>
+                        <SelectItem value="circle">{t("circle")}</SelectItem>
+                        <SelectItem value="ellipse">{t("ellipse")}</SelectItem>
                       </SelectContent>
                     </Select>
                   </div>
                   <div className="space-y-2">
-                    <Label>Position</Label>
+                    <Label>{t("position")}</Label>
                     <Select value={radial.position} onValueChange={(v) => setRadial((r) => ({ ...r, position: v }))}>
                       <SelectTrigger><SelectValue /></SelectTrigger>
                       <SelectContent>{POSITION_OPTIONS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
@@ -273,13 +275,13 @@ export default function CssGradientGenerator() {
               <TabsContent value="conic" className="space-y-4 mt-4">
                 <div className="space-y-2">
                   <div className="flex justify-between">
-                    <Label>Start Angle</Label>
+                    <Label>{t("startAngle")}</Label>
                     <span className="text-sm text-muted-foreground font-mono">{conic.startAngle}deg</span>
                   </div>
                   <Slider min={0} max={360} step={1} value={[conic.startAngle]} onValueChange={([v]) => setConic((c) => ({ ...c, startAngle: v }))} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Position</Label>
+                  <Label>{t("position")}</Label>
                   <Select value={conic.position} onValueChange={(v) => setConic((c) => ({ ...c, position: v }))}>
                     <SelectTrigger><SelectValue /></SelectTrigger>
                     <SelectContent>{POSITION_OPTIONS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
@@ -289,25 +291,25 @@ export default function CssGradientGenerator() {
             </Tabs>
 
             <div className="space-y-2">
-              <Label>Preview</Label>
+              <Label>{t("preview")}</Label>
               <div ref={previewRef} className="w-full rounded-lg border" style={{ height: 200, background: gradientValue }} />
             </div>
 
             <div className="space-y-3">
               <div className="flex items-center justify-between">
-                <Label>Color Stops</Label>
-                <Button variant="outline" size="sm" onClick={addStop}><Plus className="w-4 h-4 mr-1" />Add Stop</Button>
+                <Label>{t("colorStops")}</Label>
+                <Button variant="outline" size="sm" onClick={addStop}><Plus className="w-4 h-4 mr-1" />{t("addStop")}</Button>
               </div>
               <div className="space-y-2">
                 {[...stops].sort((a, b) => a.position - b.position).map((stop) => (
                   <div key={stop.id} className="grid grid-cols-[44px_1fr_1fr_36px] gap-3 items-center p-3 border rounded-lg bg-muted/30">
                     <input type="color" value={stop.color} onChange={(e) => updateStop(stop.id, "color", e.target.value)} className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5" title="Pick color" />
                     <div className="space-y-1">
-                      <div className="flex justify-between text-xs text-muted-foreground"><span>Position</span><span className="font-mono">{stop.position}%</span></div>
+                      <div className="flex justify-between text-xs text-muted-foreground"><span>{t("stopPosition")}</span><span className="font-mono">{stop.position}%</span></div>
                       <Slider min={0} max={100} step={1} value={[stop.position]} onValueChange={([v]) => updateStop(stop.id, "position", v)} />
                     </div>
                     <div className="space-y-1">
-                      <div className="flex justify-between text-xs text-muted-foreground"><span>Opacity</span><span className="font-mono">{Math.round(stop.opacity * 100)}%</span></div>
+                      <div className="flex justify-between text-xs text-muted-foreground"><span>{t("stopOpacity")}</span><span className="font-mono">{Math.round(stop.opacity * 100)}%</span></div>
                       <Slider min={0} max={1} step={0.01} value={[stop.opacity]} onValueChange={([v]) => updateStop(stop.id, "opacity", v)} />
                     </div>
                     <Button variant="ghost" size="icon" onClick={() => removeStop(stop.id)} className="text-destructive hover:text-destructive h-8 w-8"><Trash2 className="w-3.5 h-3.5" /></Button>
@@ -317,7 +319,7 @@ export default function CssGradientGenerator() {
             </div>
 
             <div className="space-y-2">
-              <Label>Generated CSS</Label>
+              <Label>{t("generatedCSS")}</Label>
               <div className="flex gap-2 items-start">
                 <pre className="flex-1 text-xs bg-muted p-3 rounded-lg border overflow-x-auto whitespace-pre-wrap break-all font-mono">{cssOutput}</pre>
                 <Button variant="outline" size="icon" onClick={copyCSS} className="shrink-0"><Copy className="w-4 h-4" /></Button>
@@ -325,16 +327,16 @@ export default function CssGradientGenerator() {
             </div>
 
             <div className="flex gap-2">
-              <Button onClick={copyCSS} className="flex-1"><Copy className="w-4 h-4 mr-2" />Copy CSS@</Button>
-              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 mr-2" />Export PNG</Button>
+              <Button onClick={copyCSS} className="flex-1"><Copy className="w-4 h-4 mr-2" />{t("copyCSS")}</Button>
+              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 mr-2" />{t("exportPNG")}</Button>
             </div>
           </CardContent>
         </Card>
 
         <Card className="shadow-none">
           <CardHeader>
-            <CardTitle className="text-base">Preset Gradients</CardTitle>
-            <CardDescription>Click a preset to load it instantly</CardDescription>
+            <CardTitle className="text-base">{t("presetGradients")}</CardTitle>
+            <CardDescription>{t("presetDescription")}</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">

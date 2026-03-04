@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -166,17 +167,18 @@ function makePaletteColors(hexes: string[], existing: PaletteColor[] = []): Pale
   });
 }
 
-const SCHEME_OPTIONS = [
-  { value: "complementary", label: "Complementary (2 colors)" },
-  { value: "triadic", label: "Triadic (3 colors)" },
-  { value: "analogous", label: "Analogous (5 colors)" },
-  { value: "split-complementary", label: "Split-Complementary (3 colors)" },
-  { value: "tetradic", label: "Tetradic/Square (4 colors)" },
-  { value: "shades", label: "Shades (10 variations)" },
-  { value: "monochromatic", label: "Monochromatic (10 variations)" },
-];
+const SCHEME_VALUES = [
+  "complementary",
+  "triadic",
+  "analogous",
+  "split-complementary",
+  "tetradic",
+  "shades",
+  "monochromatic",
+] as const;
 
 export default function ColorPaletteGenerator() {
+  const t = useTranslations("Tools.ColorPaletteGenerator");
   const [baseColor, setBaseColor] = useState("#667eea");
   const [scheme, setScheme] = useState<SchemeType>("complementary");
   const [paletteName, setPaletteName] = useState("My Palette");
@@ -209,27 +211,27 @@ export default function ColorPaletteGenerator() {
     const newBase = randomHex();
     setBaseColor(newBase);
     regenerate(newBase, scheme);
-    toast.success("Random palette generated");
-  }, [scheme, regenerate]);
+    toast.success(t("randomGenerated"));
+  }, [scheme, regenerate, t]);
 
   const copyColor = useCallback(async (value: string, label: string) => {
     try {
       await navigator.clipboard.writeText(value);
       toast.success(`${label} copied`);
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("copyFailed"));
     }
-  }, []);
+  }, [t]);
 
   const copyAsCSSVars = useCallback(async () => {
     const text = colors.map((c, i) => `--color-${i + 1}: ${c.hex};`).join("\n");
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("CSS variables copied");
+      toast.success(t("cssVarsCopied"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("copyFailed"));
     }
-  }, [colors]);
+  }, [colors, t]);
 
   const copyAsJSON = useCallback(async () => {
     const data = colors.map((c) => ({
@@ -239,11 +241,11 @@ export default function ColorPaletteGenerator() {
     }));
     try {
       await navigator.clipboard.writeText(JSON.stringify(data, null, 2));
-      toast.success("JSON copied");
+      toast.success(t("jsonCopied"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("copyFailed"));
     }
-  }, [colors]);
+  }, [colors, t]);
 
   const exportPNG = useCallback(() => {
     const cols = Math.min(colors.length, 10);
@@ -273,31 +275,31 @@ export default function ColorPaletteGenerator() {
       const a = document.createElement("a");
       a.href = url; a.download = "palette.png"; a.click();
       URL.revokeObjectURL(url);
-      toast.success("Palette exported as PNG");
+      toast.success(t("paletteExported"));
     }, "image/png");
-  }, [colors]);
+  }, [colors, t]);
 
   return (
     <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
       <div className="flex-1 overflow-auto p-6 space-y-6">
         <Card className="shadow-none">
           <CardHeader>
-            <CardTitle>Color Palette Generator</CardTitle>
-            <CardDescription>Generate beautiful color palettes from any base color</CardDescription>
+            <CardTitle>{t("title")}</CardTitle>
+            <CardDescription>{t("description")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
-                <Label>Palette Name</Label>
-                <Input value={paletteName} onChange={(e) => setPaletteName(e.target.value)} placeholder="My Palette" />
+                <Label>{t("paletteName")}</Label>
+                <Input value={paletteName} onChange={(e) => setPaletteName(e.target.value)} placeholder={t("palettePlaceholder")} />
               </div>
               <div className="space-y-2">
-                <Label>Color Scheme</Label>
+                <Label>{t("colorScheme")}</Label>
                 <Select value={scheme} onValueChange={handleSchemeChange}>
                   <SelectTrigger><SelectValue /></SelectTrigger>
                   <SelectContent>
-                    {SCHEME_OPTIONS.map((opt) => (
-                      <SelectItem key={opt.value} value={opt.value}>{opt.label}</SelectItem>
+                    {SCHEME_VALUES.map((val) => (
+                      <SelectItem key={val} value={val}>{t(`scheme${val.replace(/-([a-z])/g, (_: string, c: string) => c.toUpperCase()).replace(/^(.)/, (c: string) => c.toUpperCase())}` as any)}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
@@ -305,13 +307,13 @@ export default function ColorPaletteGenerator() {
             </div>
             <div className="flex gap-3 items-center flex-wrap">
               <div className="flex items-center gap-2">
-                <Label>Base Color</Label>
+                <Label>{t("baseColor")}</Label>
                 <input type="color" value={baseColor} onChange={(e) => handleBaseChange(e.target.value)} className="w-10 h-10 rounded cursor-pointer border border-border bg-transparent p-0.5" />
               </div>
-              <Button variant="outline" onClick={randomize}><RefreshCw className="w-4 h-4 mr-2" />Random Palette</Button>
-              <Button variant="outline" onClick={copyAsCSSVars}><Copy className="w-4 h-4 mr-2" />CSS Variables</Button>
-              <Button variant="outline" onClick={copyAsJSON}><Copy className="w-4 h-4 mr-2" />Copy JSON</Button>
-              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 mr-2" />Export PNG</Button>
+              <Button variant="outline" onClick={randomize}><RefreshCw className="w-4 h-4 mr-2" />{t("randomPalette")}</Button>
+              <Button variant="outline" onClick={copyAsCSSVars}><Copy className="w-4 h-4 mr-2" />{t("cssVariables")}</Button>
+              <Button variant="outline" onClick={copyAsJSON}><Copy className="w-4 h-4 mr-2" />{t("copyJSON")}</Button>
+              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 mr-2" />{t("exportPNG")}</Button>
             </div>
 
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
@@ -326,7 +328,7 @@ export default function ColorPaletteGenerator() {
                       <button
                         className="absolute top-1 right-1 p-1 rounded bg-white/20 hover:bg-white/40 transition-colors"
                         onClick={() => toggleLock(index)}
-                        title={color.locked ? "Unlock color" : "Lock color"}
+                        title={color.locked ? t("unlockColor") : t("lockColor")}
                       >
                         {color.locked ? (
                           <Lock className="w-3 h-3" style={{ color: textColor }} />
@@ -339,14 +341,14 @@ export default function ColorPaletteGenerator() {
                       <button
                         className="text-xs font-mono truncate w-full text-left hover:text-primary transition-colors"
                         onClick={() => copyColor(color.hex.toUpperCase(), "HEX")}
-                        title="Copy HEX"
+                        title={t("copyHex")}
                       >
                         {color.hex.toUpperCase()}
                       </button>
                       <button
                         className="text-[9px] text-muted-foreground truncate w-full text-left hover:text-primary transition-colors"
                         onClick={() => copyColor(`rgb(${color.r}, ${color.g}, ${color.b})`, "RGB")}
-                        title="Copy RGB"
+                        title={t("copyRGB")}
                       >
                         rgb({color.r},{color.g},{color.b})
                       </button>

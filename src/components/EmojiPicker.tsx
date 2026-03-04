@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -512,6 +513,7 @@ function saveRecent(emojis: string[]) {
 }
 
 export default function EmojiPicker() {
+  const t = useTranslations("Tools.EmojiPicker");
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("Smileys");
   const [recent, setRecent] = useState<string[]>([]);
@@ -533,16 +535,16 @@ export default function EmojiPicker() {
     const em = getEmojiWithTone(emoji);
     try {
       await navigator.clipboard.writeText(em);
-      toast.success(`Copied ${em}`);
+      toast.success(`${t("copied")} ${em}`);
       setRecent((prev) => {
         const next = [em, ...prev.filter((e) => e !== em)].slice(0, MAX_RECENT);
         saveRecent(next);
         return next;
       });
     } catch {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
-  }, [getEmojiWithTone]);
+  }, [getEmojiWithTone, t]);
 
   const getCodepoint = (emoji: string): string => {
     return [...emoji].map((c) => {
@@ -602,8 +604,8 @@ export default function EmojiPicker() {
             <Smile className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">Emoji Picker</h1>
-            <p className="text-sm text-muted-foreground">Browse, search, and copy emojis instantly</p>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground">{t("description")}</p>
           </div>
         </div>
 
@@ -611,7 +613,7 @@ export default function EmojiPicker() {
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <Input
-            placeholder="Search emojis by name..."
+            placeholder={t("searchPlaceholder")}
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9"
@@ -620,7 +622,7 @@ export default function EmojiPicker() {
 
         {/* Skin tone */}
         <div className="flex items-center gap-2 flex-wrap">
-          <span className="text-xs text-muted-foreground font-medium">Skin tone:</span>
+          <span className="text-xs text-muted-foreground font-medium">{t("skinTone")}</span>
           {SKIN_TONES.map((tone, i) => (
             <button
               key={tone.label}
@@ -653,7 +655,7 @@ export default function EmojiPicker() {
           <Card>
             <CardHeader className="pb-2 pt-4">
               <CardTitle className="text-sm flex items-center gap-2">
-                Search Results
+                {t("searchResults")}
                 <Badge variant="secondary">{filtered.length}</Badge>
               </CardTitle>
             </CardHeader>
@@ -661,7 +663,7 @@ export default function EmojiPicker() {
               {filtered.length > 0 ? (
                 <EmojiGrid emojis={filtered} />
               ) : (
-                <p className="text-sm text-muted-foreground text-center py-4">No emojis found for &quot;{search}&quot;</p>
+                <p className="text-sm text-muted-foreground text-center py-4">{t("noResults")} &quot;{search}&quot;</p>
               )}
             </CardContent>
           </Card>
@@ -673,7 +675,7 @@ export default function EmojiPicker() {
                 <CardHeader className="pb-2 pt-4">
                   <CardTitle className="text-sm flex items-center gap-2">
                     <Clock className="w-4 h-4" />
-                    Recently Used
+                    {t("recentlyUsed")}
                   </CardTitle>
                 </CardHeader>
                 <CardContent className="pb-4">
@@ -684,13 +686,13 @@ export default function EmojiPicker() {
                         onClick={async () => {
                           try {
                             await navigator.clipboard.writeText(emoji);
-                            toast.success(`Copied ${emoji}`);
+                            toast.success(`${t("copied")} ${emoji}`);
                             setRecent((prev) => {
                               const next = [emoji, ...prev.filter((e) => e !== emoji)].slice(0, MAX_RECENT);
                               saveRecent(next);
                               return next;
                             });
-                          } catch { toast.error("Copy failed"); }
+                          } catch { toast.error(t("copyFailed")); }
                         }}
                         className="w-9 h-9 text-2xl flex items-center justify-center rounded hover:bg-muted transition-colors"
                         title={emoji}
@@ -727,7 +729,7 @@ export default function EmojiPicker() {
         )}
 
         <p className="text-xs text-muted-foreground text-center">
-          Click any emoji to copy it to your clipboard. {ALL_EMOJIS.length} emojis across {CATEGORIES.length} categories.
+          {t("footer")} {ALL_EMOJIS.length} emojis across {CATEGORIES.length} categories.
         </p>
       </div>
     </div>

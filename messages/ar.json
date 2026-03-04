@@ -2234,7 +2234,8 @@
       "categoryActivities": "أنشطة",
       "categoryObjects": "أشياء",
       "categorySymbols": "رموز",
-      "categoryFlags": "أعلام"
+      "categoryFlags": "أعلام",
+      "copied": "تم نسخ"
     },
     "ScreenRecorder": {
       "title": "مسجّل الشاشة",
