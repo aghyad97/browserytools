@@ -8,11 +8,11 @@ const geist = Geist({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: {
-    default: "BrowseryTools - Essential Browser-Based Productivity Tools",
-    template: "%s | BrowseryTools",
+    default: "BrowseryTools — أدواتك | Free Browser-Based Productivity Tools",
+    template: "%s | BrowseryTools — أدواتك",
   },
   description:
-    "Essential browser-based tools for productivity. No servers. Full privacy. Convert files, compress images, generate passwords, format code, and more - all in your browser. أدوات متصفح مجانية للإنتاجية.",
+    "Essential browser-based tools for productivity. No servers. Full privacy. Convert files, compress images, generate passwords, format code, and more — all in your browser. | أدواتك — كل أدوات المتصفح في مكان واحد. بدون خوادم. خصوصية تامة.",
   keywords: [
     "browser tools",
     "productivity tools",
@@ -26,11 +26,18 @@ export const metadata: Metadata = {
     "client-side tools",
     "no server required",
     "free online tools",
+    // Arabic keywords
+    "أدواتك",
     "أدوات متصفح",
     "أدوات مجانية",
     "أدوات إنتاجية",
     "خصوصية تامة",
     "بدون خوادم",
+    "أدوات الويب",
+    "تحويل الملفات",
+    "ضغط الصور",
+    "مولد كلمات المرور",
+    "أدوات مجانية للمطورين",
   ],
   authors: [{ name: "aghyadev" }],
   creator: "aghyadev",
@@ -45,16 +52,19 @@ export const metadata: Metadata = {
     canonical: "/",
     languages: {
       "x-default": "https://browserytools.com",
+      "en": "https://browserytools.com",
+      "ar": "https://browserytools.com",
     },
   },
   openGraph: {
     type: "website",
     locale: "en_US",
+    alternateLocale: ["ar_SA", "ar_AE", "ar_EG"],
     url: "https://browserytools.com",
-    title: "BrowseryTools - Essential Browser-Based Productivity Tools",
+    title: "BrowseryTools — أدواتك | Free Browser-Based Productivity Tools",
     description:
-      "Essential browser-based tools for productivity. No servers. Full privacy. Convert files, compress images, generate passwords, format code, and more - all in your browser.",
-    siteName: "BrowseryTools",
+      "Essential browser-based tools for productivity. No servers. Full privacy. | أدواتك — كل أدوات المتصفح في مكان واحد. بدون خوادم. خصوصية تامة.",
+    siteName: "BrowseryTools — أدواتك",
     images: [
       {
         url: "/og-image.png",
@@ -66,9 +76,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "BrowseryTools - Essential Browser-Based Productivity Tools",
+    title: "BrowseryTools — أدواتك | Free Browser-Based Productivity Tools",
     description:
-      "Essential browser-based tools for productivity. No servers. Full privacy. Convert files, compress images, generate passwords, format code, and more - all in your browser.",
+      "Essential browser-based tools for productivity. No servers. Full privacy. | أدواتك — كل أدوات المتصفح في مكان واحد. بدون خوادم. خصوصية تامة.",
     images: ["/og-image.png"],
     creator: "@aghyadev",
     site: "@aghyadev",

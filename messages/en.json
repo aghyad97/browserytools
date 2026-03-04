@@ -42,7 +42,10 @@
     "comingSoon": "Coming Soon",
     "new": "New",
     "addToFavorites": "Add to favorites",
-    "removeFromFavorites": "Remove from favorites"
+    "removeFromFavorites": "Remove from favorites",
+    "siteName": "BrowseryTools",
+    "siteTagline": "Essential Browser-Based Productivity Tools",
+    "siteDescription": "Essential browser-based tools for productivity. No servers. Full privacy."
   },
   "Header": {
     "requestTool": "Request a tool",

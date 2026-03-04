@@ -312,10 +312,11 @@ export function generateToolMetadata(href: string): Metadata {
     openGraph: {
       type: "website",
       locale: "en_US",
+      alternateLocale: ["ar_SA", "ar_AE", "ar_EG"],
       url: toolUrl,
       title: seoTitle,
       description: seoDescription,
-      siteName: "Browser Tools - 100% Free Online Tools",
+      siteName: "BrowseryTools — أدواتك",
       images: [
         {
           url: "/og-image.png",
@@ -335,6 +336,11 @@ export function generateToolMetadata(href: string): Metadata {
     },
     alternates: {
       canonical: toolUrl,
+      languages: {
+        "x-default": toolUrl,
+        "en": toolUrl,
+        "ar": toolUrl,
+      },
     },
     category: "technology",
     other: {
@@ -502,10 +508,11 @@ export function generatePageMetadata(
     openGraph: {
       type: "website",
       locale: "en_US",
+      alternateLocale: ["ar_SA", "ar_AE", "ar_EG"],
       url: pageUrl,
       title: seoPageTitle,
       description: seoPageDescription,
-      siteName: "Browser Tools - 100% Free Online Tools",
+      siteName: "BrowseryTools — أدواتك",
       images: [
         {
           url: "/og-image.png",
@@ -525,6 +532,11 @@ export function generatePageMetadata(
     },
     alternates: {
       canonical: pageUrl,
+      languages: {
+        "x-default": pageUrl,
+        "en": pageUrl,
+        "ar": pageUrl,
+      },
     },
     category: "technology",
   };

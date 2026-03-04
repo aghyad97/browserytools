@@ -29,6 +29,7 @@ export default function Sidebar() {
   const { dir } = useLanguageStore();
   const t = useTranslations("Sidebar");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
 
   // Set current tool based on pathname
   useEffect(() => {
@@ -93,7 +94,7 @@ export default function Sidebar() {
       <div className="mt-4 flex items-center">
         <Link href="/" className="flex items-center space-x-2 rtl:space-x-reverse px-4">
           <Logo />
-          <span className="font-semibold text-xl">BrowseryTools</span>
+          <span className="font-semibold text-xl">{tCommon("siteName")}</span>
         </Link>
       </div>
 

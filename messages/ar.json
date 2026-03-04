@@ -42,7 +42,10 @@
     "comingSoon": "قريباً",
     "new": "جديد",
     "addToFavorites": "أضف إلى المفضلة",
-    "removeFromFavorites": "احذف من المفضلة"
+    "removeFromFavorites": "احذف من المفضلة",
+    "siteName": "أدواتك",
+    "siteTagline": "كل أدوات المتصفح في مكان واحد",
+    "siteDescription": "أدوات متصفح مجانية للإنتاجية. بدون خوادم. خصوصية تامة."
   },
   "Header": {
     "requestTool": "اطلب أداة",

@@ -21,6 +21,7 @@ export default function Header() {
   const { dir } = useLanguageStore();
   const t = useTranslations("Header");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
 
   // Reset tool context when not on tools routes
   useEffect(() => {
@@ -88,7 +89,7 @@ Please describe what this tool should do and how it would help users.
               <div className="flex flex-row gap-2 rtl:flex-row-reverse">
                 <Logo />
                 <h1 className="text-sm md:text-xl font-semibold">
-                  BrowseryTools
+                  {tCommon("siteName")}
                 </h1>
               </div>
             )}

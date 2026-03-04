@@ -114,6 +114,7 @@ function playBeep(ctx: AudioContext, type: "tick" | "end") {
 
 export default function PomodoroTimer() {
   const t = useTranslations("Tools.PomodoroTimer");
+  const tCommon = useTranslations("Common");
   const [settings, setSettings] = useState<PomodoroSettings>(DEFAULT_SETTINGS);
   const [sessionType, setSessionType] = useState<SessionType>("work");
   const [isRunning, setIsRunning] = useState(false);
@@ -224,9 +225,9 @@ export default function PomodoroTimer() {
     if (isRunning) {
       document.title = `${formatTime(timeLeft)} — ${sessionLabels[sessionType]} | Pomodoro`;
     } else {
-      document.title = "Pomodoro Timer | BrowseryTools";
+      document.title = `Pomodoro Timer | ${tCommon("siteName")}`;
     }
-    return () => { document.title = "Pomodoro Timer | BrowseryTools"; };
+    return () => { document.title = `Pomodoro Timer | ${tCommon("siteName")}`; };
   }, [timeLeft, isRunning, sessionType]);
 
   const handleStartPause = () => {
