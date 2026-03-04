@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Copy, Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 const STOP_WORDS = new Set([
   "the", "a", "an", "is", "it", "in", "on", "at", "to", "for", "of", "and",
@@ -34,6 +35,8 @@ type WordEntry = {
 };
 
 export default function WordFrequencyAnalyzer() {
+  const t = useTranslations("Tools.WordFrequency");
+  const tCommon = useTranslations("Common");
   const [input, setInput] = useState("");
   const [caseInsensitive, setCaseInsensitive] = useState(true);
   const [removeStopWords, setRemoveStopWords] = useState(true);
@@ -88,7 +91,7 @@ export default function WordFrequencyAnalyzer() {
 
   const handleExportCsv = useCallback(() => {
     if (analysis.entries.length === 0) {
-      toast.error("No data to export");
+      toast.error(t("noDataToExport"));
       return;
     }
     const header = "Rank,Word,Count,Percent\n";
@@ -105,8 +108,8 @@ export default function WordFrequencyAnalyzer() {
     a.download = "word-frequency.csv";
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Exported word-frequency.csv");
-  }, [analysis.entries]);
+    toast.success(t("exportedCsv"));
+  }, [analysis.entries, t]);
 
   const ToggleOption = ({
     id,
@@ -153,12 +156,12 @@ export default function WordFrequencyAnalyzer() {
         <div className="lg:col-span-1 space-y-6">
           <Card>
             <CardHeader>
-              <CardTitle>Input Text</CardTitle>
-              <CardDescription>Paste or type your text below</CardDescription>
+              <CardTitle>{t("inputTitle")}</CardTitle>
+              <CardDescription>{t("inputDesc")}</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4">
               <Textarea
-                placeholder="Paste your text here to analyze word frequency..."
+                placeholder={t("inputPlaceholder")}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="min-h-[220px] resize-none text-sm"
@@ -171,31 +174,31 @@ export default function WordFrequencyAnalyzer() {
                 className="w-full flex items-center gap-2"
               >
                 <RotateCcw className="w-4 h-4" />
-                Clear
+                {tCommon("clear")}
               </Button>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader>
-              <CardTitle>Options</CardTitle>
+              <CardTitle>{t("optionsTitle")}</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <ToggleOption
                 id="case-insensitive"
-                label="Case insensitive"
+                label={t("caseInsensitive")}
                 checked={caseInsensitive}
                 onChange={setCaseInsensitive}
               />
               <ToggleOption
                 id="stop-words"
-                label="Remove stop words"
+                label={t("removeStopWords")}
                 checked={removeStopWords}
                 onChange={setRemoveStopWords}
               />
               <div className="space-y-1">
                 <Label htmlFor="min-length" className="text-sm">
-                  Minimum word length
+                  {t("minWordLength")}
                 </Label>
                 <Input
                   id="min-length"
@@ -216,20 +219,20 @@ export default function WordFrequencyAnalyzer() {
           {analysis.totalWords > 0 && (
             <Card>
               <CardHeader>
-                <CardTitle>Summary</CardTitle>
+                <CardTitle>{t("summaryTitle")}</CardTitle>
               </CardHeader>
               <CardContent className="space-y-3">
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Total words</span>
+                  <span className="text-muted-foreground">{t("totalWords")}</span>
                   <Badge variant="secondary">{analysis.totalWords}</Badge>
                 </div>
                 <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">Unique words</span>
+                  <span className="text-muted-foreground">{t("uniqueWords")}</span>
                   <Badge variant="secondary">{analysis.uniqueWords}</Badge>
                 </div>
                 {analysis.entries[0] && (
                   <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">Most common</span>
+                    <span className="text-muted-foreground">{t("mostCommon")}</span>
                     <Badge>
                       &ldquo;{analysis.entries[0].word}&rdquo; &times;{" "}
                       {analysis.entries[0].count}
@@ -247,11 +250,11 @@ export default function WordFrequencyAnalyzer() {
             <CardHeader>
               <div className="flex items-center justify-between flex-wrap gap-2">
                 <div>
-                  <CardTitle>Word Frequency</CardTitle>
+                  <CardTitle>{t("resultsTitle")}</CardTitle>
                   <CardDescription>
                     {analysis.entries.length > 0
-                      ? `${analysis.entries.length} unique words found`
-                      : "Enter text to analyze"}
+                      ? t("uniqueWordsFound", { count: analysis.entries.length })
+                      : t("enterTextToAnalyze")}
                   </CardDescription>
                 </div>
                 <Button
@@ -262,7 +265,7 @@ export default function WordFrequencyAnalyzer() {
                   className="flex items-center gap-2"
                 >
                   <Download className="w-4 h-4" />
-                  Export CSV
+                  {t("exportCsv")}
                 </Button>
               </div>
             </CardHeader>
@@ -270,7 +273,7 @@ export default function WordFrequencyAnalyzer() {
               {analysis.entries.length === 0 ? (
                 <div className="text-center text-muted-foreground py-16">
                   <p className="text-sm">
-                    No words to display. Enter some text on the left.
+                    {t("noWordsToDisplay")}
                   </p>
                 </div>
               ) : (
@@ -280,17 +283,17 @@ export default function WordFrequencyAnalyzer() {
                     <table className="w-full text-sm">
                       <thead>
                         <tr className="border-b">
-                          <th className="text-left py-2 pr-4 font-medium text-muted-foreground w-12">
-                            Rank
+                          <th className="text-left rtl:text-right py-2 pr-4 font-medium text-muted-foreground w-12">
+                            {t("rank")}
                           </th>
-                          <th className="text-left py-2 pr-4 font-medium text-muted-foreground">
-                            Word
+                          <th className="text-left rtl:text-right py-2 pr-4 font-medium text-muted-foreground">
+                            {t("word")}
                           </th>
-                          <th className="text-right py-2 pr-4 font-medium text-muted-foreground w-16">
-                            Count
+                          <th className="text-right rtl:text-left py-2 pr-4 font-medium text-muted-foreground w-16">
+                            {t("count")}
                           </th>
-                          <th className="text-right py-2 font-medium text-muted-foreground w-16">
-                            %
+                          <th className="text-right rtl:text-left py-2 font-medium text-muted-foreground w-16">
+                            {t("percent")}
                           </th>
                         </tr>
                       </thead>
@@ -333,8 +336,8 @@ export default function WordFrequencyAnalyzer() {
                         onClick={() => setShowAll((v) => !v)}
                       >
                         {showAll
-                          ? "Show Top 10"
-                          : `Show All (${analysis.entries.length})`}
+                          ? t("showTop10")
+                          : t("showAll", { count: analysis.entries.length })}
                       </Button>
                     </div>
                   )}

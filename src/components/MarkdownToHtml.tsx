@@ -13,6 +13,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Copy, Download, RotateCcw, Eye, Code, FileText } from "lucide-react";
 import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 // ─── Markdown Parser ────────────────────────────────────────────────────────
 
@@ -228,6 +229,8 @@ Paragraphs are separated by blank lines and rendered correctly.
 // ─── Component ───────────────────────────────────────────────────────────────
 
 export default function MarkdownToHtml() {
+  const t = useTranslations("Tools.MarkdownToHtml");
+  const tCommon = useTranslations("Common");
   const [markdown, setMarkdown] = useState("");
   const [viewMode, setViewMode] = useState<"preview" | "source">("preview");
 
@@ -241,16 +244,16 @@ export default function MarkdownToHtml() {
 
   const handleCopyHtml = useCallback(() => {
     if (!html.trim()) {
-      toast.error("Nothing to copy");
+      toast.error(t("nothingToCopy"));
       return;
     }
     navigator.clipboard.writeText(html);
-    toast.success("HTML copied to clipboard");
-  }, [html]);
+    toast.success(t("htmlCopied"));
+  }, [html, t]);
 
   const handleDownload = useCallback(() => {
     if (!html.trim()) {
-      toast.error("Nothing to download");
+      toast.error(t("nothingToDownload"));
       return;
     }
     const fullHtml = `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Converted Document</title>\n</head>\n<body>\n${html}\n</body>\n</html>`;
@@ -261,8 +264,8 @@ export default function MarkdownToHtml() {
     a.download = "document.html";
     a.click();
     URL.revokeObjectURL(url);
-    toast.success("Downloaded document.html");
-  }, [html]);
+    toast.success(t("downloadedHtml"));
+  }, [html, t]);
 
   const handleClear = useCallback(() => setMarkdown(""), []);
 
@@ -283,7 +286,7 @@ export default function MarkdownToHtml() {
             className="flex items-center gap-2"
           >
             <FileText className="w-4 h-4" />
-            Load Sample
+            {t("loadSample")}
           </Button>
           <Button
             variant="outline"
@@ -292,7 +295,7 @@ export default function MarkdownToHtml() {
             className="flex items-center gap-2"
           >
             <RotateCcw className="w-4 h-4" />
-            Clear
+            {tCommon("clear")}
           </Button>
         </div>
         <div className="flex gap-2">
@@ -304,7 +307,7 @@ export default function MarkdownToHtml() {
             className="flex items-center gap-2"
           >
             <Copy className="w-4 h-4" />
-            Copy HTML
+            {t("copyHtml")}
           </Button>
           <Button
             size="sm"
@@ -313,7 +316,7 @@ export default function MarkdownToHtml() {
             className="flex items-center gap-2"
           >
             <Download className="w-4 h-4" />
-            Download .html
+            {t("downloadHtml")}
           </Button>
         </div>
       </div>
@@ -322,23 +325,23 @@ export default function MarkdownToHtml() {
         {/* Markdown Input */}
         <Card>
           <CardHeader>
-            <CardTitle>Markdown Input</CardTitle>
+            <CardTitle>{t("markdownInputTitle")}</CardTitle>
             <CardDescription>
-              Write or paste your Markdown here
+              {t("markdownInputDesc")}
             </CardDescription>
           </CardHeader>
           <CardContent>
             <Textarea
-              placeholder="# Start writing Markdown..."
+              placeholder={t("markdownPlaceholder")}
               value={markdown}
               onChange={(e) => setMarkdown(e.target.value)}
-              className="min-h-[480px] resize-none font-mono text-sm"
+              className="min-h-[480px] resize-none font-mono text-sm text-left rtl:text-left"
               rows={22}
             />
             <div className="flex gap-3 mt-3 flex-wrap">
-              <Badge variant="secondary">{charCount} chars</Badge>
-              <Badge variant="secondary">{wordCount} words</Badge>
-              <Badge variant="secondary">~{readingTimeMin} min read</Badge>
+              <Badge variant="secondary">{charCount} {t("chars")}</Badge>
+              <Badge variant="secondary">{wordCount} {t("words")}</Badge>
+              <Badge variant="secondary">~{readingTimeMin} {t("minRead")}</Badge>
             </div>
           </CardContent>
         </Card>
@@ -348,9 +351,9 @@ export default function MarkdownToHtml() {
           <CardHeader>
             <div className="flex items-center justify-between">
               <div>
-                <CardTitle>Output</CardTitle>
+                <CardTitle>{t("outputTitle")}</CardTitle>
                 <CardDescription>
-                  {viewMode === "preview" ? "Rendered preview" : "Raw HTML source"}
+                  {viewMode === "preview" ? t("outputRendered") : t("outputRawHtml")}
                 </CardDescription>
               </div>
               <div className="flex gap-1 border rounded-md overflow-hidden">
@@ -363,7 +366,7 @@ export default function MarkdownToHtml() {
                   }`}
                 >
                   <Eye className="w-3.5 h-3.5" />
-                  Preview
+                  {t("previewButton")}
                 </button>
                 <button
                   onClick={() => setViewMode("source")}
@@ -374,7 +377,7 @@ export default function MarkdownToHtml() {
                   }`}
                 >
                   <Code className="w-3.5 h-3.5" />
-                  HTML
+                  {t("htmlButton")}
                 </button>
               </div>
             </div>
@@ -410,8 +413,8 @@ export default function MarkdownToHtml() {
               <Textarea
                 value={html}
                 readOnly
-                placeholder="HTML output will appear here..."
-                className="min-h-[480px] resize-none font-mono text-xs bg-muted"
+                placeholder={t("htmlOutputPlaceholder")}
+                className="min-h-[480px] resize-none font-mono text-xs bg-muted text-left rtl:text-left"
                 rows={22}
               />
             )}
