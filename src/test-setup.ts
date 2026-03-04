@@ -242,6 +242,20 @@ vi.mock("next/image", () => ({
   },
 }));
 
+// Mock next-intl so components using useTranslations work without a provider
+vi.mock("next-intl", () => ({
+  useTranslations: () => (key: string) => key,
+  useLocale: () => "en",
+  useFormatter: () => ({
+    dateTime: (date: Date) => date.toLocaleString(),
+    number: (n: number) => String(n),
+    relativeTime: (date: Date) => date.toLocaleString(),
+    list: (items: string[]) => items.join(", "),
+  }),
+  NextIntlClientProvider: ({ children }: { children: unknown }) => children,
+  getTranslations: async () => (key: string) => key,
+}));
+
 // ── Global beforeEach reset ───────────────────────────────────────────────────
 beforeEach(() => {
   localStorageMock.clear();
