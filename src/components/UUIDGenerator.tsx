@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -24,6 +25,7 @@ interface UUIDFormat {
 }
 
 export default function UUIDGenerator() {
+  const t = useTranslations("Tools.UUIDGenerator");
   const [count, setCount] = useState<number>(1);
   const [format, setFormat] = useState<string>("v4");
   const [generatedUUIDs, setGeneratedUUIDs] = useState<string[]>([]);
@@ -33,28 +35,28 @@ export default function UUIDGenerator() {
   const formats: UUIDFormat[] = [
     {
       value: "v4",
-      label: "UUID v4 (Random)",
-      description: "Random UUID - most commonly used",
+      label: t("formatV4Label"),
+      description: t("formatV4Desc"),
     },
     {
       value: "v1",
-      label: "UUID v1 (Time-based)",
-      description: "Based on timestamp and MAC address",
+      label: t("formatV1Label"),
+      description: t("formatV1Desc"),
     },
     {
       value: "v3",
-      label: "UUID v3 (MD5)",
-      description: "Based on namespace and name using MD5",
+      label: t("formatV3Label"),
+      description: t("formatV3Desc"),
     },
     {
       value: "v5",
-      label: "UUID v5 (SHA-1)",
-      description: "Based on namespace and name using SHA-1",
+      label: t("formatV5Label"),
+      description: t("formatV5Desc"),
     },
     {
       value: "nil",
-      label: "Nil UUID",
-      description: "All zeros - 00000000-0000-0000-0000-000000000000",
+      label: t("formatNilLabel"),
+      description: t("formatNilDesc"),
     },
   ];
 
@@ -155,9 +157,9 @@ export default function UUIDGenerator() {
   const copyToClipboard = async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -165,9 +167,9 @@ export default function UUIDGenerator() {
     const allUUIDs = generatedUUIDs.join("\n");
     try {
       await navigator.clipboard.writeText(allUUIDs);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch (err) {
-      toast.error("Copy failed");
+      toast.error(t("copyFailed"));
     }
   };
 
@@ -219,13 +221,13 @@ export default function UUIDGenerator() {
           <CardHeader>
             <CardTitle className="flex items-center gap-2">
               <Hash className="h-5 w-5" />
-              Generator Settings
+              {t("generatorSettingsTitle")}
             </CardTitle>
-            <CardDescription>Configure UUID generation options</CardDescription>
+            <CardDescription>{t("generatorSettingsDesc")}</CardDescription>
           </CardHeader>
           <CardContent className="space-y-6">
             <div className="space-y-2">
-              <Label>UUID Version</Label>
+              <Label>{t("uuidVersionLabel")}</Label>
               <div className="grid grid-cols-1 gap-2">
                 {formats.map((fmt) => (
                   <div
@@ -247,7 +249,7 @@ export default function UUIDGenerator() {
             </div>
 
             <div className="space-y-2">
-              <Label>Number of UUIDs: {count}</Label>
+              <Label>{t("uuidCountLabel", { count })}</Label>
               <Slider
                 value={[count]}
                 onValueChange={(value) => setCount(value[0])}
@@ -265,24 +267,25 @@ export default function UUIDGenerator() {
             {(format === "v3" || format === "v5") && (
               <div className="space-y-4">
                 <div className="space-y-2">
-                  <Label htmlFor="namespace">Namespace UUID (optional)</Label>
+                  <Label htmlFor="namespace">{t("namespaceLabel")}</Label>
                   <Input
                     id="namespace"
                     value={customNamespace}
                     onChange={(e) => setCustomNamespace(e.target.value)}
-                    placeholder="6ba7b810-9dad-11d1-80b4-00c04fd430c8"
+                    placeholder={t("namespacePlaceholder")}
+                    dir="ltr"
                   />
                   <p className="text-xs text-muted-foreground">
-                    Leave empty to use default namespace
+                    {t("namespaceHint")}
                   </p>
                 </div>
                 <div className="space-y-2">
-                  <Label htmlFor="name">Name</Label>
+                  <Label htmlFor="name">{t("nameLabel")}</Label>
                   <Input
                     id="name"
                     value={customName}
                     onChange={(e) => setCustomName(e.target.value)}
-                    placeholder="Enter name for UUID generation"
+                    placeholder={t("namePlaceholder")}
                   />
                 </div>
               </div>
@@ -290,7 +293,7 @@ export default function UUIDGenerator() {
 
             <Button onClick={generateUUIDs} className="w-full" size="lg">
               <RefreshCw className="h-4 w-4 mr-2" />
-              Generate UUIDs
+              {t("generateUUIDs")}
             </Button>
           </CardContent>
         </Card>
@@ -298,11 +301,11 @@ export default function UUIDGenerator() {
         {/* Generated UUIDs */}
         <Card>
           <CardHeader>
-            <CardTitle>Generated UUIDs</CardTitle>
+            <CardTitle>{t("generatedUUIDsTitle")}</CardTitle>
             <CardDescription>
               {generatedUUIDs.length > 0
-                ? `${generatedUUIDs.length} UUIDs generated`
-                : "No UUIDs generated yet"}
+                ? t("uuidsGenerated", { count: generatedUUIDs.length })
+                : t("noUUIDsYet")}
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4">
@@ -312,6 +315,7 @@ export default function UUIDGenerator() {
                   <Textarea
                     value={generatedUUIDs.join("\n")}
                     readOnly
+                    dir="ltr"
                     className="min-h-[200px] font-mono text-sm"
                   />
                 </div>
@@ -323,20 +327,20 @@ export default function UUIDGenerator() {
                     size="sm"
                   >
                     <Copy className="h-4 w-4 mr-2" />
-                    Copy All
+                    {t("copyAll")}
                   </Button>
                   <Button onClick={downloadUUIDs} variant="outline" size="sm">
                     <Download className="h-4 w-4 mr-2" />
-                    Download
+                    {t("download")}
                   </Button>
                   <Button onClick={clearUUIDs} variant="outline" size="sm">
                     <Trash2 className="h-4 w-4 mr-2" />
-                    Clear
+                    {t("clear")}
                   </Button>
                 </div>
 
                 <div className="space-y-2">
-                  <h4 className="font-semibold">Individual UUIDs</h4>
+                  <h4 className="font-semibold">{t("individualUUIDs")}</h4>
                   <div className="space-y-2 max-h-60 overflow-y-auto">
                     {generatedUUIDs.map((uuid, index) => (
                       <div
@@ -344,7 +348,7 @@ export default function UUIDGenerator() {
                         className="flex items-center justify-between p-2 border rounded"
                       >
                         <div className="flex-1">
-                          <div className="font-mono text-sm">{uuid}</div>
+                          <div className="font-mono text-sm" dir="ltr">{uuid}</div>
                           <div className="flex gap-2 mt-1">
                             <Badge variant="outline" className="text-xs">
                               {getUUIDVersion(uuid)}
@@ -354,11 +358,11 @@ export default function UUIDGenerator() {
                                 variant="default"
                                 className="text-xs bg-green-500"
                               >
-                                Valid
+                                {t("valid")}
                               </Badge>
                             ) : (
                               <Badge variant="destructive" className="text-xs">
-                                Invalid
+                                {t("invalid")}
                               </Badge>
                             )}
                           </div>
@@ -378,7 +382,7 @@ export default function UUIDGenerator() {
             ) : (
               <div className="text-center py-8 text-muted-foreground">
                 <Hash className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                <p>Click "Generate UUIDs" to create your first UUID</p>
+                <p>{t("clickToGenerate")}</p>
               </div>
             )}
           </CardContent>
@@ -388,38 +392,28 @@ export default function UUIDGenerator() {
       {/* UUID Information */}
       <Card className="mt-6">
         <CardHeader>
-          <CardTitle>UUID Information</CardTitle>
+          <CardTitle>{t("uuidInformation")}</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
-              <h4 className="font-semibold mb-2">UUID Versions</h4>
+              <h4 className="font-semibold mb-2">{t("uuidVersionsTitle")}</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>
-                  <strong>v1:</strong> Time-based with MAC address
-                </li>
-                <li>
-                  <strong>v3:</strong> Name-based using MD5 hashing
-                </li>
-                <li>
-                  <strong>v4:</strong> Random or pseudo-random
-                </li>
-                <li>
-                  <strong>v5:</strong> Name-based using SHA-1 hashing
-                </li>
-                <li>
-                  <strong>Nil:</strong> Special case of all zeros
-                </li>
+                <li><strong>v1:</strong> {t("versionV1").replace("v1: ", "")}</li>
+                <li><strong>v3:</strong> {t("versionV3").replace("v3: ", "")}</li>
+                <li><strong>v4:</strong> {t("versionV4").replace("v4: ", "")}</li>
+                <li><strong>v5:</strong> {t("versionV5").replace("v5: ", "")}</li>
+                <li><strong>Nil:</strong> {t("versionNil").replace("Nil: ", "")}</li>
               </ul>
             </div>
             <div>
-              <h4 className="font-semibold mb-2">Common Use Cases</h4>
+              <h4 className="font-semibold mb-2">{t("commonUseCasesTitle")}</h4>
               <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• Database primary keys</li>
-                <li>• API request/response IDs</li>
-                <li>• File names and identifiers</li>
-                <li>• Session tokens</li>
-                <li>• Distributed system IDs</li>
+                <li>• {t("useCase1")}</li>
+                <li>• {t("useCase2")}</li>
+                <li>• {t("useCase3")}</li>
+                <li>• {t("useCase4")}</li>
+                <li>• {t("useCase5")}</li>
               </ul>
             </div>
           </div>

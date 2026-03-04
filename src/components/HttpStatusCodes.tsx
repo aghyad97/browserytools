@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
+import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -89,6 +90,7 @@ function getCategoryStyle(category: string) {
   }
 }
 export default function HttpStatusCodes() {
+  const t = useTranslations("Tools.HttpStatusCodes");
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -109,9 +111,9 @@ export default function HttpStatusCodes() {
   const copyCode = async (code: number) => {
     try {
       await navigator.clipboard.writeText(code.toString());
-      toast.success("Code " + code + " copied");
+      toast.success(t("codeCopied", { code }));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
   };
   return (
@@ -120,9 +122,9 @@ export default function HttpStatusCodes() {
       <div className="flex items-center gap-3">
         <Globe className="h-7 w-7 text-primary" />
         <div>
-          <h1 className="text-2xl font-bold">HTTP Status Codes</h1>
+          <h1 className="text-2xl font-bold">{t("title")}</h1>
           <p className="text-sm text-muted-foreground">
-            Complete reference for HTTP response status codes
+            {t("subtitle")}
           </p>
         </div>
       </div>
@@ -131,7 +133,7 @@ export default function HttpStatusCodes() {
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
         <Input
-          placeholder="Search by code number, name, or keyword..."
+          placeholder={t("searchPlaceholder")}
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           className="pl-9"
@@ -154,14 +156,14 @@ export default function HttpStatusCodes() {
 
       {/* Results count */}
       <div className="text-sm text-muted-foreground">
-        Showing {filtered.length} of {STATUS_CODES.length} status codes
+        {t("showing", { count: filtered.length, total: STATUS_CODES.length })}
       </div>
       {/* Cards grid */}
       {filtered.length === 0 ? (
         <div className="text-center py-16 text-muted-foreground">
           <Globe className="h-12 w-12 mx-auto mb-4 opacity-30" />
-          <p className="text-lg">No status codes found</p>
-          <p className="text-sm">Try a different search term or category</p>
+          <p className="text-lg">{t("noResults")}</p>
+          <p className="text-sm">{t("noResultsHint")}</p>
         </div>
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -182,7 +184,7 @@ export default function HttpStatusCodes() {
                       <Button
                         variant="ghost" size="icon" className="h-7 w-7"
                         onClick={() => copyCode(status.code)}
-                        title="Copy status code"
+                        title={t("copyStatusCode")}
                       >
                         <Copy className="h-3.5 w-3.5" />
                       </Button>
@@ -190,7 +192,7 @@ export default function HttpStatusCodes() {
                   </div>
                   <p className="text-xs text-muted-foreground leading-relaxed">{status.description}</p>
                   <div className="text-xs border-t pt-2 text-muted-foreground">
-                    <span className="font-medium text-foreground">Use case: </span>
+                    <span className="font-medium text-foreground">{t("useCaseLabel")} </span>
                     {status.useCase}
                   </div>
                 </CardContent>

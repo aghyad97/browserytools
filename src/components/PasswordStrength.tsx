@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
@@ -41,40 +42,30 @@ const SEQUENTIAL_PATTERNS = [
   "defg","efgh","fghi","ghij","qwer","wert","erty","rtyu","tyui","yuio","uiop",
   "asdf","sdfg","dfgh","zxcv","xcvb","cvbn",
 ];
-function calcTimeToCrack(charsetSize: number, length: number): string {
-  if (charsetSize === 0 || length === 0) return "Instant";
+function calcTimeToCrack(charsetSize: number, length: number): number | null {
+  if (charsetSize === 0 || length === 0) return null; // "Instant"
   const guessesPerSec = 1e10;
   const logSeconds = length * Math.log10(charsetSize) - Math.log10(guessesPerSec);
-  if (logSeconds < 0) return "Less than 1 second";
-  const sec = Math.pow(10, logSeconds);
-  if (sec < 60) return `${Math.round(sec)} seconds`;
-  if (sec < 3600) return `${Math.round(sec / 60)} minutes`;
-  if (sec < 86400) return `${Math.round(sec / 3600)} hours`;
-  if (sec < 2592000) return `${Math.round(sec / 86400)} days`;
-  if (sec < 31536000) return `${Math.round(sec / 2592000)} months`;
-  const years = sec / 31536000;
-  if (years < 1000) return `${Math.round(years)} years`;
-  if (years < 1e6) return `${Math.round(years / 1000)} thousand years`;
-  if (years < 1e9) return `${Math.round(years / 1e6)} million years`;
-  return "Centuries";
+  if (logSeconds < 0) return -1; // "Less than 1 second"
+  return Math.pow(10, logSeconds);
 }
-function analyzePassword(password: string): StrengthResult {
-  const emptyChecks: CheckItem[] = [
-    { label: "At least 8 characters", passed: false },
-    { label: "Uppercase letter (A-Z)", passed: false },
-    { label: "Lowercase letter (a-z)", passed: false },
-    { label: "Number (0-9)", passed: false },
-    { label: "Special character (!@#$...)", passed: false },
-    { label: "No common patterns", passed: false },
-    { label: "12+ characters", passed: false },
-  ];
-  if (!password) {
-    return {
-      score: 0, label: "Very Weak", barColor: "bg-red-500",
-      badgeBg: "bg-red-500", entropy: 0, timeToCrack: "Instant",
-      checks: emptyChecks, tips: ["Enter a password to analyze its strength."],
-    };
-  }
+
+interface AnalysisData {
+  score: number;
+  hasUpper: boolean;
+  hasLower: boolean;
+  hasNumber: boolean;
+  hasSpecial: boolean;
+  isLong: boolean;
+  isVeryLong: boolean;
+  hasCommon: boolean;
+  charset: number;
+  entropy: number;
+  timeToCrackSec: number | null;
+}
+
+function analyzePasswordData(password: string): AnalysisData | null {
+  if (!password) return null;
   const hasUpper = /[A-Z]/.test(password);
   const hasLower = /[a-z]/.test(password);
   const hasNumber = /[0-9]/.test(password);
@@ -100,33 +91,7 @@ function analyzePassword(password: string): StrengthResult {
   if (isVeryLong) score++;
   if (hasCommon) score = Math.max(0, score - 2);
   score = Math.min(4, Math.max(0, score));
-  const labels = ["Very Weak", "Weak", "Fair", "Strong", "Very Strong"];
-  const barColors = ["bg-red-500","bg-orange-500","bg-yellow-500","bg-blue-500","bg-green-500"];
-  const badgeBgs = ["bg-red-500","bg-orange-500","bg-yellow-500","bg-blue-500","bg-green-500"];
-  const tips: string[] = [];
-  if (!isLong) tips.push("Use at least 8 characters.");
-  if (!isVeryLong) tips.push("Aim for 12+ characters for stronger security.");
-  if (!hasUpper) tips.push("Add uppercase letters (A-Z).");
-  if (!hasLower) tips.push("Add lowercase letters (a-z).");
-  if (!hasNumber) tips.push("Include at least one number (0-9).");
-  if (!hasSpecial) tips.push("Add special characters like !, @, #, $, %.");
-  if (hasCommon) tips.push("Avoid common words, sequences, and patterns.");
-  if (tips.length === 0) tips.push("Excellent password! Keep it safe and unique per site.");
-  return {
-    score, label: labels[score], barColor: barColors[score],
-    badgeBg: badgeBgs[score], entropy,
-    timeToCrack: calcTimeToCrack(charset, password.length),
-    checks: [
-      { label: "At least 8 characters", passed: isLong },
-      { label: "Uppercase letter (A-Z)", passed: hasUpper },
-      { label: "Lowercase letter (a-z)", passed: hasLower },
-      { label: "Number (0-9)", passed: hasNumber },
-      { label: "Special character (!@#$...)", passed: hasSpecial },
-      { label: "No common patterns", passed: !hasCommon },
-      { label: "12+ characters", passed: isVeryLong },
-    ],
-    tips,
-  };
+  return { score, hasUpper, hasLower, hasNumber, hasSpecial, isLong, isVeryLong, hasCommon, charset, entropy, timeToCrackSec: calcTimeToCrack(charset, password.length) };
 }
 
 const UPPER = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -154,25 +119,77 @@ function generateStrongPassword(length = 20): string {
 }
 
 export default function PasswordStrength() {
+  const t = useTranslations("Tools.PasswordStrength");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const result = analyzePassword(password);
+
+  const data = analyzePasswordData(password);
+
+  const formatTimeToCrack = (sec: number | null): string => {
+    if (sec === null) return t("strengthInstant");
+    if (sec === -1) return t("strengthLessThan1s");
+    if (sec < 60) return `${Math.round(sec)} seconds`;
+    if (sec < 3600) return `${Math.round(sec / 60)} minutes`;
+    if (sec < 86400) return `${Math.round(sec / 3600)} hours`;
+    if (sec < 2592000) return `${Math.round(sec / 86400)} days`;
+    if (sec < 31536000) return `${Math.round(sec / 2592000)} months`;
+    const years = sec / 31536000;
+    if (years < 1000) return `${Math.round(years)} years`;
+    if (years < 1e6) return `${Math.round(years / 1000)} thousand years`;
+    if (years < 1e9) return `${Math.round(years / 1e6)} million years`;
+    return t("strengthCenturies");
+  };
+
+  const barColors = ["bg-red-500","bg-orange-500","bg-yellow-500","bg-blue-500","bg-green-500"];
+  const badgeBgs = ["bg-red-500","bg-orange-500","bg-yellow-500","bg-blue-500","bg-green-500"];
+  const strengthLabels = [t("veryWeak"), t("strengthWeak"), t("strengthFair"), t("strengthStrong"), t("veryStrong")];
+
+  const score = data?.score ?? 0;
+  const barColor = barColors[score];
+  const badgeBg = badgeBgs[score];
+  const strengthLabel = strengthLabels[score];
+  const entropy = data?.entropy ?? 0;
+  const timeToCrack = formatTimeToCrack(data?.timeToCrackSec ?? null);
+
+  const checks: { label: string; passed: boolean }[] = [
+    { label: t("checkMin8"), passed: data?.isLong ?? false },
+    { label: t("checkUpper"), passed: data?.hasUpper ?? false },
+    { label: t("checkLower"), passed: data?.hasLower ?? false },
+    { label: t("checkNumber"), passed: data?.hasNumber ?? false },
+    { label: t("checkSpecial"), passed: data?.hasSpecial ?? false },
+    { label: t("checkNoCommon"), passed: data ? !data.hasCommon : false },
+    { label: t("check12Plus"), passed: data?.isVeryLong ?? false },
+  ];
+
+  const tips: string[] = [];
+  if (!data) {
+    tips.push(t("tipEnterPassword"));
+  } else {
+    if (!data.isLong) tips.push(t("tipMin8"));
+    if (!data.isVeryLong) tips.push(t("tip12Plus"));
+    if (!data.hasUpper) tips.push(t("tipAddUpper"));
+    if (!data.hasLower) tips.push(t("tipAddLower"));
+    if (!data.hasNumber) tips.push(t("tipAddNumber"));
+    if (!data.hasSpecial) tips.push(t("tipAddSpecial"));
+    if (data.hasCommon) tips.push(t("tipAvoidCommon"));
+    if (tips.length === 0) tips.push(t("tipExcellent"));
+  }
 
   const copyToClipboard = useCallback(async (text: string) => {
     try {
       await navigator.clipboard.writeText(text);
-      toast.success("Copied to clipboard");
+      toast.success(t("copiedToClipboard"));
     } catch {
-      toast.error("Failed to copy");
+      toast.error(t("failedToCopy"));
     }
-  }, []);
+  }, [t]);
 
   const handleGenerate = useCallback(() => {
     const pw = generateStrongPassword(20);
     setPassword(pw);
     setShowPassword(true);
-    toast.success("Strong password generated");
-  }, []);
+    toast.success(t("strongPasswordGenerated"));
+  }, [t]);
 
   return (
     <div className="container mx-auto px-4 py-8 max-w-3xl space-y-6">
@@ -181,23 +198,24 @@ export default function PasswordStrength() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lock className="h-5 w-5" />
-            Password Strength Checker
+            {t("title")}
           </CardTitle>
           <CardDescription>
-            Real-time analysis — your password never leaves your browser.
+            {t("description")}
           </CardDescription>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="space-y-2">
-            <Label htmlFor="pw-input">Password</Label>
+            <Label htmlFor="pw-input">{t("passwordLabel")}</Label>
             <div className="relative">
               <Input
                 id="pw-input"
                 type={showPassword ? "text" : "password"}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
-                placeholder="Enter a password to analyze..."
+                placeholder={t("passwordPlaceholder")}
                 className="pr-20 font-mono"
+                dir="ltr"
                 autoComplete="off"
               />
               <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
@@ -217,11 +235,11 @@ export default function PasswordStrength() {
           <div className="flex flex-wrap gap-2">
             <Button onClick={handleGenerate} variant="outline" className="gap-2">
               <RefreshCw className="h-4 w-4" />
-              Generate Strong Password
+              {t("generateStrongPassword")}
             </Button>
             {password && (
               <Button onClick={() => setPassword("")} variant="ghost" size="sm">
-                Clear
+                {t("clear")}
               </Button>
             )}
           </div>
@@ -233,11 +251,11 @@ export default function PasswordStrength() {
           <CardTitle className="flex items-center justify-between">
             <span className="flex items-center gap-2">
               <Shield className="h-5 w-5" />
-              Strength Analysis
+              {t("strengthAnalysisTitle")}
             </span>
             {password && (
-              <Badge className={`${result.badgeBg} text-white`}>
-                {result.label}
+              <Badge className={`${badgeBg} text-white`}>
+                {strengthLabel}
               </Badge>
             )}
           </CardTitle>
@@ -250,36 +268,36 @@ export default function PasswordStrength() {
                 <div
                   key={i}
                   className={`flex-1 rounded-full transition-colors duration-300 ${
-                    password && i <= result.score ? result.barColor : "bg-muted"
+                    password && i <= score ? barColor : "bg-muted"
                   }`}
                 />
               ))}
             </div>
             <div className="flex justify-between text-xs text-muted-foreground">
-              <span>Very Weak</span>
-              <span>Very Strong</span>
+              <span>{t("veryWeak")}</span>
+              <span>{t("veryStrong")}</span>
             </div>
           </div>
           {/* Stats */}
           <div className="grid grid-cols-3 gap-3 text-center">
             <div className="p-3 border rounded-lg">
               <div className="text-2xl font-bold tabular-nums">{password.length}</div>
-              <div className="text-xs text-muted-foreground mt-1">Characters</div>
+              <div className="text-xs text-muted-foreground mt-1">{t("charactersLabel")}</div>
             </div>
             <div className="p-3 border rounded-lg">
-              <div className="text-2xl font-bold tabular-nums">{result.entropy}</div>
-              <div className="text-xs text-muted-foreground mt-1">Entropy (bits)</div>
+              <div className="text-2xl font-bold tabular-nums">{entropy}</div>
+              <div className="text-xs text-muted-foreground mt-1">{t("entropyLabel")}</div>
             </div>
             <div className="p-3 border rounded-lg">
-              <div className="text-sm font-semibold leading-snug pt-1">{result.timeToCrack}</div>
-              <div className="text-xs text-muted-foreground mt-1">Time to crack</div>
+              <div className="text-sm font-semibold leading-snug pt-1">{timeToCrack}</div>
+              <div className="text-xs text-muted-foreground mt-1">{t("timeToCrackLabel")}</div>
             </div>
           </div>
           {/* Checklist */}
           <div className="space-y-2">
-            <p className="text-sm font-medium">Requirements</p>
+            <p className="text-sm font-medium">{t("requirementsLabel")}</p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-              {result.checks.map((check, idx) => (
+              {checks.map((check, idx) => (
                 <div key={idx} className="flex items-center gap-2 text-sm">
                   {check.passed ? (
                     <Check className="h-4 w-4 text-green-500 shrink-0" />
@@ -300,12 +318,12 @@ export default function PasswordStrength() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Lightbulb className="h-5 w-5" />
-            Tips to Improve
+            {t("tipsTitle")}
           </CardTitle>
         </CardHeader>
         <CardContent>
           <ul className="space-y-2">
-            {result.tips.map((tip, idx) => (
+            {tips.map((tip, idx) => (
               <li key={idx} className="flex items-start gap-2 text-sm">
                 <span className="text-muted-foreground mt-0.5">•</span>
                 <span>{tip}</span>
