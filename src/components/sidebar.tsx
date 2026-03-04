@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useToolStore } from "@/store/tool-store";
+import { useLanguageStore } from "@/store/language-store";
 import {
   Tooltip,
   TooltipContent,
@@ -25,6 +26,7 @@ export default function Sidebar() {
   const { setCurrentTool } = useToolStore();
   const scrollAreaRef = useRef<HTMLDivElement>(null);
   const activeToolRef = useRef<HTMLAnchorElement>(null);
+  const { dir } = useLanguageStore();
   const t = useTranslations("Sidebar");
   const tc = useTranslations("ToolsConfig");
 
@@ -106,7 +108,7 @@ export default function Sidebar() {
       </div>
 
       {/* Scrollable tools list */}
-      <ScrollArea ref={scrollAreaRef} className="flex-1 px-2">
+      <ScrollArea ref={scrollAreaRef} className="flex-1 px-2" dir={dir}>
         <div className="space-y-6 p-2">
           {filteredTools.map((category) => (
             <div key={category.category}>
