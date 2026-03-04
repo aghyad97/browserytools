@@ -218,7 +218,7 @@ export default function PasswordStrength() {
                 dir="ltr"
                 autoComplete="off"
               />
-              <div className="absolute right-2 top-1/2 -translate-y-1/2 flex gap-1">
+              <div className="absolute end-2 top-1/2 -translate-y-1/2 flex gap-1">
                 <Button variant="ghost" size="icon" className="h-7 w-7"
                   onClick={() => setShowPassword((v) => !v)} type="button">
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}

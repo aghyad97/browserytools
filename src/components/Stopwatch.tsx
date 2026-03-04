@@ -155,7 +155,7 @@ export default function Stopwatch() {
                 onClick={handleStartPause}
                 className={isRunning ? "bg-amber-500 hover:bg-amber-600 text-white" : ""}
               >
-                {isRunning ? <><Pause className="w-4 h-4 mr-2" />{t("pause")}</> : <><Play className="w-4 h-4 mr-2" />{t("start")}</>}
+                {isRunning ? <><Pause className="w-4 h-4 me-2" />{t("pause")}</> : <><Play className="w-4 h-4 me-2" />{t("start")}</>}
               </Button>
               <Button
                 size="lg"
@@ -163,7 +163,7 @@ export default function Stopwatch() {
                 onClick={handleLap}
                 disabled={!isRunning}
               >
-                <Flag className="w-4 h-4 mr-2" />
+                <Flag className="w-4 h-4 me-2" />
                 {t("lap")}
               </Button>
               <Button
@@ -172,7 +172,7 @@ export default function Stopwatch() {
                 onClick={handleReset}
                 disabled={isRunning}
               >
-                <RotateCcw className="w-4 h-4 mr-2" />
+                <RotateCcw className="w-4 h-4 me-2" />
                 {t("reset")}
               </Button>
             </div>
@@ -191,7 +191,7 @@ export default function Stopwatch() {
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base">{t("laps")} ({laps.length})</CardTitle>
                 <Button variant="outline" size="sm" onClick={exportCSV}>
-                  <Download className="w-4 h-4 mr-2" />
+                  <Download className="w-4 h-4 me-2" />
                   {t("exportCSV")}
                 </Button>
               </div>
@@ -201,9 +201,9 @@ export default function Stopwatch() {
                 <table className="w-full text-sm">
                   <thead className="sticky top-0 bg-muted/80 backdrop-blur-sm">
                     <tr>
-                      <th className="text-left px-4 py-2 font-medium text-muted-foreground">{t("lapColumn")}</th>
-                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">{t("lapTime")}</th>
-                      <th className="text-right px-4 py-2 font-medium text-muted-foreground">{t("totalTime")}</th>
+                      <th className="text-start px-4 py-2 font-medium text-muted-foreground">{t("lapColumn")}</th>
+                      <th className="text-end px-4 py-2 font-medium text-muted-foreground">{t("lapTime")}</th>
+                      <th className="text-end px-4 py-2 font-medium text-muted-foreground">{t("totalTime")}</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -223,8 +223,8 @@ export default function Stopwatch() {
                         >
                           <td className="px-4 py-2.5 font-medium">
                             <span dir="ltr">#{lap.number}</span>
-                            {isFastest && <Badge className="ml-2 bg-green-500 text-white text-xs py-0">{t("best")}</Badge>}
-                            {isSlowest && <Badge className="ml-2 bg-red-500 text-white text-xs py-0">{t("slowest")}</Badge>}
+                            {isFastest && <Badge className="ms-2 bg-green-500 text-white text-xs py-0">{t("best")}</Badge>}
+                            {isSlowest && <Badge className="ms-2 bg-red-500 text-white text-xs py-0">{t("slowest")}</Badge>}
                           </td>
                           <td className="px-4 py-2.5 text-right font-mono tabular-nums" dir="ltr">{formatTime(lap.lapTime)}</td>
                           <td className="px-4 py-2.5 text-right font-mono tabular-nums text-muted-foreground" dir="ltr">{formatTime(lap.totalTime)}</td>

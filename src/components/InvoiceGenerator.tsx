@@ -492,11 +492,11 @@ export default function InvoiceGenerator() {
         </div>
         <div className="flex gap-2">
           <Button variant="outline" onClick={handleBackToManager}>
-            <FolderOpen className="w-4 h-4 mr-2" />
+            <FolderOpen className="w-4 h-4 me-2" />
             {t("backToManager")}
           </Button>
           <Button onClick={handleSaveInvoice}>
-            <Save className="w-4 h-4 mr-2" />
+            <Save className="w-4 h-4 me-2" />
             {t("saveInvoice")}
           </Button>
         </div>
@@ -1055,7 +1055,7 @@ export default function InvoiceGenerator() {
                   onClick={addInvoiceItem}
                   className="w-full"
                 >
-                  <Plus className="w-4 h-4 mr-2" />
+                  <Plus className="w-4 h-4 me-2" />
                   {t("addItem")}
                 </Button>
               </div>
@@ -1306,16 +1306,16 @@ export default function InvoiceGenerator() {
                   <table className="w-full border-collapse">
                     <thead>
                       <tr className="border-b-2 border-gray-300">
-                        <th className="text-left py-3 px-2 font-semibold text-gray-800">
+                        <th className="text-start py-3 px-2 font-semibold text-gray-800">
                           Description
                         </th>
                         <th className="text-center py-3 px-2 font-semibold text-gray-800">
                           Qty
                         </th>
-                        <th className="text-right py-3 px-2 font-semibold text-gray-800">
+                        <th className="text-end py-3 px-2 font-semibold text-gray-800">
                           Rate
                         </th>
-                        <th className="text-right py-3 px-2 font-semibold text-gray-800">
+                        <th className="text-end py-3 px-2 font-semibold text-gray-800">
                           Amount
                         </th>
                       </tr>
@@ -1329,10 +1329,10 @@ export default function InvoiceGenerator() {
                           <td className="py-3 px-2 text-center text-gray-700">
                             {item.quantity}
                           </td>
-                          <td className="py-3 px-2 text-right text-gray-700">
+                          <td className="py-3 px-2 text-end text-gray-700">
                             {currencyFormatter(item.rate)}
                           </td>
-                          <td className="py-3 px-2 text-right text-gray-700">
+                          <td className="py-3 px-2 text-end text-gray-700">
                             {currencyFormatter(item.amount)}
                           </td>
                         </tr>
@@ -1478,7 +1478,7 @@ export default function InvoiceGenerator() {
                   size="lg"
                   className="w-full max-w-xs"
                 >
-                  <Download className="w-4 h-4 mr-2" />
+                  <Download className="w-4 h-4 me-2" />
                   {t("downloadPdf")}
                 </Button>
 
