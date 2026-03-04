@@ -3,6 +3,7 @@
 import { NextIntlClientProvider } from "next-intl";
 import { useLanguageStore } from "@/store/language-store";
 import { useEffect, useRef } from "react";
+import { Toaster } from "sonner";
 import enMessages from "../../messages/en.json";
 import arMessages from "../../messages/ar.json";
 
@@ -35,6 +36,7 @@ export function LanguageProvider({ children }: { children: React.ReactNode }) {
   return (
     <NextIntlClientProvider locale={locale} messages={messages[locale]} timeZone="UTC">
       {children}
+      <Toaster richColors position={dir === "rtl" ? "top-left" : "top-right"} />
     </NextIntlClientProvider>
   );
 }

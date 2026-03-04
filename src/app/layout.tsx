@@ -2,7 +2,6 @@ import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
 import Script from "next/script";
 import "./globals.css";
-import { Toaster } from "sonner";
 import { Providers } from "@/providers/providers";
 
 const geist = Geist({ subsets: ["latin"] });
@@ -152,7 +151,6 @@ export default function RootLayout({
         >{`(function(){try{var raw=localStorage.getItem('browsery-locale');var lang='en';if(raw){var parsed=JSON.parse(raw);lang=(parsed&&parsed.state&&parsed.state.locale)||'en';}else if(navigator.language&&navigator.language.startsWith('ar')){lang='ar';}document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');}catch(e){}})();`}</Script>
         <Providers>
           {children}
-          <Toaster richColors position="top-right" />
         </Providers>
       </body>
     </html>
