@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -273,6 +274,8 @@ function detectFormat(text: string): Format | null {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function FileConverter() {
+  const t = useTranslations("Tools.FileConverter");
+  const tCommon = useTranslations("Common");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [fromFmt, setFromFmt] = useState<Format>("csv");
@@ -352,9 +355,9 @@ export default function FileConverter() {
             <FileIcon className="w-6 h-6 text-primary" />
           </div>
           <div>
-            <h1 className="text-2xl font-bold">File Converter</h1>
+            <h1 className="text-2xl font-bold">{t("title")}</h1>
             <p className="text-sm text-muted-foreground">
-              Convert between CSV, TSV, JSON, XML, and YAML — all in your browser
+              {t("subtitle")}
             </p>
           </div>
         </div>
@@ -364,7 +367,7 @@ export default function FileConverter() {
           <CardContent className="pt-5 pb-5">
             <div className="flex flex-wrap items-center gap-4">
               <div className="flex items-center gap-2">
-                <Label className="text-sm font-medium whitespace-nowrap">From</Label>
+                <Label className="text-sm font-medium whitespace-nowrap">{t("from")}</Label>
                 <Select value={fromFmt} onValueChange={(v) => setFromFmt(v as Format)}>
                   <SelectTrigger className="w-32">
                     <SelectValue />
@@ -377,10 +380,10 @@ export default function FileConverter() {
                 </Select>
               </div>
 
-              <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0" />
+              <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 rtl:rotate-180" />
 
               <div className="flex items-center gap-2">
-                <Label className="text-sm font-medium whitespace-nowrap">To</Label>
+                <Label className="text-sm font-medium whitespace-nowrap">{t("to")}</Label>
                 <Select value={toFmt} onValueChange={(v) => setToFmt(v as Format)}>
                   <SelectTrigger className="w-32">
                     <SelectValue />
@@ -393,19 +396,19 @@ export default function FileConverter() {
                 </Select>
               </div>
 
-              <div className="flex items-center gap-2 ml-auto flex-wrap">
+              <div className="flex items-center gap-2 ms-auto flex-wrap">
                 <Button variant="outline" size="sm" onClick={handleAutoDetect}>
-                  Auto-detect
+                  {t("autoDetect")}
                 </Button>
                 <Button variant="outline" size="sm" onClick={loadSample}>
-                  Load Sample
+                  {t("loadSample")}
                 </Button>
                 <Button variant="outline" size="sm" onClick={swap} disabled={!output}>
-                  <RefreshCw className="w-4 h-4 mr-1.5" />
-                  Swap
+                  <RefreshCw className="w-4 h-4 me-1.5" />
+                  {t("swap")}
                 </Button>
                 <Button onClick={convert} size="sm">
-                  Convert
+                  {tCommon("convert")}
                 </Button>
               </div>
             </div>
@@ -427,7 +430,7 @@ export default function FileConverter() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base flex items-center gap-2">
-                  Input
+                  {t("inputTitle")}
                   <Badge variant="secondary">{FORMAT_LABELS[fromFmt]}</Badge>
                 </CardTitle>
                 <Button
@@ -436,18 +439,18 @@ export default function FileConverter() {
                   className="text-xs text-muted-foreground"
                   onClick={() => { setInput(""); setOutput(""); setError(null); setRowCount(null); }}
                 >
-                  Clear
+                  {tCommon("clear")}
                 </Button>
               </div>
               <CardDescription className="text-xs">
-                Paste your {FORMAT_LABELS[fromFmt]} data here
+                {t("inputDesc", { format: FORMAT_LABELS[fromFmt] })}
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-4">
               <Textarea
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                placeholder={`Paste ${FORMAT_LABELS[fromFmt]} data here...`}
+                placeholder={t("inputPlaceholder", { format: FORMAT_LABELS[fromFmt] })}
                 className="font-mono text-xs resize-none h-96"
                 spellCheck={false}
               />
@@ -459,34 +462,34 @@ export default function FileConverter() {
             <CardHeader className="pb-3">
               <div className="flex items-center justify-between">
                 <CardTitle className="text-base flex items-center gap-2">
-                  Output
+                  {t("outputTitle")}
                   <Badge variant="secondary">{FORMAT_LABELS[toFmt]}</Badge>
                   {rowCount !== null && (
                     <Badge variant="outline" className="text-xs">
-                      {rowCount} row{rowCount !== 1 ? "s" : ""}
+                      {rowCount !== 1 ? t("rowCountPlural", { count: rowCount }) : t("rowCount", { count: rowCount })}
                     </Badge>
                   )}
                 </CardTitle>
                 <div className="flex items-center gap-1">
                   <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!output}>
-                    <Copy className="w-3.5 h-3.5 mr-1" />
-                    Copy
+                    <Copy className="w-3.5 h-3.5 me-1" />
+                    {tCommon("copy")}
                   </Button>
                   <Button variant="ghost" size="sm" onClick={downloadOutput} disabled={!output}>
-                    <Download className="w-3.5 h-3.5 mr-1" />
-                    Download
+                    <Download className="w-3.5 h-3.5 me-1" />
+                    {tCommon("download")}
                   </Button>
                 </div>
               </div>
               <CardDescription className="text-xs">
-                Converted {FORMAT_LABELS[toFmt]} output
+                {t("outputDesc", { format: FORMAT_LABELS[toFmt] })}
               </CardDescription>
             </CardHeader>
             <CardContent className="flex-1 pb-4">
               <Textarea
                 value={output}
                 readOnly
-                placeholder="Output will appear here after conversion..."
+                placeholder={t("outputPlaceholder")}
                 className="font-mono text-xs resize-none h-96 bg-muted/30"
               />
             </CardContent>
@@ -499,11 +502,11 @@ export default function FileConverter() {
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3 text-sm">
               {(
                 [
-                  { fmt: "csv", desc: "Comma-separated values" },
-                  { fmt: "tsv", desc: "Tab-separated values" },
-                  { fmt: "json", desc: "Array of objects" },
-                  { fmt: "xml", desc: "Root with row children" },
-                  { fmt: "yaml", desc: "List of key-value maps" },
+                  { fmt: "csv", desc: t("csvDesc") },
+                  { fmt: "tsv", desc: t("tsvDesc") },
+                  { fmt: "json", desc: t("jsonDesc") },
+                  { fmt: "xml", desc: t("xmlDesc") },
+                  { fmt: "yaml", desc: t("yamlDesc") },
                 ] as { fmt: Format; desc: string }[]
               ).map(({ fmt, desc }) => (
                 <div key={fmt} className="space-y-0.5">

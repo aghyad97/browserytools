@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
@@ -53,6 +54,8 @@ const formatOptions = [
 ];
 
 export default function VideoEditor() {
+  const t = useTranslations("Tools.VideoEditor");
+  const tCommon = useTranslations("Common");
   const [video, setVideo] = useState<VideoInfo | null>(null);
   const [trimRange, setTrimRange] = useState<TrimRange>({ start: 0, end: 0 });
   const [targetFormat, setTargetFormat] = useState("video/mp4");
@@ -354,10 +357,10 @@ export default function VideoEditor() {
                     <Upload className="w-10 h-10 text-primary" />
                   </div>
                   <h3 className="text-lg font-semibold mb-1">
-                    Drop your video here
+                    {t("dropHere")}
                   </h3>
                   <p className="text-sm text-muted-foreground">
-                    Supports MP4, WebM, OGG, MOV, AVI files (max 100MB)
+                    {t("supportedFormats")}
                   </p>
                 </div>
               </div>
@@ -368,10 +371,10 @@ export default function VideoEditor() {
                 <Card className="p-6">
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
-                      <h3 className="text-lg font-semibold">Video Player</h3>
+                      <h3 className="text-lg font-semibold">{t("videoPlayer")}</h3>
                       <Button variant="outline" size="sm" onClick={handleReset}>
-                        <RotateCcw className="w-4 h-4 mr-2" />
-                        Reset
+                        <RotateCcw className="w-4 h-4 me-2" />
+                        {tCommon("reset")}
                       </Button>
                     </div>
 
@@ -452,13 +455,13 @@ export default function VideoEditor() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold flex items-center gap-2">
                       <Info className="w-5 h-5" />
-                      Video Information
+                      {t("videoInfo")}
                     </h3>
 
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">
-                          Name:
+                          {t("infoName")}
                         </span>
                         <span className="text-sm font-medium">
                           {video.name}
@@ -466,7 +469,7 @@ export default function VideoEditor() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">
-                          Size:
+                          {t("infoSize")}
                         </span>
                         <span className="text-sm font-medium">
                           {(video.size / 1024 / 1024).toFixed(2)} MB
@@ -474,7 +477,7 @@ export default function VideoEditor() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">
-                          Duration:
+                          {t("infoDuration")}
                         </span>
                         <span className="text-sm font-medium">
                           {formatTime(video.duration)}
@@ -482,7 +485,7 @@ export default function VideoEditor() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">
-                          Resolution:
+                          {t("infoResolution")}
                         </span>
                         <span className="text-sm font-medium">
                           {video.width} × {video.height}
@@ -490,7 +493,7 @@ export default function VideoEditor() {
                       </div>
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">
-                          Format:
+                          {t("infoFormat")}
                         </span>
                         <span className="text-sm font-medium">
                           {video.type}
@@ -506,12 +509,12 @@ export default function VideoEditor() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold flex items-center gap-2">
                       <Scissors className="w-5 h-5" />
-                      Trim Video
+                      {t("trimVideo")}
                     </h3>
 
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label>Start Time: {formatTime(trimRange.start)}</Label>
+                        <Label>{t("startTime", { time: formatTime(trimRange.start) })}</Label>
                         <Slider
                           value={[trimRange.start]}
                           onValueChange={([value]) =>
@@ -524,7 +527,7 @@ export default function VideoEditor() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label>End Time: {formatTime(trimRange.end)}</Label>
+                        <Label>{t("endTime", { time: formatTime(trimRange.end) })}</Label>
                         <Slider
                           value={[trimRange.end]}
                           onValueChange={([value]) =>
@@ -538,7 +541,7 @@ export default function VideoEditor() {
 
                       <div className="p-3 bg-muted rounded-lg">
                         <p className="text-sm">
-                          <strong>Duration:</strong>{" "}
+                          <strong>{t("duration")}</strong>{" "}
                           {formatTime(trimRange.end - trimRange.start)}
                         </p>
                       </div>
@@ -550,7 +553,7 @@ export default function VideoEditor() {
                           isProcessing || trimRange.start >= trimRange.end
                         }
                       >
-                        {isProcessing ? "Processing..." : "Trim Video"}
+                        {isProcessing ? t("processing") : t("trimAction")}
                       </Button>
                     </div>
                   </div>
@@ -560,12 +563,12 @@ export default function VideoEditor() {
                   <div className="space-y-4">
                     <h3 className="text-lg font-semibold flex items-center gap-2">
                       <FileVideo className="w-5 h-5" />
-                      Convert Format
+                      {t("convertFormat")}
                     </h3>
 
                     <div className="space-y-4">
                       <div className="space-y-2">
-                        <Label>Target Format</Label>
+                        <Label>{t("targetFormat")}</Label>
                         <Select
                           value={targetFormat}
                           onValueChange={setTargetFormat}
@@ -588,10 +591,10 @@ export default function VideoEditor() {
 
                       <div className="p-3 bg-muted rounded-lg">
                         <p className="text-sm">
-                          <strong>Current:</strong> {video.type}
+                          <strong>{t("current")}</strong> {video.type}
                         </p>
                         <p className="text-sm">
-                          <strong>Target:</strong>{" "}
+                          <strong>{t("target")}</strong>{" "}
                           {
                             formatOptions.find((f) => f.value === targetFormat)
                               ?.label
@@ -604,7 +607,7 @@ export default function VideoEditor() {
                         className="w-full"
                         disabled={isProcessing || video.type === targetFormat}
                       >
-                        {isProcessing ? "Converting..." : "Convert Video"}
+                        {isProcessing ? t("converting") : t("convertAction")}
                       </Button>
                     </div>
                   </div>
@@ -613,7 +616,7 @@ export default function VideoEditor() {
 
               <Card className="p-6">
                 <div className="space-y-4">
-                  <h3 className="text-lg font-semibold">Processed Preview</h3>
+                  <h3 className="text-lg font-semibold">{t("processedPreview")}</h3>
                   <div className="h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center">
                     {processedVideo ? (
                       <video
@@ -625,7 +628,7 @@ export default function VideoEditor() {
                       <div className="text-center">
                         <VideoIcon className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
                         <p className="text-muted-foreground">
-                          Processed video will appear here
+                          {t("processedPlaceholder")}
                         </p>
                       </div>
                     )}
@@ -637,8 +640,8 @@ export default function VideoEditor() {
                       className="w-full"
                       variant="secondary"
                     >
-                      <Download className="w-4 h-4 mr-2" />
-                      Download Processed Video
+                      <Download className="w-4 h-4 me-2" />
+                      {t("downloadProcessed")}
                     </Button>
                   )}
                 </div>

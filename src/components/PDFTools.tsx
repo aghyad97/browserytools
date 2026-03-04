@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useCallback } from "react";
+import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
 import { Card } from "@/components/ui/card";
@@ -53,6 +54,7 @@ interface PDFFile {
 }
 
 export default function PDFTools() {
+  const t = useTranslations("Tools.PDFTools");
   const [files, setFiles] = useState<PDFFile[]>([]);
   const [loading, setLoading] = useState(false);
   const [previewFile, setPreviewFile] = useState<PDFFile | null>(null);
@@ -410,16 +412,16 @@ export default function PDFTools() {
 
   const tools = [
     {
-      name: "Merge PDFs",
+      name: t("mergePdfs"),
       icon: FilePlus,
-      description: "Combine multiple PDF files into one",
+      description: t("mergeDesc"),
       action: mergePDFs,
       disabled: files.length < 2,
     },
     {
-      name: "Split PDF",
+      name: t("splitPdf"),
       icon: SplitSquareHorizontal,
-      description: "Extract pages from a PDF file",
+      description: t("splitDesc"),
       action: () => {
         if (files.length > 0) {
           setSplitInfo({ file: files[0], pageRanges: "" });
@@ -428,30 +430,30 @@ export default function PDFTools() {
       disabled: files.length === 0,
     },
     {
-      name: "Compress PDF",
+      name: t("compressPdf"),
       icon: FileOutput,
-      description: "Reduce PDF file size",
+      description: t("compressDesc"),
       action: () => compressPDF(files[0]),
       disabled: files.length === 0,
     },
     {
-      name: "Rotate PDF",
+      name: t("rotatePdf"),
       icon: RotateCw,
-      description: "Rotate all pages 90° clockwise",
+      description: t("rotateDesc"),
       action: () => rotatePDF(files[0], 90),
       disabled: files.length === 0,
     },
     {
-      name: "Rotate PDF (CCW)",
+      name: t("rotateCcw"),
       icon: RotateCcw,
-      description: "Rotate all pages 90° counter-clockwise",
+      description: t("rotateCcwDesc"),
       action: () => rotatePDF(files[0], -90),
       disabled: files.length === 0,
     },
     {
-      name: "Add Password",
+      name: t("addPassword"),
       icon: Lock,
-      description: "Add password protection (Coming Soon)",
+      description: t("addPasswordDesc"),
       action: () => addPasswordProtection(files[0], ""),
       disabled: files.length === 0,
     },
@@ -484,10 +486,10 @@ export default function PDFTools() {
                 </div>
                 <div className="text-center">
                   <h3 className="text-lg font-semibold">
-                    Drop PDFs here or click to select
+                    {t("dropHere")}
                   </h3>
                   <p className="text-sm text-muted-foreground mt-1">
-                    Support for multiple files • Up to 50MB each
+                    {t("supportedFormats")}
                   </p>
                 </div>
               </div>
@@ -526,11 +528,11 @@ export default function PDFTools() {
                 <Table>
                   <TableHeader>
                     <TableRow>
-                      <TableHead>Preview</TableHead>
-                      <TableHead>File Name</TableHead>
-                      <TableHead>Size</TableHead>
-                      <TableHead>Pages</TableHead>
-                      <TableHead className="w-[100px]">Actions</TableHead>
+                      <TableHead>{t("tablePreview")}</TableHead>
+                      <TableHead>{t("tableFileName")}</TableHead>
+                      <TableHead>{t("tableSize")}</TableHead>
+                      <TableHead>{t("tablePages")}</TableHead>
+                      <TableHead className="w-[100px]">{t("tableActions")}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
@@ -565,7 +567,7 @@ export default function PDFTools() {
                           <span className="text-sm text-muted-foreground">
                             {file.pageCount ||
                               pdfInfo[file.name] ||
-                              "Loading..."}
+                              t("loadingPages")}
                           </span>
                         </TableCell>
                         <TableCell>
@@ -624,12 +626,12 @@ export default function PDFTools() {
       <Sheet open={!!splitInfo} onOpenChange={() => setSplitInfo(null)}>
         <SheetContent>
           <SheetHeader>
-            <SheetTitle>Split PDF</SheetTitle>
+            <SheetTitle>{t("splitPdfTitle")}</SheetTitle>
           </SheetHeader>
           <div className="space-y-4 mt-6">
             {splitInfo?.file && (
               <div className="space-y-2">
-                <label className="text-sm font-medium">Selected File</label>
+                <label className="text-sm font-medium">{t("selectedFile")}</label>
                 <div className="flex items-center space-x-2 p-2 rounded-md bg-muted">
                   <File className="w-4 h-4" />
                   <span className="text-sm">{splitInfo.file.name}</span>
@@ -639,14 +641,12 @@ export default function PDFTools() {
 
             <div className="space-y-2">
               <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">Page Ranges</label>
+                <label className="text-sm font-medium">{t("pageRanges")}</label>
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={() =>
-                    toast.info(
-                      "Examples: 1-3,5,7-9 or 1,3,5 for individual pages"
-                    )
+                    toast.info(t("pageRangesHint"))
                   }
                 >
                   <Info className="w-4 h-4" />
@@ -662,8 +662,7 @@ export default function PDFTools() {
               />
               <div className="space-y-2">
                 <p className="text-sm text-muted-foreground">
-                  Separate ranges with commas. Single pages or ranges are
-                  supported.
+                  {t("pageRangesHelp")}
                 </p>
                 <div className="flex flex-wrap gap-2">
                   <Button
@@ -674,7 +673,7 @@ export default function PDFTools() {
                       setSplitInfo({ ...splitInfo, pageRanges: "1" })
                     }
                   >
-                    First page
+                    {t("firstPage")}
                   </Button>
                   <Button
                     variant="outline"
@@ -687,7 +686,7 @@ export default function PDFTools() {
                       })
                     }
                   >
-                    All pages
+                    {t("allPages")}
                   </Button>
                   <Button
                     variant="outline"
@@ -697,7 +696,7 @@ export default function PDFTools() {
                       setSplitInfo({ ...splitInfo, pageRanges: "1-3" })
                     }
                   >
-                    First 3 pages
+                    {t("first3Pages")}
                   </Button>
                 </div>
               </div>
@@ -708,7 +707,7 @@ export default function PDFTools() {
               onClick={splitPDF}
               disabled={!splitInfo?.pageRanges || loading}
             >
-              {loading ? "Splitting..." : "Split PDF"}
+              {loading ? t("splitting") : t("splitAction")}
             </Button>
           </div>
         </SheetContent>
