@@ -1,3 +1,5 @@
+import Link from 'next/link';
+
 export default function Content() {
   return (
     <div>
@@ -107,7 +109,7 @@ export default function Content() {
       <h3>Background Removal: ONNX Machine Learning Model Running Locally</h3>
 
       <p>
-        Removing a background from a photo has traditionally required sending your image to a cloud AI service like Remove.bg. BrowseryTools' <a href="/tools/bg-removal">background removal tool</a> runs a compressed ONNX (Open Neural Network Exchange) model directly inside your browser using the ONNX Runtime for Web. Your photo is processed by a neural network running on your own machine — no pixels are ever transmitted anywhere.
+        Removing a background from a photo has traditionally required sending your image to a cloud AI service like Remove.bg. BrowseryTools' <Link href="/tools/bg-removal">background removal tool</Link> runs a compressed ONNX (Open Neural Network Exchange) model directly inside your browser using the ONNX Runtime for Web. Your photo is processed by a neural network running on your own machine — no pixels are ever transmitted anywhere.
       </p>
 
       <div style={{background: "rgba(99,102,241,0.08)", border: "1px solid rgba(99,102,241,0.25)", borderRadius: "12px", padding: "16px 20px", margin: "24px 0"}}>
@@ -117,19 +119,19 @@ export default function Content() {
       <h3>Password Generation: Web Crypto API</h3>
 
       <p>
-        When you use the <a href="/tools/password-generator">password generator</a>, BrowseryTools calls <code>crypto.getRandomValues()</code> — a browser-native API backed by the operating system's cryptographically secure pseudorandom number generator (CSPRNG). This is the same entropy source used by operating systems for cryptographic keys. The generated password is computed entirely in memory and displayed to you. It is never sent anywhere.
+        When you use the <Link href="/tools/password-generator">password generator</Link>, BrowseryTools calls <code>crypto.getRandomValues()</code> — a browser-native API backed by the operating system's cryptographically secure pseudorandom number generator (CSPRNG). This is the same entropy source used by operating systems for cryptographic keys. The generated password is computed entirely in memory and displayed to you. It is never sent anywhere.
       </p>
 
       <h3>Hashing: Web Crypto API's SubtleCrypto</h3>
 
       <p>
-        The <a href="/tools/hash-generator">hash generator</a> uses the browser's built-in <code>crypto.subtle.digest()</code> function to compute MD5, SHA-1, SHA-256, and SHA-512 hashes. This API is implemented natively by the browser engine (V8, SpiderMonkey, etc.) and operates on your local data without any server involvement.
+        The <Link href="/tools/hash-generator">hash generator</Link> uses the browser's built-in <code>crypto.subtle.digest()</code> function to compute MD5, SHA-1, SHA-256, and SHA-512 hashes. This API is implemented natively by the browser engine (V8, SpiderMonkey, etc.) and operates on your local data without any server involvement.
       </p>
 
       <h3>JWT Decoding and Text Processing</h3>
 
       <p>
-        The <a href="/tools/jwt-decoder">JWT decoder</a> uses standard Base64 decoding — a pure string operation — to parse token headers and payloads. No JWT you paste is ever sent to a server. This matters enormously in professional contexts where JWT tokens often contain user identity claims and session information.
+        The <Link href="/tools/jwt-decoder">JWT decoder</Link> uses standard Base64 decoding — a pure string operation — to parse token headers and payloads. No JWT you paste is ever sent to a server. This matters enormously in professional contexts where JWT tokens often contain user identity claims and session information.
       </p>
 
       {/* Comparison table */}
@@ -221,16 +223,16 @@ export default function Content() {
         <p style={{margin: "0 0 20px", color: "inherit", opacity: 0.8, maxWidth: "480px", marginLeft: "auto", marginRight: "auto"}}>
           Over 70 free tools — image editors, developer utilities, text tools, converters, and more — all running 100% in your browser. No sign-up. No uploads. No ads.
         </p>
-        <a
+        <Link
           href="/"
           style={{display: "inline-flex", alignItems: "center", gap: "8px", background: "rgb(99,102,241)", color: "white", padding: "12px 28px", borderRadius: "10px", fontWeight: "600", textDecoration: "none", fontSize: "15px"}}
         >
           Explore All Free Tools →
-        </a>
+        </Link>
       </div>
 
       <p style={{fontSize: "14px", opacity: 0.7}}>
-        Related tools: <a href="/tools/password-generator">Password Generator</a> · <a href="/tools/hash-generator">Hash Generator</a> · <a href="/tools/bg-removal">Background Removal</a> · <a href="/tools/jwt-decoder">JWT Decoder</a> · <a href="/tools/text-encryption">Text Encryption</a>
+        Related tools: <Link href="/tools/password-generator">Password Generator</Link> · <Link href="/tools/hash-generator">Hash Generator</Link> · <Link href="/tools/bg-removal">Background Removal</Link> · <Link href="/tools/jwt-decoder">JWT Decoder</Link> · <Link href="/tools/text-encryption">Text Encryption</Link>
       </p>
 
     </div>
