@@ -174,7 +174,7 @@ export default function HtmlFormatter() {
             </div>
           )}
 
-          <div className="ml-auto flex gap-2">
+          <div className="ms-auto flex gap-2">
             <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_HTML)}>
               {t("loadSample")}
             </Button>

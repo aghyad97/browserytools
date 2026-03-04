@@ -259,7 +259,7 @@ export default function RomanNumeralConverter() {
                     {t("result")}
                     {"roman" in toRomanResult && (
                       <Button size="sm" variant="ghost" onClick={handleCopyRoman}>
-                        <Copy className="w-4 h-4 mr-1.5" /> {t("copy")}
+                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
                       </Button>
                     )}
                   </CardTitle>
@@ -287,7 +287,7 @@ export default function RomanNumeralConverter() {
                               </Badge>
                               <span className="text-muted-foreground">=</span>
                               <span className="font-medium">{step.value.toLocaleString()}</span>
-                              <span className="text-muted-foreground ml-auto text-xs">
+                              <span className="text-muted-foreground ms-auto text-xs">
                                 {t("remaining")}: {step.remaining.toLocaleString()}
                               </span>
                             </div>
@@ -333,7 +333,7 @@ export default function RomanNumeralConverter() {
                     {t("result")}
                     {!toNumberResult.errorKey && (
                       <Button size="sm" variant="ghost" onClick={handleCopyNumber}>
-                        <Copy className="w-4 h-4 mr-1.5" /> {t("copy")}
+                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
                       </Button>
                     )}
                   </CardTitle>
@@ -371,7 +371,7 @@ export default function RomanNumeralConverter() {
                               >
                                 {step.operation === "subtract" ? "−" : "+"}{step.value}
                               </span>
-                              <span className="text-muted-foreground ml-auto text-xs">
+                              <span className="text-muted-foreground ms-auto text-xs">
                                 {t("runningTotal")}: {step.runningTotal}
                               </span>
                             </div>

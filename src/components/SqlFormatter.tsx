@@ -372,7 +372,7 @@ export default function SqlFormatter() {
             </div>
           </div>
 
-          <div className="flex gap-2 ml-auto flex-wrap">
+          <div className="flex gap-2 ms-auto flex-wrap">
             <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_SQL)}>
               {t("sampleQuery")}
             </Button>
@@ -420,7 +420,7 @@ export default function SqlFormatter() {
                 <span>
                   {t("outputLabel")}
                   {mode && (
-                    <Badge variant="outline" className="ml-2 text-xs">
+                    <Badge variant="outline" className="ms-2 text-xs">
                       {mode === "format" ? t("formatted") : t("minified")}
                     </Badge>
                   )}

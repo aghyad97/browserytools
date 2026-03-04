@@ -170,7 +170,7 @@ Please describe what this tool should do and how it would help users.
             aria-label={t("coffee")}
           >
             <Button size="sm" className="hidden sm:flex">
-              <Coffee className="h-4 w-4 mr-2" />
+              <Coffee className="h-4 w-4 me-2" />
               {t("coffee")}
             </Button>
             <Button

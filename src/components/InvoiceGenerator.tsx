@@ -1234,7 +1234,7 @@ export default function InvoiceGenerator() {
                       </p>
                     )}
                   </div>
-                  <div className="text-right">
+                  <div className="text-end">
                     {invoiceData.company.logoDataUrl ? (
                       <div className="mb-4">
                         <img
@@ -1438,7 +1438,7 @@ export default function InvoiceGenerator() {
                   <p className="text-muted-foreground mb-4">
                     {t("readyToExportDesc")}
                   </p>
-                  <div className="text-left max-w-md mx-auto">
+                  <div className="text-start max-w-md mx-auto">
                     <div className="space-y-2">
                       <Label>{t("pdfPageSize")}</Label>
                       <Select

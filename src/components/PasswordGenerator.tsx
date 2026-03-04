@@ -351,7 +351,7 @@ export default function PasswordGenerator() {
 
             {/* Generate Button */}
             <Button onClick={generatePassword} className="w-full">
-              <RefreshCw className="w-4 h-4 mr-2" />
+              <RefreshCw className="w-4 h-4 me-2" />
               {t("generatePassword")}
             </Button>
           </CardContent>
