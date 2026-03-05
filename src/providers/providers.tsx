@@ -5,8 +5,14 @@ import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { LanguageProvider } from "./language-provider";
 import { DynamicTitle } from "@/components/dynamic-title";
+import type { Locale } from "@/store/language-store";
 
-export function Providers({ children }: { children: ReactNode }) {
+interface ProvidersProps {
+  children: ReactNode;
+  initialLocale: Locale;
+}
+
+export function Providers({ children, initialLocale }: ProvidersProps) {
   return (
     <NextThemesProvider
       attribute="class"
@@ -14,7 +20,7 @@ export function Providers({ children }: { children: ReactNode }) {
       enableSystem
       disableTransitionOnChange
     >
-      <LanguageProvider>
+      <LanguageProvider initialLocale={initialLocale}>
         <DynamicTitle />
         {children}
       </LanguageProvider>

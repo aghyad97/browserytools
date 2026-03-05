@@ -15,8 +15,12 @@ export const useLanguageStore = create<LanguageState>()(
     (set) => ({
       locale: "en",
       dir: "ltr",
-      setLocale: (locale) =>
-        set({ locale, dir: locale === "ar" ? "rtl" : "ltr" }),
+      setLocale: (locale) => {
+        if (typeof document !== "undefined") {
+          document.cookie = `browsery-locale=${locale}; path=/; max-age=31536000; SameSite=Lax`;
+        }
+        set({ locale, dir: locale === "ar" ? "rtl" : "ltr" });
+      },
     }),
     {
       name: "browsery-locale",

@@ -1,8 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Geist } from "next/font/google";
-import Script from "next/script";
+import { cookies } from "next/headers";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
+import type { Locale } from "@/store/language-store";
 
 const geist = Geist({ subsets: ["latin"] });
 
@@ -136,13 +137,17 @@ export const viewport: Viewport = {
   maximumScale: 5,
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const cookieStore = await cookies();
+  const localeCookie = cookieStore.get("browsery-locale")?.value;
+  const initialLocale: Locale = localeCookie === "ar" ? "ar" : "en";
+
   return (
-    <html lang="en" dir="ltr" suppressHydrationWarning>
+    <html lang={initialLocale} dir={initialLocale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
       <head>
         {/* IBM Plex Sans Arabic — loaded via standard Google Fonts link to avoid Turbopack font bundling issues */}
         {/* eslint-disable-next-line @next/next/no-page-custom-font */}
@@ -155,11 +160,7 @@ export default function RootLayout({
         />
       </head>
       <body className={geist.className}>
-        <Script
-          id="lang-dir-init"
-          strategy="beforeInteractive"
-        >{`(function(){try{var raw=localStorage.getItem('browsery-locale');var lang='en';if(raw){var parsed=JSON.parse(raw);lang=(parsed&&parsed.state&&parsed.state.locale)||'en';}else if(navigator.language&&navigator.language.startsWith('ar')){lang='ar';}document.documentElement.setAttribute('lang',lang);document.documentElement.setAttribute('dir',lang==='ar'?'rtl':'ltr');}catch(e){}})();`}</Script>
-        <Providers>
+        <Providers initialLocale={initialLocale}>
           {children}
         </Providers>
       </body>
