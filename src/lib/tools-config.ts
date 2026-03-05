@@ -1,4 +1,5 @@
 import {
+  BrainIcon,
   BookMinusIcon,
   FileDownIcon,
   HammerIcon,
@@ -60,6 +61,11 @@ import {
   InfoIcon,
   SplitIcon,
   Columns2Icon,
+  FileJson2Icon,
+  SquareIcon,
+  GitBranchIcon,
+  TagIcon,
+  TableIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -404,6 +410,16 @@ export const tools: ToolCategory[] = [
         description:
           "Repeat any text or character N times with a custom separator. Useful for generating test data, placeholder content, and patterns.",
       },
+      {
+        name: "Markdown Table Generator",
+        href: "/tools/markdown-table",
+        icon: TableIcon,
+        available: true,
+        order: 15,
+        creationDate: "2026-03-05",
+        description:
+          "Build tables in a visual grid editor and export as valid Markdown table syntax. Control column alignment per column.",
+      },
     ],
   },
   {
@@ -530,6 +546,26 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-20",
         description:
           "Convert text to binary, hexadecimal, octal, and decimal representations. Decode binary/hex back to text. Useful for encoding, security, and low-level programming.",
+      },
+      {
+        name: "JSON → TypeScript",
+        href: "/tools/json-to-ts",
+        icon: FileJson2Icon,
+        available: true,
+        order: 13,
+        creationDate: "2026-03-05",
+        description:
+          "Paste JSON and instantly get TypeScript interfaces. Handles nested objects, arrays, optional fields, and union types.",
+      },
+      {
+        name: "Mermaid Diagram Viewer",
+        href: "/tools/mermaid",
+        icon: GitBranchIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-03-05",
+        description:
+          "Write Mermaid markdown and see your diagram rendered live. Supports flowcharts, sequence diagrams, ER diagrams, and more.",
       },
     ],
   },
@@ -861,6 +897,26 @@ export const tools: ToolCategory[] = [
         description:
           "Format and beautify SQL queries with proper indentation and keyword casing. Supports SELECT, INSERT, UPDATE, DELETE, CREATE, and more.",
       },
+      {
+        name: "Chmod Calculator",
+        href: "/tools/chmod",
+        icon: LockIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-03-05",
+        description:
+          "Calculate Unix file permissions visually. Toggle read/write/execute bits for owner, group, and others to get the octal value and chmod command.",
+      },
+      {
+        name: "Meta Tags Generator",
+        href: "/tools/meta-tags",
+        icon: TagIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-03-05",
+        description:
+          "Generate HTML meta tags, Open Graph tags, and Twitter Card tags. Preview how your page will appear in search results and social media.",
+      },
     ],
   },
   {
@@ -947,6 +1003,163 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-22",
         description:
           "Browse and search all Unicode emojis by name or category. Click to copy to clipboard. Filter by skin tone and find emoji codes.",
+      },
+      {
+        name: "CSS Box Shadow Generator",
+        href: "/tools/css-shadow",
+        icon: SquareIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-03-05",
+        description:
+          "Build CSS box shadows visually with sliders for offset, blur, spread, color, and opacity. Supports multiple shadow layers.",
+      },
+    ],
+  },
+  {
+    category: "AI Tools",
+    id: "aiTools",
+    order: 10,
+    items: [
+      {
+        name: "Token Counter",
+        href: "/tools/token-counter",
+        icon: BrainIcon,
+        available: true,
+        order: 1,
+        creationDate: "2026-03-05",
+        description:
+          "Count tokens for any text across popular AI models: GPT-4o, Claude, Llama 3, and more. Instantly see token usage before sending to an API. No API key needed.",
+      },
+      {
+        name: "Context Window Calculator",
+        href: "/tools/context-window",
+        icon: BrainIcon,
+        available: true,
+        order: 2,
+        creationDate: "2026-03-05",
+        description:
+          "Calculate how much of a model's context window your text uses. See tokens used, percentage filled, tokens remaining, and estimated API cost for major models.",
+      },
+      {
+        name: "AI Cost Calculator",
+        href: "/tools/ai-cost-calculator",
+        icon: BrainIcon,
+        available: true,
+        order: 3,
+        creationDate: "2026-03-05",
+        description:
+          "Estimate your AI API costs by entering token counts and selecting a model. Supports GPT-4o, Claude 3.5, Gemini, Llama, and more with up-to-date pricing.",
+      },
+      {
+        name: "Model Comparison",
+        href: "/tools/model-comparison",
+        icon: BrainIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-03-05",
+        description:
+          "Compare AI language models side by side: context window size, pricing, capabilities, speed, and provider. Filter and sort to find the best model for your use case.",
+      },
+      {
+        name: "System Prompt Builder",
+        href: "/tools/system-prompt-builder",
+        icon: BrainIcon,
+        available: true,
+        order: 5,
+        creationDate: "2026-03-05",
+        description:
+          "Build structured system prompts for AI models using a guided form. Set role, tone, constraints, output format, and examples. Export as plain text or Claude XML tags.",
+      },
+      {
+        name: "Prompt Library",
+        href: "/tools/prompt-library",
+        icon: BrainIcon,
+        available: true,
+        order: 6,
+        creationDate: "2026-03-05",
+        description:
+          "Save, organize, and search your AI prompts locally in the browser. Tag prompts by category, copy with one click, and export or import your entire library as JSON.",
+      },
+      {
+        name: "CLAUDE.md Generator",
+        href: "/tools/claude-md-generator",
+        icon: BrainIcon,
+        available: true,
+        order: 7,
+        creationDate: "2026-03-05",
+        description:
+          "Generate CLAUDE.md files for your projects using a structured form. Define tech stack, conventions, commands, do/don't rules, and coding standards. Copy or download.",
+      },
+      {
+        name: "AI Rules Generator",
+        href: "/tools/ai-rules-generator",
+        icon: BrainIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-03-05",
+        description:
+          "Generate .cursorrules, .windsurfrules, and GitHub Copilot instruction files for your IDE. Fill in your stack and preferences, get a ready-to-use AI rules file.",
+      },
+      {
+        name: "JSON Schema Builder",
+        href: "/tools/json-schema-builder",
+        icon: BrainIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-03-05",
+        description:
+          "Build JSON schemas for LLM tool calls and function calling using a visual form. Outputs OpenAI and Anthropic tool format. Perfect for structured AI output definitions.",
+      },
+      {
+        name: "MCP Config Generator",
+        href: "/tools/mcp-config",
+        icon: BrainIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-03-05",
+        description:
+          "Generate Model Context Protocol (MCP) configuration files for Claude Desktop and other MCP clients. Add servers, configure transports, and export valid JSON config.",
+      },
+      {
+        name: "Prompt Formatter",
+        href: "/tools/prompt-formatter",
+        icon: BrainIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-03-05",
+        description:
+          "Convert prompts between different AI formats: ChatML, Llama 3 Instruct, Claude XML tags, and plain text. Preview the formatted output instantly.",
+      },
+      {
+        name: "Skill / Agent Builder",
+        href: "/tools/skill-builder",
+        icon: BrainIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-03-05",
+        description:
+          "Scaffold AI agent skill files with a guided form. Set name, description, trigger phrases, and instructions. Outputs a ready-to-use YAML/Markdown skill file.",
+      },
+      {
+        name: "AI Instruction Diff",
+        href: "/tools/ai-instruction-diff",
+        icon: BrainIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-03-05",
+        description:
+          "Compare two system prompts, CLAUDE.md files, or AI instruction sets side by side. Highlights additions, deletions, and changes to track prompt evolution.",
+      },
+      {
+        name: "Text Similarity",
+        href: "/tools/text-similarity",
+        icon: BrainIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-03-05",
+        description:
+          "Measure semantic similarity between texts using TF-IDF cosine similarity, all in the browser. Useful for comparing prompts, outputs, or any text pairs.",
       },
     ],
   },
