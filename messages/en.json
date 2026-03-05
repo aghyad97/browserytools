@@ -3504,5 +3504,10 @@
     "exploreTools": "Explore All Tools →",
     "featured": "Featured",
     "allPosts": "All Posts"
+  },
+  "CoffeeBanner": {
+    "message": "Enjoying the tools? Support development with a coffee!",
+    "cta": "Buy Me a Coffee ☕",
+    "dismiss": "Maybe later"
   }
 }

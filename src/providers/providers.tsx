@@ -5,6 +5,7 @@ import { ReactNode } from "react";
 import { Analytics } from "@vercel/analytics/next";
 import { LanguageProvider } from "./language-provider";
 import { DynamicTitle } from "@/components/dynamic-title";
+import { CoffeeBanner } from "@/components/coffee-banner";
 import type { Locale } from "@/store/language-store";
 
 interface ProvidersProps {
@@ -23,6 +24,7 @@ export function Providers({ children, initialLocale }: ProvidersProps) {
       <LanguageProvider initialLocale={initialLocale}>
         <DynamicTitle />
         {children}
+        <CoffeeBanner />
       </LanguageProvider>
       <Analytics />
     </NextThemesProvider>
