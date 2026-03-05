@@ -1,4 +1,5 @@
 import {
+  BrainIcon,
   BookMinusIcon,
   FileDownIcon,
   HammerIcon,
@@ -947,6 +948,153 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-22",
         description:
           "Browse and search all Unicode emojis by name or category. Click to copy to clipboard. Filter by skin tone and find emoji codes.",
+      },
+    ],
+  },
+  {
+    category: "AI Tools",
+    id: "aiTools",
+    order: 10,
+    items: [
+      {
+        name: "Token Counter",
+        href: "/tools/token-counter",
+        icon: BrainIcon,
+        available: true,
+        order: 1,
+        creationDate: "2026-03-05",
+        description:
+          "Count tokens for any text across popular AI models: GPT-4o, Claude, Llama 3, and more. Instantly see token usage before sending to an API. No API key needed.",
+      },
+      {
+        name: "Context Window Calculator",
+        href: "/tools/context-window",
+        icon: BrainIcon,
+        available: true,
+        order: 2,
+        creationDate: "2026-03-05",
+        description:
+          "Calculate how much of a model's context window your text uses. See tokens used, percentage filled, tokens remaining, and estimated API cost for major models.",
+      },
+      {
+        name: "AI Cost Calculator",
+        href: "/tools/ai-cost-calculator",
+        icon: BrainIcon,
+        available: true,
+        order: 3,
+        creationDate: "2026-03-05",
+        description:
+          "Estimate your AI API costs by entering token counts and selecting a model. Supports GPT-4o, Claude 3.5, Gemini, Llama, and more with up-to-date pricing.",
+      },
+      {
+        name: "Model Comparison",
+        href: "/tools/model-comparison",
+        icon: BrainIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-03-05",
+        description:
+          "Compare AI language models side by side: context window size, pricing, capabilities, speed, and provider. Filter and sort to find the best model for your use case.",
+      },
+      {
+        name: "System Prompt Builder",
+        href: "/tools/system-prompt-builder",
+        icon: BrainIcon,
+        available: true,
+        order: 5,
+        creationDate: "2026-03-05",
+        description:
+          "Build structured system prompts for AI models using a guided form. Set role, tone, constraints, output format, and examples. Export as plain text or Claude XML tags.",
+      },
+      {
+        name: "Prompt Library",
+        href: "/tools/prompt-library",
+        icon: BrainIcon,
+        available: true,
+        order: 6,
+        creationDate: "2026-03-05",
+        description:
+          "Save, organize, and search your AI prompts locally in the browser. Tag prompts by category, copy with one click, and export or import your entire library as JSON.",
+      },
+      {
+        name: "CLAUDE.md Generator",
+        href: "/tools/claude-md-generator",
+        icon: BrainIcon,
+        available: true,
+        order: 7,
+        creationDate: "2026-03-05",
+        description:
+          "Generate CLAUDE.md files for your projects using a structured form. Define tech stack, conventions, commands, do/don't rules, and coding standards. Copy or download.",
+      },
+      {
+        name: "AI Rules Generator",
+        href: "/tools/ai-rules-generator",
+        icon: BrainIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-03-05",
+        description:
+          "Generate .cursorrules, .windsurfrules, and GitHub Copilot instruction files for your IDE. Fill in your stack and preferences, get a ready-to-use AI rules file.",
+      },
+      {
+        name: "JSON Schema Builder",
+        href: "/tools/json-schema-builder",
+        icon: BrainIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-03-05",
+        description:
+          "Build JSON schemas for LLM tool calls and function calling using a visual form. Outputs OpenAI and Anthropic tool format. Perfect for structured AI output definitions.",
+      },
+      {
+        name: "MCP Config Generator",
+        href: "/tools/mcp-config",
+        icon: BrainIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-03-05",
+        description:
+          "Generate Model Context Protocol (MCP) configuration files for Claude Desktop and other MCP clients. Add servers, configure transports, and export valid JSON config.",
+      },
+      {
+        name: "Prompt Formatter",
+        href: "/tools/prompt-formatter",
+        icon: BrainIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-03-05",
+        description:
+          "Convert prompts between different AI formats: ChatML, Llama 3 Instruct, Claude XML tags, and plain text. Preview the formatted output instantly.",
+      },
+      {
+        name: "Skill / Agent Builder",
+        href: "/tools/skill-builder",
+        icon: BrainIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-03-05",
+        description:
+          "Scaffold AI agent skill files with a guided form. Set name, description, trigger phrases, and instructions. Outputs a ready-to-use YAML/Markdown skill file.",
+      },
+      {
+        name: "AI Instruction Diff",
+        href: "/tools/ai-instruction-diff",
+        icon: BrainIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-03-05",
+        description:
+          "Compare two system prompts, CLAUDE.md files, or AI instruction sets side by side. Highlights additions, deletions, and changes to track prompt evolution.",
+      },
+      {
+        name: "Text Similarity",
+        href: "/tools/text-similarity",
+        icon: BrainIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-03-05",
+        description:
+          "Measure semantic similarity between texts using TF-IDF cosine similarity, all in the browser. Useful for comparing prompts, outputs, or any text pairs.",
       },
     ],
   },
