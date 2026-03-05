@@ -443,6 +443,54 @@
       "text-similarity": {
         "name": "تشابه النصوص",
         "description": "قس التشابه بين النصوص باستخدام TF-IDF في المتصفح. مفيد لمقارنة الموجهات والمخرجات وأي أزواج نصية."
+      },
+      "token-counter": {
+        "name": "عداد الرموز",
+        "description": "احسب رموز أي نموذج ذكاء اصطناعي وقدّر تكاليف API."
+      },
+      "context-window": {
+        "name": "حاسبة نافذة السياق",
+        "description": "اعرف كم يملأ نصك من نافذة سياق النموذج."
+      },
+      "ai-cost-calculator": {
+        "name": "حاسبة تكلفة الذكاء الاصطناعي",
+        "description": "قدّر تكاليف API قبل البناء. يدعم GPT-4o وClaude وGemini."
+      },
+      "model-comparison": {
+        "name": "مقارنة النماذج",
+        "description": "قارن نماذج الذكاء الاصطناعي جنباً إلى جنب."
+      },
+      "system-prompt-builder": {
+        "name": "منشئ موجه النظام",
+        "description": "أنشئ موجهات نظام منظمة لنماذج الذكاء الاصطناعي."
+      },
+      "prompt-library": {
+        "name": "مكتبة الموجهات",
+        "description": "احفظ ونظّم موجهاتك محلياً في المتصفح."
+      },
+      "claude-md-generator": {
+        "name": "منشئ CLAUDE.md",
+        "description": "أنشئ ملفات CLAUDE.md لمشاريعك."
+      },
+      "ai-rules-generator": {
+        "name": "منشئ قواعد الذكاء الاصطناعي",
+        "description": "أنشئ ملفات .cursorrules و.windsurfrules."
+      },
+      "json-schema-builder": {
+        "name": "منشئ مخطط JSON",
+        "description": "أنشئ مخططات JSON لاستدعاءات أدوات النماذج."
+      },
+      "mcp-config": {
+        "name": "منشئ إعدادات MCP",
+        "description": "أنشئ ملفات إعداد MCP لـ Claude Desktop."
+      },
+      "prompt-formatter": {
+        "name": "منسّق الموجهات",
+        "description": "حوّل الموجهات بين ChatML وLlama 3 وClaude XML وOpenAI API."
+      },
+      "skill-builder": {
+        "name": "منشئ المهارات والوكلاء",
+        "description": "أنشئ ملفات مهارات وكلاء الذكاء الاصطناعي."
       }
     }
   },

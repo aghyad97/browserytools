@@ -443,6 +443,54 @@
       "text-similarity": {
         "name": "Text Similarity",
         "description": "Measure cosine similarity between texts using TF-IDF, all in the browser. Useful for comparing prompts, outputs, or any text pairs."
+      },
+      "token-counter": {
+        "name": "Token Counter",
+        "description": "Count tokens for any AI model and estimate API costs. No API key needed."
+      },
+      "context-window": {
+        "name": "Context Window Calculator",
+        "description": "See how much of a model's context window your text fills. Visualize usage instantly."
+      },
+      "ai-cost-calculator": {
+        "name": "AI Cost Calculator",
+        "description": "Estimate your AI API costs before you build. Supports GPT-4o, Claude, Gemini, and more."
+      },
+      "model-comparison": {
+        "name": "Model Comparison",
+        "description": "Compare AI language models side by side: context window, pricing, capabilities, and speed."
+      },
+      "system-prompt-builder": {
+        "name": "System Prompt Builder",
+        "description": "Build structured system prompts for AI models. Export as plain text or Claude XML tags."
+      },
+      "prompt-library": {
+        "name": "Prompt Library",
+        "description": "Save and organize your AI prompts locally in the browser. No account needed."
+      },
+      "claude-md-generator": {
+        "name": "CLAUDE.md Generator",
+        "description": "Generate CLAUDE.md files for your projects. Define stack, conventions, and coding rules."
+      },
+      "ai-rules-generator": {
+        "name": "AI Rules Generator",
+        "description": "Generate .cursorrules and .windsurfrules files for Cursor, Windsurf, and GitHub Copilot."
+      },
+      "json-schema-builder": {
+        "name": "JSON Schema Builder",
+        "description": "Build JSON schemas for LLM tool calls. Outputs OpenAI and Anthropic tool formats."
+      },
+      "mcp-config": {
+        "name": "MCP Config Generator",
+        "description": "Generate MCP configuration files for Claude Desktop. Add servers and export valid JSON."
+      },
+      "prompt-formatter": {
+        "name": "Prompt Formatter",
+        "description": "Convert prompts between ChatML, Llama 3, Claude XML, and OpenAI API formats."
+      },
+      "skill-builder": {
+        "name": "Skill / Agent Builder",
+        "description": "Scaffold AI agent skill files. Outputs Markdown, YAML, or JSON skill definitions."
       }
     }
   },
