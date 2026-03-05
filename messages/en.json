@@ -491,6 +491,30 @@
       "skill-builder": {
         "name": "Skill / Agent Builder",
         "description": "Scaffold AI agent skill files. Outputs Markdown, YAML, or JSON skill definitions."
+      },
+      "json-to-ts": {
+        "name": "JSON → TypeScript",
+        "description": "Convert JSON to TypeScript interfaces"
+      },
+      "css-shadow": {
+        "name": "CSS Box Shadow Generator",
+        "description": "Build box shadows visually with live preview"
+      },
+      "chmod": {
+        "name": "Chmod Calculator",
+        "description": "Calculate Unix file permission bits"
+      },
+      "mermaid": {
+        "name": "Mermaid Diagram Viewer",
+        "description": "Write Mermaid markdown and see your diagram live"
+      },
+      "meta-tags": {
+        "name": "Meta Tags Generator",
+        "description": "Generate HTML meta, Open Graph, and Twitter Card tags"
+      },
+      "markdown-table": {
+        "name": "Markdown Table Generator",
+        "description": "Build tables visually and export as Markdown"
       }
     }
   },
@@ -3373,6 +3397,102 @@
       "clearAll": "Clear All",
       "noInput": "Enter at least two texts to compare",
       "pairLabel": "Pair"
+    },
+    "JsonToTs": {
+      "title": "JSON → TypeScript",
+      "description": "Convert JSON to TypeScript interfaces instantly",
+      "inputLabel": "JSON Input",
+      "outputLabel": "TypeScript Output",
+      "inputPlaceholder": "Paste your JSON here...",
+      "rootName": "Root interface name",
+      "rootNamePlaceholder": "Root",
+      "copyOutput": "Copy TypeScript",
+      "copied": "Copied!",
+      "loadSample": "Load Sample",
+      "clearAll": "Clear",
+      "errorInvalidJson": "Invalid JSON — check your input",
+      "optionalFields": "Optional fields",
+      "optionalFieldsHint": "Mark fields nullable if their value is null"
+    },
+    "CssShadow": {
+      "title": "CSS Box Shadow Generator",
+      "description": "Build box shadows visually with live preview",
+      "horizontalOffset": "Horizontal Offset",
+      "verticalOffset": "Vertical Offset",
+      "blurRadius": "Blur Radius",
+      "spreadRadius": "Spread Radius",
+      "shadowColor": "Shadow Color",
+      "inset": "Inset",
+      "preview": "Preview",
+      "cssOutput": "CSS Output",
+      "copyCSS": "Copy CSS",
+      "copied": "Copied!",
+      "addShadow": "Add Layer",
+      "removeShadow": "Remove",
+      "reset": "Reset"
+    },
+    "ChmodCalculator": {
+      "title": "Chmod Calculator",
+      "description": "Calculate Unix file permission bits visually",
+      "owner": "Owner",
+      "group": "Group",
+      "others": "Others",
+      "read": "Read",
+      "write": "Write",
+      "execute": "Execute",
+      "octal": "Octal",
+      "symbolic": "Symbolic",
+      "command": "Command",
+      "copyCommand": "Copy Command",
+      "copied": "Copied!"
+    },
+    "MermaidViewer": {
+      "title": "Mermaid Diagram Viewer",
+      "description": "Write Mermaid markdown and see your diagram live",
+      "inputLabel": "Mermaid Code",
+      "inputPlaceholder": "Enter Mermaid diagram code...",
+      "previewLabel": "Preview",
+      "copyCode": "Copy Code",
+      "copied": "Copied!",
+      "loadSample": "Load Sample",
+      "clearAll": "Clear",
+      "errorRender": "Failed to render diagram — check your syntax"
+    },
+    "MetaTagsGenerator": {
+      "title": "Meta Tags Generator",
+      "description": "Generate HTML meta, Open Graph, and Twitter Card tags",
+      "siteTitle": "Page Title",
+      "siteTitlePlaceholder": "My Awesome Page",
+      "siteDescription": "Description",
+      "siteDescriptionPlaceholder": "A short description of the page...",
+      "siteUrl": "Page URL",
+      "siteUrlPlaceholder": "https://example.com/page",
+      "ogImage": "OG Image URL",
+      "ogImagePlaceholder": "https://example.com/og.png",
+      "twitterHandle": "Twitter Handle",
+      "twitterHandlePlaceholder": "@handle",
+      "htmlOutput": "HTML Output",
+      "copyAll": "Copy All Tags",
+      "copied": "Copied!",
+      "tabHtml": "HTML",
+      "tabOg": "Open Graph",
+      "tabTwitter": "Twitter Card",
+      "tabBasic": "Basic"
+    },
+    "MarkdownTableGenerator": {
+      "title": "Markdown Table Generator",
+      "description": "Build tables visually and export as Markdown syntax",
+      "addColumn": "Add Column",
+      "addRow": "Add Row",
+      "removeColumn": "Remove Column",
+      "removeRow": "Remove Row",
+      "headerPlaceholder": "Header",
+      "cellPlaceholder": "Cell",
+      "markdownOutput": "Markdown Output",
+      "copyMarkdown": "Copy Markdown",
+      "copied": "Copied!",
+      "reset": "Reset",
+      "loadSample": "Load Sample"
     }
   },
   "Blog": {

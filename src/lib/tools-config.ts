@@ -61,6 +61,11 @@ import {
   InfoIcon,
   SplitIcon,
   Columns2Icon,
+  FileJson2Icon,
+  SquareIcon,
+  GitBranchIcon,
+  TagIcon,
+  TableIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -405,6 +410,16 @@ export const tools: ToolCategory[] = [
         description:
           "Repeat any text or character N times with a custom separator. Useful for generating test data, placeholder content, and patterns.",
       },
+      {
+        name: "Markdown Table Generator",
+        href: "/tools/markdown-table",
+        icon: TableIcon,
+        available: true,
+        order: 15,
+        creationDate: "2026-03-05",
+        description:
+          "Build tables in a visual grid editor and export as valid Markdown table syntax. Control column alignment per column.",
+      },
     ],
   },
   {
@@ -531,6 +546,26 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-20",
         description:
           "Convert text to binary, hexadecimal, octal, and decimal representations. Decode binary/hex back to text. Useful for encoding, security, and low-level programming.",
+      },
+      {
+        name: "JSON → TypeScript",
+        href: "/tools/json-to-ts",
+        icon: FileJson2Icon,
+        available: true,
+        order: 13,
+        creationDate: "2026-03-05",
+        description:
+          "Paste JSON and instantly get TypeScript interfaces. Handles nested objects, arrays, optional fields, and union types.",
+      },
+      {
+        name: "Mermaid Diagram Viewer",
+        href: "/tools/mermaid",
+        icon: GitBranchIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-03-05",
+        description:
+          "Write Mermaid markdown and see your diagram rendered live. Supports flowcharts, sequence diagrams, ER diagrams, and more.",
       },
     ],
   },
@@ -862,6 +897,26 @@ export const tools: ToolCategory[] = [
         description:
           "Format and beautify SQL queries with proper indentation and keyword casing. Supports SELECT, INSERT, UPDATE, DELETE, CREATE, and more.",
       },
+      {
+        name: "Chmod Calculator",
+        href: "/tools/chmod",
+        icon: LockIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-03-05",
+        description:
+          "Calculate Unix file permissions visually. Toggle read/write/execute bits for owner, group, and others to get the octal value and chmod command.",
+      },
+      {
+        name: "Meta Tags Generator",
+        href: "/tools/meta-tags",
+        icon: TagIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-03-05",
+        description:
+          "Generate HTML meta tags, Open Graph tags, and Twitter Card tags. Preview how your page will appear in search results and social media.",
+      },
     ],
   },
   {
@@ -948,6 +1003,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-22",
         description:
           "Browse and search all Unicode emojis by name or category. Click to copy to clipboard. Filter by skin tone and find emoji codes.",
+      },
+      {
+        name: "CSS Box Shadow Generator",
+        href: "/tools/css-shadow",
+        icon: SquareIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-03-05",
+        description:
+          "Build CSS box shadows visually with sliders for offset, blur, spread, color, and opacity. Supports multiple shadow layers.",
       },
     ],
   },

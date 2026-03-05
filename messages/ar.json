@@ -491,6 +491,30 @@
       "skill-builder": {
         "name": "منشئ المهارات والوكلاء",
         "description": "أنشئ ملفات مهارات وكلاء الذكاء الاصطناعي."
+      },
+      "json-to-ts": {
+        "name": "JSON إلى TypeScript",
+        "description": "حوّل JSON إلى واجهات TypeScript"
+      },
+      "css-shadow": {
+        "name": "مُنشئ الظل CSS",
+        "description": "صمّن الظلال بصرياً مع معاينة فورية"
+      },
+      "chmod": {
+        "name": "حاسبة Chmod",
+        "description": "احسب صلاحيات ملفات Unix بصرياً"
+      },
+      "mermaid": {
+        "name": "عارض مخططات Mermaid",
+        "description": "اكتب كود Mermaid وشاهد مخططك مباشرةً"
+      },
+      "meta-tags": {
+        "name": "مُنشئ وسوم Meta",
+        "description": "أنشئ وسوم HTML و Open Graph و Twitter Card"
+      },
+      "markdown-table": {
+        "name": "مُنشئ جداول Markdown",
+        "description": "صمّن جداول بصرياً وصدّرها بصيغة Markdown"
       }
     }
   },
@@ -3373,6 +3397,102 @@
       "clearAll": "مسح الكل",
       "noInput": "أدخل نصين على الأقل للمقارنة",
       "pairLabel": "زوج"
+    },
+    "JsonToTs": {
+      "title": "JSON إلى TypeScript",
+      "description": "حوّل JSON إلى واجهات TypeScript فوراً",
+      "inputLabel": "JSON المُدخل",
+      "outputLabel": "مُخرجات TypeScript",
+      "inputPlaceholder": "الصق JSON هنا...",
+      "rootName": "اسم الواجهة الرئيسية",
+      "rootNamePlaceholder": "Root",
+      "copyOutput": "نسخ TypeScript",
+      "copied": "تم النسخ!",
+      "loadSample": "تحميل مثال",
+      "clearAll": "مسح الكل",
+      "errorInvalidJson": "JSON غير صالح — تحقق من المُدخل",
+      "optionalFields": "حقول اختيارية",
+      "optionalFieldsHint": "اجعل الحقول قابلة للقيمة الفارغة إذا كانت null"
+    },
+    "CssShadow": {
+      "title": "مُنشئ الظل CSS",
+      "description": "صمّن الظلال بصرياً مع معاينة فورية",
+      "horizontalOffset": "الإزاحة الأفقية",
+      "verticalOffset": "الإزاحة الرأسية",
+      "blurRadius": "نصف قطر التمويه",
+      "spreadRadius": "نصف قطر الانتشار",
+      "shadowColor": "لون الظل",
+      "inset": "داخلي",
+      "preview": "معاينة",
+      "cssOutput": "كود CSS",
+      "copyCSS": "نسخ CSS",
+      "copied": "تم النسخ!",
+      "addShadow": "إضافة طبقة",
+      "removeShadow": "حذف",
+      "reset": "إعادة تعيين"
+    },
+    "ChmodCalculator": {
+      "title": "حاسبة Chmod",
+      "description": "احسب صلاحيات ملفات Unix بصرياً",
+      "owner": "المالك",
+      "group": "المجموعة",
+      "others": "الآخرون",
+      "read": "قراءة",
+      "write": "كتابة",
+      "execute": "تنفيذ",
+      "octal": "ثماني",
+      "symbolic": "رمزي",
+      "command": "الأمر",
+      "copyCommand": "نسخ الأمر",
+      "copied": "تم النسخ!"
+    },
+    "MermaidViewer": {
+      "title": "عارض مخططات Mermaid",
+      "description": "اكتب كود Mermaid وشاهد مخططك مباشرةً",
+      "inputLabel": "كود Mermaid",
+      "inputPlaceholder": "أدخل كود مخطط Mermaid...",
+      "previewLabel": "معاينة",
+      "copyCode": "نسخ الكود",
+      "copied": "تم النسخ!",
+      "loadSample": "تحميل مثال",
+      "clearAll": "مسح الكل",
+      "errorRender": "فشل عرض المخطط — تحقق من الصياغة"
+    },
+    "MetaTagsGenerator": {
+      "title": "مُنشئ وسوم Meta",
+      "description": "أنشئ وسوم HTML و Open Graph و Twitter Card",
+      "siteTitle": "عنوان الصفحة",
+      "siteTitlePlaceholder": "صفحتي الرائعة",
+      "siteDescription": "الوصف",
+      "siteDescriptionPlaceholder": "وصف مختصر للصفحة...",
+      "siteUrl": "رابط الصفحة",
+      "siteUrlPlaceholder": "https://example.com/page",
+      "ogImage": "رابط صورة OG",
+      "ogImagePlaceholder": "https://example.com/og.png",
+      "twitterHandle": "معرّف تويتر",
+      "twitterHandlePlaceholder": "@handle",
+      "htmlOutput": "كود HTML",
+      "copyAll": "نسخ جميع الوسوم",
+      "copied": "تم النسخ!",
+      "tabHtml": "HTML",
+      "tabOg": "Open Graph",
+      "tabTwitter": "Twitter Card",
+      "tabBasic": "أساسي"
+    },
+    "MarkdownTableGenerator": {
+      "title": "مُنشئ جداول Markdown",
+      "description": "صمّن جداول بصرياً وصدّرها بصيغة Markdown",
+      "addColumn": "إضافة عمود",
+      "addRow": "إضافة صف",
+      "removeColumn": "حذف عمود",
+      "removeRow": "حذف صف",
+      "headerPlaceholder": "العنوان",
+      "cellPlaceholder": "خلية",
+      "markdownOutput": "مخرجات Markdown",
+      "copyMarkdown": "نسخ Markdown",
+      "copied": "تم النسخ!",
+      "reset": "إعادة تعيين",
+      "loadSample": "تحميل مثال"
     }
   },
   "Blog": {
