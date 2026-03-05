@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 const SESSION_KEY = "coffee-banner-dismissed";
-const DELAY_MS = 45_000;
+const DELAY_MS = 8_000;
 
 export function CoffeeBanner() {
   const t = useTranslations("CoffeeBanner");
