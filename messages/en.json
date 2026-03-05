@@ -100,7 +100,8 @@
       "mathFinance": "Math & Finance",
       "productivity": "Productivity",
       "securityDev": "Security & Dev",
-      "designTools": "Design & Visual"
+      "designTools": "Design & Visual",
+      "aiTools": "AI Tools"
     },
     "tools": {
       "bg-removal": {
@@ -434,6 +435,14 @@
       "svg-png": {
         "name": "SVG to PNG",
         "description": "Convert SVG files to PNG images."
+      },
+      "ai-instruction-diff": {
+        "name": "AI Instruction Diff",
+        "description": "Compare two system prompts or AI instruction files side by side. Highlights additions, deletions, and changes to track prompt evolution."
+      },
+      "text-similarity": {
+        "name": "Text Similarity",
+        "description": "Measure cosine similarity between texts using TF-IDF, all in the browser. Useful for comparing prompts, outputs, or any text pairs."
       }
     }
   },
