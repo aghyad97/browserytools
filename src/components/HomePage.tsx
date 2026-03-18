@@ -34,7 +34,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
     const cutoff = new Date();
     cutoff.setDate(cutoff.getDate() - 60);
     return getAllTools().filter(
-      (t) => t.available && new Date(t.creationDate) >= cutoff
+      (t) => t.available && new Date(t.creationDate) >= cutoff,
     ).length;
   }, []);
 
@@ -79,29 +79,34 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
         {/* New Tools Announcement Banner */}
         {showNewBanner && newToolsCount > 0 && (
           <div className="mb-5 flex items-center justify-center">
-            <div className="relative flex items-center gap-3 rounded-full border border-violet-500/30 bg-gradient-to-r from-violet-500/10 via-fuchsia-500/10 to-pink-500/10 px-5 py-2 text-sm shadow-sm">
-              <Sparkles className="h-4 w-4 text-violet-500 shrink-0" />
-              <span className="inline-flex items-center gap-1.5">
-                <span className="rounded-full bg-violet-500 px-2 py-0.5 text-xs font-semibold text-white">
+            <div className="relative flex flex-wrap items-center justify-center gap-2 rounded-2xl sm:rounded-full border border-emerald-500/30 bg-gradient-to-r from-emerald-500/10 via-teal-500/10 to-cyan-500/10 px-5 pt-5 pb-2 sm:py-2 text-sm shadow-sm">
+              <Sparkles className="h-4 w-4 text-emerald-500 shrink-0" />
+              <span className="inline-flex flex-wrap items-center justify-center gap-1.5">
+                <span className="rounded-full bg-emerald-500 px-2 py-0.5 text-xs font-semibold text-white">
                   {tCommon("new")}
                 </span>
                 <span className="font-medium text-foreground">
-                  {newToolsCount} {t("newToolsAdded")}
+                  {t("newToolsAdded")}
                 </span>
-                <span className="text-muted-foreground hidden sm:inline">
+                <a
+                  href="https://kashfbank.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="font-semibold text-emerald-600 hover:underline"
+                >
                   {t("exploreBelow")}
-                </span>
+                </a>
               </span>
               <button
                 type="button"
                 onClick={() => {
                   localStorage.setItem(
                     "new-tools-banner-count",
-                    String(newToolsCount)
+                    String(newToolsCount),
                   );
                   setShowNewBanner(false);
                 }}
-                className="ms-1 rounded-full p-0.5 text-muted-foreground hover:text-foreground transition-colors"
+                className="absolute top-2 end-2 sm:static rounded-full p-0.5 text-muted-foreground hover:text-foreground transition-colors"
                 aria-label={t("dismiss")}
               >
                 <X className="h-3.5 w-3.5" />
@@ -112,7 +117,8 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
 
         <div className="mb-8">
           <p className="text-2xl text-center text-muted-foreground">
-            {allTools.filter((tool) => tool.available).length} {t("toolCountSuffix")}
+            {allTools.filter((tool) => tool.available).length}{" "}
+            {t("toolCountSuffix")}
           </p>
         </div>
 
@@ -217,7 +223,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                 .filter((category) =>
                   selectedCategory === "All"
                     ? true
-                    : category.category === selectedCategory
+                    : category.category === selectedCategory,
                 )
                 .map((category) => (
                   <div key={category.category}>
@@ -302,7 +308,7 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
                     .filter((category) =>
                       selectedCategory === "All"
                         ? true
-                        : category.category === selectedCategory
+                        : category.category === selectedCategory,
                     )
                     .map((category) => (
                       <div key={category.category}>
