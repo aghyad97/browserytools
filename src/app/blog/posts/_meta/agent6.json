@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "lorem-ipsum-guide",
+    "title": "Lorem Ipsum: Origin, Uses, and Why Designers Can't Live Without It",
+    "description": "The full story behind Lorem Ipsum — from Cicero's 45 BC philosophical text to modern design workflows. Learn when to use it, when to avoid it, and how to generate the exact amount you need.",
+    "date": "2026-03-17",
+    "author": "BrowseryTools Team",
+    "category": "Text Tools",
+    "tags": ["lorem ipsum", "placeholder text", "design", "typography"],
+    "readTime": 6,
+    "coverEmoji": "📝",
+    "coverGradient": "from-slate-500 to-gray-600"
+  },
+  {
+    "slug": "markdown-complete-guide",
+    "title": "Markdown: Complete Syntax Reference for Writers and Developers",
+    "description": "A comprehensive guide to Markdown — who created it and why, full syntax reference from basics to extended features, Markdown flavors (CommonMark, GFM, MDX), and common mistakes to avoid.",
+    "date": "2026-03-18",
+    "author": "BrowseryTools Team",
+    "category": "Text Tools",
+    "tags": ["markdown", "syntax", "writing", "documentation", "developers"],
+    "readTime": 7,
+    "coverEmoji": "✍️",
+    "coverGradient": "from-indigo-500 to-blue-600"
+  },
+  {
+    "slug": "text-diff-guide",
+    "title": "How to Compare Text Files and Find Differences Without Any Software",
+    "description": "Learn how text diff algorithms work, how to read unified diff output, the difference between line-level and word-level diffs, and how git diff works under the hood.",
+    "date": "2026-03-19",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["diff", "text comparison", "git", "code review", "file comparison"],
+    "readTime": 6,
+    "coverEmoji": "🔍",
+    "coverGradient": "from-emerald-500 to-teal-600"
+  },
+  {
+    "slug": "text-encryption-guide",
+    "title": "Client-Side Text Encryption: How to Protect Sensitive Data in the Browser",
+    "description": "A practical guide to browser-based text encryption — what client-side encryption really means, symmetric vs asymmetric algorithms, key derivation from passwords, and the real limitations of in-browser cryptography.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Security",
+    "tags": ["encryption", "AES", "security", "privacy", "cryptography", "browser"],
+    "readTime": 7,
+    "coverEmoji": "🔐",
+    "coverGradient": "from-rose-500 to-pink-600"
+  },
+  {
+    "slug": "word-frequency-guide",
+    "title": "Word Frequency Analysis: A Tool for Writers, SEO, and Research",
+    "description": "How word frequency analysis reveals writing patterns, keyword density, and document themes. Covers stop words, TF-IDF explained simply, use cases for writers and SEO, and academic applications like authorship attribution.",
+    "date": "2026-03-21",
+    "author": "BrowseryTools Team",
+    "category": "Text Tools",
+    "tags": ["word frequency", "text analysis", "SEO", "writing", "NLP", "content"],
+    "readTime": 6,
+    "coverEmoji": "📊",
+    "coverGradient": "from-violet-500 to-purple-600"
+  }
+]

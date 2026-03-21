@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "kilmat-murur-guide-ar",
+    "title": "كيف تنشئ كلمة مرور قوية وكيف تحمي حساباتك من الاختراق",
+    "description": "تعلّم كيف تنشئ كلمات مرور قوية لا يمكن اختراقها، وكيف تحمي حساباتك باستخدام المصادقة الثنائية ومدير كلمات المرور.",
+    "date": "2026-03-14",
+    "author": "BrowseryTools Team",
+    "category": "الأمن والخصوصية",
+    "tags": ["كلمة مرور", "أمن", "اختراق", "password", "security", "2FA"],
+    "readTime": 7,
+    "coverEmoji": "🛡️",
+    "coverGradient": "from-green-500 to-emerald-600"
+  },
+  {
+    "slug": "base64-guide-ar",
+    "title": "ما هو Base64؟ دليل شامل للمطورين العرب",
+    "description": "فهم Base64 من الداخل: كيف يعمل، أين يُستخدم في JWT والبريد الإلكتروني والصور، والفرق الجوهري بينه وبين التشفير الحقيقي.",
+    "date": "2026-03-15",
+    "author": "BrowseryTools Team",
+    "category": "أدوات المطورين",
+    "tags": ["base64", "ترميز", "مطورين", "JWT", "encoding", "developer"],
+    "readTime": 6,
+    "coverEmoji": "🔡",
+    "coverGradient": "from-cyan-500 to-blue-600"
+  },
+  {
+    "slug": "qr-code-guide-ar",
+    "title": "كل ما تحتاج معرفته عن QR Code: الإنشاء والقراءة والاستخدامات",
+    "description": "دليل شامل عن QR Code: تاريخه، كيف يخزّن البيانات، الفرق بينه وبين الباركود، أنواع المحتوى، ومستويات تصحيح الأخطاء.",
+    "date": "2026-03-16",
+    "author": "BrowseryTools Team",
+    "category": "أدوات عامة",
+    "tags": ["QR code", "باركود", "qr generator", "qr scanner", "رمز الاستجابة السريعة"],
+    "readTime": 7,
+    "coverEmoji": "📱",
+    "coverGradient": "from-teal-500 to-green-600"
+  },
+  {
+    "slug": "adawat-nass-arabi",
+    "title": "أدوات معالجة النصوص للكتّاب والمطورين العرب",
+    "description": "دليل عملي لأدوات معالجة النصوص العربية: عداد الكلمات، تحويل حالة النص، مقارنة النصوص، ومحرر Markdown — وكيف تستخدمها في عملك.",
+    "date": "2026-03-17",
+    "author": "BrowseryTools Team",
+    "category": "أدوات النصوص",
+    "tags": ["نصوص عربية", "markdown", "text tools", "مقارنة نصوص", "عداد كلمات", "RTL"],
+    "readTime": 6,
+    "coverEmoji": "✍️",
+    "coverGradient": "from-slate-500 to-gray-600"
+  }
+]

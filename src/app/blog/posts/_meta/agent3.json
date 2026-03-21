@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "regex-tester-guide",
+    "title": "Regular Expressions Explained: A Practical Guide for Developers",
+    "description": "Learn the 20% of regex syntax that covers 80% of real-world use cases — character classes, quantifiers, anchors, groups, and flags — with practical examples for email validation, phone numbers, URL extraction, and more.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["regex", "regular expressions", "developer", "pattern matching", "validation"],
+    "readTime": 9,
+    "coverEmoji": "🔍",
+    "coverGradient": "from-orange-500 to-red-600"
+  },
+  {
+    "slug": "json-formatter-guide",
+    "title": "JSON Formatting, Validation, and Debugging: A Complete Developer Guide",
+    "description": "A practical guide to JSON syntax rules, common parse errors, pretty-printing vs minification, deeply nested data, JSON Schema validation, and how JSON differs between APIs and config files.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["json", "formatting", "validation", "api", "debugging"],
+    "readTime": 8,
+    "coverEmoji": "📋",
+    "coverGradient": "from-yellow-400 to-orange-500"
+  },
+  {
+    "slug": "curl-converter-guide",
+    "title": "cURL to Code: Convert API Requests Between Languages Instantly",
+    "description": "Understand cURL's flag syntax, common REST API patterns, and how to accurately translate cURL commands into JavaScript fetch, Python requests, and Node.js axios — including the browser DevTools 'Copy as cURL' workflow.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["curl", "api", "http", "javascript", "python", "rest"],
+    "readTime": 8,
+    "coverEmoji": "🔄",
+    "coverGradient": "from-blue-500 to-cyan-500"
+  },
+  {
+    "slug": "unix-timestamp-guide",
+    "title": "Unix Timestamps: What They Are and How to Work With Them",
+    "description": "Everything developers need to know about Unix time — what the epoch is, the Y2K38 problem, converting timestamps in JavaScript, Python, and SQL, the milliseconds vs seconds trap, timezone handling, and timestamps in JWTs and databases.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["unix timestamp", "epoch", "datetime", "javascript", "python", "timezone"],
+    "readTime": 9,
+    "coverEmoji": "⏱️",
+    "coverGradient": "from-violet-500 to-purple-700"
+  }
+]

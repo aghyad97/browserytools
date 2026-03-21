@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "url-encoder-guide",
+    "title": "URL Encoding Explained: Percent-Encoding in HTTP Requests",
+    "description": "Learn why special characters break URLs, how percent-encoding works at the byte level, the critical difference between encodeURI and encodeURIComponent, and common encoding bugs in real applications.",
+    "date": "2026-03-19",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["URL encoding", "percent encoding", "HTTP", "web development", "JavaScript"],
+    "readTime": 7,
+    "coverEmoji": "🔗",
+    "coverGradient": "from-cyan-500 to-blue-600"
+  },
+  {
+    "slug": "uuid-generator-guide",
+    "title": "UUIDs, NanoIDs, and CUIDs: Choosing the Right ID Format for Your Project",
+    "description": "A deep dive into UUID v1, v4, and v7, NanoID, and CUID2 — what each format is, how collision probability works, and when to use which for database primary keys, URLs, and distributed systems.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["UUID", "NanoID", "CUID", "database", "distributed systems", "identifiers"],
+    "readTime": 8,
+    "coverEmoji": "🆔",
+    "coverGradient": "from-violet-500 to-purple-700"
+  },
+  {
+    "slug": "chmod-guide",
+    "title": "Linux File Permissions Explained: A Complete chmod Guide",
+    "description": "A complete guide to Unix file permissions — the owner/group/other model, octal notation (755, 644, 777), symbolic notation, setuid/setgid/sticky bit, and real-world examples for web servers and SSH keys.",
+    "date": "2026-03-21",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["chmod", "Linux", "file permissions", "Unix", "security", "sysadmin"],
+    "readTime": 8,
+    "coverEmoji": "🔒",
+    "coverGradient": "from-green-500 to-teal-600"
+  },
+  {
+    "slug": "http-status-codes-guide",
+    "title": "HTTP Status Codes Every Developer Should Know",
+    "description": "A practical reference for HTTP status codes — the five categories, deep dives on 200, 201, 204, 301, 302, 304, 400, 401, 403, 404, 409, 422, 429, 500, 502, 503, plus guidance on REST API design and debugging in DevTools.",
+    "date": "2026-03-22",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["HTTP", "status codes", "REST API", "web development", "debugging"],
+    "readTime": 7,
+    "coverEmoji": "📡",
+    "coverGradient": "from-orange-500 to-red-600"
+  }
+]

@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "ai-cost-calculator-guide",
+    "title": "How to Calculate Your AI API Costs Before You Run Out of Budget",
+    "description": "Token-based pricing explained: input vs output costs, how GPT-4, Claude, and Gemini charge per 1K tokens, cost scaling with volume, and practical strategies to reduce your monthly AI API bill.",
+    "date": "2026-03-22",
+    "author": "BrowseryTools Team",
+    "category": "AI Tools",
+    "tags": ["AI", "API costs", "tokens", "GPT-4", "Claude", "budget"],
+    "readTime": 8,
+    "coverEmoji": "💰",
+    "coverGradient": "from-emerald-500 to-teal-600"
+  },
+  {
+    "slug": "token-counter-guide",
+    "title": "Token Counting in LLMs: Why Every Developer Needs to Understand It",
+    "description": "What tokens actually are, how byte-pair encoding works, why the 750-words-per-1000-tokens rule breaks for Arabic and Chinese, and how token counts affect context windows and API costs.",
+    "date": "2026-03-22",
+    "author": "BrowseryTools Team",
+    "category": "AI Tools",
+    "tags": ["tokens", "tokenizer", "LLM", "BPE", "context window", "API"],
+    "readTime": 7,
+    "coverEmoji": "🔢",
+    "coverGradient": "from-violet-500 to-purple-600"
+  },
+  {
+    "slug": "context-window-guide",
+    "title": "LLM Context Windows Explained: Limits, Strategies, and How to Work Within Them",
+    "description": "What a context window is, current limits for GPT-4, Claude, and Gemini, what happens when you exceed them, the lost-in-the-middle problem, and strategies like chunking, summarization, and RAG.",
+    "date": "2026-03-22",
+    "author": "BrowseryTools Team",
+    "category": "AI Tools",
+    "tags": ["context window", "LLM", "RAG", "GPT-4", "Claude", "Gemini"],
+    "readTime": 8,
+    "coverEmoji": "📐",
+    "coverGradient": "from-purple-500 to-indigo-600"
+  },
+  {
+    "slug": "model-comparison-guide",
+    "title": "GPT-4 vs Claude vs Gemini: How to Compare AI Models for Your Use Case",
+    "description": "Why benchmark numbers can mislead, key dimensions for comparing AI models (reasoning, coding, cost, context length), and a practical approach to choosing the right model for your specific application.",
+    "date": "2026-03-22",
+    "author": "BrowseryTools Team",
+    "category": "AI Tools",
+    "tags": ["GPT-4", "Claude", "Gemini", "model comparison", "AI", "benchmarks"],
+    "readTime": 9,
+    "coverEmoji": "⚖️",
+    "coverGradient": "from-amber-500 to-orange-600"
+  }
+]

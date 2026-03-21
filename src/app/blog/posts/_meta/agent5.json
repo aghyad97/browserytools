@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "video-compression-guide",
+    "title": "How to Compress Video Files Without Losing Quality",
+    "description": "A practical guide to video compression: how codecs like H.264, H.265, VP9, and AV1 work, what actually controls file size, lossless vs lossy compression, and the best settings for email, web, social media, and archival use cases.",
+    "date": "2026-03-18",
+    "author": "BrowseryTools Team",
+    "category": "Media Tools",
+    "tags": ["video compression", "H.264", "codec", "file size", "video editing"],
+    "readTime": 7,
+    "coverEmoji": "🎬",
+    "coverGradient": "from-red-500 to-pink-600"
+  },
+  {
+    "slug": "image-formats-guide",
+    "title": "JPEG vs PNG vs WebP vs AVIF: The Complete Image Format Comparison",
+    "description": "Understand how JPEG, PNG, WebP, and AVIF each compress images under the hood, when to use each format, how they affect Core Web Vitals, and how to serve the right format to the right browser.",
+    "date": "2026-03-19",
+    "author": "BrowseryTools Team",
+    "category": "Image Tools",
+    "tags": ["image formats", "JPEG", "PNG", "WebP", "AVIF", "web performance", "Core Web Vitals"],
+    "readTime": 8,
+    "coverEmoji": "🖼️",
+    "coverGradient": "from-blue-500 to-cyan-500"
+  },
+  {
+    "slug": "exif-data-guide",
+    "title": "EXIF Metadata: What Your Photos Reveal About You (And How to Remove It)",
+    "description": "EXIF data embeds GPS coordinates, device serial numbers, and timestamps into every photo you take. Learn what it records, the real privacy risks, famous cases where it exposed people's locations, and how to view and remove it.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Privacy Tools",
+    "tags": ["EXIF", "metadata", "privacy", "GPS", "photo security", "image data"],
+    "readTime": 8,
+    "coverEmoji": "📷",
+    "coverGradient": "from-amber-500 to-orange-600"
+  },
+  {
+    "slug": "svg-guide",
+    "title": "SVG Files: A Complete Guide for Developers and Designers",
+    "description": "Everything you need to know about SVG: the XML-based vector format that scales infinitely, how core elements like path and viewBox work, CSS styling and animation, SVGO optimization, XSS risks from user-uploaded SVGs, and when to convert SVG to PNG.",
+    "date": "2026-03-21",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["SVG", "vector graphics", "web development", "CSS", "SVGO", "icons"],
+    "readTime": 9,
+    "coverEmoji": "✏️",
+    "coverGradient": "from-violet-500 to-purple-600"
+  }
+]

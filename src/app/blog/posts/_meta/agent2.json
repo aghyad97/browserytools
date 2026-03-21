@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "prompt-formatter-guide",
+    "title": "How to Format Prompts for Better AI Responses",
+    "description": "Learn the techniques that separate mediocre AI outputs from precise, actionable ones: role assignment, clear instruction blocks, few-shot examples, chain-of-thought prompting, and structured XML/JSON formats.",
+    "date": "2026-03-21",
+    "author": "BrowseryTools Team",
+    "category": "AI Tools",
+    "tags": ["AI", "prompts", "ChatGPT", "Claude", "prompt engineering"],
+    "readTime": 7,
+    "coverEmoji": "✨",
+    "coverGradient": "from-violet-500 to-purple-600"
+  },
+  {
+    "slug": "system-prompt-builder-guide",
+    "title": "Writing System Prompts That Actually Work",
+    "description": "A practical guide to crafting system prompts that produce consistent AI behavior — covering role, context, constraints, output format, and how to test and iterate across customer support, coding, and writing use cases.",
+    "date": "2026-03-21",
+    "author": "BrowseryTools Team",
+    "category": "AI Tools",
+    "tags": ["AI", "system prompts", "Claude", "ChatGPT", "prompt engineering", "LLM"],
+    "readTime": 8,
+    "coverEmoji": "🧠",
+    "coverGradient": "from-blue-500 to-indigo-600"
+  },
+  {
+    "slug": "mcp-config-guide",
+    "title": "Model Context Protocol (MCP): What It Is and How to Configure It",
+    "description": "MCP is Anthropic's open standard for connecting AI models to tools, files, and databases. Learn how the client-server architecture works, which servers to use, and how to write a working MCP config for Claude Desktop and Claude Code.",
+    "date": "2026-03-21",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["MCP", "Claude", "AI tools", "Claude Code", "developer tools", "Anthropic"],
+    "readTime": 8,
+    "coverEmoji": "🔌",
+    "coverGradient": "from-emerald-500 to-teal-600"
+  },
+  {
+    "slug": "claude-md-guide",
+    "title": "CLAUDE.md Files: How to Give AI the Context It Needs About Your Codebase",
+    "description": "A CLAUDE.md file at your project root gives Claude Code standing context about your stack, conventions, and architecture — eliminating the repeated corrections that come with a context-blind AI assistant.",
+    "date": "2026-03-21",
+    "author": "BrowseryTools Team",
+    "category": "Developer Tools",
+    "tags": ["Claude Code", "CLAUDE.md", "AI", "developer tools", "codebase context", "Anthropic"],
+    "readTime": 7,
+    "coverEmoji": "📄",
+    "coverGradient": "from-orange-500 to-amber-500"
+  }
+]

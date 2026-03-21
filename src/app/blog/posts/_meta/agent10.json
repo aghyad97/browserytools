@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "adawat-sour-arabi",
+    "title": "أدوات الصور المجانية: الضغط والتحويل وإزالة الخلفية بدون رفع الملفات",
+    "description": "اضغط صورك وحوّلها وأزل خلفياتها مجانًا مباشرةً في متصفحك. لا حاجة لرفع ملفاتك أو الاشتراك في أي خدمة.",
+    "date": "2026-03-13",
+    "author": "BrowseryTools Team",
+    "category": "أدوات الصور",
+    "tags": ["ضغط الصور", "تحويل الصور", "إزالة الخلفية", "image tools", "free"],
+    "readTime": 7,
+    "coverEmoji": "🖼️",
+    "coverGradient": "from-pink-500 to-rose-600"
+  },
+  {
+    "slug": "thikaa-isnadi-guide-ar",
+    "title": "أدوات الذكاء الاصطناعي للمطورين: حساب التكلفة ومقارنة النماذج وعدّ الرموز",
+    "description": "دليل شامل لفهم تسعير نماذج GPT-4 وClaude وGemini، وكيف تحسب تكاليف API قبل البناء وتُقلّلها في تطبيقاتك.",
+    "date": "2026-03-14",
+    "author": "BrowseryTools Team",
+    "category": "أدوات الذكاء الاصطناعي",
+    "tags": ["ذكاء اصطناعي", "GPT-4", "Claude", "Tokens", "AI cost", "developers"],
+    "readTime": 8,
+    "coverEmoji": "🤖",
+    "coverGradient": "from-violet-500 to-purple-700"
+  },
+  {
+    "slug": "markdown-guide-ar",
+    "title": "دليل Markdown الشامل للكتّاب والمطورين العرب",
+    "description": "كل ما تحتاج معرفته عن Markdown — من الصيغ الأساسية إلى استخدامه مع اللغة العربية وتحويله إلى HTML.",
+    "date": "2026-03-15",
+    "author": "BrowseryTools Team",
+    "category": "أدوات الكتابة",
+    "tags": ["Markdown", "كتابة", "توثيق", "HTML", "Obsidian", "Notion"],
+    "readTime": 7,
+    "coverEmoji": "✍️",
+    "coverGradient": "from-sky-500 to-blue-700"
+  },
+  {
+    "slug": "himayat-khusousiyya-arabi",
+    "title": "دليل حماية الخصوصية على الإنترنت في 2025",
+    "description": "المخاطر الحقيقية على خصوصيتك الرقمية وخطوات عملية فورية للحد من تتبعك وحماية بياناتك الحساسة.",
+    "date": "2026-03-16",
+    "author": "BrowseryTools Team",
+    "category": "الأمن والخصوصية",
+    "tags": ["خصوصية", "أمن رقمي", "VPN", "تشفير", "كلمات مرور", "privacy"],
+    "readTime": 9,
+    "coverEmoji": "🔒",
+    "coverGradient": "from-emerald-500 to-teal-700"
+  }
+]

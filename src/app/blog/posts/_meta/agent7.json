@@ -1,0 +1,62 @@
+[
+  {
+    "slug": "expense-tracker-guide",
+    "title": "Track Your Monthly Expenses Without Apps, Subscriptions, or Cloud Storage",
+    "description": "Most people have no idea where their money goes. Learn the 50/30/20 budgeting rule, the difference between fixed and variable expenses, and how to run a monthly expense review — without signing up for anything.",
+    "date": "2026-03-16",
+    "author": "BrowseryTools Team",
+    "category": "Productivity",
+    "tags": ["expense tracker", "budgeting", "personal finance", "money management"],
+    "readTime": 7,
+    "coverEmoji": "💸",
+    "coverGradient": "from-emerald-500 to-green-600"
+  },
+  {
+    "slug": "invoice-generator-guide",
+    "title": "How to Create Professional Invoices for Free — No Subscriptions Required",
+    "description": "A complete guide to professional invoicing: required fields, numbering conventions, payment terms like Net 30, late fee language, VAT and GST requirements by country, and why a free PDF tool beats a $100/year subscription.",
+    "date": "2026-03-17",
+    "author": "BrowseryTools Team",
+    "category": "Business",
+    "tags": ["invoice", "freelancing", "billing", "payment terms", "PDF"],
+    "readTime": 7,
+    "coverEmoji": "🧾",
+    "coverGradient": "from-violet-500 to-purple-600"
+  },
+  {
+    "slug": "loan-calculator-guide",
+    "title": "Loan Payment Calculator: Understand Your Mortgage, Car Loan, or Personal Loan",
+    "description": "The loan payment formula explained, amortization demystified (why early payments are mostly interest), APR vs interest rate, how extra payments save thousands, and how to actually compare loan offers.",
+    "date": "2026-03-18",
+    "author": "BrowseryTools Team",
+    "category": "Finance",
+    "tags": ["loan calculator", "mortgage", "amortization", "APR", "personal finance"],
+    "readTime": 8,
+    "coverEmoji": "🏦",
+    "coverGradient": "from-blue-500 to-cyan-600"
+  },
+  {
+    "slug": "currency-converter-guide",
+    "title": "How Currency Exchange Rates Work: A Practical Guide",
+    "description": "What drives exchange rates, the bid/ask spread, why you never get the mid-market rate, how banks and credit cards hide fees in spreads, and the currency traps that catch travelers and international freelancers.",
+    "date": "2026-03-19",
+    "author": "BrowseryTools Team",
+    "category": "Finance",
+    "tags": ["currency converter", "exchange rates", "forex", "travel", "international payments"],
+    "readTime": 7,
+    "coverEmoji": "💱",
+    "coverGradient": "from-amber-500 to-orange-500"
+  },
+  {
+    "slug": "timezone-guide",
+    "title": "Working Across Time Zones: A Complete Guide for Remote Teams",
+    "description": "How UTC offsets work, why DST makes scheduling error-prone, best practices for remote team meeting scheduling, ISO 8601 datetime format, and the golden rule for developers: always store timestamps in UTC.",
+    "date": "2026-03-20",
+    "author": "BrowseryTools Team",
+    "category": "Productivity",
+    "tags": ["timezone", "remote work", "UTC", "scheduling", "ISO 8601", "developers"],
+    "readTime": 8,
+    "coverEmoji": "🌐",
+    "coverGradient": "from-purple-500 to-violet-600"
+  }
+]

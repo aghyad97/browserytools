@@ -1,0 +1,50 @@
+[
+  {
+    "slug": "adawat-almutasaffih-privacy",
+    "title": "لماذا أدوات المتصفح هي الأكثر أمانًا لبياناتك الشخصية",
+    "description": "تعرّف على كيفية معالجة أدوات BrowseryTools لبياناتك محليًا في متصفحك دون رفعها لأي سيرفر، وكيف تحمي خصوصيتك بشكل كامل.",
+    "date": "2026-03-15",
+    "author": "BrowseryTools Team",
+    "category": "الخصوصية والأمن",
+    "tags": ["خصوصية", "أمن", "متصفح", "بيانات", "privacy", "security"],
+    "readTime": 6,
+    "coverEmoji": "🔒",
+    "coverGradient": "from-indigo-500 to-purple-600"
+  },
+  {
+    "slug": "adawat-almutawwirin-arabi",
+    "title": "أفضل أدوات المطورين المجانية في المتصفح لعام 2025",
+    "description": "دليل شامل لأفضل 10 أدوات مطورين مجانية تعمل في المتصفح، مع مقارنة بين أدوات المتصفح والبدائل الأخرى ولماذا هي الخيار الأمثل.",
+    "date": "2026-03-16",
+    "author": "BrowseryTools Team",
+    "category": "أدوات المطورين",
+    "tags": ["مطورين", "أدوات", "مجاني", "متصفح", "developer-tools", "free"],
+    "readTime": 7,
+    "coverEmoji": "🛠️",
+    "coverGradient": "from-blue-500 to-cyan-600"
+  },
+  {
+    "slug": "json-dalil-arabi",
+    "title": "دليل JSON الشامل: ما هو وكيف يستخدمه المطورون",
+    "description": "دليل مفصل باللغة العربية يشرح JSON من الأساسيات: قواعد البناء، الأخطاء الشائعة، الفرق بين JSON وXML، واستخدامه في APIs.",
+    "date": "2026-03-17",
+    "author": "BrowseryTools Team",
+    "category": "أدوات المطورين",
+    "tags": ["json", "api", "بيانات", "مطورين", "تنسيق", "data-format"],
+    "readTime": 8,
+    "coverEmoji": "📋",
+    "coverGradient": "from-green-500 to-emerald-600"
+  },
+  {
+    "slug": "regex-dalil-arabi",
+    "title": "شرح Regular Expressions بالعربي: دليل المبتدئين",
+    "description": "دليل شامل للمبتدئين يشرح التعابير النمطية (Regular Expressions) من الصفر مع أمثلة عملية للتحقق من البريد الإلكتروني والهاتف وغيرها.",
+    "date": "2026-03-18",
+    "author": "BrowseryTools Team",
+    "category": "أدوات المطورين",
+    "tags": ["regex", "regular-expressions", "تعابير-نمطية", "مطورين", "javascript", "python"],
+    "readTime": 9,
+    "coverEmoji": "🔍",
+    "coverGradient": "from-orange-500 to-red-600"
+  }
+]
