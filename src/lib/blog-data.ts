@@ -14,6 +14,32 @@ export interface BlogPost {
 
 export const blogPosts: BlogPost[] = [
   {
+    slug: "keep-laptop-awake-browser",
+    title: "How to Keep Your Laptop Awake Without Installing Anything (Mac, Windows, Linux)",
+    description: "Stop your laptop or phone from sleeping with a single browser tab — no apps, no accounts, no ads. Uses the Screen Wake Lock API. Works on Mac, Windows, Linux, iOS, and Android.",
+    date: "2026-04-14",
+    author: "BrowseryTools Team",
+    category: "Productivity",
+    tags: ["keep awake", "wake lock", "laptop sleep", "productivity", "browser api", "cross-platform"],
+    readTime: 8,
+    featured: true,
+    coverEmoji: "⚡",
+    coverGradient: "from-emerald-500 to-teal-600",
+  },
+  {
+    slug: "ibqa-aljihaz-mustayqizan-ar",
+    title: "كيف تبقي جهازك مستيقظاً بدون تثبيت أي شيء (ماك وويندوز ولينكس)",
+    description: "امنع لابتوبك أو جوالك من الدخول في وضع السكون بتبويب واحد في المتصفح — بدون تطبيقات، بدون حسابات، بدون إعلانات. تعتمد على واجهة Wake Lock API وتعمل على ماك وويندوز ولينكس وiOS وأندرويد.",
+    date: "2026-04-14",
+    author: "BrowseryTools Team",
+    category: "الإنتاجية",
+    tags: ["إبقاء مستيقظ", "wake lock", "نوم اللابتوب", "إنتاجية", "متصفح", "متعدد المنصات"],
+    readTime: 8,
+    featured: true,
+    coverEmoji: "⚡",
+    coverGradient: "from-emerald-500 to-teal-600",
+  },
+  {
     slug: "why-browser-tools-keep-your-data-private",
     title: "Why Browser-Based Tools Are the Safest Way to Handle Your Data",
     description: "Learn how browser-based tools like BrowseryTools process everything locally on your device — your files, passwords, and sensitive data never leave your computer.",

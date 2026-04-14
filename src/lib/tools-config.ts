@@ -772,6 +772,16 @@ export const tools: ToolCategory[] = [
         description:
           "Track daily habits and build streaks. Add custom habits, mark them complete each day, and view your streak and completion history. All stored locally.",
       },
+      {
+        name: "Keep Awake",
+        href: "/tools/keep-awake",
+        icon: ZapIcon,
+        available: true,
+        order: 7,
+        creationDate: "2026-04-14",
+        description:
+          "Prevent your laptop or phone from sleeping. Choose a duration — 15 minutes, an hour, all day — or stay awake indefinitely. Uses the Screen Wake Lock API, works on Mac, Windows, Linux, iOS and Android. No install, no accounts.",
+      },
     ],
   },
   {

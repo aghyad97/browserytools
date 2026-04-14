@@ -344,6 +344,10 @@
         "name": "Habit Tracker",
         "description": "Build and track daily habits with streaks."
       },
+      "keep-awake": {
+        "name": "Keep Awake",
+        "description": "Prevent your laptop or phone from sleeping. Pick a duration or stay awake indefinitely."
+      },
       "password-generator": {
         "name": "Password Generator",
         "description": "Generate strong, secure passwords with custom rules."
@@ -1687,6 +1691,47 @@
       "pause": "Pause",
       "countsUpFrom0": "Counts up from 0.",
       "testSound": "Test sound"
+    },
+    "KeepAwake": {
+      "title": "Keep Awake",
+      "subtitle": "Stop your screen from sleeping",
+      "status": "Status",
+      "inactive": "Inactive",
+      "active": "Awake",
+      "activate": "Keep Awake",
+      "deactivate": "Let Sleep",
+      "duration": "Duration",
+      "presets": "Duration",
+      "custom": "Custom",
+      "minutes": "minutes",
+      "hours": "hours",
+      "hour": "hour",
+      "infinity": "Infinity",
+      "infinityDesc": "Stay awake until you stop it",
+      "preset15": "15 min",
+      "preset30": "30 min",
+      "preset1h": "1 hour",
+      "preset2h": "2 hours",
+      "preset4h": "4 hours",
+      "preset8h": "8 hours",
+      "customLabel": "Custom duration",
+      "customPlaceholder": "e.g. 45",
+      "unitMinutes": "Minutes",
+      "unitHours": "Hours",
+      "timeRemaining": "Time remaining",
+      "running": "Your screen will stay on",
+      "idle": "Screen will sleep normally",
+      "activated": "Keep-awake activated",
+      "deactivated": "Keep-awake turned off",
+      "sessionEnded": "Session ended — screen can sleep again",
+      "notSupported": "Your browser does not support the Screen Wake Lock API. Try the latest Chrome, Edge, Safari, or Firefox.",
+      "lostAndResumed": "Reacquired wake lock after tab was hidden",
+      "tipTitle": "How it works",
+      "tipBody": "Uses the browser's Wake Lock API to keep your display on — works on Mac, Windows, Linux, iOS and Android without installing anything. Keep this tab visible; closing or minimizing it releases the lock.",
+      "warnClosedLid": "If you close the laptop lid, the OS may still sleep — this only prevents display timeout while the tab is visible.",
+      "invalidDuration": "Enter a duration greater than zero",
+      "everSoOften": "Tiny screen nudge every 30s (fallback)",
+      "activatedInfinity": "Keep-awake activated — infinity mode"
     },
     "PomodoroTimer": {
       "title": "Pomodoro Timer",
