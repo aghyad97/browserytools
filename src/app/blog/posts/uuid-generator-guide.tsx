@@ -181,6 +181,24 @@ nanoid(10);    // → "IRFa-VaY2b"  (custom length)`}
           Open UUID Generator →
         </a>
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>Which UUID version should I use?</h3>
+        <p>UUID v4 (random) is the safe default. Use v7 when you want time-ordered IDs that index well in databases. Avoid v1 if you do not want to leak MAC address and timestamp.</p>
+        <h3>Can two random UUIDs ever collide?</h3>
+        <p>In practice, no. UUID v4 has 122 random bits, so the probability of a collision is astronomically small even across billions of IDs.</p>
+        <h3>Are NanoID and CUID better than UUID?</h3>
+        <p>They are shorter and URL-friendly, which is nice for public IDs. UUID is more universally supported. Choose based on whether you value brevity or ecosystem support.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/fake-data-generator-guide">How to Generate Realistic Fake Test Data</a></li>
+        <li><a href="/blog/hash-generator-guide">MD5, SHA-256, SHA-512: Free Hash Generator Guide</a></li>
+        <li><a href="/blog/json-formatter-guide">JSON Formatting, Validation, and Debugging</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

@@ -167,6 +167,15 @@ git diff --stat               # summary: files changed, insertions, deletions`}
         <li><strong>Meld</strong> — free, cross-platform GUI diff tool with three-way merge support. The best free alternative to Beyond Compare.</li>
         <li><strong>BrowseryTools Text Diff</strong> — instant, browser-based, no installation. Best for quick one-off comparisons, especially for text you would not want to paste into an online service.</li>
       </ul>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/markdown-complete-guide">Markdown: Complete Syntax Reference</a></li>
+        <li><a href="/blog/text-tools-for-writers-developers">The Best Free Text Tools for Writers and Developers</a></li>
+        <li><a href="/blog/word-frequency-guide">Word Frequency Analysis for Writers, SEO, and Research</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

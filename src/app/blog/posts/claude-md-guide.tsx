@@ -190,6 +190,15 @@ which wrap supabase-js queries. Never call supabase directly in components.
         information. Keep it current and treat it as first-class documentation — because for AI-assisted
         development, it effectively is.
       </p>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/mcp-config-guide">Model Context Protocol (MCP): What It Is and How to Configure It</a></li>
+        <li><a href="/blog/system-prompt-builder-guide">Writing System Prompts That Actually Work</a></li>
+        <li><a href="/blog/best-free-developer-tools-browser">The Ultimate Guide to Free Developer Tools in Your Browser</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

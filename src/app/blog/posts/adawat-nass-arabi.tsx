@@ -150,6 +150,15 @@ export default function Content() {
         <a href="/tools/markdown-editor">محرر Markdown</a> — كلها مجانية، بدون تسجيل، وتعمل بالكامل في
         متصفحك.
       </div>
+    
+      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>أدلة ذات صلة</h2>
+        <ul>
+        <li><a href="/blog/markdown-guide-ar">دليل Markdown الشامل للكتّاب والمطورين العرب</a></li>
+        <li><a href="/blog/adawat-almutawwirin-arabi">أفضل أدوات المطورين المجانية في المتصفح</a></li>
+        <li><a href="/blog/regex-dalil-arabi">شرح Regular Expressions بالعربي</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

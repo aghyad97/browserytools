@@ -190,6 +190,24 @@ Authorization: Bearer <valid-regular-user-token>
           Open HTTP Status Reference →
         </a>
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>What is the difference between 401 and 403?</h3>
+        <p>401 Unauthorized means you are not authenticated — log in first. 403 Forbidden means you are authenticated but lack permission for this resource.</p>
+        <h3>When should an API return 200 vs 201 vs 204?</h3>
+        <p>Use 200 for a successful request with a body, 201 when a new resource was created, and 204 for success with no response body (such as a delete).</p>
+        <h3>Is a 429 status my fault?</h3>
+        <p>429 Too Many Requests means you have hit a rate limit. Back off and retry after the time given in the Retry-After header rather than hammering the endpoint.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/curl-converter-guide">cURL to Code: Convert API Requests Between Languages</a></li>
+        <li><a href="/blog/url-encoder-guide">URL Encoding Explained: Percent-Encoding in HTTP</a></li>
+        <li><a href="/blog/json-formatter-guide">JSON Formatting, Validation, and Debugging</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

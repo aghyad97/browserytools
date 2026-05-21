@@ -312,6 +312,24 @@ export default function Content() {
           Open JWT Decoder →
         </a>
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>Can anyone read the contents of a JWT?</h3>
+        <p>Yes. The header and payload are only Base64URL-encoded, not encrypted, so anyone holding the token can decode and read the claims. Never store secrets in a JWT payload.</p>
+        <h3>Does decoding a JWT verify it is valid?</h3>
+        <p>No. Decoding only reveals the contents. Verifying a token means checking its signature against the secret or public key on the server, plus checking the exp and nbf claims.</p>
+        <h3>What does an expired JWT look like?</h3>
+        <p>The payload's exp claim is a Unix timestamp in the past. A correctly built server rejects the token once the current time passes exp.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/base64-encoding-guide">What is Base64 Encoding? A Complete Guide</a></li>
+        <li><a href="/blog/hash-generator-guide">MD5, SHA-256, SHA-512: Free Hash Generator Guide</a></li>
+        <li><a href="/blog/unix-timestamp-guide">Unix Timestamps: What They Are and How to Work With Them</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

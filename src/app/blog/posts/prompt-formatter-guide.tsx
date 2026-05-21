@@ -209,6 +209,15 @@ Subject line + email body, under 150 words`}
         explicit output constraints remove the guesswork. The best prompt is not the most elaborate one —
         it is the one that leaves the fewest questions unanswered before generation begins.
       </p>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/system-prompt-builder-guide">Writing System Prompts That Actually Work</a></li>
+        <li><a href="/blog/model-comparison-guide">GPT-4 vs Claude vs Gemini</a></li>
+        <li><a href="/blog/mcp-config-guide">Model Context Protocol (MCP): What It Is and How to Configure It</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

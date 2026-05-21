@@ -491,6 +491,15 @@ cron(0 0 1 * ? *)           # First day of every month at midnight`}</pre>
           Open the Cron Parser →
         </a>
       </div>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/chmod-guide">Linux File Permissions Explained: A chmod Guide</a></li>
+        <li><a href="/blog/unix-timestamp-guide">Unix Timestamps: What They Are and How to Work With Them</a></li>
+        <li><a href="/blog/timezone-guide">Working Across Time Zones: A Guide for Remote Teams</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

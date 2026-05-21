@@ -3776,5 +3776,12 @@
     "message": "Enjoying the tools? Support development with a coffee!",
     "cta": "Buy Me a Coffee ☕",
     "dismiss": "Maybe later"
+  },
+  "ToolSeo": {
+    "sectionLabel": "About this tool",
+    "aboutTitle": "About {tool}",
+    "howToTitle": "How to use {tool}",
+    "faqTitle": "Frequently asked questions",
+    "relatedTitle": "Related tools"
   }
 }

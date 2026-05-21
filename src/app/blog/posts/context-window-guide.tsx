@@ -197,6 +197,15 @@ export default function Content() {
           Open Context Window Tool →
         </a>
       </div>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/token-counter-guide">Token Counting in LLMs</a></li>
+        <li><a href="/blog/ai-cost-calculator-guide">How to Calculate Your AI API Costs</a></li>
+        <li><a href="/blog/model-comparison-guide">GPT-4 vs Claude vs Gemini</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

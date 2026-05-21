@@ -192,6 +192,15 @@ Always include a specific, actionable takeaway at the end of each response.`}
         constraints, output format, and an example or two. The iteration process — testing edge cases and
         versioning changes — is what takes a good system prompt to a great one.
       </p>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/prompt-formatter-guide">How to Format Prompts for Better AI Responses</a></li>
+        <li><a href="/blog/claude-md-guide">CLAUDE.md Files: Giving AI Context About Your Codebase</a></li>
+        <li><a href="/blog/model-comparison-guide">GPT-4 vs Claude vs Gemini</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

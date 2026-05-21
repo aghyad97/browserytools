@@ -181,6 +181,15 @@ new URLSearchParams({ q: "rock & roll" }).toString()
           Open URL Encoder →
         </a>
       </div>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/base64-encoding-guide">What is Base64 Encoding? A Complete Guide</a></li>
+        <li><a href="/blog/curl-converter-guide">cURL to Code: Convert API Requests Between Languages</a></li>
+        <li><a href="/blog/http-status-codes-guide">HTTP Status Codes Every Developer Should Know</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

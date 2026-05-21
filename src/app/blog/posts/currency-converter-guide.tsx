@@ -168,6 +168,24 @@ export default function Content() {
           Open Currency Converter →
         </a>
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>Why is the rate I get worse than the one I see online?</h3>
+        <p>Published mid-market rates sit between the buy and sell price. Banks and cards add a margin to that spread, so your effective rate is always slightly worse.</p>
+        <h3>What is the bid/ask spread?</h3>
+        <p>The bid is the price to sell a currency and the ask is the price to buy it. The gap between them — the spread — is how providers make money on exchanges.</p>
+        <h3>How can I avoid hidden currency fees?</h3>
+        <p>Compare the rate you are quoted against the mid-market rate, prefer providers that charge a transparent flat fee, and watch for poor exchange rates disguised as zero-commission.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/loan-calculator-guide">Loan Payment Calculator Explained</a></li>
+        <li><a href="/blog/invoice-generator-guide">How to Create Professional Invoices for Free</a></li>
+        <li><a href="/blog/timezone-guide">Working Across Time Zones: A Guide for Remote Teams</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

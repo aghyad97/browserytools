@@ -114,6 +114,16 @@ export default function Content() {
         أدوات المتصفح هي الخيار الوحيد العملي. والأهم: البيانات الحساسة التي تعالجها — tokens،
         مفاتيح API، بيانات المستخدمين — تبقى على جهازك ولا تُرسل لأي مكان.
       </p>
+    
+      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>أدلة ذات صلة</h2>
+        <ul>
+        <li><a href="/blog/json-dalil-arabi">دليل JSON الشامل</a></li>
+        <li><a href="/blog/regex-dalil-arabi">شرح Regular Expressions بالعربي</a></li>
+        <li><a href="/blog/base64-guide-ar">ما هو Base64؟ دليل شامل للمطورين العرب</a></li>
+        <li><a href="/blog/adawat-nass-arabi">أدوات معالجة النصوص للكتّاب والمطورين العرب</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

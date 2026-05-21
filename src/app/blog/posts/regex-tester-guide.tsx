@@ -204,6 +204,24 @@ export default function Content() {
         can build from it are vast. Start with the examples in this guide, test them against your
         own strings, and the syntax will become intuitive faster than you expect.
       </p>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>Is regex the same in every language?</h3>
+        <p>The core syntax is similar, but features and flags differ between JavaScript, Python, PCRE, and others. Always test in the engine you will actually run.</p>
+        <h3>Why is my regex matching too much?</h3>
+        <p>Quantifiers like * and + are greedy by default and grab as much as possible. Use the lazy versions (*? and +?) to match the shortest possible string.</p>
+        <h3>Should I use regex to validate email addresses?</h3>
+        <p>A simple pattern catches obvious typos, but fully validating email per RFC is impractical with regex. Validate loosely, then confirm with an actual verification email.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/json-formatter-guide">JSON Formatting, Validation, and Debugging</a></li>
+        <li><a href="/blog/url-encoder-guide">URL Encoding Explained: Percent-Encoding in HTTP</a></li>
+        <li><a href="/blog/best-free-developer-tools-browser">The Ultimate Guide to Free Developer Tools in Your Browser</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

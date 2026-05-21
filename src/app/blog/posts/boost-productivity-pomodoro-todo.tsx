@@ -194,6 +194,15 @@ export default function Content() {
         All tools are available for free at BrowseryTools, with no sign-up required. Explore the full suite
         and build the distraction-free workflow you have been looking for.
       </p>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/habit-tracker-guide">How to Build Good Habits: The Science of Streaks</a></li>
+        <li><a href="/blog/expense-tracker-guide">Track Your Monthly Expenses Without Apps</a></li>
+        <li><a href="/blog/keep-laptop-awake-browser">How to Keep Your Laptop Awake Without Installing Anything</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

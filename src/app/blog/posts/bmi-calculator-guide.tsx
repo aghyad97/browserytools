@@ -322,6 +322,24 @@ Upper bound = 24.9 × 3.0625 = 76.3 kg`}
           Open BMI Calculator →
         </a>
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>How is BMI calculated?</h3>
+        <p>BMI is weight in kilograms divided by height in metres squared (kg/m²). In imperial units it is weight in pounds times 703, divided by height in inches squared.</p>
+        <h3>Is BMI accurate for athletes?</h3>
+        <p>Not always. BMI cannot distinguish muscle from fat, so very muscular people can register as overweight despite low body fat. Treat BMI as a population screening tool, not an individual diagnosis.</p>
+        <h3>What is a healthy BMI range?</h3>
+        <p>For most adults, 18.5 to 24.9 is considered the healthy range, 25 to 29.9 is overweight, and 30 or above is obese — but these thresholds vary by age, ethnicity, and body composition.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/loan-calculator-guide">Loan Payment Calculator Explained</a></li>
+        <li><a href="/blog/habit-tracker-guide">How to Build Good Habits: The Science of Streaks</a></li>
+        <li><a href="/blog/expense-tracker-guide">Track Your Monthly Expenses Without Apps</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

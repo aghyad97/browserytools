@@ -216,6 +216,15 @@ export default function Content() {
           Open Model Comparison →
         </a>
       </div>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/ai-cost-calculator-guide">How to Calculate Your AI API Costs</a></li>
+        <li><a href="/blog/token-counter-guide">Token Counting in LLMs</a></li>
+        <li><a href="/blog/context-window-guide">LLM Context Windows Explained</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

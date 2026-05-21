@@ -335,6 +335,24 @@ echo "SGVsbG8sIFdvcmxkIQ==" | base64 --decode`}
           Open Base64 Tool →
         </a>
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>Is Base64 a form of encryption?</h3>
+        <p>No. Base64 is encoding, not encryption. It is fully reversible by anyone without a key, so it provides zero confidentiality. For real protection use AES or another cipher.</p>
+        <h3>Why does Base64 make data larger?</h3>
+        <p>Base64 turns every 3 bytes of input into 4 ASCII characters, so the output is about 33% larger than the original binary data.</p>
+        <h3>What is the difference between Base64 and Base64URL?</h3>
+        <p>Base64URL replaces + with - and / with _, and often drops = padding, so the string is safe to use inside URLs, query strings, and JWTs.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/jwt-decoder-guide">How to Decode and Verify JWT Tokens</a></li>
+        <li><a href="/blog/url-encoder-guide">URL Encoding Explained: Percent-Encoding in HTTP</a></li>
+        <li><a href="/blog/hash-generator-guide">MD5, SHA-256, SHA-512: Free Hash Generator Guide</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

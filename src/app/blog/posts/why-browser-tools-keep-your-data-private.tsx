@@ -235,6 +235,15 @@ export default function Content() {
         Related tools: <Link href="/tools/password-generator">Password Generator</Link> · <Link href="/tools/hash-generator">Hash Generator</Link> · <Link href="/tools/bg-removal">Background Removal</Link> · <Link href="/tools/jwt-decoder">JWT Decoder</Link> · <Link href="/tools/text-encryption">Text Encryption</Link>
       </p>
 
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/password-security-guide">Password Security: Why Most Passwords Are Weak</a></li>
+        <li><a href="/blog/text-encryption-guide">Client-Side Text Encryption in the Browser</a></li>
+        <li><a href="/blog/exif-data-guide">EXIF Metadata: What Your Photos Reveal About You</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

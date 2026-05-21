@@ -179,7 +179,9 @@ export default function Content() {
       </p>
       <p>
         Many company accounting departments will reject non-PDF invoices outright, requiring
-        resubmission. Generating a clean PDF from the start eliminates this friction.
+        resubmission. Generating a clean PDF from the start eliminates this friction. If you later
+        need to merge several invoices, split a document, or compress a large attachment, the{" "}
+        <a href="/tools/pdf">BrowseryTools PDF Tools</a> handle all of that in the browser too.
       </p>
 
       <h2>Free vs. Paid Invoicing Tools</h2>
@@ -210,6 +212,15 @@ export default function Content() {
         >
           Create Invoice →
         </a>
+      </div>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/loan-calculator-guide">Loan Payment Calculator Explained</a></li>
+        <li><a href="/blog/currency-converter-guide">How Currency Exchange Rates Work</a></li>
+        <li><a href="/blog/expense-tracker-guide">Track Your Monthly Expenses Without Apps</a></li>
+        </ul>
       </div>
     </div>
   );

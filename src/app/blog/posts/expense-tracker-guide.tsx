@@ -195,6 +195,15 @@ export default function Content() {
           Open Expense Tracker →
         </a>
       </div>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/loan-calculator-guide">Loan Payment Calculator Explained</a></li>
+        <li><a href="/blog/currency-converter-guide">How Currency Exchange Rates Work</a></li>
+        <li><a href="/blog/habit-tracker-guide">How to Build Good Habits: The Science of Streaks</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

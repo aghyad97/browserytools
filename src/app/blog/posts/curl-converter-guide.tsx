@@ -186,6 +186,15 @@ const data = response.data;`}
         <a href="/tools/curl-converter">BrowseryTools cURL Converter</a> to get clean, runnable
         code in seconds.
       </p>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/http-status-codes-guide">HTTP Status Codes Every Developer Should Know</a></li>
+        <li><a href="/blog/url-encoder-guide">URL Encoding Explained: Percent-Encoding in HTTP</a></li>
+        <li><a href="/blog/json-formatter-guide">JSON Formatting, Validation, and Debugging</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

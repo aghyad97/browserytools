@@ -136,6 +136,13 @@ IDF = log(total documents / documents containing term)`}
           interpret document structure.
         </li>
       </ul>
+      <p>
+        Once you have refined the keywords for a page, generate the matching title and description
+        tags with the{" "}
+        <a href="/tools/meta-tags">BrowseryTools Meta Tags Generator</a> — it previews how your page
+        appears in search results and on social media, so the keywords you analyzed here end up where
+        search engines actually read them.
+      </p>
 
       <h2>Academic and Research Uses</h2>
       <p>
@@ -177,6 +184,15 @@ IDF = log(total documents / documents containing term)`}
         <li><strong>For research</strong> — export frequency data to a spreadsheet and sort by frequency to find both the most common terms (the document's core themes) and the least common unique terms (the document's distinctive vocabulary)</li>
         <li><strong>For editing</strong> — pay special attention to hedging language ("somewhat," "rather," "fairly," "quite") and empty intensifiers ("very," "really," "extremely") — high frequency of these is a reliable signal that the prose needs tightening</li>
       </ul>
+    
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/text-tools-for-writers-developers">The Best Free Text Tools for Writers and Developers</a></li>
+        <li><a href="/blog/markdown-complete-guide">Markdown: Complete Syntax Reference</a></li>
+        <li><a href="/blog/text-diff-guide">How to Compare Text Files and Find Differences</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

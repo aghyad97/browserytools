@@ -99,13 +99,6 @@ export default function StructuredData({
       priceCurrency: "USD",
       availability: "https://schema.org/InStock",
     },
-    aggregateRating: {
-      "@type": "AggregateRating",
-      ratingValue: "4.8",
-      ratingCount: "150",
-      bestRating: "5",
-      worstRating: "1",
-    },
   });
 
   const getOrganizationStructuredData = () => ({

@@ -209,6 +209,24 @@ export default function Content() {
         add AVIF as an enhancement. If you are building a new project from scratch with a modern stack,
         serve AVIF with WebP fallback and stop worrying about JPEG entirely.
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>Which image format is best for photos on the web?</h3>
+        <p>WebP or AVIF give the smallest files at the same visual quality; fall back to JPEG for older browsers. Reserve PNG for graphics that need transparency or sharp edges.</p>
+        <h3>Does converting JPEG to PNG improve quality?</h3>
+        <p>No. JPEG already discarded detail when it was first saved; re-saving as PNG only locks in that loss at a larger file size. Keep the original whenever possible.</p>
+        <h3>How do image formats affect Core Web Vitals?</h3>
+        <p>Smaller, modern formats reduce bytes downloaded, which improves Largest Contentful Paint and overall load time — directly helping your Core Web Vitals scores.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/free-image-tools-guide">The Complete Guide to Free Image Tools</a></li>
+        <li><a href="/blog/remove-image-background-free">How to Remove Image Backgrounds for Free</a></li>
+        <li><a href="/blog/video-compression-guide">How to Compress Video Files Without Losing Quality</a></li>
+        </ul>
+      </div>
     </div>
   );
 }

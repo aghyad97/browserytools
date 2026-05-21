@@ -206,6 +206,24 @@ export default function Content() {
           Open Loan Calculator →
         </a>
       </div>
+    
+      <div data-seo-faq>
+        <h2>Frequently Asked Questions</h2>
+        <h3>What is the difference between APR and interest rate?</h3>
+        <p>The interest rate is the cost of borrowing the principal. APR includes the interest rate plus most fees, so it reflects the true annual cost and is the better number for comparing offers.</p>
+        <h3>Why is so much of my early payment interest?</h3>
+        <p>With amortization, interest is charged on the outstanding balance, which is highest at the start. Early payments are mostly interest; the principal portion grows over time.</p>
+        <h3>Do extra payments really save money?</h3>
+        <p>Yes. Extra payments go straight to principal, shrinking the balance future interest is charged on — which can save thousands and shorten the loan term.</p>
+      </div>
+      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
+        <h2>Related Guides</h2>
+        <ul>
+        <li><a href="/blog/expense-tracker-guide">Track Your Monthly Expenses Without Apps</a></li>
+        <li><a href="/blog/currency-converter-guide">How Currency Exchange Rates Work</a></li>
+        <li><a href="/blog/invoice-generator-guide">How to Create Professional Invoices for Free</a></li>
+        </ul>
+      </div>
     </div>
   );
 }
