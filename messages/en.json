@@ -3976,7 +3976,15 @@
       "statusSpeaking": "Speaking…",
       "statusPaused": "Paused",
       "note": "Available voices depend on your browser and operating system. Audio plays locally on your device — no recording or download is offered because browser speech synthesis cannot be reliably captured.",
-      "notSupported": "Your browser does not support the Web Speech API (speechSynthesis). Try the latest Chrome, Edge, Safari, or Firefox."
+      "notSupported": "Your browser does not support the Web Speech API (speechSynthesis). Try the latest Chrome, Edge, Safari, or Firefox.",
+      "downloadTitle": "Download audio (offline AI voice)",
+      "downloadDesc": "Browser voices above can't be saved to a file. This uses an in-browser AI voice to generate a downloadable WAV.",
+      "aiVoice": "AI voice",
+      "downloadAudio": "Download WAV",
+      "downloading": "Generating…",
+      "modelNote": "The selected AI voice downloads a model (~20–60MB) once from a CDN, then runs entirely on your device. Its sound differs from the browser preview voices.",
+      "audioDownloaded": "Audio downloaded",
+      "audioFailed": "Could not generate audio. Please try again."
     },
     "RandomPicker": {
       "tabNumber": "Number",

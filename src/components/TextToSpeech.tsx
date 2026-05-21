@@ -12,6 +12,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import {
   Volume2Icon,
@@ -20,10 +21,29 @@ import {
   SquareIcon,
   RotateCcwIcon,
   InfoIcon,
+  DownloadIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type SpeakState = "idle" | "speaking" | "paused";
+
+// Offline AI voices (Piper/VITS via @diffusionstudio/vits-web). Unlike the
+// native browser voices these can be synthesized to a downloadable WAV file.
+// The engine + voice model (~20-60MB) are fetched from a CDN on first use.
+// Typed as `string` so the bundler/TS treat it as a runtime URL, not a module.
+const VITS_CDN: string = "https://esm.sh/@diffusionstudio/vits-web@1.0.3";
+const AI_VOICES: { id: string; label: string }[] = [
+  { id: "en_US-hfc_female-medium", label: "English (US) — Female" },
+  { id: "en_US-hfc_male-medium", label: "English (US) — Male" },
+  { id: "en_US-amy-medium", label: "English (US) — Amy" },
+  { id: "en_US-ryan-high", label: "English (US) — Ryan (HQ)" },
+  { id: "en_GB-alan-medium", label: "English (UK) — Alan" },
+  { id: "en_GB-cori-high", label: "English (UK) — Cori (HQ)" },
+  { id: "ar_JO-kareem-medium", label: "العربية — كريم" },
+  { id: "es_ES-davefx-medium", label: "Español — Dave" },
+  { id: "fr_FR-siwis-medium", label: "Français — Siwis" },
+  { id: "de_DE-thorsten-medium", label: "Deutsch — Thorsten" },
+];
 
 export default function TextToSpeech() {
   const t = useTranslations("Tools.TextToSpeech");
@@ -38,6 +58,52 @@ export default function TextToSpeech() {
   const [state, setState] = useState<SpeakState>("idle");
 
   const utteranceRef = useRef<SpeechSynthesisUtterance | null>(null);
+
+  // Offline AI-voice download (WASM TTS — produces a real WAV file).
+  const [aiVoice, setAiVoice] = useState<string>(AI_VOICES[0].id);
+  const [aiBusy, setAiBusy] = useState(false);
+  const [aiProgress, setAiProgress] = useState(0);
+
+  const handleDownloadAudio = useCallback(async () => {
+    if (!text.trim()) {
+      toast.error(t("enterText"));
+      return;
+    }
+    setAiBusy(true);
+    setAiProgress(0);
+    try {
+      // Loaded from a CDN at runtime (not bundled): the library ships Node-only
+      // `require("fs")` code in a dead browser branch that breaks the bundler.
+      // The voice model is fetched from a CDN on first use anyway.
+      const tts = (await import(
+        /* webpackIgnore: true */ /* @vite-ignore */ VITS_CDN
+      )) as {
+        predict: (
+          cfg: { text: string; voiceId: string },
+          cb?: (p: { loaded: number; total: number }) => void
+        ) => Promise<Blob>;
+      };
+      const wav = await tts.predict({ text, voiceId: aiVoice }, (p) => {
+        if (p.total > 0) {
+          setAiProgress(Math.min(100, Math.round((p.loaded / p.total) * 100)));
+        }
+      });
+      const url = URL.createObjectURL(wav);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = "speech.wav";
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      URL.revokeObjectURL(url);
+      toast.success(t("audioDownloaded"));
+    } catch (err) {
+      console.error(err);
+      toast.error(t("audioFailed"));
+    } finally {
+      setAiBusy(false);
+    }
+  }, [text, aiVoice, t]);
 
   // Detect support + load voices (async voiceschanged event).
   useEffect(() => {
@@ -276,6 +342,52 @@ export default function TextToSpeech() {
                     : t("statusIdle")}
               </span>
             </div>
+          </Card>
+
+          <Card className="p-4 space-y-4">
+            <div>
+              <h2 className="text-sm font-semibold flex items-center gap-2">
+                <DownloadIcon className="h-4 w-4" />
+                {t("downloadTitle")}
+              </h2>
+              <p className="text-sm text-muted-foreground mt-1">
+                {t("downloadDesc")}
+              </p>
+            </div>
+
+            <div className="grid gap-4 sm:grid-cols-[1fr_auto] sm:items-end">
+              <div className="space-y-2">
+                <label className="text-sm font-medium">{t("aiVoice")}</label>
+                <Select value={aiVoice} onValueChange={setAiVoice}>
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {AI_VOICES.map((v) => (
+                      <SelectItem key={v.id} value={v.id}>
+                        {v.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button onClick={handleDownloadAudio} disabled={aiBusy}>
+                <DownloadIcon className="h-4 w-4 me-2" />
+                {aiBusy ? t("downloading") : t("downloadAudio")}
+              </Button>
+            </div>
+
+            {aiBusy && (
+              <div className="space-y-1">
+                <Progress value={aiProgress} />
+                <p className="text-xs text-muted-foreground" dir="ltr">
+                  {aiProgress}%
+                </p>
+              </div>
+            )}
+
+            <p className="text-xs text-muted-foreground">{t("modelNote")}</p>
           </Card>
 
           <Card className="p-4">
