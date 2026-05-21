@@ -1,49 +1,60 @@
 /**
- * Copy the tesseract.js worker and the tesseract.js-core WASM files out of
- * node_modules into public/tesseract/ so the OCR tool can be fully self-hosted
- * (no third-party CDN for the engine itself). The language traineddata is still
- * fetched on demand from the official tessdata CDN — see the privacy note in the
- * Image to Text tool.
+ * Copy the tesseract.js worker and ALL tesseract.js-core engine files out of
+ * node_modules into public/tesseract/ so the OCR tool is fully self-hosted
+ * (no third-party CDN for the engine). The language traineddata is still
+ * fetched on demand from the official tessdata CDN — see the privacy note in
+ * the Image to Text tool.
  *
- * Wired into package.json via the "postinstall" / "prebuild" scripts.
+ * We copy every file in tesseract.js-core (all SIMD / relaxedsimd / lstm
+ * variants) because the engine selects a variant at runtime based on the
+ * browser's WASM feature support (e.g. tesseract-core-relaxedsimd-lstm.wasm.js
+ * on modern Chrome). Copying only a subset breaks OCR on browsers that pick a
+ * variant we didn't ship.
+ *
+ * Wired into package.json via the "copy-assets" (postinstall / prebuild) script.
  */
 const fs = require("fs");
 const path = require("path");
 
 const root = path.resolve(__dirname, "..");
 const outDir = path.join(root, "public", "tesseract");
-
-const files = [
-  // worker (loaded via workerPath)
-  ["node_modules/tesseract.js/dist/worker.min.js", "worker.min.js"],
-  // core engine (loaded via corePath — Tesseract picks the right variant)
-  ["node_modules/tesseract.js-core/tesseract-core.wasm.js", "tesseract-core.wasm.js"],
-  ["node_modules/tesseract.js-core/tesseract-core.wasm", "tesseract-core.wasm"],
-  ["node_modules/tesseract.js-core/tesseract-core-simd.wasm.js", "tesseract-core-simd.wasm.js"],
-  ["node_modules/tesseract.js-core/tesseract-core-simd.wasm", "tesseract-core-simd.wasm"],
-  ["node_modules/tesseract.js-core/tesseract-core-lstm.wasm.js", "tesseract-core-lstm.wasm.js"],
-  ["node_modules/tesseract.js-core/tesseract-core-lstm.wasm", "tesseract-core-lstm.wasm"],
-  ["node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm.js", "tesseract-core-simd-lstm.wasm.js"],
-  ["node_modules/tesseract.js-core/tesseract-core-simd-lstm.wasm", "tesseract-core-simd-lstm.wasm"],
-];
+const coreDir = path.join(root, "node_modules", "tesseract.js-core");
+const workerSrc = path.join(
+  root,
+  "node_modules",
+  "tesseract.js",
+  "dist",
+  "worker.min.js"
+);
 
 function main() {
+  if (!fs.existsSync(coreDir)) {
+    console.warn("[copy-tesseract] tesseract.js-core not installed; skipping.");
+    return;
+  }
   fs.mkdirSync(outDir, { recursive: true });
+
   let copied = 0;
-  let missing = 0;
-  for (const [from, to] of files) {
-    const src = path.join(root, from);
-    const dest = path.join(outDir, to);
-    if (!fs.existsSync(src)) {
-      // Some core variants may not exist in every tesseract.js-core version.
-      // Skip silently rather than failing the whole build.
-      missing++;
-      continue;
+
+  // Copy every engine file (all wasm + loader variants).
+  for (const file of fs.readdirSync(coreDir)) {
+    if (
+      file.endsWith(".wasm") ||
+      file.endsWith(".wasm.js") ||
+      file.startsWith("tesseract-core")
+    ) {
+      fs.copyFileSync(path.join(coreDir, file), path.join(outDir, file));
+      copied++;
     }
-    fs.copyFileSync(src, dest);
+  }
+
+  // The worker script (loaded via workerPath).
+  if (fs.existsSync(workerSrc)) {
+    fs.copyFileSync(workerSrc, path.join(outDir, "worker.min.js"));
     copied++;
   }
-  console.log(`[copy-tesseract] copied ${copied} file(s) to public/tesseract/${missing ? ` (${missing} optional missing)` : ""}`);
+
+  console.log(`[copy-tesseract] copied ${copied} file(s) to public/tesseract/`);
 }
 
 main();
