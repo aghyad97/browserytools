@@ -244,7 +244,7 @@ export default function RomanNumeralConverter() {
                   type="number"
                   min="1"
                   max="3999"
-                  placeholder="e.g. 2024"
+                  placeholder={t("numberPlaceholder")}
                   value={numberInput}
                   onChange={(e) => setNumberInput(e.target.value)}
                   className="text-lg font-mono"
@@ -317,7 +317,7 @@ export default function RomanNumeralConverter() {
               </CardHeader>
               <CardContent>
                 <Input
-                  placeholder="e.g. MMXXIV"
+                  placeholder={t("romanPlaceholder")}
                   value={romanInput}
                   onChange={(e) => setRomanInput(e.target.value.toUpperCase())}
                   className="text-lg font-mono tracking-wider"

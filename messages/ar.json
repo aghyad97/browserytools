@@ -539,7 +539,8 @@
       "statusReady": "جاهز",
       "statusProcessing": "جارٍ المعالجة...",
       "statusError": "خطأ",
-      "statusWaiting": "في الانتظار"
+      "statusWaiting": "في الانتظار",
+      "privacyNote": "يُنزَّل نموذج الذكاء الاصطناعي مرة واحدة من شبكة توصيل المحتوى ويُخزَّن في متصفحك. تُعالَج صورك بالكامل على جهازك ولا تغادره أبدًا."
     },
     "PhoneMockups": {
       "device": "الجهاز",
@@ -2224,7 +2225,9 @@
       "errorInvalidFormat": "أرقام رومانية غير صحيحة — تحقق من تنسيق الأرقام",
       "errorOutOfRange": "أدخل رقماً بين 1 و 3999",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "failedToCopy": "فشل النسخ"
+      "failedToCopy": "فشل النسخ",
+      "numberPlaceholder": "مثال: 2024",
+      "romanPlaceholder": "مثال: MMXXIV"
     },
     "PasswordGenerator": {
       "generatorOptionsTitle": "خيارات التوليد",
@@ -3539,6 +3542,26 @@
       "copied": "تم النسخ!",
       "reset": "إعادة تعيين",
       "loadSample": "تحميل مثال"
+    },
+    "CompressVideo": {
+      "dropVideoHere": "أفلت الفيديو هنا",
+      "supportedFormats": "يدعم MP4 وMOV وWebM وMKV وAVI وM4V",
+      "quality": "الجودة",
+      "crf": "CRF",
+      "crfHint": "كلما انخفضت قيمة CRF زادت الجودة وكبر حجم الملف.",
+      "preset": "الإعداد المسبق",
+      "resolution": "الدقة",
+      "resolutionOriginal": "الأصلية",
+      "compress": "اضغط الفيديو",
+      "compressing": "جارٍ الضغط…",
+      "outputPlaceholder": "سيظهر الفيديو المضغوط هنا",
+      "originalSize": "الحجم الأصلي",
+      "compressedSize": "الحجم بعد الضغط",
+      "savings": "نسبة التقليص",
+      "videoTooLarge": "حجم الفيديو يجب أن يكون أقل من 500 ميغابايت",
+      "compressedSuccess": "تم ضغط الفيديو بنجاح!",
+      "compressFailed": "فشل ضغط الفيديو. يرجى المحاولة مجدداً.",
+      "downloadedSuccess": "تم تحميل الفيديو!"
     }
   },
   "Blog": {

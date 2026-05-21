@@ -3,6 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
+    "copy-assets": "node scripts/copy-pdf-worker.js && node scripts/copy-ffmpeg.mjs",
+    "copy-ffmpeg": "node scripts/copy-ffmpeg.mjs",
+    "copy-pdf-worker": "node scripts/copy-pdf-worker.js",
+    "postinstall": "bun run copy-assets",
+    "predev": "bun run copy-assets",
+    "prebuild": "bun run copy-assets",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
@@ -20,8 +26,11 @@
     "test:all": "bun run test && bun run test:e2e"
   },
   "dependencies": {
+    "@ffmpeg/core": "0.12.10",
+    "@ffmpeg/ffmpeg": "0.12.15",
+    "@ffmpeg/util": "0.12.2",
     "@hookform/resolvers": "^5.2.1",
-    "@imgly/background-removal": "^1.7.0",
+    "@imgly/background-removal": "1.7.0",
     "@imgly/background-removal-node": "^1.4.5",
     "@jsquash/avif": "^2.1.1",
     "@lexical/markdown": "^0.34.0",
@@ -72,6 +81,7 @@
     "jszip": "^3.10.1",
     "lexical": "^0.34.0",
     "lucide-react": "^0.544.0",
+    "mermaid": "^11.15.0",
     "next": "16.2",
     "next-intl": "^4.8.3",
     "next-themes": "^0.4.4",

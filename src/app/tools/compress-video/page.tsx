@@ -1,13 +1,8 @@
-"use client";
+import CompressVideo from "@/components/CompressVideo";
+import { generateToolMetadata } from "@/lib/metadata";
 
-// import CompressVideo from "@/components/CompressVideo";
-// import NoSSRWrapper from "@/components/NoSSRWrapper";
+export const metadata = generateToolMetadata("/tools/compress-video");
 
 export default function Page() {
-  return (
-    <div></div>
-    // <NoSSRWrapper>
-    //   <CompressVideo />
-    // </NoSSRWrapper>
-  );
+  return <CompressVideo />;
 }

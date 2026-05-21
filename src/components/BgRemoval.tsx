@@ -11,8 +11,13 @@ import { Progress } from "@/components/ui/progress";
 import JSZip from "jszip";
 import { Config, removeBackground } from "@imgly/background-removal";
 
+// The AI model + wasm are downloaded once from imgly's CDN. We pin publicPath to the
+// installed package version so the assets can never drift from the API we ship against.
+// Images themselves never leave the device — all processing runs locally in the browser.
 const config: Config = {
   device: "gpu",
+  publicPath:
+    "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/",
 };
 
 export default function BgRemoval() {
@@ -393,6 +398,9 @@ export default function BgRemoval() {
                 </h3>
                 <p className="text-muted-foreground text-sm">
                   {t("supportedFormats")}
+                </p>
+                <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
+                  {t("privacyNote")}
                 </p>
                 {items.length > 0 && (
                   <p className="text-xs text-muted-foreground mt-2">
