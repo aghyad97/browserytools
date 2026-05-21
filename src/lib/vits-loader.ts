@@ -1,15 +1,17 @@
 /**
  * Loader for the in-browser Piper/VITS text-to-speech engine
- * (@diffusionstudio/vits-web). It is loaded from a CDN at runtime rather than
- * bundled: the library ships Node-only `require("fs")` code in a dead browser
- * branch that breaks the bundler (Turbopack in particular). The voice model
- * (~20-60MB) is fetched from a CDN on first use, then cached on-device.
+ * (@diffusionstudio/vits-web). Bundled (lazy dynamic import) rather than loaded
+ * from a CDN: a CDN build (esm.sh) shims `process`, which makes the engine's
+ * emscripten module take its Node code path and call `fs.readFile` (fails in
+ * the browser). The bundled webpack build keeps emscripten on the browser path
+ * (fetch). The voice model (~20-60MB) is fetched from a CDN on first use, then
+ * cached on-device.
  *
- * Typed as `string` so the bundler/TS treat it as a runtime URL, not a module
- * specifier to resolve at build time.
+ * NOTE: this static specifier currently breaks `next dev --turbopack` (the
+ * library ships a Node-only `require("fs")` branch Turbopack can't resolve);
+ * the webpack production build resolves it via the `fs: false` fallback and
+ * runs correctly. Verify with the production server / `next dev --webpack`.
  */
-const VITS_CDN: string = "https://esm.sh/@diffusionstudio/vits-web@1.0.3";
-
 export type VitsProgress = { url: string; total: number; loaded: number };
 
 type VitsModule = {
@@ -23,9 +25,7 @@ let modulePromise: Promise<VitsModule> | null = null;
 
 function loadVits(): Promise<VitsModule> {
   if (!modulePromise) {
-    modulePromise = import(
-      /* webpackIgnore: true */ /* @vite-ignore */ VITS_CDN
-    ) as Promise<VitsModule>;
+    modulePromise = import("@diffusionstudio/vits-web") as Promise<VitsModule>;
   }
   return modulePromise;
 }
