@@ -599,6 +599,14 @@
       "svg-blob-generator": {
         "name": "SVG Blob Generator",
         "description": "Generate organic blob shapes and wave dividers as SVG"
+      },
+      "periodic-table": {
+        "name": "Periodic Table",
+        "description": "Interactive periodic table of all 118 elements. Search, filter by category, and click any element for details."
+      },
+      "mind-map": {
+        "name": "Mind Map Maker",
+        "description": "Create interactive mind maps. Add nodes, connect ideas, color branches, and export as JSON or PNG."
       }
     }
   },
@@ -4316,6 +4324,57 @@
       "svgOutput": "SVG Markup",
       "copied": "SVG copied to clipboard",
       "copyFailed": "Copy failed"
+    },
+    "PeriodicTable": {
+      "searchPlaceholder": "Search by name, symbol, or number",
+      "clear": "Clear",
+      "hint": "Click an element to see its full details.",
+      "cat": {
+        "alkali-metal": "Alkali metal",
+        "alkaline-earth-metal": "Alkaline earth metal",
+        "transition-metal": "Transition metal",
+        "post-transition-metal": "Post-transition metal",
+        "metalloid": "Metalloid",
+        "nonmetal": "Nonmetal",
+        "halogen": "Halogen",
+        "noble-gas": "Noble gas",
+        "lanthanide": "Lanthanide",
+        "actinide": "Actinide",
+        "unknown": "Unknown"
+      },
+      "detail": {
+        "number": "Atomic number",
+        "symbol": "Symbol",
+        "mass": "Atomic mass",
+        "category": "Category",
+        "group": "Group",
+        "period": "Period",
+        "block": "Block",
+        "config": "Electron configuration"
+      }
+    },
+    "MindMap": {
+      "title": "Mind Map Maker",
+      "description": "Brainstorm visually. Add nodes, connect ideas, drag to arrange, and export your map.",
+      "rootLabel": "Main Idea",
+      "newNodeLabel": "New Idea",
+      "addChild": "Add Child",
+      "addSibling": "Add Sibling",
+      "delete": "Delete",
+      "setColor": "Set color",
+      "exportJSON": "Export JSON",
+      "importJSON": "Import JSON",
+      "exportPNG": "Export PNG",
+      "reset": "Reset",
+      "hint": "Double-click a node to rename it. Drag from a node's edge to connect. Click a node to select, then add, color, or delete it.",
+      "selectFirst": "Select a node first",
+      "cannotDeleteRoot": "The main idea node cannot be deleted",
+      "exportedJSON": "Mind map exported as JSON",
+      "importedJSON": "Mind map imported",
+      "invalidFile": "Invalid mind map file",
+      "exportedPNG": "Mind map exported as PNG",
+      "pngFailed": "Could not export image",
+      "resetDone": "Mind map reset"
     }
   },
   "Blog": {

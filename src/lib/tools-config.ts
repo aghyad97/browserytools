@@ -81,6 +81,8 @@ import {
   SplineIcon,
   LayersIcon,
   ShapesIcon,
+  AtomIcon,
+  NetworkIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -701,6 +703,16 @@ export const tools: ToolCategory[] = [
     order: 6,
     items: [
       {
+        name: "Periodic Table",
+        href: "/tools/periodic-table",
+        icon: AtomIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-05-21",
+        description:
+          "Interactive periodic table of all 118 elements in the standard layout. Color-coded by category, searchable by name, symbol, or atomic number. Click any element for atomic mass, group, period, and electron configuration.",
+      },
+      {
         name: "Invoice Generator",
         href: "/tools/invoice",
         icon: ReceiptIcon,
@@ -848,6 +860,16 @@ export const tools: ToolCategory[] = [
     id: "productivity",
     order: 7,
     items: [
+      {
+        name: "Mind Map Maker",
+        href: "/tools/mind-map",
+        icon: NetworkIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-05-21",
+        description:
+          "Create interactive mind maps in your browser. Add child and sibling nodes, edit text inline, drag to reposition, connect ideas, and color-code branches. Export as JSON or PNG. Saves to your browser automatically.",
+      },
       {
         name: "Signature Maker",
         href: "/tools/signature-maker",
