@@ -58,6 +58,7 @@ import {
   RepeatIcon,
   SmileIcon,
   EyeIcon,
+  EyeOffIcon,
   InfoIcon,
   SplitIcon,
   Columns2Icon,
@@ -66,6 +67,7 @@ import {
   GitBranchIcon,
   TagIcon,
   TableIcon,
+  TerminalIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -170,6 +172,16 @@ export const tools: ToolCategory[] = [
         description:
           "Convert SVG vector files to PNG images. Upload or paste SVG markup and export at 1x, 2x, or 3x resolution. Runs entirely in your browser.",
       },
+      {
+        name: "Photo Censor",
+        href: "/tools/photo-censor",
+        icon: EyeOffIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-05-21",
+        description:
+          "Redact sensitive parts of an image with blur, pixelate, or black-box censoring. Draw rectangular regions over faces, names, or numbers and export to PNG, JPEG, or WebP. 100% private — processed entirely in your browser.",
+      },
     ],
   },
   {
@@ -233,7 +245,7 @@ export const tools: ToolCategory[] = [
         order: 1,
         creationDate: "2025-08-20",
         description:
-          "Trim, convert, and edit video files. Cut clips, merge videos, adjust quality, and convert between formats. Works with MP4, AVI, MOV, and more.",
+          "Trim, convert, and edit video files. Cut clips, adjust quality, convert between formats, and turn videos into animated GIFs. Works with MP4, AVI, MOV, and more.",
       },
       {
         name: "Audio Editor",
@@ -624,7 +636,7 @@ export const tools: ToolCategory[] = [
         order: 4,
         creationDate: "2025-09-10",
         description:
-          "Advanced calculator with both basic and scientific modes. Perform arithmetic operations, trigonometric functions, logarithms, memory operations, and more. Full keyboard support included.",
+          "Advanced calculator with basic, scientific, and graphing modes. Perform arithmetic operations, trigonometric functions, logarithms, memory operations, plot y = f(x) functions, and more. Full keyboard support included.",
       },
       {
         name: "Age Calculator",
@@ -948,6 +960,16 @@ export const tools: ToolCategory[] = [
         description:
           "Generate HTML meta tags, Open Graph tags, and Twitter Card tags. Preview how your page will appear in search results and social media.",
       },
+      {
+        name: "cURL Converter",
+        href: "/tools/curl-converter",
+        icon: TerminalIcon,
+        available: true,
+        order: 15,
+        creationDate: "2026-05-21",
+        description:
+          "Convert a curl command into ready-to-run code for JavaScript fetch, Node.js, Python requests, Go, and PHP. Parses headers, query, auth, and body entirely in your browser.",
+      },
     ],
   },
   {
@@ -993,7 +1015,7 @@ export const tools: ToolCategory[] = [
         order: 4,
         creationDate: "2026-02-20",
         description:
-          "Record your screen, window, or tab directly in the browser using the Screen Capture API. No extensions or software needed. Save as WebM video.",
+          "Record your screen, window, or tab directly in the browser using the Screen Capture API. Add a webcam picture-in-picture overlay, a 3-2-1 countdown, and export to WebM or animated GIF. No extensions or software needed.",
       },
       {
         name: "Color Contrast Checker",

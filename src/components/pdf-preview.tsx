@@ -14,8 +14,9 @@ import {
 import { Button } from "@/components/ui/button";
 import { useTranslations } from "next-intl";
 
-// Initialize PDF.js worker (self-hosted, copied from pdfjs-dist into public/ at build time)
-if (typeof window !== "undefined") {
+// Initialize PDF.js worker. Only set a default if another module (e.g. the
+// self-hosted worker setup) hasn't already configured workerSrc.
+if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 }
 

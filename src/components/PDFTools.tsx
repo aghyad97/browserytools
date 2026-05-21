@@ -4,23 +4,23 @@ import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
+import JSZip from "jszip";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from "@/components/ui/sheet";
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
+  Tabs,
+  TabsList,
+  TabsTrigger,
+  TabsContent,
+} from "@/components/ui/tabs";
 import {
   Upload,
   File,
@@ -28,21 +28,20 @@ import {
   MoveUp,
   MoveDown,
   Eye,
-  RotateCw,
   FilePlus,
   SplitSquareHorizontal,
-  FileOutput,
-  Info,
-  Lock,
-  Unlock,
-  RotateCcw,
+  Image as ImageIcon,
+  Download,
+  X,
 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
 import * as pdfjsLib from "pdfjs-dist";
 
-// Initialize PDF.js worker for thumbnails (self-hosted, copied from pdfjs-dist into public/ at build time)
-if (typeof window !== "undefined") {
+// Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
+// from /public; we keep using GlobalWorkerOptions so whichever workerSrc is set
+// (CDN or self-hosted file) is honored. Only set a default if none exists.
+if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 }
 
@@ -53,564 +52,706 @@ interface PDFFile {
   pageCount?: number;
 }
 
+interface ImageFile {
+  name: string;
+  size: number;
+  type: string;
+  data: Uint8Array;
+  url: string;
+}
+
+type PageSize = "a4" | "letter" | "fit";
+type Orientation = "portrait" | "landscape";
+
+// Page dimensions in PDF points (1pt = 1/72 inch).
+const PAGE_DIMENSIONS: Record<string, [number, number]> = {
+  a4: [595.28, 841.89],
+  letter: [612, 792],
+};
+
+function formatBytes(bytes: number) {
+  if (bytes === 0) return "0 Bytes";
+  const k = 1024;
+  const sizes = ["Bytes", "KB", "MB", "GB"];
+  const i = Math.floor(Math.log(bytes) / Math.log(k));
+  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
+}
+
+function triggerDownload(blob: Blob, filename: string) {
+  const url = URL.createObjectURL(blob);
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  URL.revokeObjectURL(url);
+}
+
+function downloadPdfBytes(data: Uint8Array, filename: string) {
+  triggerDownload(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
+}
+
 export default function PDFTools() {
   const t = useTranslations("Tools.PDFTools");
+
+  // ── Shared PDF state (Merge + Split tabs) ──────────────────────────────────
   const [files, setFiles] = useState<PDFFile[]>([]);
   const [loading, setLoading] = useState(false);
   const [previewFile, setPreviewFile] = useState<PDFFile | null>(null);
-  const [splitInfo, setSplitInfo] = useState<{
-    file: PDFFile;
-    pageRanges: string;
-  } | null>(null);
-  const [pdfInfo, setPdfInfo] = useState<{ [key: string]: number }>({});
   const [thumbnails, setThumbnails] = useState<{ [key: string]: string }>({});
   const [thumbnailLoading, setThumbnailLoading] = useState<{
     [key: string]: boolean;
   }>({});
 
+  // ── Split tab state ────────────────────────────────────────────────────────
+  const [splitFileIndex, setSplitFileIndex] = useState(0);
+  const [splitMode, setSplitMode] = useState<"range" | "all">("range");
+  const [pageRanges, setPageRanges] = useState("");
+
+  // ── Images → PDF tab state ──────────────────────────────────────────────────
+  const [images, setImages] = useState<ImageFile[]>([]);
+  const [pageSize, setPageSize] = useState<PageSize>("a4");
+  const [orientation, setOrientation] = useState<Orientation>("portrait");
+  const [margin, setMargin] = useState(24);
+
   const generateThumbnail = async (pdfData: Uint8Array, filename: string) => {
     try {
       setThumbnailLoading((prev) => ({ ...prev, [filename]: true }));
-
-      // Check if PDF.js worker is available
-      if (!pdfjsLib.GlobalWorkerOptions.workerSrc) {
-        console.warn("PDF.js worker not initialized");
-        return;
-      }
+      if (!pdfjsLib.GlobalWorkerOptions.workerSrc) return;
 
       const loadingTask = pdfjsLib.getDocument({ data: pdfData });
       const pdfDoc = await loadingTask.promise;
       const page = await pdfDoc.getPage(1);
-
-      const scale = 0.3; // Small scale for thumbnail
-      const viewport = page.getViewport({ scale });
-
+      const viewport = page.getViewport({ scale: 0.3 });
       const canvas = document.createElement("canvas");
       const context = canvas.getContext("2d");
-
-      if (!context) {
-        console.error("Could not get canvas context");
-        return;
-      }
-
+      if (!context) return;
       canvas.height = viewport.height;
       canvas.width = viewport.width;
-
-      await page.render({
-        canvasContext: context,
-        viewport: viewport,
-      }).promise;
-
-      const thumbnailUrl = canvas.toDataURL("image/png");
-      setThumbnails((prev) => ({ ...prev, [filename]: thumbnailUrl }));
+      await page.render({ canvasContext: context, viewport }).promise;
+      setThumbnails((prev) => ({
+        ...prev,
+        [filename]: canvas.toDataURL("image/png"),
+      }));
     } catch (error) {
       console.error("Error generating thumbnail:", error);
-      // Don't show error to user for thumbnails, just log it
     } finally {
       setThumbnailLoading((prev) => ({ ...prev, [filename]: false }));
     }
   };
 
-  const onDrop = useCallback(async (acceptedFiles: File[]) => {
+  // ── PDF upload ──────────────────────────────────────────────────────────────
+  const onDropPdf = useCallback(async (acceptedFiles: File[]) => {
     try {
       setLoading(true);
       const newFiles = await Promise.all(
-        acceptedFiles.map(async (file) => {
-          const arrayBuffer = await file.arrayBuffer();
-          const data = new Uint8Array(arrayBuffer);
-
-          // Get page count for each PDF
+        acceptedFiles.map(async (file): Promise<PDFFile | null> => {
+          const data = new Uint8Array(await file.arrayBuffer());
           try {
             const pdf = await PDFDocument.load(data);
             const pageCount = pdf.getPageCount();
-            setPdfInfo((prev) => ({ ...prev, [file.name]: pageCount }));
-
-            // Generate thumbnail
             generateThumbnail(data, file.name);
-
-            return {
-              name: file.name,
-              size: file.size,
-              data,
-              pageCount,
-            };
-          } catch (error) {
-            toast.error(`Error reading ${file.name}: Invalid PDF file`);
+            return { name: file.name, size: file.size, data, pageCount };
+          } catch {
+            toast.error(t("errorReadingFile", { name: file.name }));
             return null;
           }
         })
       );
-
-      const validFiles = newFiles.filter((file) => file !== null) as PDFFile[];
+      const validFiles = newFiles.filter((f): f is PDFFile => f !== null);
       setFiles((prev) => [...prev, ...validFiles]);
-
       if (validFiles.length > 0) {
-        toast.success(`Successfully added ${validFiles.length} PDF(s)!`);
+        toast.success(t("addedPdfs", { count: validFiles.length }));
       }
-    } catch (error) {
+    } catch {
       toast.error(t("errorLoadingPdfs"));
     } finally {
       setLoading(false);
     }
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "application/pdf": [".pdf"],
-    },
+  const pdfDropzone = useDropzone({
+    onDrop: onDropPdf,
+    accept: { "application/pdf": [".pdf"] },
     multiple: true,
   });
 
+  // ── Image upload ──────────────────────────────────────────────────────────────
+  const onDropImages = useCallback(async (acceptedFiles: File[]) => {
+    const newImages = await Promise.all(
+      acceptedFiles.map(async (file) => {
+        const data = new Uint8Array(await file.arrayBuffer());
+        return {
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          data,
+          url: URL.createObjectURL(file),
+        } as ImageFile;
+      })
+    );
+    setImages((prev) => [...prev, ...newImages]);
+    if (newImages.length > 0) {
+      toast.success(t("addedImages", { count: newImages.length }));
+    }
+  }, []);
+
+  const imageDropzone = useDropzone({
+    onDrop: onDropImages,
+    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] },
+    multiple: true,
+  });
+
+  // ── Reorder / remove helpers ──────────────────────────────────────────────────
   const moveFile = (index: number, direction: "up" | "down") => {
     const newFiles = [...files];
     const newIndex = direction === "up" ? index - 1 : index + 1;
-    [newFiles[index], newFiles[newIndex]] = [
-      newFiles[newIndex],
-      newFiles[index],
-    ];
+    [newFiles[index], newFiles[newIndex]] = [newFiles[newIndex], newFiles[index]];
     setFiles(newFiles);
   };
 
   const removeFile = (index: number) => {
     const fileToRemove = files[index];
     setFiles(files.filter((_, i) => i !== index));
-    setPdfInfo((prev) => {
-      const newInfo = { ...prev };
-      delete newInfo[fileToRemove.name];
-      return newInfo;
-    });
     setThumbnails((prev) => {
-      const newThumbnails = { ...prev };
-      delete newThumbnails[fileToRemove.name];
-      return newThumbnails;
+      const next = { ...prev };
+      delete next[fileToRemove.name];
+      return next;
     });
-    setThumbnailLoading((prev) => {
-      const newLoading = { ...prev };
-      delete newLoading[fileToRemove.name];
-      return newLoading;
-    });
-    toast.success(`Removed ${fileToRemove.name}`);
+    if (splitFileIndex >= files.length - 1) setSplitFileIndex(0);
+    toast.success(t("removedFile", { name: fileToRemove.name }));
   };
 
+  const moveImage = (index: number, direction: "up" | "down") => {
+    const next = [...images];
+    const newIndex = direction === "up" ? index - 1 : index + 1;
+    [next[index], next[newIndex]] = [next[newIndex], next[index]];
+    setImages(next);
+  };
+
+  const removeImage = (index: number) => {
+    const img = images[index];
+    URL.revokeObjectURL(img.url);
+    setImages(images.filter((_, i) => i !== index));
+  };
+
+  // ── Merge ──────────────────────────────────────────────────────────────────
   const mergePDFs = async () => {
     if (files.length < 2) {
       toast.error(t("needTwoPdfs"));
       return;
     }
-
     setLoading(true);
     try {
-      const mergedPdf = await PDFDocument.create();
-
+      const merged = await PDFDocument.create();
       for (const file of files) {
         const pdf = await PDFDocument.load(file.data);
-        const copiedPages = await mergedPdf.copyPages(
-          pdf,
-          pdf.getPageIndices()
-        );
-        copiedPages.forEach((page) => mergedPdf.addPage(page));
+        const pages = await merged.copyPages(pdf, pdf.getPageIndices());
+        pages.forEach((page) => merged.addPage(page));
       }
-
-      const mergedPdfFile = await mergedPdf.save();
-      downloadPdf(mergedPdfFile, "merged.pdf");
+      const bytes = await merged.save();
+      downloadPdfBytes(bytes, "merged.pdf");
       toast.success(t("mergedSuccess"));
-    } catch (error) {
+    } catch {
       toast.error(t("errorMerging"));
     } finally {
       setLoading(false);
     }
   };
 
+  // ── Split / Extract ───────────────────────────────────────────────────────────
   const splitPDF = async () => {
-    if (!splitInfo) return;
-
+    const file = files[splitFileIndex];
+    if (!file) return;
     setLoading(true);
     try {
-      const pdf = await PDFDocument.load(splitInfo.file.data);
+      const pdf = await PDFDocument.load(file.data);
       const totalPages = pdf.getPageCount();
+      const baseName = file.name.replace(/\.pdf$/i, "");
 
-      // Parse and validate page ranges
-      const ranges = splitInfo.pageRanges.split(",").map((range) => {
+      if (splitMode === "all") {
+        // One PDF per page → zip when more than one page.
+        const outputs: { name: string; bytes: Uint8Array }[] = [];
+        for (let i = 0; i < totalPages; i++) {
+          const newPdf = await PDFDocument.create();
+          const [page] = await newPdf.copyPages(pdf, [i]);
+          newPdf.addPage(page);
+          outputs.push({
+            name: `${baseName}_page_${i + 1}.pdf`,
+            bytes: await newPdf.save(),
+          });
+        }
+        if (outputs.length === 1) {
+          downloadPdfBytes(outputs[0].bytes, outputs[0].name);
+        } else {
+          const zip = new JSZip();
+          outputs.forEach((o) => zip.file(o.name, o.bytes as Uint8Array));
+          const blob = await zip.generateAsync({ type: "blob" });
+          triggerDownload(blob, `${baseName}_pages.zip`);
+        }
+        toast.success(t("splitSuccess", { count: outputs.length }));
+        return;
+      }
+
+      // Range mode: parse "1-3,5,7-9".
+      const ranges = pageRanges.split(",").map((range) => {
         const trimmed = range.trim();
         if (trimmed.includes("-")) {
           const [start, end] = trimmed.split("-").map(Number);
-          if (isNaN(start) || isNaN(end)) {
-            throw new Error(`Invalid range: ${trimmed}`);
-          }
+          if (isNaN(start) || isNaN(end)) throw new Error("invalid");
           return { start: start - 1, end: end - 1 };
-        } else {
-          const page = Number(trimmed);
-          if (isNaN(page)) {
-            throw new Error(`Invalid page number: ${trimmed}`);
-          }
-          return { start: page - 1, end: page - 1 };
         }
+        const page = Number(trimmed);
+        if (isNaN(page)) throw new Error("invalid");
+        return { start: page - 1, end: page - 1 };
       });
 
-      // Validate all ranges
       for (const range of ranges) {
-        if (
-          range.start < 0 ||
-          range.end >= totalPages ||
-          range.start > range.end
-        ) {
-          throw new Error(
-            `Invalid range: pages ${range.start + 1}-${
-              range.end + 1
-            }. PDF has ${totalPages} pages.`
-          );
+        if (range.start < 0 || range.end >= totalPages || range.start > range.end) {
+          throw new Error("range");
         }
       }
 
-      let splitCount = 0;
+      const outputs: { name: string; bytes: Uint8Array }[] = [];
       for (const [index, range] of ranges.entries()) {
         const newPdf = await PDFDocument.create();
-        const pages = await newPdf.copyPages(
-          pdf,
-          Array.from(
-            { length: range.end - range.start + 1 },
-            (_, i) => range.start + i
-          )
+        const indices = Array.from(
+          { length: range.end - range.start + 1 },
+          (_, i) => range.start + i
         );
+        const pages = await newPdf.copyPages(pdf, indices);
         pages.forEach((page) => newPdf.addPage(page));
-
-        const newPdfBytes = await newPdf.save();
-        const filename =
-          ranges.length === 1
-            ? `${splitInfo.file.name.replace(".pdf", "")}_split.pdf`
-            : `${splitInfo.file.name.replace(".pdf", "")}_part_${
-                index + 1
-              }.pdf`;
-        downloadPdf(newPdfBytes, filename);
-        splitCount++;
+        outputs.push({
+          name:
+            ranges.length === 1
+              ? `${baseName}_extract.pdf`
+              : `${baseName}_part_${index + 1}.pdf`,
+          bytes: await newPdf.save(),
+        });
       }
 
-      setSplitInfo(null);
-      toast.success(`PDF split successfully! Created ${splitCount} file(s).`);
-    } catch (error) {
-      toast.error(
-        error instanceof Error
-          ? error.message
-          : "Error splitting PDF. Check page ranges."
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const compressPDF = async (file: PDFFile) => {
-    setLoading(true);
-    try {
-      const pdf = await PDFDocument.load(file.data);
-
-      // Remove metadata to reduce file size
-      pdf.setTitle("");
-      pdf.setAuthor("");
-      pdf.setSubject("");
-      pdf.setKeywords([]);
-      pdf.setProducer("");
-      pdf.setCreator("");
-      // Remove creation and modification dates
-      // pdf.setCreationDate(undefined);
-      // pdf.setModificationDate(undefined);
-
-      const compressedBytes = await pdf.save({
-        useObjectStreams: true,
-        addDefaultPage: false,
-        objectsPerTick: 50,
-      });
-
-      const originalSize = file.data.length;
-      const compressedSize = compressedBytes.length;
-      const compressionRatio = (
-        ((originalSize - compressedSize) / originalSize) *
-        100
-      ).toFixed(1);
-
-      if (compressedSize < originalSize) {
-        downloadPdf(
-          compressedBytes,
-          `${file.name.replace(".pdf", "")}_compressed.pdf`
-        );
-        toast.success(
-          `Compressed successfully! ${formatBytes(
-            originalSize
-          )} → ${formatBytes(compressedSize)} (${compressionRatio}% reduction)`
-        );
+      if (outputs.length === 1) {
+        downloadPdfBytes(outputs[0].bytes, outputs[0].name);
       } else {
-        toast.info(t("alreadyOptimized"));
+        const zip = new JSZip();
+        outputs.forEach((o) => zip.file(o.name, o.bytes as Uint8Array));
+        const blob = await zip.generateAsync({ type: "blob" });
+        triggerDownload(blob, `${baseName}_split.zip`);
       }
-    } catch (error) {
-      toast.error(t("errorCompressing"));
+      toast.success(t("splitSuccess", { count: outputs.length }));
+    } catch {
+      toast.error(t("errorSplitting"));
     } finally {
       setLoading(false);
     }
   };
 
-  const downloadPdf = (data: Uint8Array, filename: string) => {
-    const blob = new Blob([data as BlobPart], { type: "application/pdf" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
-  };
-
-  const rotatePDF = async (file: PDFFile, degrees: number) => {
+  // ── Images → PDF ──────────────────────────────────────────────────────────────
+  const imagesToPDF = async () => {
+    if (images.length === 0) {
+      toast.error(t("needOneImage"));
+      return;
+    }
     setLoading(true);
     try {
-      const pdf = await PDFDocument.load(file.data);
-      const pages = pdf.getPages();
+      const pdf = await PDFDocument.create();
+      for (const img of images) {
+        const embedded =
+          img.type === "image/png"
+            ? await pdf.embedPng(img.data)
+            : await pdf.embedJpg(img.data);
 
-      pages.forEach((page) => {
-        const currentRotation = page.getRotation();
-        page.setRotation({
-          type: "degrees",
-          angle: currentRotation.angle + degrees,
-        } as any);
-      });
-
-      const rotatedBytes = await pdf.save();
-      downloadPdf(
-        rotatedBytes,
-        `${file.name.replace(".pdf", "")}_rotated_${degrees}deg.pdf`
-      );
-      toast.success(`PDF rotated ${degrees}° successfully!`);
-    } catch (error) {
-      toast.error(t("errorRotating"));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const addPasswordProtection = async (file: PDFFile, password: string) => {
-    setLoading(true);
-    try {
-      const pdf = await PDFDocument.load(file.data);
-
-      // Note: pdf-lib doesn't support password protection directly
-      // This is a placeholder for future implementation
-      toast.info(t("passwordComingSoon"));
-    } catch (error) {
-      toast.error(t("errorPassword"));
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const formatBytes = (bytes: number) => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-  };
-
-  const tools = [
-    {
-      name: t("mergePdfs"),
-      icon: FilePlus,
-      description: t("mergeDesc"),
-      action: mergePDFs,
-      disabled: files.length < 2,
-    },
-    {
-      name: t("splitPdf"),
-      icon: SplitSquareHorizontal,
-      description: t("splitDesc"),
-      action: () => {
-        if (files.length > 0) {
-          setSplitInfo({ file: files[0], pageRanges: "" });
+        let pageW: number;
+        let pageH: number;
+        if (pageSize === "fit") {
+          pageW = embedded.width + margin * 2;
+          pageH = embedded.height + margin * 2;
+        } else {
+          let [w, h] = PAGE_DIMENSIONS[pageSize];
+          if (orientation === "landscape") [w, h] = [h, w];
+          pageW = w;
+          pageH = h;
         }
-      },
-      disabled: files.length === 0,
-    },
-    {
-      name: t("compressPdf"),
-      icon: FileOutput,
-      description: t("compressDesc"),
-      action: () => compressPDF(files[0]),
-      disabled: files.length === 0,
-    },
-    {
-      name: t("rotatePdf"),
-      icon: RotateCw,
-      description: t("rotateDesc"),
-      action: () => rotatePDF(files[0], 90),
-      disabled: files.length === 0,
-    },
-    {
-      name: t("rotateCcw"),
-      icon: RotateCcw,
-      description: t("rotateCcwDesc"),
-      action: () => rotatePDF(files[0], -90),
-      disabled: files.length === 0,
-    },
-    {
-      name: t("addPassword"),
-      icon: Lock,
-      description: t("addPasswordDesc"),
-      action: () => addPasswordProtection(files[0], ""),
-      disabled: files.length === 0,
-    },
-  ];
+
+        const page = pdf.addPage([pageW, pageH]);
+        const availW = pageW - margin * 2;
+        const availH = pageH - margin * 2;
+        const scale = Math.min(availW / embedded.width, availH / embedded.height, 1);
+        const drawW = embedded.width * scale;
+        const drawH = embedded.height * scale;
+        page.drawImage(embedded, {
+          x: (pageW - drawW) / 2,
+          y: (pageH - drawH) / 2,
+          width: drawW,
+          height: drawH,
+        });
+      }
+      const bytes = await pdf.save();
+      downloadPdfBytes(bytes, "images.pdf");
+      toast.success(t("imagesToPdfSuccess"));
+    } catch {
+      toast.error(t("errorImagesToPdf"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const splitFile = files[splitFileIndex];
 
   return (
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
       <div className="flex-1 overflow-auto p-6">
         <div className="max-w-7xl mx-auto space-y-6">
-          <Card className="p-6">
-            <div
-              {...getRootProps()}
-              className={`
-                h-48 rounded-lg border-2 border-dashed
-                flex flex-col items-center justify-center space-y-4 p-8
-                cursor-pointer transition-all duration-200
-                ${
-                  isDragActive
-                    ? "border-primary bg-primary/10 scale-[0.99]"
-                    : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                }
-              `}
-            >
-              <input {...getInputProps()} />
-              <div className="flex flex-col items-center space-y-4">
-                <div className="p-4 rounded-full bg-primary/10">
-                  <Upload className="w-8 h-8 text-primary" />
-                </div>
-                <div className="text-center">
-                  <h3 className="text-lg font-semibold">
-                    {t("dropHere")}
-                  </h3>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {t("supportedFormats")}
-                  </p>
-                </div>
-              </div>
-            </div>
-          </Card>
+          <Tabs defaultValue="images" className="w-full">
+            <TabsList className="flex-wrap h-auto">
+              <TabsTrigger value="images">
+                <ImageIcon className="w-4 h-4 me-2" />
+                {t("tabImagesToPdf")}
+              </TabsTrigger>
+              <TabsTrigger value="merge">
+                <FilePlus className="w-4 h-4 me-2" />
+                {t("tabMerge")}
+              </TabsTrigger>
+              <TabsTrigger value="split">
+                <SplitSquareHorizontal className="w-4 h-4 me-2" />
+                {t("tabSplit")}
+              </TabsTrigger>
+            </TabsList>
 
-          {files.length > 0 && (
-            <>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {tools.map((tool) => (
-                  <Card
-                    key={tool.name}
-                    className={`p-6 transition-colors ${
-                      tool.disabled
-                        ? "opacity-50"
-                        : "hover:bg-muted cursor-pointer"
-                    }`}
-                    onClick={() => !tool.disabled && !loading && tool.action()}
-                  >
-                    <div className="flex items-start space-x-4">
-                      <div className="p-2 rounded-lg bg-primary/10">
-                        <tool.icon className="w-6 h-6 text-primary" />
-                      </div>
-                      <div>
-                        <h3 className="font-semibold">{tool.name}</h3>
-                        <p className="text-sm text-muted-foreground mt-1">
-                          {tool.description}
-                        </p>
-                      </div>
+            {/* ── Images → PDF ─────────────────────────────────────────── */}
+            <TabsContent value="images" className="space-y-6">
+              <Card className="p-6">
+                <div
+                  {...imageDropzone.getRootProps()}
+                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                    imageDropzone.isDragActive
+                      ? "border-primary bg-primary/10 scale-[0.99]"
+                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                  }`}
+                >
+                  <input {...imageDropzone.getInputProps()} data-testid="image-input" />
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Upload className="w-8 h-8 text-primary" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold">{t("dropImagesHere")}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {t("supportedImageFormats")}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {images.length > 0 && (
+                <>
+                  <Card className="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">{t("pageSize")}</label>
+                      <Select
+                        value={pageSize}
+                        onValueChange={(v) => setPageSize(v as PageSize)}
+                      >
+                        <SelectTrigger aria-label={t("pageSize")}>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="a4">{t("sizeA4")}</SelectItem>
+                          <SelectItem value="letter">{t("sizeLetter")}</SelectItem>
+                          <SelectItem value="fit">{t("sizeFit")}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">{t("orientation")}</label>
+                      <Select
+                        value={orientation}
+                        onValueChange={(v) => setOrientation(v as Orientation)}
+                        disabled={pageSize === "fit"}
+                      >
+                        <SelectTrigger aria-label={t("orientation")}>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="portrait">{t("portrait")}</SelectItem>
+                          <SelectItem value="landscape">{t("landscape")}</SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">
+                        {t("marginLabel", { value: margin })}
+                      </label>
+                      <Input
+                        type="number"
+                        min={0}
+                        max={144}
+                        value={margin}
+                        onChange={(e) =>
+                          setMargin(Math.max(0, Number(e.target.value) || 0))
+                        }
+                        aria-label={t("margin")}
+                      />
                     </div>
                   </Card>
-                ))}
-              </div>
 
-              <Card>
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead>{t("tablePreview")}</TableHead>
-                      <TableHead>{t("tableFileName")}</TableHead>
-                      <TableHead>{t("tableSize")}</TableHead>
-                      <TableHead>{t("tablePages")}</TableHead>
-                      <TableHead className="w-[100px]">{t("tableActions")}</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
+                  <Card className="p-4 space-y-2">
+                    {images.map((img, index) => (
+                      <div
+                        key={img.url}
+                        className="flex items-center gap-3 p-2 rounded-md bg-muted/40"
+                      >
+                        <img
+                          src={img.url}
+                          alt={img.name}
+                          className="w-12 h-12 object-cover rounded-md border"
+                        />
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{img.name}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatBytes(img.size)}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("moveUp")}
+                            onClick={() => moveImage(index, "up")}
+                            disabled={index === 0}
+                          >
+                            <MoveUp className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("moveDown")}
+                            onClick={() => moveImage(index, "down")}
+                            disabled={index === images.length - 1}
+                          >
+                            <MoveDown className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("remove")}
+                            onClick={() => removeImage(index)}
+                          >
+                            <X className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
+                    ))}
+                  </Card>
+
+                  <Button
+                    className="w-full"
+                    onClick={imagesToPDF}
+                    disabled={loading || images.length === 0}
+                  >
+                    <Download className="w-4 h-4 me-2" />
+                    {loading ? t("processing") : t("createPdf")}
+                  </Button>
+                </>
+              )}
+            </TabsContent>
+
+            {/* ── Merge ─────────────────────────────────────────────────── */}
+            <TabsContent value="merge" className="space-y-6">
+              <Card className="p-6">
+                <div
+                  {...pdfDropzone.getRootProps()}
+                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                    pdfDropzone.isDragActive
+                      ? "border-primary bg-primary/10 scale-[0.99]"
+                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                  }`}
+                >
+                  <input {...pdfDropzone.getInputProps()} data-testid="pdf-input" />
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Upload className="w-8 h-8 text-primary" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold">{t("dropHere")}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {t("supportedFormats")}
+                    </p>
+                  </div>
+                </div>
+              </Card>
+
+              {files.length > 0 && (
+                <>
+                  <Card className="p-4 space-y-2">
                     {files.map((file, index) => (
-                      <TableRow key={file.name + index}>
-                        <TableCell>
-                          <div
-                            className="w-16 h-20 border rounded-md overflow-hidden bg-muted flex items-center justify-center cursor-pointer hover:bg-muted/80 transition-colors"
+                      <div
+                        key={file.name + index}
+                        className="flex items-center gap-3 p-2 rounded-md bg-muted/40"
+                      >
+                        <div
+                          className="w-12 h-14 border rounded-md overflow-hidden bg-muted flex items-center justify-center shrink-0 cursor-pointer"
+                          onClick={() => setPreviewFile(file)}
+                        >
+                          {thumbnailLoading[file.name] ? (
+                            <div className="w-5 h-5 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+                          ) : thumbnails[file.name] ? (
+                            <img
+                              src={thumbnails[file.name]}
+                              alt={file.name}
+                              className="w-full h-full object-contain"
+                            />
+                          ) : (
+                            <File className="w-5 h-5 text-muted-foreground" />
+                          )}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <p className="text-sm font-medium truncate">{file.name}</p>
+                          <p className="text-xs text-muted-foreground">
+                            {formatBytes(file.size)}
+                            {file.pageCount != null
+                              ? ` • ${t("pagesCount", { count: file.pageCount })}`
+                              : ""}
+                          </p>
+                        </div>
+                        <div className="flex items-center gap-1">
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("moveUp")}
+                            onClick={() => moveFile(index, "up")}
+                            disabled={index === 0}
+                          >
+                            <MoveUp className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("moveDown")}
+                            onClick={() => moveFile(index, "down")}
+                            disabled={index === files.length - 1}
+                          >
+                            <MoveDown className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("preview")}
                             onClick={() => setPreviewFile(file)}
                           >
-                            {thumbnailLoading[file.name] ? (
-                              <div className="w-6 h-6 border-2 border-primary border-t-transparent rounded-full animate-spin" />
-                            ) : thumbnails[file.name] ? (
-                              <img
-                                src={thumbnails[file.name]}
-                                alt={`${file.name} preview`}
-                                className="w-full h-full object-contain"
-                              />
-                            ) : (
-                              <File className="w-6 h-6 text-muted-foreground" />
-                            )}
-                          </div>
-                        </TableCell>
-                        <TableCell className="font-medium">
-                          <div className="flex items-center space-x-2">
-                            <File className="w-4 h-4" />
-                            <span>{file.name}</span>
-                          </div>
-                        </TableCell>
-                        <TableCell>{formatBytes(file.size)}</TableCell>
-                        <TableCell>
-                          <span className="text-sm text-muted-foreground">
-                            {file.pageCount ||
-                              pdfInfo[file.name] ||
-                              t("loadingPages")}
-                          </span>
-                        </TableCell>
-                        <TableCell>
-                          <div className="flex items-center space-x-2">
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => moveFile(index, "up")}
-                              disabled={index === 0}
-                            >
-                              <MoveUp className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => moveFile(index, "down")}
-                              disabled={index === files.length - 1}
-                            >
-                              <MoveDown className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => setPreviewFile(file)}
-                            >
-                              <Eye className="w-4 h-4" />
-                            </Button>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => removeFile(index)}
-                            >
-                              <Trash2 className="w-4 h-4" />
-                            </Button>
-                          </div>
-                        </TableCell>
-                      </TableRow>
+                            <Eye className="w-4 h-4" />
+                          </Button>
+                          <Button
+                            variant="ghost"
+                            size="icon"
+                            aria-label={t("remove")}
+                            onClick={() => removeFile(index)}
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </Button>
+                        </div>
+                      </div>
                     ))}
-                  </TableBody>
-                </Table>
+                  </Card>
+
+                  <Button
+                    className="w-full"
+                    onClick={mergePDFs}
+                    disabled={loading || files.length < 2}
+                  >
+                    <FilePlus className="w-4 h-4 me-2" />
+                    {loading ? t("processing") : t("mergePdfs")}
+                  </Button>
+                </>
+              )}
+            </TabsContent>
+
+            {/* ── Split / Extract ──────────────────────────────────────── */}
+            <TabsContent value="split" className="space-y-6">
+              <Card className="p-6">
+                <div
+                  {...pdfDropzone.getRootProps()}
+                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                    pdfDropzone.isDragActive
+                      ? "border-primary bg-primary/10 scale-[0.99]"
+                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                  }`}
+                >
+                  <input {...pdfDropzone.getInputProps()} data-testid="pdf-split-input" />
+                  <div className="p-4 rounded-full bg-primary/10">
+                    <Upload className="w-8 h-8 text-primary" />
+                  </div>
+                  <div className="text-center">
+                    <h3 className="text-lg font-semibold">{t("dropHere")}</h3>
+                    <p className="text-sm text-muted-foreground mt-1">
+                      {t("supportedFormats")}
+                    </p>
+                  </div>
+                </div>
               </Card>
-            </>
-          )}
+
+              {files.length > 0 && splitFile && (
+                <Card className="p-6 space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">{t("selectedFile")}</label>
+                    <Select
+                      value={String(splitFileIndex)}
+                      onValueChange={(v) => setSplitFileIndex(Number(v))}
+                    >
+                      <SelectTrigger aria-label={t("selectedFile")}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {files.map((file, index) => (
+                          <SelectItem key={file.name + index} value={String(index)}>
+                            {file.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium">{t("splitModeLabel")}</label>
+                    <Select
+                      value={splitMode}
+                      onValueChange={(v) => setSplitMode(v as "range" | "all")}
+                    >
+                      <SelectTrigger aria-label={t("splitModeLabel")}>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="range">{t("modeRange")}</SelectItem>
+                        <SelectItem value="all">{t("modeAll")}</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {splitMode === "range" && (
+                    <div className="space-y-2">
+                      <label className="text-sm font-medium">{t("pageRanges")}</label>
+                      <Input
+                        dir="ltr"
+                        placeholder={t("pageRangesPlaceholder")}
+                        value={pageRanges}
+                        onChange={(e) => setPageRanges(e.target.value)}
+                        aria-label={t("pageRanges")}
+                      />
+                      <p className="text-sm text-muted-foreground">{t("pageRangesHelp")}</p>
+                    </div>
+                  )}
+
+                  <Button
+                    className="w-full"
+                    onClick={splitPDF}
+                    disabled={loading || (splitMode === "range" && !pageRanges)}
+                  >
+                    <SplitSquareHorizontal className="w-4 h-4 me-2" />
+                    {loading ? t("splitting") : t("splitAction")}
+                  </Button>
+                </Card>
+              )}
+            </TabsContent>
+          </Tabs>
 
           {previewFile && (
             <Card>
@@ -622,96 +763,6 @@ export default function PDFTools() {
           )}
         </div>
       </div>
-
-      <Sheet open={!!splitInfo} onOpenChange={() => setSplitInfo(null)}>
-        <SheetContent>
-          <SheetHeader>
-            <SheetTitle>{t("splitPdfTitle")}</SheetTitle>
-          </SheetHeader>
-          <div className="space-y-4 mt-6">
-            {splitInfo?.file && (
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("selectedFile")}</label>
-                <div className="flex items-center space-x-2 p-2 rounded-md bg-muted">
-                  <File className="w-4 h-4" />
-                  <span className="text-sm">{splitInfo.file.name}</span>
-                </div>
-              </div>
-            )}
-
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">{t("pageRanges")}</label>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() =>
-                    toast.info(t("pageRangesHint"))
-                  }
-                >
-                  <Info className="w-4 h-4" />
-                </Button>
-              </div>
-              <Input
-                placeholder="e.g., 1-3,5,7-9"
-                value={splitInfo?.pageRanges ?? ""}
-                onChange={(e) =>
-                  splitInfo &&
-                  setSplitInfo({ ...splitInfo, pageRanges: e.target.value })
-                }
-              />
-              <div className="space-y-2">
-                <p className="text-sm text-muted-foreground">
-                  {t("pageRangesHelp")}
-                </p>
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      splitInfo &&
-                      setSplitInfo({ ...splitInfo, pageRanges: "1" })
-                    }
-                  >
-                    {t("firstPage")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      splitInfo &&
-                      setSplitInfo({
-                        ...splitInfo,
-                        pageRanges: `1-${pdfInfo[splitInfo.file.name] || "N"}`,
-                      })
-                    }
-                  >
-                    {t("allPages")}
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() =>
-                      splitInfo &&
-                      setSplitInfo({ ...splitInfo, pageRanges: "1-3" })
-                    }
-                  >
-                    {t("first3Pages")}
-                  </Button>
-                </div>
-              </div>
-            </div>
-
-            <Button
-              className="w-full"
-              onClick={splitPDF}
-              disabled={!splitInfo?.pageRanges || loading}
-            >
-              {loading ? t("splitting") : t("splitAction")}
-            </Button>
-          </div>
-        </SheetContent>
-      </Sheet>
     </div>
   );
 }

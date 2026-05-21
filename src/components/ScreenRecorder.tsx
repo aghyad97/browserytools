@@ -1,12 +1,13 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -14,8 +15,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Monitor, Square, Download, Trash2, CircleDot } from "lucide-react";
+import {
+  Monitor,
+  Square,
+  Download,
+  Trash2,
+  CircleDot,
+  Camera,
+  Film,
+} from "lucide-react";
 import { toast } from "sonner";
+
+type Quality = "720" | "1080" | "max";
+type PipPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
 
 interface RecordingEntry {
   id: string;
@@ -27,7 +39,9 @@ interface RecordingEntry {
 }
 
 function formatDuration(seconds: number): string {
-  const m = Math.floor(seconds / 60).toString().padStart(2, "0");
+  const m = Math.floor(seconds / 60)
+    .toString()
+    .padStart(2, "0");
   const s = (seconds % 60).toString().padStart(2, "0");
   return `${m}:${s}`;
 }
@@ -37,29 +51,84 @@ function formatSize(bytes: number): string {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function qualityDimensions(q: Quality): { width?: number; height?: number } {
+  if (q === "1080") return { width: 1920, height: 1080 };
+  if (q === "720") return { width: 1280, height: 720 };
+  return {};
+}
+
 export default function ScreenRecorder() {
   const t = useTranslations("Tools.ScreenRecorder");
-  const [isRecording, setIsRecording] = useState(false);
+
+  // Settings
   const [includeAudio, setIncludeAudio] = useState(false);
-  const [videoQuality, setVideoQuality] = useState<"720" | "1080" | "max">("720");
+  const [includeWebcam, setIncludeWebcam] = useState(false);
+  const [videoQuality, setVideoQuality] = useState<Quality>("720");
+  const [pipPosition, setPipPosition] = useState<PipPosition>("bottom-right");
+  const [pipSize, setPipSize] = useState(20); // % of canvas width
+  const [useCountdown, setUseCountdown] = useState(true);
+
+  // Runtime state
+  const [isRecording, setIsRecording] = useState(false);
+  const [countdown, setCountdown] = useState<number | null>(null);
   const [elapsed, setElapsed] = useState(0);
   const [recordings, setRecordings] = useState<RecordingEntry[]>([]);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+  const [gifBusyId, setGifBusyId] = useState<string | null>(null);
+  const [gifProgress, setGifProgress] = useState(0);
 
   const mediaRecorderRef = useRef<MediaRecorder | null>(null);
   const chunksRef = useRef<Blob[]>([]);
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
   const startTimeRef = useRef<number>(0);
-  const streamRef = useRef<MediaStream | null>(null);
+
+  // Streams + compositing refs
+  const displayStreamRef = useRef<MediaStream | null>(null);
+  const webcamStreamRef = useRef<MediaStream | null>(null);
+  const audioStreamRef = useRef<MediaStream | null>(null);
+  const canvasStreamRef = useRef<MediaStream | null>(null);
+  const rafRef = useRef<number | null>(null);
+  const screenVideoRef = useRef<HTMLVideoElement | null>(null);
+  const webcamVideoRef = useRef<HTMLVideoElement | null>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  // Latest PiP settings for the rAF loop (avoid stale closure)
+  const pipPositionRef = useRef(pipPosition);
+  const pipSizeRef = useRef(pipSize);
+  useEffect(() => {
+    pipPositionRef.current = pipPosition;
+  }, [pipPosition]);
+  useEffect(() => {
+    pipSizeRef.current = pipSize;
+  }, [pipSize]);
+
+  const stopAllTracks = useCallback(() => {
+    [
+      displayStreamRef.current,
+      webcamStreamRef.current,
+      audioStreamRef.current,
+      canvasStreamRef.current,
+    ].forEach((s) => s?.getTracks().forEach((tr) => tr.stop()));
+    displayStreamRef.current = null;
+    webcamStreamRef.current = null;
+    audioStreamRef.current = null;
+    canvasStreamRef.current = null;
+    if (rafRef.current !== null) {
+      cancelAnimationFrame(rafRef.current);
+      rafRef.current = null;
+    }
+  }, []);
 
   // Cleanup on unmount
+  const recordingsRef = useRef(recordings);
+  recordingsRef.current = recordings;
   useEffect(() => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
-      if (streamRef.current) streamRef.current.getTracks().forEach((t) => t.stop());
-      recordings.forEach((r) => URL.revokeObjectURL(r.url));
+      stopAllTracks();
+      recordingsRef.current.forEach((r) => URL.revokeObjectURL(r.url));
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [stopAllTracks]);
 
   const getSupportedMimeType = () => {
     const types = [
@@ -68,14 +137,84 @@ export default function ScreenRecorder() {
       "video/webm",
       "video/mp4",
     ];
-    return types.find((t) => MediaRecorder.isTypeSupported(t)) ?? "";
+    return types.find((ty) => MediaRecorder.isTypeSupported(ty)) ?? "";
   };
 
-  const startRecording = async () => {
+  const stopTimer = () => {
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  // Composite screen + webcam PiP onto canvas, return a captured stream.
+  const buildCompositeStream = async (
+    displayStream: MediaStream,
+    webcamStream: MediaStream
+  ): Promise<MediaStream> => {
+    const screenTrack = displayStream.getVideoTracks()[0];
+    const settings = screenTrack.getSettings();
+    const { width: qw, height: qh } = qualityDimensions(videoQuality);
+    const width = qw ?? settings.width ?? 1280;
+    const height = qh ?? settings.height ?? 720;
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+    canvasRef.current = canvas;
+    const ctx = canvas.getContext("2d");
+
+    const screenVideo = document.createElement("video");
+    screenVideo.muted = true;
+    screenVideo.srcObject = displayStream;
+    screenVideoRef.current = screenVideo;
+    await screenVideo.play().catch(() => {});
+
+    const webcamVideo = document.createElement("video");
+    webcamVideo.muted = true;
+    webcamVideo.srcObject = webcamStream;
+    webcamVideoRef.current = webcamVideo;
+    await webcamVideo.play().catch(() => {});
+
+    const draw = () => {
+      if (ctx) {
+        ctx.drawImage(screenVideo, 0, 0, width, height);
+        const pipW = (pipSizeRef.current / 100) * width;
+        const camAspect =
+          webcamVideo.videoHeight && webcamVideo.videoWidth
+            ? webcamVideo.videoHeight / webcamVideo.videoWidth
+            : 0.5625;
+        const pipH = pipW * camAspect;
+        const margin = width * 0.02;
+        let x = margin;
+        let y = margin;
+        const pos = pipPositionRef.current;
+        if (pos === "top-right" || pos === "bottom-right")
+          x = width - pipW - margin;
+        if (pos === "bottom-left" || pos === "bottom-right")
+          y = height - pipH - margin;
+        ctx.save();
+        ctx.strokeStyle = "rgba(255,255,255,0.8)";
+        ctx.lineWidth = Math.max(2, width * 0.002);
+        ctx.drawImage(webcamVideo, x, y, pipW, pipH);
+        ctx.strokeRect(x, y, pipW, pipH);
+        ctx.restore();
+      }
+      rafRef.current = requestAnimationFrame(draw);
+    };
+    draw();
+
+    const stream = canvas.captureStream(30);
+    canvasStreamRef.current = stream;
+    return stream;
+  };
+
+  const beginRecording = async () => {
     try {
+      const { width, height } = qualityDimensions(videoQuality);
       const videoConstraints: MediaTrackConstraints = {
-        width: videoQuality === "1080" ? 1920 : videoQuality === "720" ? 1280 : undefined,
-        height: videoQuality === "1080" ? 1080 : videoQuality === "720" ? 720 : undefined,
+        width,
+        height,
         frameRate: 30,
       };
 
@@ -83,22 +222,52 @@ export default function ScreenRecorder() {
         video: videoConstraints,
         audio: includeAudio,
       });
+      displayStreamRef.current = displayStream;
 
-      let finalStream = displayStream;
-
+      // Optional microphone audio
+      let micTracks: MediaStreamTrack[] = [];
       if (includeAudio) {
         try {
-          const audioStream = await navigator.mediaDevices.getUserMedia({ audio: true, video: false });
-          const tracks = [...displayStream.getTracks(), ...audioStream.getAudioTracks()];
-          finalStream = new MediaStream(tracks);
+          const audioStream = await navigator.mediaDevices.getUserMedia({
+            audio: true,
+            video: false,
+          });
+          audioStreamRef.current = audioStream;
+          micTracks = audioStream.getAudioTracks();
         } catch {
-          // mic not available, use display audio only
+          // mic unavailable — fall back to display audio if any
         }
       }
 
-      streamRef.current = finalStream;
-      chunksRef.current = [];
+      let videoTracks: MediaStreamTrack[];
+      if (includeWebcam) {
+        try {
+          const webcamStream = await navigator.mediaDevices.getUserMedia({
+            video: { facingMode: "user" },
+            audio: false,
+          });
+          webcamStreamRef.current = webcamStream;
+          const composite = await buildCompositeStream(
+            displayStream,
+            webcamStream
+          );
+          videoTracks = composite.getVideoTracks();
+        } catch {
+          toast.error(t("webcamFailed"));
+          videoTracks = displayStream.getVideoTracks();
+        }
+      } else {
+        videoTracks = displayStream.getVideoTracks();
+      }
 
+      const displayAudio = includeAudio ? displayStream.getAudioTracks() : [];
+      const finalStream = new MediaStream([
+        ...videoTracks,
+        ...micTracks,
+        ...displayAudio,
+      ]);
+
+      chunksRef.current = [];
       const mimeType = getSupportedMimeType();
       const options: MediaRecorderOptions = mimeType ? { mimeType } : {};
       const recorder = new MediaRecorder(finalStream, options);
@@ -108,7 +277,9 @@ export default function ScreenRecorder() {
       };
 
       recorder.onstop = () => {
-        const blob = new Blob(chunksRef.current, { type: mimeType || "video/webm" });
+        const blob = new Blob(chunksRef.current, {
+          type: mimeType || "video/webm",
+        });
         const url = URL.createObjectURL(blob);
         const duration = Math.round((Date.now() - startTimeRef.current) / 1000);
         const entry: RecordingEntry = {
@@ -124,9 +295,10 @@ export default function ScreenRecorder() {
         toast.success(`${t("recordingSaved")} (${formatDuration(duration)})`);
       };
 
-      // Stop recording if user stops screen share
-      finalStream.getVideoTracks()[0].onended = () => {
+      // Stop if user ends the screen share from browser UI.
+      displayStream.getVideoTracks()[0].onended = () => {
         if (recorder.state !== "inactive") recorder.stop();
+        stopAllTracks();
         stopTimer();
         setIsRecording(false);
       };
@@ -143,6 +315,7 @@ export default function ScreenRecorder() {
 
       toast.success(t("recordingStarted"));
     } catch (err) {
+      stopAllTracks();
       const msg = err instanceof Error ? err.message : "Failed to start recording";
       if (msg.includes("Permission denied") || msg.includes("NotAllowedError")) {
         toast.error(t("permissionDenied"));
@@ -152,21 +325,37 @@ export default function ScreenRecorder() {
     }
   };
 
-  const stopTimer = () => {
-    if (timerRef.current) {
-      clearInterval(timerRef.current);
-      timerRef.current = null;
+  const startRecording = async () => {
+    if (!useCountdown) {
+      await beginRecording();
+      return;
     }
+    // 3-2-1 countdown
+    setCountdown(3);
+    await new Promise<void>((resolve) => {
+      let n = 3;
+      const id = setInterval(() => {
+        n -= 1;
+        if (n <= 0) {
+          clearInterval(id);
+          setCountdown(null);
+          resolve();
+        } else {
+          setCountdown(n);
+        }
+      }, 1000);
+    });
+    await beginRecording();
   };
 
   const stopRecording = () => {
-    if (mediaRecorderRef.current && mediaRecorderRef.current.state !== "inactive") {
+    if (
+      mediaRecorderRef.current &&
+      mediaRecorderRef.current.state !== "inactive"
+    ) {
       mediaRecorderRef.current.stop();
     }
-    if (streamRef.current) {
-      streamRef.current.getTracks().forEach((t) => t.stop());
-      streamRef.current = null;
-    }
+    stopAllTracks();
     stopTimer();
     setIsRecording(false);
   };
@@ -174,9 +363,96 @@ export default function ScreenRecorder() {
   const downloadRecording = (entry: RecordingEntry) => {
     const a = document.createElement("a");
     a.href = entry.url;
-    a.download = `recording-${entry.createdAt.toISOString().slice(0, 19).replace(/[:]/g, "-")}.webm`;
+    a.download = `recording-${entry.createdAt
+      .toISOString()
+      .slice(0, 19)
+      .replace(/[:]/g, "-")}.webm`;
     a.click();
     toast.success(t("downloadStarted"));
+  };
+
+  // Export a recording to an animated GIF by replaying it into a canvas and
+  // sampling frames. Uses gif.js with a self-hosted worker (public/vendor).
+  const exportGif = async (entry: RecordingEntry) => {
+    if (gifBusyId) return;
+    setGifBusyId(entry.id);
+    setGifProgress(0);
+    const tid = toast.loading(t("gifEncoding"));
+    try {
+      const { default: GIF } = await import("gif.js");
+
+      const video = document.createElement("video");
+      video.src = entry.url;
+      video.muted = true;
+      await new Promise<void>((resolve, reject) => {
+        video.onloadedmetadata = () => resolve();
+        video.onerror = () => reject(new Error("video load failed"));
+      });
+
+      const maxW = 480;
+      const scale = video.videoWidth ? Math.min(1, maxW / video.videoWidth) : 1;
+      const gw = Math.max(1, Math.round((video.videoWidth || maxW) * scale));
+      const gh = Math.max(1, Math.round((video.videoHeight || 270) * scale));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = gw;
+      canvas.height = gh;
+      const ctx = canvas.getContext("2d");
+
+      const gif = new GIF({
+        workers: 2,
+        quality: 10,
+        width: gw,
+        height: gh,
+        workerScript: "/gif.worker.js",
+      });
+
+      gif.on("progress", (p: number) => setGifProgress(Math.round(p * 100)));
+
+      const fps = 8;
+      const duration = Number.isFinite(video.duration) ? video.duration : 0;
+      const total = Math.max(1, Math.floor(duration * fps));
+
+      const grab = (time: number) =>
+        new Promise<void>((resolve) => {
+          const onSeeked = () => {
+            video.removeEventListener("seeked", onSeeked);
+            if (ctx) ctx.drawImage(video, 0, 0, gw, gh);
+            gif.addFrame(canvas, { copy: true, delay: 1000 / fps });
+            resolve();
+          };
+          video.addEventListener("seeked", onSeeked);
+          video.currentTime = time;
+        });
+
+      for (let i = 0; i < total; i++) {
+        await grab(Math.min(i / fps, Math.max(0, duration - 0.01)));
+      }
+
+      const blob = await new Promise<Blob>((resolve, reject) => {
+        gif.on("finished", (b: Blob) => resolve(b));
+        gif.on("abort", () => reject(new Error("gif aborted")));
+        gif.render();
+      });
+
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `recording-${entry.createdAt
+        .toISOString()
+        .slice(0, 19)
+        .replace(/[:]/g, "-")}.gif`;
+      a.click();
+      setTimeout(() => URL.revokeObjectURL(url), 1000);
+      toast.dismiss(tid);
+      toast.success(t("gifReady"));
+    } catch {
+      toast.dismiss(tid);
+      toast.error(t("gifFailed"));
+    } finally {
+      setGifBusyId(null);
+      setGifProgress(0);
+    }
   };
 
   const deleteRecording = (id: string) => {
@@ -216,11 +492,80 @@ export default function ScreenRecorder() {
                     disabled={isRecording}
                   />
                 </div>
+
+                <div className="flex items-center justify-between">
+                  <Label>{t("includeWebcam")}</Label>
+                  <Switch
+                    checked={includeWebcam}
+                    onCheckedChange={setIncludeWebcam}
+                    disabled={isRecording}
+                    data-testid="webcam-switch"
+                  />
+                </div>
+
+                {includeWebcam && (
+                  <div className="space-y-4 rounded-lg bg-muted/40 p-3">
+                    <div className="space-y-1.5">
+                      <Label>{t("webcamPosition")}</Label>
+                      <Select
+                        value={pipPosition}
+                        onValueChange={(v) => setPipPosition(v as PipPosition)}
+                        disabled={isRecording}
+                      >
+                        <SelectTrigger>
+                          <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="top-left">
+                            {t("posTopLeft")}
+                          </SelectItem>
+                          <SelectItem value="top-right">
+                            {t("posTopRight")}
+                          </SelectItem>
+                          <SelectItem value="bottom-left">
+                            {t("posBottomLeft")}
+                          </SelectItem>
+                          <SelectItem value="bottom-right">
+                            {t("posBottomRight")}
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </div>
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <Label>{t("webcamSize")}</Label>
+                        <span className="text-xs text-muted-foreground" dir="ltr">
+                          {pipSize}%
+                        </span>
+                      </div>
+                      <Slider
+                        value={[pipSize]}
+                        min={10}
+                        max={40}
+                        step={1}
+                        onValueChange={(v) => setPipSize(v[0])}
+                        disabled={isRecording}
+                        aria-label={t("webcamSize")}
+                      />
+                    </div>
+                  </div>
+                )}
+
+                <div className="flex items-center justify-between">
+                  <Label>{t("countdown")}</Label>
+                  <Switch
+                    checked={useCountdown}
+                    onCheckedChange={setUseCountdown}
+                    disabled={isRecording}
+                    data-testid="countdown-switch"
+                  />
+                </div>
+
                 <div className="space-y-1.5">
                   <Label>{t("videoQuality")}</Label>
                   <Select
                     value={videoQuality}
-                    onValueChange={(v) => setVideoQuality(v as "720" | "1080" | "max")}
+                    onValueChange={(v) => setVideoQuality(v as Quality)}
                     disabled={isRecording}
                   >
                     <SelectTrigger>
@@ -240,16 +585,28 @@ export default function ScreenRecorder() {
                   <div className="flex items-center gap-3 p-4 rounded-lg bg-destructive/10 border border-destructive/20">
                     <CircleDot className="w-5 h-5 text-destructive animate-pulse" />
                     <div>
-                      <div className="font-semibold text-destructive">{t("recording")}</div>
-                      <div className="text-sm font-mono" dir="ltr">{formatDuration(elapsed)}</div>
+                      <div className="font-semibold text-destructive">
+                        {t("recording")}
+                      </div>
+                      <div className="text-sm font-mono" dir="ltr">
+                        {formatDuration(elapsed)}
+                      </div>
                     </div>
                   </div>
-                  <Button variant="destructive" className="w-full gap-2" onClick={stopRecording}>
+                  <Button
+                    variant="destructive"
+                    className="w-full gap-2"
+                    onClick={stopRecording}
+                  >
                     <Square className="w-4 h-4" /> {t("stopRecording")}
                   </Button>
                 </div>
               ) : (
-                <Button className="w-full gap-2" onClick={startRecording}>
+                <Button
+                  className="w-full gap-2"
+                  onClick={startRecording}
+                  disabled={countdown !== null}
+                >
                   <CircleDot className="w-4 h-4" /> {t("startRecording")}
                 </Button>
               )}
@@ -284,9 +641,16 @@ export default function ScreenRecorder() {
         {/* Recordings list */}
         {recordings.length > 0 && (
           <div className="space-y-3">
-            <h2 className="text-sm font-semibold">{t("recordingsCount")} ({recordings.length})</h2>
+            <h2 className="text-sm font-semibold">
+              {t("recordingsCount")} ({recordings.length})
+            </h2>
             {recordings.map((entry) => (
-              <Card key={entry.id} className={`cursor-pointer transition-colors ${previewUrl === entry.url ? "border-primary" : ""}`}>
+              <Card
+                key={entry.id}
+                className={`cursor-pointer transition-colors ${
+                  previewUrl === entry.url ? "border-primary" : ""
+                }`}
+              >
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-center justify-between gap-3">
                     <div
@@ -301,16 +665,44 @@ export default function ScreenRecorder() {
                           {entry.createdAt.toLocaleTimeString()}
                         </div>
                         <div className="flex gap-2 mt-0.5">
-                          <Badge variant="outline" className="text-xs">{formatDuration(entry.duration)}</Badge>
-                          <Badge variant="outline" className="text-xs">{formatSize(entry.size)}</Badge>
+                          <Badge variant="outline" className="text-xs">
+                            {formatDuration(entry.duration)}
+                          </Badge>
+                          <Badge variant="outline" className="text-xs">
+                            {formatSize(entry.size)}
+                          </Badge>
+                          {gifBusyId === entry.id && (
+                            <Badge variant="outline" className="text-xs" dir="ltr">
+                              {gifProgress}%
+                            </Badge>
+                          )}
                         </div>
                       </div>
                     </div>
                     <div className="flex gap-2 shrink-0">
-                      <Button size="sm" variant="outline" onClick={() => downloadRecording(entry)}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => downloadRecording(entry)}
+                        aria-label={t("downloadWebm")}
+                      >
                         <Download className="w-4 h-4" />
                       </Button>
-                      <Button size="sm" variant="outline" onClick={() => deleteRecording(entry.id)}>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => exportGif(entry)}
+                        disabled={gifBusyId !== null}
+                        aria-label={t("exportGif")}
+                      >
+                        <Film className="w-4 h-4" />
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => deleteRecording(entry.id)}
+                        aria-label={t("delete")}
+                      >
                         <Trash2 className="w-4 h-4 text-destructive" />
                       </Button>
                     </div>
@@ -321,6 +713,22 @@ export default function ScreenRecorder() {
           </div>
         )}
       </div>
+
+      {/* Countdown overlay */}
+      {countdown !== null && (
+        <div
+          className="fixed inset-0 z-50 flex items-center justify-center bg-background/80 backdrop-blur-sm"
+          data-testid="countdown-overlay"
+        >
+          <div className="flex flex-col items-center gap-4">
+            <Camera className="w-10 h-10 text-primary" />
+            <div className="text-7xl font-bold tabular-nums text-primary" dir="ltr">
+              {countdown}
+            </div>
+            <p className="text-sm text-muted-foreground">{t("getReady")}</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

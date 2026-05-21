@@ -9,6 +9,7 @@ import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { Switch } from "@/components/ui/switch";
 import {
   Select,
   SelectContent,
@@ -16,7 +17,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-// Tabs removed to present all options in a single view
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@/components/ui/tabs";
 import {
   Upload,
   Download,
@@ -29,8 +35,11 @@ import {
   VolumeX,
   Info,
   FileVideo,
+  ImagePlay,
+  AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
+import GIF from "gif.js";
 
 interface VideoInfo {
   url: string;
@@ -66,8 +75,22 @@ export default function VideoEditor() {
   const [processedVideo, setProcessedVideo] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
 
+  // ── GIF conversion state ──────────────────────────────────────────────────
+  const [gifFps, setGifFps] = useState(10);
+  const [gifWidth, setGifWidth] = useState(480);
+  const [gifQuality, setGifQuality] = useState<"high" | "medium" | "low">(
+    "medium"
+  );
+  const [gifDither, setGifDither] = useState(true);
+  const [isGifProcessing, setIsGifProcessing] = useState(false);
+  const [gifProgress, setGifProgress] = useState(0);
+  const [gifUrl, setGifUrl] = useState<string | null>(null);
+  const [gifSize, setGifSize] = useState(0);
+
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const gifInstanceRef = useRef<GIF | null>(null);
+  const gifUrlRef = useRef<string | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -95,6 +118,15 @@ export default function VideoEditor() {
           });
           setTrimRange({ start: 0, end: videoElement.duration });
           setProcessedVideo(null);
+          // Default GIF width: cap at native width, max 480 for sane file size.
+          setGifWidth(Math.min(480, videoElement.videoWidth || 480));
+          if (gifUrlRef.current) {
+            URL.revokeObjectURL(gifUrlRef.current);
+            gifUrlRef.current = null;
+          }
+          setGifUrl(null);
+          setGifSize(0);
+          setGifProgress(0);
         };
       };
       reader.readAsDataURL(file);
@@ -302,6 +334,122 @@ export default function VideoEditor() {
     }
   };
 
+  const handleConvertToGif = async () => {
+    if (!video) return;
+
+    const start = trimRange.start;
+    const end = trimRange.end > start ? trimRange.end : video.duration;
+    const span = end - start;
+    if (span <= 0) {
+      toast.error(t("gifInvalidRange"));
+      return;
+    }
+
+    setIsGifProcessing(true);
+    setGifProgress(0);
+    if (gifUrlRef.current) {
+      URL.revokeObjectURL(gifUrlRef.current);
+      gifUrlRef.current = null;
+    }
+    setGifUrl(null);
+    setGifSize(0);
+
+    try {
+      const videoElement = document.createElement("video");
+      videoElement.src = video.url;
+      videoElement.crossOrigin = "anonymous";
+      videoElement.muted = true;
+
+      await new Promise<void>((resolve, reject) => {
+        videoElement.onloadedmetadata = () => resolve();
+        videoElement.onerror = () => reject(new Error("metadata"));
+      });
+
+      const aspect = video.height / video.width;
+      const outWidth = Math.max(16, Math.round(gifWidth));
+      const outHeight = Math.max(2, Math.round(outWidth * aspect));
+
+      const canvas = canvasRef.current ?? document.createElement("canvas");
+      canvas.width = outWidth;
+      canvas.height = outHeight;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) throw new Error("Could not get canvas context");
+
+      const qualityMap = { high: 1, medium: 10, low: 20 } as const;
+      const gif = new GIF({
+        workers: 2,
+        quality: qualityMap[gifQuality],
+        width: outWidth,
+        height: outHeight,
+        // Self-hosted worker — copied into public/ by scripts/copy-gif-worker.js.
+        workerScript: "/gif.worker.js",
+        dither: gifDither ? "FloydSteinberg" : false,
+      });
+      gifInstanceRef.current = gif;
+
+      const fps = Math.min(30, Math.max(1, gifFps));
+      const frameDelay = Math.round(1000 / fps);
+      const totalFrames = Math.max(1, Math.floor(span * fps));
+
+      for (let i = 0; i < totalFrames; i++) {
+        const seekTime = start + i / fps;
+        videoElement.currentTime = Math.min(seekTime, end);
+        await new Promise<void>((resolve) => {
+          videoElement.onseeked = () => resolve();
+        });
+        ctx.drawImage(videoElement, 0, 0, outWidth, outHeight);
+        gif.addFrame(ctx, { copy: true, delay: frameDelay });
+        // Capture phase is ~half the work; render reports the rest via on("progress").
+        setGifProgress(Math.round(((i + 1) / totalFrames) * 50));
+      }
+
+      const blob: Blob = await new Promise<Blob>((resolve, reject) => {
+        gif.on("progress", (p: number) => {
+          setGifProgress(50 + Math.round(p * 50));
+        });
+        gif.on("finished", (result: Blob) => resolve(result));
+        gif.on("abort", () => reject(new Error("aborted")));
+        gif.render();
+      });
+
+      const url = URL.createObjectURL(blob);
+      gifUrlRef.current = url;
+      setGifUrl(url);
+      setGifSize(blob.size);
+      setGifProgress(100);
+      toast.success(t("gifSuccess"));
+    } catch (error) {
+      if (error instanceof Error && error.message === "aborted") {
+        toast.info(t("gifCancelled"));
+      } else {
+        console.error("Error converting to GIF:", error);
+        toast.error(t("gifFailed"));
+      }
+    } finally {
+      gifInstanceRef.current = null;
+      setIsGifProcessing(false);
+    }
+  };
+
+  const handleCancelGif = () => {
+    if (gifInstanceRef.current) {
+      gifInstanceRef.current.abort();
+      gifInstanceRef.current = null;
+    }
+    setIsGifProcessing(false);
+  };
+
+  const handleDownloadGif = () => {
+    if (!gifUrl || !video) return;
+    const link = document.createElement("a");
+    link.href = gifUrl;
+    link.download = `${video.name.split(".")[0]}.gif`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success(t("downloadedSuccess"));
+  };
+
   const handleDownload = () => {
     if (!processedVideo || !video) return;
 
@@ -324,11 +472,41 @@ export default function VideoEditor() {
     setProcessedVideo(null);
     setCurrentTime(0);
     setIsPlaying(false);
+    if (gifInstanceRef.current) {
+      gifInstanceRef.current.abort();
+      gifInstanceRef.current = null;
+    }
+    if (gifUrlRef.current) {
+      URL.revokeObjectURL(gifUrlRef.current);
+      gifUrlRef.current = null;
+    }
+    setGifUrl(null);
+    setGifSize(0);
+    setGifProgress(0);
+    setIsGifProcessing(false);
     if (videoRef.current) {
       videoRef.current.pause();
       videoRef.current.currentTime = 0;
     }
   };
+
+  // Revoke the GIF object URL on unmount to avoid memory leaks.
+  useEffect(() => {
+    return () => {
+      if (gifUrlRef.current) URL.revokeObjectURL(gifUrlRef.current);
+    };
+  }, []);
+
+  // Heuristic memory warning: many frames at a large width can blow up RAM.
+  const gifFrameEstimate = video
+    ? Math.floor(
+        ((trimRange.end > trimRange.start
+          ? trimRange.end - trimRange.start
+          : video.duration) *
+          Math.min(30, Math.max(1, gifFps)))
+      )
+    : 0;
+  const showGifWarning = gifFrameEstimate > 300 || gifWidth > 800;
 
   return (
     <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
@@ -504,6 +682,19 @@ export default function VideoEditor() {
                 </Card>
               </div>
 
+              <Tabs defaultValue="edit" className="space-y-6">
+                <TabsList>
+                  <TabsTrigger value="edit" className="gap-2">
+                    <Scissors className="w-4 h-4" />
+                    {t("tabEdit")}
+                  </TabsTrigger>
+                  <TabsTrigger value="gif" className="gap-2">
+                    <ImagePlay className="w-4 h-4" />
+                    {t("tabGif")}
+                  </TabsTrigger>
+                </TabsList>
+
+                <TabsContent value="edit" className="space-y-6">
               <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
                 <Card className="p-6 lg:col-span-2">
                   <div className="space-y-4">
@@ -646,6 +837,230 @@ export default function VideoEditor() {
                   )}
                 </div>
               </Card>
+                </TabsContent>
+
+                <TabsContent value="gif" className="space-y-6">
+                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <Card className="p-6">
+                      <div className="space-y-5">
+                        <h3 className="text-lg font-semibold flex items-center gap-2">
+                          <ImagePlay className="w-5 h-5" />
+                          {t("gifTitle")}
+                        </h3>
+                        <p className="text-sm text-muted-foreground">
+                          {t("gifDescription")}
+                        </p>
+
+                        <div className="space-y-2">
+                          <Label>{t("gifTrimHint")}</Label>
+                          <div className="space-y-2">
+                            <Label className="text-xs text-muted-foreground">
+                              {t("startTime", {
+                                time: formatTime(trimRange.start),
+                              })}
+                            </Label>
+                            <Slider
+                              value={[trimRange.start]}
+                              onValueChange={([value]) =>
+                                setTrimRange((prev) => ({
+                                  ...prev,
+                                  start: value,
+                                }))
+                              }
+                              min={0}
+                              max={video.duration}
+                              step={0.1}
+                              disabled={isGifProcessing}
+                            />
+                          </div>
+                          <div className="space-y-2">
+                            <Label className="text-xs text-muted-foreground">
+                              {t("endTime", { time: formatTime(trimRange.end) })}
+                            </Label>
+                            <Slider
+                              value={[trimRange.end]}
+                              onValueChange={([value]) =>
+                                setTrimRange((prev) => ({ ...prev, end: value }))
+                              }
+                              min={0}
+                              max={video.duration}
+                              step={0.1}
+                              disabled={isGifProcessing}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label>
+                            {t("gifFps")}{" "}
+                            <span dir="ltr" className="font-mono">
+                              {gifFps}
+                            </span>
+                          </Label>
+                          <Slider
+                            value={[gifFps]}
+                            onValueChange={([value]) => setGifFps(value)}
+                            min={1}
+                            max={30}
+                            step={1}
+                            disabled={isGifProcessing}
+                          />
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label>{t("gifWidth")}</Label>
+                          <Input
+                            type="number"
+                            dir="ltr"
+                            value={gifWidth}
+                            min={16}
+                            max={1920}
+                            onChange={(e) =>
+                              setGifWidth(Number(e.target.value) || 0)
+                            }
+                            disabled={isGifProcessing}
+                          />
+                          <p className="text-xs text-muted-foreground">
+                            {t("gifHeightAuto", {
+                              height: video.width
+                                ? Math.max(
+                                    2,
+                                    Math.round(
+                                      gifWidth * (video.height / video.width)
+                                    )
+                                  )
+                                : 0,
+                            })}
+                          </p>
+                        </div>
+
+                        <div className="space-y-2">
+                          <Label>{t("gifQuality")}</Label>
+                          <Select
+                            value={gifQuality}
+                            onValueChange={(v) =>
+                              setGifQuality(v as "high" | "medium" | "low")
+                            }
+                            disabled={isGifProcessing}
+                          >
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                            <SelectContent>
+                              <SelectItem value="high">
+                                {t("gifQualityHigh")}
+                              </SelectItem>
+                              <SelectItem value="medium">
+                                {t("gifQualityMedium")}
+                              </SelectItem>
+                              <SelectItem value="low">
+                                {t("gifQualityLow")}
+                              </SelectItem>
+                            </SelectContent>
+                          </Select>
+                        </div>
+
+                        <div className="flex items-center justify-between">
+                          <Label htmlFor="gif-dither">{t("gifDither")}</Label>
+                          <Switch
+                            id="gif-dither"
+                            checked={gifDither}
+                            onCheckedChange={setGifDither}
+                            disabled={isGifProcessing}
+                          />
+                        </div>
+
+                        {showGifWarning && (
+                          <div className="flex items-start gap-2 p-3 rounded-lg bg-muted">
+                            <AlertTriangle className="w-4 h-4 text-amber-500 mt-0.5 shrink-0" />
+                            <p className="text-sm text-muted-foreground">
+                              {t("gifMemoryWarning")}
+                            </p>
+                          </div>
+                        )}
+
+                        {isGifProcessing ? (
+                          <div className="space-y-3">
+                            <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
+                              <div
+                                className="h-full bg-primary transition-all"
+                                style={{ width: `${gifProgress}%` }}
+                              />
+                            </div>
+                            <p
+                              className="text-sm text-center text-muted-foreground"
+                              dir="ltr"
+                            >
+                              {gifProgress}%
+                            </p>
+                            <Button
+                              variant="outline"
+                              className="w-full"
+                              onClick={handleCancelGif}
+                            >
+                              {tCommon("cancel")}
+                            </Button>
+                          </div>
+                        ) : (
+                          <Button
+                            onClick={handleConvertToGif}
+                            className="w-full"
+                            disabled={trimRange.start >= trimRange.end}
+                          >
+                            <ImagePlay className="w-4 h-4 me-2" />
+                            {t("gifConvertAction")}
+                          </Button>
+                        )}
+                      </div>
+                    </Card>
+
+                    <Card className="p-6">
+                      <div className="space-y-4">
+                        <h3 className="text-lg font-semibold">
+                          {t("gifPreview")}
+                        </h3>
+                        <div className="h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center overflow-hidden">
+                          {gifUrl ? (
+                            <img
+                              src={gifUrl}
+                              alt={t("gifPreviewAlt")}
+                              className="max-w-full max-h-full object-contain"
+                            />
+                          ) : (
+                            <div className="text-center">
+                              <ImagePlay className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                              <p className="text-muted-foreground">
+                                {t("gifPlaceholder")}
+                              </p>
+                            </div>
+                          )}
+                        </div>
+
+                        {gifUrl && (
+                          <>
+                            <div className="flex justify-between p-3 bg-muted rounded-lg">
+                              <span className="text-sm text-muted-foreground">
+                                {t("gifFileSize")}
+                              </span>
+                              <span className="text-sm font-medium" dir="ltr">
+                                {(gifSize / 1024 / 1024).toFixed(2)} MB
+                              </span>
+                            </div>
+                            <Button
+                              onClick={handleDownloadGif}
+                              className="w-full"
+                              variant="secondary"
+                            >
+                              <Download className="w-4 h-4 me-2" />
+                              {t("gifDownload")}
+                            </Button>
+                          </>
+                        )}
+                      </div>
+                    </Card>
+                  </div>
+                </TabsContent>
+              </Tabs>
             </div>
           )}
 
