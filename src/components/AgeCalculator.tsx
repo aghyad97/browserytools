@@ -62,6 +62,13 @@ export default function AgeCalculator() {
   const [ageDifference, setAgeDifference] = useState<AgeDifference | null>(
     null
   );
+  const [birthDateOpen, setBirthDateOpen] = useState(false);
+  const [person1Open, setPerson1Open] = useState(false);
+  const [person2Open, setPerson2Open] = useState(false);
+
+  // Earliest selectable date for the dropdown calendars.
+  const fromDate = new Date(1920, 0);
+  const today = new Date();
 
   const zodiacSigns = [
     { name: "Capricorn", start: [12, 22], end: [1, 19] },
@@ -272,7 +279,7 @@ export default function AgeCalculator() {
               <div className="space-y-2">
                 <Label>{t("birthDateLabel")}</Label>
                 <div className="flex gap-2">
-                  <Popover>
+                  <Popover open={birthDateOpen} onOpenChange={setBirthDateOpen}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -284,14 +291,22 @@ export default function AgeCalculator() {
                           : t("selectBirthDate")}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto overflow-hidden p-0"
+                      align="start"
+                    >
                       <Calendar
                         mode="single"
+                        captionLayout="dropdown"
+                        defaultMonth={birthDate}
+                        startMonth={fromDate}
+                        endMonth={today}
                         selected={birthDate}
-                        onSelect={setBirthDate}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
+                        onSelect={(date) => {
+                          setBirthDate(date);
+                          setBirthDateOpen(false);
+                        }}
+                        disabled={(date) => date > today || date < fromDate}
                         initialFocus
                       />
                     </PopoverContent>
@@ -439,7 +454,7 @@ export default function AgeCalculator() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <Label>{t("person1BirthDate")}</Label>
-                  <Popover>
+                  <Popover open={person1Open} onOpenChange={setPerson1Open}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -451,14 +466,22 @@ export default function AgeCalculator() {
                           : t("selectBirthDate")}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto overflow-hidden p-0"
+                      align="start"
+                    >
                       <Calendar
                         mode="single"
+                        captionLayout="dropdown"
+                        defaultMonth={person1BirthDate}
+                        startMonth={fromDate}
+                        endMonth={today}
                         selected={person1BirthDate}
-                        onSelect={setPerson1BirthDate}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
+                        onSelect={(date) => {
+                          setPerson1BirthDate(date);
+                          setPerson1Open(false);
+                        }}
+                        disabled={(date) => date > today || date < fromDate}
                         initialFocus
                       />
                     </PopoverContent>
@@ -466,7 +489,7 @@ export default function AgeCalculator() {
                 </div>
                 <div className="space-y-2">
                   <Label>{t("person2BirthDate")}</Label>
-                  <Popover>
+                  <Popover open={person2Open} onOpenChange={setPerson2Open}>
                     <PopoverTrigger asChild>
                       <Button
                         variant="outline"
@@ -478,14 +501,22 @@ export default function AgeCalculator() {
                           : t("selectBirthDate")}
                       </Button>
                     </PopoverTrigger>
-                    <PopoverContent className="w-auto p-0" align="start">
+                    <PopoverContent
+                      className="w-auto overflow-hidden p-0"
+                      align="start"
+                    >
                       <Calendar
                         mode="single"
+                        captionLayout="dropdown"
+                        defaultMonth={person2BirthDate}
+                        startMonth={fromDate}
+                        endMonth={today}
                         selected={person2BirthDate}
-                        onSelect={setPerson2BirthDate}
-                        disabled={(date) =>
-                          date > new Date() || date < new Date("1900-01-01")
-                        }
+                        onSelect={(date) => {
+                          setPerson2BirthDate(date);
+                          setPerson2Open(false);
+                        }}
+                        disabled={(date) => date > today || date < fromDate}
                         initialFocus
                       />
                     </PopoverContent>

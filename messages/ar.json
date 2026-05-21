@@ -611,7 +611,8 @@
       "convertFailed": "فشل تحويل الصورة. يرجى المحاولة مجدداً.",
       "downloadedSuccess": "تم تحميل الصورة!",
       "altOriginal": "الأصلية",
-      "altConverted": "المحوّلة"
+      "altConverted": "المحوّلة",
+      "converting": "جارٍ التحويل…"
     },
     "ColorCorrection": {
       "dropImageHere": "أفلت صورتك هنا",
