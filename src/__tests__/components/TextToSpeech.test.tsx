@@ -1,120 +1,62 @@
-import { describe, it, expect, beforeEach, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { describe, it, expect, vi, beforeEach } from "vitest";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import TextToSpeech from "@/components/TextToSpeech";
 
-// ── Mock speechSynthesis + SpeechSynthesisUtterance ──────────────────────────
-const speakMock = vi.fn();
-const cancelMock = vi.fn();
-const pauseMock = vi.fn();
-const resumeMock = vi.fn();
-const getVoicesMock = vi.fn(() => [
-  { voiceURI: "voice-en", name: "English Voice", lang: "en-US", default: true, localService: true },
-  { voiceURI: "voice-ar", name: "Arabic Voice", lang: "ar-SA", default: false, localService: true },
-]);
-
-class MockUtterance {
-  text: string;
-  voice: unknown = null;
-  rate = 1;
-  pitch = 1;
-  volume = 1;
-  onend: (() => void) | null = null;
-  onerror: (() => void) | null = null;
-  constructor(text: string) {
-    this.text = text;
-  }
-}
+// The component synthesizes both playback and download through the same AI
+// voice via this module — mock it to avoid loading the CDN engine.
+const synthesizeSpeech = vi
+  .fn()
+  .mockResolvedValue(new Blob(["RIFFmockwav"], { type: "audio/wav" }));
+vi.mock("@/lib/vits-loader", () => ({
+  synthesizeSpeech: (...args: unknown[]) => synthesizeSpeech(...args),
+}));
 
 beforeEach(() => {
-  speakMock.mockClear();
-  cancelMock.mockClear();
-  pauseMock.mockClear();
-  resumeMock.mockClear();
-
-  Object.defineProperty(window, "speechSynthesis", {
-    value: {
-      speak: speakMock,
-      cancel: cancelMock,
-      pause: pauseMock,
-      resume: resumeMock,
-      getVoices: getVoicesMock,
-      addEventListener: vi.fn(),
-      removeEventListener: vi.fn(),
-    },
-    writable: true,
-    configurable: true,
-  });
-
-  // @ts-expect-error - assign mock constructor
-  window.SpeechSynthesisUtterance = MockUtterance;
+  synthesizeSpeech.mockClear();
+  // happy-dom doesn't implement media playback — stub it.
+  HTMLMediaElement.prototype.play = vi.fn().mockResolvedValue(undefined);
+  HTMLMediaElement.prototype.pause = vi.fn();
 });
 
 describe("TextToSpeech", () => {
-  it("renders the voice selector and rate/pitch/volume controls", () => {
+  it("renders the text input and a voice selector", () => {
     render(<TextToSpeech />);
-    expect(screen.getByText("Voice")).toBeInTheDocument();
-    expect(screen.getByLabelText("Rate")).toBeInTheDocument();
-    expect(screen.getByLabelText("Pitch")).toBeInTheDocument();
-    expect(screen.getByLabelText("Volume")).toBeInTheDocument();
+    expect(screen.getByRole("textbox")).toBeTruthy();
+    expect(screen.getByRole("combobox")).toBeInTheDocument();
   });
 
-  it("calls speak() when Play is pressed with text", async () => {
+  it("shows an error when playing with no text", async () => {
+    const { toast } = await import("sonner");
     const user = userEvent.setup();
     render(<TextToSpeech />);
-
-    const textarea = screen.getByPlaceholderText(/Type or paste/i);
-    await user.type(textarea, "Hello world");
-
-    await user.click(screen.getByRole("button", { name: /Play/i }));
-
-    expect(speakMock).toHaveBeenCalledTimes(1);
-    const utterance = speakMock.mock.calls[0][0] as MockUtterance;
-    expect(utterance.text).toBe("Hello world");
+    await user.click(screen.getByRole("button", { name: /play|preparing/i }));
+    expect(toast.error).toHaveBeenCalled();
+    expect(synthesizeSpeech).not.toHaveBeenCalled();
   });
 
-  it("does not speak when text is empty", async () => {
+  it("synthesizes and plays the selected AI voice", async () => {
     const user = userEvent.setup();
     render(<TextToSpeech />);
-    await user.click(screen.getByRole("button", { name: /Play/i }));
-    expect(speakMock).not.toHaveBeenCalled();
+    await user.type(screen.getByRole("textbox"), "Hello world");
+    await user.click(screen.getByRole("button", { name: /play|preparing/i }));
+
+    await waitFor(() => expect(synthesizeSpeech).toHaveBeenCalledTimes(1));
+    expect(synthesizeSpeech.mock.calls[0][0]).toBe("Hello world");
+    expect(typeof synthesizeSpeech.mock.calls[0][1]).toBe("string");
+    expect(HTMLMediaElement.prototype.play).toHaveBeenCalled();
   });
 
-  it("calls cancel() when Stop is pressed", async () => {
+  it("downloads a WAV using the same voice", async () => {
     const user = userEvent.setup();
     render(<TextToSpeech />);
+    await user.type(screen.getByRole("textbox"), "Save me");
 
-    const textarea = screen.getByPlaceholderText(/Type or paste/i);
-    await user.type(textarea, "Read me");
-    await user.click(screen.getByRole("button", { name: /Play/i }));
+    const { toast } = await import("sonner");
+    await user.click(screen.getByRole("button", { name: /download/i }));
 
-    cancelMock.mockClear();
-    await user.click(screen.getByRole("button", { name: /Stop/i }));
-    expect(cancelMock).toHaveBeenCalled();
-  });
-
-  it("calls pause() and resume() across the control lifecycle", async () => {
-    const user = userEvent.setup();
-    render(<TextToSpeech />);
-
-    const textarea = screen.getByPlaceholderText(/Type or paste/i);
-    await user.type(textarea, "Pause me");
-    await user.click(screen.getByRole("button", { name: /Play/i }));
-
-    await user.click(screen.getByRole("button", { name: /Pause/i }));
-    expect(pauseMock).toHaveBeenCalled();
-
-    await user.click(screen.getByRole("button", { name: /Resume/i }));
-    expect(resumeMock).toHaveBeenCalled();
-  });
-
-  it("shows an unsupported message when speechSynthesis is missing", () => {
-    Object.defineProperty(window, "speechSynthesis", {
-      value: undefined,
-      writable: true,
-      configurable: true,
-    });
-    render(<TextToSpeech />);
-    expect(screen.getByText(/does not support the Web Speech API/i)).toBeInTheDocument();
+    await waitFor(() => expect(synthesizeSpeech).toHaveBeenCalled());
+    expect(URL.createObjectURL).toHaveBeenCalled();
+    await waitFor(() => expect(toast.success).toHaveBeenCalled());
   });
 });

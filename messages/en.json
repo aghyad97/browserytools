@@ -3982,9 +3982,10 @@
       "aiVoice": "AI voice",
       "downloadAudio": "Download WAV",
       "downloading": "Generating…",
-      "modelNote": "The selected AI voice downloads a model (~20–60MB) once from a CDN, then runs entirely on your device. Its sound differs from the browser preview voices.",
+      "modelNote": "These are AI voices that run in your browser, so the voice you hear is exactly the one you download. The selected voice downloads a model (~20–60MB) from a CDN the first time you use it, then plays and exports entirely on your device.",
       "audioDownloaded": "Audio downloaded",
-      "audioFailed": "Could not generate audio. Please try again."
+      "audioFailed": "Could not generate audio. Please try again.",
+      "preparing": "Preparing…"
     },
     "RandomPicker": {
       "tabNumber": "Number",
