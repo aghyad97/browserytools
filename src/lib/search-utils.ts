@@ -102,50 +102,96 @@ function expandSearchTerms(query: string): string[] {
   return Array.from(expandedTerms);
 }
 
-// Calculate search score for a tool
+// Normalize a string for matching: lowercase, trim, collapse whitespace.
+function normalize(str: string): string {
+  return str.toLowerCase().trim().replace(/\s+/g, " ");
+}
+
+function escapeRegExp(str: string): string {
+  return str.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+}
+
+/**
+ * Calculate a search score for a tool given a query.
+ *
+ * Scoring is strictly tiered so that the *more exact* a match is, the higher it
+ * ranks — and an exact tool-name match always wins:
+ *
+ *   exact name (===)            → 10000   (always first)
+ *   name starts with query      → +1200
+ *   query is a substring of name → +500 (+ earlier-position bonus)
+ *   all query words are in name  → +400 (whole-word) / +250 (prefix)
+ *   per-word name matches        → +70 / +45 / +18
+ *   description matches          → low (tiebreaker)
+ *   fuzzy similarity (typos)     → low (tiebreaker)
+ *   synonyms                     → lowest (tiebreaker)
+ *
+ * This fixes the bug where e.g. "age calculator" ranked "Percentage Calculator"
+ * (which literally contains the substring "age calculator") at the same +100 as
+ * the exact "Age Calculator".
+ */
 function calculateSearchScore(tool: Tool, query: string): number {
-  const queryLower = query.toLowerCase();
-  const nameLower = tool.name.toLowerCase();
-  const descLower = tool.description.toLowerCase();
+  const q = normalize(query);
+  if (!q) return 0;
+
+  const name = normalize(tool.name);
+  const desc = (tool.description || "").toLowerCase();
+  const qTokens = q.split(" ");
+  const nameTokens = name.split(" ");
+
+  // 1. Exact full-name match always wins.
+  if (name === q) return 10000;
 
   let score = 0;
 
-  // Exact matches get highest score
-  if (nameLower.includes(queryLower)) {
-    score += 100;
-  }
-  if (descLower.includes(queryLower)) {
-    score += 50;
-  }
-
-  // Fuzzy matching for name
-  const nameSimilarity = calculateSimilarity(queryLower, nameLower);
-  if (nameSimilarity > 0.6) {
-    score += nameSimilarity * 30;
+  // 2. Name starts with the full query.
+  if (name.startsWith(q)) {
+    score += 1200;
+  } else if (name.includes(q)) {
+    // 3. Query appears as a substring elsewhere in the name (e.g. "age
+    //    calculator" inside "percentage calculator") — relevant, but ranked
+    //    well below an exact or prefix match. Earlier position scores higher.
+    score += 500 + Math.max(0, 80 - name.indexOf(q) * 4);
   }
 
-  // Fuzzy matching for description words
-  const descWords = descLower.split(/\s+/);
-  const queryWords = queryLower.split(/\s+/);
+  // 4. All query words present in the name (order-independent).
+  const wholeWord = (t: string) => nameTokens.includes(t);
+  const prefixWord = (t: string) => nameTokens.some((nt) => nt.startsWith(t));
+  if (qTokens.every(wholeWord)) {
+    score += 400;
+  } else if (qTokens.every((t) => wholeWord(t) || prefixWord(t))) {
+    score += 250;
+  }
 
-  queryWords.forEach((queryWord: string) => {
-    descWords.forEach((descWord: string) => {
-      const similarity = calculateSimilarity(queryWord, descWord);
-      if (similarity > 0.7) {
-        score += similarity * 10;
-      }
+  // 5. Per-word name matches.
+  qTokens.forEach((t) => {
+    if (wholeWord(t)) score += 70;
+    else if (prefixWord(t)) score += 45;
+    else if (name.includes(t)) score += 18;
+  });
+
+  // 6. Description matches (low weight — tiebreakers only).
+  if (desc.includes(q)) score += 40;
+  qTokens.forEach((t) => {
+    if (new RegExp(`\\b${escapeRegExp(t)}`).test(desc)) score += 8;
+  });
+
+  // 7. Fuzzy similarity for typo tolerance (capped, tiebreaker).
+  const nameSimilarity = calculateSimilarity(q, name);
+  if (nameSimilarity > 0.72) score += nameSimilarity * 25;
+  qTokens.forEach((t) => {
+    if (t.length < 4) return;
+    nameTokens.forEach((nt) => {
+      const sim = calculateSimilarity(t, nt);
+      if (sim > 0.8) score += sim * 15;
     });
   });
 
-  // Synonym matching
-  const expandedTerms = expandSearchTerms(query);
-  expandedTerms.forEach((term) => {
-    if (nameLower.includes(term)) {
-      score += 20;
-    }
-    if (descLower.includes(term)) {
-      score += 10;
-    }
+  // 8. Synonyms (lowest weight — only helps when nothing else matched).
+  expandSearchTerms(q).forEach((term) => {
+    if (term === q) return;
+    if (nameTokens.includes(term)) score += 12;
+    else if (desc.includes(term)) score += 4;
   });
 
   return score;

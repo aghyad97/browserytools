@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import {
   calculateSimilarity,
   searchTools,
+  searchAllTools,
   calculateSearchScore,
   expandSearchTerms,
 } from "@/lib/search-utils";
@@ -89,6 +90,54 @@ describe("calculateSearchScore()", () => {
     const anyTool = allTools[0];
     const score = calculateSearchScore(anyTool, "zzzzzzzzzz12345");
     expect(score).toBeGreaterThanOrEqual(0);
+  });
+
+  it("scores an exact name match far above a partial substring match", () => {
+    // "age calculator" is literally a substring of "Percentage Calculator".
+    const age = allTools.find((t) => t.name.toLowerCase() === "age calculator");
+    const percentage = allTools.find(
+      (t) => t.name.toLowerCase() === "percentage calculator"
+    );
+    if (!age || !percentage) return; // skip if config changed
+    const ageScore = calculateSearchScore(age, "age calculator");
+    const pctScore = calculateSearchScore(percentage, "age calculator");
+    expect(ageScore).toBeGreaterThan(pctScore);
+  });
+
+  it("gives an exact full-name match the dominant score", () => {
+    const age = allTools.find((t) => t.name.toLowerCase() === "age calculator");
+    if (!age) return;
+    expect(calculateSearchScore(age, "age calculator")).toBe(10000);
+    // case/whitespace insensitive
+    expect(calculateSearchScore(age, "  Age   Calculator ")).toBe(10000);
+  });
+
+  it("ranks a prefix match above a mid-string substring match", () => {
+    const calc = allTools.find((t) => t.name.toLowerCase() === "calculator");
+    const age = allTools.find((t) => t.name.toLowerCase() === "age calculator");
+    if (!calc || !age) return;
+    // "calc" is a prefix of "Calculator" but only mid-word in nothing else here.
+    expect(calculateSearchScore(calc, "calc")).toBeGreaterThan(
+      calculateSearchScore(age, "calc")
+    );
+  });
+});
+
+// ── ranking: exact tool name comes first ──────────────────────────────────────
+describe("searchAllTools() ranking", () => {
+  it("puts the exactly-named tool first when typing its full name", () => {
+    const results = searchAllTools("age calculator");
+    if (results.length === 0) return;
+    expect(results[0].name.toLowerCase()).toBe("age calculator");
+  });
+
+  it("puts the exactly-named tool first for a single-word exact name", () => {
+    const results = searchAllTools("calculator");
+    const hasCalculator = results.some(
+      (t) => t.name.toLowerCase() === "calculator"
+    );
+    if (!hasCalculator) return;
+    expect(results[0].name.toLowerCase()).toBe("calculator");
   });
 });
 
