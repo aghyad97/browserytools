@@ -41,9 +41,9 @@ import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
 import * as pdfjsLib from "pdfjs-dist";
 
-// Initialize PDF.js worker for thumbnails
+// Initialize PDF.js worker for thumbnails (self-hosted, copied from pdfjs-dist into public/ at build time)
 if (typeof window !== "undefined") {
-  pdfjsLib.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjsLib.version}/pdf.worker.min.js`;
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 }
 
 interface PDFFile {

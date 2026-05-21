@@ -1,11 +1,19 @@
 import type { Metadata, Viewport } from "next";
-import { Geist } from "next/font/google";
+import { Geist, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
 import type { Locale } from "@/store/language-store";
 
 const geist = Geist({ subsets: ["latin"] });
+
+// Self-hosted at build via next/font — same weights previously loaded from Google Fonts.
+const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
+  subsets: ["arabic"],
+  weight: ["100", "200", "300", "400", "500", "600", "700"],
+  variable: "--font-ibm-plex-arabic",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: {
@@ -147,18 +155,12 @@ export default async function RootLayout({
   const initialLocale: Locale = localeCookie === "ar" ? "ar" : "en";
 
   return (
-    <html lang={initialLocale} dir={initialLocale === "ar" ? "rtl" : "ltr"} suppressHydrationWarning>
-      <head>
-        {/* IBM Plex Sans Arabic — loaded via standard Google Fonts link to avoid Turbopack font bundling issues */}
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-        {/* eslint-disable-next-line @next/next/no-page-custom-font */}
-        <link
-          href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@100;200;300;400;500;600;700&display=swap"
-          rel="stylesheet"
-        />
-      </head>
+    <html
+      lang={initialLocale}
+      dir={initialLocale === "ar" ? "rtl" : "ltr"}
+      className={ibmPlexSansArabic.variable}
+      suppressHydrationWarning
+    >
       <body className={geist.className}>
         <Providers initialLocale={initialLocale}>
           {children}

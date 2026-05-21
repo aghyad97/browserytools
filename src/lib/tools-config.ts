@@ -160,6 +160,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-10",
         description: "Convert between HEX, RGB, and HSL with live preview.",
       },
+      {
+        name: "SVG to PNG",
+        href: "/tools/svg-png",
+        icon: RefreshCwIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-05-21",
+        description:
+          "Convert SVG vector files to PNG images. Upload or paste SVG markup and export at 1x, 2x, or 3x resolution. Runs entirely in your browser.",
+      },
     ],
   },
   {
@@ -245,15 +255,16 @@ export const tools: ToolCategory[] = [
         description:
           "Check your camera preview and test microphone input levels with a live meter.",
       },
-      // {
-      //   name: "Compress Video",
-      //   href: "/tools/compress-video",
-      //   icon: FileDownIcon,
-      //   available: false,
-      //   order: 3,
-      //   description:
-      //     "Compress videos in your browser using ffmpeg.wasm. Control quality (CRF), presets, and resolution. No uploads; runs entirely on-device.",
-      // },
+      {
+        name: "Compress Video",
+        href: "/tools/compress-video",
+        icon: FileDownIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-05-21",
+        description:
+          "Compress videos in your browser using ffmpeg.wasm. Control quality (CRF), presets, and resolution. No uploads; runs entirely on-device.",
+      },
     ],
   },
   {
@@ -704,6 +715,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-22",
         description:
           "Calculate tips and split bills between multiple people. Choose tip percentage or enter custom amount. Shows per-person totals.",
+      },
+      {
+        name: "Roman Numeral Converter",
+        href: "/tools/roman-numeral",
+        icon: HashIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-05-21",
+        description:
+          "Convert numbers to Roman numerals and Roman numerals back to numbers. Supports values from 1 to 3999 with a step-by-step breakdown and reference table.",
       },
     ],
   },

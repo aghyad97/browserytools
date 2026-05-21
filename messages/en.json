@@ -539,7 +539,8 @@
       "statusReady": "Ready",
       "statusProcessing": "Processing...",
       "statusError": "Error",
-      "statusWaiting": "Waiting"
+      "statusWaiting": "Waiting",
+      "privacyNote": "The AI model is downloaded once from a CDN and cached in your browser. Your images are processed entirely on your device and never leave it."
     },
     "PhoneMockups": {
       "device": "Device",
@@ -2224,7 +2225,9 @@
       "errorInvalidFormat": "Invalid Roman numeral — check the numeral format",
       "errorOutOfRange": "Enter a number between 1 and 3999",
       "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy"
+      "failedToCopy": "Failed to copy",
+      "numberPlaceholder": "e.g. 2024",
+      "romanPlaceholder": "e.g. MMXXIV"
     },
     "PasswordGenerator": {
       "generatorOptionsTitle": "Generator Options",
@@ -3539,6 +3542,26 @@
       "copied": "Copied!",
       "reset": "Reset",
       "loadSample": "Load Sample"
+    },
+    "CompressVideo": {
+      "dropVideoHere": "Drop your video here",
+      "supportedFormats": "Supports MP4, MOV, WebM, MKV, AVI or M4V files",
+      "quality": "Quality",
+      "crf": "CRF",
+      "crfHint": "Lower CRF means higher quality and larger file size.",
+      "preset": "Preset",
+      "resolution": "Resolution",
+      "resolutionOriginal": "Original",
+      "compress": "Compress Video",
+      "compressing": "Compressing…",
+      "outputPlaceholder": "Compressed video will appear here",
+      "originalSize": "Original size",
+      "compressedSize": "Compressed size",
+      "savings": "Size reduction",
+      "videoTooLarge": "Video size should be less than 500MB",
+      "compressedSuccess": "Video compressed successfully!",
+      "compressFailed": "Failed to compress video. Please try again.",
+      "downloadedSuccess": "Video downloaded!"
     }
   },
   "Blog": {

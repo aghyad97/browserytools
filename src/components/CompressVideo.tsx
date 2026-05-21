@@ -1,205 +1,400 @@
-// "use client";
+"use client";
 
-// import { FFmpeg } from "@ffmpeg/ffmpeg";
-// import { fetchFile, toBlobURL } from "@ffmpeg/util";
-// import { useMemo, useRef, useState } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
+import { useTranslations } from "next-intl";
+import { useDropzone } from "react-dropzone";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Slider } from "@/components/ui/slider";
+import { Progress } from "@/components/ui/progress";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Upload, Download, Video, Loader2 } from "lucide-react";
+import { toast } from "sonner";
 
-// export default function CompressVideo() {
-//   const [loaded, setLoaded] = useState(false);
-//   const [isLoading, setIsLoading] = useState(false);
-//   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-//   const [outputUrl, setOutputUrl] = useState<string | null>(null);
-//   const [crf, setCrf] = useState<number>(28);
-//   const [preset, setPreset] = useState<string>("veryfast");
-//   const [scale, setScale] = useState<string>("original");
-//   const [isProcessing, setIsProcessing] = useState(false);
-//   const ffmpegRef = useRef(new FFmpeg());
-//   const videoRef = useRef<HTMLVideoElement | null>(null);
-//   const messageRef = useRef<HTMLParagraphElement | null>(null);
+interface VideoInfo {
+  file: File;
+  url: string;
+  size: number;
+  name: string;
+}
 
-//   const baseURL = useMemo(
-//     () => "https://cdn.jsdelivr.net/npm/@ffmpeg/core@0.12.10/dist/umd",
-//     []
-//   );
+const presetOptions = [
+  "ultrafast",
+  "superfast",
+  "veryfast",
+  "faster",
+  "fast",
+  "medium",
+  "slow",
+] as const;
 
-//   const load = async () => {
-//     setIsLoading(true);
-//     const ffmpeg = ffmpegRef.current;
-//     ffmpeg.on("log", ({ message }) => {
-//       if (messageRef.current) messageRef.current.innerHTML = message;
-//     });
-//     await ffmpeg.load({
-//       coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
-//       wasmURL: await toBlobURL(
-//         `${baseURL}/ffmpeg-core.wasm`,
-//         "application/wasm"
-//       ),
-//     });
-//     setLoaded(true);
-//     setIsLoading(false);
-//   };
+const resolutionOptions = [
+  { value: "original", scale: "" },
+  { value: "1080p", scale: "scale=-2:1080" },
+  { value: "720p", scale: "scale=-2:720" },
+  { value: "480p", scale: "scale=-2:480" },
+] as const;
 
-//   const getScaleFilter = () => {
-//     switch (scale) {
-//       case "1080p":
-//         return "scale=-2:1080";
-//       case "720p":
-//         return "scale=-2:720";
-//       case "480p":
-//         return "scale=-2:480";
-//       default:
-//         return "";
-//     }
-//   };
+function formatBytes(bytes: number): string {
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
+}
 
-//   const compress = async () => {
-//     if (!selectedFile) return;
-//     setIsProcessing(true);
-//     setOutputUrl(null);
-//     const ffmpeg = ffmpegRef.current;
+export default function CompressVideo() {
+  const t = useTranslations("Tools.CompressVideo");
+  const tCommon = useTranslations("Common");
 
-//     const inputName = `input_${Date.now()}`;
-//     const outputName = `output_${Date.now()}.mp4`;
-//     await ffmpeg.writeFile(inputName, await fetchFile(selectedFile));
+  const [video, setVideo] = useState<VideoInfo | null>(null);
+  const [crf, setCrf] = useState(28);
+  const [preset, setPreset] = useState<string>("veryfast");
+  const [resolution, setResolution] = useState<string>("original");
+  const [isCompressing, setIsCompressing] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [outputUrl, setOutputUrl] = useState<string | null>(null);
+  const [outputSize, setOutputSize] = useState(0);
 
-//     const vf = getScaleFilter();
-//     const args = [
-//       "-i",
-//       inputName,
-//       "-c:v",
-//       "libx264",
-//       "-crf",
-//       String(crf),
-//       "-preset",
-//       preset,
-//       ...(vf ? ["-vf", vf] : []),
-//       "-c:a",
-//       "aac",
-//       "-b:a",
-//       "128k",
-//       outputName,
-//     ];
+  const ffmpegRef = useRef<import("@ffmpeg/ffmpeg").FFmpeg | null>(null);
+  const inputUrlRef = useRef<string | null>(null);
+  const outputUrlRef = useRef<string | null>(null);
 
-//     await ffmpeg.exec(args);
-//     const data = (await ffmpeg.readFile(outputName)) as any;
-//     const url = URL.createObjectURL(
-//       new Blob([data.buffer], { type: "video/mp4" })
-//     );
-//     setOutputUrl(url);
-//     if (videoRef.current) videoRef.current.src = url;
-//     setIsProcessing(false);
-//   };
+  useEffect(() => {
+    return () => {
+      if (inputUrlRef.current) URL.revokeObjectURL(inputUrlRef.current);
+      if (outputUrlRef.current) URL.revokeObjectURL(outputUrlRef.current);
+    };
+  }, []);
 
-//   return (
-//     <div className="max-w-xl mx-auto p-4 space-y-4">
-//       {!loaded ? (
-//         <button
-//           className="w-full flex items-center justify-center bg-blue-500 hover:bg-blue-700 text-white py-2 px-4 rounded"
-//           onClick={load}
-//           disabled={isLoading}
-//         >
-//           {isLoading ? "Loading ffmpeg..." : "Load ffmpeg"}
-//           {isLoading && (
-//             <span className="animate-spin ml-3">
-//               <svg
-//                 viewBox="0 0 1024 1024"
-//                 focusable="false"
-//                 data-icon="loading"
-//                 width="1em"
-//                 height="1em"
-//                 fill="currentColor"
-//                 aria-hidden="true"
-//               >
-//                 <path d="M988 548c-19.9 0-36-16.1-36-36 0-59.4-11.6-117-34.6-171.3a440.45 440.45 0 00-94.3-139.9 437.71 437.71 0 00-139.9-94.3C629 83.6 571.4 72 512 72c-19.9 0-36-16.1-36-36s16.1-36 36-36c69.1 0 136.2 13.5 199.3 40.3C772.3 66 827 103 874 150c47 47 83.9 101.8 109.7 162.7 26.7 63.1 40.2 130.2 40.2 199.3.1 19.9-16 36-35.9 36z"></path>
-//               </svg>
-//             </span>
-//           )}
-//         </button>
-//       ) : (
-//         <div className="space-y-4">
-//           <div className="space-y-2">
-//             <input
-//               type="file"
-//               accept="video/*"
-//               onChange={(e) => setSelectedFile(e.target.files?.[0] || null)}
-//             />
-//             {selectedFile && (
-//               <p className="text-sm text-gray-600">
-//                 Selected: {selectedFile.name}
-//               </p>
-//             )}
-//           </div>
+  const onDrop = useCallback(
+    (acceptedFiles: File[]) => {
+      const file = acceptedFiles[0];
+      if (!file) return;
+      if (file.size > 500 * 1024 * 1024) {
+        toast.error(t("videoTooLarge"));
+        return;
+      }
+      if (inputUrlRef.current) URL.revokeObjectURL(inputUrlRef.current);
+      if (outputUrlRef.current) {
+        URL.revokeObjectURL(outputUrlRef.current);
+        outputUrlRef.current = null;
+      }
+      const url = URL.createObjectURL(file);
+      inputUrlRef.current = url;
+      setVideo({ file, url, size: file.size, name: file.name });
+      setOutputUrl(null);
+      setOutputSize(0);
+      setProgress(0);
+    },
+    [t]
+  );
 
-//           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-//             <label className="flex flex-col text-sm">
-//               <span className="mb-1">CRF (Lower = Better)</span>
-//               <input
-//                 type="range"
-//                 min={18}
-//                 max={35}
-//                 value={crf}
-//                 onChange={(e) => setCrf(Number(e.target.value))}
-//               />
-//               <span className="mt-1">{crf}</span>
-//             </label>
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({
+    onDrop,
+    accept: { "video/*": [".mp4", ".mov", ".webm", ".mkv", ".avi", ".m4v"] },
+    multiple: false,
+  });
 
-//             <label className="flex flex-col text-sm">
-//               <span className="mb-1">Preset</span>
-//               <select
-//                 className="border rounded px-2 py-1"
-//                 value={preset}
-//                 onChange={(e) => setPreset(e.target.value)}
-//               >
-//                 <option value="ultrafast">ultrafast</option>
-//                 <option value="superfast">superfast</option>
-//                 <option value="veryfast">veryfast</option>
-//                 <option value="faster">faster</option>
-//                 <option value="fast">fast</option>
-//                 <option value="medium">medium</option>
-//                 <option value="slow">slow</option>
-//                 <option value="slower">slower</option>
-//               </select>
-//             </label>
+  const loadFfmpeg = async () => {
+    if (ffmpegRef.current) return ffmpegRef.current;
+    const { FFmpeg } = await import("@ffmpeg/ffmpeg");
+    const { toBlobURL } = await import("@ffmpeg/util");
+    const ffmpeg = new FFmpeg();
+    const baseURL = "/ffmpeg";
+    await ffmpeg.load({
+      coreURL: await toBlobURL(
+        `${baseURL}/ffmpeg-core.js`,
+        "text/javascript"
+      ),
+      wasmURL: await toBlobURL(
+        `${baseURL}/ffmpeg-core.wasm`,
+        "application/wasm"
+      ),
+    });
+    ffmpegRef.current = ffmpeg;
+    return ffmpeg;
+  };
 
-//             <label className="flex flex-col text-sm">
-//               <span className="mb-1">Resolution</span>
-//               <select
-//                 className="border rounded px-2 py-1"
-//                 value={scale}
-//                 onChange={(e) => setScale(e.target.value)}
-//               >
-//                 <option value="original">Original</option>
-//                 <option value="1080p">1080p</option>
-//                 <option value="720p">720p</option>
-//                 <option value="480p">480p</option>
-//               </select>
-//             </label>
-//           </div>
+  const handleCompress = async () => {
+    if (!video || isCompressing) return;
+    setIsCompressing(true);
+    setProgress(0);
+    if (outputUrlRef.current) {
+      URL.revokeObjectURL(outputUrlRef.current);
+      outputUrlRef.current = null;
+    }
+    setOutputUrl(null);
 
-//           <button
-//             onClick={compress}
-//             disabled={!selectedFile || isProcessing}
-//             className="w-full bg-green-500 hover:bg-green-600 disabled:opacity-50 text-white py-2 px-4 rounded"
-//           >
-//             {isProcessing ? "Compressing..." : "Compress Video"}
-//           </button>
+    try {
+      const { fetchFile } = await import("@ffmpeg/util");
+      const ffmpeg = await loadFfmpeg();
 
-//           <p ref={messageRef} className="text-xs text-gray-500"></p>
+      const onProgress = ({ progress: p }: { progress: number }) => {
+        setProgress(Math.min(100, Math.max(0, Math.round(p * 100))));
+      };
+      ffmpeg.on("progress", onProgress);
 
-//           <div className="space-y-2">
-//             <video ref={videoRef} controls className="w-full" />
-//             {outputUrl && (
-//               <a
-//                 href={outputUrl}
-//                 download="compressed.mp4"
-//                 className="inline-block bg-gray-800 text-white px-4 py-2 rounded"
-//               >
-//                 Download compressed video
-//               </a>
-//             )}
-//           </div>
-//         </div>
-//       )}
-//     </div>
-//   );
-// }
+      const inputName = "input";
+      const outputName = "output.mp4";
+      await ffmpeg.writeFile(inputName, await fetchFile(video.file));
+
+      const scale = resolutionOptions.find(
+        (r) => r.value === resolution
+      )?.scale;
+      const args = [
+        "-i",
+        inputName,
+        "-c:v",
+        "libx264",
+        "-crf",
+        String(crf),
+        "-preset",
+        preset,
+        ...(scale ? ["-vf", scale] : []),
+        "-c:a",
+        "aac",
+        "-b:a",
+        "128k",
+        outputName,
+      ];
+
+      await ffmpeg.exec(args);
+      const data = (await ffmpeg.readFile(outputName)) as Uint8Array;
+      ffmpeg.off("progress", onProgress);
+
+      const bytes = new Uint8Array(data);
+      const blob = new Blob([bytes.buffer as ArrayBuffer], {
+        type: "video/mp4",
+      });
+      const url = URL.createObjectURL(blob);
+      outputUrlRef.current = url;
+      setOutputUrl(url);
+      setOutputSize(blob.size);
+      setProgress(100);
+      toast.success(t("compressedSuccess"));
+    } catch (error) {
+      console.error(error);
+      toast.error(t("compressFailed"));
+    } finally {
+      setIsCompressing(false);
+    }
+  };
+
+  const handleDownload = () => {
+    if (!outputUrl || !video) return;
+    const base = video.name.replace(/\.[^.]+$/, "");
+    const link = document.createElement("a");
+    link.href = outputUrl;
+    link.download = `${base}_compressed.mp4`;
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    toast.success(t("downloadedSuccess"));
+  };
+
+  const savings =
+    video && outputSize > 0
+      ? Math.round((1 - outputSize / video.size) * 100)
+      : null;
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
+      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
+
+      <div className="flex-1 overflow-auto p-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+          <div className="space-y-4">
+            <Card className="p-6 shadow-none">
+              <div
+                {...getRootProps()}
+                className={`
+                  h-64 rounded-lg border-2 border-dashed
+                  flex flex-col items-center justify-center space-y-4 p-8
+                  cursor-pointer transition-all duration-200
+                  ${
+                    isDragActive
+                      ? "border-primary bg-primary/10 scale-[0.99]"
+                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                  }
+                `}
+              >
+                <input {...getInputProps()} />
+                {video ? (
+                  <div className="w-full h-full relative">
+                    <video
+                      src={video.url}
+                      controls
+                      className="w-full h-full object-contain"
+                    />
+                    <div className="absolute bottom-0 start-0 end-0 bg-black/50 text-white p-2 text-sm flex justify-between">
+                      <span className="truncate">{video.name}</span>
+                      <span dir="ltr">{formatBytes(video.size)}</span>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="text-center">
+                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                      <Upload className="w-10 h-10 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-1">
+                      {t("dropVideoHere")}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {t("supportedFormats")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            <Card className="p-4 space-y-4">
+              <div className="space-y-2">
+                <div className="flex justify-between">
+                  <label className="text-sm font-medium">{t("quality")}</label>
+                  <span className="text-sm text-muted-foreground" dir="ltr">
+                    {t("crf")} {crf}
+                  </span>
+                </div>
+                <Slider
+                  value={[crf]}
+                  onValueChange={([value]) => setCrf(value)}
+                  min={18}
+                  max={35}
+                  step={1}
+                  disabled={isCompressing}
+                />
+                <p className="text-xs text-muted-foreground">{t("crfHint")}</p>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">{t("preset")}</label>
+                <Select
+                  value={preset}
+                  onValueChange={setPreset}
+                  disabled={isCompressing}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {presetOptions.map((p) => (
+                      <SelectItem key={p} value={p}>
+                        {p}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <label className="text-sm font-medium">
+                  {t("resolution")}
+                </label>
+                <Select
+                  value={resolution}
+                  onValueChange={setResolution}
+                  disabled={isCompressing}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {resolutionOptions.map((r) => (
+                      <SelectItem key={r.value} value={r.value}>
+                        {r.value === "original"
+                          ? t("resolutionOriginal")
+                          : r.value}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button
+                onClick={handleCompress}
+                className="w-full"
+                disabled={!video || isCompressing}
+              >
+                {isCompressing && (
+                  <Loader2 className="w-4 h-4 me-2 animate-spin" />
+                )}
+                {isCompressing ? t("compressing") : t("compress")}
+              </Button>
+
+              {isCompressing && (
+                <div className="space-y-1">
+                  <Progress value={progress} />
+                  <p
+                    className="text-xs text-muted-foreground text-end"
+                    dir="ltr"
+                  >
+                    {progress}%
+                  </p>
+                </div>
+              )}
+            </Card>
+          </div>
+
+          <div className="space-y-4">
+            <Card className="p-6">
+              <div className="h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center overflow-hidden">
+                {outputUrl ? (
+                  <video
+                    src={outputUrl}
+                    controls
+                    className="w-full h-full object-contain"
+                  />
+                ) : (
+                  <div className="text-center">
+                    <Video className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                    <p className="text-muted-foreground">
+                      {t("outputPlaceholder")}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </Card>
+
+            {outputUrl && (
+              <Card className="p-4 space-y-2 text-sm">
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    {t("originalSize")}
+                  </span>
+                  <span dir="ltr">{formatBytes(video?.size ?? 0)}</span>
+                </div>
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">
+                    {t("compressedSize")}
+                  </span>
+                  <span dir="ltr">{formatBytes(outputSize)}</span>
+                </div>
+                {savings !== null && (
+                  <div className="flex justify-between font-medium">
+                    <span>{t("savings")}</span>
+                    <span dir="ltr">{savings}%</span>
+                  </div>
+                )}
+              </Card>
+            )}
+
+            <Button
+              onClick={handleDownload}
+              className="w-full"
+              disabled={!outputUrl}
+              variant="secondary"
+            >
+              <Download className="w-4 h-4 me-2" />
+              {tCommon("download")}
+            </Button>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}

@@ -20,7 +20,7 @@ export default defineConfig({
         "src/types/**",
       ],
     },
-    exclude: ["node_modules/**", ".next/**", "e2e/**"],
+    exclude: ["node_modules/**", ".next/**", "e2e/**", ".claude/**"],
   },
   resolve: {
     alias: {

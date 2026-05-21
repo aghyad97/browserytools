@@ -84,7 +84,7 @@ body {
 /* Arabic font activation */
 html[lang="ar"],
 html[lang="ar"] body {
-  font-family: "IBM Plex Sans Arabic", sans-serif;
+  font-family: var(--font-ibm-plex-arabic), "IBM Plex Sans Arabic", sans-serif;
 }
 
 /* Keep number inputs LTR for usability in RTL mode */
