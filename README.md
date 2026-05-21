@@ -2,7 +2,7 @@
 
 ![BrowseryTools](https://github.com/aghyad97/browserytools/blob/main/public/og-image.png?raw=true)
 
-A comprehensive collection of **80+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required.
+A comprehensive collection of **136+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
 
 ## 🚀 Features
 
