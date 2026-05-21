@@ -8,5 +8,5 @@ export const metadata = generatePageMetadata(
 );
 
 export default function Page() {
-  return redirect("https://pay.ziina.com/aghyad");
+  return redirect("https://buy.stripe.com/aFa8wOaohd8f59V2x96Na00");
 }

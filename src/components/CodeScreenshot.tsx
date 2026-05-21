@@ -40,6 +40,21 @@ const LANGUAGE_OPTIONS = [
   { value: "plaintext", label: "Plain Text" },
 ];
 
+// Curated languages first (nice labels), then every other language registered
+// by highlight.js (the full build supports ~190). Lets users pick any language.
+const CURATED_LABELS: Record<string, string> = Object.fromEntries(
+  LANGUAGE_OPTIONS.map((o) => [o.value, o.label])
+);
+const CURATED_VALUES = new Set(LANGUAGE_OPTIONS.map((o) => o.value));
+const ALL_LANGUAGE_OPTIONS: { value: string; label: string }[] = [
+  ...LANGUAGE_OPTIONS,
+  ...hljs
+    .listLanguages()
+    .filter((l) => !CURATED_VALUES.has(l))
+    .sort()
+    .map((l) => ({ value: l, label: CURATED_LABELS[l] ?? l })),
+];
+
 // Self-contained themes: token colors are mapped to hljs class names so the
 // exported image is fully inline-styled (no external CSS needed).
 interface Theme {
@@ -385,8 +400,8 @@ export default function CodeScreenshot() {
                     <SelectTrigger data-testid="language-select">
                       <SelectValue placeholder={t("language")} />
                     </SelectTrigger>
-                    <SelectContent>
-                      {LANGUAGE_OPTIONS.map((o) => (
+                    <SelectContent className="max-h-72">
+                      {ALL_LANGUAGE_OPTIONS.map((o) => (
                         <SelectItem key={o.value} value={o.value}>
                           {o.label}
                         </SelectItem>

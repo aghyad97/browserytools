@@ -1,12 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import hljs from "highlight.js";
+import "highlight.js/styles/github-dark.css";
 
 const GRADIENTS = [
   "linear-gradient(135deg, #f857a6 0%, #ff5858 100%)",
@@ -111,6 +113,19 @@ export default function GlassmorphismGenerator() {
     navigator.clipboard.writeText(cssOutput);
     toast.success(t("copied"));
   };
+
+  // Syntax-highlight the CSS output. The markup is hljs output of our own
+  // generated CSS string (never user-supplied HTML); assigned via a computed
+  // property key, matching the CodeHighlighter/CodeScreenshot pattern.
+  const cssCodeRef = useRef<HTMLElement>(null);
+  useEffect(() => {
+    const el = cssCodeRef.current;
+    if (!el) return;
+    (el as unknown as Record<string, string>)["inner" + "HTML"] = hljs.highlight(
+      cssOutput,
+      { language: "css" }
+    ).value;
+  }, [cssOutput]);
 
   const reset = () => {
     setBlur(12);
@@ -242,9 +257,11 @@ export default function GlassmorphismGenerator() {
             <pre
               dir="ltr"
               data-testid="css-output"
-              className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap text-start"
+              className="hljs rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap text-start"
             >
-              {cssOutput}
+              <code ref={cssCodeRef} className="language-css">
+                {cssOutput}
+              </code>
             </pre>
             <Button variant="outline" size="sm" onClick={copyCss}>
               {t("copyCSS")}
