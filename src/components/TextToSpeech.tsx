@@ -24,7 +24,7 @@ import {
   DownloadIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { synthesizeSpeech } from "@/lib/vits-loader";
+import { synthesizeSpeech, prepareVoice } from "@/lib/vits-loader";
 
 type PlayState = "idle" | "playing" | "paused";
 
@@ -54,6 +54,8 @@ export default function TextToSpeech() {
   const [playState, setPlayState] = useState<PlayState>("idle");
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState(0);
+  const [preparing, setPreparing] = useState(false);
+  const [ready, setReady] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
   // Cache the last synthesized WAV so Play → Download (same text + voice)
@@ -81,6 +83,31 @@ export default function TextToSpeech() {
   useEffect(() => {
     if (audioRef.current) audioRef.current.playbackRate = rate;
   }, [rate]);
+
+  // Preload the selected voice's model on mount and whenever the voice changes,
+  // so Play/Download are instant. No-ops if the model is already cached.
+  useEffect(() => {
+    let cancelled = false;
+    setReady(false);
+    setPreparing(true);
+    setProgress(0);
+    prepareVoice(voiceId, (p) => {
+      if (!cancelled) setProgress(p);
+    })
+      .then(() => {
+        if (!cancelled) setReady(true);
+      })
+      .catch((err) => {
+        console.error(err);
+        // Non-fatal: Play/Download will retry the download on demand.
+      })
+      .finally(() => {
+        if (!cancelled) setPreparing(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [voiceId]);
 
   // Changing the text or voice invalidates the cached audio.
   const invalidate = useCallback(() => {
@@ -202,7 +229,16 @@ export default function TextToSpeech() {
 
           <Card className="p-4 space-y-5">
             <div className="space-y-2">
-              <label className="text-sm font-medium">{t("voice")}</label>
+              <div className="flex items-center justify-between">
+                <label className="text-sm font-medium">{t("voice")}</label>
+                <span className="text-xs text-muted-foreground">
+                  {preparing
+                    ? `${t("preparingVoice")} ${progress}%`
+                    : ready
+                      ? t("voiceReady")
+                      : ""}
+                </span>
+              </div>
               <Select
                 value={voiceId}
                 onValueChange={(v) => {
@@ -305,11 +341,12 @@ export default function TextToSpeech() {
               </span>
             </div>
 
-            {busy && (
+            {(busy || preparing) && (
               <div className="space-y-1">
                 <Progress value={progress} />
-                <p className="text-xs text-muted-foreground" dir="ltr">
-                  {progress}%
+                <p className="text-xs text-muted-foreground">
+                  {preparing ? t("preparingVoice") : t("preparing")}{" "}
+                  <span dir="ltr">{progress}%</span>
                 </p>
               </div>
             )}

@@ -19,6 +19,11 @@ type VitsModule = {
     config: { text: string; voiceId: string },
     callback?: (progress: VitsProgress) => void
   ) => Promise<Blob>;
+  download: (
+    voiceId: string,
+    callback?: (progress: VitsProgress) => void
+  ) => Promise<void>;
+  stored: () => Promise<string[]>;
 };
 
 let modulePromise: Promise<VitsModule> | null = null;
@@ -28,6 +33,34 @@ function loadVits(): Promise<VitsModule> {
     modulePromise = import("@diffusionstudio/vits-web") as Promise<VitsModule>;
   }
   return modulePromise;
+}
+
+/** True if the voice's model is already cached on-device (no download needed). */
+export async function isVoiceReady(voiceId: string): Promise<boolean> {
+  const tts = await loadVits();
+  const stored = await tts.stored();
+  return stored.includes(voiceId);
+}
+
+/**
+ * Pre-download and cache a voice's model so later playback/export is instant.
+ * No-ops if the model is already cached. Reports 0-100% download progress.
+ */
+export async function prepareVoice(
+  voiceId: string,
+  onProgress?: (percent: number) => void
+): Promise<void> {
+  const tts = await loadVits();
+  const stored = await tts.stored();
+  if (stored.includes(voiceId)) {
+    onProgress?.(100);
+    return;
+  }
+  await tts.download(voiceId, (p) => {
+    if (onProgress && p.total > 0) {
+      onProgress(Math.min(100, Math.round((p.loaded / p.total) * 100)));
+    }
+  });
 }
 
 /** Synthesize `text` with the given Piper voice id, returning a WAV Blob. */

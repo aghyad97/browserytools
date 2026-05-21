@@ -8,8 +8,11 @@ import TextToSpeech from "@/components/TextToSpeech";
 const synthesizeSpeech = vi
   .fn()
   .mockResolvedValue(new Blob(["RIFFmockwav"], { type: "audio/wav" }));
+const prepareVoice = vi.fn().mockResolvedValue(undefined);
 vi.mock("@/lib/vits-loader", () => ({
   synthesizeSpeech: (...args: unknown[]) => synthesizeSpeech(...args),
+  prepareVoice: (...args: unknown[]) => prepareVoice(...args),
+  isVoiceReady: vi.fn().mockResolvedValue(true),
 }));
 
 beforeEach(() => {
