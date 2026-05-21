@@ -71,6 +71,11 @@ import {
   ScanTextIcon,
   Volume2Icon,
   DicesIcon,
+  LayoutGridIcon,
+  ShareIcon,
+  PipetteIcon,
+  EraserIcon,
+  SignatureIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -96,6 +101,36 @@ export const tools: ToolCategory[] = [
     id: "imageTools",
     order: 1,
     items: [
+      {
+        name: "Photo Collage",
+        href: "/tools/photo-collage",
+        icon: LayoutGridIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-05-21",
+        description:
+          "Combine multiple photos into a collage with grid, strip, and mosaic layouts. Adjust spacing, corner radius, background, and output size, then export as PNG or JPEG. 100% in your browser.",
+      },
+      {
+        name: "Image Color Picker",
+        href: "/tools/image-color-picker",
+        icon: PipetteIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-05-21",
+        description:
+          "Pick any color from an image. Upload a photo and hover or click to get HEX, RGB, and HSL plus a dominant-color palette. 100% in-browser via canvas.",
+      },
+      {
+        name: "EXIF Remover",
+        href: "/tools/exif-remover",
+        icon: EraserIcon,
+        available: true,
+        order: 14,
+        creationDate: "2026-05-21",
+        description:
+          "Strip EXIF metadata - GPS location, camera model, timestamps - from photos before sharing. See what your image reveals, then download a clean copy. Batch supported, 100% in your browser.",
+      },
       {
         name: "Screenshot Beautifier",
         href: "/tools/screenshot-beautifier",
@@ -789,6 +824,16 @@ export const tools: ToolCategory[] = [
     order: 7,
     items: [
       {
+        name: "Signature Maker",
+        href: "/tools/signature-maker",
+        icon: SignatureIcon,
+        available: true,
+        order: 20,
+        creationDate: "2026-05-21",
+        description:
+          "Create an online signature: draw it freehand with adjustable pen color and thickness, or type your name in a handwriting font. Export a transparent PNG or SVG. 100% client-side.",
+      },
+      {
         name: "Random Picker",
         href: "/tools/random-picker",
         icon: DicesIcon,
@@ -1040,6 +1085,26 @@ export const tools: ToolCategory[] = [
     id: "designTools",
     order: 9,
     items: [
+      {
+        name: "Code Screenshot",
+        href: "/tools/code-screenshot",
+        icon: CodeIcon,
+        available: true,
+        order: 20,
+        creationDate: "2026-05-21",
+        description:
+          "Turn code into beautiful, shareable images. A free Carbon alternative with syntax highlighting, themes, gradient backgrounds, macOS window style, and PNG export.",
+      },
+      {
+        name: "OG Image Generator",
+        href: "/tools/og-image-generator",
+        icon: ShareIcon,
+        available: true,
+        order: 21,
+        creationDate: "2026-05-21",
+        description:
+          "Generate 1200x630 Open Graph and social-share images on a canvas. Pick a template, set title, subtitle, colors, and logo, then export a PNG plus ready-to-paste og:image meta tags.",
+      },
       {
         name: "CSS Gradient Generator",
         href: "/tools/css-gradient",
