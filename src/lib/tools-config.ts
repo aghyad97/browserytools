@@ -76,6 +76,11 @@ import {
   PipetteIcon,
   EraserIcon,
   SignatureIcon,
+  MicIcon,
+  ScissorsIcon,
+  SplineIcon,
+  LayersIcon,
+  ShapesIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -101,6 +106,16 @@ export const tools: ToolCategory[] = [
     id: "imageTools",
     order: 1,
     items: [
+      {
+        name: "ASCII Art Generator",
+        href: "/tools/ascii-art",
+        icon: TypeIcon,
+        available: true,
+        order: 15,
+        creationDate: "2026-05-21",
+        description:
+          "Convert any image into ASCII art in your browser. Adjust width, pick a character ramp, invert, and add color. Copy the text, download a .txt, or export a PNG.",
+      },
       {
         name: "Photo Collage",
         href: "/tools/photo-collage",
@@ -342,6 +357,16 @@ export const tools: ToolCategory[] = [
     id: "textLanguage",
     order: 4,
     items: [
+      {
+        name: "Speech to Text",
+        href: "/tools/speech-to-text",
+        icon: MicIcon,
+        available: true,
+        order: 18,
+        creationDate: "2026-05-21",
+        description:
+          "Convert speech to text online for free. Voice typing and dictation in your browser using the Web Speech API, with continuous recognition, interim results, multiple languages, copy, and download.",
+      },
       {
         name: "Image to Text (OCR)",
         href: "/tools/image-to-text",
@@ -1085,6 +1110,46 @@ export const tools: ToolCategory[] = [
     id: "designTools",
     order: 9,
     items: [
+      {
+        name: "CSS clip-path Generator",
+        href: "/tools/clip-path-generator",
+        icon: ScissorsIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-05-21",
+        description:
+          "Visually create CSS clip-path shapes. Drag polygon vertices over a live preview, tune circle, ellipse, and rounded inset, then copy production-ready clip-path CSS with triangle, hexagon, star, and bubble presets.",
+      },
+      {
+        name: "Cubic-Bezier Easing Editor",
+        href: "/tools/cubic-bezier",
+        icon: SplineIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-05-21",
+        description:
+          "Design CSS easing curves with two draggable control handles, easing presets, numeric inputs, and a live animation preview. Copy the cubic-bezier() and transition-timing-function CSS.",
+      },
+      {
+        name: "Glassmorphism Generator",
+        href: "/tools/glassmorphism-generator",
+        icon: LayersIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-05-21",
+        description:
+          "Create frosted-glass (glassmorphism) CSS visually. Tune blur, transparency, tint, saturation, border, and radius with a live preview, then copy CSS with the -webkit- prefix and a fallback.",
+      },
+      {
+        name: "SVG Blob Generator",
+        href: "/tools/svg-blob-generator",
+        icon: ShapesIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-05-21",
+        description:
+          "Generate random organic blob shapes and smooth SVG wave dividers. Adjust complexity, randomness, size, and solid or gradient fill, then copy the SVG markup or download a .svg file.",
+      },
       {
         name: "Code Screenshot",
         href: "/tools/code-screenshot",
