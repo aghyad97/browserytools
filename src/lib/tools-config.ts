@@ -83,6 +83,10 @@ import {
   ShapesIcon,
   AtomIcon,
   NetworkIcon,
+  ExpandIcon,
+  TextQuoteIcon,
+  LanguagesIcon,
+  ListChecksIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -108,6 +112,46 @@ export const tools: ToolCategory[] = [
     id: "imageTools",
     order: 1,
     items: [
+      {
+        name: "Image Upscaler",
+        href: "/tools/image-upscaler",
+        icon: ExpandIcon,
+        available: true,
+        order: 16,
+        creationDate: "2026-05-22",
+        description:
+          "Upscale and enhance images 2x with an on-device AI super-resolution model. Increase image resolution for free, privately, with no upload.",
+      },
+      {
+        name: "Image Captioner",
+        href: "/tools/image-captioner",
+        icon: ImageIcon,
+        available: true,
+        order: 17,
+        creationDate: "2026-05-22",
+        description:
+          "Generate a descriptive caption and ready-to-use alt text for any image with an on-device AI model. Great for accessibility and SEO. Free, private, no upload.",
+      },
+      {
+        name: "Depth Map Generator",
+        href: "/tools/depth-map",
+        icon: LayersIcon,
+        available: true,
+        order: 18,
+        creationDate: "2026-05-22",
+        description:
+          "Generate a depth map from any image with an on-device AI model. Grayscale or colormap output, downloadable PNG. Free, private, no upload.",
+      },
+      {
+        name: "Object Cutout",
+        href: "/tools/object-cutout",
+        icon: ScissorsIcon,
+        available: true,
+        order: 19,
+        creationDate: "2026-05-22",
+        description:
+          "Cut out any object from an image with one click using the Segment Anything (SAM) AI model in your browser. Get a transparent PNG. Free, private, no upload.",
+      },
       {
         name: "ASCII Art Generator",
         href: "/tools/ascii-art",
@@ -262,7 +306,7 @@ export const tools: ToolCategory[] = [
   {
     category: "File Tools",
     id: "fileTools",
-    order: 2,
+    order: 3,
     items: [
       {
         name: "PDF Tools",
@@ -310,7 +354,7 @@ export const tools: ToolCategory[] = [
   {
     category: "Media Tools",
     id: "mediaTools",
-    order: 3,
+    order: 4,
     items: [
       {
         name: "Video Editor",
@@ -357,7 +401,7 @@ export const tools: ToolCategory[] = [
   {
     category: "Text & Language Tools",
     id: "textLanguage",
-    order: 4,
+    order: 5,
     items: [
       {
         name: "Speech to Text",
@@ -553,7 +597,7 @@ export const tools: ToolCategory[] = [
   {
     category: "Data Tools",
     id: "dataTools",
-    order: 5,
+    order: 6,
     items: [
       {
         name: "JSON to CSV",
@@ -700,7 +744,7 @@ export const tools: ToolCategory[] = [
   {
     category: "Math & Finance Tools",
     id: "mathFinance",
-    order: 6,
+    order: 7,
     items: [
       {
         name: "Periodic Table",
@@ -858,7 +902,7 @@ export const tools: ToolCategory[] = [
   {
     category: "Productivity Tools",
     id: "productivity",
-    order: 7,
+    order: 8,
     items: [
       {
         name: "Mind Map Maker",
@@ -965,7 +1009,7 @@ export const tools: ToolCategory[] = [
   {
     category: "Security & Development Tools",
     id: "securityDev",
-    order: 8,
+    order: 9,
     items: [
       {
         name: "Favicon Generator",
@@ -1130,7 +1174,7 @@ export const tools: ToolCategory[] = [
   {
     category: "Design Tools",
     id: "designTools",
-    order: 9,
+    order: 10,
     items: [
       {
         name: "CSS clip-path Generator",
@@ -1287,8 +1331,58 @@ export const tools: ToolCategory[] = [
   {
     category: "AI Tools",
     id: "aiTools",
-    order: 10,
+    order: 2,
     items: [
+      {
+        name: "Audio/Video Transcriber",
+        href: "/tools/audio-transcriber",
+        icon: MicIcon,
+        available: true,
+        order: 31,
+        creationDate: "2026-05-22",
+        description:
+          "Transcribe audio or video to text and generate SRT/VTT subtitles with on-device Whisper AI. Free, private, no upload.",
+      },
+      {
+        name: "Text Summarizer",
+        href: "/tools/text-summarizer",
+        icon: TextQuoteIcon,
+        available: true,
+        order: 33,
+        creationDate: "2026-05-22",
+        description:
+          "Summarize long text into a short summary with an on-device AI model. Choose short, medium, or long. Free, private, no upload.",
+      },
+      {
+        name: "Translator",
+        href: "/tools/translator",
+        icon: LanguagesIcon,
+        available: true,
+        order: 34,
+        creationDate: "2026-05-22",
+        description:
+          "Translate text between 15 languages fully on-device with an AI model. Free, private, offline-capable - no Google or DeepL.",
+      },
+      {
+        name: "PII Detector & Redactor",
+        href: "/tools/pii-redactor",
+        icon: ShieldIcon,
+        available: true,
+        order: 36,
+        creationDate: "2026-05-22",
+        description:
+          "Detect and redact personal info - names, emails, phone numbers, locations, credit cards, IPs - with an on-device AI model. Free, private, no upload.",
+      },
+      {
+        name: "Zero-Shot Text Classifier",
+        href: "/tools/zero-shot-classifier",
+        icon: ListChecksIcon,
+        available: true,
+        order: 38,
+        creationDate: "2026-05-22",
+        description:
+          "Classify any text into your own custom labels with an on-device AI model. No training needed. Free, private, no upload.",
+      },
       {
         name: "Sentiment Analyzer",
         href: "/tools/sentiment-analyzer",
