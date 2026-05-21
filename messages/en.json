@@ -611,7 +611,8 @@
       "convertFailed": "Failed to convert image. Please try again.",
       "downloadedSuccess": "Image downloaded!",
       "altOriginal": "Original",
-      "altConverted": "Converted"
+      "altConverted": "Converted",
+      "converting": "Converting…"
     },
     "ColorCorrection": {
       "dropImageHere": "Drop your image here",

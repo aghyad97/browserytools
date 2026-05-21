@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
@@ -31,6 +31,31 @@ const formatOptions = [
   { value: "image/avif", label: "AVIF", quality: true },
 ];
 
+// Promise wrapper around canvas.toBlob.
+function canvasToBlob(
+  canvas: HTMLCanvasElement,
+  type: string,
+  quality?: number
+): Promise<Blob | null> {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), type, quality);
+  });
+}
+
+// Encode a canvas to AVIF using the @jsquash/avif WASM encoder.
+// Browsers cannot encode AVIF via canvas.toBlob/toDataURL (they silently fall
+// back to PNG), so a real encoder is required to produce valid AVIF output.
+async function encodeAvif(
+  canvas: HTMLCanvasElement,
+  ctx: CanvasRenderingContext2D,
+  quality: number
+): Promise<Blob> {
+  const { default: encode } = await import("@jsquash/avif/encode");
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const buffer = await encode(imageData, { quality });
+  return new Blob([buffer], { type: "image/avif" });
+}
+
 export default function ImageConverter() {
   const t = useTranslations("Tools.ImageConverter");
   const tCommon = useTranslations("Common");
@@ -40,6 +65,7 @@ export default function ImageConverter() {
   const [quality, setQuality] = useState(85);
   const [convertedImage, setConvertedImage] = useState<string | null>(null);
   const [convertedSize, setConvertedSize] = useState<number>(0);
+  const [isConverting, setIsConverting] = useState(false);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -100,9 +126,19 @@ export default function ImageConverter() {
     multiple: false,
   });
 
-  const handleConvert = async () => {
-    if (!image) return;
+  const objectUrlRef = useRef<string | null>(null);
 
+  // Revoke any outstanding object URL when the component unmounts.
+  useEffect(() => {
+    return () => {
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+    };
+  }, []);
+
+  const handleConvert = async () => {
+    if (!image || isConverting) return;
+
+    setIsConverting(true);
     try {
       // Create image element from source
       const img = new Image();
@@ -121,19 +157,38 @@ export default function ImageConverter() {
 
       ctx.drawImage(img, 0, 0);
 
-      // Convert to new format
-      const convertedUrl = canvas.toDataURL(targetFormat, quality / 100);
-      setConvertedImage(convertedUrl);
+      // Produce the converted file as a Blob.
+      let blob: Blob | null;
+      if (targetFormat === "image/avif") {
+        // Canvas cannot encode AVIF — use the WASM encoder for real output.
+        blob = await encodeAvif(canvas, ctx, quality);
+      } else {
+        blob = await canvasToBlob(canvas, targetFormat, quality / 100);
+        // If the browser can't encode the requested format it silently falls
+        // back to PNG. Detect the mismatch instead of producing a mislabeled file.
+        if (blob && blob.type !== targetFormat) {
+          throw new Error(
+            `Browser does not support encoding ${targetFormat} (got ${blob.type})`
+          );
+        }
+      }
 
-      // Calculate converted size
-      const base64str = convertedUrl.split(",")[1];
-      const decodedStr = atob(base64str);
-      setConvertedSize(decodedStr.length);
+      if (!blob) throw new Error("Conversion produced no output");
+
+      // Swap object URLs, revoking the previous one to avoid leaks.
+      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
+      const url = URL.createObjectURL(blob);
+      objectUrlRef.current = url;
+
+      setConvertedImage(url);
+      setConvertedSize(blob.size);
 
       toast.success(t("convertedSuccess"));
     } catch (error) {
       console.error(error);
       toast.error(t("convertFailed"));
+    } finally {
+      setIsConverting(false);
     }
   };
 
@@ -244,9 +299,9 @@ export default function ImageConverter() {
               <Button
                 onClick={handleConvert}
                 className="w-full"
-                disabled={!image}
+                disabled={!image || isConverting}
               >
-                {tCommon("convert")}
+                {isConverting ? t("converting") : tCommon("convert")}
               </Button>
             </Card>
           </div>

@@ -23,6 +23,7 @@
     "@hookform/resolvers": "^5.2.1",
     "@imgly/background-removal": "^1.7.0",
     "@imgly/background-removal-node": "^1.4.5",
+    "@jsquash/avif": "^2.1.1",
     "@lexical/markdown": "^0.34.0",
     "@lexical/react": "^0.34.0",
     "@number-flow/react": "^0.5.10",
