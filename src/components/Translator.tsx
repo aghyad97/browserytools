@@ -75,7 +75,9 @@ export default function Translator() {
       const translator = await getPipeline<TranslatorPipe>(
         "translation",
         MODEL,
-        { device: "auto", onProgress: setProgress }
+        // q8 quantization keeps the ~400M-param model within browser memory
+        // (full precision triggers std::bad_alloc / OOM, esp. on WebGPU).
+        { device: "auto", dtype: "q8", onProgress: setProgress }
       );
       const out = await translator(input, {
         src_lang: source,
