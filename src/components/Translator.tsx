@@ -1,0 +1,236 @@
+"use client";
+
+import { useCallback, useState } from "react";
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Textarea } from "@/components/ui/textarea";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Progress } from "@/components/ui/progress";
+import { toast } from "sonner";
+import { ArrowRightLeft, Copy, InfoIcon, LanguagesIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
+import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
+
+const MODEL = "Xenova/m2m100_418M";
+
+// m2m100 language codes. Labels are shown in the UI; codes are passed to the model.
+const LANGUAGES: { code: string; label: string }[] = [
+  { code: "en", label: "English" },
+  { code: "ar", label: "العربية" },
+  { code: "fr", label: "Français" },
+  { code: "es", label: "Español" },
+  { code: "de", label: "Deutsch" },
+  { code: "it", label: "Italiano" },
+  { code: "pt", label: "Português" },
+  { code: "ru", label: "Русский" },
+  { code: "zh", label: "中文" },
+  { code: "ja", label: "日本語" },
+  { code: "ko", label: "한국어" },
+  { code: "hi", label: "हिन्दी" },
+  { code: "tr", label: "Türkçe" },
+  { code: "nl", label: "Nederlands" },
+  { code: "fa", label: "فارسی" },
+];
+
+type TranslatorPipe = (
+  text: string,
+  options: { src_lang: string; tgt_lang: string }
+) => Promise<{ translation_text: string }[]>;
+
+export default function Translator() {
+  const t = useTranslations("Tools.Translator");
+
+  const [input, setInput] = useState("");
+  const [output, setOutput] = useState("");
+  const [source, setSource] = useState("en");
+  const [target, setTarget] = useState("ar");
+  const [busy, setBusy] = useState(false);
+  const [progress, setProgress] = useState<LoadProgress | null>(null);
+
+  const swap = useCallback(() => {
+    setSource(target);
+    setTarget(source);
+    setInput(output);
+    setOutput(input);
+  }, [source, target, input, output]);
+
+  const translate = useCallback(async () => {
+    if (!input.trim()) {
+      toast.error(t("enterText"));
+      return;
+    }
+    if (source === target) {
+      toast.error(t("sameLanguage"));
+      return;
+    }
+    setBusy(true);
+    setOutput("");
+    try {
+      const translator = await getPipeline<TranslatorPipe>(
+        "translation",
+        MODEL,
+        { device: "auto", onProgress: setProgress }
+      );
+      const out = await translator(input, {
+        src_lang: source,
+        tgt_lang: target,
+      });
+      setOutput(out[0]?.translation_text ?? "");
+    } catch (err) {
+      console.error(err);
+      toast.error(t("failed"));
+    } finally {
+      setBusy(false);
+      setProgress(null);
+    }
+  }, [input, source, target, t]);
+
+  const copyOutput = useCallback(async () => {
+    if (!output) {
+      toast.error(t("noOutput"));
+      return;
+    }
+    try {
+      await navigator.clipboard.writeText(output);
+      toast.success(t("copied"));
+    } catch {
+      toast.error(t("copyFailed"));
+    }
+  }, [output, t]);
+
+  return (
+    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
+      <div className="flex-1 overflow-auto p-6">
+        <div className="max-w-4xl mx-auto space-y-4">
+          <div>
+            <h1 className="text-xl font-semibold">{t("title")}</h1>
+            <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
+          </div>
+
+          <Card className="p-4 space-y-4">
+            <div className="flex items-end gap-2">
+              <div className="flex-1 space-y-1.5">
+                <label className="text-sm font-medium" htmlFor="tr-source">
+                  {t("from")}
+                </label>
+                <Select value={source} onValueChange={setSource}>
+                  <SelectTrigger id="tr-source" aria-label={t("from")}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {LANGUAGES.map((l) => (
+                      <SelectItem key={l.code} value={l.code}>
+                        {l.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={swap}
+                aria-label={t("swap")}
+                title={t("swap")}
+                className="mb-0.5"
+              >
+                <ArrowRightLeft className="h-4 w-4" />
+              </Button>
+
+              <div className="flex-1 space-y-1.5">
+                <label className="text-sm font-medium" htmlFor="tr-target">
+                  {t("to")}
+                </label>
+                <Select value={target} onValueChange={setTarget}>
+                  <SelectTrigger id="tr-target" aria-label={t("to")}>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {LANGUAGES.map((l) => (
+                      <SelectItem key={l.code} value={l.code}>
+                        {l.label}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium" htmlFor="tr-input">
+                  {t("inputLabel")}
+                </label>
+                <Textarea
+                  id="tr-input"
+                  dir="auto"
+                  className="min-h-[200px]"
+                  placeholder={t("inputPlaceholder")}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium" htmlFor="tr-output">
+                  {t("outputLabel")}
+                </label>
+                <div className="relative">
+                  <Textarea
+                    id="tr-output"
+                    dir="auto"
+                    className="min-h-[200px]"
+                    placeholder={t("outputPlaceholder")}
+                    value={output}
+                    readOnly
+                    data-testid="translator-output"
+                  />
+                  {output && (
+                    <Button
+                      size="icon"
+                      variant="ghost"
+                      onClick={copyOutput}
+                      aria-label={t("copy")}
+                      className="absolute top-2 end-2"
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
+                  )}
+                </div>
+              </div>
+            </div>
+
+            <Button onClick={translate} disabled={busy}>
+              <LanguagesIcon className="h-4 w-4 me-2" />
+              {busy ? t("translating") : t("translate")}
+            </Button>
+
+            {busy && progress && progress.status === "progress" && (
+              <div className="space-y-1">
+                <Progress value={progress.percent} />
+                <p className="text-xs text-muted-foreground">
+                  {t("loadingModel")}{" "}
+                  <span dir="ltr">{progress.percent}%</span>
+                </p>
+              </div>
+            )}
+          </Card>
+
+          <Card className="p-4">
+            <div className="flex items-start gap-3">
+              <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
+              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+            </div>
+          </Card>
+        </div>
+      </div>
+    </div>
+  );
+}
