@@ -385,15 +385,6 @@ export default function Content() {
           Open Habit Tracker →
         </a>
       </div>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/boost-productivity-pomodoro-todo">10 Ways to Boost Your Productivity with Free Browser Tools</a></li>
-        <li><a href="/blog/expense-tracker-guide">Track Your Monthly Expenses Without Apps</a></li>
-        <li><a href="/blog/keep-laptop-awake-browser">How to Keep Your Laptop Awake Without Installing Anything</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

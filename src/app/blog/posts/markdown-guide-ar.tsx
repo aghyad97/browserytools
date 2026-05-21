@@ -107,15 +107,6 @@ export default function Content() {
         افتح محرر Markdown في BrowseryTools وجرّب كتابة ملاحظتك التالية به — ستندهش كم هو بسيط
         ومحرر في آنٍ واحد.
       </p>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/adawat-nass-arabi">أدوات معالجة النصوص للكتّاب والمطورين العرب</a></li>
-        <li><a href="/blog/adawat-almutawwirin-arabi">أفضل أدوات المطورين المجانية في المتصفح</a></li>
-        <li><a href="/blog/json-dalil-arabi">دليل JSON الشامل</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

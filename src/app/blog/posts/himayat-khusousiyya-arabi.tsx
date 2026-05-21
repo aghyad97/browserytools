@@ -141,15 +141,6 @@ export default function Content() {
         كل خطوة صغيرة تتخذها تقلل أثرك الرقمي وتصعّب بناء صورة شاملة عنك. ابدأ بالخطوات
         الأسهل اليوم، وأضف طبقة جديدة من الحماية كل أسبوع.
       </p>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/kilmat-murur-guide-ar">كيف تنشئ كلمة مرور قوية وتحمي حساباتك</a></li>
-        <li><a href="/blog/adawat-almutasaffih-privacy">لماذا أدوات المتصفح هي الأكثر أمانًا لبياناتك</a></li>
-        <li><a href="/blog/adawat-sour-arabi">أدوات الصور المجانية: الضغط والتحويل وإزالة الخلفية</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

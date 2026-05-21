@@ -160,15 +160,6 @@ print(user['name'])  # "Ahmed"`}
         فورياً، والتحقق من صحة JSON قبل استخدامه، مع عرض أي أخطاء بدقة في السطر المحدد.
         البيانات لا تغادر متصفحك — آمن تماماً حتى لملفات JSON التي تحتوي على بيانات إنتاج حساسة.
       </p>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/base64-guide-ar">ما هو Base64؟ دليل شامل للمطورين العرب</a></li>
-        <li><a href="/blog/regex-dalil-arabi">شرح Regular Expressions بالعربي</a></li>
-        <li><a href="/blog/adawat-almutawwirin-arabi">أفضل أدوات المطورين المجانية في المتصفح</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

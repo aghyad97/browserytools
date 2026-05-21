@@ -390,16 +390,6 @@ Octal 644 → Binary: 110 100 100
         Related tools: <Link href="/tools/json-formatter">JSON Formatter</Link> · <Link href="/tools/jwt-decoder">JWT Decoder</Link> · <Link href="/tools/hash-generator">Hash Generator</Link> · <Link href="/tools/regex-tester">Regex Tester</Link> · <Link href="/tools/base64">Base64</Link> · <Link href="/tools/uuid-generator">UUID Generator</Link> · <Link href="/tools/cron-parser">Cron Parser</Link> · <Link href="/tools/yaml-json">YAML ↔ JSON</Link>
       </p>
 
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/json-formatter-guide">JSON Formatting, Validation, and Debugging</a></li>
-        <li><a href="/blog/base64-encoding-guide">What is Base64 Encoding? A Complete Guide</a></li>
-        <li><a href="/blog/jwt-decoder-guide">How to Decode and Verify JWT Tokens</a></li>
-        <li><a href="/blog/regex-tester-guide">Regular Expressions Explained: A Practical Guide</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

@@ -412,15 +412,6 @@ describe('POST /api/users', () => {
         <Link href="/tools/csv-to-json">CSV to JSON</Link> ·{" "}
         <Link href="/">All BrowseryTools</Link>
       </p>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/uuid-generator-guide">UUIDs, NanoIDs, and CUIDs: Choosing the Right ID Format</a></li>
-        <li><a href="/blog/json-formatter-guide">JSON Formatting, Validation, and Debugging</a></li>
-        <li><a href="/blog/best-free-developer-tools-browser">The Ultimate Guide to Free Developer Tools in Your Browser</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

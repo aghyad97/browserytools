@@ -116,15 +116,6 @@ export default function Content() {
         أدوات BrowseryTools — حاسبة التكلفة، مقارنة النماذج، وعدّاد الرموز — كأول خطوة في أي مشروع
         يستخدم واجهات برمجية للذكاء الاصطناعي.
       </p>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/adawat-almutawwirin-arabi">أفضل أدوات المطورين المجانية في المتصفح</a></li>
-        <li><a href="/blog/json-dalil-arabi">دليل JSON الشامل</a></li>
-        <li><a href="/blog/base64-guide-ar">ما هو Base64؟ دليل شامل للمطورين العرب</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

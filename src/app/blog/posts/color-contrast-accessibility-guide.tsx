@@ -427,15 +427,6 @@ L = 0.2126 × R_linear + 0.7152 × G_linear + 0.0722 × B_linear`}
           Open Color Contrast Checker →
         </a>
       </div>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/css-gradient-generator-guide">CSS Gradient Generator Guide</a></li>
-        <li><a href="/blog/image-formats-guide">JPEG vs PNG vs WebP vs AVIF</a></li>
-        <li><a href="/blog/svg-guide">SVG Files: A Complete Guide for Developers and Designers</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

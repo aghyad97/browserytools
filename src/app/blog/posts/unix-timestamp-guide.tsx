@@ -205,15 +205,6 @@ new Intl.DateTimeFormat("en-US", {
         after 1970. Handle the milliseconds/seconds distinction explicitly, use UTC for storage
         and transmission, and convert to local time only at the display layer.
       </p>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/timezone-guide">Working Across Time Zones: A Guide for Remote Teams</a></li>
-        <li><a href="/blog/cron-expression-guide">Cron Expressions Explained</a></li>
-        <li><a href="/blog/jwt-decoder-guide">How to Decode and Verify JWT Tokens</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

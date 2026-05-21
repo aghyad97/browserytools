@@ -120,15 +120,6 @@ export default function Content() {
         <li><strong>هل QR Code يدعم العربية؟</strong> — نعم، عبر وضع الترميز الثنائي (Binary/Byte mode) الذي يدعم UTF-8 وبالتالي جميع الأحرف العربية.</li>
         <li><strong>ما الفرق بين QR Code الثابت والديناميكي؟</strong> — الثابت يخزّن البيانات مباشرةً وغير قابل للتعديل. الديناميكي يخزّن رابطًا قصيرًا يشير إلى بياناتك، ويمكن تعديل الوجهة لاحقًا.</li>
       </ul>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/adawat-almutawwirin-arabi">أفضل أدوات المطورين المجانية في المتصفح</a></li>
-        <li><a href="/blog/adawat-sour-arabi">أدوات الصور المجانية: الضغط والتحويل وإزالة الخلفية</a></li>
-        <li><a href="/blog/json-dalil-arabi">دليل JSON الشامل</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

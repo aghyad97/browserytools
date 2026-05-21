@@ -323,15 +323,6 @@ export default function Content() {
           Open Background Removal Tool →
         </a>
       </div>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/free-image-tools-guide">The Complete Guide to Free Image Tools</a></li>
-        <li><a href="/blog/image-formats-guide">JPEG vs PNG vs WebP vs AVIF</a></li>
-        <li><a href="/blog/exif-data-guide">EXIF Metadata: What Your Photos Reveal About You</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

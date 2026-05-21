@@ -166,15 +166,6 @@ export default function Content() {
         <li><strong>No sharing without key exchange</strong> — sharing encrypted data with someone else requires securely sharing the key, which is a separate problem</li>
         <li><strong>No search or indexing</strong> — encrypted data cannot be searched, sorted, or processed without decrypting it first</li>
       </ul>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/password-security-guide">Password Security: Why Most Passwords Are Weak</a></li>
-        <li><a href="/blog/hash-generator-guide">MD5, SHA-256, SHA-512: Free Hash Generator Guide</a></li>
-        <li><a href="/blog/why-browser-tools-keep-your-data-private">Why Browser-Based Tools Are the Safest Way to Handle Your Data</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

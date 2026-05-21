@@ -150,15 +150,6 @@ export default function Content() {
         <li>تحقق بانتظام من هل بريدك الإلكتروني ظهر في اختراقات معروفة</li>
         <li>لا تشارك كلمات المرور عبر أي قناة غير مشفرة</li>
       </ul>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/himayat-khusousiyya-arabi">دليل حماية الخصوصية على الإنترنت</a></li>
-        <li><a href="/blog/adawat-almutasaffih-privacy">لماذا أدوات المتصفح هي الأكثر أمانًا لبياناتك</a></li>
-        <li><a href="/blog/base64-guide-ar">ما هو Base64؟ دليل شامل للمطورين العرب</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

@@ -167,15 +167,6 @@ chmod +x deploy.sh`}
           Open chmod Calculator →
         </a>
       </div>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/cron-expression-guide">Cron Expressions Explained</a></li>
-        <li><a href="/blog/best-free-developer-tools-browser">The Ultimate Guide to Free Developer Tools in Your Browser</a></li>
-        <li><a href="/blog/http-status-codes-guide">HTTP Status Codes Every Developer Should Know</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

@@ -201,24 +201,6 @@ export default function Content() {
         delivery platform, match resolution to the intended screen size, and use CRF mode for quality-driven
         compression rather than chasing an arbitrary bitrate target.
       </div>
-    
-      <div data-seo-faq>
-        <h2>Frequently Asked Questions</h2>
-        <h3>Does compressing a video always reduce quality?</h3>
-        <p>Lossy codecs like H.264 trade some quality for size, but a sensible bitrate or CRF is visually indistinguishable. Lossless compression keeps full quality but shrinks files much less.</p>
-        <h3>Which codec gives the smallest file?</h3>
-        <p>AV1 and H.265 (HEVC) compress better than H.264 at the same quality, but H.264 has the widest device and browser support.</p>
-        <h3>What controls video file size the most?</h3>
-        <p>Bitrate (or CRF), resolution, and frame rate. Lowering any of these reduces size; resolution and bitrate have the biggest impact for most clips.</p>
-      </div>
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/screen-recorder-guide">Record Your Screen Without Installing Any Software</a></li>
-        <li><a href="/blog/image-formats-guide">JPEG vs PNG vs WebP vs AVIF</a></li>
-        <li><a href="/blog/free-image-tools-guide">The Complete Guide to Free Image Tools</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

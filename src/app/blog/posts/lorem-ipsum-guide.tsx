@@ -162,15 +162,6 @@ export default function Content() {
         <li><strong>Switch to real content before user testing</strong> — any test involving comprehension, task completion, or reading behavior needs real copy</li>
         <li><strong>Generate exactly the length you need</strong> — oversized Lorem Ipsum in a small component masks overflow and truncation bugs</li>
       </ul>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/text-tools-for-writers-developers">The Best Free Text Tools for Writers and Developers</a></li>
-        <li><a href="/blog/markdown-complete-guide">Markdown: Complete Syntax Reference</a></li>
-        <li><a href="/blog/fake-data-generator-guide">How to Generate Realistic Fake Test Data</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

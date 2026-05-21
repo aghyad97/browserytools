@@ -421,15 +421,6 @@ LIMIT 20;`}
           Open SQL Formatter →
         </a>
       </div>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/json-formatter-guide">JSON Formatting, Validation, and Debugging</a></li>
-        <li><a href="/blog/regex-tester-guide">Regular Expressions Explained: A Practical Guide</a></li>
-        <li><a href="/blog/best-free-developer-tools-browser">The Ultimate Guide to Free Developer Tools in Your Browser</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

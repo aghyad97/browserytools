@@ -202,15 +202,6 @@ claude mcp list`}
         place, you get a dramatically more capable AI assistant without changing how you interact with it —
         the tools are just there, ready to use.
       </p>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/claude-md-guide">CLAUDE.md Files: Giving AI Context About Your Codebase</a></li>
-        <li><a href="/blog/system-prompt-builder-guide">Writing System Prompts That Actually Work</a></li>
-        <li><a href="/blog/prompt-formatter-guide">How to Format Prompts for Better AI Responses</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

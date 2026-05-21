@@ -198,15 +198,6 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">BrowseryTools JSON Formatter</a> and the error will be
         immediately visible with the exact position highlighted.
       </p>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/sql-formatter-guide">How to Format SQL Queries for Readability</a></li>
-        <li><a href="/blog/regex-tester-guide">Regular Expressions Explained: A Practical Guide</a></li>
-        <li><a href="/blog/fake-data-generator-guide">How to Generate Realistic Fake Test Data</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

@@ -119,15 +119,6 @@ export default function Content() {
         متصفحك واسحب صورتك إليها. في غضون ثوانٍ، ستحصل على نتيجة احترافية جاهزة للتنزيل. جرب
         أدوات الصور على BrowseryTools اليوم وابدأ بالأداة التي تحتاجها أكثر.
       </p>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/adawat-almutasaffih-privacy">لماذا أدوات المتصفح هي الأكثر أمانًا لبياناتك</a></li>
-        <li><a href="/blog/himayat-khusousiyya-arabi">دليل حماية الخصوصية على الإنترنت</a></li>
-        <li><a href="/blog/adawat-almutawwirin-arabi">أفضل أدوات المطورين المجانية في المتصفح</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

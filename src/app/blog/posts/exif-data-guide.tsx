@@ -238,24 +238,6 @@ export default function Content() {
         The key is making a conscious decision about when to share EXIF data and when to remove it,
         rather than defaulting to leaving it in place and hoping the recipient or platform will handle it.
       </p>
-    
-      <div data-seo-faq>
-        <h2>Frequently Asked Questions</h2>
-        <h3>What information does EXIF data contain?</h3>
-        <p>Camera and lens model, exposure settings, the date and time a photo was taken, and often GPS coordinates pinpointing where it was shot.</p>
-        <h3>Is my location shared when I post a photo?</h3>
-        <p>It can be. Many social platforms strip EXIF on upload, but files sent directly or via some services keep the GPS tag. Remove EXIF before sharing sensitive photos.</p>
-        <h3>How do I remove EXIF data from a photo?</h3>
-        <p>Re-save the image through a tool that strips metadata, or use a dedicated EXIF remover. Doing it locally in the browser means the photo never leaves your device.</p>
-      </div>
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/why-browser-tools-keep-your-data-private">Why Browser-Based Tools Are the Safest Way to Handle Your Data</a></li>
-        <li><a href="/blog/free-image-tools-guide">The Complete Guide to Free Image Tools</a></li>
-        <li><a href="/blog/image-formats-guide">JPEG vs PNG vs WebP vs AVIF</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

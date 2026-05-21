@@ -68,6 +68,9 @@ import {
   TagIcon,
   TableIcon,
   TerminalIcon,
+  ScanTextIcon,
+  Volume2Icon,
+  DicesIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -93,6 +96,26 @@ export const tools: ToolCategory[] = [
     id: "imageTools",
     order: 1,
     items: [
+      {
+        name: "Screenshot Beautifier",
+        href: "/tools/screenshot-beautifier",
+        icon: ImageIcon,
+        available: true,
+        order: 10,
+        creationDate: "2026-05-21",
+        description:
+          "Turn plain screenshots into beautiful images. Add gradient or mesh backgrounds, padding, rounded corners, drop shadows, a macOS window frame or browser bar, and 3D tilt. Export as PNG. Runs fully in your browser.",
+      },
+      {
+        name: "Meme Generator",
+        href: "/tools/meme-generator",
+        icon: SmileIcon,
+        available: true,
+        order: 11,
+        creationDate: "2026-05-21",
+        description:
+          "Make a meme online for free. Upload an image, add Impact-font top and bottom text, drag to position, style each line, and download as PNG. No upload, no watermark.",
+      },
       {
         name: "Background Removal",
         href: "/tools/bg-removal",
@@ -284,6 +307,26 @@ export const tools: ToolCategory[] = [
     id: "textLanguage",
     order: 4,
     items: [
+      {
+        name: "Image to Text (OCR)",
+        href: "/tools/image-to-text",
+        icon: ScanTextIcon,
+        available: true,
+        order: 16,
+        creationDate: "2026-05-21",
+        description:
+          "Extract text from images for free with on-device OCR. Drag and drop a photo, screenshot, or scan and get editable, copyable text. Supports English, Spanish, French, German, and Arabic. Runs entirely in your browser.",
+      },
+      {
+        name: "Text to Speech",
+        href: "/tools/text-to-speech",
+        icon: Volume2Icon,
+        available: true,
+        order: 17,
+        creationDate: "2026-05-21",
+        description:
+          "Read text aloud in your browser for free. Convert text to speech with adjustable voice, rate, pitch, and volume using the Web Speech API. No upload, no account.",
+      },
       {
         name: "Text Case Converter",
         href: "/tools/text-case",
@@ -746,6 +789,16 @@ export const tools: ToolCategory[] = [
     order: 7,
     items: [
       {
+        name: "Random Picker",
+        href: "/tools/random-picker",
+        icon: DicesIcon,
+        available: true,
+        order: 8,
+        creationDate: "2026-05-21",
+        description:
+          "Generate random numbers, roll dice, flip a coin, or pick a random winner from a list. Set min/max ranges, allow or block duplicates, and spin a name wheel for giveaways. Cryptographically-decent randomness, all in your browser.",
+      },
+      {
         name: "Todo List",
         href: "/tools/todo",
         icon: CheckSquareIcon,
@@ -822,6 +875,16 @@ export const tools: ToolCategory[] = [
     id: "securityDev",
     order: 8,
     items: [
+      {
+        name: "Favicon Generator",
+        href: "/tools/favicon-generator",
+        icon: ImageIcon,
+        available: true,
+        order: 15,
+        creationDate: "2026-05-21",
+        description:
+          "Create a complete favicon set from an image or a letter/emoji. Generates 16, 32, 48, 180, 192, and 512 PNGs plus a multi-size favicon.ico, a site.webmanifest, and the HTML link snippet — bundled in a ZIP. Runs fully in your browser.",
+      },
       {
         name: "UUID Generator",
         href: "/tools/uuid-generator",

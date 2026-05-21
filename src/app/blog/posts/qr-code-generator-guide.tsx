@@ -204,15 +204,6 @@ export default function Content() {
         No account, no subscription, no tracking, no watermarks. Open the tool, encode your content, and
         download your code. It is ready to use the moment you land on the page.
       </p>
-    
-      <div data-seo-related style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>Related Guides</h2>
-        <ul>
-        <li><a href="/blog/best-free-developer-tools-browser">The Ultimate Guide to Free Developer Tools in Your Browser</a></li>
-        <li><a href="/blog/url-encoder-guide">URL Encoding Explained: Percent-Encoding in HTTP</a></li>
-        <li><a href="/blog/why-browser-tools-keep-your-data-private">Why Browser-Based Tools Are the Safest Way to Handle Your Data</a></li>
-        </ul>
-      </div>
     </div>
   );
 }

@@ -85,6 +85,14 @@ HTMLCanvasElement.prototype.getContext = vi.fn().mockReturnValue({
   rotate: vi.fn(),
   setTransform: vi.fn(),
   createImageData: vi.fn().mockReturnValue({ data: new Uint8ClampedArray(4) }),
+  strokeText: vi.fn(),
+  closePath: vi.fn(),
+  arcTo: vi.fn(),
+  clip: vi.fn(),
+  rect: vi.fn(),
+  setLineDash: vi.fn(),
+  createLinearGradient: vi.fn().mockReturnValue({ addColorStop: vi.fn() }),
+  createRadialGradient: vi.fn().mockReturnValue({ addColorStop: vi.fn() }),
 });
 HTMLCanvasElement.prototype.toDataURL = vi
   .fn()

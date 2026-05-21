@@ -165,15 +165,6 @@ export default function Content() {
         في المرة القادمة التي تصادف فيها سلسلة نصية غريبة تبدو عشوائية في JWT أو طلب HTTP، جرّب فك
         ترميزها بـ<a href="/tools/base64">أداة Base64</a> — ستتفاجأ كم من المعلومات المخفية تظهر فجأة.
       </p>
-    
-      <div data-seo-related dir="rtl" style={{marginTop: "2.5rem", paddingTop: "1.5rem", borderTop: "1px solid rgba(0,0,0,0.1)"}}>
-        <h2>أدلة ذات صلة</h2>
-        <ul>
-        <li><a href="/blog/json-dalil-arabi">دليل JSON الشامل</a></li>
-        <li><a href="/blog/regex-dalil-arabi">شرح Regular Expressions بالعربي</a></li>
-        <li><a href="/blog/adawat-almutawwirin-arabi">أفضل أدوات المطورين المجانية في المتصفح</a></li>
-        </ul>
-      </div>
     </div>
   );
 }
