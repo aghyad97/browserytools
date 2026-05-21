@@ -33,6 +33,7 @@
     "@ffmpeg/ffmpeg": "0.12.15",
     "@ffmpeg/util": "0.12.2",
     "@hookform/resolvers": "^5.2.1",
+    "@huggingface/transformers": "^4.2.0",
     "@imgly/background-removal": "1.7.0",
     "@imgly/background-removal-node": "^1.4.5",
     "@jsquash/avif": "^2.1.1",

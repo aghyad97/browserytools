@@ -607,6 +607,10 @@
       "mind-map": {
         "name": "Mind Map Maker",
         "description": "Create interactive mind maps. Add nodes, connect ideas, color branches, and export as JSON or PNG."
+      },
+      "sentiment-analyzer": {
+        "name": "Sentiment Analyzer",
+        "description": "Detect positive or negative sentiment in text with an on-device AI model. Free, private, no upload."
       }
     }
   },
@@ -4386,6 +4390,20 @@
       "exportedPNG": "Mind map exported as PNG",
       "pngFailed": "Could not export image",
       "resetDone": "Mind map reset"
+    },
+    "SentimentAnalyzer": {
+      "title": "Sentiment Analyzer",
+      "subtitle": "Detect positive or negative sentiment in text — on your device, no upload.",
+      "inputLabel": "Text",
+      "inputPlaceholder": "Paste or type text to analyze its sentiment...",
+      "analyze": "Analyze sentiment",
+      "analyzing": "Analyzing…",
+      "loadingModel": "Loading model…",
+      "positive": "Positive",
+      "negative": "Negative",
+      "enterText": "Please enter some text",
+      "failed": "Could not analyze the text. Please try again.",
+      "modelNote": "Runs a small AI model entirely in your browser. The model downloads once from a CDN on first use, then analyzes text on-device — nothing is uploaded."
     }
   },
   "Blog": {

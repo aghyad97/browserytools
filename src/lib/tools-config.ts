@@ -1290,6 +1290,16 @@ export const tools: ToolCategory[] = [
     order: 10,
     items: [
       {
+        name: "Sentiment Analyzer",
+        href: "/tools/sentiment-analyzer",
+        icon: SmileIcon,
+        available: true,
+        order: 30,
+        creationDate: "2026-05-22",
+        description:
+          "Detect positive or negative sentiment in text with an on-device AI model. Free, private, no upload.",
+      },
+      {
         name: "Token Counter",
         href: "/tools/token-counter",
         icon: BrainIcon,
