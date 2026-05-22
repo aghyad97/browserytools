@@ -2,7 +2,7 @@ export default function Content() {
   return (
     <div>
       <p>
-        Abre cualquier archivo de registro. Mira el campo de expiración en un token JWT. Revisa el campo{" "}
+        Abre cualquier archivo de registro. Examina el campo de expiración de un token JWT. Revisa el campo{" "}
         <code>created_at</code> en una respuesta de API. Es muy probable que encuentres un número como{" "}
         <code>1711065600</code> o <code>1711065600000</code>. Eso es una marca de tiempo Unix — un
         entero sencillo que representa un instante en el tiempo. Entender cómo funciona el tiempo Unix,
