@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
-import { getBlogPost, blogPosts } from "@/lib/blog-data";
+import { getBlogPost, blogPosts, getPostsByLocale, getPostLocale } from "@/lib/blog-data";
 import { Clock, Calendar, Tag, ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 
@@ -72,9 +72,14 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
   if (!post) notFound();
 
   const PostContent = await getBlogContent(slug);
-  const postIndex = blogPosts.findIndex((p) => p.slug === slug);
-  const prevPost = postIndex > 0 ? blogPosts[postIndex - 1] : null;
-  const nextPost = postIndex < blogPosts.length - 1 ? blogPosts[postIndex + 1] : null;
+  // Prev/next navigation stays within the post's own language.
+  const sameLangPosts = getPostsByLocale(getPostLocale(post!));
+  const postIndex = sameLangPosts.findIndex((p) => p.slug === slug);
+  const prevPost = postIndex > 0 ? sameLangPosts[postIndex - 1] : null;
+  const nextPost =
+    postIndex >= 0 && postIndex < sameLangPosts.length - 1
+      ? sameLangPosts[postIndex + 1]
+      : null;
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-10">

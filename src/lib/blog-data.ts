@@ -1,3 +1,11 @@
+import type { Locale } from "@/lib/locales";
+import { esPosts } from "./blog-data-es";
+import { ptBRPosts } from "./blog-data-pt-BR";
+import { frPosts } from "./blog-data-fr";
+import { dePosts } from "./blog-data-de";
+import { ruPosts } from "./blog-data-ru";
+import { idPosts } from "./blog-data-id";
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -10,9 +18,14 @@ export interface BlogPost {
   featured?: boolean;
   coverEmoji: string;
   coverGradient: string;
+  /**
+   * Language of the post. Translated posts set this explicitly (e.g. "es").
+   * Legacy en/ar posts may omit it — getPostLocale() derives those by script.
+   */
+  locale?: Locale;
 }
 
-export const blogPosts: BlogPost[] = [
+const basePosts: BlogPost[] = [
   {
     slug: "keep-laptop-awake-browser",
     title: "How to Keep Your Laptop Awake Without Installing Anything (Mac, Windows, Linux)",
@@ -1769,12 +1782,42 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
+// All posts across every language. Per-locale translation sets live in their
+// own files (blog-data-<locale>.ts) so parallel translation work never edits
+// this file. Add a new language by importing its array and spreading it here.
+export const blogPosts: BlogPost[] = [
+  ...basePosts,
+  ...esPosts,
+  ...ptBRPosts,
+  ...frPosts,
+  ...dePosts,
+  ...ruPosts,
+  ...idPosts,
+];
+
+// Arabic script range — used to classify legacy posts that predate the
+// explicit `locale` field.
+const ARABIC_RE = /[؀-ۿ]/;
+
+/** Resolve a post's language: explicit `locale`, else derived from its title. */
+export function getPostLocale(post: BlogPost): Locale {
+  if (post.locale) return post.locale;
+  return ARABIC_RE.test(post.title) ? "ar" : "en";
+}
+
+/** All posts in a given UI locale. */
+export function getPostsByLocale(locale: Locale): BlogPost[] {
+  return blogPosts.filter((p) => getPostLocale(p) === locale);
+}
+
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((p) => p.slug === slug);
 }
 
-export function getFeaturedPosts(): BlogPost[] {
-  return blogPosts.filter((p) => p.featured);
+/** Featured posts, optionally scoped to a locale (falls back to all if omitted). */
+export function getFeaturedPosts(locale?: Locale): BlogPost[] {
+  const scope = locale ? getPostsByLocale(locale) : blogPosts;
+  return scope.filter((p) => p.featured);
 }
 
 export function getPostsByCategory(category: string): BlogPost[] {

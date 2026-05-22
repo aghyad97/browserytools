@@ -1,8 +1,9 @@
 import { create } from "zustand";
 import { persist, createJSONStorage } from "zustand/middleware";
+import { type Locale, type Dir, defaultLocale, getDir } from "@/lib/locales";
 
-export type Locale = "en" | "ar";
-export type Dir = "ltr" | "rtl";
+// Re-exported for back-compat with the many components importing these from here.
+export type { Locale, Dir };
 
 interface LanguageState {
   locale: Locale;
@@ -13,13 +14,13 @@ interface LanguageState {
 export const useLanguageStore = create<LanguageState>()(
   persist(
     (set) => ({
-      locale: "en",
-      dir: "ltr",
+      locale: defaultLocale,
+      dir: getDir(defaultLocale),
       setLocale: (locale) => {
         if (typeof document !== "undefined") {
           document.cookie = `browsery-locale=${locale}; path=/; max-age=31536000; SameSite=Lax`;
         }
-        set({ locale, dir: locale === "ar" ? "rtl" : "ltr" });
+        set({ locale, dir: getDir(locale) });
       },
     }),
     {

@@ -8,7 +8,8 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useLanguageStore, type Locale } from "@/store/language-store";
+import { useLanguageStore } from "@/store/language-store";
+import { LOCALES, getLocaleConfig } from "@/lib/locales";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
 
@@ -16,11 +17,6 @@ interface LanguageSwitcherProps {
   variant?: "outline" | "ghost";
   className?: string;
 }
-
-const LOCALES: { locale: Locale; nativeLabel: string }[] = [
-  { locale: "en", nativeLabel: "English" },
-  { locale: "ar", nativeLabel: "العربية" },
-];
 
 export function LanguageSwitcher({
   variant = "ghost",
@@ -40,18 +36,18 @@ export function LanguageSwitcher({
         >
           <Globe className="h-4 w-4" />
           <span className="text-xs font-medium hidden sm:inline">
-            {locale === "ar" ? "عر" : "EN"}
+            {getLocaleConfig(locale).short}
           </span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        {LOCALES.map(({ locale: l, nativeLabel }) => (
+        {LOCALES.map(({ code, label }) => (
           <DropdownMenuItem
-            key={l}
-            onClick={() => setLocale(l)}
-            className={cn(locale === l && "font-semibold")}
+            key={code}
+            onClick={() => setLocale(code)}
+            className={cn(locale === code && "font-semibold")}
           >
-            {nativeLabel}
+            {label}
           </DropdownMenuItem>
         ))}
       </DropdownMenuContent>

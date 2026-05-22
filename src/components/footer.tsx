@@ -13,7 +13,17 @@ export default function Footer() {
         <p className="text-sm text-muted-foreground">
           {t("copyright", { year })}
         </p>
-        <ThemeSwitcher />
+        <div className="flex items-center gap-4">
+          <a
+            href="https://github.com/aghyad97/browserytools"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="text-sm text-muted-foreground transition-colors hover:text-foreground"
+          >
+            {t("source")}
+          </a>
+          <ThemeSwitcher />
+        </div>
       </div>
     </footer>
   );

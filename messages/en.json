@@ -99,7 +99,8 @@
       "dataTools": "Data & Conversion",
       "mathFinance": "Math & Finance",
       "productivity": "Productivity",
-      "securityDev": "Security & Dev",
+      "devTools": "Developer Tools",
+      "securityTools": "Security Tools",
       "designTools": "Design & Visual",
       "aiTools": "AI Tools"
     },
@@ -3313,7 +3314,8 @@
       "copyFailed": "Copy failed"
     },
     "Footer": {
-      "copyright": "© {year} BrowseryTools. All rights reserved."
+      "copyright": "© {year} BrowseryTools. All rights reserved.",
+      "source": "Source code"
     },
     "SvgPngConverter": {
       "title": "SVG ↔ PNG Converter",

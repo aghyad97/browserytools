@@ -1,8 +1,37 @@
 # BrowseryTools 🛠️
 
+<p align="center">
+  <a href="https://browserytools.com"><img src="https://img.shields.io/website?url=https%3A%2F%2Fbrowserytools.com&label=browserytools.com&style=flat-square" alt="Live site" /></a>
+  <a href="LICENSE"><img src="https://img.shields.io/github/license/aghyad97/browserytools?style=flat-square&color=blue" alt="License" /></a>
+  <a href="https://github.com/aghyad97/browserytools/stargazers"><img src="https://img.shields.io/github/stars/aghyad97/browserytools?style=flat-square" alt="Stars" /></a>
+  <a href="https://github.com/aghyad97/browserytools/network/members"><img src="https://img.shields.io/github/forks/aghyad97/browserytools?style=flat-square" alt="Forks" /></a>
+  <a href="https://github.com/aghyad97/browserytools/issues"><img src="https://img.shields.io/github/issues/aghyad97/browserytools?style=flat-square" alt="Open issues" /></a>
+  <a href="#-contributing"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg?style=flat-square" alt="PRs welcome" /></a>
+  <img src="https://img.shields.io/github/last-commit/aghyad97/browserytools?style=flat-square" alt="Last commit" />
+  <img src="https://img.shields.io/badge/Next.js-15-black?style=flat-square&logo=next.js" alt="Built with Next.js 15" />
+</p>
+
 ![BrowseryTools](https://github.com/aghyad97/browserytools/blob/main/public/og-image.png?raw=true)
 
 A comprehensive collection of **136+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
+
+## 📚 Table of Contents
+
+- [Features](#-features)
+- [Tech Stack](#-tech-stack)
+- [Supported Languages](#-supported-languages)
+- [Prerequisites](#-prerequisites)
+- [Getting Started](#-getting-started)
+- [Running Tests](#-running-tests)
+- [Project Structure](#-project-structure)
+- [Contributing](#-contributing)
+- [Contributors](#-contributors)
+- [Activity](#-activity)
+- [Reporting Issues](#-reporting-issues)
+- [Supporting the Project](#-supporting-the-project)
+- [Star History](#-star-history)
+- [License](#-license)
+- [Contact](#-contact)
 
 ## 🚀 Features
 
@@ -14,7 +43,6 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Format Converter**: Convert images between different formats like JPG, PNG, WebP, GIF, BMP, TIFF, and SVG.
 - **Color Correction**: Adjust colors, brightness, contrast, saturation, and hue in images.
 - **SVG Tools**: Edit and manipulate SVG vector graphics.
-- **Color Converter**: Convert between HEX, RGB, and HSL with live preview.
 - **SVG to PNG**: Convert SVG vector files to PNG images.
 - **Photo Censor**: Redact sensitive parts of an image with blur, pixelate, or black-box censoring.
 - **Screenshot Beautifier**: Turn plain screenshots into beautiful images.
@@ -27,6 +55,10 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Image Captioner**: Generate a descriptive caption and ready-to-use alt text for any image with an on-device AI model.
 - **Depth Map Generator**: Generate a depth map from any image with an on-device AI model.
 - **Object Cutout**: Cut out any object from an image with one click using the Segment Anything (SAM) AI model in your browser.
+- **Image Resizer**: Resize images to exact dimensions or by percentage.
+- **Color Blindness Simulator**: Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.
+- **EXIF Viewer**: View EXIF metadata from photos: camera model, lens, aperture, shutter speed, ISO, GPS coordinates, and more.
+- **Favicon Generator**: Create a complete favicon set from an image or a letter/emoji.
 
 ### 🤖 AI Tools
 
@@ -64,6 +96,7 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Audio Editor**: Edit and process audio files.
 - **Mic & Camera Tester**: Check your camera preview and test microphone input levels with a live meter.
 - **Compress Video**: Compress videos in your browser using ffmpeg.wasm.
+- **Screen Recorder**: Record your screen, window, or tab directly in the browser using the Screen Capture API.
 
 ### 📝 Text & Language Tools
 
@@ -135,34 +168,33 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Mind Map Maker**: Create interactive mind maps in your browser.
 - **Signature Maker**: Create an online signature: draw it freehand with adjustable pen color and thickness, or type your name in a handwriting font.
 
-### 🔐 Security & Development Tools
+### 🧑‍💻 Developer Tools
 
 - **UUID Generator**: Generate Universally Unique Identifiers (UUIDs) in different versions and formats.
-- **JWT Decoder**: Decode and validate JSON Web Tokens (JWTs).
-- **Password Generator**: Generate secure passwords with custom options including length, character types, and special requirements.
-- **Hash Generator**: Generate cryptographic hashes from text input.
 - **Unix Timestamp Converter**: Epoch seconds/milliseconds ↔ human date with timezone.
 - **Regex Tester**: Test JavaScript regular expressions with live highlighting and flags.
 - **Cron Parser**: Explain cron expressions and list next runs.
-- **Password Strength**: Analyze the strength of any password in real time.
-- **Text Encryption**: Encrypt and decrypt text using AES-256-GCM via the Web Crypto API.
 - **HTTP Status Codes**: Quick reference for all HTTP status codes with descriptions, use cases, and examples.
 - **CSS Minifier**: Minify or beautify CSS code.
 - **SQL Formatter**: Format and beautify SQL queries with proper indentation and keyword casing.
 - **Chmod Calculator**: Calculate Unix file permissions visually.
 - **Meta Tags Generator**: Generate HTML meta tags, Open Graph tags, and Twitter Card tags.
-- **Favicon Generator**: Create a complete favicon set from an image or a letter/emoji.
 - **cURL Converter**: Convert a curl command into ready-to-run code for JavaScript fetch, Node.js, Python requests, Go, and PHP.
+
+### 🔐 Security Tools
+
+- **JWT Decoder**: Decode and validate JSON Web Tokens (JWTs).
+- **Password Generator**: Generate secure passwords with custom options including length, character types, and special requirements.
+- **Hash Generator**: Generate cryptographic hashes from text input.
+- **Password Strength**: Analyze the strength of any password in real time.
+- **Text Encryption**: Encrypt and decrypt text using AES-256-GCM via the Web Crypto API.
 
 ### 🎨 Design Tools
 
 - **CSS Gradient Generator**: Create beautiful CSS gradients visually.
 - **Color Palette Generator**: Generate harmonious color palettes from a base color.
-- **Image Resizer**: Resize images to exact dimensions or by percentage.
-- **Screen Recorder**: Record your screen, window, or tab directly in the browser using the Screen Capture API.
+- **Color Converter**: Convert between HEX, RGB, and HSL with live preview.
 - **Color Contrast Checker**: Check color contrast ratios for WCAG accessibility compliance.
-- **Color Blindness Simulator**: Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.
-- **EXIF Viewer**: View EXIF metadata from photos: camera model, lens, aperture, shutter speed, ISO, GPS coordinates, and more.
 - **Emoji Picker**: Browse and search all Unicode emojis by name or category.
 - **CSS Box Shadow Generator**: Build CSS box shadows visually with sliders for offset, blur, spread, color, and opacity.
 - **CSS clip-path Generator**: Visually create CSS clip-path shapes.
@@ -182,6 +214,31 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Icons**: Lucide React
 - **Animations**: Framer Motion
 - **Testing**: Vitest + React Testing Library
+
+## 🌍 Supported Languages
+
+BrowseryTools is fully localized. The entire UI — homepage, all tools, and navigation — is available in:
+
+| Language | Code | Direction |
+| --- | --- | --- |
+| English | `en` | LTR |
+| العربية (Arabic) | `ar` | RTL |
+| Español (Spanish) | `es` | LTR |
+| Português do Brasil (Portuguese) | `pt-BR` | LTR |
+| Français (French) | `fr` | LTR |
+| Deutsch (German) | `de` | LTR |
+| Русский (Russian) | `ru` | LTR |
+| Bahasa Indonesia (Indonesian) | `id` | LTR |
+
+Language is detected from the browser on first visit and can be changed anytime via the in-app language switcher (preference is remembered).
+
+**Adding a new language** is intentionally simple — all locale wiring derives from one registry:
+
+1. Add an entry to `LOCALES` in [`src/lib/locales.ts`](src/lib/locales.ts).
+2. Add a `messages/<code>.json` file (a full translation of `messages/en.json`).
+3. Register its import in the messages map in [`src/providers/language-provider.tsx`](src/providers/language-provider.tsx).
+
+The switcher, `<html lang/dir>`, hreflang tags, and OpenGraph locales all update automatically.
 
 ## 📋 Prerequisites
 
@@ -253,6 +310,22 @@ src/
 3. Run `bun run test` to ensure nothing is broken
 4. Submit a PR with a clear description
 
+## 👥 Contributors
+
+Thanks to everyone who has contributed to BrowseryTools!
+
+<a href="https://github.com/aghyad97/browserytools/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=aghyad97/browserytools" alt="Contributors" />
+</a>
+
+## 📈 Activity
+
+> **One-time setup:** Generate a Repobeats embed at [repobeats.axiom.co](https://repobeats.axiom.co) for `aghyad97/browserytools`, then replace the placeholder URL below with the generated one and remove this note.
+
+<!-- Replace REPLACE_WITH_YOUR_HASH with the hash from your Repobeats embed URL, then uncomment:
+![Repobeats analytics](https://repobeats.axiom.co/api/embed/REPLACE_WITH_YOUR_HASH.svg "Repobeats analytics image")
+-->
+
 ## 🐛 Reporting Issues
 
 Open an issue with a clear description, steps to reproduce, and browser/OS info.
@@ -263,9 +336,19 @@ Open an issue with a clear description, steps to reproduce, and browser/OS info.
 - **GitHub Sponsors**: [Sponsor us](https://github.com/sponsors/aghyad97)
 - **Ziina**: [One-time donation](https://pay.ziina.com/aghyad)
 
+## ⭐ Star History
+
+<a href="https://www.star-history.com/#aghyad97/browserytools&Date">
+  <img src="https://api.star-history.com/svg?repos=aghyad97/browserytools&type=Date" alt="Star History Chart" />
+</a>
+
 ## 📄 License
 
-MIT License — see [LICENSE](LICENSE) for details.
+Copyright (C) 2026 Aghyad.
+
+Licensed under the **GNU Affero General Public License v3.0 (AGPL-3.0)** — see [LICENSE](LICENSE) for the full text.
+
+In short: BrowseryTools is free and open source. You may use, study, modify, and redistribute it. **If you run a modified version as a network service (e.g. a hosted website or SaaS), you must make your modified source code available** to its users under the same license. This keeps the project and any derivatives open.
 
 ## 📞 Contact
 

@@ -12,6 +12,7 @@ export default function HomeLayout({
         <Header />
       </div>
       <main className="flex-1">{children}</main>
+      <Footer />
     </div>
   );
 }
