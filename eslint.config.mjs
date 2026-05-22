@@ -21,6 +21,15 @@ const eslintConfig = [
       "react-hooks/exhaustive-deps": "off",
     },
   }),
+  {
+    // Blog post content files intentionally use plain <a> for internal links
+    // (cross-locale posts, simple authored markup). The client-side-nav perf
+    // hint doesn't apply to these static articles.
+    files: ["src/app/blog/posts/**/*.tsx"],
+    rules: {
+      "@next/next/no-html-link-for-pages": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
