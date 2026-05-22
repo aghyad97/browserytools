@@ -10,6 +10,7 @@ import { ptBRPostsB2 } from "./blog-data-pt-BR-b2";
 import { frPostsB2 } from "./blog-data-fr-b2";
 import { dePostsB2 } from "./blog-data-de-b2";
 import { ruPostsB2 } from "./blog-data-ru-b2";
+import { idPostsB2 } from "./blog-data-id-b2";
 import { esPostsB3 } from "./blog-data-es-b3";
 import { ptBRPostsB3 } from "./blog-data-pt-BR-b3";
 import { frPostsB3 } from "./blog-data-fr-b3";
@@ -1809,6 +1810,7 @@ export const blogPosts: BlogPost[] = [
   ...frPostsB2,
   ...dePostsB2,
   ...ruPostsB2,
+  ...idPostsB2,
   ...esPostsB3,
   ...ptBRPostsB3,
   ...frPostsB3,
