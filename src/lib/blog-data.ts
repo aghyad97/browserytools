@@ -1,3 +1,35 @@
+import type { Locale } from "@/lib/locales";
+import { esPosts } from "./blog-data-es";
+import { ptBRPosts } from "./blog-data-pt-BR";
+import { frPosts } from "./blog-data-fr";
+import { dePosts } from "./blog-data-de";
+import { ruPosts } from "./blog-data-ru";
+import { idPosts } from "./blog-data-id";
+import { esPostsB2 } from "./blog-data-es-b2";
+import { ptBRPostsB2 } from "./blog-data-pt-BR-b2";
+import { frPostsB2 } from "./blog-data-fr-b2";
+import { dePostsB2 } from "./blog-data-de-b2";
+import { ruPostsB2 } from "./blog-data-ru-b2";
+import { idPostsB2 } from "./blog-data-id-b2";
+import { esPostsB3 } from "./blog-data-es-b3";
+import { ptBRPostsB3 } from "./blog-data-pt-BR-b3";
+import { frPostsB3 } from "./blog-data-fr-b3";
+import { dePostsB3 } from "./blog-data-de-b3";
+import { ruPostsB3 } from "./blog-data-ru-b3";
+import { idPostsB3 } from "./blog-data-id-b3";
+import { esPostsB4 } from "./blog-data-es-b4";
+import { ptBRPostsB4 } from "./blog-data-pt-BR-b4";
+import { frPostsB4 } from "./blog-data-fr-b4";
+import { dePostsB4 } from "./blog-data-de-b4";
+import { ruPostsB4 } from "./blog-data-ru-b4";
+import { idPostsB4 } from "./blog-data-id-b4";
+import { esPostsB5 } from "./blog-data-es-b5";
+import { ptBRPostsB5 } from "./blog-data-pt-BR-b5";
+import { frPostsB5 } from "./blog-data-fr-b5";
+import { dePostsB5 } from "./blog-data-de-b5";
+import { ruPostsB5 } from "./blog-data-ru-b5";
+import { idPostsB5 } from "./blog-data-id-b5";
+
 export interface BlogPost {
   slug: string;
   title: string;
@@ -10,9 +42,14 @@ export interface BlogPost {
   featured?: boolean;
   coverEmoji: string;
   coverGradient: string;
+  /**
+   * Language of the post. Translated posts set this explicitly (e.g. "es").
+   * Legacy en/ar posts may omit it — getPostLocale() derives those by script.
+   */
+  locale?: Locale;
 }
 
-export const blogPosts: BlogPost[] = [
+const basePosts: BlogPost[] = [
   {
     slug: "keep-laptop-awake-browser",
     title: "How to Keep Your Laptop Awake Without Installing Anything (Mac, Windows, Linux)",
@@ -1769,12 +1806,66 @@ export const blogPosts: BlogPost[] = [
   }
 ];
 
+// All posts across every language. Per-locale translation sets live in their
+// own files (blog-data-<locale>.ts) so parallel translation work never edits
+// this file. Add a new language by importing its array and spreading it here.
+export const blogPosts: BlogPost[] = [
+  ...basePosts,
+  ...esPosts,
+  ...ptBRPosts,
+  ...frPosts,
+  ...dePosts,
+  ...ruPosts,
+  ...idPosts,
+  ...esPostsB2,
+  ...ptBRPostsB2,
+  ...frPostsB2,
+  ...dePostsB2,
+  ...ruPostsB2,
+  ...idPostsB2,
+  ...esPostsB3,
+  ...ptBRPostsB3,
+  ...frPostsB3,
+  ...dePostsB3,
+  ...ruPostsB3,
+  ...idPostsB3,
+  ...esPostsB4,
+  ...ptBRPostsB4,
+  ...frPostsB4,
+  ...dePostsB4,
+  ...ruPostsB4,
+  ...idPostsB4,
+  ...esPostsB5,
+  ...ptBRPostsB5,
+  ...frPostsB5,
+  ...dePostsB5,
+  ...ruPostsB5,
+  ...idPostsB5,
+];
+
+// Arabic script range — used to classify legacy posts that predate the
+// explicit `locale` field.
+const ARABIC_RE = /[؀-ۿ]/;
+
+/** Resolve a post's language: explicit `locale`, else derived from its title. */
+export function getPostLocale(post: BlogPost): Locale {
+  if (post.locale) return post.locale;
+  return ARABIC_RE.test(post.title) ? "ar" : "en";
+}
+
+/** All posts in a given UI locale. */
+export function getPostsByLocale(locale: Locale): BlogPost[] {
+  return blogPosts.filter((p) => getPostLocale(p) === locale);
+}
+
 export function getBlogPost(slug: string): BlogPost | undefined {
   return blogPosts.find((p) => p.slug === slug);
 }
 
-export function getFeaturedPosts(): BlogPost[] {
-  return blogPosts.filter((p) => p.featured);
+/** Featured posts, optionally scoped to a locale (falls back to all if omitted). */
+export function getFeaturedPosts(locale?: Locale): BlogPost[] {
+  const scope = locale ? getPostsByLocale(locale) : blogPosts;
+  return scope.filter((p) => p.featured);
 }
 
 export function getPostsByCategory(category: string): BlogPost[] {

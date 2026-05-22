@@ -2,6 +2,7 @@
   "name": "browserytools",
   "version": "0.1.0",
   "private": true,
+  "license": "AGPL-3.0-only",
   "scripts": {
     "copy-assets": "node scripts/copy-pdf-worker.js && node scripts/copy-ffmpeg.mjs && node scripts/copy-gif-worker.js && node scripts/copy-tesseract.js",
     "copy-ffmpeg": "node scripts/copy-ffmpeg.mjs",

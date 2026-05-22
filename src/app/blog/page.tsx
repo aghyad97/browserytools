@@ -1,6 +1,8 @@
 import Link from "next/link";
+import { cookies } from "next/headers";
 import { Badge } from "@/components/ui/badge";
-import { blogPosts, getFeaturedPosts } from "@/lib/blog-data";
+import { blogPosts, getFeaturedPosts, getPostsByLocale } from "@/lib/blog-data";
+import { isLocale, defaultLocale } from "@/lib/locales";
 import { Clock, Tag } from "lucide-react";
 import { BlogHeroTitle, BlogPrivacyCta, BlogSectionLabel } from "@/components/blog-client-text";
 
@@ -47,9 +49,12 @@ function PostCard({ post }: { post: typeof blogPosts[0]; featured?: boolean }) {
   );
 }
 
-export default function BlogPage() {
-  const featured = getFeaturedPosts();
-  const rest = blogPosts.filter((p) => !p.featured);
+export default async function BlogPage() {
+  const localeCookie = (await cookies()).get("browsery-locale")?.value;
+  const locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+
+  const featured = getFeaturedPosts(locale);
+  const rest = getPostsByLocale(locale).filter((p) => !p.featured);
 
   return (
     <div className="max-w-5xl mx-auto px-4 py-12 space-y-12">

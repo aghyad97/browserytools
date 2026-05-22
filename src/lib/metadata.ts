@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { findToolByHref } from "./tools-config";
+import { hreflangLanguages, ogAlternateLocales } from "./locales";
 
 export function generateToolMetadata(href: string): Metadata {
   const tool = findToolByHref(href);
@@ -48,7 +49,7 @@ export function generateToolMetadata(href: string): Metadata {
     openGraph: {
       type: "website",
       locale: "en_US",
-      alternateLocale: ["ar_SA", "ar_AE", "ar_EG"],
+      alternateLocale: ogAlternateLocales(),
       url: toolUrl,
       title: seoTitle,
       description: seoDescription,
@@ -67,11 +68,7 @@ export function generateToolMetadata(href: string): Metadata {
     },
     alternates: {
       canonical: toolUrl,
-      languages: {
-        "x-default": toolUrl,
-        "en": toolUrl,
-        "ar": toolUrl,
-      },
+      languages: hreflangLanguages(toolUrl),
     },
     category: "technology",
   };
@@ -123,7 +120,7 @@ export function generatePageMetadata(
     openGraph: {
       type: "website",
       locale: "en_US",
-      alternateLocale: ["ar_SA", "ar_AE", "ar_EG"],
+      alternateLocale: ogAlternateLocales(),
       url: pageUrl,
       title: seoPageTitle,
       description: seoPageDescription,
@@ -147,11 +144,7 @@ export function generatePageMetadata(
     },
     alternates: {
       canonical: pageUrl,
-      languages: {
-        "x-default": pageUrl,
-        "en": pageUrl,
-        "ar": pageUrl,
-      },
+      languages: hreflangLanguages(pageUrl),
     },
     category: "technology",
   };

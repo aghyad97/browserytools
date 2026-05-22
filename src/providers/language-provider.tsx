@@ -1,13 +1,29 @@
 "use client";
 
 import { NextIntlClientProvider } from "next-intl";
-import { useLanguageStore, type Locale } from "@/store/language-store";
+import { useLanguageStore } from "@/store/language-store";
+import { getDir, matchLocale, type Locale } from "@/lib/locales";
 import { useEffect, useRef, useState } from "react";
 import { Toaster } from "sonner";
 import enMessages from "../../messages/en.json";
 import arMessages from "../../messages/ar.json";
+import esMessages from "../../messages/es.json";
+import ptBRMessages from "../../messages/pt-BR.json";
+import frMessages from "../../messages/fr.json";
+import deMessages from "../../messages/de.json";
+import ruMessages from "../../messages/ru.json";
+import idMessages from "../../messages/id.json";
 
-const messages = { en: enMessages, ar: arMessages } as const;
+const messages: Record<Locale, typeof enMessages> = {
+  en: enMessages,
+  ar: arMessages,
+  es: esMessages,
+  "pt-BR": ptBRMessages,
+  fr: frMessages,
+  de: deMessages,
+  ru: ruMessages,
+  id: idMessages,
+};
 
 interface LanguageProviderProps {
   children: React.ReactNode;
@@ -28,9 +44,9 @@ export function LanguageProvider({ children, initialLocale }: LanguageProviderPr
       initialized.current = true;
       const stored = localStorage.getItem("browsery-locale");
       if (!stored) {
-        const browserLang = navigator.language || "";
-        if (browserLang.startsWith("ar")) {
-          setLocale("ar");
+        const matched = matchLocale(navigator.language);
+        if (matched && matched !== "en") {
+          setLocale(matched);
         }
       } else {
         // Migrate existing localStorage-only users: write cookie so next SSR visit is correct.
@@ -53,7 +69,7 @@ export function LanguageProvider({ children, initialLocale }: LanguageProviderPr
   // Keep html dir/lang in sync with React state
   useEffect(() => {
     document.documentElement.lang = currentLocale;
-    document.documentElement.dir = currentLocale === "ar" ? "rtl" : "ltr";
+    document.documentElement.dir = getDir(currentLocale);
   }, [currentLocale]);
 
   return (

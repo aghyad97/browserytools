@@ -273,15 +273,6 @@ export const tools: ToolCategory[] = [
           "Edit and manipulate SVG vector graphics. Scale, modify colors, optimize paths, and convert to other formats. Ideal for logos, icons, and scalable graphics.",
       },
       {
-        name: "Color Converter",
-        href: "/tools/color-converter",
-        icon: PaletteIcon,
-        available: true,
-        order: 7,
-        creationDate: "2025-09-10",
-        description: "Convert between HEX, RGB, and HSL with live preview.",
-      },
-      {
         name: "SVG to PNG",
         href: "/tools/svg-png",
         icon: RefreshCwIcon,
@@ -300,6 +291,46 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-05-21",
         description:
           "Redact sensitive parts of an image with blur, pixelate, or black-box censoring. Draw rectangular regions over faces, names, or numbers and export to PNG, JPEG, or WebP. 100% private — processed entirely in your browser.",
+      },
+      {
+        name: "Image Resizer",
+        href: "/tools/image-resizer",
+        icon: ImageIcon,
+        available: true,
+        order: 20,
+        creationDate: "2026-02-20",
+        description:
+          "Resize images to exact dimensions or by percentage. Lock aspect ratio, choose output format, and adjust quality. No file size limits, runs fully in browser.",
+      },
+      {
+        name: "Color Blindness Simulator",
+        href: "/tools/color-blindness",
+        icon: EyeIcon,
+        available: true,
+        order: 21,
+        creationDate: "2026-02-22",
+        description:
+          "Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.",
+      },
+      {
+        name: "EXIF Viewer",
+        href: "/tools/exif-viewer",
+        icon: InfoIcon,
+        available: true,
+        order: 22,
+        creationDate: "2026-02-22",
+        description:
+          "View EXIF metadata from photos: camera model, lens, aperture, shutter speed, ISO, GPS coordinates, and more. No upload — processed locally.",
+      },
+      {
+        name: "Favicon Generator",
+        href: "/tools/favicon-generator",
+        icon: ImageIcon,
+        available: true,
+        order: 23,
+        creationDate: "2026-05-21",
+        description:
+          "Create a complete favicon set from an image or a letter/emoji. Generates 16, 32, 48, 180, 192, and 512 PNGs plus a multi-size favicon.ico, a site.webmanifest, and the HTML link snippet — bundled in a ZIP. Runs fully in your browser.",
       },
     ],
   },
@@ -395,6 +426,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-05-21",
         description:
           "Compress videos in your browser using ffmpeg.wasm. Control quality (CRF), presets, and resolution. No uploads; runs entirely on-device.",
+      },
+      {
+        name: "Screen Recorder",
+        href: "/tools/screen-recorder",
+        icon: MonitorIcon,
+        available: true,
+        order: 5,
+        creationDate: "2026-02-20",
+        description:
+          "Record your screen, window, or tab directly in the browser using the Screen Capture API. Add a webcam picture-in-picture overlay, a 3-2-1 countdown, and export to WebM or animated GIF. No extensions or software needed.",
       },
     ],
   },
@@ -1007,20 +1048,10 @@ export const tools: ToolCategory[] = [
     ],
   },
   {
-    category: "Security & Development Tools",
-    id: "securityDev",
+    category: "Developer Tools",
+    id: "devTools",
     order: 9,
     items: [
-      {
-        name: "Favicon Generator",
-        href: "/tools/favicon-generator",
-        icon: ImageIcon,
-        available: true,
-        order: 15,
-        creationDate: "2026-05-21",
-        description:
-          "Create a complete favicon set from an image or a letter/emoji. Generates 16, 32, 48, 180, 192, and 512 PNGs plus a multi-size favicon.ico, a site.webmanifest, and the HTML link snippet — bundled in a ZIP. Runs fully in your browser.",
-      },
       {
         name: "UUID Generator",
         href: "/tools/uuid-generator",
@@ -1032,41 +1063,11 @@ export const tools: ToolCategory[] = [
           "Generate Universally Unique Identifiers (UUIDs) in different versions and formats. Perfect for database keys, API identifiers, and unique references.",
       },
       {
-        name: "JWT Decoder",
-        href: "/tools/jwt-decoder",
-        icon: ShieldIcon,
-        available: true,
-        order: 2,
-        creationDate: "2025-08-20",
-        description:
-          "Decode and validate JSON Web Tokens (JWTs). View header, payload, and signature information with validation checks. Perfect for debugging and security analysis.",
-      },
-      {
-        name: "Password Generator",
-        href: "/tools/password-generator",
-        icon: ShieldIcon,
-        available: true,
-        order: 3,
-        creationDate: "2025-08-20",
-        description:
-          "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
-      },
-      {
-        name: "Hash Generator",
-        href: "/tools/hash-generator",
-        icon: HashIcon,
-        available: true,
-        order: 4,
-        creationDate: "2025-08-20",
-        description:
-          "Generate cryptographic hashes from text input. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Perfect for data integrity and security.",
-      },
-      {
         name: "Unix Timestamp Converter",
         href: "/tools/unix-timestamp",
         icon: ClockIcon,
         available: true,
-        order: 5,
+        order: 2,
         creationDate: "2025-09-10",
         description: "Epoch seconds/milliseconds ↔ human date with timezone.",
       },
@@ -1075,7 +1076,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/regex-tester",
         icon: CodeIcon,
         available: true,
-        order: 6,
+        order: 3,
         creationDate: "2025-09-10",
         description:
           "Test JavaScript regular expressions with live highlighting and flags.",
@@ -1085,36 +1086,16 @@ export const tools: ToolCategory[] = [
         href: "/tools/cron-parser",
         icon: CalendarClockIcon,
         available: true,
-        order: 7,
+        order: 4,
         creationDate: "2025-09-10",
         description: "Explain cron expressions and list next runs.",
-      },
-      {
-        name: "Password Strength",
-        href: "/tools/password-strength",
-        icon: ShieldIcon,
-        available: true,
-        order: 8,
-        creationDate: "2026-02-20",
-        description:
-          "Analyze the strength of any password in real time. Checks entropy, character variety, common patterns, and dictionary words. All analysis runs locally.",
-      },
-      {
-        name: "Text Encryption",
-        href: "/tools/text-encryption",
-        icon: LockIcon,
-        available: true,
-        order: 9,
-        creationDate: "2026-02-20",
-        description:
-          "Encrypt and decrypt text using AES-256-GCM via the Web Crypto API. Your data never leaves the browser. Use a passphrase or generate a random key.",
       },
       {
         name: "HTTP Status Codes",
         href: "/tools/http-status",
         icon: ServerIcon,
         available: true,
-        order: 10,
+        order: 5,
         creationDate: "2026-02-20",
         description:
           "Quick reference for all HTTP status codes with descriptions, use cases, and examples. Search by code number or keyword. Covers 1xx through 5xx.",
@@ -1124,7 +1105,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/css-minifier",
         icon: ZapIcon,
         available: true,
-        order: 11,
+        order: 6,
         creationDate: "2026-02-22",
         description:
           "Minify or beautify CSS code. Remove comments and whitespace for production, or prettify minified CSS for debugging. Shows size reduction percentage.",
@@ -1134,7 +1115,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/sql-formatter",
         icon: DatabaseIcon,
         available: true,
-        order: 12,
+        order: 7,
         creationDate: "2026-02-22",
         description:
           "Format and beautify SQL queries with proper indentation and keyword casing. Supports SELECT, INSERT, UPDATE, DELETE, CREATE, and more.",
@@ -1144,7 +1125,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/chmod",
         icon: LockIcon,
         available: true,
-        order: 13,
+        order: 8,
         creationDate: "2026-03-05",
         description:
           "Calculate Unix file permissions visually. Toggle read/write/execute bits for owner, group, and others to get the octal value and chmod command.",
@@ -1154,7 +1135,7 @@ export const tools: ToolCategory[] = [
         href: "/tools/meta-tags",
         icon: TagIcon,
         available: true,
-        order: 14,
+        order: 9,
         creationDate: "2026-03-05",
         description:
           "Generate HTML meta tags, Open Graph tags, and Twitter Card tags. Preview how your page will appear in search results and social media.",
@@ -1164,10 +1145,67 @@ export const tools: ToolCategory[] = [
         href: "/tools/curl-converter",
         icon: TerminalIcon,
         available: true,
-        order: 15,
+        order: 10,
         creationDate: "2026-05-21",
         description:
           "Convert a curl command into ready-to-run code for JavaScript fetch, Node.js, Python requests, Go, and PHP. Parses headers, query, auth, and body entirely in your browser.",
+      },
+    ],
+  },
+  {
+    category: "Security Tools",
+    id: "securityTools",
+    order: 11,
+    items: [
+      {
+        name: "JWT Decoder",
+        href: "/tools/jwt-decoder",
+        icon: ShieldIcon,
+        available: true,
+        order: 1,
+        creationDate: "2025-08-20",
+        description:
+          "Decode and validate JSON Web Tokens (JWTs). View header, payload, and signature information with validation checks. Perfect for debugging and security analysis.",
+      },
+      {
+        name: "Password Generator",
+        href: "/tools/password-generator",
+        icon: ShieldIcon,
+        available: true,
+        order: 2,
+        creationDate: "2025-08-20",
+        description:
+          "Generate secure passwords with custom options including length, character types, and special requirements. Create strong passwords for accounts and applications.",
+      },
+      {
+        name: "Hash Generator",
+        href: "/tools/hash-generator",
+        icon: HashIcon,
+        available: true,
+        order: 3,
+        creationDate: "2025-08-20",
+        description:
+          "Generate cryptographic hashes from text input. Supports MD5, SHA-1, SHA-256, SHA-384, and SHA-512 algorithms. Perfect for data integrity and security.",
+      },
+      {
+        name: "Password Strength",
+        href: "/tools/password-strength",
+        icon: ShieldIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-02-20",
+        description:
+          "Analyze the strength of any password in real time. Checks entropy, character variety, common patterns, and dictionary words. All analysis runs locally.",
+      },
+      {
+        name: "Text Encryption",
+        href: "/tools/text-encryption",
+        icon: LockIcon,
+        available: true,
+        order: 5,
+        creationDate: "2026-02-20",
+        description:
+          "Encrypt and decrypt text using AES-256-GCM via the Web Crypto API. Your data never leaves the browser. Use a passphrase or generate a random key.",
       },
     ],
   },
@@ -1257,24 +1295,13 @@ export const tools: ToolCategory[] = [
           "Generate harmonious color palettes from a base color. Explore complementary, triadic, analogous, and split-complementary schemes. Export as CSS variables or JSON.",
       },
       {
-        name: "Image Resizer",
-        href: "/tools/image-resizer",
-        icon: ImageIcon,
+        name: "Color Converter",
+        href: "/tools/color-converter",
+        icon: PaletteIcon,
         available: true,
         order: 3,
-        creationDate: "2026-02-20",
-        description:
-          "Resize images to exact dimensions or by percentage. Lock aspect ratio, choose output format, and adjust quality. No file size limits, runs fully in browser.",
-      },
-      {
-        name: "Screen Recorder",
-        href: "/tools/screen-recorder",
-        icon: MonitorIcon,
-        available: true,
-        order: 4,
-        creationDate: "2026-02-20",
-        description:
-          "Record your screen, window, or tab directly in the browser using the Screen Capture API. Add a webcam picture-in-picture overlay, a 3-2-1 countdown, and export to WebM or animated GIF. No extensions or software needed.",
+        creationDate: "2025-09-10",
+        description: "Convert between HEX, RGB, and HSL with live preview.",
       },
       {
         name: "Color Contrast Checker",
@@ -1285,26 +1312,6 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-22",
         description:
           "Check color contrast ratios for WCAG accessibility compliance. Enter foreground and background colors to get AA and AAA pass/fail results for normal and large text.",
-      },
-      {
-        name: "Color Blindness Simulator",
-        href: "/tools/color-blindness",
-        icon: EyeIcon,
-        available: true,
-        order: 6,
-        creationDate: "2026-02-22",
-        description:
-          "Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.",
-      },
-      {
-        name: "EXIF Viewer",
-        href: "/tools/exif-viewer",
-        icon: InfoIcon,
-        available: true,
-        order: 7,
-        creationDate: "2026-02-22",
-        description:
-          "View EXIF metadata from photos: camera model, lens, aperture, shutter speed, ISO, GPS coordinates, and more. No upload — processed locally.",
       },
       {
         name: "Emoji Picker",

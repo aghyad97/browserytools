@@ -3,7 +3,14 @@ import { Geist, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
-import type { Locale } from "@/store/language-store";
+import {
+  type Locale,
+  defaultLocale,
+  getDir,
+  isLocale,
+  hreflangLanguages,
+  ogAlternateLocales,
+} from "@/lib/locales";
 
 const geist = Geist({ subsets: ["latin"] });
 
@@ -59,16 +66,12 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://browserytools.com"),
   alternates: {
     canonical: "/",
-    languages: {
-      "x-default": "https://browserytools.com",
-      "en": "https://browserytools.com",
-      "ar": "https://browserytools.com",
-    },
+    languages: hreflangLanguages("https://browserytools.com"),
   },
   openGraph: {
     type: "website",
     locale: "en_US",
-    alternateLocale: ["ar_SA", "ar_AE", "ar_EG"],
+    alternateLocale: ogAlternateLocales(),
     url: "https://browserytools.com",
     title: "BrowseryTools — أدواتك | Free Browser-Based Productivity Tools",
     description:
@@ -152,12 +155,12 @@ export default async function RootLayout({
 }>) {
   const cookieStore = await cookies();
   const localeCookie = cookieStore.get("browsery-locale")?.value;
-  const initialLocale: Locale = localeCookie === "ar" ? "ar" : "en";
+  const initialLocale: Locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
 
   return (
     <html
       lang={initialLocale}
-      dir={initialLocale === "ar" ? "rtl" : "ltr"}
+      dir={getDir(initialLocale)}
       className={ibmPlexSansArabic.variable}
       suppressHydrationWarning
     >

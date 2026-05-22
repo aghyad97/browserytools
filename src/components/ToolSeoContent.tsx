@@ -159,7 +159,11 @@ function buildJsonLd(
 
 export default function ToolSeoContent() {
   const pathname = usePathname() || "";
-  const locale = (useLocale() as "en" | "ar") || "en";
+  // The bespoke SEO-content registry (toolContent) and buildFallbackContent are
+  // bilingual (en/ar) only. Map every other UI locale (es/fr/de/ru/id/…) to the
+  // English SEO content so these pages still render valid structured content.
+  const locale = useLocale();
+  const seoLocale: "en" | "ar" = locale === "ar" ? "ar" : "en";
   const t = useTranslations("ToolSeo");
 
   const tool = resolveTool(pathname);
@@ -168,14 +172,14 @@ export default function ToolSeoContent() {
   // Bespoke content if present, otherwise templated (non-fabricated) fallback.
   const bespoke = toolContent[tool.slug];
   const content: ToolContentLocale = bespoke
-    ? bespoke[locale]
+    ? bespoke[seoLocale] ?? bespoke.en
     : buildFallbackContent(
         {
           name: tool.name,
           description: tool.description,
           category: tool.category,
         },
-        locale
+        seoLocale
       );
 
   const jsonLd = buildJsonLd(tool, content);
