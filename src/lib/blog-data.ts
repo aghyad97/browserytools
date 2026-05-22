@@ -23,6 +23,12 @@ import { frPostsB4 } from "./blog-data-fr-b4";
 import { dePostsB4 } from "./blog-data-de-b4";
 import { ruPostsB4 } from "./blog-data-ru-b4";
 import { idPostsB4 } from "./blog-data-id-b4";
+import { esPostsB5 } from "./blog-data-es-b5";
+import { ptBRPostsB5 } from "./blog-data-pt-BR-b5";
+import { frPostsB5 } from "./blog-data-fr-b5";
+import { dePostsB5 } from "./blog-data-de-b5";
+import { ruPostsB5 } from "./blog-data-ru-b5";
+import { idPostsB5 } from "./blog-data-id-b5";
 
 export interface BlogPost {
   slug: string;
@@ -1829,6 +1835,12 @@ export const blogPosts: BlogPost[] = [
   ...dePostsB4,
   ...ruPostsB4,
   ...idPostsB4,
+  ...esPostsB5,
+  ...ptBRPostsB5,
+  ...frPostsB5,
+  ...dePostsB5,
+  ...ruPostsB5,
+  ...idPostsB5,
 ];
 
 // Arabic script range — used to classify legacy posts that predate the
