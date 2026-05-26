@@ -13,6 +13,7 @@ import frMessages from "../../messages/fr.json";
 import deMessages from "../../messages/de.json";
 import ruMessages from "../../messages/ru.json";
 import idMessages from "../../messages/id.json";
+import zhCNMessages from "../../messages/zh-CN.json";
 
 const messages: Record<Locale, typeof enMessages> = {
   en: enMessages,
@@ -23,6 +24,7 @@ const messages: Record<Locale, typeof enMessages> = {
   de: deMessages,
   ru: ruMessages,
   id: idMessages,
+  "zh-CN": zhCNMessages,
 };
 
 interface LanguageProviderProps {
