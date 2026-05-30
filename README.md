@@ -229,6 +229,7 @@ BrowseryTools is fully localized. The entire UI — homepage, all tools, and nav
 | Deutsch (German) | `de` | LTR |
 | Русский (Russian) | `ru` | LTR |
 | Bahasa Indonesia (Indonesian) | `id` | LTR |
+| 简体中文 (Simplified Chinese) | `zh-CN` | LTR |
 
 Language is detected from the browser on first visit and can be changed anytime via the in-app language switcher (preference is remembered).
 

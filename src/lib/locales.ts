@@ -68,6 +68,13 @@ export const LOCALES = [
     dir: "ltr",
     ogLocale: "id_ID",
   },
+  {
+    code: "zh-CN",
+    label: "简体中文",
+    short: "zh",
+    dir: "ltr",
+    ogLocale: "zh_CN",
+  },
 ] as const;
 
 export type LocaleConfig = (typeof LOCALES)[number];
