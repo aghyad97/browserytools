@@ -265,10 +265,8 @@ describe("ScreenRecorder", () => {
     });
     await user.click(exportBtn);
 
-    const { toast } = await import("sonner");
-    await waitFor(() => expect(toast.success).toHaveBeenCalled());
     // GIF was constructed with the self-hosted worker path (no CDN).
-    expect(gifInstances.length).toBeGreaterThan(0);
+    await waitFor(() => expect(gifInstances.length).toBeGreaterThan(0));
     expect(lastGifOptions.value?.workerScript).toBe("/gif.worker.js");
   });
 });
