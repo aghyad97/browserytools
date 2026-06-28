@@ -648,6 +648,10 @@
       "object-cutout": {
         "name": "Recorte de Objeto",
         "description": "Recorte qualquer objeto de uma imagem com um clique usando o modelo de IA Segment Anything (SAM) no seu navegador. Receba um PNG transparente. Gratuito, privado, sem upload."
+      },
+      "gif-maker": {
+        "name": "Criador de GIF",
+        "description": "Transforme uma série de imagens em um GIF animado. Reordene quadros, ajuste a velocidade, repita e redimensione."
       }
     }
   },
@@ -4644,6 +4648,33 @@
       "failed": "Não foi possível recortar o objeto. Tente um ponto ou imagem diferente.",
       "webgpuNote": "Para os resultados mais rápidos, use um navegador com suporte a WebGPU (Chrome ou Edge). Outros navegadores recorrem a um modo de CPU (WASM) mais lento.",
       "modelNote": "Roda o modelo Segment Anything (SAM) inteiramente no seu navegador. O modelo é baixado uma vez de uma CDN no primeiro uso e, depois, roda no dispositivo — sua imagem nunca é enviada."
+    },
+    "GifMaker": {
+      "dropHere": "Solte as imagens aqui ou clique para procurar",
+      "supported": "PNG, JPG, WebP, GIF ou BMP — adicione 2 ou mais",
+      "framesUnit": "quadros",
+      "reverse": "Inverter",
+      "clearAll": "Limpar tudo",
+      "moveLeft": "Mover para a esquerda",
+      "removeFrame": "Remover",
+      "moveRight": "Mover para a direita",
+      "frameDelay": "Duração do quadro",
+      "maxWidth": "Largura máxima",
+      "quality": "Qualidade",
+      "betterQuality": "Melhor qualidade",
+      "smallerFile": "Arquivo menor",
+      "loopForever": "Repetir sempre",
+      "boomerang": "Bumerangue",
+      "background": "Fundo",
+      "generating": "Criando…",
+      "generate": "Criar GIF",
+      "resultAlt": "GIF gerado",
+      "size": "Tamanho",
+      "resultPlaceholder": "Seu GIF animado aparecerá aqui",
+      "imageTooLarge": "Cada imagem deve ter menos de 15 MB",
+      "tooFewFrames": "Adicione pelo menos 2 imagens para criar um GIF",
+      "generated": "GIF criado!",
+      "generateFailed": "Não foi possível criar o GIF. Tente novamente."
     }
   },
   "Blog": {

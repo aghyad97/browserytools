@@ -648,6 +648,10 @@
       "object-cutout": {
         "name": "Pemotong Objek",
         "description": "Potong objek apa pun dari gambar dengan satu klik menggunakan model AI Segment Anything (SAM) di browser Anda. Dapatkan PNG transparan. Gratis, privat, tanpa unggah."
+      },
+      "gif-maker": {
+        "name": "Pembuat GIF",
+        "description": "Ubah serangkaian gambar menjadi GIF animasi. Atur ulang bingkai, atur kecepatan, ulang, dan ubah ukuran."
       }
     }
   },
@@ -4644,6 +4648,33 @@
       "failed": "Tidak dapat memotong objek. Coba titik atau gambar yang berbeda.",
       "webgpuNote": "Untuk hasil tercepat, gunakan browser yang mendukung WebGPU (Chrome atau Edge). Browser lain beralih ke mode CPU (WASM) yang lebih lambat.",
       "modelNote": "Menjalankan model Segment Anything (SAM) sepenuhnya di browser Anda. Model diunduh satu kali dari CDN saat pertama digunakan, lalu berjalan di perangkat — gambar Anda tidak pernah diunggah."
+    },
+    "GifMaker": {
+      "dropHere": "Letakkan gambar di sini, atau klik untuk menelusuri",
+      "supported": "PNG, JPG, WebP, GIF, atau BMP — tambahkan 2 atau lebih",
+      "framesUnit": "bingkai",
+      "reverse": "Balik",
+      "clearAll": "Hapus semua",
+      "moveLeft": "Pindah ke kiri",
+      "removeFrame": "Hapus",
+      "moveRight": "Pindah ke kanan",
+      "frameDelay": "Durasi bingkai",
+      "maxWidth": "Lebar maks",
+      "quality": "Kualitas",
+      "betterQuality": "Kualitas lebih baik",
+      "smallerFile": "File lebih kecil",
+      "loopForever": "Ulang terus",
+      "boomerang": "Bumerang",
+      "background": "Latar belakang",
+      "generating": "Membuat…",
+      "generate": "Buat GIF",
+      "resultAlt": "GIF yang dibuat",
+      "size": "Ukuran",
+      "resultPlaceholder": "GIF animasi Anda akan muncul di sini",
+      "imageTooLarge": "Setiap gambar harus di bawah 15 MB",
+      "tooFewFrames": "Tambahkan minimal 2 gambar untuk membuat GIF",
+      "generated": "GIF dibuat!",
+      "generateFailed": "Tidak dapat membuat GIF. Silakan coba lagi."
     }
   },
   "Blog": {

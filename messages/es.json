@@ -648,6 +648,10 @@
       "object-cutout": {
         "name": "Recorte de objetos",
         "description": "Recorta cualquier objeto de una imagen con un solo clic usando el modelo de IA Segment Anything (SAM) en tu navegador. Obtén un PNG transparente. Gratis, privado y sin subir nada."
+      },
+      "gif-maker": {
+        "name": "Creador de GIF",
+        "description": "Convierte una serie de imágenes en un GIF animado. Reordena fotogramas, ajusta la velocidad, repite y redimensiona."
       }
     }
   },
@@ -4644,6 +4648,33 @@
       "failed": "No se pudo recortar el objeto. Prueba con otro punto u otra imagen.",
       "webgpuNote": "Para obtener los resultados más rápidos, usa un navegador compatible con WebGPU (Chrome o Edge). Otros navegadores recurren a un modo de CPU (WASM) más lento.",
       "modelNote": "Ejecuta el modelo Segment Anything (SAM) por completo en tu navegador. El modelo se descarga una sola vez desde una CDN la primera vez que lo usas y luego se ejecuta en el dispositivo: tu imagen nunca se sube."
+    },
+    "GifMaker": {
+      "dropHere": "Suelta las imágenes aquí o haz clic para explorar",
+      "supported": "PNG, JPG, WebP, GIF o BMP — añade 2 o más",
+      "framesUnit": "fotogramas",
+      "reverse": "Invertir",
+      "clearAll": "Borrar todo",
+      "moveLeft": "Mover a la izquierda",
+      "removeFrame": "Quitar",
+      "moveRight": "Mover a la derecha",
+      "frameDelay": "Duración por fotograma",
+      "maxWidth": "Ancho máximo",
+      "quality": "Calidad",
+      "betterQuality": "Mejor calidad",
+      "smallerFile": "Archivo más pequeño",
+      "loopForever": "Bucle infinito",
+      "boomerang": "Bumerán",
+      "background": "Fondo",
+      "generating": "Creando…",
+      "generate": "Crear GIF",
+      "resultAlt": "GIF generado",
+      "size": "Tamaño",
+      "resultPlaceholder": "Tu GIF animado aparecerá aquí",
+      "imageTooLarge": "Cada imagen debe pesar menos de 15 MB",
+      "tooFewFrames": "Añade al menos 2 imágenes para crear un GIF",
+      "generated": "¡GIF creado!",
+      "generateFailed": "No se pudo crear el GIF. Inténtalo de nuevo."
     }
   },
   "Blog": {

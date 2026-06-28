@@ -648,6 +648,10 @@
       "object-cutout": {
         "name": "Détourage d'objet",
         "description": "Détourez n'importe quel objet d'une image en un clic grâce au modèle d'IA Segment Anything (SAM) dans votre navigateur. Obtenez un PNG transparent. Gratuit, privé, sans envoi."
+      },
+      "gif-maker": {
+        "name": "Créateur de GIF",
+        "description": "Transformez une série d'images en GIF animé. Réorganisez les images, réglez la vitesse, bouclez et redimensionnez."
       }
     }
   },
@@ -4644,6 +4648,33 @@
       "failed": "Impossible de détourer l'objet. Essayez un autre point ou une autre image.",
       "webgpuNote": "Pour des résultats plus rapides, utilisez un navigateur compatible WebGPU (Chrome ou Edge). Les autres navigateurs basculent vers un mode CPU (WASM) plus lent.",
       "modelNote": "Exécute le modèle Segment Anything (SAM) entièrement dans votre navigateur. Le modèle se télécharge une seule fois depuis un CDN à la première utilisation, puis s'exécute sur l'appareil — votre image n'est jamais envoyée."
+    },
+    "GifMaker": {
+      "dropHere": "Déposez les images ici ou cliquez pour parcourir",
+      "supported": "PNG, JPG, WebP, GIF ou BMP — ajoutez-en 2 ou plus",
+      "framesUnit": "images",
+      "reverse": "Inverser",
+      "clearAll": "Tout effacer",
+      "moveLeft": "Déplacer à gauche",
+      "removeFrame": "Supprimer",
+      "moveRight": "Déplacer à droite",
+      "frameDelay": "Durée par image",
+      "maxWidth": "Largeur maximale",
+      "quality": "Qualité",
+      "betterQuality": "Meilleure qualité",
+      "smallerFile": "Fichier plus petit",
+      "loopForever": "Boucle infinie",
+      "boomerang": "Boomerang",
+      "background": "Arrière-plan",
+      "generating": "Création…",
+      "generate": "Créer le GIF",
+      "resultAlt": "GIF généré",
+      "size": "Taille",
+      "resultPlaceholder": "Votre GIF animé apparaîtra ici",
+      "imageTooLarge": "Chaque image doit faire moins de 15 Mo",
+      "tooFewFrames": "Ajoutez au moins 2 images pour créer un GIF",
+      "generated": "GIF créé !",
+      "generateFailed": "Impossible de créer le GIF. Veuillez réessayer."
     }
   },
   "Blog": {

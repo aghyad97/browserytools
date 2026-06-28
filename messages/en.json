@@ -648,6 +648,10 @@
       "object-cutout": {
         "name": "Object Cutout",
         "description": "Cut out any object from an image with one click using the Segment Anything (SAM) AI model in your browser. Get a transparent PNG. Free, private, no upload."
+      },
+      "gif-maker": {
+        "name": "GIF Maker",
+        "description": "Turn a series of images into an animated GIF. Reorder frames, set speed, loop, and resize."
       }
     }
   },
@@ -4644,6 +4648,33 @@
       "failed": "Could not cut out the object. Try a different point or image.",
       "webgpuNote": "For the fastest results, use a WebGPU-capable browser (Chrome or Edge). Other browsers fall back to a slower CPU (WASM) mode.",
       "modelNote": "Runs the Segment Anything (SAM) model entirely in your browser. The model downloads once from a CDN on first use, then runs on-device — your image is never uploaded."
+    },
+    "GifMaker": {
+      "dropHere": "Drop images here, or click to browse",
+      "supported": "PNG, JPG, WebP, GIF or BMP — add 2 or more",
+      "framesUnit": "frames",
+      "reverse": "Reverse",
+      "clearAll": "Clear all",
+      "moveLeft": "Move left",
+      "removeFrame": "Remove",
+      "moveRight": "Move right",
+      "frameDelay": "Frame delay",
+      "maxWidth": "Max width",
+      "quality": "Quality",
+      "betterQuality": "Better quality",
+      "smallerFile": "Smaller file",
+      "loopForever": "Loop forever",
+      "boomerang": "Boomerang",
+      "background": "Background",
+      "generating": "Creating…",
+      "generate": "Create GIF",
+      "resultAlt": "Generated GIF",
+      "size": "Size",
+      "resultPlaceholder": "Your animated GIF will appear here",
+      "imageTooLarge": "Each image must be under 15MB",
+      "tooFewFrames": "Add at least 2 images to create a GIF",
+      "generated": "GIF created!",
+      "generateFailed": "Couldn't create the GIF. Please try again."
     }
   },
   "Blog": {
