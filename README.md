@@ -97,6 +97,7 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Mic & Camera Tester**: Check your camera preview and test microphone input levels with a live meter.
 - **Compress Video**: Compress videos in your browser using ffmpeg.wasm.
 - **Screen Recorder**: Record your screen, window, or tab directly in the browser using the Screen Capture API.
+- **GIF Maker**: Turn a series of images into an animated GIF. Reorder frames, set speed, loop, and resize.
 
 ### 📝 Text & Language Tools
 

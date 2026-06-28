@@ -648,6 +648,10 @@
       "object-cutout": {
         "name": "Objekt-Freisteller",
         "description": "Stelle jedes Objekt aus einem Bild mit einem Klick frei – mit dem Segment-Anything-(SAM)-KI-Modell in deinem Browser. Erhalte ein transparentes PNG. Kostenlos, privat, kein Upload."
+      },
+      "gif-maker": {
+        "name": "GIF-Ersteller",
+        "description": "Verwandle eine Bildserie in ein animiertes GIF. Frames neu anordnen, Tempo einstellen, wiederholen und skalieren."
       }
     }
   },
@@ -4644,6 +4648,33 @@
       "failed": "Das Objekt konnte nicht freigestellt werden. Versuche einen anderen Punkt oder ein anderes Bild.",
       "webgpuNote": "Für die schnellsten Ergebnisse verwende einen WebGPU-fähigen Browser (Chrome oder Edge). Andere Browser greifen auf einen langsameren CPU-Modus (WASM) zurück.",
       "modelNote": "Führt das Segment-Anything-(SAM)-Modell vollständig in deinem Browser aus. Das Modell wird bei der ersten Verwendung einmalig von einem CDN heruntergeladen und läuft danach auf dem Gerät – dein Bild wird niemals hochgeladen."
+    },
+    "GifMaker": {
+      "dropHere": "Bilder hier ablegen oder zum Durchsuchen klicken",
+      "supported": "PNG, JPG, WebP, GIF oder BMP — 2 oder mehr hinzufügen",
+      "framesUnit": "Frames",
+      "reverse": "Umkehren",
+      "clearAll": "Alle löschen",
+      "moveLeft": "Nach links",
+      "removeFrame": "Entfernen",
+      "moveRight": "Nach rechts",
+      "frameDelay": "Frame-Dauer",
+      "maxWidth": "Maximale Breite",
+      "quality": "Qualität",
+      "betterQuality": "Bessere Qualität",
+      "smallerFile": "Kleinere Datei",
+      "loopForever": "Endlosschleife",
+      "boomerang": "Bumerang",
+      "background": "Hintergrund",
+      "generating": "Wird erstellt…",
+      "generate": "GIF erstellen",
+      "resultAlt": "Erstelltes GIF",
+      "size": "Größe",
+      "resultPlaceholder": "Dein animiertes GIF erscheint hier",
+      "imageTooLarge": "Jedes Bild muss kleiner als 15 MB sein",
+      "tooFewFrames": "Füge mindestens 2 Bilder hinzu, um ein GIF zu erstellen",
+      "generated": "GIF erstellt!",
+      "generateFailed": "GIF konnte nicht erstellt werden. Bitte versuche es erneut."
     }
   },
   "Blog": {

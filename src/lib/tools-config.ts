@@ -8,6 +8,7 @@ import {
   FileIcon,
   CodeIcon,
   VideoIcon,
+  FilmIcon,
   FileTextIcon,
   Grid3X3Icon,
   PaintRollerIcon,
@@ -436,6 +437,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-20",
         description:
           "Record your screen, window, or tab directly in the browser using the Screen Capture API. Add a webcam picture-in-picture overlay, a 3-2-1 countdown, and export to WebM or animated GIF. No extensions or software needed.",
+      },
+      {
+        name: "GIF Maker",
+        href: "/tools/gif-maker",
+        icon: FilmIcon,
+        available: true,
+        order: 6,
+        creationDate: "2026-06-28",
+        description:
+          "Turn a series of images into an animated GIF right in your browser. Reorder frames, set the frame delay, loop or boomerang, resize, and pick quality. No uploads — runs entirely on-device.",
       },
     ],
   },
