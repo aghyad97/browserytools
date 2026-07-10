@@ -1,0 +1,550 @@
+[
+  {
+    "name": "Image Upscaler",
+    "href": "/tools/image-upscaler"
+  },
+  {
+    "name": "Image Captioner",
+    "href": "/tools/image-captioner"
+  },
+  {
+    "name": "Depth Map Generator",
+    "href": "/tools/depth-map"
+  },
+  {
+    "name": "Object Cutout",
+    "href": "/tools/object-cutout"
+  },
+  {
+    "name": "ASCII Art Generator",
+    "href": "/tools/ascii-art"
+  },
+  {
+    "name": "Photo Collage",
+    "href": "/tools/photo-collage"
+  },
+  {
+    "name": "Image Color Picker",
+    "href": "/tools/image-color-picker"
+  },
+  {
+    "name": "EXIF Remover",
+    "href": "/tools/exif-remover"
+  },
+  {
+    "name": "Screenshot Beautifier",
+    "href": "/tools/screenshot-beautifier"
+  },
+  {
+    "name": "Meme Generator",
+    "href": "/tools/meme-generator"
+  },
+  {
+    "name": "Background Removal",
+    "href": "/tools/bg-removal"
+  },
+  {
+    "name": "Phone Mockups",
+    "href": "/tools/phone-mockups"
+  },
+  {
+    "name": "Image Compression",
+    "href": "/tools/image-compression"
+  },
+  {
+    "name": "Format Converter",
+    "href": "/tools/image-converter"
+  },
+  {
+    "name": "Color Correction",
+    "href": "/tools/color-correction"
+  },
+  {
+    "name": "SVG Tools",
+    "href": "/tools/svg"
+  },
+  {
+    "name": "SVG to PNG",
+    "href": "/tools/svg-png"
+  },
+  {
+    "name": "Photo Censor",
+    "href": "/tools/photo-censor"
+  },
+  {
+    "name": "Image Resizer",
+    "href": "/tools/image-resizer"
+  },
+  {
+    "name": "Color Blindness Simulator",
+    "href": "/tools/color-blindness"
+  },
+  {
+    "name": "EXIF Viewer",
+    "href": "/tools/exif-viewer"
+  },
+  {
+    "name": "Favicon Generator",
+    "href": "/tools/favicon-generator"
+  },
+  {
+    "name": "PDF Tools",
+    "href": "/tools/pdf"
+  },
+  {
+    "name": "Zip Tools",
+    "href": "/tools/zip"
+  },
+  {
+    "name": "CSV/Excel Viewer",
+    "href": "/tools/spreadsheet"
+  },
+  {
+    "name": "File Converter",
+    "href": "/tools/file-converter"
+  },
+  {
+    "name": "Video Editor",
+    "href": "/tools/video"
+  },
+  {
+    "name": "Audio Editor",
+    "href": "/tools/audio"
+  },
+  {
+    "name": "Mic & Camera Tester",
+    "href": "/tools/mic-camera"
+  },
+  {
+    "name": "Compress Video",
+    "href": "/tools/compress-video"
+  },
+  {
+    "name": "Screen Recorder",
+    "href": "/tools/screen-recorder"
+  },
+  {
+    "name": "GIF Maker",
+    "href": "/tools/gif-maker"
+  },
+  {
+    "name": "Speech to Text",
+    "href": "/tools/speech-to-text"
+  },
+  {
+    "name": "Image to Text (OCR)",
+    "href": "/tools/image-to-text"
+  },
+  {
+    "name": "Text to Speech",
+    "href": "/tools/text-to-speech"
+  },
+  {
+    "name": "Text Case Converter",
+    "href": "/tools/text-case"
+  },
+  {
+    "name": "Text Counter",
+    "href": "/tools/text-counter"
+  },
+  {
+    "name": "Code Formatter",
+    "href": "/tools/code-format"
+  },
+  {
+    "name": "Rich Editor",
+    "href": "/tools/rich-editor"
+  },
+  {
+    "name": "Lorem Ipsum Generator",
+    "href": "/tools/lorem-ipsum"
+  },
+  {
+    "name": "Typing Test",
+    "href": "/tools/typing-test"
+  },
+  {
+    "name": "Text Diff Viewer",
+    "href": "/tools/text-diff"
+  },
+  {
+    "name": "Markdown Editor",
+    "href": "/tools/markdown-editor"
+  },
+  {
+    "name": "HTML Formatter",
+    "href": "/tools/html-formatter"
+  },
+  {
+    "name": "Notepad",
+    "href": "/tools/notepad"
+  },
+  {
+    "name": "Text Sorter",
+    "href": "/tools/text-sorter"
+  },
+  {
+    "name": "Morse Code Converter",
+    "href": "/tools/morse-code"
+  },
+  {
+    "name": "Word Frequency Analyzer",
+    "href": "/tools/word-frequency"
+  },
+  {
+    "name": "Markdown to HTML",
+    "href": "/tools/markdown-html"
+  },
+  {
+    "name": "Text Repeater",
+    "href": "/tools/text-repeater"
+  },
+  {
+    "name": "Markdown Table Generator",
+    "href": "/tools/markdown-table"
+  },
+  {
+    "name": "JSON to CSV",
+    "href": "/tools/json-csv"
+  },
+  {
+    "name": "Base64 Tools",
+    "href": "/tools/base64"
+  },
+  {
+    "name": "QR Code Generator",
+    "href": "/tools/qr-generator"
+  },
+  {
+    "name": "Barcode Generator",
+    "href": "/tools/barcode-generator"
+  },
+  {
+    "name": "QR Code Scanner",
+    "href": "/tools/qr-scanner"
+  },
+  {
+    "name": "Barcode Scanner",
+    "href": "/tools/barcode-scanner"
+  },
+  {
+    "name": "Charts",
+    "href": "/tools/charts"
+  },
+  {
+    "name": "JSON Formatter",
+    "href": "/tools/json-formatter"
+  },
+  {
+    "name": "YAML ↔ JSON",
+    "href": "/tools/yaml-json"
+  },
+  {
+    "name": "URL Encoder/Decoder",
+    "href": "/tools/url-encoder"
+  },
+  {
+    "name": "Fake Data Generator",
+    "href": "/tools/fake-data"
+  },
+  {
+    "name": "Text to Binary",
+    "href": "/tools/text-binary"
+  },
+  {
+    "name": "JSON → TypeScript",
+    "href": "/tools/json-to-ts"
+  },
+  {
+    "name": "Mermaid Diagram Viewer",
+    "href": "/tools/mermaid"
+  },
+  {
+    "name": "Periodic Table",
+    "href": "/tools/periodic-table"
+  },
+  {
+    "name": "Invoice Generator",
+    "href": "/tools/invoice"
+  },
+  {
+    "name": "Unit Converter",
+    "href": "/tools/unit-converter"
+  },
+  {
+    "name": "Time Zone Converter",
+    "href": "/tools/timezone-converter"
+  },
+  {
+    "name": "Calculator",
+    "href": "/tools/calculator"
+  },
+  {
+    "name": "Age Calculator",
+    "href": "/tools/age-calculator"
+  },
+  {
+    "name": "Number Base Converter",
+    "href": "/tools/number-base-converter"
+  },
+  {
+    "name": "Expense Tracker",
+    "href": "/tools/expense-tracker"
+  },
+  {
+    "name": "Currency Converter",
+    "href": "/tools/currency-converter"
+  },
+  {
+    "name": "Loan Calculator",
+    "href": "/tools/loan-calculator"
+  },
+  {
+    "name": "Percentage Calculator",
+    "href": "/tools/percentage-calculator"
+  },
+  {
+    "name": "Aspect Ratio Calculator",
+    "href": "/tools/aspect-ratio"
+  },
+  {
+    "name": "BMI Calculator",
+    "href": "/tools/bmi-calculator"
+  },
+  {
+    "name": "Tip Calculator",
+    "href": "/tools/tip-calculator"
+  },
+  {
+    "name": "Roman Numeral Converter",
+    "href": "/tools/roman-numeral"
+  },
+  {
+    "name": "Mind Map Maker",
+    "href": "/tools/mind-map"
+  },
+  {
+    "name": "Signature Maker",
+    "href": "/tools/signature-maker"
+  },
+  {
+    "name": "Random Picker",
+    "href": "/tools/random-picker"
+  },
+  {
+    "name": "Todo List",
+    "href": "/tools/todo"
+  },
+  {
+    "name": "Timer & Countdown",
+    "href": "/tools/timer"
+  },
+  {
+    "name": "Pomodoro Timer",
+    "href": "/tools/pomodoro"
+  },
+  {
+    "name": "World Clock",
+    "href": "/tools/world-clock"
+  },
+  {
+    "name": "Stopwatch",
+    "href": "/tools/stopwatch"
+  },
+  {
+    "name": "Habit Tracker",
+    "href": "/tools/habit-tracker"
+  },
+  {
+    "name": "Keep Awake",
+    "href": "/tools/keep-awake"
+  },
+  {
+    "name": "UUID Generator",
+    "href": "/tools/uuid-generator"
+  },
+  {
+    "name": "Unix Timestamp Converter",
+    "href": "/tools/unix-timestamp"
+  },
+  {
+    "name": "Regex Tester",
+    "href": "/tools/regex-tester"
+  },
+  {
+    "name": "Cron Parser",
+    "href": "/tools/cron-parser"
+  },
+  {
+    "name": "HTTP Status Codes",
+    "href": "/tools/http-status"
+  },
+  {
+    "name": "CSS Minifier",
+    "href": "/tools/css-minifier"
+  },
+  {
+    "name": "SQL Formatter",
+    "href": "/tools/sql-formatter"
+  },
+  {
+    "name": "Chmod Calculator",
+    "href": "/tools/chmod"
+  },
+  {
+    "name": "Meta Tags Generator",
+    "href": "/tools/meta-tags"
+  },
+  {
+    "name": "cURL Converter",
+    "href": "/tools/curl-converter"
+  },
+  {
+    "name": "JWT Decoder",
+    "href": "/tools/jwt-decoder"
+  },
+  {
+    "name": "Password Generator",
+    "href": "/tools/password-generator"
+  },
+  {
+    "name": "Hash Generator",
+    "href": "/tools/hash-generator"
+  },
+  {
+    "name": "Password Strength",
+    "href": "/tools/password-strength"
+  },
+  {
+    "name": "Text Encryption",
+    "href": "/tools/text-encryption"
+  },
+  {
+    "name": "CSS clip-path Generator",
+    "href": "/tools/clip-path-generator"
+  },
+  {
+    "name": "Cubic-Bezier Easing Editor",
+    "href": "/tools/cubic-bezier"
+  },
+  {
+    "name": "Glassmorphism Generator",
+    "href": "/tools/glassmorphism-generator"
+  },
+  {
+    "name": "SVG Blob Generator",
+    "href": "/tools/svg-blob-generator"
+  },
+  {
+    "name": "Code Screenshot",
+    "href": "/tools/code-screenshot"
+  },
+  {
+    "name": "OG Image Generator",
+    "href": "/tools/og-image-generator"
+  },
+  {
+    "name": "CSS Gradient Generator",
+    "href": "/tools/css-gradient"
+  },
+  {
+    "name": "Color Palette Generator",
+    "href": "/tools/color-palette"
+  },
+  {
+    "name": "Color Converter",
+    "href": "/tools/color-converter"
+  },
+  {
+    "name": "Color Contrast Checker",
+    "href": "/tools/contrast-checker"
+  },
+  {
+    "name": "Emoji Picker",
+    "href": "/tools/emoji-picker"
+  },
+  {
+    "name": "CSS Box Shadow Generator",
+    "href": "/tools/css-shadow"
+  },
+  {
+    "name": "Audio/Video Transcriber",
+    "href": "/tools/audio-transcriber"
+  },
+  {
+    "name": "Text Summarizer",
+    "href": "/tools/text-summarizer"
+  },
+  {
+    "name": "Translator",
+    "href": "/tools/translator"
+  },
+  {
+    "name": "PII Detector & Redactor",
+    "href": "/tools/pii-redactor"
+  },
+  {
+    "name": "Zero-Shot Text Classifier",
+    "href": "/tools/zero-shot-classifier"
+  },
+  {
+    "name": "Sentiment Analyzer",
+    "href": "/tools/sentiment-analyzer"
+  },
+  {
+    "name": "Token Counter",
+    "href": "/tools/token-counter"
+  },
+  {
+    "name": "Context Window Calculator",
+    "href": "/tools/context-window"
+  },
+  {
+    "name": "AI Cost Calculator",
+    "href": "/tools/ai-cost-calculator"
+  },
+  {
+    "name": "Model Comparison",
+    "href": "/tools/model-comparison"
+  },
+  {
+    "name": "System Prompt Builder",
+    "href": "/tools/system-prompt-builder"
+  },
+  {
+    "name": "Prompt Library",
+    "href": "/tools/prompt-library"
+  },
+  {
+    "name": "CLAUDE.md Generator",
+    "href": "/tools/claude-md-generator"
+  },
+  {
+    "name": "AI Rules Generator",
+    "href": "/tools/ai-rules-generator"
+  },
+  {
+    "name": "JSON Schema Builder",
+    "href": "/tools/json-schema-builder"
+  },
+  {
+    "name": "MCP Config Generator",
+    "href": "/tools/mcp-config"
+  },
+  {
+    "name": "Prompt Formatter",
+    "href": "/tools/prompt-formatter"
+  },
+  {
+    "name": "Skill / Agent Builder",
+    "href": "/tools/skill-builder"
+  },
+  {
+    "name": "AI Instruction Diff",
+    "href": "/tools/ai-instruction-diff"
+  },
+  {
+    "name": "Text Similarity",
+    "href": "/tools/text-similarity"
+  }
+]
