@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/select";
 import { Upload, Download, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 
 interface ImageInfo {
   url: string;
@@ -30,17 +32,6 @@ const formatOptions = [
   { value: "image/webp", label: "WebP", quality: true },
   { value: "image/avif", label: "AVIF", quality: true },
 ];
-
-// Promise wrapper around canvas.toBlob.
-function canvasToBlob(
-  canvas: HTMLCanvasElement,
-  type: string,
-  quality?: number
-): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), type, quality);
-  });
-}
 
 // Encode a canvas to AVIF using the @jsquash/avif WASM encoder.
 // Browsers cannot encode AVIF via canvas.toBlob/toDataURL (they silently fall
@@ -201,12 +192,7 @@ export default function ImageConverter() {
         ?.label.toLowerCase() || "png";
     const filename = `${image.name.split(".")[0]}_converted.${extension}`;
 
-    const link = document.createElement("a");
-    link.href = convertedImage;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(convertedImage, filename);
     toast.success(t("downloadedSuccess"));
   };
 
