@@ -16,6 +16,8 @@ import {
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Download, Trash2, Undo2, PenLine } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadBlob } from "@/lib/download";
 
 // A single freehand stroke is a list of points captured between pointerdown and pointerup.
 interface Point {
@@ -41,23 +43,6 @@ const TYPE_FONTS = [
   { value: "Georgia, 'Times New Roman', serif", label: "Elegant Serif" },
   { value: "cursive", label: "Cursive" },
 ];
-
-// Promise wrapper around canvas.toBlob.
-function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), "image/png");
-  });
-}
-
-// Trigger a browser download for an object URL.
-function downloadUrl(url: string, filename: string) {
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-}
 
 export default function SignatureMaker() {
   const t = useTranslations("Tools.SignatureMaker");
@@ -188,9 +173,7 @@ export default function SignatureMaker() {
       toast.error(t("exportFailed"));
       return;
     }
-    const url = URL.createObjectURL(blob);
-    downloadUrl(url, "signature.png");
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, "signature.png");
     toast.success(t("downloaded"));
   };
 
@@ -208,9 +191,7 @@ export default function SignatureMaker() {
       .join("\n  ");
     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="${CANVAS_WIDTH}" height="${CANVAS_HEIGHT}" viewBox="0 0 ${CANVAS_WIDTH} ${CANVAS_HEIGHT}">\n  ${polylines}\n</svg>`;
     const blob = new Blob([svg], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    downloadUrl(url, "signature.svg");
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, "signature.svg");
     toast.success(t("downloaded"));
   };
 
@@ -241,9 +222,7 @@ export default function SignatureMaker() {
       toast.error(t("exportFailed"));
       return;
     }
-    const url = URL.createObjectURL(blob);
-    downloadUrl(url, "signature.png");
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, "signature.png");
     toast.success(t("downloaded"));
   };
 
