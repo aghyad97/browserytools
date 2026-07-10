@@ -29,15 +29,30 @@ export function playBeep(frequency = 880, durationMs = 200): void {
     const Ctx = window.AudioContext ?? (window as unknown as { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
     if (!Ctx) return;
     const ctx = new Ctx();
-    const osc = ctx.createOscillator();
-    const gain = ctx.createGain();
-    osc.frequency.value = frequency;
-    osc.connect(gain);
-    gain.connect(ctx.destination);
-    gain.gain.setValueAtTime(0.15, ctx.currentTime);
-    osc.start();
-    osc.stop(ctx.currentTime + durationMs / 1000);
-    osc.onended = () => ctx.close();
+    const start = () => {
+      const osc = ctx.createOscillator();
+      const gain = ctx.createGain();
+      osc.frequency.value = frequency;
+      osc.connect(gain);
+      gain.connect(ctx.destination);
+      // Envelope replicates PomodoroTimer's original end-of-session chime:
+      // flat attack at 0.3, exponential decay to near-silence over the duration.
+      gain.gain.setValueAtTime(0.3, ctx.currentTime);
+      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + durationMs / 1000);
+      osc.start(ctx.currentTime);
+      osc.stop(ctx.currentTime + durationMs / 1000);
+      osc.onended = () => ctx.close();
+    };
+    // Pomodoro's original code resumed a suspended AudioContext before playing
+    // so its auto-fired (non-user-gesture) session-end chime stays audible
+    // under browser autoplay policies. Preserve those unlock semantics here.
+    if (ctx.state === "suspended") {
+      ctx.resume().then(start).catch(() => {
+        ctx.close();
+      });
+    } else {
+      start();
+    }
   } catch {
     /* audio is best-effort */
   }
