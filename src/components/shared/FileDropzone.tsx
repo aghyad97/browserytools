@@ -20,7 +20,9 @@ interface FileDropzoneProps {
    */
   className?: string | ((state: { isDragActive: boolean }) => string);
   /** Spread onto the hidden file input after getInputProps() (e.g. data-testid). */
-  inputProps?: InputHTMLAttributes<HTMLInputElement>;
+  inputProps?: InputHTMLAttributes<HTMLInputElement> & {
+    [key: `data-${string}`]: string;
+  };
 }
 
 export function FileDropzone({

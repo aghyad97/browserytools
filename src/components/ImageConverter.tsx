@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -108,15 +108,6 @@ export default function ImageConverter() {
     }
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg", ".webp", ".avif", ".heic"],
-      "image/heic": [".heic"],
-    },
-    multiple: false,
-  });
-
   const objectUrlRef = useRef<string | null>(null);
 
   // Revoke any outstanding object URL when the component unmounts.
@@ -206,9 +197,14 @@ export default function ImageConverter() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".avif", ".heic"],
+                  "image/heic": [".heic"],
+                }}
+                multiple={false}
+                className={({ isDragActive }) => `
                   h-64 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
                   cursor-pointer transition-all duration-200
@@ -219,7 +215,6 @@ export default function ImageConverter() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 {image ? (
                   <div className="w-full h-full relative">
                     <img
@@ -244,7 +239,7 @@ export default function ImageConverter() {
                     </p>
                   </div>
                 )}
-              </div>
+              </FileDropzone>
             </Card>
 
             <Card className="p-4 space-y-4">
