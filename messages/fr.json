@@ -653,6 +653,19 @@
         "name": "Créateur de GIF",
         "description": "Transformez une série d'images en GIF animé. Réorganisez les images, réglez la vitesse, bouclez et redimensionnez."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Image",
+      "fileTools": "Fichiers",
+      "mediaTools": "Média",
+      "textLanguage": "Texte",
+      "dataTools": "Données",
+      "mathFinance": "Maths",
+      "productivity": "Productivité",
+      "devTools": "Dev",
+      "designTools": "Design",
+      "securityTools": "Sécurité",
+      "aiTools": "IA"
     }
   },
   "Tools": {
@@ -4699,5 +4712,43 @@
     "howToTitle": "Comment utiliser {tool}",
     "faqTitle": "Questions fréquentes",
     "relatedTitle": "Outils associés"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} outils · sur votre appareil",
+    "everything": "Tout",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Rechercher",
+    "sponsorLabel": "Sponsor",
+    "new": "nouveau",
+    "language": "Langue",
+    "theme": "Thème"
+  },
+  "Landing": {
+    "statementLead": "Tous les outils dont vous avez besoin.",
+    "statementTail": "Rien ne quitte votre appareil.",
+    "searchPlaceholder": "Rechercher parmi plus de {count} outils…",
+    "demoTitle": "Essayez. Déposez une image ici.",
+    "demoTitleBusy": "Compression…",
+    "demoSub": "La compression se fait ici même, sur votre appareil. Aucun envoi — regardez l'onglet réseau.",
+    "demoSmaller": "{pct}% plus léger",
+    "apps": "Applis",
+    "popular": "Populaires",
+    "all": "Tous",
+    "allTools": "Les {count} outils",
+    "viewAll": "Voir tous les outils",
+    "onDevice": "sur votre appareil",
+    "sponsorTile": "Votre outil dev, à sa place ici",
+    "coffee": "Offrez-moi un café",
+    "favorites": "Vos favoris",
+    "recent": "Utilisées récemment"
+  },
+  "Template": {
+    "onDevicePromise": "Fonctionne sur votre appareil — rien n'est envoyé, rien n'est stocké.",
+    "related": "Associés",
+    "startOver": "Recommencer",
+    "download": "Télécharger",
+    "dropTitle": "Déposez un fichier ou cliquez pour choisir",
+    "staysOnDevice": "reste sur votre appareil"
   }
 }

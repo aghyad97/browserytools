@@ -653,6 +653,19 @@
         "name": "Criador de GIF",
         "description": "Transforme uma série de imagens em um GIF animado. Reordene quadros, ajuste a velocidade, repita e redimensione."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Imagem",
+      "fileTools": "Arquivos",
+      "mediaTools": "Mídia",
+      "textLanguage": "Texto",
+      "dataTools": "Dados",
+      "mathFinance": "Matemática",
+      "productivity": "Produtividade",
+      "devTools": "Dev",
+      "designTools": "Design",
+      "securityTools": "Segurança",
+      "aiTools": "IA"
     }
   },
   "Tools": {
@@ -4699,5 +4712,43 @@
     "howToTitle": "Como usar o {tool}",
     "faqTitle": "Perguntas frequentes",
     "relatedTitle": "Ferramentas relacionadas"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} ferramentas · no seu dispositivo",
+    "everything": "Tudo",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Pesquisar",
+    "sponsorLabel": "Patrocinador",
+    "new": "novo",
+    "language": "Idioma",
+    "theme": "Tema"
+  },
+  "Landing": {
+    "statementLead": "Todas as ferramentas que você precisa.",
+    "statementTail": "Nada sai do seu dispositivo.",
+    "searchPlaceholder": "Pesquisar mais de {count} ferramentas…",
+    "demoTitle": "Experimente. Solte uma imagem aqui.",
+    "demoTitleBusy": "Comprimindo…",
+    "demoSub": "Ela é comprimida aqui mesmo, no seu dispositivo. Sem upload — veja a aba de rede.",
+    "demoSmaller": "{pct}% menor",
+    "apps": "Apps",
+    "popular": "Populares",
+    "all": "Todas",
+    "allTools": "Todas as {count} ferramentas",
+    "viewAll": "Ver todas as ferramentas",
+    "onDevice": "no seu dispositivo",
+    "sponsorTile": "Sua ferramenta dev, nativa aqui",
+    "coffee": "Pague-me um café",
+    "favorites": "Seus favoritos",
+    "recent": "Usadas recentemente"
+  },
+  "Template": {
+    "onDevicePromise": "Funciona no seu dispositivo — nada é enviado, nada é armazenado.",
+    "related": "Relacionadas",
+    "startOver": "Recomeçar",
+    "download": "Baixar",
+    "dropTitle": "Solte um arquivo ou clique para escolher",
+    "staysOnDevice": "permanece no seu dispositivo"
   }
 }

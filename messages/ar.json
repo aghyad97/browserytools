@@ -653,6 +653,19 @@
         "name": "صانع GIF",
         "description": "حوّل سلسلة من الصور إلى صورة GIF متحركة. أعِد ترتيب الإطارات واضبط السرعة والتكرار والحجم."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "الصور",
+      "fileTools": "الملفات",
+      "mediaTools": "الوسائط",
+      "textLanguage": "النصوص",
+      "dataTools": "البيانات",
+      "mathFinance": "الرياضيات",
+      "productivity": "الإنتاجية",
+      "devTools": "البرمجة",
+      "designTools": "التصميم",
+      "securityTools": "الأمان",
+      "aiTools": "الذكاء الاصطناعي"
     }
   },
   "Tools": {
@@ -4699,5 +4712,43 @@
     "howToTitle": "كيفية استخدام {tool}",
     "faqTitle": "الأسئلة الشائعة",
     "relatedTitle": "أدوات ذات صلة"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} أداة · على جهازك",
+    "everything": "الكل",
+    "blog": "المدونة",
+    "github": "GitHub",
+    "search": "بحث",
+    "sponsorLabel": "راعٍ",
+    "new": "جديد",
+    "language": "اللغة",
+    "theme": "المظهر"
+  },
+  "Landing": {
+    "statementLead": "كل أداة تحتاجها.",
+    "statementTail": "لا شيء يغادر جهازك.",
+    "searchPlaceholder": "ابحث في أكثر من {count} أداة…",
+    "demoTitle": "جرّبها. أفلِت صورة هنا.",
+    "demoTitleBusy": "جارٍ الضغط…",
+    "demoSub": "تُضغط هنا مباشرةً على جهازك. دون أي رفع — راقب تبويب الشبكة.",
+    "demoSmaller": "أصغر بنسبة {pct}%",
+    "apps": "التطبيقات",
+    "popular": "شائعة",
+    "all": "الكل",
+    "allTools": "جميع الأدوات ({count})",
+    "viewAll": "عرض جميع الأدوات",
+    "onDevice": "على جهازك",
+    "sponsorTile": "أداتك البرمجية، بمكانها الطبيعي هنا",
+    "coffee": "اشتر لي قهوة",
+    "favorites": "مفضّلتك",
+    "recent": "المستخدمة مؤخرًا"
+  },
+  "Template": {
+    "onDevicePromise": "يعمل على جهازك — لا يُرفع شيء ولا يُخزَّن شيء.",
+    "related": "ذات صلة",
+    "startOver": "ابدأ من جديد",
+    "download": "تنزيل",
+    "dropTitle": "أفلِت ملفًا، أو انقر للاختيار",
+    "staysOnDevice": "يبقى على جهازك"
   }
 }

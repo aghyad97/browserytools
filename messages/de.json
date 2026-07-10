@@ -653,6 +653,19 @@
         "name": "GIF-Ersteller",
         "description": "Verwandle eine Bildserie in ein animiertes GIF. Frames neu anordnen, Tempo einstellen, wiederholen und skalieren."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Bild",
+      "fileTools": "Dateien",
+      "mediaTools": "Medien",
+      "textLanguage": "Text",
+      "dataTools": "Daten",
+      "mathFinance": "Mathe",
+      "productivity": "Produktivität",
+      "devTools": "Dev",
+      "designTools": "Design",
+      "securityTools": "Sicherheit",
+      "aiTools": "KI"
     }
   },
   "Tools": {
@@ -4699,5 +4712,43 @@
     "howToTitle": "So verwendest du {tool}",
     "faqTitle": "Häufig gestellte Fragen",
     "relatedTitle": "Verwandte Tools"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} Tools · auf deinem Gerät",
+    "everything": "Alles",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Suchen",
+    "sponsorLabel": "Sponsor",
+    "new": "neu",
+    "language": "Sprache",
+    "theme": "Design"
+  },
+  "Landing": {
+    "statementLead": "Alle Tools, die du brauchst.",
+    "statementTail": "Nichts verlässt dein Gerät.",
+    "searchPlaceholder": "Über {count} Tools durchsuchen …",
+    "demoTitle": "Probier's aus. Zieh ein Bild hierher.",
+    "demoTitleBusy": "Wird komprimiert …",
+    "demoSub": "Die Komprimierung passiert direkt hier, auf deinem Gerät. Kein Upload – schau in den Netzwerk-Tab.",
+    "demoSmaller": "{pct}% kleiner",
+    "apps": "Apps",
+    "popular": "Beliebt",
+    "all": "Alle",
+    "allTools": "Alle {count} Tools",
+    "viewAll": "Alle Tools anzeigen",
+    "onDevice": "auf deinem Gerät",
+    "sponsorTile": "Dein Dev-Tool, hier zu Hause",
+    "coffee": "Spendiere mir einen Kaffee",
+    "favorites": "Deine Favoriten",
+    "recent": "Zuletzt verwendet"
+  },
+  "Template": {
+    "onDevicePromise": "Läuft auf deinem Gerät – nichts wird hochgeladen, nichts gespeichert.",
+    "related": "Ähnliche",
+    "startOver": "Von vorn beginnen",
+    "download": "Herunterladen",
+    "dropTitle": "Datei ablegen oder zum Auswählen klicken",
+    "staysOnDevice": "bleibt auf deinem Gerät"
   }
 }

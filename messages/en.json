@@ -653,6 +653,19 @@
         "name": "GIF Maker",
         "description": "Turn a series of images into an animated GIF. Reorder frames, set speed, loop, and resize."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Image",
+      "fileTools": "File",
+      "mediaTools": "Media",
+      "textLanguage": "Text",
+      "dataTools": "Data",
+      "mathFinance": "Math",
+      "productivity": "Productivity",
+      "devTools": "Dev",
+      "designTools": "Design",
+      "securityTools": "Security",
+      "aiTools": "AI"
     }
   },
   "Tools": {
@@ -4699,5 +4712,43 @@
     "howToTitle": "How to use {tool}",
     "faqTitle": "Frequently asked questions",
     "relatedTitle": "Related tools"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} tools · on-device",
+    "everything": "Everything",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Search",
+    "sponsorLabel": "Sponsor",
+    "new": "new",
+    "language": "Language",
+    "theme": "Theme"
+  },
+  "Landing": {
+    "statementLead": "Every tool you need.",
+    "statementTail": "Nothing leaves your device.",
+    "searchPlaceholder": "Search {count}+ tools…",
+    "demoTitle": "Try it. Drop an image here.",
+    "demoTitleBusy": "Compressing…",
+    "demoSub": "It compresses right here, on your device. No upload — watch the network tab.",
+    "demoSmaller": "{pct}% smaller",
+    "apps": "Apps",
+    "popular": "Popular",
+    "all": "All",
+    "allTools": "All {count} tools",
+    "viewAll": "View all tools",
+    "onDevice": "on-device",
+    "sponsorTile": "Your dev tool, native here",
+    "coffee": "Buy me a coffee",
+    "favorites": "Your favorites",
+    "recent": "Recently used"
+  },
+  "Template": {
+    "onDevicePromise": "Runs on your device — nothing is uploaded, nothing is stored.",
+    "related": "Related",
+    "startOver": "Start over",
+    "download": "Download",
+    "dropTitle": "Drop a file, or click to choose",
+    "staysOnDevice": "stays on your device"
   }
 }

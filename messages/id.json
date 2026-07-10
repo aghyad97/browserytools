@@ -653,6 +653,19 @@
         "name": "Pembuat GIF",
         "description": "Ubah serangkaian gambar menjadi GIF animasi. Atur ulang bingkai, atur kecepatan, ulang, dan ubah ukuran."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Gambar",
+      "fileTools": "Berkas",
+      "mediaTools": "Media",
+      "textLanguage": "Teks",
+      "dataTools": "Data",
+      "mathFinance": "Matematika",
+      "productivity": "Produktivitas",
+      "devTools": "Dev",
+      "designTools": "Desain",
+      "securityTools": "Keamanan",
+      "aiTools": "AI"
     }
   },
   "Tools": {
@@ -4699,5 +4712,43 @@
     "howToTitle": "Cara menggunakan {tool}",
     "faqTitle": "Pertanyaan yang sering diajukan",
     "relatedTitle": "Alat terkait"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} alat · di perangkat",
+    "everything": "Semua",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Cari",
+    "sponsorLabel": "Sponsor",
+    "new": "baru",
+    "language": "Bahasa",
+    "theme": "Tema"
+  },
+  "Landing": {
+    "statementLead": "Semua alat yang Anda butuhkan.",
+    "statementTail": "Tidak ada yang meninggalkan perangkat Anda.",
+    "searchPlaceholder": "Cari {count}+ alat…",
+    "demoTitle": "Coba. Jatuhkan gambar di sini.",
+    "demoTitleBusy": "Mengompres…",
+    "demoSub": "Kompresi terjadi di sini, di perangkat Anda. Tanpa unggahan — lihat tab jaringan.",
+    "demoSmaller": "{pct}% lebih kecil",
+    "apps": "Aplikasi",
+    "popular": "Populer",
+    "all": "Semua",
+    "allTools": "Semua {count} alat",
+    "viewAll": "Lihat semua alat",
+    "onDevice": "di perangkat",
+    "sponsorTile": "Alat dev Anda, seperti di rumah di sini",
+    "coffee": "Belikan saya kopi",
+    "favorites": "Favorit Anda",
+    "recent": "Baru digunakan"
+  },
+  "Template": {
+    "onDevicePromise": "Berjalan di perangkat Anda — tidak ada yang diunggah, tidak ada yang disimpan.",
+    "related": "Terkait",
+    "startOver": "Mulai lagi",
+    "download": "Unduh",
+    "dropTitle": "Jatuhkan berkas, atau klik untuk memilih",
+    "staysOnDevice": "tetap di perangkat Anda"
   }
 }

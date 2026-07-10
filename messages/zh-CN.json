@@ -654,6 +654,19 @@
         "name": "GIF 制作器",
         "description": "将一系列图片转换为动态 GIF。重新排序帧、设置速度、循环并调整大小。"
       }
+    },
+    "categoriesShort": {
+      "imageTools": "图像",
+      "fileTools": "文件",
+      "mediaTools": "媒体",
+      "textLanguage": "文本",
+      "dataTools": "数据",
+      "mathFinance": "数学",
+      "productivity": "效率",
+      "devTools": "开发",
+      "designTools": "设计",
+      "securityTools": "安全",
+      "aiTools": "AI"
     }
   },
   "Tools": {
@@ -4700,5 +4713,43 @@
     "howToTitle": "如何使用 {tool}",
     "faqTitle": "常见问题",
     "relatedTitle": "相关工具"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} 个工具 · 在设备本地",
+    "everything": "全部",
+    "blog": "博客",
+    "github": "GitHub",
+    "search": "搜索",
+    "sponsorLabel": "赞助",
+    "new": "新",
+    "language": "语言",
+    "theme": "主题"
+  },
+  "Landing": {
+    "statementLead": "你需要的每一个工具。",
+    "statementTail": "一切都不会离开你的设备。",
+    "searchPlaceholder": "搜索 {count}+ 个工具…",
+    "demoTitle": "试试看。把图片拖到这里。",
+    "demoTitleBusy": "正在压缩…",
+    "demoSub": "压缩就在本地、在你的设备上完成。无需上传——看看网络面板。",
+    "demoSmaller": "缩小 {pct}%",
+    "apps": "应用",
+    "popular": "热门",
+    "all": "全部",
+    "allTools": "全部 {count} 个工具",
+    "viewAll": "查看所有工具",
+    "onDevice": "在设备本地",
+    "sponsorTile": "你的开发工具，在这里如鱼得水",
+    "coffee": "请我喝杯咖啡",
+    "favorites": "你的收藏",
+    "recent": "最近使用"
+  },
+  "Template": {
+    "onDevicePromise": "在你的设备上运行——不上传、不存储任何内容。",
+    "related": "相关工具",
+    "startOver": "重新开始",
+    "download": "下载",
+    "dropTitle": "拖入文件，或点击选择",
+    "staysOnDevice": "留在你的设备上"
   }
 }

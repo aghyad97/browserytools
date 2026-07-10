@@ -653,6 +653,19 @@
         "name": "Creador de GIF",
         "description": "Convierte una serie de imágenes en un GIF animado. Reordena fotogramas, ajusta la velocidad, repite y redimensiona."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Imagen",
+      "fileTools": "Archivos",
+      "mediaTools": "Multimedia",
+      "textLanguage": "Texto",
+      "dataTools": "Datos",
+      "mathFinance": "Matemáticas",
+      "productivity": "Productividad",
+      "devTools": "Desarrollo",
+      "designTools": "Diseño",
+      "securityTools": "Seguridad",
+      "aiTools": "IA"
     }
   },
   "Tools": {
@@ -4699,5 +4712,43 @@
     "howToTitle": "Cómo usar {tool}",
     "faqTitle": "Preguntas frecuentes",
     "relatedTitle": "Herramientas relacionadas"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} herramientas · en tu dispositivo",
+    "everything": "Todo",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Buscar",
+    "sponsorLabel": "Patrocinador",
+    "new": "nuevo",
+    "language": "Idioma",
+    "theme": "Tema"
+  },
+  "Landing": {
+    "statementLead": "Todas las herramientas que necesitas.",
+    "statementTail": "Nada sale de tu dispositivo.",
+    "searchPlaceholder": "Buscar más de {count} herramientas…",
+    "demoTitle": "Pruébalo. Suelta una imagen aquí.",
+    "demoTitleBusy": "Comprimiendo…",
+    "demoSub": "Se comprime aquí mismo, en tu dispositivo. Sin subir nada: mira la pestaña de red.",
+    "demoSmaller": "{pct}% más pequeño",
+    "apps": "Apps",
+    "popular": "Populares",
+    "all": "Todas",
+    "allTools": "Las {count} herramientas",
+    "viewAll": "Ver todas las herramientas",
+    "onDevice": "en tu dispositivo",
+    "sponsorTile": "Tu herramienta dev, como en casa aquí",
+    "coffee": "Invítame a un café",
+    "favorites": "Tus favoritos",
+    "recent": "Usadas recientemente"
+  },
+  "Template": {
+    "onDevicePromise": "Funciona en tu dispositivo: no se sube ni se almacena nada.",
+    "related": "Relacionadas",
+    "startOver": "Empezar de nuevo",
+    "download": "Descargar",
+    "dropTitle": "Suelta un archivo o haz clic para elegir",
+    "staysOnDevice": "permanece en tu dispositivo"
   }
 }
