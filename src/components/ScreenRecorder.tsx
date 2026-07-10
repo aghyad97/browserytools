@@ -25,6 +25,7 @@ import {
   Film,
 } from "lucide-react";
 import { toast } from "sonner";
+import { encodeGif, type GifFrame } from "@/lib/media/gif-encode";
 
 type Quality = "720" | "1080" | "max";
 type PipPosition = "top-left" | "top-right" | "bottom-left" | "bottom-right";
@@ -379,8 +380,6 @@ export default function ScreenRecorder() {
     setGifProgress(0);
     const tid = toast.loading(t("gifEncoding"));
     try {
-      const { default: GIF } = await import("gif.js");
-
       const video = document.createElement("video");
       video.src = entry.url;
       video.muted = true;
@@ -394,31 +393,23 @@ export default function ScreenRecorder() {
       const gw = Math.max(1, Math.round((video.videoWidth || maxW) * scale));
       const gh = Math.max(1, Math.round((video.videoHeight || 270) * scale));
 
-      const canvas = document.createElement("canvas");
-      canvas.width = gw;
-      canvas.height = gh;
-      const ctx = canvas.getContext("2d");
-
-      const gif = new GIF({
-        workers: 2,
-        quality: 10,
-        width: gw,
-        height: gh,
-        workerScript: "/gif.worker.js",
-      });
-
-      gif.on("progress", (p: number) => setGifProgress(Math.round(p * 100)));
-
       const fps = 8;
       const duration = Number.isFinite(video.duration) ? video.duration : 0;
       const total = Math.max(1, Math.floor(duration * fps));
 
+      // Each sampled frame gets its own canvas so every snapshot survives until
+      // encoding (a single reused canvas would only hold the last frame).
+      const gifFrames: GifFrame[] = [];
       const grab = (time: number) =>
         new Promise<void>((resolve) => {
           const onSeeked = () => {
             video.removeEventListener("seeked", onSeeked);
+            const canvas = document.createElement("canvas");
+            canvas.width = gw;
+            canvas.height = gh;
+            const ctx = canvas.getContext("2d");
             if (ctx) ctx.drawImage(video, 0, 0, gw, gh);
-            gif.addFrame(canvas, { copy: true, delay: 1000 / fps });
+            gifFrames.push({ source: canvas, delayMs: 1000 / fps });
             resolve();
           };
           video.addEventListener("seeked", onSeeked);
@@ -429,10 +420,11 @@ export default function ScreenRecorder() {
         await grab(Math.min(i / fps, Math.max(0, duration - 0.01)));
       }
 
-      const blob = await new Promise<Blob>((resolve, reject) => {
-        gif.on("finished", (b: Blob) => resolve(b));
-        gif.on("abort", () => reject(new Error("gif aborted")));
-        gif.render();
+      const blob = await encodeGif(gifFrames, {
+        width: gw,
+        height: gh,
+        quality: 10,
+        onProgress: (p) => setGifProgress(Math.round(p * 100)),
       });
 
       const url = URL.createObjectURL(blob);
