@@ -153,7 +153,11 @@ export default function SignatureMaker() {
 
   const handlePointerUp = () => {
     if (!currentStroke.current) return;
-    setStrokes((prev) => [...prev, currentStroke.current!]);
+    // Capture the finished stroke before nulling the ref: the setStrokes updater
+    // runs after this handler returns (React 18 batching), by which point the ref
+    // is already null — reading it inside the updater would push null into state.
+    const finished = currentStroke.current;
+    setStrokes((prev) => [...prev, finished]);
     currentStroke.current = null;
     setIsDrawing(false);
   };
