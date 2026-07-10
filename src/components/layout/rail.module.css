@@ -1,0 +1,299 @@
+/* Production rail — ported from src/app/preview/preview.module.css.
+   Physical properties converted to logical (RTL mirrors via dir="rtl");
+   all colours mapped to var(--bt-*) tokens (see src/styles/design-tokens.css).
+   Motion follows animations.dev rules: ease-out entrances, <300ms UI,
+   transform/opacity only, keyboard actions never animated. */
+
+/* Local, non-colour helpers. */
+.rail {
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+
+  /* rail — 220px column at 13px start inset, 13px/19.5px links, 32px blocks */
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 13px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-block: 16px;
+  z-index: 5;
+  font-size: 13px;
+  line-height: 1.5;
+  font-feature-settings: "ss01";
+}
+
+.railGlyph {
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  background: var(--bt-ink);
+  color: var(--bt-bg);
+  font-family: var(--mono);
+  font-size: 11.5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  letter-spacing: -0.5px;
+}
+
+.railLive {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 13px;
+  color: var(--bt-ink);
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--bt-green);
+  animation: pulse 2.4s var(--bt-ease-in-out) infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.45; transform: scale(0.82); }
+}
+
+.railNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.railNav::-webkit-scrollbar { display: none; }
+
+.railGroupGap { height: 20px; flex-shrink: 0; }
+
+.railLink {
+  position: relative;
+  display: block;
+  width: fit-content;
+  padding-inline-end: 14px; /* reserved slot for the active dot */
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--bt-nav-idle);
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: start;
+  transition: color 140ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .railLink:hover { color: var(--bt-nav-active); }
+}
+
+.railLinkActive {
+  composes: railLink;
+  color: var(--bt-nav-active);
+}
+
+/* active dot — 8px, absolute in the link's reserved end slot */
+.activeDot {
+  position: absolute;
+  inset-inline-end: 0;
+  top: 50%;
+  width: 8px;
+  height: 8px;
+  margin-top: -4px;
+  border-radius: 50%;
+  background: var(--bt-nav-active);
+}
+
+/* hand-drawn "new" marker — 13px/400, pink-9, single 33x7 scribble */
+.newTag {
+  position: relative;
+  display: inline-block;
+  margin-inline-start: 4px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--bt-new-pink);
+  line-height: 1;
+}
+.newScribble {
+  pointer-events: none;
+  position: absolute;
+  inset-inline-start: -4px;
+  top: calc(100% - 0.26em);
+  width: 33px;
+  height: 7px;
+  overflow: visible;
+}
+.newScribble path {
+  fill: none;
+  stroke: var(--bt-new-pink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: scribble 550ms var(--bt-ease-out) 500ms forwards;
+}
+@keyframes scribble {
+  to { stroke-dashoffset: 0; }
+}
+
+/* github stars badge */
+.githubRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.starBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  padding-inline: 7px;
+  border-radius: 999px;
+  background: var(--bt-fill);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--bt-ink);
+  transition: background 140ms ease;
+}
+.railLink:hover .starBadge { background: var(--bt-fill-hover); }
+.starBadge svg { fill: var(--bt-star); color: var(--bt-star); }
+
+/* ---------- rail bottom ---------- */
+
+.railBottom {
+  margin-top: auto;
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.railSwitchers {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline-start: -6px; /* optically align ghost buttons to the rail edge */
+}
+
+/* sponsor rotator — boxless, 32px icon tile, 13px type, gray pill CTA,
+   full-width 1px divider doubling as the rotation progress line.
+   Renders nothing when empty (spec §3). */
+.railSponsor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sponsorEyebrow {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-faint);
+}
+.sponsorInner {
+  animation: sponsorIn 320ms var(--bt-ease-out);
+}
+@keyframes sponsorIn {
+  from { opacity: 0; transform: translateY(5px); filter: blur(2px); }
+  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.sponsorHead { display: flex; align-items: center; gap: 12px; }
+.sponsorLogo {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  background: var(--bt-fill);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--bt-ink);
+  flex-shrink: 0;
+}
+.railSponsorName { font-size: 13px; font-weight: 400; line-height: 1.4; color: var(--bt-ink); }
+.sponsorTag { font-size: 13px; line-height: 1.4; color: var(--bt-muted); }
+.railSponsorText { font-size: 13px; color: var(--bt-muted); margin-top: 10px; line-height: 1.5; }
+.sponsorCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: var(--bt-fill);
+  border: 0;
+  padding-inline: 12px;
+  font-size: 13px;
+  color: var(--bt-ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 140ms ease, transform 160ms var(--bt-ease-out);
+}
+.sponsorCta:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .sponsorCta:hover { background: var(--bt-fill-hover); }
+}
+.sponsorTrack {
+  width: 100%;
+  height: 1px;
+  background: var(--bt-divider);
+  overflow: hidden;
+}
+.sponsorFill {
+  height: 100%;
+  width: 100%;
+  background: var(--bt-ink);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: sponsorTime var(--rotate-ms, 10000ms) linear forwards;
+}
+[dir="rtl"] .sponsorFill { transform-origin: right; }
+@keyframes sponsorTime {
+  to { transform: scaleX(1); }
+}
+.sponsorPaused .sponsorFill { animation-play-state: paused; }
+
+/* ---------- pills ---------- */
+
+.pillDark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border-radius: 999px;
+  border: 1px solid var(--bt-ink);
+  background: var(--bt-ink);
+  color: var(--bt-bg);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding: 7px 14px;
+  cursor: pointer;
+  transition: transform 160ms var(--bt-ease-out), background 140ms ease;
+}
+.pillDark:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .pillDark:hover { background: var(--bt-nav-active); border-color: var(--bt-nav-active); }
+}
+
+.kbd {
+  margin-inline-start: auto;
+  font-family: var(--mono);
+  font-size: 10px;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 5px;
+  padding: 1px 5px;
+  color: var(--bt-muted);
+  background: var(--bt-bg);
+}
+
+/* reduced motion: keep fades, kill movement */
+@media (prefers-reduced-motion: reduce) {
+  .rail * { animation: none !important; }
+  .pillDark, .sponsorCta { transition: none; }
+}
+
+/* mobile: rail collapses (chrome-switchover owns the mobile nav pattern) */
+@media (max-width: 900px) {
+  .rail { display: none; }
+}
