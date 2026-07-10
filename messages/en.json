@@ -135,27 +135,27 @@
       },
       "pdf": {
         "name": "PDF Tools",
-        "description": "Merge, split, compress, and manipulate PDF files. Extract text, rotate pages."
+        "description": "Merge PDFs, split or extract pages, and turn images into a PDF — all in your browser with no file size limits."
       },
       "zip": {
         "name": "Zip Tools",
-        "description": "Create, extract, and manage ZIP archives. Supports password protection."
+        "description": "Create ZIP archives from your files and extract existing ones, right in your browser."
       },
       "spreadsheet": {
         "name": "Spreadsheet Viewer",
-        "description": "View and edit spreadsheet files (XLSX, CSV) in your browser."
+        "description": "View CSV and Excel files in your browser: sort, search, chart a column, and export the filtered view to CSV."
       },
       "file-converter": {
-        "name": "File Converter",
-        "description": "Convert files between different formats. Supports documents, images, and more."
+        "name": "Data Format Converter",
+        "description": "Convert data between CSV, TSV, JSON, XML, and YAML. Paste text, pick a target format, copy the result."
       },
       "video": {
         "name": "Video Editor",
-        "description": "Edit videos in your browser. Trim, merge, and add effects."
+        "description": "Trim video clips and turn them into animated GIFs, right in your browser."
       },
       "audio": {
         "name": "Audio Editor",
-        "description": "Edit audio files. Trim, merge, and adjust volume."
+        "description": "Play audio files with adjustable volume and speed, view the waveform, and download your file."
       },
       "mic-camera": {
         "name": "Mic & Camera Tester",
@@ -1010,7 +1010,8 @@
       "echoApplied": "Echo effect applied",
       "speedSet": "Playback speed set to {speed}x",
       "processingDownload": "Processing audio for download...",
-      "errorProcessingDownload": "Error processing audio for download"
+      "errorProcessingDownload": "Error processing audio for download",
+      "downloadOriginal": "Download original"
     },
     "MicCameraTester": {
       "title": "Mic & Camera Tester",

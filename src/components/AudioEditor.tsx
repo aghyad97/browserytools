@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { useAudioStore } from "@/store/audio-store";
 import {
@@ -17,11 +16,6 @@ import {
   Download,
   FastForward,
   Rewind,
-  Moon,
-  Sun,
-  Music2,
-  Radio,
-  Trash2,
 } from "lucide-react";
 
 export default function AudioEditor() {
@@ -33,8 +27,6 @@ export default function AudioEditor() {
     volume,
     duration,
     currentTime,
-    selection,
-    effects,
     setAudioFile,
     setAudioBuffer,
     setIsPlaying,
@@ -42,9 +34,6 @@ export default function AudioEditor() {
     setDuration,
     setCurrentTime,
     setSpeed,
-    setSelection,
-    addEffect,
-    removeEffect,
     reset,
   } = useAudioStore();
 
@@ -151,33 +140,8 @@ export default function AudioEditor() {
       ctx.lineTo(i, (1 + max) * amp);
     }
 
-    // Draw selection region if exists
-    if (selection.start !== selection.end) {
-      const startX = (selection.start / duration) * canvas.width;
-      const endX = (selection.end / duration) * canvas.width;
-      ctx.fillStyle = "rgba(14, 165, 233, 0.2)";
-      ctx.fillRect(startX, 0, endX - startX, canvas.height);
-    }
-
     ctx.strokeStyle = "#0ea5e9";
     ctx.stroke();
-  };
-
-  const handleCanvasClick = (e: React.MouseEvent<HTMLCanvasElement>) => {
-    if (!canvasRef.current || !duration) return;
-
-    const rect = canvasRef.current.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const time = (x / rect.width) * duration;
-
-    setSelection({
-      start: Math.min(time, selection.end),
-      end: Math.max(time, selection.start),
-    });
-
-    if (audioBuffer) {
-      drawWaveform(audioBuffer);
-    }
   };
 
   const togglePlayPause = () => {
@@ -202,73 +166,22 @@ export default function AudioEditor() {
     }
   };
 
-  const applyFadeEffect = (type: "fadeIn" | "fadeOut") => {
-    if (!audioBuffer) return;
-
-    const duration = 2; // 2 seconds fade
-    addEffect({ type, value: duration });
-    toast.success(`${type === "fadeIn" ? "Fade in" : "Fade out"} applied`);
-
-    if (audioBuffer) {
-      drawWaveform(audioBuffer);
-    }
-  };
-
-  const applyEchoEffect = () => {
-    if (!audioBuffer) return;
-
-    addEffect({ type: "echo", value: 0.3 });
-    toast.success(t("echoApplied"));
-
-    if (audioBuffer) {
-      drawWaveform(audioBuffer);
-    }
-  };
-
   const changePlaybackSpeed = (newSpeed: number) => {
     if (!audioRef.current) return;
     audioRef.current.playbackRate = newSpeed;
     setSpeed(newSpeed);
-    toast.success(`Playback speed set to ${newSpeed}x`);
+    toast.success(t("speedSet", { speed: newSpeed }));
   };
 
-  const downloadProcessedAudio = async () => {
-    if (!audioBuffer || !audioFile) return;
+  const downloadOriginal = () => {
+    if (!audioFile) return;
 
-    try {
-      const context = new AudioContext();
-      const source = context.createBufferSource();
-      source.buffer = audioBuffer;
-
-      const destination = context.createMediaStreamDestination();
-      source.connect(destination);
-
-      const mediaRecorder = new MediaRecorder(destination.stream);
-      const chunks: BlobPart[] = [];
-
-      mediaRecorder.ondataavailable = (e) => chunks.push(e.data);
-      mediaRecorder.onstop = () => {
-        const blob = new Blob(chunks, { type: "audio/wav" });
-        const url = URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = `edited_${audioFile.name}`;
-        a.click();
-        URL.revokeObjectURL(url);
-      };
-
-      source.start();
-      mediaRecorder.start();
-
-      setTimeout(() => {
-        mediaRecorder.stop();
-        source.stop();
-      }, audioBuffer.duration * 1000);
-
-      toast.success(t("processingDownload"));
-    } catch (error) {
-      toast.error(t("errorProcessingDownload"));
-    }
+    const url = URL.createObjectURL(audioFile);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = audioFile.name;
+    a.click();
+    URL.revokeObjectURL(url);
   };
 
   return (
@@ -324,147 +237,67 @@ export default function AudioEditor() {
             <Card className="p-6 space-y-6">
               <canvas
                 ref={canvasRef}
-                className="w-full h-32 bg-muted rounded-lg cursor-crosshair"
+                className="w-full h-32 bg-muted rounded-lg"
                 width={800}
                 height={128}
-                onClick={handleCanvasClick}
               />
 
               <div className="text-sm text-muted-foreground text-center">
                 {t("currentTime", { current: currentTime.toFixed(2), total: duration.toFixed(2) })}
               </div>
 
-              <Tabs defaultValue="playback" className="space-y-4">
-                <TabsList className="grid w-full grid-cols-3">
-                  <TabsTrigger value="playback">{t("tabPlayback")}</TabsTrigger>
-                  <TabsTrigger value="effects">{t("tabEffects")}</TabsTrigger>
-                  <TabsTrigger value="trim">{t("tabTrim")}</TabsTrigger>
-                </TabsList>
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-4">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => changePlaybackSpeed(0.5)}
+                  >
+                    <Rewind className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={togglePlayPause}
+                  >
+                    {isPlaying ? (
+                      <Pause className="h-4 w-4" />
+                    ) : (
+                      <Play className="h-4 w-4" />
+                    )}
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => changePlaybackSpeed(2)}
+                  >
+                    <FastForward className="h-4 w-4" />
+                  </Button>
+                </div>
 
-                <TabsContent value="playback" className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-4">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => changePlaybackSpeed(0.5)}
-                      >
-                        <Rewind className="h-4 w-4" />
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={togglePlayPause}
-                      >
-                        {isPlaying ? (
-                          <Pause className="h-4 w-4" />
-                        ) : (
-                          <Play className="h-4 w-4" />
-                        )}
-                      </Button>
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={() => changePlaybackSpeed(2)}
-                      >
-                        <FastForward className="h-4 w-4" />
-                      </Button>
-                    </div>
-
-                    <div className="flex items-center space-x-2">
-                      {volume === 0 ? (
-                        <VolumeX className="h-4 w-4 text-muted-foreground" />
-                      ) : (
-                        <Volume2 className="h-4 w-4 text-muted-foreground" />
-                      )}
-                      <Slider
-                        value={[volume]}
-                        onValueChange={handleVolumeChange}
-                        min={0}
-                        max={1}
-                        step={0.1}
-                        className="w-24"
-                      />
-                    </div>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="effects" className="space-y-4">
-                  <div className="grid grid-cols-2 gap-4">
-                    <Button
-                      variant="outline"
-                      onClick={() => applyFadeEffect("fadeIn")}
-                    >
-                      <Sun className="h-4 w-4 me-2" />
-                      {t("fadeIn")}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => applyFadeEffect("fadeOut")}
-                    >
-                      <Moon className="h-4 w-4 me-2" />
-                      {t("fadeOut")}
-                    </Button>
-                    <Button variant="outline" onClick={applyEchoEffect}>
-                      <Radio className="h-4 w-4 me-2" />
-                      {t("addEcho")}
-                    </Button>
-                    <Button
-                      variant="outline"
-                      onClick={() => changePlaybackSpeed(1)}
-                    >
-                      <Music2 className="h-4 w-4 me-2" />
-                      {t("resetSpeed")}
-                    </Button>
-                  </div>
-
-                  {effects.length > 0 && (
-                    <div className="mt-4">
-                      <h3 className="text-sm font-medium mb-2">
-                        {t("appliedEffects")}
-                      </h3>
-                      <div className="space-y-2">
-                        {effects.map((effect) => (
-                          <div
-                            key={effect.id}
-                            className="flex items-center justify-between p-2 bg-muted rounded-md"
-                          >
-                            <span className="text-sm">
-                              {effect.type} ({effect.value}s)
-                            </span>
-                            <Button
-                              variant="ghost"
-                              size="icon"
-                              onClick={() => removeEffect(effect.id)}
-                            >
-                              <Trash2 className="h-4 w-4" />
-                            </Button>
-                          </div>
-                        ))}
-                      </div>
-                    </div>
+                <div className="flex items-center space-x-2">
+                  {volume === 0 ? (
+                    <VolumeX className="h-4 w-4 text-muted-foreground" />
+                  ) : (
+                    <Volume2 className="h-4 w-4 text-muted-foreground" />
                   )}
-                </TabsContent>
+                  <Slider
+                    value={[volume]}
+                    onValueChange={handleVolumeChange}
+                    min={0}
+                    max={1}
+                    step={0.1}
+                    className="w-24"
+                  />
+                </div>
+              </div>
 
-                <TabsContent value="trim" className="space-y-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-2">
-                      <span className="text-sm text-muted-foreground">
-                        {t("selection", { start: selection.start.toFixed(2), end: selection.end.toFixed(2) })}
-                      </span>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <Button
-                        variant="outline"
-                        size="icon"
-                        onClick={downloadProcessedAudio}
-                      >
-                        <Download className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
-                </TabsContent>
-              </Tabs>
+              <div className="flex justify-end">
+                <Button variant="outline" onClick={downloadOriginal}>
+                  <Download className="h-4 w-4 me-2" />
+                  {t("downloadOriginal")}
+                </Button>
+              </div>
             </Card>
           )}
         </div>

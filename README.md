@@ -85,15 +85,15 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 
 ### 📁 File Tools
 
-- **PDF Tools**: Merge, split, compress, and manipulate PDF files.
-- **Zip Tools**: Create, extract, and manage ZIP archives.
-- **CSV/Excel Viewer**: View and edit CSV and Excel files in your browser.
-- **File Converter**: Convert files between different formats including documents, images, audio, and video.
+- **PDF Tools**: Merge PDFs, split or extract pages, and turn images into a PDF.
+- **Zip Tools**: Create ZIP archives from your files and extract existing ones.
+- **CSV/Excel Viewer**: View CSV and Excel files in your browser: sort, search, chart a column, and export to CSV.
+- **Data Format Converter**: Convert data between CSV, TSV, JSON, XML, and YAML.
 
 ### 🎵 Media Tools
 
-- **Video Editor**: Trim, convert, and edit video files.
-- **Audio Editor**: Edit and process audio files.
+- **Video Editor**: Trim video clips and turn them into animated GIFs.
+- **Audio Editor**: Play audio files with adjustable volume and speed, view the waveform, and download your file.
 - **Mic & Camera Tester**: Check your camera preview and test microphone input levels with a live meter.
 - **Compress Video**: Compress videos in your browser using ffmpeg.wasm.
 - **Screen Recorder**: Record your screen, window, or tab directly in the browser using the Screen Capture API.

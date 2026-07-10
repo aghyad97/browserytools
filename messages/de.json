@@ -135,27 +135,27 @@
       },
       "pdf": {
         "name": "PDF-Tools",
-        "description": "Führe PDF-Dateien zusammen, teile, komprimiere und bearbeite sie. Text extrahieren, Seiten drehen."
+        "description": "PDFs zusammenführen, Seiten teilen oder extrahieren und Bilder in ein PDF umwandeln – alles im Browser, ohne Größenbeschränkung."
       },
       "zip": {
         "name": "Zip-Tools",
-        "description": "Erstelle, entpacke und verwalte ZIP-Archive. Unterstützt Passwortschutz."
+        "description": "Erstelle ZIP-Archive aus deinen Dateien und entpacke vorhandene Archive – direkt im Browser."
       },
       "spreadsheet": {
         "name": "Tabellenkalkulations-Viewer",
-        "description": "Sieh dir Tabellendateien (XLSX, CSV) in deinem Browser an und bearbeite sie."
+        "description": "CSV- und Excel-Dateien im Browser ansehen: sortieren, suchen, eine Spalte als Diagramm darstellen und die gefilterte Ansicht als CSV exportieren."
       },
       "file-converter": {
-        "name": "Datei-Konverter",
-        "description": "Konvertiere Dateien zwischen verschiedenen Formaten. Unterstützt Dokumente, Bilder und mehr."
+        "name": "Datenformat-Konverter",
+        "description": "Konvertiere Daten zwischen CSV, TSV, JSON, XML und YAML. Text einfügen, Zielformat wählen, Ergebnis kopieren."
       },
       "video": {
         "name": "Video-Editor",
-        "description": "Bearbeite Videos in deinem Browser. Zuschneiden, zusammenführen und Effekte hinzufügen."
+        "description": "Videoclips zuschneiden und in animierte GIFs umwandeln – direkt im Browser."
       },
       "audio": {
         "name": "Audio-Editor",
-        "description": "Bearbeite Audiodateien. Zuschneiden, zusammenführen und Lautstärke anpassen."
+        "description": "Audiodateien mit einstellbarer Lautstärke und Geschwindigkeit abspielen, die Wellenform ansehen und deine Datei herunterladen."
       },
       "mic-camera": {
         "name": "Mikrofon- & Kameratest",
@@ -1010,7 +1010,8 @@
       "echoApplied": "Echo-Effekt angewendet",
       "speedSet": "Wiedergabegeschwindigkeit auf {speed}x gesetzt",
       "processingDownload": "Audio wird zum Herunterladen verarbeitet …",
-      "errorProcessingDownload": "Fehler beim Verarbeiten des Audios zum Herunterladen"
+      "errorProcessingDownload": "Fehler beim Verarbeiten des Audios zum Herunterladen",
+      "downloadOriginal": "Original herunterladen"
     },
     "MicCameraTester": {
       "title": "Mikrofon- & Kameratest",

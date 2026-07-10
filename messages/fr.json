@@ -135,27 +135,27 @@
       },
       "pdf": {
         "name": "Outils PDF",
-        "description": "Fusionnez, divisez, compressez et manipulez des fichiers PDF. Extrayez le texte, faites pivoter les pages."
+        "description": "Fusionnez des PDF, divisez ou extrayez des pages et transformez des images en PDF — le tout dans votre navigateur, sans limite de taille."
       },
       "zip": {
         "name": "Outils Zip",
-        "description": "Créez, extrayez et gérez des archives ZIP. Protection par mot de passe prise en charge."
+        "description": "Créez des archives ZIP à partir de vos fichiers et extrayez les archives existantes, directement dans votre navigateur."
       },
       "spreadsheet": {
         "name": "Visionneuse de tableurs",
-        "description": "Consultez et modifiez des fichiers tableurs (XLSX, CSV) dans votre navigateur."
+        "description": "Consultez des fichiers CSV et Excel dans votre navigateur : triez, recherchez, tracez une colonne et exportez la vue filtrée en CSV."
       },
       "file-converter": {
-        "name": "Convertisseur de fichiers",
-        "description": "Convertissez des fichiers entre différents formats. Prend en charge documents, images et plus encore."
+        "name": "Convertisseur de formats de données",
+        "description": "Convertissez des données entre CSV, TSV, JSON, XML et YAML. Collez le texte, choisissez le format cible et copiez le résultat."
       },
       "video": {
         "name": "Éditeur vidéo",
-        "description": "Montez des vidéos dans votre navigateur. Découpez, fusionnez et ajoutez des effets."
+        "description": "Coupez des clips vidéo et transformez-les en GIF animés, directement dans votre navigateur."
       },
       "audio": {
         "name": "Éditeur audio",
-        "description": "Modifiez des fichiers audio. Découpez, fusionnez et ajustez le volume."
+        "description": "Lisez des fichiers audio avec volume et vitesse réglables, visualisez la forme d'onde et téléchargez votre fichier."
       },
       "mic-camera": {
         "name": "Testeur micro et caméra",
@@ -1010,7 +1010,8 @@
       "echoApplied": "Effet d'écho appliqué",
       "speedSet": "Vitesse de lecture réglée sur {speed}x",
       "processingDownload": "Traitement de l'audio pour le téléchargement…",
-      "errorProcessingDownload": "Erreur lors du traitement de l'audio pour le téléchargement"
+      "errorProcessingDownload": "Erreur lors du traitement de l'audio pour le téléchargement",
+      "downloadOriginal": "Télécharger l'original"
     },
     "MicCameraTester": {
       "title": "Testeur micro et caméra",
