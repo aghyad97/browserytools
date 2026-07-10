@@ -203,7 +203,10 @@ export function searchTools(query: string): ToolCategory[] {
     return tools
       .map((category) => ({
         ...category,
-        items: category.items.sort((a, b) => a.order - b.order), // Sort by order when no search
+        // Copy before sorting — `tools` is a shared imported module constant and
+        // an in-place sort mutates it, which caused SSR/client hydration
+        // mismatches once the rail shell rendered `tools` on every route.
+        items: [...category.items].sort((a, b) => a.order - b.order),
       }))
       .sort((a, b) => a.order - b.order); // Sort categories by order
   }

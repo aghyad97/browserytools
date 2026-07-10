@@ -1,8 +1,8 @@
-import Sidebar from "@/components/sidebar";
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import { AppShell } from "@/components/layout/app-shell";
+import { ToolTitle } from "@/components/layout/tool-title";
 import NavigationTracker from "@/components/NavigationTracker";
 import ToolSeoContent from "@/components/ToolSeoContent";
+import s from "@/components/layout/app-shell.module.css";
 
 export default function ToolsLayout({
   children,
@@ -10,15 +10,13 @@ export default function ToolsLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen overflow-hidden">
+    <>
       <NavigationTracker />
-      {/* Desktop sidebar - hidden on mobile */}
-      <div className="hidden lg:block">
-        <Sidebar />
-      </div>
-      <div className="flex-1 flex flex-col overflow-hidden">
-        <Header />
-        <main className="flex-1 overflow-auto py-2">
+      <AppShell />
+      <div className={s.contentScroll}>
+        <main className="py-2">
+          {/* Per-tool <h1> (the retired Header's title function, spec §6.4). */}
+          <ToolTitle />
           {/* The tool itself. Full-viewport tools render at their natural
               height; the SEO content below appears beneath the fold and
               scrolls within this same container. */}
@@ -27,6 +25,6 @@ export default function ToolsLayout({
           <ToolSeoContent />
         </main>
       </div>
-    </div>
+    </>
   );
 }

@@ -89,10 +89,14 @@ export function Rail({
   activeCategory,
   onCategory,
   onSearch,
+  variant = "fixed",
 }: {
   activeCategory?: string | null;
   onCategory?: (id: string | null) => void;
   onSearch: () => void;
+  /** "fixed" = the desktop side column; "sheet" = static content for the
+      mobile drawer (no fixed positioning, not hidden under 900px). */
+  variant?: "fixed" | "sheet";
 }) {
   const t = useTranslations("Rail");
   const tc = useTranslations("ToolsConfig");
@@ -131,7 +135,7 @@ export function Rail({
   };
 
   return (
-    <aside className={s.rail}>
+    <aside className={variant === "sheet" ? s.railSheet : s.rail}>
       <Link href="/" aria-label={tCommon("siteName")}>
         <div className={s.railGlyph}>b_</div>
       </Link>

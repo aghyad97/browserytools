@@ -1,0 +1,34 @@
+/* Content-offset regions for the rail shell.
+   Desktop: content clears the fixed rail via margin-inline-start
+   (13px inset + 220px rail + 20px gutter = 253px — matches the /preview
+   prototype geometry). Under 900px the rail is replaced by the fixed 52px
+   mobile bar, so the offset becomes a block-start padding instead. Logical
+   properties throughout so the rail mirrors to the end side under dir="rtl". */
+
+/* Home / document-scroll region (footer sits at the bottom of the page). */
+.content {
+  margin-inline-start: 253px;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+.content > :global(main) {
+  flex: 1 1 auto;
+}
+
+/* Tools region — preserves the old bounded-scroll model (the tool area scrolls
+   internally while the rail stays put), so tools relying on a definite-height
+   parent keep working. */
+.contentScroll {
+  margin-inline-start: 253px;
+  block-size: 100dvh;
+  overflow-y: auto;
+}
+
+@media (max-width: 900px) {
+  .content,
+  .contentScroll {
+    margin-inline-start: 0;
+    padding-block-start: 52px; /* clear the fixed mobile bar */
+  }
+}

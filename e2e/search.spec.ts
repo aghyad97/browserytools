@@ -9,13 +9,10 @@ import { test, expect } from "@playwright/test";
  * 2. The `?search=` server redirect on the homepage is preserved untouched
  *    (it backs the SearchAction JSON-LD — SEO contract).
  *
- * INTERIM GATE: <CommandPalette> is built but not mounted — the
- * chrome-switchover task wires it into the production layout. Until then the
- * palette specs below would fail against the current prod chrome, so they are
- * skipped. Chrome-switchover task: flip PALETTE_MOUNTED to true when the
- * palette mounts, and delete this note.
+ * <CommandPalette> is mounted into the production shell (AppShell) as of the
+ * chrome-switchover task, so these specs run against real prod chrome.
  */
-const PALETTE_MOUNTED = false;
+const PALETTE_MOUNTED = true;
 
 test.describe("Command palette", () => {
   test.skip(

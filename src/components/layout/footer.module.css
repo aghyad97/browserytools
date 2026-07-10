@@ -1,0 +1,79 @@
+/* Slim footer — monochrome, tokens only, logical properties.
+   Full 137-link crawlable matrix (SEO surface, spec §6.5). No single-edge
+   borders: the top separator is a standalone 1px hairline element. */
+
+.footer {
+  margin-block-start: 64px;
+  padding-block: 40px 32px;
+  padding-inline: 48px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bt-muted);
+}
+
+.rule {
+  height: 1px;
+  background: var(--bt-divider);
+  margin-block-end: 40px;
+}
+
+.matrix {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 32px 24px;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+}
+
+.columnHead {
+  font-family: var(--mono, ui-monospace, "SF Mono", "Cascadia Mono", monospace);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-faint);
+  margin-block-end: 2px;
+}
+
+.link {
+  display: block;
+  color: var(--bt-nav-idle);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  transition: color 140ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover { color: var(--bt-nav-active); }
+}
+
+.bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+  margin-block-start: 40px;
+}
+
+.copyright {
+  margin-inline-end: auto;
+  color: var(--bt-faint);
+}
+
+.metaLink {
+  color: var(--bt-muted);
+  text-decoration: none;
+  transition: color 140ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .metaLink:hover { color: var(--bt-nav-active); }
+}
+
+@media (max-width: 900px) {
+  .footer { padding-inline: 18px; }
+}
