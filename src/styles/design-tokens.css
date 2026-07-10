@@ -20,6 +20,9 @@
   --bt-new-pink: #d6409f;
   --bt-star: #f5b301;
   --bt-coffee: #a26b3c;
+  --bt-hover: rgba(22, 22, 21, 0.05);
+  --bt-overlay: rgba(22, 22, 21, 0.16);
+  --bt-shadow-pop: 0 24px 70px -24px rgba(22, 22, 21, 0.35);
 
   --bt-cat-image-bg: #f1eefd;  --bt-cat-image-fg: #6e56cf;
   --bt-cat-file-bg: #e7f3fa;   --bt-cat-file-fg: #0e7db8;
@@ -58,6 +61,9 @@
   --bt-new-pink: #e15bb0;
   --bt-star: #f5b301;
   --bt-coffee: #c08654;
+  --bt-hover: rgba(241, 241, 239, 0.07);
+  --bt-overlay: rgba(0, 0, 0, 0.45);
+  --bt-shadow-pop: 0 24px 70px -24px rgba(0, 0, 0, 0.7);
 
   --bt-cat-image-bg: rgba(110, 86, 207, 0.2);  --bt-cat-image-fg: #a292e6;
   --bt-cat-file-bg: rgba(14, 125, 184, 0.2);   --bt-cat-file-fg: #63b3dd;

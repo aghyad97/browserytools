@@ -1,65 +1,72 @@
 import { test, expect } from "@playwright/test";
 
-test.describe("Search", () => {
-  test("search input is present on homepage", async ({ page }) => {
+/**
+ * Search contract (R2 redesign, spec §6.5):
+ *
+ * 1. The ⌘K command palette is THE search surface. It supersedes the old
+ *    homepage search input and sidebar search (removed with their parents
+ *    at chrome-switchover).
+ * 2. The `?search=` server redirect on the homepage is preserved untouched
+ *    (it backs the SearchAction JSON-LD — SEO contract).
+ *
+ * INTERIM GATE: <CommandPalette> is built but not mounted — the
+ * chrome-switchover task wires it into the production layout. Until then the
+ * palette specs below would fail against the current prod chrome, so they are
+ * skipped. Chrome-switchover task: flip PALETTE_MOUNTED to true when the
+ * palette mounts, and delete this note.
+ */
+const PALETTE_MOUNTED = false;
+
+test.describe("Command palette", () => {
+  test.skip(
+    !PALETTE_MOUNTED,
+    "CommandPalette not mounted yet — enabled at chrome-switchover",
+  );
+
+  test("⌘K opens the palette from the keyboard", async ({ page }) => {
     await page.goto("/");
-    const searchInput = page.getByRole("searchbox").or(
-      page.getByPlaceholder(/search/i)
-    );
-    await expect(searchInput.first()).toBeVisible();
+    await page.keyboard.press("ControlOrMeta+k");
+    await expect(page.getByTestId("command-palette")).toBeVisible();
+    // Keyboard-initiated: input is focused and ready to type.
+    await expect(page.getByRole("combobox")).toBeFocused();
   });
 
-  test("searching 'password' filters results to show password-related tools", async ({
+  test("typing filters the results", async ({ page }) => {
+    await page.goto("/");
+    await page.keyboard.press("ControlOrMeta+k");
+    await page.getByRole("combobox").fill("password");
+
+    const items = page.getByTestId("palette-item");
+    await expect(items.first()).toBeVisible();
+    const count = await items.count();
+    expect(count).toBeLessThanOrEqual(9);
+    for (let i = 0; i < count; i++) {
+      await expect(items.nth(i)).toContainText(/password/i);
+    }
+  });
+
+  test("Enter navigates to the selected tool", async ({ page }) => {
+    await page.goto("/");
+    await page.keyboard.press("ControlOrMeta+k");
+    await page.getByRole("combobox").fill("json formatter");
+
+    const firstHref = await page
+      .getByTestId("palette-item")
+      .first()
+      .getAttribute("data-href");
+    expect(firstHref).toBeTruthy();
+
+    await page.keyboard.press("Enter");
+    await expect(page).toHaveURL(new RegExp(`${firstHref}$`));
+    await expect(page.getByTestId("command-palette")).toHaveCount(0);
+  });
+});
+
+test.describe("?search= redirect (preserved SEO contract)", () => {
+  test("?search=json redirects to the first matching tool", async ({
     page,
   }) => {
-    await page.goto("/");
-    const searchInput = page
-      .getByRole("searchbox")
-      .or(page.getByPlaceholder(/search/i))
-      .first();
-
-    await searchInput.fill("password");
-    await page.waitForTimeout(300); // debounce
-
-    // At least one result with "password" visible
-    await expect(
-      page.getByText(/password/i).first()
-    ).toBeVisible();
-  });
-
-  test("clearing search shows all tools again", async ({ page }) => {
-    await page.goto("/");
-    const searchInput = page
-      .getByRole("searchbox")
-      .or(page.getByPlaceholder(/search/i))
-      .first();
-
-    await searchInput.fill("password");
-    await page.waitForTimeout(300);
-
-    const filteredCount = await page
-      .locator("[data-testid='tool-card']")
-      .count();
-
-    await searchInput.clear();
-    await page.waitForTimeout(300);
-
-    const allCount = await page.locator("[data-testid='tool-card']").count();
-    expect(allCount).toBeGreaterThanOrEqual(filteredCount);
-  });
-
-  test("gibberish search returns no tools", async ({ page }) => {
-    await page.goto("/");
-    const searchInput = page
-      .getByRole("searchbox")
-      .or(page.getByPlaceholder(/search/i))
-      .first();
-
-    await searchInput.fill("xyzzy_nonexistent_tool_999");
-    await page.waitForTimeout(300);
-
-    const toolCards = page.locator("[data-testid='tool-card']");
-    const count = await toolCards.count();
-    expect(count).toBe(0);
+    await page.goto("/?search=json");
+    await expect(page).toHaveURL(/\/tools\/.+/);
   });
 });
