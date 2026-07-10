@@ -1,5 +1,5 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
@@ -12,7 +12,7 @@ import {
   ogAlternateLocales,
 } from "@/lib/locales";
 
-const geist = Geist({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
 
 // Self-hosted at build via next/font — same weights previously loaded from Google Fonts.
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -164,7 +164,7 @@ export default async function RootLayout({
       className={ibmPlexSansArabic.variable}
       suppressHydrationWarning
     >
-      <body className={geist.className}>
+      <body className={inter.className}>
         <Providers initialLocale={initialLocale}>
           {children}
         </Providers>
