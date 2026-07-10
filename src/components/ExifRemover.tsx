@@ -7,6 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Upload, ShieldCheck, MapPin, Camera, Clock, Download, Eraser, CheckCircle2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 
 interface ExifEntry {
   label: string;
@@ -206,10 +208,6 @@ function countEntries(g: ExifGroups): number {
   return g.camera.length + g.settings.length + g.datetime.length + g.gps.length;
 }
 
-function canvasToBlob(canvas: HTMLCanvasElement, type: string, quality?: number): Promise<Blob | null> {
-  return new Promise((resolve) => canvas.toBlob((blob) => resolve(blob), type, quality));
-}
-
 interface ProcessedImage {
   id: string;
   name: string;
@@ -336,12 +334,7 @@ export default function ExifRemover() {
   const downloadImage = useCallback((img: ProcessedImage) => {
     const ext = img.name.toLowerCase().endsWith(".png") ? "png" : "jpg";
     const base = img.name.replace(/\.[^.]+$/, "");
-    const link = document.createElement("a");
-    link.href = img.cleanedUrl;
-    link.download = `${base}_clean.${ext}`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(img.cleanedUrl, `${base}_clean.${ext}`);
     toast.success(t("downloadedToast"));
   }, [t]);
 
@@ -349,12 +342,7 @@ export default function ExifRemover() {
     images.forEach((img) => {
       const ext = img.name.toLowerCase().endsWith(".png") ? "png" : "jpg";
       const base = img.name.replace(/\.[^.]+$/, "");
-      const link = document.createElement("a");
-      link.href = img.cleanedUrl;
-      link.download = `${base}_clean.${ext}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadUrl(img.cleanedUrl, `${base}_clean.${ext}`);
     });
     toast.success(t("downloadedToast"));
   }, [images, t]);

@@ -100,7 +100,8 @@ describe("SignatureMaker", () => {
     await user.click(screen.getByRole("button", { name: /download png/i }));
 
     await waitFor(() => {
-      expect(toBlobSpy).toHaveBeenCalledWith(expect.any(Function), "image/png");
+      // The shared lib always forwards its optional quality arg (undefined for PNG).
+      expect(toBlobSpy).toHaveBeenCalledWith(expect.any(Function), "image/png", undefined);
     });
     expect(URL.createObjectURL).toHaveBeenCalled();
     const { toast } = await import("sonner");
@@ -134,7 +135,8 @@ describe("SignatureMaker", () => {
 
     await waitFor(() => {
       expect(ctx.fillText).toHaveBeenCalledWith("Jane Doe", 300, 110);
-      expect(toBlobSpy).toHaveBeenCalledWith(expect.any(Function), "image/png");
+      // The shared lib always forwards its optional quality arg (undefined for PNG).
+      expect(toBlobSpy).toHaveBeenCalledWith(expect.any(Function), "image/png", undefined);
     });
     expect(URL.createObjectURL).toHaveBeenCalled();
   });

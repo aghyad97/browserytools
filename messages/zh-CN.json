@@ -136,27 +136,27 @@
       },
       "pdf": {
         "name": "PDF 工具",
-        "description": "合并、拆分、压缩和操作 PDF 文件。提取文本、旋转页面。"
+        "description": "合并 PDF、拆分或提取页面，并将图片转换为 PDF——全部在浏览器中完成，且无文件大小限制。"
       },
       "zip": {
         "name": "Zip 工具",
-        "description": "创建、解压和管理 ZIP 压缩包。支持密码保护。"
+        "description": "在浏览器中直接用你的文件创建 ZIP 压缩包，并解压已有的压缩包。"
       },
       "spreadsheet": {
         "name": "电子表格阅览器",
-        "description": "在浏览器中查看和编辑电子表格文件（XLSX、CSV）。"
+        "description": "在浏览器中查看 CSV 和 Excel 文件：排序、搜索、为某一列生成图表，并将筛选后的视图导出为 CSV。"
       },
       "file-converter": {
-        "name": "文档转换器",
-        "description": "在不同格式之间转换文件，支持文档、图片等。"
+        "name": "数据格式转换器",
+        "description": "在 CSV、TSV、JSON、XML 和 YAML 之间转换数据。粘贴文本，选择目标格式，复制结果。"
       },
       "video": {
         "name": "视频编辑工具",
-        "description": "在浏览器中编辑视频。裁剪、合并和添加特效。"
+        "description": "在浏览器中直接裁剪视频片段并将其转换为动态 GIF。"
       },
       "audio": {
         "name": "音频编辑器",
-        "description": "编辑音频文件。裁剪、合并和调整音量。"
+        "description": "播放音频文件，可调节音量和速度，查看波形，并下载你的文件。"
       },
       "mic-camera": {
         "name": "麦克风与摄像头测试",
@@ -1011,7 +1011,8 @@
       "echoApplied": "回声效果已应用",
       "speedSet": "播放速度设置为 {speed}x",
       "processingDownload": "正在处理音频以供下载...",
-      "errorProcessingDownload": "处理音频下载时出错"
+      "errorProcessingDownload": "处理音频下载时出错",
+      "downloadOriginal": "下载原始文件"
     },
     "MicCameraTester": {
       "title": "麦克风与摄像头测试",

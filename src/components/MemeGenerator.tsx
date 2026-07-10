@@ -22,6 +22,8 @@ import {
 } from "@/components/ui/select";
 import { Upload, Download, Plus, Trash2, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 
 type Alignment = "left" | "center" | "right";
 
@@ -62,17 +64,6 @@ interface ImageInfo {
   width: number;
   height: number;
   name: string;
-}
-
-// Promise wrapper around canvas.toBlob.
-function canvasToBlob(
-  canvas: HTMLCanvasElement,
-  type: string,
-  quality?: number,
-): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), type, quality);
-  });
 }
 
 // Draw a single text box onto a 2D context. Used by both the live preview and
@@ -270,12 +261,7 @@ export default function MemeGenerator() {
       const url = URL.createObjectURL(blob);
       objectUrlRef.current = url;
       const base = image.name.split(".").slice(0, -1).join(".") || "meme";
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${base}_meme.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadUrl(url, `${base}_meme.png`);
       toast.success(t("downloaded"));
     } catch (err) {
       console.error(err);

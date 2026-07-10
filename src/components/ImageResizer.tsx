@@ -33,6 +33,10 @@ import {
   Stamp,
   Maximize2,
 } from "lucide-react";
+// `loadImage` is aliased to `loadHtmlImage` to avoid colliding with the
+// File-based `loadImage` callback defined inside this component.
+import { canvasToBlob, loadImage as loadHtmlImage } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 
 interface ImageInfo {
   url: string;
@@ -111,26 +115,6 @@ function formatBytes(bytes: number): string {
 
 function clamp(v: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, v));
-}
-
-// Promise wrapper around canvas.toBlob.
-function canvasToBlob(
-  canvas: HTMLCanvasElement,
-  type: string,
-  quality?: number
-): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), type, quality);
-  });
-}
-
-function loadHtmlImage(src: string): Promise<HTMLImageElement> {
-  return new Promise((resolve, reject) => {
-    const img = new Image();
-    img.onload = () => resolve(img);
-    img.onerror = reject;
-    img.src = src;
-  });
 }
 
 export default function ImageResizer() {
@@ -570,12 +554,9 @@ export default function ImageResizer() {
 
   const downloadResult = useCallback(() => {
     if (!resultUrl || !original) return;
-    const a = document.createElement("a");
-    a.href = resultUrl;
     const ext = outputFormat === "jpeg" ? "jpg" : outputFormat;
     const baseName = original.name.replace(/\.[^.]+$/, "");
-    a.download = `${baseName}_${tab}.${ext}`;
-    a.click();
+    downloadUrl(resultUrl, `${baseName}_${tab}.${ext}`);
     toast.success(t("downloaded"));
   }, [resultUrl, original, outputFormat, tab, t]);
 

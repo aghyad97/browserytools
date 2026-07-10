@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { Upload, Download, Video, Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { getFFmpeg } from "@/lib/media/ffmpeg";
 
 interface VideoInfo {
   file: File;
@@ -60,7 +61,6 @@ export default function CompressVideo() {
   const [outputUrl, setOutputUrl] = useState<string | null>(null);
   const [outputSize, setOutputSize] = useState(0);
 
-  const ffmpegRef = useRef<import("@ffmpeg/ffmpeg").FFmpeg | null>(null);
   const inputUrlRef = useRef<string | null>(null);
   const outputUrlRef = useRef<string | null>(null);
 
@@ -100,26 +100,6 @@ export default function CompressVideo() {
     multiple: false,
   });
 
-  const loadFfmpeg = async () => {
-    if (ffmpegRef.current) return ffmpegRef.current;
-    const { FFmpeg } = await import("@ffmpeg/ffmpeg");
-    const { toBlobURL } = await import("@ffmpeg/util");
-    const ffmpeg = new FFmpeg();
-    const baseURL = "/ffmpeg";
-    await ffmpeg.load({
-      coreURL: await toBlobURL(
-        `${baseURL}/ffmpeg-core.js`,
-        "text/javascript"
-      ),
-      wasmURL: await toBlobURL(
-        `${baseURL}/ffmpeg-core.wasm`,
-        "application/wasm"
-      ),
-    });
-    ffmpegRef.current = ffmpeg;
-    return ffmpeg;
-  };
-
   const handleCompress = async () => {
     if (!video || isCompressing) return;
     setIsCompressing(true);
@@ -130,13 +110,14 @@ export default function CompressVideo() {
     }
     setOutputUrl(null);
 
+    let ffmpeg: import("@ffmpeg/ffmpeg").FFmpeg | null = null;
+    const onProgress = ({ progress: p }: { progress: number }) => {
+      setProgress(Math.min(100, Math.max(0, Math.round(p * 100))));
+    };
+
     try {
       const { fetchFile } = await import("@ffmpeg/util");
-      const ffmpeg = await loadFfmpeg();
-
-      const onProgress = ({ progress: p }: { progress: number }) => {
-        setProgress(Math.min(100, Math.max(0, Math.round(p * 100))));
-      };
+      ffmpeg = await getFFmpeg();
       ffmpeg.on("progress", onProgress);
 
       const inputName = "input";
@@ -165,7 +146,6 @@ export default function CompressVideo() {
 
       await ffmpeg.exec(args);
       const data = (await ffmpeg.readFile(outputName)) as Uint8Array;
-      ffmpeg.off("progress", onProgress);
 
       const bytes = new Uint8Array(data);
       const blob = new Blob([bytes.buffer as ArrayBuffer], {
@@ -181,6 +161,9 @@ export default function CompressVideo() {
       console.error(error);
       toast.error(t("compressFailed"));
     } finally {
+      // Detach the per-run progress listener so repeat compressions on the
+      // now-shared singleton don't stack subscriptions.
+      ffmpeg?.off("progress", onProgress);
       setIsCompressing(false);
     }
   };

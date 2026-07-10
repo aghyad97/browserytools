@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/select";
 import { Upload, Download, Undo2, Trash2, ShieldCheck } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 
 type CensorMode = "blur" | "pixelate" | "blackbox";
 
@@ -41,17 +43,6 @@ const formatOptions = [
   { value: "image/jpeg", label: "JPEG", quality: true },
   { value: "image/webp", label: "WebP", quality: true },
 ];
-
-// Promise wrapper around canvas.toBlob.
-function canvasToBlob(
-  canvas: HTMLCanvasElement,
-  type: string,
-  quality?: number
-): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), type, quality);
-  });
-}
 
 // Normalize a drag (which may go in any direction) into a positive-size rect.
 function normalizeRect(a: { x: number; y: number }, b: { x: number; y: number }): Region {
@@ -296,12 +287,7 @@ export default function PhotoCensor() {
       const ext =
         formatOptions.find((f) => f.value === targetFormat)?.label.toLowerCase() ||
         "png";
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${image.name.split(".")[0]}_censored.${ext}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadUrl(url, `${image.name.split(".")[0]}_censored.${ext}`);
       toast.success(t("exportedSuccess"));
     } catch (error) {
       console.error(error);

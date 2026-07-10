@@ -22,6 +22,8 @@ import {
   Minimize2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 
 interface CollageImage {
   id: string;
@@ -115,16 +117,6 @@ const formatOptions = [
   { value: "image/png", label: "PNG" },
   { value: "image/jpeg", label: "JPEG" },
 ];
-
-function canvasToBlob(
-  canvas: HTMLCanvasElement,
-  type: string,
-  quality?: number
-): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), type, quality);
-  });
-}
 
 // Draw one image into a destination rectangle, honoring the fit mode and a
 // rounded-corner clip. `cover` crops to fill, `contain` letterboxes inside.
@@ -343,12 +335,7 @@ export default function PhotoCollage() {
       exportUrlRef.current = url;
 
       const ext = formatOption?.label.toLowerCase() || "png";
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `collage.${ext}`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadUrl(url, `collage.${ext}`);
 
       toast.success(
         t("exportedSuccess", { size: (blob.size / 1024).toFixed(0) })

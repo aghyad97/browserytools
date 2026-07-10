@@ -18,6 +18,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { toast } from "sonner";
+import { encodeGif, type GifFrame } from "@/lib/media/gif-encode";
 
 interface Frame {
   id: string;
@@ -158,28 +159,10 @@ export default function GifMaker() {
     setIsGenerating(true);
     setProgress(0);
     try {
-      const { default: GIF } = await import("gif.js");
-
       // Target size: first frame's aspect ratio, capped at maxWidth.
       const first = frames[0];
       const tw = Math.max(1, Math.min(maxWidth, first.width));
       const th = Math.max(1, Math.round((tw * first.height) / first.width));
-
-      const canvas = document.createElement("canvas");
-      canvas.width = tw;
-      canvas.height = th;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) throw new Error("no canvas context");
-
-      const gif = new GIF({
-        workers: 2,
-        quality,
-        width: tw,
-        height: th,
-        workerScript: "/gif.worker.js",
-        repeat: loopForever ? 0 : -1,
-      });
-      gif.on("progress", (p: number) => setProgress(Math.round(p * 100)));
 
       // Build the playback order, optionally bouncing back to the start.
       let order = [...frames];
@@ -187,16 +170,26 @@ export default function GifMaker() {
         order = [...frames, ...frames.slice(1, -1).reverse()];
       }
 
+      // Render each frame onto its own canvas so every snapshot survives until
+      // encoding (a single reused canvas would only hold the last frame).
+      const gifFrames: GifFrame[] = [];
       for (const frame of order) {
         const img = await loadImage(frame.url);
+        const canvas = document.createElement("canvas");
+        canvas.width = tw;
+        canvas.height = th;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) throw new Error("no canvas context");
         drawContain(ctx, img, tw, th, background);
-        gif.addFrame(ctx, { copy: true, delay });
+        gifFrames.push({ source: canvas, delayMs: delay });
       }
 
-      const blob = await new Promise<Blob>((resolve, reject) => {
-        gif.on("finished", (b: Blob) => resolve(b));
-        gif.on("abort", () => reject(new Error("aborted")));
-        gif.render();
+      const blob = await encodeGif(gifFrames, {
+        width: tw,
+        height: th,
+        quality,
+        repeat: loopForever ? 0 : -1,
+        onProgress: (p) => setProgress(Math.round(p * 100)),
       });
 
       if (resultUrlRef.current) URL.revokeObjectURL(resultUrlRef.current);

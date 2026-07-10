@@ -33,8 +33,15 @@ async function uploadImage(container: HTMLElement) {
   ) as HTMLInputElement;
   const file = new File(["data"], "secret.png", { type: "image/png" });
   await user.upload(input, file);
-  // Canvas appears only once the image has loaded into the backing canvas.
-  await screen.findByTestId("censor-canvas");
+  // The canvas mounts as soon as the FileReader resolves, but pointer handlers
+  // bail (sourceCanvasRef is null) until the async Image onload copies the
+  // source into the backing canvas and resizes the visible canvas from its
+  // 300x150 default to the image's 20x20. Wait for that resize so drawRegion
+  // can't race the image load.
+  const canvas = (await screen.findByTestId(
+    "censor-canvas"
+  )) as HTMLCanvasElement;
+  await waitFor(() => expect(canvas.width).toBe(20));
   return user;
 }
 

@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -92,14 +92,6 @@ export default function ImageCompression() {
       reader.readAsDataURL(file);
     }
   }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg", ".webp"],
-    },
-    multiple: false,
-  });
 
   const compressImage = async () => {
     if (!image) return;
@@ -221,9 +213,13 @@ export default function ImageCompression() {
           <div className="space-y-4">
             <Card className="p-6">
               {!image ? (
-                <div
-                  {...getRootProps()}
-                  className={`
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{
+                    "image/*": [".png", ".jpg", ".jpeg", ".webp"],
+                  }}
+                  multiple={false}
+                  className={({ isDragActive }) => `
                     h-64 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
                     cursor-pointer transition-all duration-200
@@ -234,7 +230,6 @@ export default function ImageCompression() {
                     }
                   `}
                 >
-                  <input {...getInputProps()} />
                   <div className="text-center">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-10 h-10 text-primary" />
@@ -246,7 +241,7 @@ export default function ImageCompression() {
                       {t("uploadLimit")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               ) : comparing ? (
                 <div
                   ref={compareRef}

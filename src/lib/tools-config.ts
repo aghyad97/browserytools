@@ -348,7 +348,7 @@ export const tools: ToolCategory[] = [
         order: 1,
         creationDate: "2025-08-20",
         description:
-          "Merge, split, compress, and manipulate PDF files. Extract text, rotate pages, add watermarks, and convert to other formats. No file size limits.",
+          "Merge PDFs, split or extract pages, and turn images into a PDF — all in your browser with no file size limits.",
       },
       {
         name: "Zip Tools",
@@ -358,7 +358,7 @@ export const tools: ToolCategory[] = [
         order: 2,
         creationDate: "2025-08-20",
         description:
-          "Create, extract, and manage ZIP archives. Compress files and folders, extract archives, and browse contents. Supports password protection and encryption.",
+          "Create ZIP archives from your files and extract existing ones, right in your browser.",
       },
       {
         name: "CSV/Excel Viewer",
@@ -368,17 +368,17 @@ export const tools: ToolCategory[] = [
         order: 3,
         creationDate: "2025-08-20",
         description:
-          "View and edit CSV and Excel files in your browser. Sort, filter, and analyze data. Export to different formats. No software installation required.",
+          "View CSV and Excel files in your browser: sort, search, chart a column, and export the filtered view to CSV.",
       },
       {
-        name: "File Converter",
+        name: "Data Format Converter",
         href: "/tools/file-converter",
         icon: FileIcon,
         available: true,
         order: 4,
         creationDate: "2025-08-20",
         description:
-          "Convert files between different formats including documents, images, audio, and video. Supports hundreds of file types with high-quality conversion.",
+          "Convert data between CSV, TSV, JSON, XML, and YAML. Paste text, pick a target format, copy the result.",
       },
     ],
   },
@@ -396,7 +396,7 @@ export const tools: ToolCategory[] = [
         order: 1,
         creationDate: "2025-08-20",
         description:
-          "Trim, convert, and edit video files. Cut clips, adjust quality, convert between formats, and turn videos into animated GIFs. Works with MP4, AVI, MOV, and more.",
+          "Trim video clips and turn them into animated GIFs, right in your browser.",
       },
       {
         name: "Audio Editor",
@@ -406,7 +406,7 @@ export const tools: ToolCategory[] = [
         order: 2,
         creationDate: "2025-08-20",
         description:
-          "Edit and process audio files. Trim, merge, convert formats, adjust volume, and apply effects. Supports MP3, WAV, FLAC, and other audio formats.",
+          "Play audio files with adjustable volume and speed, view the waveform, and download your file.",
       },
       {
         name: "Mic & Camera Tester",

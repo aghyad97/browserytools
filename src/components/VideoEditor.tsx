@@ -39,7 +39,7 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import { toast } from "sonner";
-import GIF from "gif.js";
+import { encodeGif, type GifFrame } from "@/lib/media/gif-encode";
 
 interface VideoInfo {
   url: string;
@@ -89,7 +89,7 @@ export default function VideoEditor() {
 
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const gifInstanceRef = useRef<GIF | null>(null);
+  const gifAbortRef = useRef<AbortController | null>(null);
   const gifUrlRef = useRef<string | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
@@ -369,47 +369,42 @@ export default function VideoEditor() {
       const outWidth = Math.max(16, Math.round(gifWidth));
       const outHeight = Math.max(2, Math.round(outWidth * aspect));
 
-      const canvas = canvasRef.current ?? document.createElement("canvas");
-      canvas.width = outWidth;
-      canvas.height = outHeight;
-      const ctx = canvas.getContext("2d");
-      if (!ctx) throw new Error("Could not get canvas context");
-
       const qualityMap = { high: 1, medium: 10, low: 20 } as const;
-      const gif = new GIF({
-        workers: 2,
-        quality: qualityMap[gifQuality],
-        width: outWidth,
-        height: outHeight,
-        // Self-hosted worker — copied into public/ by scripts/copy-gif-worker.js.
-        workerScript: "/gif.worker.js",
-        dither: gifDither ? "FloydSteinberg" : false,
-      });
-      gifInstanceRef.current = gif;
+      const controller = new AbortController();
+      gifAbortRef.current = controller;
 
       const fps = Math.min(30, Math.max(1, gifFps));
       const frameDelay = Math.round(1000 / fps);
       const totalFrames = Math.max(1, Math.floor(span * fps));
 
+      // Each frame gets its own canvas so every snapshot survives until
+      // encoding (a single reused canvas would only hold the last frame).
+      const gifFrames: GifFrame[] = [];
       for (let i = 0; i < totalFrames; i++) {
+        if (controller.signal.aborted) throw new Error("GIF encode aborted");
         const seekTime = start + i / fps;
         videoElement.currentTime = Math.min(seekTime, end);
         await new Promise<void>((resolve) => {
           videoElement.onseeked = () => resolve();
         });
+        const canvas = document.createElement("canvas");
+        canvas.width = outWidth;
+        canvas.height = outHeight;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) throw new Error("Could not get canvas context");
         ctx.drawImage(videoElement, 0, 0, outWidth, outHeight);
-        gif.addFrame(ctx, { copy: true, delay: frameDelay });
-        // Capture phase is ~half the work; render reports the rest via on("progress").
+        gifFrames.push({ source: canvas, delayMs: frameDelay });
+        // Capture phase is ~half the work; render reports the rest via onProgress.
         setGifProgress(Math.round(((i + 1) / totalFrames) * 50));
       }
 
-      const blob: Blob = await new Promise<Blob>((resolve, reject) => {
-        gif.on("progress", (p: number) => {
-          setGifProgress(50 + Math.round(p * 50));
-        });
-        gif.on("finished", (result: Blob) => resolve(result));
-        gif.on("abort", () => reject(new Error("aborted")));
-        gif.render();
+      const blob = await encodeGif(gifFrames, {
+        width: outWidth,
+        height: outHeight,
+        quality: qualityMap[gifQuality],
+        dither: gifDither ? "FloydSteinberg" : false,
+        onProgress: (p) => setGifProgress(50 + Math.round(p * 50)),
+        signal: controller.signal,
       });
 
       const url = URL.createObjectURL(blob);
@@ -419,22 +414,22 @@ export default function VideoEditor() {
       setGifProgress(100);
       toast.success(t("gifSuccess"));
     } catch (error) {
-      if (error instanceof Error && error.message === "aborted") {
+      if (error instanceof Error && error.message === "GIF encode aborted") {
         toast.info(t("gifCancelled"));
       } else {
         console.error("Error converting to GIF:", error);
         toast.error(t("gifFailed"));
       }
     } finally {
-      gifInstanceRef.current = null;
+      gifAbortRef.current = null;
       setIsGifProcessing(false);
     }
   };
 
   const handleCancelGif = () => {
-    if (gifInstanceRef.current) {
-      gifInstanceRef.current.abort();
-      gifInstanceRef.current = null;
+    if (gifAbortRef.current) {
+      gifAbortRef.current.abort();
+      gifAbortRef.current = null;
     }
     setIsGifProcessing(false);
   };
@@ -472,9 +467,9 @@ export default function VideoEditor() {
     setProcessedVideo(null);
     setCurrentTime(0);
     setIsPlaying(false);
-    if (gifInstanceRef.current) {
-      gifInstanceRef.current.abort();
-      gifInstanceRef.current = null;
+    if (gifAbortRef.current) {
+      gifAbortRef.current.abort();
+      gifAbortRef.current = null;
     }
     if (gifUrlRef.current) {
       URL.revokeObjectURL(gifUrlRef.current);

@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -126,15 +126,6 @@ export default function AudioTranscriber() {
     setChunks([]);
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "audio/*": [".mp3", ".wav", ".m4a", ".ogg"],
-      "video/*": [".mp4", ".webm"],
-    },
-    multiple: false,
-  });
-
   const transcribe = useCallback(async () => {
     if (!file) {
       toast.error(t("noFile"));
@@ -216,9 +207,15 @@ export default function AudioTranscriber() {
           </div>
 
           <Card className="p-6 shadow-none">
-            <div
-              {...getRootProps()}
-              className={`
+            <FileDropzone
+              onFiles={onDrop}
+              accept={{
+                "audio/*": [".mp3", ".wav", ".m4a", ".ogg"],
+                "video/*": [".mp4", ".webm"],
+              }}
+              multiple={false}
+              inputProps={{ "data-testid": "audio-input" }}
+              className={({ isDragActive }) => `
                 h-56 rounded-lg border-2 border-dashed
                 flex flex-col items-center justify-center space-y-4 p-8
                 cursor-pointer transition-all duration-200
@@ -229,7 +226,6 @@ export default function AudioTranscriber() {
                 }
               `}
             >
-              <input {...getInputProps()} data-testid="audio-input" />
               {file ? (
                 <div className="text-center">
                   <AudioLinesIcon className="w-12 h-12 mx-auto mb-3 text-primary" />
@@ -253,7 +249,7 @@ export default function AudioTranscriber() {
                   </p>
                 </div>
               )}
-            </div>
+            </FileDropzone>
 
             <Button
               onClick={transcribe}

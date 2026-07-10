@@ -16,6 +16,8 @@ import {
 } from "@/components/ui/select";
 import { Upload, Download, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 
 // ── Background presets ────────────────────────────────────────────────────────
 // Each gradient/mesh is described declaratively so it can be painted onto a
@@ -73,10 +75,6 @@ interface SourceImage {
   width: number;
   height: number;
   name: string;
-}
-
-function canvasToBlob(canvas: HTMLCanvasElement, type: string): Promise<Blob | null> {
-  return new Promise((resolve) => canvas.toBlob((b) => resolve(b), type));
 }
 
 // Draw a rounded rectangle path.
@@ -354,12 +352,7 @@ export default function ScreenshotBeautifier() {
       setOutputSize(blob.size);
 
       const base = image.name.split(".")[0] || "screenshot";
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = `${base}_beautified.png`;
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadUrl(url, `${base}_beautified.png`);
       toast.success(t("downloadedSuccess"));
     } catch {
       toast.error(t("exportFailed"));

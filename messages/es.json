@@ -135,27 +135,27 @@
       },
       "pdf": {
         "name": "Herramientas PDF",
-        "description": "Combina, divide, comprime y manipula archivos PDF. Extrae texto y rota páginas."
+        "description": "Combina PDF, divide o extrae páginas y convierte imágenes en un PDF, todo en tu navegador y sin límites de tamaño."
       },
       "zip": {
         "name": "Herramientas ZIP",
-        "description": "Crea, extrae y gestiona archivos ZIP. Admite protección con contraseña."
+        "description": "Crea archivos ZIP a partir de tus archivos y extrae los existentes, directamente en tu navegador."
       },
       "spreadsheet": {
         "name": "Visor de hojas de cálculo",
-        "description": "Visualiza y edita archivos de hojas de cálculo (XLSX, CSV) en tu navegador."
+        "description": "Visualiza archivos CSV y Excel en tu navegador: ordena, busca, grafica una columna y exporta la vista filtrada a CSV."
       },
       "file-converter": {
-        "name": "Conversor de archivos",
-        "description": "Convierte archivos entre distintos formatos. Compatible con documentos, imágenes y más."
+        "name": "Conversor de formatos de datos",
+        "description": "Convierte datos entre CSV, TSV, JSON, XML y YAML. Pega el texto, elige el formato de destino y copia el resultado."
       },
       "video": {
         "name": "Editor de video",
-        "description": "Edita videos en tu navegador. Recorta, combina y añade efectos."
+        "description": "Recorta clips de video y conviértelos en GIF animados, directamente en tu navegador."
       },
       "audio": {
         "name": "Editor de audio",
-        "description": "Edita archivos de audio. Recorta, combina y ajusta el volumen."
+        "description": "Reproduce archivos de audio con volumen y velocidad ajustables, visualiza la forma de onda y descarga tu archivo."
       },
       "mic-camera": {
         "name": "Probador de micrófono y cámara",
@@ -1010,7 +1010,8 @@
       "echoApplied": "Efecto de eco aplicado",
       "speedSet": "Velocidad de reproducción ajustada a {speed}x",
       "processingDownload": "Procesando el audio para la descarga...",
-      "errorProcessingDownload": "Error al procesar el audio para la descarga"
+      "errorProcessingDownload": "Error al procesar el audio para la descarga",
+      "downloadOriginal": "Descargar original"
     },
     "MicCameraTester": {
       "title": "Probador de micrófono y cámara",

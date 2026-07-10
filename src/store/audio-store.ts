@@ -1,19 +1,5 @@
 import { create } from "zustand";
 
-export type EffectType = "fadeIn" | "fadeOut" | "echo" | "reverb";
-
-export interface AudioEffect {
-  id: string;
-  type: EffectType;
-  value: number;
-  timestamp: number;
-}
-
-export interface AudioSelection {
-  start: number;
-  end: number;
-}
-
 export interface AudioProcessingState {
   audioFile: File | null;
   audioBuffer: AudioBuffer | null;
@@ -22,8 +8,6 @@ export interface AudioProcessingState {
   duration: number;
   currentTime: number;
   speed: number;
-  selection: AudioSelection;
-  effects: AudioEffect[];
 }
 
 export interface AudioProcessingActions {
@@ -34,9 +18,6 @@ export interface AudioProcessingActions {
   setDuration: (duration: number) => void;
   setCurrentTime: (time: number) => void;
   setSpeed: (speed: number) => void;
-  setSelection: (selection: AudioSelection) => void;
-  addEffect: (effect: Omit<AudioEffect, "id" | "timestamp">) => void;
-  removeEffect: (effectId: string) => void;
   reset: () => void;
 }
 
@@ -50,8 +31,6 @@ const initialState: AudioProcessingState = {
   duration: 0,
   currentTime: 0,
   speed: 1,
-  selection: { start: 0, end: 0 },
-  effects: [],
 };
 
 export const useAudioStore = create<AudioStore>((set) => ({
@@ -70,25 +49,6 @@ export const useAudioStore = create<AudioStore>((set) => ({
   setCurrentTime: (time) => set({ currentTime: time }),
 
   setSpeed: (speed) => set({ speed }),
-
-  setSelection: (selection) => set({ selection }),
-
-  addEffect: (effect) =>
-    set((state) => ({
-      effects: [
-        ...state.effects,
-        {
-          ...effect,
-          id: crypto.randomUUID(),
-          timestamp: Date.now(),
-        },
-      ],
-    })),
-
-  removeEffect: (effectId) =>
-    set((state) => ({
-      effects: state.effects.filter((effect) => effect.id !== effectId),
-    })),
 
   reset: () => set(initialState),
 }));

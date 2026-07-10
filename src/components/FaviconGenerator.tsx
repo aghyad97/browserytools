@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import { Upload, Download, Copy, Sparkles } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadBlob } from "@/lib/download";
 
 // The standard PNG favicon set we emit.
 const PNG_SIZES = [16, 32, 48, 180, 192, 512] as const;
@@ -22,13 +24,6 @@ interface GeneratedIcon {
   label: string;
   dataUrl: string;
   blob: Blob;
-}
-
-// Promise wrapper around canvas.toBlob.
-function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), "image/png");
-  });
 }
 
 // Render a single square icon at `size` px. Either draws the uploaded image
@@ -276,14 +271,7 @@ export default function FaviconGenerator() {
       zip.file("favicon-snippet.html", HTML_SNIPPET);
 
       const content = await zip.generateAsync({ type: "blob" });
-      const url = URL.createObjectURL(content);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "favicons.zip";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      downloadBlob(content, "favicons.zip");
 
       toast.success(t("downloaded"));
     } catch (error) {

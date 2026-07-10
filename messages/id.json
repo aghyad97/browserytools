@@ -135,27 +135,27 @@
       },
       "pdf": {
         "name": "Alat PDF",
-        "description": "Gabungkan, pisahkan, kompres, dan manipulasi berkas PDF. Ekstrak teks, putar halaman."
+        "description": "Gabungkan PDF, pisah atau ekstrak halaman, dan ubah gambar menjadi PDF — semuanya di browser tanpa batas ukuran file."
       },
       "zip": {
         "name": "Alat Zip",
-        "description": "Buat, ekstrak, dan kelola arsip ZIP. Mendukung proteksi kata sandi."
+        "description": "Buat arsip ZIP dari file Anda dan ekstrak arsip yang sudah ada, langsung di browser."
       },
       "spreadsheet": {
         "name": "Penampil Spreadsheet",
-        "description": "Lihat dan edit berkas spreadsheet (XLSX, CSV) di browser Anda."
+        "description": "Lihat file CSV dan Excel di browser: urutkan, cari, buat grafik satu kolom, dan ekspor tampilan terfilter ke CSV."
       },
       "file-converter": {
-        "name": "Konverter Berkas",
-        "description": "Konversi berkas antar berbagai format. Mendukung dokumen, gambar, dan lainnya."
+        "name": "Konverter Format Data",
+        "description": "Konversi data antara CSV, TSV, JSON, XML, dan YAML. Tempel teks, pilih format tujuan, salin hasilnya."
       },
       "video": {
         "name": "Editor Video",
-        "description": "Edit video di browser Anda. Potong, gabungkan, dan tambahkan efek."
+        "description": "Pangkas klip video dan ubah menjadi GIF animasi, langsung di browser."
       },
       "audio": {
         "name": "Editor Audio",
-        "description": "Edit berkas audio. Potong, gabungkan, dan sesuaikan volume."
+        "description": "Putar file audio dengan volume dan kecepatan yang dapat diatur, lihat bentuk gelombang, dan unduh file Anda."
       },
       "mic-camera": {
         "name": "Penguji Mikrofon & Kamera",
@@ -1010,7 +1010,8 @@
       "echoApplied": "Efek gema diterapkan",
       "speedSet": "Kecepatan pemutaran disetel ke {speed}x",
       "processingDownload": "Memproses audio untuk diunduh...",
-      "errorProcessingDownload": "Galat memproses audio untuk diunduh"
+      "errorProcessingDownload": "Galat memproses audio untuk diunduh",
+      "downloadOriginal": "Unduh file asli"
     },
     "MicCameraTester": {
       "title": "Penguji Mikrofon & Kamera",
