@@ -15,6 +15,8 @@ import {
 } from "@/components/ui/select";
 import { Upload, Download, MountainIcon, InfoIcon } from "lucide-react";
 import { toast } from "sonner";
+import { canvasToBlob } from "@/lib/image/canvas";
+import { downloadUrl } from "@/lib/download";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
 const MODEL = "onnx-community/depth-anything-v2-small";
@@ -102,12 +104,6 @@ function paintDepth(
   ctx.putImageData(imageData, 0, 0);
 }
 
-function canvasToBlob(canvas: HTMLCanvasElement): Promise<Blob | null> {
-  return new Promise((resolve) => {
-    canvas.toBlob((blob) => resolve(blob), "image/png");
-  });
-}
-
 export default function DepthMap() {
   const t = useTranslations("Tools.DepthMap");
   const tCommon = useTranslations("Common");
@@ -192,12 +188,7 @@ export default function DepthMap() {
       return;
     }
     const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${fileName}-depth.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(url, `${fileName}-depth.png`);
     setTimeout(() => URL.revokeObjectURL(url), 1000);
     toast.success(t("downloaded"));
   }, [hasResult, fileName, t]);
