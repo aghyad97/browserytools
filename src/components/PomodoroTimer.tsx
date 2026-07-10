@@ -9,6 +9,7 @@ import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Play, Pause, RotateCcw, SkipForward, Settings, X, Timer, Coffee, Brain } from "lucide-react";
 import { toast } from "sonner";
+import { formatMMSS, playBeep } from "@/lib/time-format";
 
 type SessionType = "work" | "shortBreak" | "longBreak";
 
@@ -47,12 +48,6 @@ function getDuration(type: SessionType, s: PomodoroSettings): number {
   return (type === "work" ? s.workDuration : type === "shortBreak" ? s.shortBreakDuration : s.longBreakDuration) * 60;
 }
 
-function formatTime(s: number): string {
-  const m = Math.floor(s / 60);
-  const sec = s % 60;
-  return `${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
-}
-
 function formatFocusTime(seconds: number): string {
   if (seconds < 60) return `${seconds}s`;
   const m = Math.floor(seconds / 60);
@@ -88,28 +83,6 @@ function loadStats(): DailyStats {
 
 function saveStats(s: DailyStats) {
   try { localStorage.setItem("pomodoro-stats", JSON.stringify(s)); } catch {}
-}
-
-let audioCtxSingleton: AudioContext | null = null;
-function getAudioCtx(): AudioContext | null {
-  try {
-    if (!audioCtxSingleton) audioCtxSingleton = new AudioContext();
-    return audioCtxSingleton;
-  } catch { return null; }
-}
-
-function playBeep(ctx: AudioContext, type: "tick" | "end") {
-  const o = ctx.createOscillator();
-  const g = ctx.createGain();
-  o.connect(g);
-  g.connect(ctx.destination);
-  if (type === "end") {
-    o.frequency.setValueAtTime(880, ctx.currentTime);
-    g.gain.setValueAtTime(0.3, ctx.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.8);
-    o.start(ctx.currentTime);
-    o.stop(ctx.currentTime + 0.8);
-  }
 }
 
 export default function PomodoroTimer() {
@@ -177,8 +150,7 @@ export default function PomodoroTimer() {
     const currentType = sessionTypeRef.current;
     const currentCount = workSessionCountRef.current;
     if (s.soundEnabled) {
-      const ctx = getAudioCtx();
-      if (ctx) playBeep(ctx, "end");
+      playBeep(880, 800);
     }
     setStats((prev) => {
       let next: DailyStats;
@@ -223,7 +195,7 @@ export default function PomodoroTimer() {
       longBreak: "Long Break",
     };
     if (isRunning) {
-      document.title = `${formatTime(timeLeft)} — ${sessionLabels[sessionType]} | Pomodoro`;
+      document.title = `${formatMMSS(timeLeft)} — ${sessionLabels[sessionType]} | Pomodoro`;
     } else {
       document.title = `Pomodoro Timer | ${tCommon("siteName")}`;
     }
@@ -231,10 +203,6 @@ export default function PomodoroTimer() {
   }, [timeLeft, isRunning, sessionType]);
 
   const handleStartPause = () => {
-    if (!isRunning) {
-      const ctx = getAudioCtx();
-      if (ctx && ctx.state === "suspended") ctx.resume();
-    }
     setIsRunning((r) => !r);
   };
 
@@ -374,7 +342,7 @@ export default function PomodoroTimer() {
                 </svg>
                 <div className="text-center z-10 select-none">
                   <div dir="ltr" className={`text-6xl font-mono font-bold tracking-tight ${colors.text}`}>
-                    {formatTime(timeLeft)}
+                    {formatMMSS(timeLeft)}
                   </div>
                   <div className="text-sm text-muted-foreground mt-1 font-medium">
                     {sessionLabels[sessionType]}

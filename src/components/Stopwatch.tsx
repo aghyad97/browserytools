@@ -7,22 +7,12 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Timer, Play, Pause, RotateCcw, Flag, Download } from "lucide-react";
 import { toast } from "sonner";
+import { formatStopwatch } from "@/lib/time-format";
 
 interface Lap {
   number: number;
   lapTime: number;
   totalTime: number;
-}
-
-function formatTime(ms: number): string {
-  const totalCs = Math.floor(ms / 10);
-  const cs = totalCs % 100;
-  const totalSec = Math.floor(totalCs / 100);
-  const sec = totalSec % 60;
-  const totalMin = Math.floor(totalSec / 60);
-  const min = totalMin % 60;
-  const hr = Math.floor(totalMin / 60);
-  return `${String(hr).padStart(2, "0")}:${String(min).padStart(2, "0")}:${String(sec).padStart(2, "0")}.${String(cs).padStart(2, "0")}`;
 }
 
 export default function Stopwatch() {
@@ -119,7 +109,7 @@ export default function Stopwatch() {
       toast.error(t("noLapsToExport"));
       return;
     }
-    const rows = ["Lap #,Lap Time,Total Time", ...laps.slice().reverse().map((l) => `${l.number},${formatTime(l.lapTime)},${formatTime(l.totalTime)}`)];
+    const rows = ["Lap #,Lap Time,Total Time", ...laps.slice().reverse().map((l) => `${l.number},${formatStopwatch(l.lapTime)},${formatStopwatch(l.totalTime)}`)];
     const blob = new Blob([rows.join("\n")], { type: "text/csv" });
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -146,7 +136,7 @@ export default function Stopwatch() {
         <Card>
           <CardContent className="pt-8 pb-6 flex flex-col items-center gap-6">
             <div dir="ltr" className="font-mono text-6xl md:text-7xl font-bold tracking-tight tabular-nums select-none text-primary">
-              {formatTime(elapsed)}
+              {formatStopwatch(elapsed)}
             </div>
 
             <div className="flex items-center gap-3 flex-wrap justify-center">
@@ -226,8 +216,8 @@ export default function Stopwatch() {
                             {isFastest && <Badge className="ms-2 bg-green-500 text-white text-xs py-0">{t("best")}</Badge>}
                             {isSlowest && <Badge className="ms-2 bg-red-500 text-white text-xs py-0">{t("slowest")}</Badge>}
                           </td>
-                          <td className="px-4 py-2.5 text-right font-mono tabular-nums" dir="ltr">{formatTime(lap.lapTime)}</td>
-                          <td className="px-4 py-2.5 text-right font-mono tabular-nums text-muted-foreground" dir="ltr">{formatTime(lap.totalTime)}</td>
+                          <td className="px-4 py-2.5 text-right font-mono tabular-nums" dir="ltr">{formatStopwatch(lap.lapTime)}</td>
+                          <td className="px-4 py-2.5 text-right font-mono tabular-nums text-muted-foreground" dir="ltr">{formatStopwatch(lap.totalTime)}</td>
                         </tr>
                       );
                     })}

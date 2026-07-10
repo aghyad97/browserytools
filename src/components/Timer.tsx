@@ -22,6 +22,7 @@ import {
   Minimize2,
   Bell,
 } from "lucide-react";
+import { playBeep } from "@/lib/time-format";
 
 type Mode = "countdown" | "stopwatch";
 
@@ -52,36 +53,7 @@ export default function Timer() {
   const requestRef = useRef<number | null>(null);
   const lastTickRef = useRef<number | null>(null);
   const containerRef = useRef<HTMLDivElement | null>(null);
-  const audioContextRef = useRef<AudioContext | null>(null);
   const hideControlsTimeoutRef = useRef<number | null>(null);
-  const playTone = useCallback((frequency: number, duration: number = 0.2) => {
-    try {
-      const AudioCtx =
-        window.AudioContext || (window as any).webkitAudioContext;
-      if (!audioContextRef.current) {
-        audioContextRef.current = new AudioCtx();
-      }
-      const ctx = audioContextRef.current;
-      const oscillator = ctx.createOscillator();
-      const gain = ctx.createGain();
-      oscillator.type = "sine";
-      oscillator.frequency.value = frequency;
-      gain.gain.setValueAtTime(0.001, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.2, ctx.currentTime + 0.05);
-      gain.gain.exponentialRampToValueAtTime(
-        0.0001,
-        ctx.currentTime + duration
-      );
-      oscillator.connect(gain);
-      gain.connect(ctx.destination);
-      oscillator.start();
-      oscillator.stop(ctx.currentTime + duration);
-    } catch (_e) {}
-  }, []);
-
-  const playBeep = useCallback(() => {
-    playTone(880, 0.6);
-  }, [playTone]);
 
   // Remaining or elapsed display value in ms
   const displayMs = useMemo(() => {
@@ -111,7 +83,7 @@ export default function Timer() {
           lastTickRef.current = null;
           setIsRunning(false);
           // play sound
-          playBeep();
+          playBeep(880, 600);
           return initialMs;
         }
         return next;
@@ -136,11 +108,11 @@ export default function Timer() {
       setIsRunning(false);
       lastTickRef.current = null;
       // manual pause cue: lower pitch
-      playTone(440, 0.15);
+      playBeep(440, 150);
     } else {
       setIsRunning(true);
       // manual start cue: higher pitch
-      playTone(880, 0.15);
+      playBeep(880, 150);
     }
   };
 
@@ -372,7 +344,7 @@ export default function Timer() {
                 <Button variant="outline" onClick={enterFullscreen}>
                   <Maximize2 className="w-4 h-4" />
                 </Button>
-                <Button variant="ghost" onClick={playBeep} title={t("testSound")}>
+                <Button variant="ghost" onClick={() => playBeep(880, 600)} title={t("testSound")}>
                   <Bell className="w-4 h-4" />
                 </Button>
               </div>
