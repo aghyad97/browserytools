@@ -29,4 +29,43 @@ describe("FileDropzone", () => {
     fireEvent(zone, dropEvent);
     await waitFor(() => expect(onFiles).toHaveBeenCalledWith([file]));
   });
+
+  it("renders children instead of the default title/subtitle content", () => {
+    render(
+      <FileDropzone onFiles={() => {}} title="Should not appear" subtitle="Nor this">
+        <span data-testid="custom-child">Custom content</span>
+      </FileDropzone>
+    );
+    expect(screen.getByTestId("custom-child")).toBeInTheDocument();
+    expect(screen.queryByText("Should not appear")).not.toBeInTheDocument();
+    expect(screen.queryByText("Nor this")).not.toBeInTheDocument();
+  });
+
+  it("uses a function className verbatim as the root class (full control)", () => {
+    render(
+      <FileDropzone
+        onFiles={() => {}}
+        className={({ isDragActive }) =>
+          `custom-zone ${isDragActive ? "dragging" : "idle"}`
+        }
+      />
+    );
+    const zone = screen.getByTestId("file-dropzone");
+    expect(zone.className).toBe("custom-zone idle");
+  });
+
+  it("merges a string className onto the default classes", () => {
+    render(<FileDropzone onFiles={() => {}} className="h-64" />);
+    const zone = screen.getByTestId("file-dropzone");
+    expect(zone.className).toContain("h-64");
+    expect(zone.className).toContain("border-dashed");
+  });
+
+  it("spreads inputProps onto the hidden file input", () => {
+    render(
+      <FileDropzone onFiles={() => {}} inputProps={{ "data-testid": "audio-input" }} />
+    );
+    const input = screen.getByTestId("audio-input") as HTMLInputElement;
+    expect(input.type).toBe("file");
+  });
 });
