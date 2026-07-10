@@ -7,6 +7,7 @@ const REQUIRED = [
   "--bt-nav-idle", "--bt-nav-active", "--bt-fill", "--bt-fill-hover",
   "--bt-pill-active-bg", "--bt-pill-active-fg", "--bt-pill-idle-fg",
   "--bt-divider", "--bt-new-pink", "--bt-star", "--bt-coffee",
+  "--bt-hover", "--bt-overlay", "--bt-shadow-pop",
   ...["image","file","media","text","data","math","prod","dev","design","sec","ai"]
     .flatMap((c) => [`--bt-cat-${c}-bg`, `--bt-cat-${c}-fg`]),
   "--bt-ease-out", "--bt-ease-in-out",
