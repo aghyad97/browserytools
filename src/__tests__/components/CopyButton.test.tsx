@@ -33,6 +33,26 @@ describe("CopyButton", () => {
     expect(toast.error).toHaveBeenCalled();
   });
 
+  it("uses successMessage and errorMessage overrides when provided", async () => {
+    const user = userEvent.setup();
+    render(
+      <CopyButton
+        text="payload"
+        label="Copiar"
+        successMessage="Copiado al portapapeles"
+        errorMessage="No se pudo copiar"
+      />,
+    );
+
+    vi.spyOn(navigator.clipboard, "writeText").mockResolvedValueOnce(undefined);
+    await user.click(screen.getByRole("button", { name: "Copiar" }));
+    expect(toast.success).toHaveBeenCalledWith("Copiado al portapapeles");
+
+    vi.spyOn(navigator.clipboard, "writeText").mockRejectedValueOnce(new Error("nope"));
+    await user.click(screen.getByRole("button", { name: "Copiar" }));
+    expect(toast.error).toHaveBeenCalledWith("No se pudo copiar");
+  });
+
   it("re-click resets the 1.5s check-icon timer instead of stacking timers", async () => {
     // userEvent's internal delays deadlock under fake timers in this setup,
     // so this test drives clicks with fireEvent (no internal timers).

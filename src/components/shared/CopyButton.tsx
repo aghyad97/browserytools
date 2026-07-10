@@ -10,9 +10,17 @@ interface CopyButtonProps {
   text: string;
   label?: string;
   size?: "sm" | "icon";
+  successMessage?: string;
+  errorMessage?: string;
 }
 
-export function CopyButton({ text, label = "Copy", size = "sm" }: CopyButtonProps) {
+export function CopyButton({
+  text,
+  label = "Copy",
+  size = "sm",
+  successMessage = "Copied to clipboard",
+  errorMessage = "Couldn't copy — check clipboard permissions",
+}: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -20,12 +28,12 @@ export function CopyButton({ text, label = "Copy", size = "sm" }: CopyButtonProp
 
   const onClick = async () => {
     if (await copyText(text)) {
-      toast.success("Copied to clipboard");
+      toast.success(successMessage);
       setCopied(true);
       clearTimeout(resetTimerRef.current);
       resetTimerRef.current = setTimeout(() => setCopied(false), 1500);
     } else {
-      toast.error("Couldn't copy — check clipboard permissions");
+      toast.error(errorMessage);
     }
   };
 

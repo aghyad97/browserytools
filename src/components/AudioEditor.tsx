@@ -16,6 +16,7 @@ import {
   Download,
   FastForward,
   Rewind,
+  RotateCcw,
 } from "lucide-react";
 
 export default function AudioEditor() {
@@ -272,6 +273,14 @@ export default function AudioEditor() {
                     onClick={() => changePlaybackSpeed(2)}
                   >
                     <FastForward className="h-4 w-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    onClick={() => changePlaybackSpeed(1)}
+                    aria-label={t("resetSpeed")}
+                  >
+                    <RotateCcw className="h-4 w-4" />
                   </Button>
                 </div>
 
