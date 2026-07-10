@@ -118,9 +118,23 @@ Source of truth: `src/app/preview/preview.module.css`. R2 promotes these to `glo
 
 Each wave gets its own implementation plan at kickoff. R1's plan: `docs/superpowers/plans/2026-07-10-wave-r1-foundation-plan.md`.
 
-## 6. Open items
+## 6. R2 scope — cross-cutting workstreams (added after adversarial completeness review, 2026-07-10)
 
-- Logo: "b_" browser-cursor concept prompt delivered; SVG selection pending → mounts in rail during R2.
+An independent review of the spec against production found the prototype-derived scope missing several things the live app hard-depends on. These are **in scope for R2** and gate its exit:
+
+1. **Dark mode is a hard gate, not an open item.** Providers ship `next-themes defaultTheme="system"` — a large cohort renders dark today. Every token in §2.1/§2.2 gets a `.dark` counterpart; the migration smoke must pass under `prefers-color-scheme: dark`. The prototype's hardcoded hex values are promoted to CSS custom properties precisely so this is one mapping, not 137 edits.
+2. **i18n for all new chrome.** New namespaces `Landing`, `Rail`, `Template` (statement, search placeholder, section labels, live-demo copy, sponsor label, on-device promise, related label, app-card copy) injected across all 9 locale files. The prototype's `.replace(" Tools", "")` category-label hack is replaced with translated short-labels (`ToolsConfig.categories` already exists per locale). `MISSING_MESSAGE` throws at render — typecheck + validate enforce completeness.
+3. **RTL/Arabic layout.** All rail/canvas/stage positioning converts to logical properties (`inset-inline-start`, `margin-inline-start`, `padding-inline`); rail sits right in `dir=rtl`; Arabic keeps IBM Plex Sans Arabic (prototype's latin-only Inter is insufficient); RTL visual check joins the per-batch migration protocol (§4.5).
+4. **Chrome replacement, explicitly.** The rail replaces `Header` + `Sidebar` and must absorb their functions: **LanguageSwitcher and ThemeSwitcher get rail slots** (a 9-locale, dual-theme site cannot lose both controls). `CoffeeBanner` (global 8s popup) and the header coffee button are **retired** — the template's single coffee CTA is the only one, honoring the one-per-screen rule. `GitHubStarBanner` is superseded by the rail's live star badge. `DynamicTitle` and `NavigationTracker` are kept as-is.
+5. **Landing SEO parity.** The new landing must keep: `StructuredData type="website"` (the 137-item `ItemList` JSON-LD), a full-catalog crawlable link surface (all 137 tool links — an "all tools" section or footer matrix; the prototype's 47-tile subset is insufficient), `HomeFAQ`, and a real footer (categories, alternatives-to column, GitHub, license — plus new minimal `/privacy` and `/terms` routes, which don't exist today). The `?search=` redirect and its `SearchAction` JSON-LD are preserved; ⌘K + landing search-button **supersede** the homepage/sidebar inputs and `e2e/search.spec.ts` is rewritten to the new contract.
+6. **Featured apps honesty rule.** An app card appears only when its route is live. Until growth waves deliver Subtitle Studio (W5) / Chat-with-PDF (W8) / Benchmark Suite (W3), the strip features existing headliners: Audio/Video Transcriber, PDF Tools, Image Compression, Screen Recorder. Cards swap in as waves ship.
+7. **Favorites / recent / view-mode.** Favorites and recent-tools stores survive as a landing row (and power future rail pins); the grid/list `viewMode` preference is dropped — the new grid is the one view. Recorded as a deliberate simplification.
+8. **Template zone 5 = the existing `ToolSeoContent`** (per-tool FAQ + JSON-LD already appended by `tools/layout.tsx`) restyled into the template — never a second SEO block.
+9. **PWA/meta refresh.** `manifest.ts` + home metadata still say "30+ tools" (actual 137); `theme_color`/`background_color`/root `themeColor` update to the new tokens; branded OG/twitter images regenerate after the logo swap.
+10. **Blog/coffee chrome: out of R2 scope, by declaration.** `/blog` keeps its own chrome this wave; the seam is documented and rail→Blog remains a normal link. Unifying blog chrome is a candidate for a later wave.
+
+## 7. Open items
+
+- Logo: "b_" browser-cursor concept prompt delivered; SVG selection pending → mounts in rail during R2 (OG image regeneration follows it, §6.9).
 - Mobile rail collapse pattern: designed in R2 (bottom sheet or top bar — decide with prototype).
-- Dark theme: light is default; dark variant derived from tokens in R2 (site already ships next-themes).
-- `docs/` is gitignored in the repo; this branch adds `!docs/superpowers/**` so specs/plans version with the code.
+- `docs/` is gitignored in the repo; this branch adds exceptions (`docs/*` + `!docs/superpowers/`) so specs/plans version with the code.

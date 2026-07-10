@@ -11,7 +11,7 @@
 ## Global Constraints
 
 - `bun run build` must use `--webpack` (already in package.json); never switch to Turbopack.
-- All 134 existing unit tests stay green after every task. Run `bun run test` before every commit.
+- All **358** existing unit tests (61 files, verified green 2026-07-10) stay green after every task. Run `bun run test` before every commit.
 - Vitest configs use `.mts`; environment is happy-dom (jsdom@28 breaks on `@exodus/bytes`).
 - Clipboard tests: `vi.spyOn(navigator.clipboard, "writeText")` AFTER userEvent interactions (getter-only mock in `src/test-setup.ts`).
 - Toast mocks must be callable AND have methods: `Object.assign(vi.fn(), { success: vi.fn(), error: vi.fn(), info: vi.fn() })`.
@@ -422,7 +422,7 @@ git commit -m "feat(shared): clipboard lib + CopyButton"
 **Interfaces:**
 - Produces:
   - `loadImage(src: string | File | Blob): Promise<HTMLImageElement>`
-  - `canvasToBlob(canvas: HTMLCanvasElement, type?: string, quality?: number): Promise<Blob>` (rejects on null)
+  - `canvasToBlob(canvas: HTMLCanvasElement, type?: string, quality?: number): Promise<Blob | null>` — **resolves `null` on encode failure, never rejects.** (Verified 2026-07-10: all 10 existing local helpers use this exact contract and every call site has an `if (!blob)` guard — matching it keeps migrations purely mechanical. A throwing wrapper can come with R2 if wanted.)
   - `drawToCanvas(img: CanvasImageSource, width: number, height: number): HTMLCanvasElement`
 - Replaces identical private helpers in 10 components (ImageConverter, ImageResizer, MemeGenerator, PhotoCollage, ExifRemover, PhotoCensor, ScreenshotBeautifier, DepthMap, FaviconGenerator, SignatureMaker).
 
@@ -442,10 +442,10 @@ describe("canvas helpers", () => {
     await expect(canvasToBlob(canvas, "image/png")).resolves.toBe(blob);
   });
 
-  it("canvasToBlob rejects when toBlob yields null", async () => {
+  it("canvasToBlob resolves null when toBlob yields null (matches all existing call-site guards)", async () => {
     const canvas = document.createElement("canvas");
     canvas.toBlob = vi.fn((cb: BlobCallback) => cb(null));
-    await expect(canvasToBlob(canvas)).rejects.toThrow(/encode/i);
+    await expect(canvasToBlob(canvas)).resolves.toBeNull();
   });
 
   it("drawToCanvas returns a canvas of the requested size", () => {
@@ -491,17 +491,18 @@ export function loadImage(src: string | File | Blob): Promise<HTMLImageElement> 
   });
 }
 
+/**
+ * Resolves null on encode failure — deliberately matching the contract of
+ * all 10 pre-existing local helpers so call-site `if (!blob)` guards keep
+ * working unchanged during migration.
+ */
 export function canvasToBlob(
   canvas: HTMLCanvasElement,
   type = "image/png",
   quality?: number,
-): Promise<Blob> {
-  return new Promise((resolve, reject) => {
-    canvas.toBlob(
-      (blob) => (blob ? resolve(blob) : reject(new Error(`Canvas encode failed for ${type}`))),
-      type,
-      quality,
-    );
+): Promise<Blob | null> {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob) => resolve(blob), type, quality);
   });
 }
 
@@ -552,7 +553,7 @@ import { downloadBlob } from "@/lib/download";
 downloadBlob(blob, filename);
 ```
 
-Keep call signatures identical — the shared versions match the dominant local pattern (`(canvas, type, quality) => Promise<Blob>`). Where a local variant differs (e.g. returns data URL), adapt at the call site, not in the lib.
+The shared lib matches the universal local contract exactly (`(canvas, type?, quality?) => Promise<Blob | null>`), so `if (!blob)` guards at call sites stay untouched. Three components (SignatureMaker, FaviconGenerator, DepthMap) call their local helper with one arg relying on a PNG default — the lib's `type = "image/png"` default covers them. ScreenshotBeautifier omits quality — optional, covered. Do NOT change any error-handling branch.
 
 - [ ] **Step 2 (after batch A, 5 components): Verify**
 
@@ -708,7 +709,10 @@ import { describe, it, expect, vi } from "vitest";
 const load = vi.fn().mockResolvedValue(undefined);
 const onMock = vi.fn();
 vi.mock("@ffmpeg/ffmpeg", () => ({
-  FFmpeg: vi.fn().mockImplementation(() => ({ load, on: onMock, loaded: false })),
+  FFmpeg: vi.fn().mockImplementation(() => ({ load, on: onMock, off: vi.fn(), loaded: false })),
+}));
+vi.mock("@ffmpeg/util", () => ({
+  toBlobURL: vi.fn().mockResolvedValue("blob:mock-core"),
 }));
 
 import { getFFmpeg, __resetForTests } from "@/lib/media/ffmpeg";
@@ -738,24 +742,32 @@ import type { FFmpeg } from "@ffmpeg/ffmpeg";
 
 let instancePromise: Promise<FFmpeg> | null = null;
 
-export function getFFmpeg(onProgress?: (ratio: number) => void): Promise<FFmpeg> {
+/**
+ * Returns the cached FFmpeg instance, loading it on first call.
+ * Load config verified against CompressVideo.tsx (2026-07-10):
+ * core assets are served from /ffmpeg and MUST be wrapped in
+ * toBlobURL() with explicit MIME types (@ffmpeg/ffmpeg 0.12.15).
+ *
+ * Progress listeners are the CALLER's responsibility:
+ * `ffmpeg.on("progress", cb)` before exec, `ffmpeg.off("progress", cb)`
+ * after — a listener param here would stack subscriptions across the
+ * cached singleton.
+ */
+export function getFFmpeg(): Promise<FFmpeg> {
   if (!instancePromise) {
     instancePromise = (async () => {
       const { FFmpeg } = await import("@ffmpeg/ffmpeg");
+      const { toBlobURL } = await import("@ffmpeg/util");
       const ffmpeg = new FFmpeg();
+      const baseURL = "/ffmpeg";
       await ffmpeg.load({
-        coreURL: "/ffmpeg/ffmpeg-core.js",
-        wasmURL: "/ffmpeg/ffmpeg-core.wasm",
+        coreURL: await toBlobURL(`${baseURL}/ffmpeg-core.js`, "text/javascript"),
+        wasmURL: await toBlobURL(`${baseURL}/ffmpeg-core.wasm`, "application/wasm"),
       });
       return ffmpeg;
     })();
   }
-  return instancePromise.then((ffmpeg) => {
-    if (onProgress) {
-      ffmpeg.on("progress", ({ progress }) => onProgress(progress));
-    }
-    return ffmpeg;
-  });
+  return instancePromise;
 }
 
 /** Test seam — clears the cached instance. */
@@ -764,7 +776,7 @@ export function __resetForTests(): void {
 }
 ```
 
-NOTE for implementer: open `src/components/CompressVideo.tsx` first and copy its EXACT current `load()` URLs/config into this lib (the paths above are from the audit; the component is authoritative). The lib must reproduce the working config, then the component switches to `getFFmpeg`.
+Migration detail for CompressVideo.tsx: it currently subscribes `ffmpeg.on("progress", onProgress)` per run — keep that pattern at the call site, and add the matching `ffmpeg.off("progress", onProgress)` in a `finally` so repeat compressions on the now-shared singleton don't stack listeners.
 
 - [ ] **Step 3: Run test — PASS. Migrate CompressVideo.tsx to `getFFmpeg`, keeping its CRF/preset/scale command construction unchanged.**
 
@@ -779,18 +791,19 @@ git commit -m "refactor(media): shared ffmpeg singleton loader"
 
 ---
 
-### Task 8: `src/lib/time-format.ts` + migrate the timer trio
+### Task 8: `src/lib/time-format.ts` + migrate Stopwatch and Pomodoro (Timer keeps its helper)
 
 **Files:**
 - Create: `src/lib/time-format.ts`
 - Test: `src/__tests__/lib/time-format.test.ts`
-- Modify: `src/components/Timer.tsx`, `src/components/Stopwatch.tsx`, `src/components/PomodoroTimer.tsx`
+- Modify: `src/components/Stopwatch.tsx`, `src/components/PomodoroTimer.tsx`, `src/components/Timer.tsx` (beep only)
 
 **Interfaces:**
-- Produces:
-  - `formatHMS(totalSeconds: number): string` → `"01:02:03"` (hours omitted when 0: `"02:03"`)
-  - `formatMSCentis(totalMs: number): string` → `"02:03.45"` (stopwatch precision)
-  - `playBeep(frequency?: number, durationMs?: number): void` (Web Audio, no-ops without AudioContext)
+- Produces (contracts verified against current component output, 2026-07-10 — zero visual change):
+  - `formatStopwatch(totalMs: number): string` → `"HH:MM:SS.CS"`, hours ALWAYS present (`"00:02:03.45"`) — matches Stopwatch.tsx exactly.
+  - `formatMMSS(totalSeconds: number): string` → `"MM:SS"` that NEVER rolls to hours (`5400 → "90:00"`) — matches PomodoroTimer.tsx exactly.
+  - `playBeep(frequency?: number, durationMs?: number): void` (Web Audio, no-ops without AudioContext).
+- **Timer.tsx is deliberately excluded from format migration:** its local `formatTime(ms)` returns an object `{hh, mm, ss, ms}` consumed as separate animated digit fields — that's a UI-shaped helper, not shareable formatting. Timer migrates only its beep code to `playBeep`.
 
 - [ ] **Step 1: Failing tests**
 
@@ -798,20 +811,18 @@ git commit -m "refactor(media): shared ffmpeg singleton loader"
 
 ```ts
 import { describe, it, expect } from "vitest";
-import { formatHMS, formatMSCentis } from "@/lib/time-format";
+import { formatStopwatch, formatMMSS } from "@/lib/time-format";
 
 describe("time formatting", () => {
-  it("formats seconds as MM:SS below one hour", () => {
-    expect(formatHMS(0)).toBe("00:00");
-    expect(formatHMS(123)).toBe("02:03");
+  it("formatStopwatch always includes hours and centiseconds (matches current Stopwatch output)", () => {
+    expect(formatStopwatch(0)).toBe("00:00:00.00");
+    expect(formatStopwatch(123450)).toBe("00:02:03.45");
+    expect(formatStopwatch(3723000)).toBe("01:02:03.00");
   });
-  it("includes hours at and above one hour", () => {
-    expect(formatHMS(3600)).toBe("01:00:00");
-    expect(formatHMS(3723)).toBe("01:02:03");
-  });
-  it("formats milliseconds with centiseconds for stopwatch", () => {
-    expect(formatMSCentis(123450)).toBe("02:03.45");
-    expect(formatMSCentis(0)).toBe("00:00.00");
+  it("formatMMSS never rolls minutes into hours (matches current Pomodoro output)", () => {
+    expect(formatMMSS(0)).toBe("00:00");
+    expect(formatMMSS(1500)).toBe("25:00");
+    expect(formatMMSS(5400)).toBe("90:00");
   });
 });
 ```
@@ -821,24 +832,30 @@ describe("time formatting", () => {
 `src/lib/time-format.ts`:
 
 ```ts
-/** Shared time formatting + completion beep for Timer/Stopwatch/Pomodoro. */
+/**
+ * Shared time formatting + completion beep. Output formats replicate the
+ * existing components EXACTLY (R1 = zero visual change):
+ * - formatStopwatch: Stopwatch.tsx contract, hours always shown.
+ * - formatMMSS: PomodoroTimer.tsx contract, minutes never roll to hours.
+ * Timer.tsx keeps its own {hh,mm,ss,ms} splitter (UI-shaped, per-digit render).
+ */
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
-export function formatHMS(totalSeconds: number): string {
-  const s = Math.max(0, Math.floor(totalSeconds));
-  const h = Math.floor(s / 3600);
-  const m = Math.floor((s % 3600) / 60);
-  const sec = s % 60;
-  return h > 0 ? `${pad(h)}:${pad(m)}:${pad(sec)}` : `${pad(m)}:${pad(sec)}`;
+export function formatStopwatch(totalMs: number): string {
+  const ms = Math.max(0, totalMs);
+  const h = Math.floor(ms / 3_600_000);
+  const m = Math.floor((ms % 3_600_000) / 60_000);
+  const s = Math.floor((ms % 60_000) / 1000);
+  const centis = Math.floor((ms % 1000) / 10);
+  return `${pad(h)}:${pad(m)}:${pad(s)}.${pad(centis)}`;
 }
 
-export function formatMSCentis(totalMs: number): string {
-  const ms = Math.max(0, totalMs);
-  const m = Math.floor(ms / 60000);
-  const s = Math.floor((ms % 60000) / 1000);
-  const centis = Math.floor((ms % 1000) / 10);
-  return `${pad(m)}:${pad(s)}.${pad(centis)}`;
+export function formatMMSS(totalSeconds: number): string {
+  const sec = Math.max(0, Math.floor(totalSeconds));
+  const m = Math.floor(sec / 60);
+  const s = sec % 60;
+  return `${pad(m)}:${pad(s)}`;
 }
 
 export function playBeep(frequency = 880, durationMs = 200): void {
@@ -861,9 +878,9 @@ export function playBeep(frequency = 880, durationMs = 200): void {
 }
 ```
 
-- [ ] **Step 3: Run — PASS (3). Migrate Timer/Stopwatch/PomodoroTimer**
+- [ ] **Step 3: Run — PASS (2 test blocks). Migrate**
 
-Each keeps its own timing loop (they differ deliberately — rAF vs setInterval precision); only the local `formatTime` and beep code are replaced with imports. Check each component's format expectations against `formatHMS`/`formatMSCentis` (Stopwatch shows centiseconds → `formatMSCentis`; Timer/Pomodoro → `formatHMS`).
+Each component keeps its own timing loop (they differ deliberately — rAF vs setInterval precision). Replace: Stopwatch's local `formatTime` → `formatStopwatch`; Pomodoro's local `formatTime` → `formatMMSS` (its separate `formatFocusTime` stats humanizer stays); all three components' inline Web Audio beep code → `playBeep`. Timer's `formatTime` object splitter stays untouched.
 
 - [ ] **Step 4: Verify — `bun run test && bun run e2e:smoke` (routes /tools/timer, /tools/stopwatch, /tools/pomodoro). Existing timer unit tests must pass unmodified — if a formatting expectation differs, the lib is wrong, not the test.**
 
@@ -871,7 +888,7 @@ Each keeps its own timing loop (they differ deliberately — rAF vs setInterval 
 
 ```bash
 git add src/lib/time-format.ts src/__tests__/lib/time-format.test.ts src/components/Timer.tsx src/components/Stopwatch.tsx src/components/PomodoroTimer.tsx
-git commit -m "refactor(time): shared formatting + beep for timer tools"
+git commit -m "refactor(time): shared stopwatch/pomodoro formatting + beep"
 ```
 
 ---
@@ -1007,6 +1024,8 @@ In `src/components/AudioEditor.tsx`: delete the Fade In / Fade Out / Echo button
 
 - [ ] **Step 2: New honest EN descriptions in `src/lib/tools-config.ts`**
 
+(Locale key slugs verified in `messages/en.json` → `ToolsConfig.tools`: `pdf`, `zip`, `spreadsheet` (displayed "Spreadsheet Viewer"), `file-converter`, `audio`, `video`.)
+
 ```text
 PDF Tools        → "Merge PDFs, split or extract pages, and turn images into a PDF — all in your browser with no file size limits."
 Zip Tools        → "Create ZIP archives from your files and extract existing ones, right in your browser."
@@ -1089,11 +1108,30 @@ git commit -m "ci: run all-tools e2e smoke on every PR"
 
 ---
 
+## Task → model assignment (execution policy)
+
+| Task | Executor model | Rationale |
+| --- | --- | --- |
+| 0 gitignore/docs | done (main session) | |
+| 1 e2e smoke suite | Sonnet | fully specified, mechanical |
+| 2 lib/download | Sonnet | complete code in plan |
+| 3 clipboard + CopyButton | Sonnet | complete code in plan |
+| 4 lib/image/canvas | Sonnet | complete code in plan |
+| 5 canvas migrations ×10 | **Opus** | surgery in 300–1100-line components |
+| 6 gif-encode + 3 migrations | **Opus** | VideoEditor/ScreenRecorder complexity |
+| 7 ffmpeg singleton | **Opus** | must preserve working toBlobURL config + listener hygiene |
+| 8 time-format + 2 migrations | Sonnet | contracts fully verified & specified |
+| 9 FileDropzone + pilots | Sonnet (component) / **Opus** (pilot migrations) | |
+| 10 honesty fixes + locales | **Opus** | component surgery + 9-locale copy; Arabic reviewed by user pre-merge |
+| 11 CI smoke job | Sonnet | |
+| Review gate between every task | **Fable (main session)** | diff review + re-run verify commands; never delegated |
+
 ## Definition of done (Wave R1)
 
-- [ ] `bun run test` green (existing 134 + ~15 new)
-- [ ] `bun run e2e:smoke` green across all ~137 routes (or route in documented skip-list)
+- [ ] `bun run test` green (existing 358 + ~15 new)
+- [ ] `bun run e2e:smoke` green across all 137 routes (or route in documented skip-list)
 - [ ] CI includes the smoke job and passes
-- [ ] Zero remaining private copies: `grep -rn "canvasToBlob" src/components | wc -l` → 0; gif.js constructed only in `lib/media/gif-encode.ts`; `formatTime` only in `lib/time-format.ts`
+- [ ] Zero remaining private copies: `grep -rln "canvasToBlob" src/components | wc -l` → 0; gif.js constructed only in `lib/media/gif-encode.ts`; beep/format helpers only in `lib/time-format.ts` (Timer's `{hh,mm,ss,ms}` splitter exempt, documented)
 - [ ] Audit §3.1/§3.2 honesty items all closed (no no-op UI, no overclaiming description)
 - [ ] No visual regressions (R1 changes zero styling)
+- [ ] R1 merges to main as its own PR before R2 begins (it's invisible to users and de-risks the branch)
