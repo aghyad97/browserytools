@@ -27,6 +27,7 @@ import { FEATURED_APPS, type FeaturedApp } from "@/lib/featured-apps";
 import { openCommandPalette } from "@/components/layout/command-palette";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useRecentToolsStore } from "@/store/recent-tools-store";
+import { useCategoryFilterStore } from "@/store/category-filter-store";
 import HomeFAQ from "@/components/HomeFAQ";
 import { ToolTile } from "@/components/shared/ToolTile";
 import { CHIP } from "@/lib/category-chips";
@@ -297,7 +298,7 @@ function ToolRow({
 export default function Landing() {
   const t = useTranslations("Landing");
   const tc = useTranslations("ToolsConfig");
-  const [category, setCategory] = useState<string | null>(null);
+  const { category, setCategory } = useCategoryFilterStore();
   const [mounted, setMounted] = useState(false);
 
   const { getFavoriteTools } = useFavoritesStore();
@@ -432,7 +433,7 @@ export default function Landing() {
         ))}
       </div>
 
-      <div className={s.grid}>
+      <div className={s.grid} data-testid="popular-grid">
         {popular.map((tool, i) => (
           <Tile
             key={tool.href}

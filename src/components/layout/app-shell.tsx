@@ -8,18 +8,32 @@
  * `.content` classes in app-shell.module.css).
  */
 
+import { usePathname, useRouter } from "next/navigation";
 import { Rail } from "./rail";
 import { MobileBar } from "./mobile-bar";
 import { CommandPalette, useCommandPalette } from "./command-palette";
+import { useCategoryFilterStore } from "@/store/category-filter-store";
 
 export function AppShell() {
   const { open, setOpen } = useCommandPalette();
   const openPalette = () => setOpen(true);
 
+  const pathname = usePathname();
+  const router = useRouter();
+  const { category, setCategory } = useCategoryFilterStore();
+
+  // The chip filter only has meaning on the landing grid — off "/" there's
+  // no active category to show, and picking one navigates home first.
+  const activeCategory = pathname === "/" ? category : null;
+  const onCategory = (id: string | null) => {
+    setCategory(id);
+    if (pathname !== "/") router.push("/");
+  };
+
   return (
     <>
-      <Rail onSearch={openPalette} />
-      <MobileBar onSearch={openPalette} />
+      <Rail activeCategory={activeCategory} onCategory={onCategory} onSearch={openPalette} />
+      <MobileBar activeCategory={activeCategory} onCategory={onCategory} onSearch={openPalette} />
       <CommandPalette open={open} onClose={() => setOpen(false)} />
     </>
   );

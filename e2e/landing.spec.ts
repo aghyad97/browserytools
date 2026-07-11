@@ -68,3 +68,44 @@ test.describe("landing SEO parity", () => {
     await expect(page.locator('a[href="/coffee"]')).toHaveCount(1);
   });
 });
+
+/**
+ * Rail → landing filter wiring (fix: rail categories now write to the shared
+ * category-filter store instead of being dead `<Link href="/">`s).
+ */
+test.describe("rail category filter", () => {
+  test("clicking a rail category filters the Popular grid and shows the active dot", async ({
+    page,
+  }) => {
+    await page.goto("/", { waitUntil: "domcontentloaded" });
+
+    const popularGrid = page.getByTestId("popular-grid");
+    // Unfiltered Popular grid is capped at 47 tiles.
+    await expect(popularGrid.getByRole("link")).toHaveCount(47);
+
+    // The rail is the page's <aside> (complementary landmark) — scope to it
+    // since the landing's own chip row repeats the same category labels.
+    const rail = page.getByRole("complementary");
+
+    // "Games" (testsGames) has exactly one tool — a distinctive singleton
+    // category unrelated to image tools.
+    const gamesBtn = rail.getByRole("button", { name: "Games", exact: true });
+    await gamesBtn.click();
+
+    await expect(gamesBtn.getByTestId("rail-active-dot")).toBeVisible();
+    await expect(popularGrid.getByRole("link")).toHaveCount(1);
+    await expect(popularGrid.getByText(en.ToolsConfig.tools["typing-test"].name)).toBeVisible();
+    await expect(
+      popularGrid.getByText(en.ToolsConfig.tools["bg-removal"].name),
+    ).toHaveCount(0);
+
+    // "Everything" clears the filter and restores the full grid.
+    const everythingBtn = rail.getByRole("button", {
+      name: "Everything",
+      exact: true,
+    });
+    await everythingBtn.click();
+    await expect(everythingBtn.getByTestId("rail-active-dot")).toBeVisible();
+    await expect(popularGrid.getByRole("link")).toHaveCount(47);
+  });
+});

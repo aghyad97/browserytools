@@ -21,7 +21,15 @@ import { Rail } from "./rail";
 import { BrandGlyph } from "./brand-glyph";
 import s from "./mobile-bar.module.css";
 
-export function MobileBar({ onSearch }: { onSearch: () => void }) {
+export function MobileBar({
+  activeCategory,
+  onCategory,
+  onSearch,
+}: {
+  activeCategory?: string | null;
+  onCategory?: (id: string | null) => void;
+  onSearch: () => void;
+}) {
   const t = useTranslations("Rail");
   const tHeader = useTranslations("Header");
   const tCommon = useTranslations("Common");
@@ -52,6 +60,15 @@ export function MobileBar({ onSearch }: { onSearch: () => void }) {
         >
           <Rail
             variant="sheet"
+            activeCategory={activeCategory}
+            onCategory={
+              onCategory
+                ? (id) => {
+                    setMenuOpen(false);
+                    onCategory(id);
+                  }
+                : undefined
+            }
             onSearch={() => {
               setMenuOpen(false);
               onSearch();
