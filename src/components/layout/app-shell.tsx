@@ -11,12 +11,18 @@
 import { usePathname, useRouter } from "next/navigation";
 import { Rail } from "./rail";
 import { MobileBar } from "./mobile-bar";
-import { CommandPalette, useCommandPalette } from "./command-palette";
+import {
+  CommandPalette,
+  openCommandPalette,
+  useCommandPalette,
+} from "./command-palette";
 import { useCategoryFilterStore } from "@/store/category-filter-store";
 
 export function AppShell() {
-  const { open, setOpen } = useCommandPalette();
-  const openPalette = () => setOpen(true);
+  const { open, setOpen, animated } = useCommandPalette();
+  // Route the mobile-bar search button through the shared open event so it
+  // gets the same pointer-open animation as the top-bar / suggestion buttons.
+  const openPalette = () => openCommandPalette();
 
   const pathname = usePathname();
   const router = useRouter();
@@ -34,7 +40,11 @@ export function AppShell() {
     <>
       <Rail activeCategory={activeCategory} onCategory={onCategory} />
       <MobileBar activeCategory={activeCategory} onCategory={onCategory} onSearch={openPalette} />
-      <CommandPalette open={open} onClose={() => setOpen(false)} />
+      <CommandPalette
+        open={open}
+        onClose={() => setOpen(false)}
+        animated={animated}
+      />
     </>
   );
 }

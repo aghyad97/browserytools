@@ -90,3 +90,40 @@
   font-size: 13px;
   color: var(--bt-muted);
 }
+
+/* ---------- pointer-open transition (spec §2.5) ----------
+   Only pointer-triggered opens (top-bar / mobile-bar / suggestion button)
+   animate; keyboard opens (⌘K, "/") mount with no class and stay instant.
+   Close (Esc / backdrop) is instant either way — the palette just unmounts. */
+@keyframes cmdOverlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cmdPanelPop {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.overlayAnim {
+  animation: cmdOverlayFade 120ms var(--bt-ease-out);
+}
+.panelAnim {
+  transform-origin: top center;
+  animation: cmdPanelPop 160ms var(--bt-ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlayAnim,
+  .panelAnim {
+    animation: none;
+  }
+}

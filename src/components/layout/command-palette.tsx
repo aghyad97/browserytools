@@ -47,9 +47,14 @@ const MAX_RESULTS = 9;
    the palette state) dispatches to open the palette without prop-drilling. */
 export const OPEN_COMMAND_PALETTE_EVENT = "bt:open-command-palette";
 
-/** Request the ⌘K palette to open from anywhere in the app. */
+/** Request the ⌘K palette to open from anywhere in the app. Every caller of
+    this is a pointer affordance (top-bar / mobile-bar / suggestion-panel
+    button), so the open animates. Keyboard opens (⌘K, "/") bypass this event
+    and stay instant — see useCommandPalette. */
 export function openCommandPalette() {
-  window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE_EVENT));
+  window.dispatchEvent(
+    new CustomEvent(OPEN_COMMAND_PALETTE_EVENT, { detail: { animated: true } }),
+  );
 }
 
 /* Open/close state + global shortcuts: ⌘K / Ctrl+K toggle, "/" when idle,
@@ -57,6 +62,9 @@ export function openCommandPalette() {
    above so the landing search button can trigger it. */
 export function useCommandPalette() {
   const [open, setOpen] = useState(false);
+  // Whether the *current* open was pointer-triggered (animate) or keyboard
+  // (instant). Read by CommandPalette to pick the open transition.
+  const [animated, setAnimated] = useState(false);
   // Mirror `open` into a ref so the (once-registered) keydown listener can read
   // the current state without a side effect inside a setState updater — updaters
   // must be pure, and React StrictMode double-invokes them (which would double
@@ -70,6 +78,7 @@ export function useCommandPalette() {
         (e.key === "/" && !isTyping(e))
       ) {
         e.preventDefault();
+        setAnimated(false); // keyboard opens are instant
         setOpen((o) => !o);
       }
       if (e.key === "Escape") {
@@ -78,7 +87,10 @@ export function useCommandPalette() {
         setOpen(false);
       }
     };
-    const openViaEvent = () => setOpen(true);
+    const openViaEvent = (e: Event) => {
+      setAnimated((e as CustomEvent).detail?.animated ?? true);
+      setOpen(true);
+    };
     window.addEventListener("keydown", down);
     window.addEventListener(OPEN_COMMAND_PALETTE_EVENT, openViaEvent);
     return () => {
@@ -86,7 +98,7 @@ export function useCommandPalette() {
       window.removeEventListener(OPEN_COMMAND_PALETTE_EVENT, openViaEvent);
     };
   }, []);
-  return { open, setOpen };
+  return { open, setOpen, animated };
 }
 
 function isTyping(e: KeyboardEvent) {
@@ -100,9 +112,12 @@ function isTyping(e: KeyboardEvent) {
 export function CommandPalette({
   open,
   onClose,
+  animated = false,
 }: {
   open: boolean;
   onClose: () => void;
+  /** Pointer-triggered open → play the open transition. Keyboard → instant. */
+  animated?: boolean;
 }) {
   const router = useRouter();
   const t = useTranslations("Landing");
@@ -159,7 +174,7 @@ export function CommandPalette({
 
   return (
     <div
-      className={s.overlay}
+      className={`${s.overlay} ${animated ? s.overlayAnim : ""}`}
       data-testid="command-palette-overlay"
       onMouseDown={(e) => {
         if (e.target === e.currentTarget) {
@@ -169,7 +184,7 @@ export function CommandPalette({
       }}
     >
       <div
-        className={s.panel}
+        className={`${s.panel} ${animated ? s.panelAnim : ""}`}
         role="dialog"
         aria-modal="true"
         aria-label={tRail("search")}
