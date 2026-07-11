@@ -414,7 +414,7 @@ export default function PDFTools() {
                   accept={imageAccept}
                   multiple
                   inputProps={{ "data-testid": "image-input" }}
-                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
@@ -553,7 +553,7 @@ export default function PDFTools() {
                   accept={pdfAccept}
                   multiple
                   inputProps={{ "data-testid": "pdf-input" }}
-                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
@@ -664,7 +664,7 @@ export default function PDFTools() {
                   accept={pdfAccept}
                   multiple
                   inputProps={{ "data-testid": "pdf-split-input" }}
-                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"

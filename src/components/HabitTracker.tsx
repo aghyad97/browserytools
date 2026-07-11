@@ -306,7 +306,7 @@ export default function HabitTracker() {
             const isEditing = editingId === habit.id;
 
             return (
-              <Card key={habit.id} className={`transition-all ${doneToday ? "ring-1 ring-green-400 dark:ring-green-600" : ""}`}>
+              <Card key={habit.id} className={`transition-shadow ${doneToday ? "ring-1 ring-green-400 dark:ring-green-600" : ""}`}>
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-start gap-3">
                     {/* Toggle Button */}

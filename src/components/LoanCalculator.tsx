@@ -178,11 +178,11 @@ export default function LoanCalculator() {
                   </div>
                   <div className="h-3 rounded-full overflow-hidden bg-muted flex">
                     <div
-                      className="bg-primary h-full transition-all"
+                      className="bg-primary h-full transition-[width]"
                       style={{ width: `${principalPct}%` }}
                     />
                     <div
-                      className="bg-orange-400 h-full transition-all"
+                      className="bg-orange-400 h-full transition-[width]"
                       style={{ width: `${interestPct}%` }}
                     />
                   </div>

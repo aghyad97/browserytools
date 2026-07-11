@@ -315,7 +315,7 @@ export default function PomodoroTimer() {
                 <button
                   key={type}
                   onClick={() => handleSwitchSession(type)}
-                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-all ${
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${
                     sessionType === type
                       ? `${SESSION_COLORS[type].badge} border`
                       : "text-muted-foreground border-transparent hover:border-border"
@@ -333,7 +333,7 @@ export default function PomodoroTimer() {
                   <circle
                     cx="120" cy="120" r="110" fill="none" strokeWidth="8" strokeLinecap="round"
                     strokeDasharray={circumference} strokeDashoffset={strokeDashoffset}
-                    className={`${colors.ring} transition-all duration-1000 ease-linear`}
+                    className={`${colors.ring} transition-[stroke-dashoffset] duration-1000 ease-linear`}
                   />
                 </svg>
                 <div className="text-center z-10 select-none">
@@ -350,7 +350,7 @@ export default function PomodoroTimer() {
                 {Array.from({ length: settings.sessionsBeforeLongBreak }).map((_, i) => (
                   <div
                     key={i}
-                    className={`w-3 h-3 rounded-full transition-all duration-300 ${
+                    className={`w-3 h-3 rounded-full transition-colors duration-300 ${
                       i < workSessionCount
                         ? "bg-red-500"
                         : i === workSessionCount && sessionType === "work"

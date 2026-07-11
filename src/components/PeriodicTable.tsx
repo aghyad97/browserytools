@@ -156,7 +156,7 @@ export default function PeriodicTable() {
                   onClick={() => setSelected(el)}
                   title={el.name}
                   style={{ gridColumn: el.xpos, gridRow: el.ypos }}
-                  className={`group aspect-square rounded-sm border border-black/5 dark:border-white/10 p-1 text-start leading-none transition-all hover:scale-[1.08] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                  className={`group aspect-square rounded-sm border border-black/5 dark:border-white/10 p-1 text-start leading-none transition-[transform,box-shadow] duration-150 hover:scale-[1.08] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     categoryStyles[el.category]
                   } ${isDimmed(el) ? "opacity-20" : "opacity-100"}`}
                 >

@@ -314,7 +314,7 @@ export default function CurrencyConverter() {
                   variant="outline"
                   size="icon"
                   onClick={handleSwap}
-                  className="rounded-full h-12 w-12 border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-200"
+                  className="rounded-full h-12 w-12 border-2 hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
                 >
                   <ArrowUpDown className="w-5 h-5" />
                 </Button>

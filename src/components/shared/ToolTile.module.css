@@ -8,6 +8,7 @@
 
 .tile {
   position: relative;
+  z-index: 0; /* stacking context so ::before shadow layer sits behind content */
   display: flex;
   align-items: center;
   gap: 12px;
@@ -20,8 +21,21 @@
   text-align: start;
   color: inherit;
   text-decoration: none;
-  transition: transform 180ms var(--bt-ease-out), border-color 150ms ease,
-    box-shadow 200ms var(--bt-ease-out);
+  transition: transform 180ms var(--bt-ease-out), border-color 150ms ease;
+}
+/* Hover shadow as an opacity-faded pseudo layer instead of an animated
+   box-shadow — box-shadow transitions repaint every frame; opacity is a
+   compositor-only property. */
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--bt-shadow-pop);
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 200ms var(--bt-ease-out);
 }
 .tile:active {
   transform: scale(0.97);
@@ -29,8 +43,10 @@
 @media (hover: hover) and (pointer: fine) {
   .tile:hover {
     border-color: var(--bt-line-strong);
-    box-shadow: var(--bt-shadow-pop);
     transform: translateY(-1px);
+  }
+  .tile:hover::before {
+    opacity: 1;
   }
   .tile:hover .tileChip {
     transform: scale(1.07);
@@ -94,6 +110,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .tile,
+  .tile::before,
   .tileChip {
     transition: none;
   }

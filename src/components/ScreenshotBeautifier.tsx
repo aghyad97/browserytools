@@ -371,7 +371,7 @@ export default function ScreenshotBeautifier() {
                   accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] }}
                   multiple={false}
                   className={({ isDragActive }) =>
-                    `h-80 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
+                    `h-80 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
                       isDragActive
                         ? "border-primary bg-primary/10 scale-[0.99]"
                         : "border-muted-foreground hover:border-primary hover:bg-primary/5"

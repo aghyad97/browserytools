@@ -506,7 +506,7 @@ export default function VideoEditor() {
                 className={({ isDragActive }) => `
                   h-64 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
-                  cursor-pointer transition-all duration-200
+                  cursor-pointer transition-[border-color,background-color] duration-150
                   ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
@@ -967,7 +967,7 @@ export default function VideoEditor() {
                           <div className="space-y-3">
                             <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
                               <div
-                                className="h-full bg-primary transition-all"
+                                className="h-full bg-primary transition-[width]"
                                 style={{ width: `${gifProgress}%` }}
                               />
                             </div>

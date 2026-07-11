@@ -298,7 +298,7 @@ export default function BmiCalculator() {
                   ))}
                   {/* Marker */}
                   <div
-                    className="absolute top-0 bottom-0 w-0.5 bg-white shadow-md transition-all duration-500"
+                    className="absolute top-0 bottom-0 w-0.5 bg-white shadow-md transition-[left] duration-500"
                     style={{ left: `${result.gaugePos}%` }}
                   >
                     <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rounded-full border-2 border-gray-700 shadow" />

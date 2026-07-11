@@ -299,7 +299,7 @@ export default function ImageColorPicker() {
                   multiple={false}
                   inputProps={{ "data-testid": "image-input" }}
                   className={({ isDragActive }) =>
-                    `h-72 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
+                    `h-72 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
                       isDragActive
                         ? "border-primary bg-primary/10 scale-[0.99]"
                         : "border-muted-foreground hover:border-primary hover:bg-primary/5"

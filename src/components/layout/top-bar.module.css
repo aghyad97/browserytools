@@ -20,8 +20,8 @@
   padding-block: 9px;
   padding-inline: 48px;
   background: color-mix(in srgb, var(--bt-bg) 72%, transparent);
-  backdrop-filter: blur(12px) saturate(1.4);
-  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
 }
 
 @media (max-width: 900px) {

@@ -132,7 +132,7 @@ export default function ContextWindowCalculator() {
               </div>
               <div className="w-full bg-muted rounded-full h-3 overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all ${getBarColor()}`}
+                  className={`h-full rounded-full transition-[width] ${getBarColor()}`}
                   style={{ width: `${usagePercent}%` }}
                 />
               </div>

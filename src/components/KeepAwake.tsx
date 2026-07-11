@@ -263,7 +263,7 @@ export default function KeepAwake() {
                     type="button"
                     onClick={() => setSelectedPreset(p.key)}
                     disabled={isActive}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium border transition-all flex items-center justify-center gap-1.5 ${
+                    className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors flex items-center justify-center gap-1.5 ${
                       active
                         ? "bg-primary text-primary-foreground border-primary"
                         : "bg-background text-foreground border-input hover:border-primary/40"
@@ -278,7 +278,7 @@ export default function KeepAwake() {
                 type="button"
                 onClick={() => setSelectedPreset("custom")}
                 disabled={isActive}
-                className={`px-3 py-2 rounded-lg text-sm font-medium border transition-all ${
+                className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
                   selectedPreset === "custom"
                     ? "bg-primary text-primary-foreground border-primary"
                     : "bg-background text-foreground border-input hover:border-primary/40"

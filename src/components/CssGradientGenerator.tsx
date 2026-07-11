@@ -352,7 +352,7 @@ export default function CssGradientGenerator() {
                   ? `radial-gradient(circle at center, ${stopStr})`
                   : `conic-gradient(from 0deg at center, ${stopStr})`;
                 return (
-                  <button key={preset.name} onClick={() => loadPreset(preset)} className="group relative h-20 rounded-lg border overflow-hidden hover:ring-2 hover:ring-primary transition-all" style={{ background: bg }} title={preset.name}>
+                  <button key={preset.name} onClick={() => loadPreset(preset)} className="group relative h-20 rounded-lg border overflow-hidden hover:ring-2 hover:ring-primary transition-shadow" style={{ background: bg }} title={preset.name}>
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <span className="text-white text-xs font-medium text-center px-2 leading-tight">{preset.name}</span>
                     </div>

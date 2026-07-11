@@ -355,7 +355,7 @@ export default function PhotoCensor() {
                   className={({ isDragActive }) => `
                     h-80 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
-                    cursor-pointer transition-all duration-200
+                    cursor-pointer transition-[border-color,background-color] duration-150
                     ${
                       isDragActive
                         ? "border-primary bg-primary/10 scale-[0.99]"

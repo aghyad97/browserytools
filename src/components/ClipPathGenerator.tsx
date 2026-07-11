@@ -340,7 +340,7 @@ export default function ClipPathGenerator() {
                     key={preset.key}
                     type="button"
                     onClick={() => loadPreset(preset)}
-                    className="group flex flex-col items-center gap-2 rounded-lg border p-3 hover:ring-2 hover:ring-primary transition-all"
+                    className="group flex flex-col items-center gap-2 rounded-lg border p-3 hover:ring-2 hover:ring-primary transition-shadow"
                     title={presetLabel(preset.key)}
                   >
                     <div className="h-16 w-16 bg-gradient-to-br from-indigo-500 to-pink-500" style={{ clipPath: cp, WebkitClipPath: cp }} />

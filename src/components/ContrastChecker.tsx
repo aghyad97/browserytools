@@ -276,7 +276,7 @@ export default function ContrastChecker() {
                 <button
                   key={p.label}
                   onClick={() => applyPreset(p)}
-                  className="flex items-center gap-2 p-2 rounded-lg border hover:border-primary hover:bg-muted/30 transition-all text-start"
+                  className="flex items-center gap-2 p-2 rounded-lg border hover:border-primary hover:bg-muted/30 transition-colors text-start"
                 >
                   <div className="flex flex-shrink-0">
                     <div className="w-5 h-5 rounded-l border" style={{ backgroundColor: p.fg }} />

@@ -56,12 +56,6 @@
   height: 6px;
   border-radius: 50%;
   background: var(--bt-green);
-  animation: pulse 2.4s var(--bt-ease-in-out) infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.45; transform: scale(0.82); }
 }
 
 .railNav {
@@ -256,8 +250,8 @@
   animation: sponsorIn 320ms var(--bt-ease-out);
 }
 @keyframes sponsorIn {
-  from { opacity: 0; transform: translateY(5px); filter: blur(2px); }
-  to { opacity: 1; transform: translateY(0); filter: blur(0); }
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
 }
 .sponsorHead { display: flex; align-items: center; gap: 12px; }
 .sponsorLogo {
