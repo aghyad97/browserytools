@@ -4698,7 +4698,9 @@
     "sponsorLabel": "Спонсор",
     "new": "новое",
     "language": "Язык",
-    "theme": "Тема"
+    "theme": "Тема",
+    "soundOn": "Звук включён",
+    "soundOff": "Звук выключен"
   },
   "Landing": {
     "statementLead": "Все инструменты, которые вам нужны.",

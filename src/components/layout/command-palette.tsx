@@ -23,10 +23,11 @@
  * stays untouched (SEO contract).
  */
 
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { tools } from "@/lib/tools-config";
+import { playCue } from "@/lib/ui-sound";
 import s from "./command-palette.module.css";
 
 /* Locale-independent flat index — names/labels resolve via i18n at render. */
@@ -56,6 +57,12 @@ export function openCommandPalette() {
    above so the landing search button can trigger it. */
 export function useCommandPalette() {
   const [open, setOpen] = useState(false);
+  // Mirror `open` into a ref so the (once-registered) keydown listener can read
+  // the current state without a side effect inside a setState updater — updaters
+  // must be pure, and React StrictMode double-invokes them (which would double
+  // the close cue in dev).
+  const openRef = useRef(open);
+  openRef.current = open;
   useEffect(() => {
     const down = (e: KeyboardEvent) => {
       if (
@@ -65,7 +72,11 @@ export function useCommandPalette() {
         e.preventDefault();
         setOpen((o) => !o);
       }
-      if (e.key === "Escape") setOpen(false);
+      if (e.key === "Escape") {
+        // close cue only when it was actually open (esc while closed is a no-op)
+        if (openRef.current) playCue("close");
+        setOpen(false);
+      }
     };
     const openViaEvent = () => setOpen(true);
     window.addEventListener("keydown", down);
@@ -129,6 +140,7 @@ export function CommandPalette({
     if (open) {
       setQ("");
       setIndex(0);
+      playCue("open");
     }
   }, [open]);
 
@@ -136,6 +148,7 @@ export function CommandPalette({
 
   const go = useCallback(
     (href: string) => {
+      playCue("press");
       onClose();
       router.push(href);
     },
@@ -149,7 +162,10 @@ export function CommandPalette({
       className={s.overlay}
       data-testid="command-palette-overlay"
       onMouseDown={(e) => {
-        if (e.target === e.currentTarget) onClose();
+        if (e.target === e.currentTarget) {
+          playCue("close");
+          onClose();
+        }
       }}
     >
       <div

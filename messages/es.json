@@ -4698,7 +4698,9 @@
     "sponsorLabel": "Patrocinador",
     "new": "nuevo",
     "language": "Idioma",
-    "theme": "Tema"
+    "theme": "Tema",
+    "soundOn": "Sonido activado",
+    "soundOff": "Sonido desactivado"
   },
   "Landing": {
     "statementLead": "Todas las herramientas que necesitas.",

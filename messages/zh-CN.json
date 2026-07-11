@@ -4698,7 +4698,9 @@
     "sponsorLabel": "赞助",
     "new": "新",
     "language": "语言",
-    "theme": "主题"
+    "theme": "主题",
+    "soundOn": "声音开启",
+    "soundOff": "声音关闭"
   },
   "Landing": {
     "statementLead": "你需要的每一个工具。",

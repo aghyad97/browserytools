@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { copyText } from "@/lib/clipboard";
+import { playCue } from "@/lib/ui-sound";
 
 interface CopyButtonProps {
   text: string;
@@ -39,6 +40,7 @@ export function CopyButton({
   const onClick = async () => {
     if (await copyText(text)) {
       toast.success(resolvedSuccessMessage);
+      playCue("success");
       setCopied(true);
       clearTimeout(resetTimerRef.current);
       resetTimerRef.current = setTimeout(() => setCopied(false), 1500);

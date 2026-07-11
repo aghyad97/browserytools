@@ -4698,7 +4698,9 @@
     "sponsorLabel": "Sponsor",
     "new": "baru",
     "language": "Bahasa",
-    "theme": "Tema"
+    "theme": "Tema",
+    "soundOn": "Suara aktif",
+    "soundOff": "Suara nonaktif"
   },
   "Landing": {
     "statementLead": "Semua alat yang Anda butuhkan.",

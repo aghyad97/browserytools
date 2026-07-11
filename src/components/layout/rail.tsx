@@ -23,6 +23,8 @@ import { tools } from "@/lib/tools-config";
 import { SPONSORS, ROTATE_MS, type Sponsor } from "@/lib/sponsors";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { SoundSwitcher } from "@/components/sound-switcher";
+import { playCue } from "@/lib/ui-sound";
 import { BrandGlyph } from "./brand-glyph";
 import s from "./rail.module.css";
 
@@ -123,7 +125,14 @@ export function Rail({
     );
     if (onCategory) {
       return (
-        <button key={id ?? "all"} className={cls} onClick={() => onCategory(id)}>
+        <button
+          key={id ?? "all"}
+          className={cls}
+          onClick={() => {
+            playCue("tick");
+            onCategory(id);
+          }}
+        >
           {inner}
         </button>
       );
@@ -178,6 +187,7 @@ export function Rail({
           <span title={t("language")}>
             <LanguageSwitcher />
           </span>
+          <SoundSwitcher />
         </div>
         <button className={s.pillDark} onClick={onSearch}>
           <SearchIcon size={13} />

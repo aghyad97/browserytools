@@ -10,6 +10,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { cn } from "@/lib/utils";
+import { playCue } from "@/lib/ui-sound";
 
 interface ThemeSwitcherProps {
   variant?: "outline" | "ghost";
@@ -21,6 +22,11 @@ export function ThemeSwitcher({
   className,
 }: ThemeSwitcherProps) {
   const { setTheme } = useTheme();
+
+  const pick = (theme: string) => {
+    setTheme(theme);
+    playCue("toggle");
+  };
 
   return (
     <DropdownMenu>
@@ -36,15 +42,15 @@ export function ThemeSwitcher({
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem onClick={() => setTheme("light")}>
+        <DropdownMenuItem onClick={() => pick("light")}>
           <Sun className="me-2 h-4 w-4" />
           <span>Light</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("dark")}>
+        <DropdownMenuItem onClick={() => pick("dark")}>
           <Moon className="me-2 h-4 w-4" />
           <span>Dark</span>
         </DropdownMenuItem>
-        <DropdownMenuItem onClick={() => setTheme("system")}>
+        <DropdownMenuItem onClick={() => pick("system")}>
           <Monitor className="me-2 h-4 w-4" />
           <span>System</span>
         </DropdownMenuItem>

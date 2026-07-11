@@ -4698,7 +4698,9 @@
     "sponsorLabel": "Sponsor",
     "new": "new",
     "language": "Language",
-    "theme": "Theme"
+    "theme": "Theme",
+    "soundOn": "Sound on",
+    "soundOff": "Sound off"
   },
   "Landing": {
     "statementLead": "Every tool you need.",

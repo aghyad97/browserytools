@@ -4698,7 +4698,9 @@
     "sponsorLabel": "راعٍ",
     "new": "جديد",
     "language": "اللغة",
-    "theme": "المظهر"
+    "theme": "المظهر",
+    "soundOn": "الصوت مُفعّل",
+    "soundOff": "الصوت متوقف"
   },
   "Landing": {
     "statementLead": "كل أداة تحتاجها.",

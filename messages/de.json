@@ -4698,7 +4698,9 @@
     "sponsorLabel": "Sponsor",
     "new": "neu",
     "language": "Sprache",
-    "theme": "Design"
+    "theme": "Design",
+    "soundOn": "Ton an",
+    "soundOff": "Ton aus"
   },
   "Landing": {
     "statementLead": "Alle Tools, die du brauchst.",

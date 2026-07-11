@@ -12,6 +12,7 @@
  */
 
 import type { PrimaryAction } from "./tool-shell";
+import { playCue } from "@/lib/ui-sound";
 import s from "./tool-shell.module.css";
 
 /**
@@ -50,7 +51,10 @@ export function ControlsBar({
         <button
           type="button"
           className={s.pillPrimary}
-          onClick={primaryAction.onClick}
+          onClick={() => {
+            playCue("press");
+            primaryAction.onClick();
+          }}
           disabled={primaryAction.disabled}
           data-testid="tool-shell-primary"
         >
