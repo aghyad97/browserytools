@@ -109,11 +109,6 @@ export const metadata: Metadata = {
   category: "technology",
   classification: "Productivity Tools",
   referrer: "origin-when-cross-origin",
-  colorScheme: "light dark",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -146,6 +141,11 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FCFCFB" },
+    { media: "(prefers-color-scheme: dark)", color: "#0E0E0D" },
+  ],
 };
 
 export default async function RootLayout({
