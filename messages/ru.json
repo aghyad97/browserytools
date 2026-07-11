@@ -56,9 +56,7 @@
     "twitter": "Подписаться на нас в X (Twitter)"
   },
   "LanguageSwitcher": {
-    "label": "Язык",
-    "en": "English",
-    "ar": "العربية"
+    "label": "Язык"
   },
   "Sidebar": {
     "searchPlaceholder": "Поиск инструментов...",

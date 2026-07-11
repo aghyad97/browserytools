@@ -56,9 +56,7 @@
     "twitter": "تابعنا على X (تويتر)"
   },
   "LanguageSwitcher": {
-    "label": "اللغة",
-    "en": "English",
-    "ar": "العربية"
+    "label": "اللغة"
   },
   "Sidebar": {
     "searchPlaceholder": "ابحث عن الأدوات...",

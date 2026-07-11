@@ -56,10 +56,7 @@
     "twitter": "在 X（Twitter）上关注我们"
   },
   "LanguageSwitcher": {
-    "label": "语言",
-    "en": "English",
-    "ar": "العربية",
-    "zh-CN": "简体中文"
+    "label": "语言"
   },
   "Sidebar": {
     "searchPlaceholder": "搜索工具",

@@ -26,7 +26,9 @@ const SLUG_CATEGORY = new Map(
    a second one (the smoke suite enforces exactly one h1 per route). Derived by
    scanning each tool's page.tsx + imported @/components tree for `<h1`;
    grows as tools migrate to the five-zone template (which owns the title) —
-   an adopting tool adds its slug here so ToolTitle stands down. */
+   an adopting tool adds its slug here so ToolTitle stands down.
+   As of R2 every catalogued tool is listed, so ToolTitle renders nothing today;
+   it remains as the safety net for future tools added without ToolShell. */
 const HAS_OWN_H1 = new Set([
   "aspect-ratio",
   "audio",
@@ -64,9 +66,8 @@ const HAS_OWN_H1 = new Set([
   "screenshot-beautifier",
   "svg-png",
   "json-formatter",
-  // NOT "invoice": its own <h1> sits inside the Radix "preview" tab, which is
-  // not in the DOM at load (default tab is "details") — ToolTitle must supply
-  // the page h1.
+  // "invoice" was excluded pre-B4 (its own <h1> hid inside an inactive Radix
+  // tab); it joined the set when B4 wrapped it in ToolShell — listed below.
   "keep-awake",
   "loan-calculator",
   // markdown-editor: no literal <h1> in source, but its ReactMarkdown preview
@@ -141,7 +142,6 @@ const HAS_OWN_H1 = new Set([
   "pdf",
   "zip",
   "spreadsheet",
-  "file-converter",
   // R2 batch B5: Data + Media Tools migrated onto ToolShell (the shell owns the
   // h1). fake-data, audio and screen-recorder were already listed above (they
   // rendered their own h1 pre-migration) and are unchanged here.
