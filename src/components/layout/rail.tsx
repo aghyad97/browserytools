@@ -137,10 +137,11 @@ export function Rail({
 
   return (
     <aside className={variant === "sheet" ? s.railSheet : s.rail}>
-      <Link href="/" aria-label={tCommon("siteName")}>
+      <Link href="/" aria-label={tCommon("siteName")} className={s.railBrand}>
         <div className={s.railGlyph}>
           <BrandGlyph size={16} />
         </div>
+        <span className={s.railWordmark}>{tCommon("siteName")}</span>
       </Link>
 
       <div className={s.railLive}>

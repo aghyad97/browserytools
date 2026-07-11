@@ -23,6 +23,21 @@
   font-feature-settings: "ss01";
 }
 
+.railBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.railWordmark {
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.2px;
+  color: var(--bt-ink);
+  white-space: nowrap;
+}
+
 .railGlyph {
   width: 28px;
   height: 28px;
