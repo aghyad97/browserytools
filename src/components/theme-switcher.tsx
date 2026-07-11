@@ -1,6 +1,7 @@
 "use client";
 
 import { Moon, Sun, Monitor } from "lucide-react";
+import { flushSync } from "react-dom";
 import { useTheme } from "next-themes";
 import { Button } from "@/components/ui/button";
 import {
@@ -24,8 +25,28 @@ export function ThemeSwitcher({
   const { setTheme } = useTheme();
 
   const pick = (theme: string) => {
-    setTheme(theme);
     playCue("toggle");
+    // Soft theme flip: a single coordinated crossfade of the whole surface via
+    // the View Transitions API. next-themes runs with `disableTransitionOnChange`
+    // (it injects `*{transition:none}` during the class swap), so a CSS-transition
+    // soft-flip can't fire — the VT crossfade sidesteps that entirely and only
+    // runs on an explicit toggle, so initial load is unaffected. flushSync forces
+    // next-themes' effect-driven class flip to commit inside the transition so
+    // the new-state snapshot captures the new theme. Feature-checked + gated on
+    // reduced motion; anything unsupported falls back to an instant setTheme.
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => unknown;
+    };
+    const reduced =
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (typeof doc.startViewTransition === "function" && !reduced) {
+      doc.startViewTransition(() => flushSync(() => setTheme(theme)));
+    } else {
+      setTheme(theme);
+    }
   };
 
   return (

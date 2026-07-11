@@ -94,3 +94,19 @@ html[lang="ar"] input[type="number"] {
   direction: ltr;
   text-align: right;
 }
+
+/* Soft theme flip — the ThemeSwitcher wraps the class swap in a View
+   Transition (feature-checked + reduced-motion-gated in JS). Shorten the
+   default root crossfade to a soft ~180ms so light/dark tokens cross-dissolve
+   instead of hard-cutting. Only fires on an explicit toggle, never on load. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: var(--bt-ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
