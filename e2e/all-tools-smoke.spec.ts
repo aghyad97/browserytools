@@ -10,14 +10,18 @@ const IGNORED = [
   // rapid full-catalog smoke; the rail already hides the badge on failure
   // (spec §3, "hidden on failure"), so this external rate-limit is not a
   // regression. The browser logs the failed fetch as a resource error whose URL
-  // lives in the message location, not the text — so match both. During this
-  // passive load-only smoke (no tool interaction) the rail badge is the only
-  // external auth/rate-limit-prone request, so an auth/limit status here is it.
+  // lives in the message location, not the text — the console handler below
+  // matches against text + location URL, so this stays scoped to the GitHub
+  // API only. No unscoped status-code ignores.
   /api\.github\.com/i,
-  /failed to load resource: the server responded with a status of (401|403|429)/i,
 ];
 
-for (const { href, name } of routes) {
+// Every route must render with exactly one h1 (the tool/page title), at least
+// one visible heading, no console errors. The homepage is covered too — the
+// retired Header carried its h1, so the landing must keep its own.
+const PAGES = [{ href: "/", name: "Homepage" }, ...routes];
+
+for (const { href, name } of PAGES) {
   test(`smoke: ${name} (${href})`, async ({ page }) => {
     const errors: string[] = [];
     page.on("console", (msg) => {
@@ -34,6 +38,9 @@ for (const { href, name } of routes) {
     const res = await page.goto(href, { waitUntil: "domcontentloaded" });
     expect(res?.status(), "HTTP status").toBeLessThan(400);
     await expect(page.locator("h1, h2").first()).toBeVisible({ timeout: 10_000 });
+    // Exactly one h1 per page — guards both the ToolTitle/own-h1 split on tool
+    // routes and heading regressions anywhere in the shell.
+    await expect(page.locator("h1"), `h1 count on ${href}`).toHaveCount(1);
     expect(errors, `console errors on ${href}`).toEqual([]);
   });
 }

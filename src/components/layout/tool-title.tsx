@@ -22,6 +22,58 @@ const SLUG_CATEGORY = new Map(
   ),
 );
 
+/* Tools whose component already renders its own <h1> — ToolTitle must not add
+   a second one (the smoke suite enforces exactly one h1 per route). Derived by
+   scanning each tool's page.tsx + imported @/components tree for `<h1`;
+   shrinks as tools migrate to the five-zone template (which owns the title). */
+const HAS_OWN_H1 = new Set([
+  "aspect-ratio",
+  "audio",
+  "audio-transcriber",
+  "bmi-calculator",
+  "code-screenshot",
+  "color-blindness",
+  "contrast-checker",
+  "css-minifier",
+  "depth-map",
+  "emoji-picker",
+  "exif-remover",
+  "exif-viewer",
+  "fake-data",
+  "file-converter",
+  "habit-tracker",
+  "html-formatter",
+  "http-status",
+  "image-captioner",
+  "image-upscaler",
+  // NOT "invoice": its own <h1> sits inside the Radix "preview" tab, which is
+  // not in the DOM at load (default tab is "details") — ToolTitle must supply
+  // the page h1.
+  "keep-awake",
+  "loan-calculator",
+  // markdown-editor: no literal <h1> in source, but its ReactMarkdown preview
+  // renders SAMPLE_MARKDOWN ("# Welcome…") as an <h1> at load.
+  "markdown-editor",
+  "notepad",
+  "object-cutout",
+  "percentage-calculator",
+  "pii-redactor",
+  "pomodoro",
+  "roman-numeral",
+  "screen-recorder",
+  "sentiment-analyzer",
+  "signature-maker",
+  "sql-formatter",
+  "stopwatch",
+  "svg",
+  "text-summarizer",
+  "text-to-speech",
+  "tip-calculator",
+  "translator",
+  "world-clock",
+  "zero-shot-classifier",
+]);
+
 export function ToolTitle() {
   const pathname = usePathname();
   const tc = useTranslations("ToolsConfig");
@@ -30,7 +82,7 @@ export function ToolTitle() {
     ? pathname.split("/")[2]
     : undefined;
   const categoryId = slug ? SLUG_CATEGORY.get(slug) : undefined;
-  if (!slug || !categoryId) return null;
+  if (!slug || !categoryId || HAS_OWN_H1.has(slug)) return null;
 
   return (
     <div className={s.wrap}>

@@ -113,10 +113,13 @@ export default function HomePage({ initialSearchQuery = "" }: HomePageProps) {
         )}
 
         <div className="mb-8">
-          <p className="text-2xl text-center text-muted-foreground">
+          {/* The page h1 — the retired Header carried the site h1; the landing
+              tagline takes it over. Tailwind preflight makes headings inherit
+              font size/weight, so the visual is unchanged from the old <p>. */}
+          <h1 className="text-2xl text-center text-muted-foreground">
             {allTools.filter((tool) => tool.available).length}{" "}
             {t("toolCountSuffix")}
-          </p>
+          </h1>
         </div>
 
         {/* Search Bar */}
