@@ -1,8 +1,10 @@
 "use client";
 
 import { useState } from "react";
+import { useTranslations } from "next-intl";
 import { SerializedEditorState } from "lexical";
 import { Editor } from "./blocks/editor-00/editor";
+import { ToolShell } from "@/components/template/tool-shell";
 
 const initialValue = {
   root: {
@@ -35,15 +37,20 @@ const initialValue = {
 } as unknown as SerializedEditorState;
 
 export default function RichEditor() {
+  const tc = useTranslations("ToolsConfig");
   const [editorState, setEditorState] =
     useState<SerializedEditorState>(initialValue);
 
   return (
-    <div>
+    <ToolShell
+      slug="rich-editor"
+      title={tc("tools.rich-editor.name")}
+      sub={tc("tools.rich-editor.description")}
+    >
       <Editor
         editorSerializedState={editorState}
         onSerializedChange={(value) => setEditorState(value)}
       />
-    </div>
+    </ToolShell>
   );
 }

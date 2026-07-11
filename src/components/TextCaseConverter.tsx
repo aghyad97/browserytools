@@ -11,13 +11,16 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 export default function TextCaseConverter() {
   const t = useTranslations("Tools.TextCaseConverter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [inputText, setInputText] = useState("");
   const [outputText, setOutputText] = useState("");
@@ -99,16 +102,6 @@ export default function TextCaseConverter() {
     }
   };
 
-  const handleCopy = () => {
-    if (!outputText) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-
-    navigator.clipboard.writeText(outputText);
-    toast.success(t("copiedToClipboard"));
-  };
-
   const handleClear = () => {
     setInputText("");
     setOutputText("");
@@ -129,7 +122,30 @@ export default function TextCaseConverter() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
+    <ToolShell
+      slug="text-case"
+      title={tc("tools.text-case.name")}
+      sub={tc("tools.text-case.description")}
+      controls={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClear}
+            className="flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            {tCommon("clear")}
+          </Button>
+          <CopyButton
+            text={outputText}
+            successMessage={t("copiedToClipboard")}
+            disabled={!outputText}
+          />
+        </>
+      }
+    >
+      <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input Section */}
         <Card>
@@ -148,15 +164,6 @@ export default function TextCaseConverter() {
               <span className="text-sm text-muted-foreground">
                 {inputText.length} {t("characters")}
               </span>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClear}
-                className="flex items-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" />
-                {tCommon("clear")}
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -178,21 +185,13 @@ export default function TextCaseConverter() {
               <span className="text-sm text-muted-foreground">
                 {outputText.length} {t("characters")}
               </span>
-              <Button
-                onClick={handleCopy}
-                disabled={!outputText}
-                className="flex items-center gap-2"
-              >
-                <Copy className="w-4 h-4" />
-                {tCommon("copy")}
-              </Button>
             </div>
           </CardContent>
         </Card>
       </div>
 
       {/* Case Options */}
-      <Card className="mt-6">
+      <Card>
         <CardHeader>
           <CardTitle>{t("caseOptions")}</CardTitle>
           <CardDescription>{t("caseOptionsDesc")}</CardDescription>
@@ -274,6 +273,7 @@ export default function TextCaseConverter() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

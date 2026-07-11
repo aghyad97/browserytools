@@ -13,9 +13,12 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Download, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 const MAX_OUTPUT_CHARS = 1_000_000;
 
@@ -24,6 +27,7 @@ type SeparatorPreset = "newline" | "space" | "comma" | "pipe" | "none" | "custom
 export default function TextRepeater() {
   const t = useTranslations("Tools.TextRepeater");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const SEPARATOR_PRESETS: { labelKey: string; key: SeparatorPreset; value: string }[] = [
     { labelKey: "sepNewline", key: "newline", value: "\n" },
@@ -68,27 +72,12 @@ export default function TextRepeater() {
     }
   }, []);
 
-  const handleCopy = useCallback(() => {
-    if (!output) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-    navigator.clipboard.writeText(output);
-    toast.success(t("copiedToClipboard"));
-  }, [output, t]);
-
   const handleDownload = useCallback(() => {
     if (!output) {
       toast.error(t("nothingToDownload"));
       return;
     }
-    const blob = new Blob([output], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "repeated-text.txt";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([output], { type: "text/plain" }), "repeated-text.txt");
     toast.success(t("downloaded"));
   }, [output, t]);
 
@@ -100,7 +89,23 @@ export default function TextRepeater() {
   }, []);
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
+    <ToolShell
+      slug="text-repeater"
+      title={tc("tools.text-repeater.name")}
+      sub={tc("tools.text-repeater.description")}
+      controls={
+        <CopyButton
+          text={output}
+          successMessage={t("copiedToClipboard")}
+          disabled={!output || overLimit}
+        />
+      }
+      primaryAction={{
+        label: tCommon("download"),
+        onClick: handleDownload,
+        disabled: !output || overLimit,
+      }}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Controls */}
         <div className="space-y-6">
@@ -197,39 +202,14 @@ export default function TextRepeater() {
         <div className="lg:col-span-2">
           <Card className="h-full">
             <CardHeader>
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <div>
-                  <CardTitle>{t("outputTitle")}</CardTitle>
-                  <CardDescription>
-                    {overLimit
-                      ? t("outputTooLarge")
-                      : output
-                      ? t("repeatedCount", { count })
-                      : t("resultPlaceholder")}
-                  </CardDescription>
-                </div>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={handleDownload}
-                    disabled={!output || overLimit}
-                    className="flex items-center gap-2"
-                  >
-                    <Download className="w-4 h-4" />
-                    {tCommon("download")}
-                  </Button>
-                  <Button
-                    size="sm"
-                    onClick={handleCopy}
-                    disabled={!output || overLimit}
-                    className="flex items-center gap-2"
-                  >
-                    <Copy className="w-4 h-4" />
-                    {tCommon("copy")}
-                  </Button>
-                </div>
-              </div>
+              <CardTitle>{t("outputTitle")}</CardTitle>
+              <CardDescription>
+                {overLimit
+                  ? t("outputTooLarge")
+                  : output
+                  ? t("repeatedCount", { count })
+                  : t("resultPlaceholder")}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               {overLimit ? (
@@ -263,6 +243,6 @@ export default function TextRepeater() {
           </Card>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -11,9 +11,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Download, RotateCcw, Eye, Code, FileText } from "lucide-react";
+import { RotateCcw, Eye, Code, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 // ─── Markdown Parser ────────────────────────────────────────────────────────
 
@@ -184,6 +187,7 @@ function parseMarkdown(md: string): string {
 export default function MarkdownToHtml() {
   const t = useTranslations("Tools.MarkdownToHtml");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const sampleMarkdown = useMemo(() => `# Welcome to Markdown to HTML
 
 ## Features
@@ -239,28 +243,13 @@ Paragraphs are separated by blank lines and rendered correctly.
     : 0;
   const readingTimeMin = Math.max(1, Math.ceil(wordCount / 200));
 
-  const handleCopyHtml = useCallback(() => {
-    if (!html.trim()) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-    navigator.clipboard.writeText(html);
-    toast.success(t("htmlCopied"));
-  }, [html, t]);
-
   const handleDownload = useCallback(() => {
     if (!html.trim()) {
       toast.error(t("nothingToDownload"));
       return;
     }
     const fullHtml = `<!DOCTYPE html>\n<html lang="en">\n<head>\n  <meta charset="UTF-8">\n  <meta name="viewport" content="width=device-width, initial-scale=1.0">\n  <title>Converted Document</title>\n</head>\n<body>\n${html}\n</body>\n</html>`;
-    const blob = new Blob([fullHtml], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "document.html";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([fullHtml], { type: "text/html" }), "document.html");
     toast.success(t("downloadedHtml"));
   }, [html, t]);
 
@@ -272,10 +261,12 @@ Paragraphs are separated by blank lines and rendered correctly.
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
-      {/* Toolbar */}
-      <div className="flex flex-wrap gap-2 mb-4 items-center justify-between">
-        <div className="flex gap-2">
+    <ToolShell
+      slug="markdown-html"
+      title={tc("tools.markdown-html.name")}
+      sub={tc("tools.markdown-html.description")}
+      controls={
+        <>
           <Button
             variant="outline"
             size="sm"
@@ -294,30 +285,20 @@ Paragraphs are separated by blank lines and rendered correctly.
             <RotateCcw className="w-4 h-4" />
             {tCommon("clear")}
           </Button>
-        </div>
-        <div className="flex gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleCopyHtml}
+          <CopyButton
+            text={html}
+            label={t("copyHtml")}
+            successMessage={t("htmlCopied")}
             disabled={!html.trim()}
-            className="flex items-center gap-2"
-          >
-            <Copy className="w-4 h-4" />
-            {t("copyHtml")}
-          </Button>
-          <Button
-            size="sm"
-            onClick={handleDownload}
-            disabled={!html.trim()}
-            className="flex items-center gap-2"
-          >
-            <Download className="w-4 h-4" />
-            {t("downloadHtml")}
-          </Button>
-        </div>
-      </div>
-
+          />
+        </>
+      }
+      primaryAction={{
+        label: t("downloadHtml"),
+        onClick: handleDownload,
+        disabled: !html.trim(),
+      }}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Markdown Input */}
         <Card>
@@ -418,6 +399,6 @@ Paragraphs are separated by blank lines and rendered correctly.
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

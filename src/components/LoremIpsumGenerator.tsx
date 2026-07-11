@@ -20,10 +20,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Copy, RotateCcw, FileText } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import NumberFlow from "@number-flow/react";
-import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 const loremWords = [
   "lorem",
@@ -206,6 +207,7 @@ const loremSentences = [
 
 export default function LoremIpsumGenerator() {
   const t = useTranslations("Tools.LoremIpsumGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [generatedText, setGeneratedText] = useState("");
   const [count, setCount] = useState(5);
   const [type, setType] = useState<"words" | "sentences" | "paragraphs">(
@@ -258,16 +260,6 @@ export default function LoremIpsumGenerator() {
     setGeneratedText(text);
   };
 
-  const handleCopy = () => {
-    if (!generatedText) {
-      toast.error(t("noTextToCopy"));
-      return;
-    }
-
-    navigator.clipboard.writeText(generatedText);
-    toast.success(t("copiedToClipboard"));
-  };
-
   const handleClear = () => {
     setGeneratedText("");
   };
@@ -280,7 +272,35 @@ export default function LoremIpsumGenerator() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
+    <ToolShell
+      slug="lorem-ipsum"
+      title={tc("tools.lorem-ipsum.name")}
+      sub={tc("tools.lorem-ipsum.description")}
+      controls={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClear}
+            className="flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            {t("clear")}
+          </Button>
+          <CopyButton
+            text={generatedText}
+            label={t("copyText")}
+            successMessage={t("copiedToClipboard")}
+            disabled={!generatedText}
+          />
+        </>
+      }
+      primaryAction={{
+        label: t("generateText"),
+        onClick: generateLoremIpsum,
+      }}
+    >
+      <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Controls */}
         <Card>
@@ -334,21 +354,6 @@ export default function LoremIpsumGenerator() {
               />
               <Label htmlFor="start-with-lorem">{t("startWithLorem")}</Label>
             </div>
-
-            <div className="space-y-2">
-              <Button onClick={generateLoremIpsum} className="w-full">
-                <FileText className="w-4 h-4 me-2" />
-                {t("generateText")}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleClear}
-                className="w-full"
-              >
-                <RotateCcw className="w-4 h-4 me-2" />
-                {t("clear")}
-              </Button>
-            </div>
           </CardContent>
         </Card>
 
@@ -373,14 +378,6 @@ export default function LoremIpsumGenerator() {
                 <span className="text-sm text-muted-foreground">
                   <NumberFlow value={generatedText.length} /> {t("characters")}
                 </span>
-                <Button
-                  onClick={handleCopy}
-                  disabled={!generatedText}
-                  className="flex items-center gap-2"
-                >
-                  <Copy className="w-4 h-4" />
-                  {t("copyText")}
-                </Button>
               </div>
             </CardContent>
           </Card>
@@ -388,7 +385,7 @@ export default function LoremIpsumGenerator() {
       </div>
 
       {/* Quick Generate Buttons */}
-      <Card className="mt-6">
+      <Card>
         <CardHeader>
           <CardTitle>{t("quickGenerate")}</CardTitle>
           <CardDescription>
@@ -442,7 +439,7 @@ export default function LoremIpsumGenerator() {
       </Card>
 
       {/* Info */}
-      <Card className="mt-6">
+      <Card>
         <CardContent className="p-6">
           <h3 className="font-semibold mb-2">{t("aboutLoremTitle")}</h3>
           <p className="text-sm text-muted-foreground">
@@ -450,6 +447,7 @@ export default function LoremIpsumGenerator() {
           </p>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

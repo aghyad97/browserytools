@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
-  Copy,
   RotateCcw,
   FileText,
   Hash,
@@ -21,24 +20,16 @@ import {
 } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { useTextCounterStore } from "@/store/text-counter-store";
-import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 export default function TextCounter() {
   const t = useTranslations("Tools.TextCounter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const { text, stats, setText, clearText } = useTextCounterStore();
-
-  const handleCopy = () => {
-    if (!text) {
-      toast.error(t("noTextToCopy"));
-      return;
-    }
-
-    navigator.clipboard.writeText(text);
-    toast.success(t("copiedToClipboard"));
-  };
 
   const handleClear = () => {
     clearText();
@@ -91,9 +82,36 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
+    <ToolShell
+      slug="text-counter"
+      title={tc("tools.text-counter.name")}
+      sub={tc("tools.text-counter.description")}
+      controls={
+        <>
+          <Button variant="outline" size="sm" onClick={handleSampleText}>
+            {t("loadSample")}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClear}
+            className="flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            {tCommon("clear")}
+          </Button>
+          <CopyButton
+            text={text}
+            label={t("copyText")}
+            successMessage={t("copiedToClipboard")}
+            disabled={!text}
+          />
+        </>
+      }
+    >
+      <div className="space-y-6">
       {/* Text Input - Full Width */}
-      <Card className="mb-6">
+      <Card>
         <CardHeader>
           <CardTitle>{t("inputTitle")}</CardTitle>
           <CardDescription>{t("inputDesc")}</CardDescription>
@@ -105,35 +123,11 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
             onChange={(e) => setText(e.target.value)}
             className="min-h-[200px] resize-none"
           />
-          <div className="flex justify-between items-center mt-4">
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={handleSampleText}>
-                {t("loadSample")}
-              </Button>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClear}
-                className="flex items-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" />
-                {tCommon("clear")}
-              </Button>
-            </div>
-            <Button
-              onClick={handleCopy}
-              disabled={!text}
-              className="flex items-center gap-2"
-            >
-              <Copy className="w-4 h-4" />
-              {t("copyText")}
-            </Button>
-          </div>
         </CardContent>
       </Card>
 
       {/* Statistics Grid */}
-      <div className="mt-6">
+      <div>
         <Card>
           <CardHeader>
             <CardTitle>{t("statisticsTitle")}</CardTitle>
@@ -195,6 +189,7 @@ Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deseru
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

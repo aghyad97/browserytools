@@ -12,9 +12,10 @@ import {
 } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Copy, RotateCcw, ArrowLeftRight, ChevronDown, ChevronUp } from "lucide-react";
-import { toast } from "sonner";
+import { RotateCcw, ArrowLeftRight, ChevronDown, ChevronUp } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 const MORSE_MAP: Record<string, string> = {
   A: ".-",
@@ -108,6 +109,7 @@ const REFERENCE_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789".split("");
 export default function MorseCodeConverter() {
   const t = useTranslations("Tools.MorseCodeConverter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [activeTab, setActiveTab] = useState<"text-to-morse" | "morse-to-text">(
     "text-to-morse"
@@ -119,15 +121,7 @@ export default function MorseCodeConverter() {
   const morseOutput = useMemo(() => textToMorse(textInput), [textInput]);
   const textOutput = useMemo(() => morseToText(morseInput), [morseInput]);
 
-  const handleCopyOutput = useCallback(() => {
-    const val = activeTab === "text-to-morse" ? morseOutput : textOutput;
-    if (!val.trim()) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-    navigator.clipboard.writeText(val);
-    toast.success(t("copiedToClipboard"));
-  }, [activeTab, morseOutput, textOutput, t]);
+  const copyValue = activeTab === "text-to-morse" ? morseOutput : textOutput;
 
   const handleSwap = useCallback(() => {
     if (activeTab === "text-to-morse") {
@@ -148,46 +142,49 @@ export default function MorseCodeConverter() {
   }, [activeTab]);
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
+    <ToolShell
+      slug="morse-code"
+      title={tc("tools.morse-code.name")}
+      sub={tc("tools.morse-code.description")}
+      controls={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleSwap}
+            className="flex items-center gap-2"
+          >
+            <ArrowLeftRight className="w-4 h-4" />
+            {t("swap")}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClear}
+            className="flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            {tCommon("clear")}
+          </Button>
+          <CopyButton
+            text={copyValue}
+            label={t("copyOutput")}
+            successMessage={t("copiedToClipboard")}
+          />
+        </>
+      }
+    >
       <Tabs
         value={activeTab}
         onValueChange={(v) =>
           setActiveTab(v as "text-to-morse" | "morse-to-text")
         }
       >
-        <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
+        <div className="mb-4">
           <TabsList>
             <TabsTrigger value="text-to-morse">{t("textToMorse")}</TabsTrigger>
             <TabsTrigger value="morse-to-text">{t("morseToText")}</TabsTrigger>
           </TabsList>
-          <div className="flex gap-2">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleSwap}
-              className="flex items-center gap-2"
-            >
-              <ArrowLeftRight className="w-4 h-4" />
-              {t("swap")}
-            </Button>
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={handleClear}
-              className="flex items-center gap-2"
-            >
-              <RotateCcw className="w-4 h-4" />
-              {tCommon("clear")}
-            </Button>
-            <Button
-              size="sm"
-              onClick={handleCopyOutput}
-              className="flex items-center gap-2"
-            >
-              <Copy className="w-4 h-4" />
-              {t("copyOutput")}
-            </Button>
-          </div>
         </div>
 
         {/* Text → Morse */}
@@ -316,6 +313,6 @@ export default function MorseCodeConverter() {
           </CardContent>
         )}
       </Card>
-    </div>
+    </ToolShell>
   );
 }

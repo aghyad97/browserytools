@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 type Align = "left" | "center" | "right";
 interface Col { header: string; align: Align }
@@ -29,6 +30,7 @@ function buildMarkdown(cols: Col[], rows: string[][]): string {
 
 export default function MarkdownTableGenerator() {
   const t = useTranslations("Tools.MarkdownTableGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [cols, setCols] = useState<Col[]>([{ header: "Column 1", align: "left" }, { header: "Column 2", align: "left" }]);
   const [rows, setRows] = useState<string[][]>([["", ""], ["", ""]]);
 
@@ -47,19 +49,25 @@ export default function MarkdownTableGenerator() {
   const markdown = buildMarkdown(cols, rows);
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
+    <ToolShell
+      slug="markdown-table"
+      title={tc("tools.markdown-table.name")}
+      sub={tc("tools.markdown-table.description")}
+      controls={
+        <>
+          <Button variant="outline" size="sm" onClick={() => { setCols(SAMPLE_COLS); setRows(SAMPLE_ROWS); }}>{t("loadSample")}</Button>
+          <CopyButton text={markdown} label={t("copyMarkdown")} successMessage={t("copied")} />
+        </>
+      }
+    >
+      <div className="space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div className="flex gap-2 flex-wrap">
             <Button variant="outline" size="sm" onClick={addCol}>{t("addColumn")}</Button>
             <Button variant="outline" size="sm" onClick={removeCol} disabled={cols.length <= 1}>{t("removeColumn")}</Button>
             <Button variant="outline" size="sm" onClick={addRow}>{t("addRow")}</Button>
             <Button variant="outline" size="sm" onClick={removeRow} disabled={rows.length <= 1}>{t("removeRow")}</Button>
-            <Button variant="outline" size="sm" onClick={() => { setCols(SAMPLE_COLS); setRows(SAMPLE_ROWS); }}>{t("loadSample")}</Button>
           </div>
           <div className="overflow-x-auto">
             <table className="border-collapse w-full text-sm">
@@ -95,15 +103,13 @@ export default function MarkdownTableGenerator() {
 
       <Card>
         <CardHeader>
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <CardTitle className="text-base">{t("markdownOutput")}</CardTitle>
-            <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(markdown); toast.success(t("copied")); }}>{t("copyMarkdown")}</Button>
-          </div>
+          <CardTitle className="text-base">{t("markdownOutput")}</CardTitle>
         </CardHeader>
         <CardContent>
           <pre className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre">{markdown}</pre>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

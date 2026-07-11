@@ -106,6 +106,25 @@ const HAS_OWN_H1 = new Set([
   "system-prompt-builder",
   "text-similarity",
   "token-counter",
+  // R2 batch B3: Text & Language Tools migrated onto ToolShell (the shell owns
+  // the h1). markdown-editor is intentionally absent: it renders its sample
+  // markdown's "# …" as a preview <h1> at load, so adopting the shell would
+  // yield two h1s — it stays on ToolTitle (already listed above).
+  "code-format",
+  "image-to-text",
+  "lorem-ipsum",
+  "markdown-html",
+  "markdown-table",
+  "morse-code",
+  "rich-editor",
+  "speech-to-text",
+  "text-case",
+  "text-counter",
+  "text-diff",
+  "text-repeater",
+  "text-sorter",
+  "typing-test",
+  "word-frequency",
 ]);
 
 export function ToolTitle() {

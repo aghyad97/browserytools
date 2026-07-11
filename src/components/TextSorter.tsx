@@ -12,8 +12,6 @@ import {
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
-  Copy,
-  Download,
   RotateCcw,
   ArrowUpAZ,
   ArrowDownAZ,
@@ -23,6 +21,9 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 type SortMode =
   | "az"
@@ -37,6 +38,7 @@ type SortMode =
 export default function TextSorter() {
   const t = useTranslations("Tools.TextSorter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [input, setInput] = useState("");
   const [removeDuplicates, setRemoveDuplicates] = useState(false);
@@ -141,27 +143,12 @@ export default function TextSorter() {
     setActiveMode(mode);
   };
 
-  const handleCopy = () => {
-    if (!output) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-    navigator.clipboard.writeText(output);
-    toast.success(t("copiedToClipboard"));
-  };
-
   const handleDownload = () => {
     if (!output) {
       toast.error(t("nothingToDownload"));
       return;
     }
-    const blob = new Blob([output], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "sorted-text.txt";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([output], { type: "text/plain" }), "sorted-text.txt");
     toast.success(t("downloaded"));
   };
 
@@ -219,9 +206,37 @@ export default function TextSorter() {
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
+    <ToolShell
+      slug="text-sorter"
+      title={tc("tools.text-sorter.name")}
+      sub={tc("tools.text-sorter.description")}
+      controls={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={handleClear}
+            className="flex items-center gap-2"
+          >
+            <RotateCcw className="w-4 h-4" />
+            {tCommon("clear")}
+          </Button>
+          <CopyButton
+            text={output}
+            successMessage={t("copiedToClipboard")}
+            disabled={!output}
+          />
+        </>
+      }
+      primaryAction={{
+        label: tCommon("download"),
+        onClick: handleDownload,
+        disabled: !output,
+      }}
+    >
+      <div className="space-y-6">
       {/* Sort Buttons */}
-      <Card className="mb-6">
+      <Card>
         <CardHeader>
           <CardTitle>{t("sortOptionsTitle")}</CardTitle>
           <CardDescription>{t("sortOptionsDesc")}</CardDescription>
@@ -296,15 +311,6 @@ export default function TextSorter() {
                 <Badge variant="secondary">{inputLines} {t("lines")}</Badge>
                 <Badge variant="secondary">{input.length} {t("chars")}</Badge>
               </div>
-              <Button
-                variant="outline"
-                size="sm"
-                onClick={handleClear}
-                className="flex items-center gap-2"
-              >
-                <RotateCcw className="w-4 h-4" />
-                {tCommon("clear")}
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -330,31 +336,11 @@ export default function TextSorter() {
                 <Badge variant="secondary">{outputLines} {t("lines")}</Badge>
                 <Badge variant="secondary">{output.length} {t("chars")}</Badge>
               </div>
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleDownload}
-                  disabled={!output}
-                  className="flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  {tCommon("download")}
-                </Button>
-                <Button
-                  size="sm"
-                  onClick={handleCopy}
-                  disabled={!output}
-                  className="flex items-center gap-2"
-                >
-                  <Copy className="w-4 h-4" />
-                  {tCommon("copy")}
-                </Button>
-              </div>
             </div>
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

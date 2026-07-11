@@ -1,19 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Volume2, VolumeX, RotateCcw, RefreshCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 
 function generateParagraph(wordCount: number): string[] {
   const corpus =
@@ -36,6 +31,7 @@ function calculateWpm(charactersTyped: number, elapsedMs: number): number {
 
 export default function TypingTest() {
   const t = useTranslations("Tools.TypingTest");
+  const tc = useTranslations("ToolsConfig");
   const [words, setWords] = useState<string[]>(() => generateParagraph(100));
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentInput, setCurrentInput] = useState<string>("");
@@ -210,15 +206,12 @@ export default function TypingTest() {
   };
 
   return (
-    <Card className="container mx-auto max-w-4xl mt-6">
-      <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
-        <CardDescription>
-          {t("description")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="flex items-center justify-between">
+    <ToolShell
+      slug="typing-test"
+      title={tc("tools.typing-test.name")}
+      sub={tc("tools.typing-test.description")}
+      controls={
+        <>
           <div className="flex items-center gap-2">
             <Switch
               id="sound"
@@ -237,16 +230,17 @@ export default function TypingTest() {
               {t("clickSounds")}
             </Label>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={reset} title={t("resetTitle")}>
-              <RotateCcw className="w-4 h-4" />
-            </Button>
-            <Button variant="outline" onClick={newText} title={t("newTextTitle")}>
-              <RefreshCcw className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
+          <Button variant="outline" size="icon" onClick={reset} title={t("resetTitle")}>
+            <RotateCcw className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="icon" onClick={newText} title={t("newTextTitle")}>
+            <RefreshCcw className="w-4 h-4" />
+          </Button>
+        </>
+      }
+    >
+      <Card>
+      <CardContent className="space-y-6 pt-6">
         <div className="p-4 rounded-md bg-muted/50 text-base leading-7 font-mono select-none">
           {words.map((w, idx) => {
             const isPast = idx < currentIndex;
@@ -321,7 +315,8 @@ export default function TypingTest() {
           {Math.floor(elapsedMs / 1000)}s
         </div>
       </CardContent>
-    </Card>
+      </Card>
+    </ToolShell>
   );
 }
 

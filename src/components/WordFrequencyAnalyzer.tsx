@@ -13,9 +13,11 @@ import {
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Download, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadBlob } from "@/lib/download";
 
 const STOP_WORDS = new Set([
   "the", "a", "an", "is", "it", "in", "on", "at", "to", "for", "of", "and",
@@ -37,6 +39,7 @@ type WordEntry = {
 export default function WordFrequencyAnalyzer() {
   const t = useTranslations("Tools.WordFrequency");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [caseInsensitive, setCaseInsensitive] = useState(true);
   const [removeStopWords, setRemoveStopWords] = useState(true);
@@ -101,13 +104,7 @@ export default function WordFrequencyAnalyzer() {
           `${i + 1},"${e.word}",${e.count},${e.percent.toFixed(2)}%`
       )
       .join("\n");
-    const blob = new Blob([header + rows], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "word-frequency.csv";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([header + rows], { type: "text/csv" }), "word-frequency.csv");
     toast.success(t("exportedCsv"));
   }, [analysis.entries, t]);
 
@@ -150,7 +147,16 @@ export default function WordFrequencyAnalyzer() {
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
+    <ToolShell
+      slug="word-frequency"
+      title={tc("tools.word-frequency.name")}
+      sub={tc("tools.word-frequency.description")}
+      primaryAction={{
+        label: t("exportCsv"),
+        onClick: handleExportCsv,
+        disabled: analysis.entries.length === 0,
+      }}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input + Options */}
         <div className="lg:col-span-1 space-y-6">
@@ -248,26 +254,12 @@ export default function WordFrequencyAnalyzer() {
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <div>
-                  <CardTitle>{t("resultsTitle")}</CardTitle>
-                  <CardDescription>
-                    {analysis.entries.length > 0
-                      ? t("uniqueWordsFound", { count: analysis.entries.length })
-                      : t("enterTextToAnalyze")}
-                  </CardDescription>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleExportCsv}
-                  disabled={analysis.entries.length === 0}
-                  className="flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  {t("exportCsv")}
-                </Button>
-              </div>
+              <CardTitle>{t("resultsTitle")}</CardTitle>
+              <CardDescription>
+                {analysis.entries.length > 0
+                  ? t("uniqueWordsFound", { count: analysis.entries.length })
+                  : t("enterTextToAnalyze")}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               {analysis.entries.length === 0 ? (
@@ -347,6 +339,6 @@ export default function WordFrequencyAnalyzer() {
           </Card>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

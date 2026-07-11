@@ -14,8 +14,10 @@ import {
 import { toast } from "sonner";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
-import { Copy, RotateCcw, Check, Code2 } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 const LANGUAGE_OPTIONS = [
   { value: "javascript", label: "JavaScript" },
@@ -88,12 +90,12 @@ class DataProcessor {
 
 export default function CodeHighlighter() {
   const t = useTranslations("Tools.CodeHighlighter");
+  const tc = useTranslations("ToolsConfig");
   const [language, setLanguage] = useState("javascript");
   const [code, setCode] = useState(
     SAMPLE_CODE[language as keyof typeof SAMPLE_CODE] || ""
   );
   const [highlighted, setHighlighted] = useState("");
-  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     if (code) {
@@ -101,13 +103,6 @@ export default function CodeHighlighter() {
       setHighlighted(highlighted);
     }
   }, [code, language]);
-
-  const copyToClipboard = () => {
-    navigator.clipboard.writeText(code);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000);
-    toast.success(t("copiedToClipboard"));
-  };
 
   const resetCode = () => {
     const sampleCode = SAMPLE_CODE[language as keyof typeof SAMPLE_CODE] || "";
@@ -122,41 +117,36 @@ export default function CodeHighlighter() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <Card className="p-4">
-            <div className="flex items-center justify-between">
-              <Select value={language} onValueChange={handleLanguageChange}>
-                <SelectTrigger className="w-[200px]">
-                  <SelectValue placeholder={t("selectLanguage")} />
-                </SelectTrigger>
-                <SelectContent>
-                  {LANGUAGE_OPTIONS.map((option) => (
-                    <SelectItem key={option.value} value={option.value}>
-                      {option.label}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-
-              <div className="flex items-center space-x-2">
-                <Button variant="outline" onClick={resetCode} size="icon">
-                  <RotateCcw className="h-4 w-4" />
-                </Button>
-                <Button variant="outline" onClick={copyToClipboard} size="icon">
-                  {copied ? (
-                    <Check className="h-4 w-4" />
-                  ) : (
-                    <Copy className="h-4 w-4" />
-                  )}
-                </Button>
-              </div>
-            </div>
-          </Card>
-
+    <ToolShell
+      slug="code-format"
+      title={tc("tools.code-format.name")}
+      sub={tc("tools.code-format.description")}
+      controls={
+        <>
+          <Select value={language} onValueChange={handleLanguageChange}>
+            <SelectTrigger className="w-[200px]">
+              <SelectValue placeholder={t("selectLanguage")} />
+            </SelectTrigger>
+            <SelectContent>
+              {LANGUAGE_OPTIONS.map((option) => (
+                <SelectItem key={option.value} value={option.value}>
+                  {option.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button variant="outline" onClick={resetCode} size="icon">
+            <RotateCcw className="h-4 w-4" />
+          </Button>
+          <CopyButton
+            text={code}
+            size="icon"
+            successMessage={t("copiedToClipboard")}
+          />
+        </>
+      }
+    >
+      <div className="space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[600px]">
             <Card className="flex flex-col">
               <div className="p-2 bg-muted font-medium text-sm border-b">
@@ -186,8 +176,7 @@ export default function CodeHighlighter() {
               </div>
             </Card>
           </div>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

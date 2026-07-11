@@ -15,7 +15,6 @@ import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
 import {
-  Volume2Icon,
   PlayIcon,
   PauseIcon,
   SquareIcon,
@@ -25,6 +24,8 @@ import {
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { synthesizeSpeech, prepareVoice } from "@/lib/vits-loader";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadUrl } from "@/lib/download";
 
 type PlayState = "idle" | "playing" | "paused";
 
@@ -46,6 +47,7 @@ const AI_VOICES: { id: string; label: string }[] = [
 
 export default function TextToSpeech() {
   const t = useTranslations("Tools.TextToSpeech");
+  const tc = useTranslations("ToolsConfig");
 
   const [text, setText] = useState("");
   const [voiceId, setVoiceId] = useState(AI_VOICES[0].id);
@@ -180,12 +182,7 @@ export default function TextToSpeech() {
     }
     try {
       const url = await ensureAudioUrl();
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "speech.wav";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      downloadUrl(url, "speech.wav");
       toast.success(t("audioDownloaded"));
     } catch (err) {
       console.error(err);
@@ -199,17 +196,12 @@ export default function TextToSpeech() {
   }, []);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-4xl mx-auto space-y-4">
-          <div>
-            <h1 className="text-xl font-semibold flex items-center gap-2">
-              <Volume2Icon className="h-5 w-5" />
-              {t("title")}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
-          </div>
-
+    <ToolShell
+      slug="text-to-speech"
+      title={tc("tools.text-to-speech.name")}
+      sub={tc("tools.text-to-speech.description")}
+    >
+      <div className="space-y-4">
           <Card className="p-4 space-y-2">
             <label className="text-sm font-medium" htmlFor="tts-input">
               {t("inputLabel")}
@@ -358,8 +350,7 @@ export default function TextToSpeech() {
               <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
             </div>
           </Card>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

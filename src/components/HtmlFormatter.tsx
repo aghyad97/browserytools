@@ -7,9 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Copy, Download, RotateCcw, Code2 } from "lucide-react";
+import { Download, RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 const SAMPLE_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Sample</title></head><body><h1>Hello World</h1><p>This is a <strong>sample</strong> HTML document.</p><ul><li>Item 1</li><li>Item 2</li></ul></body></html>`;
 
@@ -76,6 +79,7 @@ function minifyHtml(html: string): string {
 export default function HtmlFormatter() {
   const t = useTranslations("Tools.HtmlFormatter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [indentSize, setIndentSize] = useState(2);
@@ -101,25 +105,9 @@ export default function HtmlFormatter() {
     }
   };
 
-  const handleCopy = async () => {
-    if (!output) return;
-    try {
-      await navigator.clipboard.writeText(output);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  };
-
   const handleDownload = () => {
     if (!output) return;
-    const blob = new Blob([output], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `formatted-${Date.now()}.html`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([output], { type: "text/html" }), `formatted-${Date.now()}.html`);
     toast.success(t("downloaded"));
   };
 
@@ -130,36 +118,26 @@ export default function HtmlFormatter() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-6xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Code2 className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
-        <div className="flex flex-wrap gap-3 items-center">
-          <div className="flex gap-2">
-            <Button
-              variant={mode === "format" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setMode("format")}
-            >
-              {t("formatButton")}
-            </Button>
-            <Button
-              variant={mode === "minify" ? "default" : "outline"}
-              size="sm"
-              onClick={() => setMode("minify")}
-            >
-              {t("minifyButton")}
-            </Button>
-          </div>
-
+    <ToolShell
+      slug="html-formatter"
+      title={tc("tools.html-formatter.name")}
+      sub={tc("tools.html-formatter.description")}
+      controls={
+        <>
+          <Button
+            variant={mode === "format" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setMode("format")}
+          >
+            {t("formatButton")}
+          </Button>
+          <Button
+            variant={mode === "minify" ? "default" : "outline"}
+            size="sm"
+            onClick={() => setMode("minify")}
+          >
+            {t("minifyButton")}
+          </Button>
           {mode === "format" && (
             <div className="flex items-center gap-2">
               <Label className="text-sm">{t("indentSize")}</Label>
@@ -173,17 +151,21 @@ export default function HtmlFormatter() {
               />
             </div>
           )}
-
-          <div className="ms-auto flex gap-2">
-            <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_HTML)}>
-              {t("loadSample")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleClear}>
-              <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
-            </Button>
-          </div>
-        </div>
-
+          <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_HTML)}>
+            {t("loadSample")}
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleClear}>
+            <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
+          </Button>
+        </>
+      }
+      primaryAction={{
+        label: mode === "format" ? t("formatHtml") : t("minifyHtml"),
+        onClick: handleProcess,
+        disabled: !input.trim(),
+      }}
+    >
+      <div className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <Card>
             <CardHeader className="pb-2">
@@ -208,9 +190,13 @@ export default function HtmlFormatter() {
               <CardTitle className="text-sm font-medium flex items-center justify-between">
                 {t("outputLabel")}
                 <div className="flex gap-1">
-                  <Button size="icon" variant="ghost" className="h-7 w-7" onClick={handleCopy} disabled={!output} aria-label="Copy">
-                    <Copy className="w-3.5 h-3.5" />
-                  </Button>
+                  <CopyButton
+                    text={output}
+                    size="icon"
+                    successMessage={t("copiedToClipboard")}
+                    errorMessage={t("failedToCopy")}
+                    disabled={!output}
+                  />
                   <Button size="icon" variant="ghost" className="h-7 w-7" onClick={handleDownload} disabled={!output} aria-label="Download">
                     <Download className="w-3.5 h-3.5" />
                   </Button>
@@ -232,13 +218,7 @@ export default function HtmlFormatter() {
             </CardContent>
           </Card>
         </div>
-
-        <div className="flex justify-center">
-          <Button onClick={handleProcess} disabled={!input.trim()} size="lg">
-            {mode === "format" ? t("formatHtml") : t("minifyHtml")}
-          </Button>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

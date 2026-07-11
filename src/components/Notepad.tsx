@@ -5,15 +5,19 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent } from "@/components/ui/card";
-import { Copy, Download, Trash2, BookOpen } from "lucide-react";
+import { Download, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 const STORAGE_KEY = "browserytools-notepad";
 
 export default function Notepad() {
   const t = useTranslations("Tools.Notepad");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [text, setText] = useState("");
   const [lastSaved, setLastSaved] = useState<Date | null>(null);
   const saveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -44,25 +48,9 @@ export default function Notepad() {
   const charCount = text.length;
   const lineCount = text ? text.split("\n").length : 0;
 
-  const handleCopy = async () => {
-    if (!text) return;
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  };
-
   const handleDownload = () => {
     if (!text) return;
-    const blob = new Blob([text], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `notepad-${Date.now()}.txt`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([text], { type: "text/plain" }), `notepad-${Date.now()}.txt`);
     toast.success(t("downloadedTxt"));
   };
 
@@ -73,31 +61,28 @@ export default function Notepad() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-4">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-primary/10">
-              <BookOpen className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("description")}</p>
-            </div>
-          </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" size="sm" onClick={handleCopy} disabled={!text}>
-              <Copy className="w-4 h-4 me-1.5" /> {tCommon("copy")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleDownload} disabled={!text}>
-              <Download className="w-4 h-4 me-1.5" /> {tCommon("download")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleClear} disabled={!text}>
-              <Trash2 className="w-4 h-4 me-1.5" /> {tCommon("clear")}
-            </Button>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="notepad"
+      title={tc("tools.notepad.name")}
+      sub={tc("tools.notepad.description")}
+      controls={
+        <>
+          <CopyButton
+            text={text}
+            successMessage={t("copiedToClipboard")}
+            errorMessage={t("failedToCopy")}
+            disabled={!text}
+          />
+          <Button variant="outline" size="sm" onClick={handleDownload} disabled={!text}>
+            <Download className="w-4 h-4 me-1.5" /> {tCommon("download")}
+          </Button>
+          <Button variant="outline" size="sm" onClick={handleClear} disabled={!text}>
+            <Trash2 className="w-4 h-4 me-1.5" /> {tCommon("clear")}
+          </Button>
+        </>
+      }
+    >
+      <div className="space-y-4">
         <Card>
           <CardContent className="pt-4">
             <Textarea
@@ -128,6 +113,6 @@ export default function Notepad() {
           </div>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }
