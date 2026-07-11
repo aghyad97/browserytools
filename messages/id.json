@@ -4719,7 +4719,9 @@
     "sponsorTile": "Alat dev Anda, seperti di rumah di sini",
     "coffee": "Belikan saya kopi",
     "favorites": "Favorit Anda",
-    "recent": "Baru digunakan"
+    "recent": "Baru digunakan",
+    "dropAnyFile": "Letakkan file apa pun di sini",
+    "dropSuggest": "Kami arahkan ke alat yang tepat — gambar dikompresi langsung di perangkat Anda."
   },
   "Template": {
     "onDevicePromise": "Berjalan di perangkat Anda — tidak ada yang diunggah, tidak ada yang disimpan.",

@@ -23,6 +23,8 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { tools, getAllTools } from "@/lib/tools-config";
 import { FEATURED_APPS, type FeaturedApp } from "@/lib/featured-apps";
+import { routeFile, extOf, type RouteMatch } from "@/lib/file-router";
+import { playCue } from "@/lib/ui-sound";
 import { openCommandPalette } from "@/components/layout/command-palette";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useRecentToolsStore } from "@/store/recent-tools-store";
@@ -155,7 +157,10 @@ function AppViz({ viz }: { viz: FeaturedApp["viz"] }) {
   );
 }
 
-/* ---------- live on-device demo (ported from ui.tsx) ---------- */
+/* ---------- live on-device demo + whole-landing dropzone ---------- */
+
+/* slug → tile metadata for the drop-suggestion tiles. */
+const BY_SLUG = new Map(TOOL_INDEX.map((tool) => [tool.slug, tool]));
 
 function useCountUp(target: number, duration = 700) {
   const [value, setValue] = useState(0);
@@ -200,10 +205,25 @@ async function compressImage(file: File, quality: number): Promise<Blob> {
   );
 }
 
+/**
+ * Universal dropzone + live demo. The WHOLE landing is the drop target
+ * (window-level drag listeners show a full-canvas overlay); the demo box is
+ * the click-to-browse entry point. Dropped/picked files route by kind:
+ *   - images (non-SVG) keep the on-device compression demo, inline;
+ *   - everything else gets ranked tool suggestions from src/lib/file-router
+ *     (shown as tiles below the box — deliberately NO auto-navigation and NO
+ *     cross-route file handoff; tools read their own inputs).
+ * Drop handling is client-only by nature; the static box copy still SSRs.
+ */
 function LiveDemo() {
   const t = useTranslations("Landing");
-  const [dragging, setDragging] = useState(false);
+  const tc = useTranslations("ToolsConfig");
+  const tRail = useTranslations("Rail");
+  const [overlay, setOverlay] = useState(false);
   const [result, setResult] = useState<{ saved: number; pct: number } | null>(
+    null,
+  );
+  const [routed, setRouted] = useState<{ name: string; ext: string; match: RouteMatch } | null>(
     null,
   );
   const [busy, setBusy] = useState(false);
@@ -211,60 +231,150 @@ function LiveDemo() {
   const savedAnimated = useCountUp(result?.saved ?? 0);
 
   const handle = async (file?: File) => {
-    if (!file || !file.type.startsWith("image/")) return;
-    setBusy(true);
-    try {
-      const blob = await compressImage(file, 0.72);
-      const saved = Math.max(0, file.size - blob.size);
-      setResult({ saved, pct: Math.round((saved / file.size) * 100) });
-    } finally {
-      setBusy(false);
+    if (!file) return;
+    if (file.type.startsWith("image/") && file.type !== "image/svg+xml") {
+      setRouted(null);
+      setBusy(true);
+      try {
+        const blob = await compressImage(file, 0.72);
+        const saved = Math.max(0, file.size - blob.size);
+        setResult({ saved, pct: Math.round((saved / file.size) * 100) });
+      } finally {
+        setBusy(false);
+      }
+      return;
     }
+    setResult(null);
+    setRouted({
+      name: file.name,
+      ext: extOf(file.name) || file.type.split("/").pop() || "file",
+      match: routeFile(file.name, file.type),
+    });
+    playCue("tick");
   };
 
+  /* Whole-landing drop target: window-level listeners (the landing is the
+     only mount site) with an enter/leave counter so nested drags don't
+     flicker the overlay. Files only — text drags don't trigger it. */
+  useEffect(() => {
+    let depth = 0;
+    const hasFiles = (e: DragEvent) =>
+      Array.from(e.dataTransfer?.types ?? []).includes("Files");
+    const enter = (e: DragEvent) => {
+      if (!hasFiles(e)) return;
+      depth += 1;
+      setOverlay(true);
+    };
+    const over = (e: DragEvent) => {
+      if (hasFiles(e)) e.preventDefault(); // required to allow the drop
+    };
+    const leave = (e: DragEvent) => {
+      if (!hasFiles(e)) return;
+      depth = Math.max(0, depth - 1);
+      if (depth === 0) setOverlay(false);
+    };
+    const drop = (e: DragEvent) => {
+      if (!hasFiles(e)) return;
+      e.preventDefault();
+      depth = 0;
+      setOverlay(false);
+      handle(e.dataTransfer?.files[0]);
+    };
+    window.addEventListener("dragenter", enter);
+    window.addEventListener("dragover", over);
+    window.addEventListener("dragleave", leave);
+    window.addEventListener("drop", drop);
+    return () => {
+      window.removeEventListener("dragenter", enter);
+      window.removeEventListener("dragover", over);
+      window.removeEventListener("dragleave", leave);
+      window.removeEventListener("drop", drop);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const suggestions = routed
+    ? (routed.match.slugs
+        .map((slug) => BY_SLUG.get(slug))
+        .filter(Boolean) as NonNullable<ReturnType<typeof BY_SLUG.get>>[])
+    : [];
+
   return (
-    <div
-      className={`${s.demo} ${dragging ? s.demoDragging : ""}`}
-      onDragOver={(e) => {
-        e.preventDefault();
-        setDragging(true);
-      }}
-      onDragLeave={() => setDragging(false)}
-      onDrop={(e) => {
-        e.preventDefault();
-        setDragging(false);
-        handle(e.dataTransfer.files[0]);
-      }}
-      onClick={() => inputRef.current?.click()}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => {
-        if (e.key === "Enter" || e.key === " ") {
-          e.preventDefault();
-          inputRef.current?.click();
-        }
-      }}
-    >
-      <input
-        ref={inputRef}
-        type="file"
-        accept="image/*"
-        hidden
-        onChange={(e) => handle(e.target.files?.[0])}
-      />
-      <div>
-        <div className={s.demoLabel}>
-          {busy ? t("demoTitleBusy") : t("demoTitle")}
+    <>
+      <div
+        className={`${s.demo} ${overlay ? s.demoDragging : ""}`}
+        onClick={() => inputRef.current?.click()}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            inputRef.current?.click();
+          }
+        }}
+      >
+        <input
+          ref={inputRef}
+          type="file"
+          hidden
+          onChange={(e) => handle(e.target.files?.[0])}
+        />
+        <div>
+          <div className={s.demoLabel}>
+            {busy ? t("demoTitleBusy") : t("dropAnyFile")}
+          </div>
+          <div className={s.demoSub}>{t("dropSuggest")}</div>
         </div>
-        <div className={s.demoSub}>{t("demoSub")}</div>
+        {result && (
+          <div className={s.demoResult}>
+            <span className={s.demoBig}>−{formatKB(savedAnimated)}</span>
+            <span className={s.demoSmall}>{t("demoSmaller", { pct: result.pct })}</span>
+          </div>
+        )}
       </div>
-      {result && (
-        <div className={s.demoResult}>
-          <span className={s.demoBig}>−{formatKB(savedAnimated)}</span>
-          <span className={s.demoSmall}>{t("demoSmaller", { pct: result.pct })}</span>
+
+      {/* Ranked tool suggestions for a non-image drop (file-router). */}
+      {routed && suggestions.length > 0 && (
+        <div className={s.suggestPanel} data-testid="drop-suggestions">
+          <div className={s.suggestHead}>
+            <span className={s.extBadge}>{routed.ext}</span>
+            <span className={s.suggestName}>{routed.name}</span>
+            <button
+              type="button"
+              className={s.suggestSearch}
+              onClick={openCommandPalette}
+            >
+              {tRail("search")} ⌘K
+            </button>
+          </div>
+          <div className={s.grid}>
+            {suggestions.map((tool) => (
+              <ToolTile
+                key={tool.href}
+                href={tool.href}
+                slug={tool.slug}
+                icon={tool.icon}
+                name={tc(`tools.${tool.slug}.name` as never)}
+                catLabel={tc(`categoriesShort.${tool.categoryId}` as never)}
+                chipBg={CHIP[tool.categoryId]?.bg}
+                chipFg={CHIP[tool.categoryId]?.fg}
+              />
+            ))}
+          </div>
         </div>
       )}
-    </div>
+
+      {/* Full-canvas drop overlay — pointer-events:none so the drop still
+          lands on the window listeners. */}
+      {overlay && (
+        <div className={s.dropOverlay} aria-hidden>
+          <div className={s.dropOverlayInner}>
+            <div className={s.dropTitle}>{t("dropAnyFile")}</div>
+            <div className={s.dropSub}>{t("dropSuggest")}</div>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
 
@@ -280,7 +390,7 @@ function ToolRow({
   if (items.length === 0) return null;
   return (
     <>
-      <div className={s.sectionLabel}>
+      <div className={`${s.sectionLabel} ${s.enter}`}>
         {label} <span className={s.sectionRule} />
       </div>
       <div className={s.grid}>
@@ -338,7 +448,7 @@ export default function Landing() {
   }, [mounted, catalog, getFavoriteTools, getRecentTools]);
 
   return (
-    <div className={s.canvas} data-mounted={mounted}>
+    <div className={s.canvas}>
       <div
         className={`${s.topRow} ${s.enter}`}
         style={{ "--d": "0ms" } as React.CSSProperties}
@@ -350,18 +460,6 @@ export default function Landing() {
       </div>
 
       <div className={s.enter} style={{ "--d": "40ms" } as React.CSSProperties}>
-        <button
-          type="button"
-          className={s.searchBar}
-          onClick={openCommandPalette}
-          aria-label={t("searchPlaceholder", { count: TOOL_COUNT })}
-        >
-          <span>{t("searchPlaceholder", { count: TOOL_COUNT })}</span>
-          <span className={s.kbd}>⌘K</span>
-        </button>
-      </div>
-
-      <div className={s.enter} style={{ "--d": "80ms" } as React.CSSProperties}>
         <LiveDemo />
       </div>
 
@@ -369,7 +467,9 @@ export default function Landing() {
       <ToolRow label={t("favorites")} items={rows.favorites} />
       <ToolRow label={t("recent")} items={rows.recent} />
 
-      {/* Featured apps — live routes only. */}
+      {/* Featured apps — live routes only. Wrapped in `.enter` so the strip
+          joins the first-paint stagger instead of painting alone. */}
+      <div className={s.enter} style={{ "--d": "80ms" } as React.CSSProperties}>
       <div className={s.sectionLabel}>
         {t("apps")} <span className={s.sectionRule} />
       </div>
@@ -399,16 +499,23 @@ export default function Landing() {
           );
         })}
       </div>
+      </div>
 
       {/* Popular curated grid + category filters. */}
-      <div className={s.sectionLabel}>
+      <div
+        className={`${s.sectionLabel} ${s.enter}`}
+        style={{ "--d": "120ms" } as React.CSSProperties}
+      >
         {category
           ? tc(`categoriesShort.${category}` as never)
           : t("popular")}
         <span className={s.sectionRule} />
       </div>
 
-      <div className={s.filters}>
+      <div
+        className={`${s.filters} ${s.enter}`}
+        style={{ "--d": "160ms" } as React.CSSProperties}
+      >
         <button
           type="button"
           className={category === null ? s.filterActive : s.filter}

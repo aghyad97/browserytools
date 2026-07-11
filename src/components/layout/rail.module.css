@@ -175,11 +175,66 @@
   gap: 14px;
 }
 
+/* utility row — coffee CTA + theme/language/sound, below the sponsor slot */
+.railUtilities {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
 .railSwitchers {
   display: flex;
   align-items: center;
-  gap: 2px;
-  margin-inline-start: -6px; /* optically align ghost buttons to the rail edge */
+  gap: 0;
+  flex-shrink: 0;
+  margin-inline-end: -6px; /* optically align ghost buttons to the rail edge */
+}
+/* Slim the ghost switcher buttons inside the 220px rail so the coffee label
+   keeps room — icon buttons don't need their default 32px square here. */
+.railSwitchers button {
+  inline-size: auto;
+  min-inline-size: 26px;
+  padding-inline: 4px;
+}
+
+/* coffee CTA — the one-per-screen CTA (spec §3), compact for the 220px rail */
+.railCoffee {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  border-radius: 999px;
+  border: 1px solid var(--bt-line-strong);
+  background: var(--bt-surface);
+  color: var(--bt-ink);
+  font-size: 11px;
+  font-weight: 500;
+  padding-block: 5px;
+  padding-inline: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms var(--bt-ease-out), border-color 140ms ease;
+}
+.railCoffee:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .railCoffee:hover {
+    border-color: var(--bt-ink);
+  }
+  .railCoffee:hover .coffeeIcon {
+    transform: rotate(-8deg) scale(1.12);
+  }
+}
+.coffeeIcon {
+  flex-shrink: 0;
+  color: var(--bt-coffee);
+  transition: transform 200ms var(--bt-ease-out);
 }
 
 /* sponsor rotator — boxless, 32px icon tile, 13px type, gray pill CTA,
@@ -264,7 +319,7 @@
 /* reduced motion: keep fades, kill movement */
 @media (prefers-reduced-motion: reduce) {
   .rail * { animation: none !important; }
-  .sponsorCta { transition: none; }
+  .sponsorCta, .railCoffee, .coffeeIcon { transition: none; }
 }
 
 /* mobile: rail collapses (chrome-switchover owns the mobile nav pattern) */

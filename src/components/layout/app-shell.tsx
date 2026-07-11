@@ -11,7 +11,6 @@
 import { usePathname, useRouter } from "next/navigation";
 import { Rail } from "./rail";
 import { MobileBar } from "./mobile-bar";
-import { UtilityCluster } from "./utility-cluster";
 import { CommandPalette, useCommandPalette } from "./command-palette";
 import { useCategoryFilterStore } from "@/store/category-filter-store";
 
@@ -34,7 +33,6 @@ export function AppShell() {
   return (
     <>
       <Rail activeCategory={activeCategory} onCategory={onCategory} />
-      <UtilityCluster />
       <MobileBar activeCategory={activeCategory} onCategory={onCategory} onSearch={openPalette} />
       <CommandPalette open={open} onClose={() => setOpen(false)} />
     </>

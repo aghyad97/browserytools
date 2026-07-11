@@ -1,0 +1,82 @@
+/* AppShell sticky glass top bar — desktop-only (>900px). Sits at the top of
+   the content column (position:sticky; inset-block-start:0) on every route
+   that renders AppShell, so it never overlaps the start-side rail and takes
+   real layout space (no fixed overlay → no double-padding of content).
+
+   Carries only the wide ⌘K search trigger on the start side — the coffee CTA
+   and switchers live in the rail bottom. Glass: color-mix on --bt-bg (picks
+   up light/dark automatically) + blur; clean edge, no divider. Logical
+   properties throughout so it mirrors under dir="rtl". Hidden under 900px,
+   where the fixed mobile bar owns chrome. */
+
+.bar {
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+  position: sticky;
+  inset-block-start: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  min-height: 56px;
+  padding-block: 9px;
+  padding-inline: 48px;
+  background: color-mix(in srgb, var(--bt-bg) 72%, transparent);
+  backdrop-filter: blur(12px) saturate(1.4);
+  -webkit-backdrop-filter: blur(12px) saturate(1.4);
+}
+
+@media (max-width: 900px) {
+  .bar {
+    display: none;
+  }
+}
+
+/* ---------- search trigger — reads as a real search field ---------- */
+.search {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex: 1;
+  min-width: 0;
+  max-width: 520px;
+  height: 36px;
+  padding-inline: 16px;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 999px;
+  background: var(--bt-surface);
+  color: var(--bt-faint);
+  font-size: 13.5px;
+  text-align: start;
+  cursor: text;
+  transition: border-color 150ms ease, transform 160ms var(--bt-ease-out);
+}
+.searchText {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.search:active {
+  transform: scale(0.99);
+}
+@media (hover: hover) and (pointer: fine) {
+  .search:hover {
+    border-color: var(--bt-ink);
+  }
+}
+
+.kbd {
+  font-family: var(--mono);
+  font-size: 10px;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 5px;
+  padding-block: 1px;
+  padding-inline: 5px;
+  color: var(--bt-muted);
+  background: var(--bt-bg);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search {
+    transition: none;
+  }
+}

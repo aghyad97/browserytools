@@ -4719,7 +4719,9 @@
     "sponsorTile": "你的开发工具，在这里如鱼得水",
     "coffee": "请我喝杯咖啡",
     "favorites": "你的收藏",
-    "recent": "最近使用"
+    "recent": "最近使用",
+    "dropAnyFile": "拖放任意文件到这里",
+    "dropSuggest": "我们会为你匹配合适的工具——图片直接在设备上压缩。"
   },
   "Template": {
     "onDevicePromise": "在你的设备上运行——不上传、不存储任何内容。",

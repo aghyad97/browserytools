@@ -4719,7 +4719,9 @@
     "sponsorTile": "Dein Dev-Tool, hier zu Hause",
     "coffee": "Spendiere mir einen Kaffee",
     "favorites": "Deine Favoriten",
-    "recent": "Zuletzt verwendet"
+    "recent": "Zuletzt verwendet",
+    "dropAnyFile": "Beliebige Datei hier ablegen",
+    "dropSuggest": "Wir schlagen dir das passende Tool vor — Bilder werden direkt auf deinem Gerät komprimiert."
   },
   "Template": {
     "onDevicePromise": "Läuft auf deinem Gerät – nichts wird hochgeladen, nichts gespeichert.",

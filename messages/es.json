@@ -4719,7 +4719,9 @@
     "sponsorTile": "Tu herramienta dev, como en casa aquí",
     "coffee": "Invítame a un café",
     "favorites": "Tus favoritos",
-    "recent": "Usadas recientemente"
+    "recent": "Usadas recientemente",
+    "dropAnyFile": "Suelta cualquier archivo aquí",
+    "dropSuggest": "Te sugerimos la herramienta adecuada; las imágenes se comprimen en tu dispositivo."
   },
   "Template": {
     "onDevicePromise": "Funciona en tu dispositivo: no se sube ni se almacena nada.",

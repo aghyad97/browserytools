@@ -65,10 +65,11 @@ test.describe("landing SEO parity", () => {
 
   test("exactly one coffee CTA", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
-    // The coffee CTA moved from the landing hero into the shell's top-right
-    // utility cluster (rendered on every route). Still exactly one coffee anchor
-    // in the markup — one-per-screen (spec §3). The cluster is visually
-    // desktop-only (CSS display:none < 900px), but the anchor stays in the DOM.
+    // The coffee CTA lives in the rail bottom (below the sponsor slot),
+    // rendered on every route. Still exactly one coffee anchor in the markup —
+    // one-per-screen (spec §3). The rail is visually desktop-only (CSS
+    // display:none < 900px) but the anchor stays in the DOM; the mobile
+    // drawer's sheet rail only mounts its copy while the drawer is open.
     await expect(page.locator('a[href="/coffee"]')).toHaveCount(1);
   });
 });
@@ -80,7 +81,14 @@ test.describe("landing SEO parity", () => {
 test.describe("rail category filter", () => {
   test("clicking a rail category filters the Popular grid and shows the active dot", async ({
     page,
-  }) => {
+  }, testInfo) => {
+    // The rail is desktop-only chrome (hidden <900px); on the Mobile Chrome
+    // project it lives inside the menu drawer, not the page, so this
+    // desktop-rail flow doesn't apply. Skip it there.
+    test.skip(
+      testInfo.project.name === "Mobile Chrome",
+      "Rail is desktop-only chrome (hidden <900px)",
+    );
     await page.goto("/", { waitUntil: "domcontentloaded" });
 
     const popularGrid = page.getByTestId("popular-grid");

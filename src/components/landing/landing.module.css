@@ -30,53 +30,11 @@
   font-weight: 500;
 }
 
-/* The coffee CTA (.pill/.coffeeIcon) moved to the shell's top-right utility
-   cluster — see src/components/layout/utility-cluster.module.css. */
+/* The coffee CTA (.pill/.coffeeIcon) moved to the shell's sticky top bar —
+   see src/components/layout/top-bar.module.css. */
 
-.kbd {
-  font-family: var(--mono);
-  font-size: 10px;
-  border: 1px solid var(--bt-line-strong);
-  border-radius: 5px;
-  padding-block: 1px;
-  padding-inline: 5px;
-  color: var(--bt-muted);
-  background: var(--bt-bg);
-}
-
-/* ---------- search trigger ---------- */
-.searchBar {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  width: 100%;
-  max-width: 430px;
-  margin-block-start: 14px;
-  border: 1px solid var(--bt-line-strong);
-  border-radius: 999px;
-  background: var(--bt-surface);
-  padding-block: 9px;
-  padding-inline: 16px;
-  color: var(--bt-faint);
-  font-size: 13.5px;
-  text-align: start;
-  cursor: text;
-  transition: border-color 150ms ease, transform 160ms var(--bt-ease-out);
-}
-.searchBar span:first-child {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex: 1;
-}
-.searchBar:active {
-  transform: scale(0.99);
-}
-@media (hover: hover) and (pointer: fine) {
-  .searchBar:hover {
-    border-color: var(--bt-ink);
-  }
-}
+/* The ⌘K search trigger moved to the shell's sticky top bar (every route) —
+   see src/components/layout/top-bar.module.css. */
 
 /* ---------- live demo strip ---------- */
 .demo {
@@ -122,6 +80,94 @@
   color: var(--bt-muted);
   text-transform: uppercase;
   letter-spacing: 0.08em;
+}
+
+/* ---------- whole-landing dropzone overlay ---------- */
+.dropOverlay {
+  position: fixed;
+  inset: 0;
+  z-index: 60; /* above chrome (top bar 20, mobile bar 40), below palette 80 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none; /* the drop lands on the window listeners */
+  background: color-mix(in srgb, var(--bt-bg) 78%, transparent);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  animation: fadeUp 160ms var(--bt-ease-out) backwards;
+}
+.dropOverlayInner {
+  border: 1.5px dashed var(--bt-accent);
+  border-radius: 16px;
+  padding-block: 32px;
+  padding-inline: 52px;
+  text-align: center;
+  background: var(--bt-surface);
+  box-shadow: var(--bt-shadow-pop);
+}
+.dropTitle {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+}
+.dropSub {
+  font-size: 12.5px;
+  color: var(--bt-muted);
+  margin-block-start: 4px;
+}
+
+/* ---------- drop suggestions (file-router results) ---------- */
+.suggestPanel {
+  margin-block-start: 12px;
+  animation: fadeUp 240ms var(--bt-ease-out) backwards;
+}
+.suggestHead {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  font-size: 12.5px;
+  color: var(--bt-muted);
+  margin-block-end: 10px;
+}
+.suggestName {
+  font-weight: 600;
+  color: var(--bt-ink);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.extBadge {
+  flex-shrink: 0;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 5px;
+  padding-block: 1px;
+  padding-inline: 5px;
+  color: var(--bt-muted);
+  background: var(--bt-bg);
+}
+.suggestSearch {
+  flex-shrink: 0;
+  margin-inline-start: auto;
+  height: 24px;
+  border: 0;
+  border-radius: 999px;
+  background: var(--bt-fill);
+  color: var(--bt-pill-idle-fg);
+  font-size: 11.5px;
+  padding-inline: 10px;
+  cursor: pointer;
+  transition: color 140ms ease, background 140ms ease;
+}
+@media (hover: hover) and (pointer: fine) {
+  .suggestSearch:hover {
+    color: var(--bt-nav-active);
+    background: var(--bt-fill-hover);
+  }
 }
 
 /* ---------- section labels ---------- */
@@ -370,23 +416,36 @@
   text-align: start;
 }
 
-/* ---------- entrance stagger (first paint only) ---------- */
-.enter {
-  opacity: 0;
-  transform: translateY(8px);
+/* ---------- entrance stagger (first paint, no hydration gate) ----------
+   A pure-CSS keyframe that runs at first paint — no `data-mounted` gate, so
+   nothing waits for hydration and every section fades up together in one
+   stagger (kills the old "Apps strip paints alone first" jank). `backwards`
+   fill holds each element at opacity 0 through its --d delay so the stagger
+   reads, then releases every animated style on finish — critical: a retained
+   `transform` (as `both` would keep) makes each .enter a containing block
+   that traps position:fixed children like the dropzone overlay. */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
-.canvas[data-mounted="true"] .enter {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 340ms var(--bt-ease-out), transform 340ms var(--bt-ease-out);
-  transition-delay: var(--d, 0ms);
+.enter {
+  animation: fadeUp 340ms var(--bt-ease-out) backwards;
+  animation-delay: var(--d, 0ms);
 }
 
 @media (prefers-reduced-motion: reduce) {
   .canvas * {
     animation: none !important;
   }
+  /* With animation:none no fill applies — assert full visibility anyway. */
   .enter {
+    opacity: 1;
     transform: none;
   }
   .appCard,

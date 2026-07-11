@@ -1,4 +1,5 @@
 import { AppShell } from "@/components/layout/app-shell";
+import { TopBar } from "@/components/layout/top-bar";
 import { ToolTitle } from "@/components/layout/tool-title";
 import NavigationTracker from "@/components/NavigationTracker";
 import ToolSeoContent from "@/components/ToolSeoContent";
@@ -14,6 +15,7 @@ export default function ToolsLayout({
       <NavigationTracker />
       <AppShell />
       <div className={s.contentScroll}>
+        <TopBar />
         <main className="py-2">
           {/* Per-tool <h1> (the retired Header's title function, spec §6.4). */}
           <ToolTitle />

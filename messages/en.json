@@ -4719,7 +4719,9 @@
     "sponsorTile": "Your dev tool, native here",
     "coffee": "Buy me a coffee",
     "favorites": "Your favorites",
-    "recent": "Recently used"
+    "recent": "Recently used",
+    "dropAnyFile": "Drop any file here",
+    "dropSuggest": "We'll match it to the right tool — images compress on-device."
   },
   "Template": {
     "onDevicePromise": "Runs on your device — nothing is uploaded, nothing is stored.",

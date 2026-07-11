@@ -16,7 +16,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { StarIcon } from "lucide-react";
+import { CoffeeIcon, StarIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { tools } from "@/lib/tools-config";
@@ -102,6 +102,7 @@ export function Rail({
   const t = useTranslations("Rail");
   const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
+  const tLanding = useTranslations("Landing");
   const stars = useGithubStars();
 
   const catButton = (id: string | null, label: string) => {
@@ -178,10 +179,15 @@ export function Rail({
 
       <div className={s.railBottom}>
         <SponsorRotator label={t("sponsorLabel")} />
-        {/* Theme/language/sound live in the desktop top-right cluster (AppShell).
-            The mobile drawer has no such cluster, so the sheet variant keeps the
-            switcher row — it is where small-screen users find them. */}
-        {variant === "sheet" && (
+        {/* Utility row — the one-per-screen coffee CTA (spec §3) plus the
+            theme/language/sound switchers, below the sponsor slot. Rendered by
+            both variants: the desktop rail owns them >900px; the mobile
+            drawer (sheet) is where small-screen users find them. */}
+        <div className={s.railUtilities}>
+          <a className={s.railCoffee} href="/coffee">
+            <CoffeeIcon size={13} className={s.coffeeIcon} />
+            {tLanding("coffee")}
+          </a>
           <div className={s.railSwitchers}>
             <span title={t("theme")}>
               <ThemeSwitcher />
@@ -191,7 +197,7 @@ export function Rail({
             </span>
             <SoundSwitcher />
           </div>
-        )}
+        </div>
       </div>
     </aside>
   );
