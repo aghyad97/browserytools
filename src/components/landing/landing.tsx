@@ -79,7 +79,6 @@ function Tile({
   categoryId,
   name,
   catLabel,
-  delay,
 }: {
   href: string;
   slug: string;
@@ -87,7 +86,6 @@ function Tile({
   categoryId: string;
   name: string;
   catLabel: string;
-  delay: number;
 }) {
   const c = CHIP[categoryId];
   return (
@@ -99,8 +97,6 @@ function Tile({
       catLabel={catLabel}
       chipBg={c?.bg}
       chipFg={c?.fg}
-      className={s.enter}
-      style={{ "--d": `${delay}ms` } as React.CSSProperties}
     />
   );
 }
@@ -166,11 +162,30 @@ function AppViz({ viz }: { viz: FeaturedApp["viz"] }) {
 /* slug → tile metadata for the drop-suggestion tiles. */
 const BY_SLUG = new Map(TOOL_INDEX.map((tool) => [tool.slug, tool]));
 
+/* Mirrors the reduced-motion probe in @/lib/ui-sound (not exported there).
+   Replicated locally so the count-up can skip animating for users who opted
+   out of motion. */
+function prefersReducedMotion(): boolean {
+  try {
+    return (
+      typeof window !== "undefined" &&
+      typeof window.matchMedia === "function" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches === true
+    );
+  } catch {
+    return false;
+  }
+}
+
 function useCountUp(target: number, duration = 700) {
   const [value, setValue] = useState(0);
   useEffect(() => {
     if (!target) {
       setValue(0);
+      return;
+    }
+    if (prefersReducedMotion()) {
+      setValue(target);
       return;
     }
     let raf = 0;
@@ -393,16 +408,16 @@ function ToolRow({
 }) {
   if (items.length === 0) return null;
   return (
-    <>
-      <div className={`${s.sectionLabel} ${s.enter}`}>
+    <div className={s.lateRow}>
+      <div className={s.sectionLabel}>
         {label} <span className={s.sectionRule} />
       </div>
       <div className={s.grid}>
-        {items.map((it, i) => (
-          <Tile key={it.href} {...it} delay={Math.min(i * 18, 200)} />
+        {items.map((it) => (
+          <Tile key={it.href} {...it} />
         ))}
       </div>
-    </>
+    </div>
   );
 }
 
@@ -453,27 +468,21 @@ export default function Landing() {
 
   return (
     <div className={s.canvas}>
-      <div
-        className={`${s.topRow} ${s.enter}`}
-        style={{ "--d": "0ms" } as React.CSSProperties}
-      >
+      <div className={s.topRow}>
         <h1 className={s.statement}>
           {t("statementLead")}{" "}
           <span className={s.statementMuted}>{t("statementTail")}</span>
         </h1>
       </div>
 
-      <div className={s.enter} style={{ "--d": "40ms" } as React.CSSProperties}>
-        <LiveDemo />
-      </div>
+      <LiveDemo />
 
       {/* Favorites / recently used (client-only, non-empty only). */}
       <ToolRow label={t("favorites")} items={rows.favorites} />
       <ToolRow label={t("recent")} items={rows.recent} />
 
-      {/* Featured apps — live routes only. Wrapped in `.enter` so the strip
-          joins the first-paint stagger instead of painting alone. */}
-      <div className={s.enter} style={{ "--d": "80ms" } as React.CSSProperties}>
+      {/* Featured apps — live routes only. Renders fully visible at first paint. */}
+      <div>
       <div className={s.sectionLabel}>
         {t("apps")} <span className={s.sectionRule} />
       </div>
@@ -506,20 +515,14 @@ export default function Landing() {
       </div>
 
       {/* Popular curated grid + category filters. */}
-      <div
-        className={`${s.sectionLabel} ${s.enter}`}
-        style={{ "--d": "120ms" } as React.CSSProperties}
-      >
+      <div className={s.sectionLabel}>
         {category
           ? tc(`categoriesShort.${category}` as never)
           : t("popular")}
         <span className={s.sectionRule} />
       </div>
 
-      <div
-        className={`${s.filters} ${s.enter}`}
-        style={{ "--d": "160ms" } as React.CSSProperties}
-      >
+      <div className={s.filters}>
         <button
           type="button"
           className={category === null ? s.filterActive : s.filter}
@@ -540,7 +543,7 @@ export default function Landing() {
       </div>
 
       <div className={s.grid} data-testid="popular-grid">
-        {popular.map((tool, i) => (
+        {popular.map((tool) => (
           <Tile
             key={tool.href}
             href={tool.href}
@@ -549,7 +552,6 @@ export default function Landing() {
             categoryId={tool.categoryId}
             name={tool.name}
             catLabel={tool.catLabel}
-            delay={Math.min(360 + i * 18, 700)}
           />
         ))}
       </div>

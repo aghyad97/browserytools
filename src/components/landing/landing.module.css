@@ -233,6 +233,11 @@
     opacity: 1;
     transform: none;
   }
+  /* Fake-liveness equalizer runs only while the card is hovered — the resting
+     state is a static, fully-visible bar (no ambient motion at first paint). */
+  .appCard:hover .vizBar {
+    animation: eq 1.6s var(--bt-ease-in-out) infinite;
+  }
 }
 
 .appViz {
@@ -296,18 +301,6 @@
   block-size: 6px;
   border-radius: 50%;
   background: var(--bt-green);
-  animation: pulse 2.4s var(--bt-ease-in-out) infinite;
-}
-@keyframes pulse {
-  0%,
-  100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.45;
-    transform: scale(0.82);
-  }
 }
 
 /* mini-UI vignettes inside app cards */
@@ -339,7 +332,6 @@
   flex: 1;
   border-radius: 1.5px;
   background: color-mix(in srgb, var(--bt-ink) 18%, transparent);
-  animation: eq 1.6s var(--bt-ease-in-out) infinite;
 }
 @keyframes eq {
   0%,
@@ -416,14 +408,11 @@
   text-align: start;
 }
 
-/* ---------- entrance stagger (first paint, no hydration gate) ----------
-   A pure-CSS keyframe that runs at first paint — no `data-mounted` gate, so
-   nothing waits for hydration and every section fades up together in one
-   stagger (kills the old "Apps strip paints alone first" jank). `backwards`
-   fill holds each element at opacity 0 through its --d delay so the stagger
-   reads, then releases every animated style on finish — critical: a retained
-   `transform` (as `both` would keep) makes each .enter a containing block
-   that traps position:fixed children like the dropzone overlay. */
+/* ---------- event-triggered fades ----------
+   The landing entrance stagger was retired: content renders fully visible at
+   first paint (no fade, no translate). fadeUp survives only for genuinely
+   late/event-driven surfaces — the drag overlay and the drop-suggestion panel,
+   which appear in response to a user gesture, not on load. */
 @keyframes fadeUp {
   from {
     opacity: 0;
@@ -434,19 +423,26 @@
     transform: translateY(0);
   }
 }
-.enter {
-  animation: fadeUp 340ms var(--bt-ease-out) backwards;
-  animation-delay: var(--d, 0ms);
+
+/* Favorites / recently-used rows mount only after hydration (persisted stores),
+   so their arrival lands a frame late. A single opacity-only fade — no
+   translate, no stagger — makes that late arrival read as intentional rather
+   than a pop-in. */
+@keyframes lateFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.lateRow {
+  animation: lateFade 150ms var(--bt-ease-out) backwards;
 }
 
 @media (prefers-reduced-motion: reduce) {
   .canvas * {
     animation: none !important;
-  }
-  /* With animation:none no fill applies — assert full visibility anyway. */
-  .enter {
-    opacity: 1;
-    transform: none;
   }
   .appCard,
   .filter {
