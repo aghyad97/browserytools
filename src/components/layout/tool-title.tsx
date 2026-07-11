@@ -46,6 +46,8 @@ const HAS_OWN_H1 = new Set([
   "html-formatter",
   "http-status",
   "image-captioner",
+  // Five-zone ToolShell pilot (R2): the shell owns the page <h1>.
+  "image-compression",
   "image-upscaler",
   // NOT "invoice": its own <h1> sits inside the Radix "preview" tab, which is
   // not in the DOM at load (default tab is "details") — ToolTitle must supply
