@@ -72,6 +72,7 @@ const HAS_OWN_H1 = new Set([
   "svg",
   "text-summarizer",
   "text-to-speech",
+  "timer",
   "tip-calculator",
   "translator",
   "world-clock",
