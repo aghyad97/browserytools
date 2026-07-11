@@ -79,9 +79,8 @@
   position: relative;
   display: block;
   width: fit-content;
-  padding-block: 2px;
-  padding-inline: 8px;
-  margin-inline-start: -8px; /* keep label text aligned with the rail edge */
+  padding-block: 3px;
+  padding-inline: 10px;
   font-size: 13px;
   line-height: 1.5;
   font-weight: 400;
