@@ -4,20 +4,19 @@
  * Slim production footer — the crawlable full-catalog link surface (spec §6.5).
  *
  * Renders the complete 137-tool matrix as category columns (every tool link,
- * so search engines see the whole catalog from the landing) plus a GitHub link,
- * source link and copyright. All strings via next-intl existing keys; all
- * colours via var(--bt-*) tokens; logical properties throughout for RTL.
+ * so search engines see the whole catalog from the landing) plus GitHub,
+ * license, privacy, terms and copyright links in the bottom bar. All strings
+ * via next-intl (Tools.Footer / Rail / Legal.nav); all colours via var(--bt-*)
+ * tokens; logical properties throughout for RTL.
  *
- * NOTE: license / privacy (/privacy) / terms (/terms) / "alternatives-to"
- * column (spec §6.5, brief) are intentionally NOT rendered here — they require
- * new i18n keys that do not yet exist in any of the 9 locale files, and the
- * /privacy + /terms routes do not exist yet. Added once the keys + routes land
- * (reported to the controller at chrome-switchover).
+ * The "alternatives-to" column (spec §6.5, brief) is W1's — intentionally not
+ * rendered here.
  */
 
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { tools } from "@/lib/tools-config";
+import { LEGAL_LICENSE_URL } from "@/components/legal/legal-document";
 import s from "./footer.module.css";
 
 const GITHUB_URL = "https://github.com/aghyad97/browserytools";
@@ -42,6 +41,7 @@ export default function Footer() {
   const tc = useTranslations("ToolsConfig");
   const tRail = useTranslations("Rail");
   const tFooter = useTranslations("Tools.Footer");
+  const tLegal = useTranslations("Legal.nav");
   const year = new Date().getFullYear();
 
   return (
@@ -81,6 +81,20 @@ export default function Footer() {
         >
           {tFooter("source")}
         </a>
+        <a
+          className={s.metaLink}
+          href={LEGAL_LICENSE_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          {tLegal("license")}
+        </a>
+        <Link className={s.metaLink} href="/privacy">
+          {tLegal("privacy")}
+        </Link>
+        <Link className={s.metaLink} href="/terms">
+          {tLegal("terms")}
+        </Link>
       </div>
     </footer>
   );

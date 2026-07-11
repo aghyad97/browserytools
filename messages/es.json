@@ -4750,5 +4750,50 @@
     "download": "Descargar",
     "dropTitle": "Suelta un archivo o haz clic para elegir",
     "staysOnDevice": "permanece en tu dispositivo"
+  },
+  "Legal": {
+    "nav": {
+      "license": "Licencia",
+      "privacy": "Privacidad",
+      "terms": "Términos"
+    },
+    "common": {
+      "contactLinkText": "Abre un issue en GitHub",
+      "licenseLinkText": "Lee la licencia AGPL-3.0"
+    },
+    "privacy": {
+      "title": "Política de privacidad",
+      "intro": "BrowseryTools está diseñado para que tus archivos nunca tengan motivo para salir de tu dispositivo. Esta página explica, en términos simples, qué significa eso y qué poco recopilamos.",
+      "noAccountsHeading": "Sin cuentas, sin inicio de sesión",
+      "noAccountsBody": "No hay nada que registrar. No pedimos tu nombre, correo ni datos de pago, y no creamos ningún perfil tuyo en ningún sitio.",
+      "onDeviceHeading": "Tus archivos nunca salen de tu dispositivo",
+      "onDeviceBody": "Cada herramienta funciona por completo en tu navegador. Las imágenes, documentos y textos que procesas se leen, transforman y descargan localmente — nada se sube a un servidor, nunca. Puedes comprobarlo tú mismo: abre la pestaña de red de tu navegador mientras usas cualquier herramienta.",
+      "analyticsHeading": "Analítica de uso agregada",
+      "analyticsBody": "Usamos Vercel Analytics para ver qué páginas y herramientas son populares. Reporta cifras anónimas y agregadas — visitas y estimaciones de uso — nunca el contenido de lo que procesas, ni nada vinculado a ti individualmente.",
+      "localStorageHeading": "Preferencias locales",
+      "localStorageBody": "Algunas herramientas recuerdan tus ajustes — como un tema o una lista reciente — usando el almacenamiento local de tu navegador. Esos datos se guardan solo en tu dispositivo y nunca se transmiten a ningún lugar.",
+      "openSourceHeading": "Código abierto de principio a fin",
+      "openSourceBody": "Todo el código está publicado en GitHub. Si quieres saber exactamente qué hace una herramienta con tus datos, puedes leer el código fuente tú mismo en vez de fiarte de nuestra palabra.",
+      "contactHeading": "Preguntas",
+      "contactBody": "Si algo aquí no queda claro, la forma más rápida de contactarnos es GitHub.",
+      "changesHeading": "Cambios en esta política",
+      "changesBody": "Si esta política cambia alguna vez, actualizaremos esta página. Como no recopilamos correos, no tenemos forma de avisarte directamente — vuelve a consultarla si tienes curiosidad."
+    },
+    "terms": {
+      "title": "Términos de uso",
+      "intro": "BrowseryTools es software libre. Al usarlo, esto es lo que aceptas — y es más breve de lo que imaginas.",
+      "licenseHeading": "Licencia de código abierto",
+      "licenseBody": "El código está licenciado bajo la GNU Affero General Public License v3.0 (AGPL-3.0). Eres libre de leerlo, bifurcarlo y ejecutar tu propia copia, conforme a los términos de esa licencia.",
+      "freeHeading": "Gratis para todos",
+      "freeBody": "Todas las herramientas son gratuitas, tanto para proyectos personales como comerciales. Sin muros de pago, sin límites de uso, sin un plan premium que esconda lo bueno.",
+      "warrantyHeading": "Sin garantía",
+      "warrantyBody": "BrowseryTools se ofrece tal cual, sin garantía de ningún tipo. Trabajamos para que cada herramienta sea precisa y fiable, pero eres responsable de verificar los resultados antes de confiar en ellos para algo importante.",
+      "acceptableUseHeading": "Uso aceptable",
+      "acceptableUseBody": "Usa las herramientas con fines lícitos. Eres responsable del contenido que procesas y de cumplir las leyes que le apliquen.",
+      "changesHeading": "Cambios en estos términos",
+      "changesBody": "Podemos actualizar estos términos a medida que el proyecto evoluciona. Si sigues usando BrowseryTools después de un cambio, aceptas los nuevos términos.",
+      "contactHeading": "Preguntas",
+      "contactBody": "Las preguntas sobre estos términos son bienvenidas — contáctanos en GitHub."
+    }
   }
 }

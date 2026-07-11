@@ -4750,5 +4750,50 @@
     "download": "Baixar",
     "dropTitle": "Solte um arquivo ou clique para escolher",
     "staysOnDevice": "permanece no seu dispositivo"
+  },
+  "Legal": {
+    "nav": {
+      "license": "Licença",
+      "privacy": "Privacidade",
+      "terms": "Termos"
+    },
+    "common": {
+      "contactLinkText": "Abra uma issue no GitHub",
+      "licenseLinkText": "Leia a licença AGPL-3.0"
+    },
+    "privacy": {
+      "title": "Política de privacidade",
+      "intro": "O BrowseryTools foi feito para que seus arquivos nunca precisem sair do seu dispositivo. Esta página explica, em termos simples, o que isso significa e o pouco que coletamos.",
+      "noAccountsHeading": "Sem contas, sem login",
+      "noAccountsBody": "Não há nada para cadastrar. Não pedimos seu nome, e-mail ou dados de pagamento, e não criamos nenhum perfil seu em lugar nenhum.",
+      "onDeviceHeading": "Seus arquivos nunca saem do seu dispositivo",
+      "onDeviceBody": "Cada ferramenta roda inteiramente no seu navegador. Imagens, documentos e textos que você processa são lidos, transformados e baixados localmente — nada é enviado a um servidor, nunca. Você pode conferir isso: abra a aba de rede do navegador enquanto usa qualquer ferramenta.",
+      "analyticsHeading": "Análises de uso agregadas",
+      "analyticsBody": "Usamos o Vercel Analytics para ver quais páginas e ferramentas são populares. Ele reporta números anônimos e agregados — visualizações de página e estimativas de uso — nunca o conteúdo do que você processa, nem nada vinculado a você individualmente.",
+      "localStorageHeading": "Preferências locais",
+      "localStorageBody": "Algumas ferramentas lembram suas configurações — como um tema ou uma lista recente — usando o armazenamento local do navegador. Esses dados ficam salvos só no seu dispositivo e nunca são transmitidos a lugar nenhum.",
+      "openSourceHeading": "Código aberto do início ao fim",
+      "openSourceBody": "Todo o código está público no GitHub. Se quiser saber exatamente o que uma ferramenta faz com seus dados, você pode ler o código-fonte em vez de confiar apenas na nossa palavra.",
+      "contactHeading": "Dúvidas",
+      "contactBody": "Se algo aqui não estiver claro, a forma mais rápida de falar com a gente é pelo GitHub.",
+      "changesHeading": "Mudanças nesta política",
+      "changesBody": "Se esta política mudar algum dia, atualizaremos esta página. Como não coletamos e-mails, não temos como avisar você diretamente — volte aqui se tiver curiosidade."
+    },
+    "terms": {
+      "title": "Termos de uso",
+      "intro": "O BrowseryTools é software livre. Ao usá-lo, é isto que você concorda — e é mais curto do que parece.",
+      "licenseHeading": "Licença de código aberto",
+      "licenseBody": "O código é licenciado sob a GNU Affero General Public License v3.0 (AGPL-3.0). Você é livre para lê-lo, fazer um fork e rodar sua própria cópia, conforme os termos dessa licença.",
+      "freeHeading": "Gratuito para todos",
+      "freeBody": "Todas as ferramentas são gratuitas, tanto para projetos pessoais quanto comerciais. Sem paywall, sem limite de uso, sem plano premium escondendo as melhores partes.",
+      "warrantyHeading": "Sem garantia",
+      "warrantyBody": "O BrowseryTools é oferecido como está, sem garantia de nenhum tipo. Trabalhamos para manter cada ferramenta precisa e confiável, mas você é responsável por verificar os resultados antes de confiar neles para algo importante.",
+      "acceptableUseHeading": "Uso aceitável",
+      "acceptableUseBody": "Use as ferramentas para fins lícitos. Você é responsável pelo conteúdo que processa e por cumprir as leis que se aplicarem a ele.",
+      "changesHeading": "Mudanças nestes termos",
+      "changesBody": "Podemos atualizar estes termos conforme o projeto evolui. Continuar usando o BrowseryTools depois de uma mudança significa que você aceita os novos termos.",
+      "contactHeading": "Dúvidas",
+      "contactBody": "Dúvidas sobre estes termos são bem-vindas — fale com a gente no GitHub."
+    }
   }
 }

@@ -4750,5 +4750,50 @@
     "download": "Unduh",
     "dropTitle": "Jatuhkan berkas, atau klik untuk memilih",
     "staysOnDevice": "tetap di perangkat Anda"
+  },
+  "Legal": {
+    "nav": {
+      "license": "Lisensi",
+      "privacy": "Privasi",
+      "terms": "Ketentuan"
+    },
+    "common": {
+      "contactLinkText": "Buka issue di GitHub",
+      "licenseLinkText": "Baca lisensi AGPL-3.0"
+    },
+    "privacy": {
+      "title": "Kebijakan Privasi",
+      "intro": "BrowseryTools dibuat agar berkas Anda tidak pernah perlu meninggalkan perangkat Anda. Halaman ini menjelaskan, dengan bahasa sederhana, apa artinya itu dan sedikit data yang benar-benar kami kumpulkan.",
+      "noAccountsHeading": "Tanpa akun, tanpa masuk",
+      "noAccountsBody": "Tidak ada yang perlu didaftarkan. Kami tidak meminta nama, email, atau data pembayaran Anda, dan kami tidak membuat profil Anda di mana pun.",
+      "onDeviceHeading": "Berkas Anda tidak pernah meninggalkan perangkat",
+      "onDeviceBody": "Setiap alat berjalan sepenuhnya di peramban Anda. Gambar, dokumen, dan teks yang Anda proses dibaca, diubah, dan diunduh secara lokal — tidak ada yang diunggah ke server, tidak pernah. Anda bisa memeriksanya sendiri: buka tab jaringan peramban saat menggunakan alat apa pun.",
+      "analyticsHeading": "Analitik penggunaan agregat",
+      "analyticsBody": "Kami menggunakan Vercel Analytics untuk melihat halaman dan alat mana yang populer. Yang dilaporkan hanya angka anonim dan agregat — jumlah kunjungan halaman dan perkiraan penggunaan — tidak pernah konten yang Anda proses, dan tidak pernah sesuatu yang terkait dengan Anda secara pribadi.",
+      "localStorageHeading": "Preferensi lokal",
+      "localStorageBody": "Beberapa alat mengingat pengaturan Anda — seperti tema atau daftar terbaru — menggunakan penyimpanan lokal peramban Anda. Data itu hanya tersimpan di perangkat Anda dan tidak pernah dikirim ke mana pun.",
+      "openSourceHeading": "Sumber terbuka sepenuhnya",
+      "openSourceBody": "Seluruh kode tersedia untuk umum di GitHub. Jika ingin tahu persis apa yang dilakukan sebuah alat terhadap data Anda, Anda bisa membaca sendiri kode sumbernya, bukan hanya percaya pada kata-kata kami.",
+      "contactHeading": "Pertanyaan",
+      "contactBody": "Jika ada yang kurang jelas di sini, cara tercepat menghubungi kami adalah lewat GitHub.",
+      "changesHeading": "Perubahan pada kebijakan ini",
+      "changesBody": "Jika kebijakan ini berubah suatu saat, kami akan memperbarui halaman ini. Karena kami tidak mengumpulkan email, kami tidak punya cara memberi tahu Anda langsung — kunjungi lagi halaman ini kalau penasaran."
+    },
+    "terms": {
+      "title": "Ketentuan Penggunaan",
+      "intro": "BrowseryTools adalah perangkat lunak bebas. Dengan menggunakannya, inilah yang Anda setujui — dan lebih singkat dari dugaan Anda.",
+      "licenseHeading": "Lisensi sumber terbuka",
+      "licenseBody": "Kode ini dilisensikan di bawah GNU Affero General Public License v3.0 (AGPL-3.0). Anda bebas membacanya, melakukan fork, dan menjalankan salinan Anda sendiri, sesuai ketentuan lisensi tersebut.",
+      "freeHeading": "Gratis untuk semua orang",
+      "freeBody": "Setiap alat gratis digunakan, baik untuk proyek pribadi maupun komersial. Tanpa paywall, tanpa batas penggunaan, tanpa tingkatan premium yang menyembunyikan fitur terbaik.",
+      "warrantyHeading": "Tanpa jaminan",
+      "warrantyBody": "BrowseryTools disediakan apa adanya, tanpa jaminan dalam bentuk apa pun. Kami berupaya menjaga setiap alat tetap akurat dan andal, tetapi Anda bertanggung jawab memverifikasi hasilnya sebelum mengandalkannya untuk hal yang penting.",
+      "acceptableUseHeading": "Penggunaan yang wajar",
+      "acceptableUseBody": "Gunakan alat-alat ini untuk tujuan yang sah. Anda bertanggung jawab atas konten yang Anda proses dan atas kepatuhan terhadap hukum yang berlaku untuknya.",
+      "changesHeading": "Perubahan pada ketentuan ini",
+      "changesBody": "Kami dapat memperbarui ketentuan ini seiring perkembangan proyek. Terus menggunakan BrowseryTools setelah ada perubahan berarti Anda menerima ketentuan yang baru.",
+      "contactHeading": "Pertanyaan",
+      "contactBody": "Pertanyaan seputar ketentuan ini sangat kami sambut — hubungi kami di GitHub."
+    }
   }
 }

@@ -4750,5 +4750,50 @@
     "download": "Herunterladen",
     "dropTitle": "Datei ablegen oder zum Auswählen klicken",
     "staysOnDevice": "bleibt auf deinem Gerät"
+  },
+  "Legal": {
+    "nav": {
+      "license": "Lizenz",
+      "privacy": "Datenschutz",
+      "terms": "Nutzungsbedingungen"
+    },
+    "common": {
+      "contactLinkText": "Issue auf GitHub öffnen",
+      "licenseLinkText": "AGPL-3.0-Lizenz lesen"
+    },
+    "privacy": {
+      "title": "Datenschutzerklärung",
+      "intro": "BrowseryTools ist so gebaut, dass deine Dateien nie einen Grund haben, dein Gerät zu verlassen. Diese Seite erklärt in einfachen Worten, was das bedeutet und wie wenig wir tatsächlich erheben.",
+      "noAccountsHeading": "Keine Konten, kein Login",
+      "noAccountsBody": "Es gibt nichts zu registrieren. Wir fragen weder nach deinem Namen noch nach E-Mail oder Zahlungsdaten, und wir legen nirgendwo ein Profil von dir an.",
+      "onDeviceHeading": "Deine Dateien verlassen nie dein Gerät",
+      "onDeviceBody": "Jedes Tool läuft vollständig in deinem Browser. Bilder, Dokumente und Texte, die du bearbeitest, werden lokal gelesen, umgewandelt und heruntergeladen — nichts wird jemals auf einen Server hochgeladen. Du kannst das selbst prüfen: Öffne den Netzwerk-Tab deines Browsers, während du ein Tool benutzt.",
+      "analyticsHeading": "Aggregierte Nutzungsstatistik",
+      "analyticsBody": "Wir nutzen Vercel Analytics, um zu sehen, welche Seiten und Tools beliebt sind. Es liefert nur anonyme, aggregierte Zahlen — Seitenaufrufe und grobe Nutzungswerte — nie den Inhalt dessen, was du bearbeitest, und nie etwas, das dir persönlich zugeordnet werden kann.",
+      "localStorageHeading": "Lokale Einstellungen",
+      "localStorageBody": "Manche Tools merken sich deine Einstellungen — etwa ein Theme oder eine zuletzt-verwendet-Liste — über den lokalen Speicher deines Browsers. Diese Daten bleiben nur auf deinem Gerät und werden nie irgendwohin übertragen.",
+      "openSourceHeading": "Durchgehend Open Source",
+      "openSourceBody": "Der gesamte Code ist öffentlich auf GitHub einsehbar. Wenn du genau wissen willst, was ein Tool mit deinen Daten macht, kannst du den Quellcode selbst lesen, statt uns einfach zu glauben.",
+      "contactHeading": "Fragen",
+      "contactBody": "Wenn hier etwas unklar ist, erreichst du uns am schnellsten über GitHub.",
+      "changesHeading": "Änderungen an dieser Richtlinie",
+      "changesBody": "Sollte sich diese Richtlinie einmal ändern, aktualisieren wir diese Seite. Da wir keine E-Mail-Adressen sammeln, können wir dich nicht direkt benachrichtigen — schau bei Interesse einfach wieder vorbei."
+    },
+    "terms": {
+      "title": "Nutzungsbedingungen",
+      "intro": "BrowseryTools ist freie Software. Mit der Nutzung stimmst du Folgendem zu — und es ist kürzer, als du denkst.",
+      "licenseHeading": "Open-Source-Lizenz",
+      "licenseBody": "Der Code steht unter der GNU Affero General Public License v3.0 (AGPL-3.0). Du darfst ihn lesen, forken und eine eigene Kopie betreiben, im Rahmen der Bedingungen dieser Lizenz.",
+      "freeHeading": "Kostenlos für alle",
+      "freeBody": "Jedes Tool ist kostenlos nutzbar, für private wie kommerzielle Projekte gleichermaßen. Keine Paywall, keine Nutzungsgrenzen, keine Premium-Stufe, die die guten Funktionen versteckt.",
+      "warrantyHeading": "Keine Gewährleistung",
+      "warrantyBody": "BrowseryTools wird ohne jegliche Gewährleistung bereitgestellt. Wir achten darauf, dass jedes Tool korrekt und zuverlässig arbeitet, aber du bist selbst dafür verantwortlich, Ergebnisse zu prüfen, bevor du dich bei etwas Wichtigem darauf verlässt.",
+      "acceptableUseHeading": "Zulässige Nutzung",
+      "acceptableUseBody": "Nutze die Tools für legale Zwecke. Du bist verantwortlich für den Inhalt, den du bearbeitest, und für die Einhaltung aller dafür geltenden Gesetze.",
+      "changesHeading": "Änderungen dieser Bedingungen",
+      "changesBody": "Wir aktualisieren diese Bedingungen möglicherweise, während sich das Projekt weiterentwickelt. Nutzt du BrowseryTools nach einer Änderung weiter, akzeptierst du die neuen Bedingungen.",
+      "contactHeading": "Fragen",
+      "contactBody": "Fragen zu diesen Bedingungen sind willkommen — erreiche uns über GitHub."
+    }
   }
 }

@@ -4751,5 +4751,50 @@
     "download": "下载",
     "dropTitle": "拖入文件，或点击选择",
     "staysOnDevice": "留在你的设备上"
+  },
+  "Legal": {
+    "nav": {
+      "license": "许可协议",
+      "privacy": "隐私",
+      "terms": "条款"
+    },
+    "common": {
+      "contactLinkText": "在 GitHub 上提交 issue",
+      "licenseLinkText": "阅读 AGPL-3.0 许可协议"
+    },
+    "privacy": {
+      "title": "隐私政策",
+      "intro": "BrowseryTools 的设计让你的文件根本没有理由离开你的设备。这个页面用简单的话说明这意味着什么，以及我们究竟收集了哪些少量数据。",
+      "noAccountsHeading": "无需账号，无需登录",
+      "noAccountsBody": "没有任何东西需要注册。我们不会要求你的姓名、邮箱或支付信息，也不会在任何地方为你建立档案。",
+      "onDeviceHeading": "你的文件从不离开你的设备",
+      "onDeviceBody": "每个工具都完全在你的浏览器中运行。你处理的图片、文档和文本都在本地读取、转换和下载——没有任何内容会上传到服务器，一次都没有。你可以自己验证：使用任意工具时打开浏览器的网络面板看看。",
+      "analyticsHeading": "聚合使用统计",
+      "analyticsBody": "我们使用 Vercel Analytics 来了解哪些页面和工具更受欢迎。它只报告匿名的聚合数字——页面浏览量和大致使用量——绝不包含你处理的内容，也绝不包含任何能与你个人对应起来的信息。",
+      "localStorageHeading": "本地偏好设置",
+      "localStorageBody": "部分工具会通过浏览器的本地存储记住你的设置，比如主题或最近使用的列表。这些数据只保存在你的设备上，从不会被传输到任何地方。",
+      "openSourceHeading": "从头到尾开源",
+      "openSourceBody": "全部代码都公开在 GitHub 上。如果你想确切知道某个工具如何处理你的数据，可以自己阅读源代码，而不必只相信我们说的话。",
+      "contactHeading": "有疑问",
+      "contactBody": "如果这里有任何不清楚的地方，联系我们最快的方式是 GitHub。",
+      "changesHeading": "本政策的变更",
+      "changesBody": "如果这份政策以后有变化，我们会更新这个页面。由于我们不收集邮箱地址，没有办法直接通知你——有兴趣的话欢迎回来看看。"
+    },
+    "terms": {
+      "title": "使用条款",
+      "intro": "BrowseryTools 是自由软件。使用它，即表示你同意以下内容——比你想象的要短。",
+      "licenseHeading": "开源许可协议",
+      "licenseBody": "代码采用 GNU Affero 通用公共许可证 v3.0（AGPL-3.0）授权。你可以自由阅读、fork 并运行自己的副本，只需遵守该许可协议的条款。",
+      "freeHeading": "对所有人免费",
+      "freeBody": "每个工具都免费使用，个人项目和商业项目一视同仁。没有付费墙，没有使用次数限制，也没有把好功能藏起来的高级版本。",
+      "warrantyHeading": "不提供任何担保",
+      "warrantyBody": "BrowseryTools 按“原样”提供，不附带任何形式的担保。我们努力让每个工具都准确可靠，但在把结果用于任何重要事情之前，验证结果是你自己的责任。",
+      "acceptableUseHeading": "可接受的使用方式",
+      "acceptableUseBody": "请将这些工具用于合法目的。你要对自己处理的内容负责，并遵守适用于该内容的相关法律。",
+      "changesHeading": "本条款的变更",
+      "changesBody": "随着项目的发展，我们可能会更新这些条款。变更后继续使用 BrowseryTools，即表示你接受新的条款。",
+      "contactHeading": "有疑问",
+      "contactBody": "欢迎就这些条款提出问题——在 GitHub 上联系我们。"
+    }
   }
 }

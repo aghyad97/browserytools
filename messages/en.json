@@ -4750,5 +4750,50 @@
     "download": "Download",
     "dropTitle": "Drop a file, or click to choose",
     "staysOnDevice": "stays on your device"
+  },
+  "Legal": {
+    "nav": {
+      "license": "License",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "common": {
+      "contactLinkText": "Open an issue on GitHub",
+      "licenseLinkText": "Read the AGPL-3.0 license"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "BrowseryTools is built so your files never have a reason to leave your device. This page explains, in plain terms, what that means and what little data we do collect.",
+      "noAccountsHeading": "No accounts, no sign-in",
+      "noAccountsBody": "There's nothing to register for. We don't ask for your name, email, or payment details, and we don't create a profile for you anywhere.",
+      "onDeviceHeading": "Your files never leave your device",
+      "onDeviceBody": "Every tool runs entirely in your browser. Images, documents, and text you process are read, transformed, and downloaded locally — nothing is uploaded to a server, ever. You can confirm this yourself: open your browser's network tab while using any tool.",
+      "analyticsHeading": "Aggregate usage analytics",
+      "analyticsBody": "We use Vercel Analytics to see which pages and tools are popular. It reports anonymized, aggregate numbers — page views and rough usage counts — never the content of what you process, and never anything tied to you individually.",
+      "localStorageHeading": "Local preferences",
+      "localStorageBody": "Some tools remember your settings — like a theme or a recent list — using your browser's local storage. That data is saved on your device only and is never transmitted anywhere.",
+      "openSourceHeading": "Open source, start to finish",
+      "openSourceBody": "The entire codebase is public on GitHub. If you want to know exactly what a tool does with your data, you can read the source yourself instead of taking our word for it.",
+      "contactHeading": "Questions",
+      "contactBody": "If anything here is unclear, the fastest way to reach us is GitHub.",
+      "changesHeading": "Changes to this policy",
+      "changesBody": "If this policy ever changes, we'll update this page. Since we don't collect emails, we have no way to notify you directly — check back if you're curious."
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "intro": "BrowseryTools is free software. By using it, here's what you're agreeing to — and it's shorter than most.",
+      "licenseHeading": "Open source license",
+      "licenseBody": "The code is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). You're free to read it, fork it, and run your own copy, under the terms of that license.",
+      "freeHeading": "Free for everyone",
+      "freeBody": "Every tool is free to use, for personal and commercial projects alike. No paywalls, no usage limits, no premium tier hiding the good parts.",
+      "warrantyHeading": "No warranty",
+      "warrantyBody": "BrowseryTools is provided as-is, with no warranty of any kind. We work to keep every tool accurate and reliable, but you're responsible for verifying results before relying on them for anything important.",
+      "acceptableUseHeading": "Acceptable use",
+      "acceptableUseBody": "Use the tools for lawful purposes. You're responsible for the content you process and for complying with any laws that apply to it.",
+      "changesHeading": "Changes to these terms",
+      "changesBody": "We may update these terms as the project evolves. Continuing to use BrowseryTools after a change means you accept the new terms.",
+      "contactHeading": "Questions",
+      "contactBody": "Questions about these terms are welcome — reach us on GitHub."
+    }
   }
 }
