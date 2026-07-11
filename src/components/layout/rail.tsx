@@ -16,7 +16,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import { SearchIcon, StarIcon } from "lucide-react";
+import { StarIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { motion } from "framer-motion";
 import { tools } from "@/lib/tools-config";
@@ -91,12 +91,10 @@ function NewTag({ label }: { label: string }) {
 export function Rail({
   activeCategory,
   onCategory,
-  onSearch,
   variant = "fixed",
 }: {
   activeCategory?: string | null;
   onCategory?: (id: string | null) => void;
-  onSearch: () => void;
   /** "fixed" = the desktop side column; "sheet" = static content for the
       mobile drawer (no fixed positioning, not hidden under 900px). */
   variant?: "fixed" | "sheet";
@@ -180,20 +178,20 @@ export function Rail({
 
       <div className={s.railBottom}>
         <SponsorRotator label={t("sponsorLabel")} />
-        <div className={s.railSwitchers}>
-          <span title={t("theme")}>
-            <ThemeSwitcher />
-          </span>
-          <span title={t("language")}>
-            <LanguageSwitcher />
-          </span>
-          <SoundSwitcher />
-        </div>
-        <button className={s.pillDark} onClick={onSearch}>
-          <SearchIcon size={13} />
-          {t("search")}
-          <span className={s.kbd}>⌘K</span>
-        </button>
+        {/* Theme/language/sound live in the desktop top-right cluster (AppShell).
+            The mobile drawer has no such cluster, so the sheet variant keeps the
+            switcher row — it is where small-screen users find them. */}
+        {variant === "sheet" && (
+          <div className={s.railSwitchers}>
+            <span title={t("theme")}>
+              <ThemeSwitcher />
+            </span>
+            <span title={t("language")}>
+              <LanguageSwitcher />
+            </span>
+            <SoundSwitcher />
+          </div>
+        )}
       </div>
     </aside>
   );

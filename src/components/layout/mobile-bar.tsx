@@ -69,10 +69,6 @@ export function MobileBar({
                   }
                 : undefined
             }
-            onSearch={() => {
-              setMenuOpen(false);
-              onSearch();
-            }}
           />
         </SheetContent>
       </Sheet>

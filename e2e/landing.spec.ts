@@ -65,6 +65,10 @@ test.describe("landing SEO parity", () => {
 
   test("exactly one coffee CTA", async ({ page }) => {
     await page.goto("/", { waitUntil: "domcontentloaded" });
+    // The coffee CTA moved from the landing hero into the shell's top-right
+    // utility cluster (rendered on every route). Still exactly one coffee anchor
+    // in the markup — one-per-screen (spec §3). The cluster is visually
+    // desktop-only (CSS display:none < 900px), but the anchor stays in the DOM.
     await expect(page.locator('a[href="/coffee"]')).toHaveCount(1);
   });
 });

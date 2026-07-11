@@ -261,42 +261,10 @@
 }
 .sponsorPaused .sponsorFill { animation-play-state: paused; }
 
-/* ---------- pills ---------- */
-
-.pillDark {
-  display: inline-flex;
-  align-items: center;
-  gap: 7px;
-  border-radius: 999px;
-  border: 1px solid var(--bt-ink);
-  background: var(--bt-ink);
-  color: var(--bt-bg);
-  font-size: 12.5px;
-  font-weight: 500;
-  padding: 7px 14px;
-  cursor: pointer;
-  transition: transform 160ms var(--bt-ease-out), background 140ms ease;
-}
-.pillDark:active { transform: scale(0.97); }
-@media (hover: hover) and (pointer: fine) {
-  .pillDark:hover { background: var(--bt-nav-active); border-color: var(--bt-nav-active); }
-}
-
-.kbd {
-  margin-inline-start: auto;
-  font-family: var(--mono);
-  font-size: 10px;
-  border: 1px solid var(--bt-line-strong);
-  border-radius: 5px;
-  padding: 1px 5px;
-  color: var(--bt-muted);
-  background: var(--bt-bg);
-}
-
 /* reduced motion: keep fades, kill movement */
 @media (prefers-reduced-motion: reduce) {
   .rail * { animation: none !important; }
-  .pillDark, .sponsorCta { transition: none; }
+  .sponsorCta { transition: none; }
 }
 
 /* mobile: rail collapses (chrome-switchover owns the mobile nav pattern) */

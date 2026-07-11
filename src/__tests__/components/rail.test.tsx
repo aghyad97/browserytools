@@ -29,7 +29,7 @@ const CATEGORY_LABELS = [
 
 describe("Rail", () => {
   it("renders all 11 translated category labels plus Everything", () => {
-    render(<Rail onSearch={() => {}} />);
+    render(<Rail />);
 
     // "Everything" pseudo-category resolves from the Rail namespace.
     expect(screen.getByText("Everything")).toBeInTheDocument();
@@ -42,17 +42,18 @@ describe("Rail", () => {
   });
 
   it("resolves the on-device status and nav strings from i18n", () => {
-    render(<Rail onSearch={() => {}} />);
+    render(<Rail />);
     expect(screen.getByText(/tools · on-device/)).toBeInTheDocument();
     expect(screen.getByText("Blog")).toBeInTheDocument();
     expect(screen.getByText("GitHub")).toBeInTheDocument();
-    expect(screen.getByText("Search")).toBeInTheDocument();
+    // The search pill moved out of the rail (⌘K / mobile-bar own search now).
+    expect(screen.queryByText("Search")).toBeNull();
   });
 
   it("marks exactly the active category with a single dot indicator", () => {
     // activeCategory=null => the "Everything" row (id null) is the active one.
     const { rerender } = render(
-      <Rail activeCategory={null} onCategory={() => {}} onSearch={() => {}} />,
+      <Rail activeCategory={null} onCategory={() => {}} />,
     );
     let dots = screen.getAllByTestId("rail-active-dot");
     expect(dots).toHaveLength(1);
@@ -60,7 +61,7 @@ describe("Rail", () => {
 
     // Selecting a real category moves the single dot onto that row.
     rerender(
-      <Rail activeCategory="imageTools" onCategory={() => {}} onSearch={() => {}} />,
+      <Rail activeCategory="imageTools" onCategory={() => {}} />,
     );
     dots = screen.getAllByTestId("rail-active-dot");
     expect(dots).toHaveLength(1);
@@ -68,7 +69,7 @@ describe("Rail", () => {
   });
 
   it("renders no sponsor section while SPONSORS is empty", () => {
-    render(<Rail onSearch={() => {}} />);
+    render(<Rail />);
     // sponsorLabel ("Sponsor") only appears when a sponsor is on screen.
     expect(screen.queryByTestId("rail-sponsor")).toBeNull();
     expect(screen.queryByText("Sponsor")).toBeNull();

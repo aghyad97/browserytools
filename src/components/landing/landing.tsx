@@ -20,7 +20,6 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { CoffeeIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { tools, getAllTools } from "@/lib/tools-config";
 import { FEATURED_APPS, type FeaturedApp } from "@/lib/featured-apps";
@@ -348,10 +347,6 @@ export default function Landing() {
           {t("statementLead")}{" "}
           <span className={s.statementMuted}>{t("statementTail")}</span>
         </h1>
-        <a className={s.pill} href="/coffee">
-          <CoffeeIcon size={13} className={s.coffeeIcon} />
-          {t("coffee")}
-        </a>
       </div>
 
       <div className={s.enter} style={{ "--d": "40ms" } as React.CSSProperties}>
