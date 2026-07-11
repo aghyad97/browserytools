@@ -32,3 +32,15 @@
     padding-block-start: 52px; /* clear the fixed mobile bar */
   }
 }
+
+/* Zone 5 SEO block (spec §3) — aligns the layout's single ToolSeoContent render
+   under the five-zone tool canvas (padding-inline 48px, 18px under 900px), so
+   it reads as the closing zone of <ToolShell> rather than a detached section. */
+.toolSeoZone {
+  padding-inline: 48px;
+}
+@media (max-width: 900px) {
+  .toolSeoZone {
+    padding-inline: 18px;
+  }
+}

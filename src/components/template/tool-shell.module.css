@@ -1,0 +1,242 @@
+/* Five-zone tool template — ported from the /preview prototype
+   (preview.module.css, "tool page" section) with the production deltas: all
+   colours via var(--bt-*) tokens (light+dark), logical properties throughout
+   (RTL mirrors for free), and existing i18n strings. Motion follows
+   animations.dev rules: ease-out entrances, <300ms UI, transform/opacity only,
+   never a single-edge accent bar on any card (spec §3). */
+
+.shell {
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+  max-inline-size: 880px;
+  padding-block: 26px 90px;
+  padding-inline: 48px;
+  color: var(--bt-ink);
+  font-feature-settings: "ss01";
+}
+
+/* ---------- zone 1 · crumb ---------- */
+.crumb {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+}
+.crumbCat {
+  /* category name painted in its chip foreground token (spec §3). */
+  color: var(--crumb-fg, var(--bt-muted));
+}
+.crumbName {
+  color: var(--bt-ink);
+  font-weight: 600;
+}
+
+/* ---------- zone 2 · title + sub ---------- */
+.title {
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-block-start: 10px;
+}
+.sub {
+  font-size: 14px;
+  color: var(--bt-muted);
+  margin-block-start: 6px;
+  max-inline-size: 52ch;
+  line-height: 1.55;
+}
+
+/* ---------- zone 3 · stage ---------- */
+.stage {
+  margin-block-start: 28px;
+}
+
+/* ---------- zone 4 · controls bar ---------- */
+/* One bordered card: mono labels, inputs at the start, live stats at the end
+   with tabular nums, single dark-pill primary action rightmost. Never a
+   single-edge accent bar. */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-block-start: 20px;
+  border: 1px solid var(--bt-line);
+  border-radius: 14px;
+  background: var(--bt-surface);
+  padding-block: 16px;
+  padding-inline: 20px;
+}
+.controlLabel {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+  margin-block-end: 7px;
+}
+.controlStat {
+  margin-inline-start: auto;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+.pillDark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--bt-ink);
+  background: var(--bt-ink);
+  color: var(--bt-bg);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding-block: 7px;
+  padding-inline: 14px;
+  cursor: pointer;
+  transition: transform 160ms var(--bt-ease-out), background 140ms ease,
+    opacity 140ms ease;
+}
+/* end-aligned: the primary is always the last, rightmost control. */
+.pillPrimary {
+  composes: pillDark;
+  margin-inline-start: auto;
+}
+.pillDark:active {
+  transform: scale(0.97);
+}
+.pillDark:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pillDark:not(:disabled):hover {
+    background: color-mix(in srgb, var(--bt-ink) 88%, #000);
+  }
+}
+
+/* ---------- zone 5 · related (3 same-category tiles) ---------- */
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+  margin-block: 40px 12px;
+}
+.sectionRule {
+  flex: 1;
+  height: 1px;
+  background: var(--bt-line);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+/* tile — the shared landing tile visual (spec §3: reuse the landing tile). */
+.tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px;
+  border: 1px solid var(--bt-line);
+  border-radius: 11px;
+  background: var(--bt-surface);
+  padding-inline: 14px;
+  cursor: pointer;
+  text-align: start;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms var(--bt-ease-out), border-color 150ms ease,
+    box-shadow 200ms var(--bt-ease-out);
+}
+.tile:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover {
+    border-color: var(--bt-line-strong);
+    box-shadow: 0 8px 22px -14px rgba(22, 22, 21, 0.28);
+    transform: translateY(-1px);
+  }
+  .tile:hover .tileChip {
+    transform: scale(1.07);
+  }
+  .tile:hover .tileArrow {
+    opacity: 1;
+    transform: none;
+  }
+}
+.tileChip {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 8px;
+  background: var(--chip-bg, var(--bt-fill));
+  color: var(--chip-fg, var(--bt-muted));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 200ms var(--bt-ease-out);
+}
+.tileChip svg {
+  width: 16px;
+  height: 16px;
+}
+.tileArrow {
+  position: absolute;
+  inset-block-start: 9px;
+  inset-inline-end: 11px;
+  font-size: 12px;
+  color: var(--bt-ink);
+  opacity: 0;
+  transform: translateY(3px);
+  transition: opacity 160ms ease, transform 200ms var(--bt-ease-out);
+}
+.tileText {
+  min-width: 0;
+  flex: 1;
+}
+.tileName {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tileCat {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--chip-fg, var(--bt-faint));
+  opacity: 0.75;
+  margin-block-start: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .pillDark,
+  .tileChip {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    padding-inline: 18px;
+  }
+}

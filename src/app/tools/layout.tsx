@@ -21,8 +21,13 @@ export default function ToolsLayout({
               height; the SEO content below appears beneath the fold and
               scrolls within this same container. */}
           {children}
-          {/* Programmatic on-page SEO content + JSON-LD for every tool. */}
-          <ToolSeoContent />
+          {/* Zone 5 of the five-zone template (spec §3): the programmatic
+              on-page SEO content + JSON-LD, for every tool. Rendered exactly
+              once here — the single source — so <ToolShell> never duplicates
+              it. Sits below the shell's Related tiles, closing out zone 5. */}
+          <div className={s.toolSeoZone}>
+            <ToolSeoContent />
+          </div>
         </main>
       </div>
     </>
