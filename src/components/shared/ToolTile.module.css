@@ -3,8 +3,8 @@
    var(--bt-*) tokens (light+dark), logical properties throughout (RTL mirrors
    for free). --mono is inherited from the call site's own root (.canvas /
    .shell both define it). Motion follows animations.dev rules: ease-out
-   entrances, <300ms UI, transform/opacity only, shadow value kept as-is
-   (accepted precedent). */
+   entrances, <300ms UI, transform/opacity only, hover shadow via the shared
+   --bt-shadow-pop token (light+dark aware). */
 
 .tile {
   position: relative;
@@ -29,7 +29,7 @@
 @media (hover: hover) and (pointer: fine) {
   .tile:hover {
     border-color: var(--bt-line-strong);
-    box-shadow: 0 8px 22px -14px rgba(22, 22, 21, 0.28);
+    box-shadow: var(--bt-shadow-pop);
     transform: translateY(-1px);
   }
   .tile:hover .tileChip {

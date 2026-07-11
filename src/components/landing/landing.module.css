@@ -212,7 +212,7 @@
 @media (hover: hover) and (pointer: fine) {
   .appCard:hover {
     border-color: var(--bt-line-strong);
-    box-shadow: 0 12px 32px -18px rgba(22, 22, 21, 0.25);
+    box-shadow: var(--bt-shadow-pop);
     transform: translateY(-2px);
   }
   .appCard:hover .appArrow {

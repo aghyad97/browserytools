@@ -582,7 +582,7 @@
         "description": "Dessinez ou tapez votre signature et téléchargez-la en PNG ou SVG transparent. Couleur et épaisseur du stylo réglables, polices manuscrites, entièrement côté client."
       },
       "speech-to-text": {
-        "name": "Reconnaissance vocale",
+        "name": "Dictée en direct (micro)",
         "description": "Convertissez la parole en texte en ligne gratuitement avec la saisie vocale et la dictée dans votre navigateur. Plusieurs langues, copie et téléchargement."
       },
       "ascii-art": {
@@ -1011,26 +1011,13 @@
       "subtitle": "Modifiez et traitez des fichiers audio dans votre navigateur",
       "dropHere": "Déposez un fichier audio ici ou cliquez pour l'importer",
       "currentTime": "Temps actuel : {current}s / {total}s",
-      "tabPlayback": "Lecture",
-      "tabEffects": "Effets",
-      "tabTrim": "Découper",
-      "fadeIn": "Fondu d'entrée",
-      "fadeOut": "Fondu de sortie",
-      "addEcho": "Ajouter un écho",
       "resetSpeed": "Réinitialiser la vitesse",
-      "appliedEffects": "Effets appliqués",
-      "selection": "Sélection : {start}s - {end}s",
       "seconds": "{count} secondes",
       "invalidAudioFile": "Veuillez sélectionner un fichier audio valide",
       "fileLoadedSuccess": "Fichier audio chargé avec succès",
       "errorLoadingFile": "Erreur lors du chargement du fichier audio",
       "errorProcessingFile": "Erreur lors du traitement du fichier audio",
-      "fadeInApplied": "Fondu d'entrée appliqué",
-      "fadeOutApplied": "Fondu de sortie appliqué",
-      "echoApplied": "Effet d'écho appliqué",
       "speedSet": "Vitesse de lecture réglée sur {speed}x",
-      "processingDownload": "Traitement de l'audio pour le téléchargement…",
-      "errorProcessingDownload": "Erreur lors du traitement de l'audio pour le téléchargement",
       "downloadOriginal": "Télécharger l'original"
     },
     "MicCameraTester": {
@@ -1313,8 +1300,6 @@
       "resetToSample": "Revenir au code d'exemple"
     },
     "CssMinifier": {
-      "title": "Minificateur / Embellisseur CSS",
-      "description": "Minifiez ou formatez votre code CSS instantanément",
       "tabMinify": "Minifier",
       "tabBeautify": "Embellir",
       "sampleCss": "CSS d'exemple",
@@ -1340,8 +1325,6 @@
       "ariaDownload": "Télécharger"
     },
     "SqlFormatter": {
-      "title": "Formateur SQL",
-      "description": "Formatez, embellissez et minifiez des requêtes SQL",
       "dialect": "Dialecte",
       "commaStyle": "Style de virgule",
       "trailing": "En fin de ligne",
@@ -1435,7 +1418,6 @@
       "minifiedSuccess": "JSON minifié",
       "isValid": "Le JSON est valide",
       "invalidJson": "JSON non valide",
-      "nothingToCopy": "Rien à copier",
       "copiedToClipboard": "Copié dans le presse-papiers",
       "failedToCopy": "Échec de la copie dans le presse-papiers"
     },
@@ -1862,7 +1844,6 @@
       "copiedToClipboard": "Copié dans le presse-papiers"
     },
     "TodoList": {
-      "title": "Liste de tâches",
       "addNewTodo": "Ajouter une tâche",
       "placeholder": "Que faut-il faire ?",
       "addButton": "Ajouter",
@@ -1902,7 +1883,6 @@
     },
     "KeepAwake": {
       "title": "Maintenir éveillé",
-      "subtitle": "Empêchez votre écran de se mettre en veille",
       "status": "Statut",
       "inactive": "Inactif",
       "active": "Éveillé",
@@ -1942,8 +1922,6 @@
       "activatedInfinity": "Maintien en éveil activé — mode infini"
     },
     "PomodoroTimer": {
-      "title": "Minuteur Pomodoro",
-      "subtitle": "Restez concentré, faites des pauses",
       "settings": "Paramètres",
       "workDuration": "Durée de travail (min)",
       "shortBreak": "Pause courte (min)",
@@ -1970,7 +1948,6 @@
       "min": "min"
     },
     "WorldClock": {
-      "title": "Horloge mondiale",
       "citiesCount": "Heure actuelle dans {count} villes",
       "addCity": "Ajouter une ville…",
       "sortByUTC": "Trier par UTC",
@@ -2038,8 +2015,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Chronomètre",
-      "subtitle": "Suivi précis des tours avec raccourcis clavier",
       "start": "Démarrer",
       "pause": "Pause",
       "lap": "Tour",
@@ -2059,8 +2034,6 @@
       "resetKey": "réinitialiser"
     },
     "HabitTracker": {
-      "title": "Suivi d'habitudes",
-      "subtitle": "Construisez des séries, suivez vos progrès",
       "addHabit": "Ajouter une habitude",
       "cancel": "Annuler",
       "totalHabits": "Total des habitudes",
@@ -3881,7 +3854,6 @@
       "headers": "En-têtes",
       "query": "Requête",
       "body": "Corps",
-      "nothingToCopy": "Rien à copier",
       "copiedToClipboard": "Copié dans le presse-papiers",
       "failedToCopy": "Échec de la copie dans le presse-papiers"
     },
@@ -3996,7 +3968,6 @@
       "outputPlaceholder": "Vos favicons apparaîtront ici",
       "zipContents": "Le ZIP inclut toutes les tailles PNG, favicon.ico (16+32), site.webmanifest et l'extrait HTML.",
       "htmlSnippet": "Extrait HTML",
-      "copySnippet": "Copier l'extrait HTML",
       "snippetCopied": "Extrait HTML copié",
       "copyFailed": "Impossible de copier dans le presse-papiers",
       "imageTooLarge": "L'image est trop volumineuse. La taille maximale est de 15 Mo.",

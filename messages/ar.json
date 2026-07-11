@@ -582,7 +582,7 @@
         "description": "ارسم توقيعك أو اكتبه ونزّله كصورة PNG شفافة أو SVG. لون وسماكة قابلان للتعديل وخطوط بأسلوب الكتابة اليدوية، ويعمل بالكامل داخل المتصفح."
       },
       "speech-to-text": {
-        "name": "تحويل الكلام إلى نص",
+        "name": "الإملاء المباشر (ميكروفون)",
         "description": "حوّل صوتك إلى نص مجاناً عبر الكتابة الصوتية والإملاء في المتصفح. يدعم لغات متعددة والنسخ والتنزيل."
       },
       "ascii-art": {
@@ -1011,26 +1011,13 @@
       "subtitle": "حرّر وعالج ملفات الصوت في متصفحك",
       "dropHere": "أفلت ملف الصوت هنا أو انقر للرفع",
       "currentTime": "الوقت الحالي: {current}ث / {total}ث",
-      "tabPlayback": "التشغيل",
-      "tabEffects": "التأثيرات",
-      "tabTrim": "القص",
-      "fadeIn": "تلاشي داخل",
-      "fadeOut": "تلاشي خارج",
-      "addEcho": "إضافة صدى",
       "resetSpeed": "إعادة السرعة",
-      "appliedEffects": "التأثيرات المطبّقة",
-      "selection": "التحديد: {start}ث - {end}ث",
       "seconds": "{count} ثانية",
       "invalidAudioFile": "يرجى اختيار ملف صوتي صالح",
       "fileLoadedSuccess": "تم تحميل ملف الصوت بنجاح",
       "errorLoadingFile": "خطأ في تحميل ملف الصوت",
       "errorProcessingFile": "خطأ في معالجة ملف الصوت",
-      "fadeInApplied": "تم تطبيق التلاشي الداخلي",
-      "fadeOutApplied": "تم تطبيق التلاشي الخارجي",
-      "echoApplied": "تم تطبيق تأثير الصدى",
       "speedSet": "تم ضبط سرعة التشغيل على {speed}×",
-      "processingDownload": "جارٍ معالجة الصوت للتحميل...",
-      "errorProcessingDownload": "خطأ في معالجة الصوت للتحميل",
       "downloadOriginal": "تنزيل الملف الأصلي"
     },
     "MicCameraTester": {
@@ -1313,8 +1300,6 @@
       "resetToSample": "إعادة تعيين إلى الكود التجريبي"
     },
     "CssMinifier": {
-      "title": "ضاغط/مُجمّل CSS",
-      "description": "اضغط أو نسّق كود CSS فورياً",
       "tabMinify": "ضغط",
       "tabBeautify": "تجميل",
       "sampleCss": "CSS تجريبي",
@@ -1340,8 +1325,6 @@
       "ariaDownload": "تحميل"
     },
     "SqlFormatter": {
-      "title": "منسّق SQL",
-      "description": "تنسيق وتجميل وضغط استعلامات SQL",
       "dialect": "نوع SQL",
       "commaStyle": "نمط الفاصلة",
       "trailing": "في النهاية",
@@ -1435,7 +1418,6 @@
       "minifiedSuccess": "تم ضغط JSON",
       "isValid": "JSON صالح",
       "invalidJson": "JSON غير صالح",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة"
     },
@@ -1862,7 +1844,6 @@
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TodoList": {
-      "title": "قائمة المهام",
       "addNewTodo": "إضافة مهمة جديدة",
       "placeholder": "ما الذي يجب القيام به؟",
       "addButton": "إضافة",
@@ -1902,7 +1883,6 @@
     },
     "KeepAwake": {
       "title": "إبقاء الجهاز مستيقظاً",
-      "subtitle": "امنع شاشتك من الدخول في وضع السكون",
       "status": "الحالة",
       "inactive": "غير نشط",
       "active": "مستيقظ",
@@ -1942,8 +1922,6 @@
       "activatedInfinity": "تم التفعيل — وضع بلا نهاية"
     },
     "PomodoroTimer": {
-      "title": "مؤقت بومودورو",
-      "subtitle": "ابقَ مركزاً وخذ استراحات",
       "settings": "الإعدادات",
       "workDuration": "مدة العمل (دقيقة)",
       "shortBreak": "استراحة قصيرة (دقيقة)",
@@ -1970,7 +1948,6 @@
       "min": "دقيقة"
     },
     "WorldClock": {
-      "title": "ساعة العالم",
       "citiesCount": "التوقيت الحالي في {count} مدن",
       "addCity": "إضافة مدينة...",
       "sortByUTC": "ترتيب حسب UTC",
@@ -2038,8 +2015,6 @@
       }
     },
     "Stopwatch": {
-      "title": "ساعة الإيقاف",
-      "subtitle": "تتبع دقيق للفات مع اختصارات لوحة المفاتيح",
       "start": "ابدأ",
       "pause": "إيقاف مؤقت",
       "lap": "لفة",
@@ -2059,8 +2034,6 @@
       "resetKey": "إعادة"
     },
     "HabitTracker": {
-      "title": "متتبع العادات",
-      "subtitle": "ابنِ الاستمرارية وتتبع تقدمك",
       "addHabit": "إضافة عادة",
       "cancel": "إلغاء",
       "totalHabits": "إجمالي العادات",
@@ -3881,7 +3854,6 @@
       "headers": "الترويسات",
       "query": "معاملات الاستعلام",
       "body": "المحتوى",
-      "nothingToCopy": "لا يوجد ما يُنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة"
     },
@@ -3996,7 +3968,6 @@
       "outputPlaceholder": "ستظهر أيقوناتك هنا",
       "zipContents": "يضمّ الملف جميع أحجام PNG، وfavicon.ico (16+32)، وsite.webmanifest، ومقطع HTML.",
       "htmlSnippet": "مقطع HTML",
-      "copySnippet": "نسخ مقطع HTML",
       "snippetCopied": "تم نسخ مقطع HTML",
       "copyFailed": "تعذّر النسخ إلى الحافظة",
       "imageTooLarge": "الصورة كبيرة جدًا. الحد الأقصى 15 ميجابايت.",

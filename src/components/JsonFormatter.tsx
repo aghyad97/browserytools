@@ -135,8 +135,7 @@ export default function JsonFormatter() {
         <>
           <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 me-2" />{t("minify")}</Button>
           <Button variant="outline" onClick={handleValidate}><FlaskConical className="h-4 w-4 me-2" />{t("validate")}</Button>
-          {/* Persistent affordance, inert while there is nothing to copy.
-              (Tools.JsonFormatter.nothingToCopy is now unused — cleanup.) */}
+          {/* Persistent affordance, inert while there is nothing to copy. */}
           <CopyButton
             text={copyText}
             label={t("copy")}

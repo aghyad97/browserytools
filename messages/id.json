@@ -582,7 +582,7 @@
         "description": "Gambar atau ketik tanda tangan Anda dan unduh sebagai PNG atau SVG transparan. Warna dan ketebalan pena yang dapat disesuaikan, font tulisan tangan, sepenuhnya di sisi klien."
       },
       "speech-to-text": {
-        "name": "Suara ke Teks",
+        "name": "Dikte Langsung (mikrofon)",
         "description": "Konversi suara ke teks online secara gratis dengan pengetikan suara dan dikte di browser Anda. Berbagai bahasa, salin, dan unduh."
       },
       "ascii-art": {
@@ -1011,26 +1011,13 @@
       "subtitle": "Edit dan proses berkas audio di browser Anda",
       "dropHere": "Letakkan berkas audio di sini atau klik untuk mengunggah",
       "currentTime": "Waktu Saat Ini: {current}d / {total}d",
-      "tabPlayback": "Pemutaran",
-      "tabEffects": "Efek",
-      "tabTrim": "Potong",
-      "fadeIn": "Fade In",
-      "fadeOut": "Fade Out",
-      "addEcho": "Tambah Gema",
       "resetSpeed": "Atur Ulang Kecepatan",
-      "appliedEffects": "Efek yang Diterapkan",
-      "selection": "Pilihan: {start}d - {end}d",
       "seconds": "{count} detik",
       "invalidAudioFile": "Silakan pilih berkas audio yang valid",
       "fileLoadedSuccess": "Berkas audio berhasil dimuat",
       "errorLoadingFile": "Galat memuat berkas audio",
       "errorProcessingFile": "Galat memproses berkas audio",
-      "fadeInApplied": "Fade in diterapkan",
-      "fadeOutApplied": "Fade out diterapkan",
-      "echoApplied": "Efek gema diterapkan",
       "speedSet": "Kecepatan pemutaran disetel ke {speed}x",
-      "processingDownload": "Memproses audio untuk diunduh...",
-      "errorProcessingDownload": "Galat memproses audio untuk diunduh",
       "downloadOriginal": "Unduh file asli"
     },
     "MicCameraTester": {
@@ -1313,8 +1300,6 @@
       "resetToSample": "Atur ulang ke kode contoh"
     },
     "CssMinifier": {
-      "title": "Pemampat / Pempercantik CSS",
-      "description": "Mampatkan atau format kode CSS Anda secara instan",
       "tabMinify": "Mampatkan",
       "tabBeautify": "Percantik",
       "sampleCss": "CSS Contoh",
@@ -1340,8 +1325,6 @@
       "ariaDownload": "Unduh"
     },
     "SqlFormatter": {
-      "title": "Pemformat SQL",
-      "description": "Format, percantik, dan mampatkan kueri SQL",
       "dialect": "Dialek",
       "commaStyle": "Gaya koma",
       "trailing": "Di akhir",
@@ -1435,7 +1418,6 @@
       "minifiedSuccess": "JSON dimampatkan",
       "isValid": "JSON valid",
       "invalidJson": "JSON tidak valid",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip"
     },
@@ -1862,7 +1844,6 @@
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TodoList": {
-      "title": "Daftar Tugas",
       "addNewTodo": "Tambah Tugas Baru",
       "placeholder": "Apa yang perlu dikerjakan?",
       "addButton": "Tambah",
@@ -1902,7 +1883,6 @@
     },
     "KeepAwake": {
       "title": "Tetap Terjaga",
-      "subtitle": "Cegah layar Anda tertidur",
       "status": "Status",
       "inactive": "Tidak Aktif",
       "active": "Terjaga",
@@ -1942,8 +1922,6 @@
       "activatedInfinity": "Tetap terjaga diaktifkan — mode tak terbatas"
     },
     "PomodoroTimer": {
-      "title": "Pengatur Waktu Pomodoro",
-      "subtitle": "Tetap fokus, ambil jeda",
       "settings": "Pengaturan",
       "workDuration": "Durasi Kerja (mnt)",
       "shortBreak": "Istirahat Pendek (mnt)",
@@ -1970,7 +1948,6 @@
       "min": "mnt"
     },
     "WorldClock": {
-      "title": "Jam Dunia",
       "citiesCount": "Waktu saat ini di {count} kota",
       "addCity": "Tambah kota...",
       "sortByUTC": "Urutkan berdasarkan UTC",
@@ -2038,8 +2015,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Stopwatch",
-      "subtitle": "Pelacakan lap presisi dengan pintasan keyboard",
       "start": "Mulai",
       "pause": "Jeda",
       "lap": "Lap",
@@ -2059,8 +2034,6 @@
       "resetKey": "atur ulang"
     },
     "HabitTracker": {
-      "title": "Pelacak Kebiasaan",
-      "subtitle": "Bangun rentetan, lacak kemajuan",
       "addHabit": "Tambah Kebiasaan",
       "cancel": "Batal",
       "totalHabits": "Total Kebiasaan",
@@ -3881,7 +3854,6 @@
       "headers": "Header",
       "query": "Kueri",
       "body": "Body",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip"
     },
@@ -3996,7 +3968,6 @@
       "outputPlaceholder": "Favicon Anda akan muncul di sini",
       "zipContents": "ZIP mencakup semua ukuran PNG, favicon.ico (16+32), site.webmanifest, dan cuplikan HTML.",
       "htmlSnippet": "Cuplikan HTML",
-      "copySnippet": "Salin cuplikan HTML",
       "snippetCopied": "Cuplikan HTML tersalin",
       "copyFailed": "Tidak dapat menyalin ke papan klip",
       "imageTooLarge": "Gambar terlalu besar. Ukuran maksimal adalah 15MB.",

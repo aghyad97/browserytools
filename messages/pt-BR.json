@@ -582,7 +582,7 @@
         "description": "Desenhe ou digite sua assinatura e baixe-a como um PNG ou SVG transparente. Cor e espessura de caneta ajustáveis, fontes manuscritas, tudo no lado do cliente."
       },
       "speech-to-text": {
-        "name": "Fala para Texto",
+        "name": "Ditado ao vivo (microfone)",
         "description": "Converta fala em texto online e de graça com digitação por voz e ditado no seu navegador. Vários idiomas, com opção de copiar e baixar."
       },
       "ascii-art": {
@@ -1011,26 +1011,13 @@
       "subtitle": "Edite e processe arquivos de áudio no seu navegador",
       "dropHere": "Solte o arquivo de áudio aqui ou clique para enviar",
       "currentTime": "Tempo Atual: {current}s / {total}s",
-      "tabPlayback": "Reprodução",
-      "tabEffects": "Efeitos",
-      "tabTrim": "Cortar",
-      "fadeIn": "Fade In",
-      "fadeOut": "Fade Out",
-      "addEcho": "Adicionar Eco",
       "resetSpeed": "Redefinir Velocidade",
-      "appliedEffects": "Efeitos Aplicados",
-      "selection": "Seleção: {start}s - {end}s",
       "seconds": "{count} segundos",
       "invalidAudioFile": "Selecione um arquivo de áudio válido",
       "fileLoadedSuccess": "Arquivo de áudio carregado com sucesso",
       "errorLoadingFile": "Erro ao carregar o arquivo de áudio",
       "errorProcessingFile": "Erro ao processar o arquivo de áudio",
-      "fadeInApplied": "Fade in aplicado",
-      "fadeOutApplied": "Fade out aplicado",
-      "echoApplied": "Efeito de eco aplicado",
       "speedSet": "Velocidade de reprodução definida para {speed}x",
-      "processingDownload": "Processando o áudio para download...",
-      "errorProcessingDownload": "Erro ao processar o áudio para download",
       "downloadOriginal": "Baixar original"
     },
     "MicCameraTester": {
@@ -1313,8 +1300,6 @@
       "resetToSample": "Restaurar para o código de exemplo"
     },
     "CssMinifier": {
-      "title": "Minificador / Embelezador de CSS",
-      "description": "Minifique ou formate seu código CSS instantaneamente",
       "tabMinify": "Minificar",
       "tabBeautify": "Embelezar",
       "sampleCss": "CSS de Exemplo",
@@ -1340,8 +1325,6 @@
       "ariaDownload": "Baixar"
     },
     "SqlFormatter": {
-      "title": "Formatador de SQL",
-      "description": "Formate, embeleze e minifique consultas SQL",
       "dialect": "Dialeto",
       "commaStyle": "Estilo de vírgula",
       "trailing": "Ao final",
@@ -1435,7 +1418,6 @@
       "minifiedSuccess": "JSON minificado",
       "isValid": "O JSON é válido",
       "invalidJson": "JSON inválido",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "failedToCopy": "Falha ao copiar para a área de transferência"
     },
@@ -1862,7 +1844,6 @@
       "copiedToClipboard": "Copiado para a área de transferência"
     },
     "TodoList": {
-      "title": "Lista de Tarefas",
       "addNewTodo": "Adicionar Nova Tarefa",
       "placeholder": "O que precisa ser feito?",
       "addButton": "Adicionar",
@@ -1902,7 +1883,6 @@
     },
     "KeepAwake": {
       "title": "Manter Ativo",
-      "subtitle": "Impeça que sua tela entre em suspensão",
       "status": "Status",
       "inactive": "Inativo",
       "active": "Ativo",
@@ -1942,8 +1922,6 @@
       "activatedInfinity": "Modo Manter Ativo ativado — modo infinito"
     },
     "PomodoroTimer": {
-      "title": "Cronômetro Pomodoro",
-      "subtitle": "Mantenha o foco, faça pausas",
       "settings": "Configurações",
       "workDuration": "Duração do Trabalho (min)",
       "shortBreak": "Pausa Curta (min)",
@@ -1970,7 +1948,6 @@
       "min": "min"
     },
     "WorldClock": {
-      "title": "Relógio Mundial",
       "citiesCount": "Hora atual em {count} cidades",
       "addCity": "Adicionar cidade...",
       "sortByUTC": "Ordenar por UTC",
@@ -2038,8 +2015,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Cronômetro",
-      "subtitle": "Registro preciso de voltas com atalhos de teclado",
       "start": "Iniciar",
       "pause": "Pausar",
       "lap": "Volta",
@@ -2059,8 +2034,6 @@
       "resetKey": "redefinir"
     },
     "HabitTracker": {
-      "title": "Rastreador de Hábitos",
-      "subtitle": "Crie sequências, acompanhe o progresso",
       "addHabit": "Adicionar Hábito",
       "cancel": "Cancelar",
       "totalHabits": "Total de Hábitos",
@@ -3881,7 +3854,6 @@
       "headers": "Cabeçalhos",
       "query": "Consulta",
       "body": "Corpo",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "failedToCopy": "Falha ao copiar para a área de transferência"
     },
@@ -3996,7 +3968,6 @@
       "outputPlaceholder": "Seus favicons aparecerão aqui",
       "zipContents": "O ZIP inclui todos os tamanhos de PNG, favicon.ico (16+32), site.webmanifest e o trecho de HTML.",
       "htmlSnippet": "Trecho de HTML",
-      "copySnippet": "Copiar trecho de HTML",
       "snippetCopied": "Trecho de HTML copiado",
       "copyFailed": "Não foi possível copiar para a área de transferência",
       "imageTooLarge": "A imagem é grande demais. O tamanho máximo é 15 MB.",

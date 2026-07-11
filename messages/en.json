@@ -582,7 +582,7 @@
         "description": "Draw or type your signature and download it as a transparent PNG or SVG. Adjustable pen color and thickness, handwriting fonts, fully client-side."
       },
       "speech-to-text": {
-        "name": "Speech to Text",
+        "name": "Live Dictation (mic)",
         "description": "Convert speech to text online free with voice typing and dictation in your browser. Multiple languages, copy, and download."
       },
       "ascii-art": {
@@ -1011,26 +1011,13 @@
       "subtitle": "Edit and process audio files in your browser",
       "dropHere": "Drop audio file here or click to upload",
       "currentTime": "Current Time: {current}s / {total}s",
-      "tabPlayback": "Playback",
-      "tabEffects": "Effects",
-      "tabTrim": "Trim",
-      "fadeIn": "Fade In",
-      "fadeOut": "Fade Out",
-      "addEcho": "Add Echo",
       "resetSpeed": "Reset Speed",
-      "appliedEffects": "Applied Effects",
-      "selection": "Selection: {start}s - {end}s",
       "seconds": "{count} seconds",
       "invalidAudioFile": "Please select a valid audio file",
       "fileLoadedSuccess": "Audio file loaded successfully",
       "errorLoadingFile": "Error loading audio file",
       "errorProcessingFile": "Error processing audio file",
-      "fadeInApplied": "Fade in applied",
-      "fadeOutApplied": "Fade out applied",
-      "echoApplied": "Echo effect applied",
       "speedSet": "Playback speed set to {speed}x",
-      "processingDownload": "Processing audio for download...",
-      "errorProcessingDownload": "Error processing audio for download",
       "downloadOriginal": "Download original"
     },
     "MicCameraTester": {
@@ -1313,8 +1300,6 @@
       "resetToSample": "Reset to sample code"
     },
     "CssMinifier": {
-      "title": "CSS Minifier / Beautifier",
-      "description": "Minify or format your CSS code instantly",
       "tabMinify": "Minify",
       "tabBeautify": "Beautify",
       "sampleCss": "Sample CSS",
@@ -1340,8 +1325,6 @@
       "ariaDownload": "Download"
     },
     "SqlFormatter": {
-      "title": "SQL Formatter",
-      "description": "Format, beautify, and minify SQL queries",
       "dialect": "Dialect",
       "commaStyle": "Comma style",
       "trailing": "Trailing",
@@ -1435,7 +1418,6 @@
       "minifiedSuccess": "JSON minified",
       "isValid": "JSON is valid",
       "invalidJson": "Invalid JSON",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard"
     },
@@ -1862,7 +1844,6 @@
       "copiedToClipboard": "Copied to clipboard"
     },
     "TodoList": {
-      "title": "Todo List",
       "addNewTodo": "Add New Todo",
       "placeholder": "What needs to be done?",
       "addButton": "Add",
@@ -1902,7 +1883,6 @@
     },
     "KeepAwake": {
       "title": "Keep Awake",
-      "subtitle": "Stop your screen from sleeping",
       "status": "Status",
       "inactive": "Inactive",
       "active": "Awake",
@@ -1942,8 +1922,6 @@
       "activatedInfinity": "Keep-awake activated — infinity mode"
     },
     "PomodoroTimer": {
-      "title": "Pomodoro Timer",
-      "subtitle": "Stay focused, take breaks",
       "settings": "Settings",
       "workDuration": "Work Duration (min)",
       "shortBreak": "Short Break (min)",
@@ -1970,7 +1948,6 @@
       "min": "min"
     },
     "WorldClock": {
-      "title": "World Clock",
       "citiesCount": "Current time across {count} cities",
       "addCity": "Add city...",
       "sortByUTC": "Sort by UTC",
@@ -2038,8 +2015,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Stopwatch",
-      "subtitle": "Precise lap tracking with keyboard shortcuts",
       "start": "Start",
       "pause": "Pause",
       "lap": "Lap",
@@ -2059,8 +2034,6 @@
       "resetKey": "reset"
     },
     "HabitTracker": {
-      "title": "Habit Tracker",
-      "subtitle": "Build streaks, track progress",
       "addHabit": "Add Habit",
       "cancel": "Cancel",
       "totalHabits": "Total Habits",
@@ -3881,7 +3854,6 @@
       "headers": "Headers",
       "query": "Query",
       "body": "Body",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard"
     },
@@ -3996,7 +3968,6 @@
       "outputPlaceholder": "Your favicons will appear here",
       "zipContents": "ZIP includes all PNG sizes, favicon.ico (16+32), site.webmanifest, and the HTML snippet.",
       "htmlSnippet": "HTML snippet",
-      "copySnippet": "Copy HTML snippet",
       "snippetCopied": "HTML snippet copied",
       "copyFailed": "Could not copy to clipboard",
       "imageTooLarge": "Image is too large. Maximum size is 15MB.",

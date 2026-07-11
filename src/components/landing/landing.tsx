@@ -29,29 +29,8 @@ import { useFavoritesStore } from "@/store/favorites-store";
 import { useRecentToolsStore } from "@/store/recent-tools-store";
 import HomeFAQ from "@/components/HomeFAQ";
 import { ToolTile } from "@/components/shared/ToolTile";
+import { CHIP } from "@/lib/category-chips";
 import s from "./landing.module.css";
-
-/* Per-category chip colours — token references only (light+dark handled by the
-   token layer). Keyed by tools-config category id. */
-const CHIP: Record<string, { bg: string; fg: string }> = {
-  imageTools: { bg: "var(--bt-cat-image-bg)", fg: "var(--bt-cat-image-fg)" },
-  fileTools: { bg: "var(--bt-cat-file-bg)", fg: "var(--bt-cat-file-fg)" },
-  mediaTools: { bg: "var(--bt-cat-media-bg)", fg: "var(--bt-cat-media-fg)" },
-  textLanguage: { bg: "var(--bt-cat-text-bg)", fg: "var(--bt-cat-text-fg)" },
-  dataTools: { bg: "var(--bt-cat-data-bg)", fg: "var(--bt-cat-data-fg)" },
-  mathFinance: { bg: "var(--bt-cat-math-bg)", fg: "var(--bt-cat-math-fg)" },
-  productivity: { bg: "var(--bt-cat-prod-bg)", fg: "var(--bt-cat-prod-fg)" },
-  devTools: { bg: "var(--bt-cat-dev-bg)", fg: "var(--bt-cat-dev-fg)" },
-  designTools: { bg: "var(--bt-cat-design-bg)", fg: "var(--bt-cat-design-fg)" },
-  securityTools: { bg: "var(--bt-cat-sec-bg)", fg: "var(--bt-cat-sec-fg)" },
-  aiTools: { bg: "var(--bt-cat-ai-bg)", fg: "var(--bt-cat-ai-fg)" },
-  testsGames: { bg: "var(--bt-cat-games-bg)", fg: "var(--bt-cat-games-fg)" },
-  schoolLearning: {
-    bg: "var(--bt-cat-school-bg)",
-    fg: "var(--bt-cat-school-fg)",
-  },
-  business: { bg: "var(--bt-cat-biz-bg)", fg: "var(--bt-cat-biz-fg)" },
-};
 
 /* Locale-independent flat index — names/labels resolve via i18n at render. */
 const TOOL_INDEX = tools.flatMap((c) =>
@@ -368,7 +347,7 @@ export default function Landing() {
           {t("statementLead")}{" "}
           <span className={s.statementMuted}>{t("statementTail")}</span>
         </h1>
-        <a className={s.pill} href="/coffee" target="_blank" rel="noreferrer">
+        <a className={s.pill} href="/coffee">
           <CoffeeIcon size={13} className={s.coffeeIcon} />
           {t("coffee")}
         </a>

@@ -583,7 +583,7 @@
         "description": "绘制或输入签名并下载为透明 PNG 或 SVG。可调节笔颜色和粗细，支持手写字体，完全在客户端处理。"
       },
       "speech-to-text": {
-        "name": "语音转文字",
+        "name": "实时听写（麦克风）",
         "description": "在浏览器中免费进行语音打字和听写，将语音转换为文字。支持多语言，可复制和下载。"
       },
       "ascii-art": {
@@ -1012,26 +1012,13 @@
       "subtitle": "在浏览器中编辑和处理音频文件",
       "dropHere": "将音频文件拖放到此处或点击上传",
       "currentTime": "当前时间：{current}秒 / {total}秒",
-      "tabPlayback": "播放",
-      "tabEffects": "效果",
-      "tabTrim": "裁剪",
-      "fadeIn": "淡入",
-      "fadeOut": "淡出",
-      "addEcho": "添加回声",
       "resetSpeed": "重设速度",
-      "appliedEffects": "已应用的效果",
-      "selection": "选择：{start}秒 - {end}秒",
       "seconds": "{count} 秒",
       "invalidAudioFile": "请选取有效的音频文件",
       "fileLoadedSuccess": "音频文件加载成功",
       "errorLoadingFile": "加载音频文件失败",
       "errorProcessingFile": "处理音频文件时出错",
-      "fadeInApplied": "淡入已应用",
-      "fadeOutApplied": "淡出已应用",
-      "echoApplied": "回声效果已应用",
       "speedSet": "播放速度设置为 {speed}x",
-      "processingDownload": "正在处理音频以供下载...",
-      "errorProcessingDownload": "处理音频下载时出错",
       "downloadOriginal": "下载原始文件"
     },
     "MicCameraTester": {
@@ -1314,8 +1301,6 @@
       "resetToSample": "重置为示例代码"
     },
     "CssMinifier": {
-      "title": "CSS 压缩/美化工具",
-      "description": "即时压缩或格式化您的 CSS 代码",
       "tabMinify": "压缩",
       "tabBeautify": "格式化",
       "sampleCss": "CSS 示例",
@@ -1341,8 +1326,6 @@
       "ariaDownload": "下载"
     },
     "SqlFormatter": {
-      "title": "SQL 格式化工具",
-      "description": "格式化、美化和压缩 SQL 查询",
       "dialect": "类别",
       "commaStyle": "逗号样式",
       "trailing": "尾随",
@@ -1436,7 +1419,6 @@
       "minifiedSuccess": "JSON 压缩",
       "isValid": "JSON 是有效的",
       "invalidJson": "无效的JSON",
-      "nothingToCopy": "无内容可复制",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败"
     },
@@ -1863,7 +1845,6 @@
       "copiedToClipboard": "已复制到剪贴板"
     },
     "TodoList": {
-      "title": "待办列表",
       "addNewTodo": "添加新待办事项",
       "placeholder": "需要做什么？",
       "addButton": "添加",
@@ -1903,7 +1884,6 @@
     },
     "KeepAwake": {
       "title": "屏幕常亮",
-      "subtitle": "阻止屏幕休眠",
       "status": "状态",
       "inactive": "关闭",
       "active": "常亮",
@@ -1943,8 +1923,6 @@
       "activatedInfinity": "保持唤醒已激活—无限模式"
     },
     "PomodoroTimer": {
-      "title": "番茄计时器",
-      "subtitle": "保持专注，适当休息",
       "settings": "设置",
       "workDuration": "专注时长（分钟）",
       "shortBreak": "短暂休息（分钟）",
@@ -1971,7 +1949,6 @@
       "min": "min"
     },
     "WorldClock": {
-      "title": "世界时钟",
       "citiesCount": "跨{count}个城市的当前时间",
       "addCity": "添加城市...",
       "sortByUTC": "按UTC排序",
@@ -2039,8 +2016,6 @@
       }
     },
     "Stopwatch": {
-      "title": "秒表",
-      "subtitle": "使用键盘快捷键的精确圈数跟踪",
       "start": "开始",
       "pause": "暂停",
       "lap": "圈",
@@ -2060,8 +2035,6 @@
       "resetKey": "重置"
     },
     "HabitTracker": {
-      "title": "习惯追踪器",
-      "subtitle": "建立连续记录，追踪进展",
       "addHabit": "添加习惯",
       "cancel": "取消",
       "totalHabits": "总体习惯",
@@ -3882,7 +3855,6 @@
       "headers": "请求头",
       "query": "查询",
       "body": "主体",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败"
     },
@@ -3997,7 +3969,6 @@
       "outputPlaceholder": "您的 Favicon 将显示在此处",
       "zipContents": "ZIP 包含所有 PNG 尺寸、favicon.ico (16+32)、site.webmanifest 和 HTML 代码片段。",
       "htmlSnippet": "HTML 代码片段",
-      "copySnippet": "复制 HTML 代码片段",
       "snippetCopied": "HTML 代码片段已复制",
       "copyFailed": "无法复制到剪贴板",
       "imageTooLarge": "图片过大。最大 15MB。",

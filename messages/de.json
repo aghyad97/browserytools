@@ -582,7 +582,7 @@
         "description": "Zeichne oder tippe deine Unterschrift und lade sie als transparentes PNG oder SVG herunter. Anpassbare Stiftfarbe und -stärke, Handschriftschriften, vollständig clientseitig."
       },
       "speech-to-text": {
-        "name": "Sprache zu Text",
+        "name": "Live-Diktat (Mikrofon)",
         "description": "Wandle Sprache kostenlos online in Text um – mit Spracheingabe und Diktat in deinem Browser. Mehrere Sprachen, Kopieren und Herunterladen."
       },
       "ascii-art": {
@@ -1011,26 +1011,13 @@
       "subtitle": "Audiodateien in deinem Browser bearbeiten und verarbeiten",
       "dropHere": "Audiodatei hierher ziehen oder klicken zum Hochladen",
       "currentTime": "Aktuelle Zeit: {current}s / {total}s",
-      "tabPlayback": "Wiedergabe",
-      "tabEffects": "Effekte",
-      "tabTrim": "Zuschneiden",
-      "fadeIn": "Einblenden",
-      "fadeOut": "Ausblenden",
-      "addEcho": "Echo hinzufügen",
       "resetSpeed": "Geschwindigkeit zurücksetzen",
-      "appliedEffects": "Angewendete Effekte",
-      "selection": "Auswahl: {start}s – {end}s",
       "seconds": "{count} Sekunden",
       "invalidAudioFile": "Bitte wähle eine gültige Audiodatei",
       "fileLoadedSuccess": "Audiodatei erfolgreich geladen",
       "errorLoadingFile": "Fehler beim Laden der Audiodatei",
       "errorProcessingFile": "Fehler beim Verarbeiten der Audiodatei",
-      "fadeInApplied": "Einblenden angewendet",
-      "fadeOutApplied": "Ausblenden angewendet",
-      "echoApplied": "Echo-Effekt angewendet",
       "speedSet": "Wiedergabegeschwindigkeit auf {speed}x gesetzt",
-      "processingDownload": "Audio wird zum Herunterladen verarbeitet …",
-      "errorProcessingDownload": "Fehler beim Verarbeiten des Audios zum Herunterladen",
       "downloadOriginal": "Original herunterladen"
     },
     "MicCameraTester": {
@@ -1313,8 +1300,6 @@
       "resetToSample": "Auf Beispielcode zurücksetzen"
     },
     "CssMinifier": {
-      "title": "CSS-Minifizierer / -Verschönerer",
-      "description": "Minimiere oder formatiere deinen CSS-Code sofort",
       "tabMinify": "Minimieren",
       "tabBeautify": "Verschönern",
       "sampleCss": "Beispiel-CSS",
@@ -1340,8 +1325,6 @@
       "ariaDownload": "Herunterladen"
     },
     "SqlFormatter": {
-      "title": "SQL-Formatierer",
-      "description": "Formatiere, verschönere und minimiere SQL-Abfragen",
       "dialect": "Dialekt",
       "commaStyle": "Komma-Stil",
       "trailing": "Nachgestellt",
@@ -1435,7 +1418,6 @@
       "minifiedSuccess": "JSON minimiert",
       "isValid": "JSON ist gültig",
       "invalidJson": "Ungültiges JSON",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen"
     },
@@ -1862,7 +1844,6 @@
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TodoList": {
-      "title": "Aufgabenliste",
       "addNewTodo": "Neue Aufgabe hinzufügen",
       "placeholder": "Was muss erledigt werden?",
       "addButton": "Hinzufügen",
@@ -1902,7 +1883,6 @@
     },
     "KeepAwake": {
       "title": "Wachhalten",
-      "subtitle": "Verhindere, dass dein Bildschirm in den Ruhezustand wechselt",
       "status": "Status",
       "inactive": "Inaktiv",
       "active": "Aktiv",
@@ -1942,8 +1922,6 @@
       "activatedInfinity": "Wachhalten aktiviert – Unbegrenzt-Modus"
     },
     "PomodoroTimer": {
-      "title": "Pomodoro-Timer",
-      "subtitle": "Bleib fokussiert, mach Pausen",
       "settings": "Einstellungen",
       "workDuration": "Arbeitsdauer (Min.)",
       "shortBreak": "Kurze Pause (Min.)",
@@ -1970,7 +1948,6 @@
       "min": "Min."
     },
     "WorldClock": {
-      "title": "Weltzeituhr",
       "citiesCount": "Aktuelle Uhrzeit in {count} Städten",
       "addCity": "Stadt hinzufügen …",
       "sortByUTC": "Nach UTC sortieren",
@@ -2038,8 +2015,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Stoppuhr",
-      "subtitle": "Präzise Rundenzeiterfassung mit Tastenkürzeln",
       "start": "Starten",
       "pause": "Pause",
       "lap": "Runde",
@@ -2059,8 +2034,6 @@
       "resetKey": "Zurücksetzen"
     },
     "HabitTracker": {
-      "title": "Gewohnheits-Tracker",
-      "subtitle": "Baue Serien auf, verfolge Fortschritte",
       "addHabit": "Gewohnheit hinzufügen",
       "cancel": "Abbrechen",
       "totalHabits": "Gewohnheiten gesamt",
@@ -3881,7 +3854,6 @@
       "headers": "Header",
       "query": "Query",
       "body": "Body",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen"
     },
@@ -3996,7 +3968,6 @@
       "outputPlaceholder": "Deine Favicons erscheinen hier",
       "zipContents": "Das ZIP enthält alle PNG-Größen, favicon.ico (16+32), site.webmanifest und das HTML-Snippet.",
       "htmlSnippet": "HTML-Snippet",
-      "copySnippet": "HTML-Snippet kopieren",
       "snippetCopied": "HTML-Snippet kopiert",
       "copyFailed": "Konnte nicht in die Zwischenablage kopiert werden",
       "imageTooLarge": "Das Bild ist zu groß. Die maximale Größe beträgt 15 MB.",
