@@ -1,0 +1,39 @@
+/* Shared in-stage stat strip (R3 §F3 M5). Visual DNA matches the controls-bar
+   ControlStat (mono uppercase caption + tabular-num value), scaled up.
+   Colours via var(--bt-*), both themes. */
+
+.strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  border: 1px solid var(--bt-line);
+  border-radius: 11px;
+  background: var(--bt-surface);
+  padding-inline: 20px;
+  padding-block: 16px;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-inline-size: 0;
+  flex: 1 1 auto;
+}
+
+.value {
+  font-size: 22px;
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  font-variant-numeric: tabular-nums;
+  color: var(--bt-ink);
+}
+
+.label {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+}

@@ -1,0 +1,74 @@
+/* Shared segmented mode picker (R3 §F3 M6). Sliding indicator is CSS-only
+   (translateX on --active), reduced-motion gated. Colours via var(--bt-*),
+   both themes. Equal-width segments so the indicator maths stays trivial. */
+
+.picker {
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(var(--count), 1fr);
+  gap: 0;
+  border: 1px solid var(--bt-line);
+  border-radius: 9px;
+  background: var(--bt-fill);
+  padding: 3px;
+  isolation: isolate;
+}
+
+/* The sliding active pill. Width = one segment (minus the container padding on
+   both ends divided across the track); we position it in track space with a
+   translateX of --active segment-widths. */
+.indicator {
+  position: absolute;
+  z-index: 0;
+  inset-block: 3px;
+  inset-inline-start: 3px;
+  inline-size: calc((100% - 6px) / var(--count));
+  border-radius: 6px;
+  background: var(--bt-surface);
+  border: 1px solid var(--bt-line);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transform: translateX(calc(var(--active) * 100%));
+  transition: transform 220ms var(--bt-ease-out);
+}
+/* Logical-property translate: in RTL the inline axis flips, so mirror the
+   indicator travel to follow the visual segment order. */
+:global([dir="rtl"]) .indicator {
+  transform: translateX(calc(var(--active) * -100%));
+}
+
+.segment {
+  position: relative;
+  z-index: 1;
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding-inline: 12px;
+  padding-block: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--bt-muted);
+  border-radius: 6px;
+  transition: color 150ms ease;
+  white-space: nowrap;
+}
+.segment:hover {
+  color: var(--bt-ink);
+}
+.segment[data-active] {
+  color: var(--bt-ink);
+}
+.segment:focus-visible {
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+  .segment {
+    transition: none;
+  }
+}

@@ -1,0 +1,52 @@
+/* Shared output panel (R3 §F3 M1). Colours via var(--bt-*), logical
+   properties, both themes. --mono is inherited from the shell/canvas root. */
+
+.panel {
+  border: 1px solid var(--bt-line);
+  border-radius: 11px;
+  background: var(--bt-surface);
+  overflow: hidden;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-block-size: 44px;
+  padding-inline: 14px;
+  padding-block: 6px;
+  border-block-end: 1px solid var(--bt-line);
+  background: var(--bt-surface);
+}
+
+.title {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  margin-inline-start: auto;
+}
+
+.body {
+  overflow: auto;
+  background: var(--bt-fill);
+}
+
+.pre {
+  margin: 0;
+  padding: 14px;
+  font-family: var(--mono);
+  font-size: 12.5px;
+  line-height: 1.55;
+  color: var(--bt-ink);
+  white-space: pre-wrap;
+  word-break: break-word;
+  tab-size: 2;
+}

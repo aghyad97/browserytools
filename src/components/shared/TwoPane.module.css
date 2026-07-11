@@ -1,0 +1,34 @@
+/* Shared two-pane split (R3 §F3 M2). Container-query responsive: stacks under
+   720px of its OWN width, so it behaves inside both the narrow and wide shell.
+   Colours/spacing via var(--bt-*), both themes. */
+
+.pane {
+  container-type: inline-size;
+  display: grid;
+  grid-template-columns: var(--ratio, 1) 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.cell {
+  min-inline-size: 0; /* let panes shrink so overflowing content scrolls, not blows out */
+  display: flex;
+  flex-direction: column;
+}
+
+@container (max-width: 720px) {
+  .pane {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Fallback for engines without container-query support: viewport stack. Applied
+   only where @container is unsupported (older browsers) — modern engines honour
+   the container rule above and ignore this being overridden at wide widths. */
+@supports not (container-type: inline-size) {
+  @media (max-width: 720px) {
+    .pane {
+      grid-template-columns: 1fr;
+    }
+  }
+}
