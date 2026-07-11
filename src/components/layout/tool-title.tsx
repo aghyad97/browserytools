@@ -25,7 +25,8 @@ const SLUG_CATEGORY = new Map(
 /* Tools whose component already renders its own <h1> — ToolTitle must not add
    a second one (the smoke suite enforces exactly one h1 per route). Derived by
    scanning each tool's page.tsx + imported @/components tree for `<h1`;
-   shrinks as tools migrate to the five-zone template (which owns the title). */
+   grows as tools migrate to the five-zone template (which owns the title) —
+   an adopting tool adds its slug here so ToolTitle stands down. */
 const HAS_OWN_H1 = new Set([
   "aspect-ratio",
   "audio",

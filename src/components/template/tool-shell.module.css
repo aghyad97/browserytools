@@ -141,96 +141,12 @@
   gap: 12px;
 }
 
-/* tile — the shared landing tile visual (spec §3: reuse the landing tile). */
-.tile {
-  position: relative;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  height: 64px;
-  border: 1px solid var(--bt-line);
-  border-radius: 11px;
-  background: var(--bt-surface);
-  padding-inline: 14px;
-  cursor: pointer;
-  text-align: start;
-  color: inherit;
-  text-decoration: none;
-  transition: transform 180ms var(--bt-ease-out), border-color 150ms ease,
-    box-shadow 200ms var(--bt-ease-out);
-}
-.tile:active {
-  transform: scale(0.97);
-}
-@media (hover: hover) and (pointer: fine) {
-  .tile:hover {
-    border-color: var(--bt-line-strong);
-    box-shadow: 0 8px 22px -14px rgba(22, 22, 21, 0.28);
-    transform: translateY(-1px);
-  }
-  .tile:hover .tileChip {
-    transform: scale(1.07);
-  }
-  .tile:hover .tileArrow {
-    opacity: 1;
-    transform: none;
-  }
-}
-.tileChip {
-  inline-size: 32px;
-  block-size: 32px;
-  border-radius: 8px;
-  background: var(--chip-bg, var(--bt-fill));
-  color: var(--chip-fg, var(--bt-muted));
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: transform 200ms var(--bt-ease-out);
-}
-.tileChip svg {
-  width: 16px;
-  height: 16px;
-}
-.tileArrow {
-  position: absolute;
-  inset-block-start: 9px;
-  inset-inline-end: 11px;
-  font-size: 12px;
-  color: var(--bt-ink);
-  opacity: 0;
-  transform: translateY(3px);
-  transition: opacity 160ms ease, transform 200ms var(--bt-ease-out);
-}
-.tileText {
-  min-width: 0;
-  flex: 1;
-}
-.tileName {
-  display: block;
-  font-size: 13px;
-  font-weight: 500;
-  letter-spacing: -0.005em;
-  line-height: 1.3;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-.tileCat {
-  display: block;
-  font-family: var(--mono);
-  font-size: 9px;
-  letter-spacing: 0.09em;
-  text-transform: uppercase;
-  color: var(--chip-fg, var(--bt-faint));
-  opacity: 0.75;
-  margin-block-start: 2px;
-}
+/* tile — the shared landing tile visual (spec §3: reuse the landing tile),
+   now in src/components/shared/ToolTile.module.css (shared with the
+   landing grid). */
 
 @media (prefers-reduced-motion: reduce) {
-  .tile,
-  .pillDark,
-  .tileChip {
+  .pillDark {
     transition: none;
   }
 }

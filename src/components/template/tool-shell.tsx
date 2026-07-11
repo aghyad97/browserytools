@@ -29,9 +29,9 @@
  * throughout (RTL mirrors for free), existing i18n keys only.
  */
 
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { tools } from "@/lib/tools-config";
+import { ToolTile } from "@/components/shared/ToolTile";
 import { ControlsBar } from "./controls-bar";
 import s from "./tool-shell.module.css";
 
@@ -92,11 +92,6 @@ for (const category of tools) {
     }
   }
   CATEGORY_TOOLS.set(category.id, entries);
-}
-
-function chipVars(categoryId?: string): React.CSSProperties {
-  const c = categoryId ? CHIP[categoryId] : undefined;
-  return { "--chip-bg": c?.bg, "--chip-fg": c?.fg } as React.CSSProperties;
 }
 
 export function ToolShell({
@@ -160,35 +155,19 @@ export function ToolShell({
             {tt("related")} <span className={s.sectionRule} />
           </div>
           <div className={s.grid} data-testid="tool-shell-related">
-            {related.map((r) => {
-              const Icon = r.icon;
-              return (
-                <Link
-                  key={r.href}
-                  href={r.href}
-                  data-slug={r.slug}
-                  data-testid="tool-shell-related-tile"
-                  className={s.tile}
-                  style={chipVars(categoryId)}
-                >
-                  <span className={s.tileChip}>
-                    <Icon strokeWidth={1.8} />
-                  </span>
-                  <span className={s.tileText}>
-                    <span
-                      className={s.tileName}
-                      title={tc(`tools.${r.slug}.name` as never) as string}
-                    >
-                      {tc(`tools.${r.slug}.name` as never)}
-                    </span>
-                    <span className={s.tileCat}>{catShort}</span>
-                  </span>
-                  <span className={s.tileArrow} aria-hidden>
-                    ↗
-                  </span>
-                </Link>
-              );
-            })}
+            {related.map((r) => (
+              <ToolTile
+                key={r.href}
+                href={r.href}
+                slug={r.slug}
+                icon={r.icon}
+                name={tc(`tools.${r.slug}.name` as never) as string}
+                catLabel={catShort}
+                chipBg={chip?.bg}
+                chipFg={chip?.fg}
+                testId="tool-shell-related-tile"
+              />
+            ))}
           </div>
         </>
       )}

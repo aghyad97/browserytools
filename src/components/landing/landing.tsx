@@ -28,6 +28,7 @@ import { openCommandPalette } from "@/components/layout/command-palette";
 import { useFavoritesStore } from "@/store/favorites-store";
 import { useRecentToolsStore } from "@/store/recent-tools-store";
 import HomeFAQ from "@/components/HomeFAQ";
+import { ToolTile } from "@/components/shared/ToolTile";
 import s from "./landing.module.css";
 
 /* Per-category chip colours — token references only (light+dark handled by the
@@ -82,17 +83,12 @@ const GROUPED = tools
       })),
   }));
 
-function chipStyle(categoryId: string): React.CSSProperties {
-  const c = CHIP[categoryId];
-  return { "--chip-bg": c?.bg, "--chip-fg": c?.fg } as React.CSSProperties;
-}
-
 /* ---------- tool tile (shared by Popular / favorites / recent / catalog) ---------- */
 
 function Tile({
   href,
   slug,
-  icon: Icon,
+  icon,
   categoryId,
   name,
   catLabel,
@@ -106,26 +102,19 @@ function Tile({
   catLabel: string;
   delay: number;
 }) {
+  const c = CHIP[categoryId];
   return (
-    <Link
+    <ToolTile
       href={href}
-      data-slug={slug}
-      className={`${s.tile} ${s.enter}`}
-      style={{ ...chipStyle(categoryId), "--d": `${delay}ms` } as React.CSSProperties}
-    >
-      <span className={s.tileChip}>
-        <Icon strokeWidth={1.8} />
-      </span>
-      <span className={s.tileText}>
-        <span className={s.tileName} title={name}>
-          {name}
-        </span>
-        <span className={s.tileCat}>{catLabel}</span>
-      </span>
-      <span className={s.tileArrow} aria-hidden>
-        ↗
-      </span>
-    </Link>
+      slug={slug}
+      icon={icon}
+      name={name}
+      catLabel={catLabel}
+      chipBg={c?.bg}
+      chipFg={c?.fg}
+      className={s.enter}
+      style={{ "--d": `${delay}ms` } as React.CSSProperties}
+    />
   );
 }
 
@@ -482,36 +471,18 @@ export default function Landing() {
           <section key={cat.id} className={s.allCategory}>
             <h2 className={s.allHead}>{tc(`categories.${cat.id}` as never)}</h2>
             <div className={s.grid}>
-              {cat.items.map((item, i) => {
-                const Icon = item.icon;
-                return (
-                  <Link
-                    key={item.href}
-                    href={item.href}
-                    data-slug={item.slug}
-                    className={s.tile}
-                    style={chipStyle(cat.id)}
-                  >
-                    <span className={s.tileChip}>
-                      <Icon strokeWidth={1.8} />
-                    </span>
-                    <span className={s.tileText}>
-                      <span
-                        className={s.tileName}
-                        title={tc(`tools.${item.slug}.name` as never)}
-                      >
-                        {tc(`tools.${item.slug}.name` as never)}
-                      </span>
-                      <span className={s.tileCat}>
-                        {tc(`categoriesShort.${cat.id}` as never)}
-                      </span>
-                    </span>
-                    <span className={s.tileArrow} aria-hidden>
-                      ↗
-                    </span>
-                  </Link>
-                );
-              })}
+              {cat.items.map((item) => (
+                <ToolTile
+                  key={item.href}
+                  href={item.href}
+                  slug={item.slug}
+                  icon={item.icon}
+                  name={tc(`tools.${item.slug}.name` as never)}
+                  catLabel={tc(`categoriesShort.${cat.id}` as never)}
+                  chipBg={CHIP[cat.id]?.bg}
+                  chipFg={CHIP[cat.id]?.fg}
+                />
+              ))}
             </div>
           </section>
         ))}
