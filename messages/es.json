@@ -4746,6 +4746,7 @@
   },
   "Template": {
     "onDevicePromise": "Funciona en tu dispositivo: no se sube ni se almacena nada.",
+    "networkNote": "Funciona en tu navegador: los datos en vivo provienen de una API pública.",
     "related": "Relacionadas",
     "startOver": "Empezar de nuevo",
     "download": "Descargar",

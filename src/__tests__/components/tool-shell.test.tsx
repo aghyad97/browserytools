@@ -69,6 +69,34 @@ describe("ToolShell", () => {
     ).toBeInTheDocument();
   });
 
+  // currency-converter fetches live rates from external APIs (tools-config
+  // sets onDevice: false), so it must NOT carry the on-device promise —
+  // it gets Template.networkNote instead (honesty fix, see spec §3).
+  it("renders the network note instead of the on-device promise for a non-on-device tool", () => {
+    render(
+      <ToolShell slug="currency-converter" title="Convert currencies.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(
+      screen.getByText(/live data comes from a public API\./),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/nothing is uploaded, nothing is stored\./),
+    ).not.toBeInTheDocument();
+  });
+
+  it("still renders the default on-device promise for a tool without onDevice: false", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(
+      screen.queryByText(/live data comes from a public API\./),
+    ).not.toBeInTheDocument();
+  });
+
   it("renders the stage children", () => {
     render(
       <ToolShell slug="image-compression" title="Compress images.">

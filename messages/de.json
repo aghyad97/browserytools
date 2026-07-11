@@ -4746,6 +4746,7 @@
   },
   "Template": {
     "onDevicePromise": "Läuft auf deinem Gerät – nichts wird hochgeladen, nichts gespeichert.",
+    "networkNote": "Läuft in deinem Browser – Live-Daten stammen von einer öffentlichen API.",
     "related": "Ähnliche",
     "startOver": "Von vorn beginnen",
     "download": "Herunterladen",

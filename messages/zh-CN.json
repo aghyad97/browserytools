@@ -4747,6 +4747,7 @@
   },
   "Template": {
     "onDevicePromise": "在你的设备上运行——不上传、不存储任何内容。",
+    "networkNote": "在你的浏览器中运行——实时数据来自公开 API。",
     "related": "相关工具",
     "startOver": "重新开始",
     "download": "下载",

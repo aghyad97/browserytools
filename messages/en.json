@@ -4746,6 +4746,7 @@
   },
   "Template": {
     "onDevicePromise": "Runs on your device — nothing is uploaded, nothing is stored.",
+    "networkNote": "Runs in your browser — live data comes from a public API.",
     "related": "Related",
     "startOver": "Start over",
     "download": "Download",

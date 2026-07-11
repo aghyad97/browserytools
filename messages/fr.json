@@ -4746,6 +4746,7 @@
   },
   "Template": {
     "onDevicePromise": "Fonctionne sur votre appareil — rien n'est envoyé, rien n'est stocké.",
+    "networkNote": "Fonctionne dans votre navigateur — les données en direct proviennent d'une API publique.",
     "related": "Associés",
     "startOver": "Recommencer",
     "download": "Télécharger",

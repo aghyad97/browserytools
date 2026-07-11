@@ -4746,6 +4746,7 @@
   },
   "Template": {
     "onDevicePromise": "Berjalan di perangkat Anda — tidak ada yang diunggah, tidak ada yang disimpan.",
+    "networkNote": "Berjalan di browser Anda — data langsung berasal dari API publik.",
     "related": "Terkait",
     "startOver": "Mulai lagi",
     "download": "Unduh",

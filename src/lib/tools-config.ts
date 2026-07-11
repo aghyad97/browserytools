@@ -98,6 +98,10 @@ export interface Tool {
   description: string;
   order: number;
   creationDate: string; // ISO date string (YYYY-MM-DD)
+  /** False when the tool depends on a live network call (e.g. exchange-rate
+   * APIs) and can't honestly claim to run fully on-device. Absent/true means
+   * the default on-device promise applies. */
+  onDevice?: boolean;
 }
 
 export interface ToolCategory {
@@ -888,6 +892,7 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-24",
         description:
           "Convert between all major currencies in the browser using cached daily rates and animated number display.",
+        onDevice: false,
       },
       {
         name: "Loan Calculator",

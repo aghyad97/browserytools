@@ -55,6 +55,8 @@ const BY_LOCALE = {
     Template: {
       onDevicePromise:
         "Runs on your device — nothing is uploaded, nothing is stored.",
+      networkNote:
+        "Runs in your browser — live data comes from a public API.",
       related: "Related",
       startOver: "Start over",
       download: "Download",
@@ -109,6 +111,7 @@ const BY_LOCALE = {
     },
     Template: {
       onDevicePromise: "يعمل على جهازك — لا يُرفع شيء ولا يُخزَّن شيء.",
+      networkNote: "يعمل في متصفحك — تأتي البيانات الحية من واجهة برمجة عامة.",
       related: "ذات صلة",
       startOver: "ابدأ من جديد",
       download: "تنزيل",
@@ -165,6 +168,8 @@ const BY_LOCALE = {
     Template: {
       onDevicePromise:
         "Funciona en tu dispositivo: no se sube ni se almacena nada.",
+      networkNote:
+        "Funciona en tu navegador: los datos en vivo provienen de una API pública.",
       related: "Relacionadas",
       startOver: "Empezar de nuevo",
       download: "Descargar",
@@ -221,6 +226,8 @@ const BY_LOCALE = {
     Template: {
       onDevicePromise:
         "Funciona no seu dispositivo — nada é enviado, nada é armazenado.",
+      networkNote:
+        "Funciona no seu navegador — os dados em tempo real vêm de uma API pública.",
       related: "Relacionadas",
       startOver: "Recomeçar",
       download: "Baixar",
@@ -277,6 +284,8 @@ const BY_LOCALE = {
     Template: {
       onDevicePromise:
         "Fonctionne sur votre appareil — rien n'est envoyé, rien n'est stocké.",
+      networkNote:
+        "Fonctionne dans votre navigateur — les données en direct proviennent d'une API publique.",
       related: "Associés",
       startOver: "Recommencer",
       download: "Télécharger",
@@ -333,6 +342,8 @@ const BY_LOCALE = {
     Template: {
       onDevicePromise:
         "Läuft auf deinem Gerät – nichts wird hochgeladen, nichts gespeichert.",
+      networkNote:
+        "Läuft in deinem Browser – Live-Daten stammen von einer öffentlichen API.",
       related: "Ähnliche",
       startOver: "Von vorn beginnen",
       download: "Herunterladen",
@@ -389,6 +400,8 @@ const BY_LOCALE = {
     Template: {
       onDevicePromise:
         "Работает на вашем устройстве — ничего не загружается и не сохраняется.",
+      networkNote:
+        "Работает в вашем браузере — актуальные данные поступают из публичного API.",
       related: "Похожие",
       startOver: "Начать заново",
       download: "Скачать",
@@ -445,6 +458,8 @@ const BY_LOCALE = {
     Template: {
       onDevicePromise:
         "Berjalan di perangkat Anda — tidak ada yang diunggah, tidak ada yang disimpan.",
+      networkNote:
+        "Berjalan di browser Anda — data langsung berasal dari API publik.",
       related: "Terkait",
       startOver: "Mulai lagi",
       download: "Unduh",
@@ -499,6 +514,7 @@ const BY_LOCALE = {
     },
     Template: {
       onDevicePromise: "在你的设备上运行——不上传、不存储任何内容。",
+      networkNote: "在你的浏览器中运行——实时数据来自公开 API。",
       related: "相关工具",
       startOver: "重新开始",
       download: "下载",

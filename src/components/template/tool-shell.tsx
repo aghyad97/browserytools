@@ -9,6 +9,8 @@
  *     slug="image-compression"          // resolves category, colours, crumb, related
  *     title={t("title")}                 // verb-first tool title (the page <h1>)
  *     sub={t("sub")}                     // shell appends Template.onDevicePromise
+ *                                         // (or Template.networkNote when the
+ *                                         // tools-config entry sets onDevice: false)
  *     controls={<Quality … />}           // zone 4 — ControlsBar children
  *     primaryAction={{ label, onClick, disabled }}  // single dark pill, end-aligned
  *   >
@@ -16,7 +18,8 @@
  *   </ToolShell>
  *
  * Zones: 1 Crumb (mono CATEGORY eyebrow in its chip fg) → 2 Title+sub
- * (sub always ends with the on-device promise) → 3 Stage (max-width 880) →
+ * (sub always ends with the on-device promise, or the network note for tools
+ * whose tools-config entry sets onDevice: false) → 3 Stage (max-width 880) →
  * 4 ControlsBar → 5 Related (3 same-category tiles, the shared landing tile).
  * ToolSeoContent is the rest of zone 5 and is rendered once by the tools layout
  * (never duplicated here).
@@ -81,12 +84,14 @@ interface RelatedEntry {
 /* slug -> category id, and category id -> its (available) tools. Built once from
    the shared config; never mutated. */
 const SLUG_CATEGORY = new Map<string, string>();
+const SLUG_ON_DEVICE = new Map<string, boolean>();
 const CATEGORY_TOOLS = new Map<string, RelatedEntry[]>();
 for (const category of tools) {
   const entries: RelatedEntry[] = [];
   for (const tool of category.items) {
     const slug = tool.href.split("/").pop() as string;
     SLUG_CATEGORY.set(slug, category.id);
+    SLUG_ON_DEVICE.set(slug, tool.onDevice !== false);
     if (tool.available) {
       entries.push({ slug, href: tool.href, icon: tool.icon });
     }
@@ -117,7 +122,8 @@ export function ToolShell({
     .filter((t) => t.slug !== slug)
     .slice(0, 3);
 
-  const promise = tt("onDevicePromise");
+  const isOnDevice = SLUG_ON_DEVICE.get(slug) ?? true;
+  const promise = isOnDevice ? tt("onDevicePromise") : tt("networkNote");
   const subLine = sub ? `${sub} ${promise}` : promise;
 
   return (
