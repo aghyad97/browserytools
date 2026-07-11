@@ -50,7 +50,9 @@ export function SliderRow({
         <label className={s.label} htmlFor={id}>
           {label}
         </label>
-        <span className={s.value}>{display ?? value}</span>
+        {/* Numeric readouts are LTR even under RTL locales — dir isolation keeps
+            signs/units ordered (e.g. "-15°"), so callers never need to wrap. */}
+        <span className={s.value} dir="ltr">{display ?? value}</span>
       </div>
       <Slider
         id={id}
