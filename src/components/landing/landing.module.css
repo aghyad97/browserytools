@@ -393,6 +393,24 @@
    in src/components/shared/ToolTile.module.css (shared with ToolShell's
    Related section). */
 
+/* Filter continuity — the grid remounts on a category change (keyed nonce) and
+   replays this quick opacity dip (1 → 0.4 → 1) so the re-order reads as an
+   intentional flush, not a hard snap. Never runs on first paint. */
+@keyframes gridDip {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+.gridDip {
+  animation: gridDip 240ms var(--bt-ease-out);
+}
+
 /* ---------- all-tools catalog (crawlable surface, spec §6.5) ---------- */
 .allSection {
   margin-block-start: 8px;

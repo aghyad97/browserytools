@@ -434,6 +434,21 @@ export default function Landing() {
 
   useEffect(() => setMounted(true), []);
 
+  /* Filter continuity: the Popular grid re-orders instantly on a filter click.
+     Bump a nonce on every category CHANGE (never the first render) so the grid
+     remounts and replays a brief opacity dip — a soft flush that signals the
+     content swapped rather than a jarring hard snap. Reduced-motion: instant
+     (the .canvas * animation:none rule zeroes it). */
+  const [filterNonce, setFilterNonce] = useState(0);
+  const filterMounted = useRef(false);
+  useEffect(() => {
+    if (!filterMounted.current) {
+      filterMounted.current = true;
+      return;
+    }
+    setFilterNonce((n) => n + 1);
+  }, [category]);
+
   /* Translated + locale-sorted catalog for the Popular grid. */
   const catalog = useMemo(
     () =>
@@ -542,7 +557,11 @@ export default function Landing() {
         ))}
       </div>
 
-      <div className={s.grid} data-testid="popular-grid">
+      <div
+        key={filterNonce}
+        className={`${s.grid}${filterNonce > 0 ? ` ${s.gridDip}` : ""}`}
+        data-testid="popular-grid"
+      >
         {popular.map((tool) => (
           <Tile
             key={tool.href}

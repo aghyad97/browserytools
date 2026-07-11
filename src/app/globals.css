@@ -110,3 +110,25 @@ html[lang="ar"] input[type="number"] {
     animation: none;
   }
 }
+
+/* Copy → Check swap: a tiny scale-in on the check so the confirmation lands
+   with a little pop rather than a hard glyph switch. Applied to the check
+   wrapper, which mounts fresh each copy so the animation replays. */
+@keyframes bt-check-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.bt-check-in {
+  animation: bt-check-in 150ms var(--bt-ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bt-check-in {
+    animation: none;
+  }
+}

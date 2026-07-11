@@ -58,7 +58,13 @@ export function CopyButton({
       disabled={disabled}
       data-testid={dataTestId}
     >
-      {copied ? <CheckIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
+      {copied ? (
+        <span className="bt-check-in inline-flex">
+          <CheckIcon className="h-4 w-4" />
+        </span>
+      ) : (
+        <CopyIcon className="h-4 w-4" />
+      )}
       {size !== "icon" && resolvedLabel}
     </Button>
   );
