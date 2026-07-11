@@ -10,6 +10,7 @@ import { Upload, ShieldCheck, MapPin, Camera, Clock, Download, CheckCircle2, Ale
 import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 
 interface ExifEntry {
   label: string;
@@ -21,12 +22,6 @@ interface ExifGroups {
   settings: ExifEntry[];
   datetime: ExifEntry[];
   gps: ExifEntry[];
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1048576) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1048576).toFixed(2)} MB`;
 }
 
 // ── EXIF parsing (same approach as ExifViewer) ────────────────────────────────
@@ -431,6 +426,7 @@ export default function ExifRemover() {
                       <MapPin className="w-3 h-3" /> {t("gpsBadge")}
                     </Badge>
                   ) : img.hadMetadata ? (
+                    // content value: amber = "metadata present" warning status; no semantic warning token in this monochrome design system
                     <Badge className="gap-1 bg-amber-500 text-white">
                       <AlertTriangle className="w-3 h-3" /> {t("metadataBadge")}
                     </Badge>
@@ -478,6 +474,7 @@ export default function ExifRemover() {
                     </div>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src={img.cleanedUrl} alt={t("afterLabel")} className="w-full max-h-48 object-contain rounded-md border" />
+                    {/* content value: green = "cleaned/success" status callout; no semantic success token in this monochrome design system */}
                     <div className="rounded-lg border border-green-500/30 bg-green-500/5 px-3 py-2 text-sm flex items-center gap-2 text-green-700 dark:text-green-400">
                       <CheckCircle2 className="w-4 h-4 shrink-0" />
                       {t("cleanedDescription")}

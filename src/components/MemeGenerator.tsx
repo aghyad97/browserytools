@@ -13,7 +13,8 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import {
   Select,
   SelectContent,
@@ -54,7 +55,7 @@ function createTextBox(text: string, x: number, y: number): TextBox {
     x,
     y,
     fontSize: 48,
-    color: "#ffffff",
+    color: "#ffffff", // content value: default meme text fill color
     strokeWidth: 4,
     align: "center",
   };
@@ -79,8 +80,8 @@ function drawTextBox(
   ctx.font = `bold ${box.fontSize}px Impact, "Anton", "Arial Narrow", sans-serif`;
   ctx.textAlign = box.align;
   ctx.textBaseline = "top";
-  ctx.fillStyle = box.color;
-  ctx.strokeStyle = "#000000";
+  ctx.fillStyle = box.color; // content value: user-chosen meme text color
+  ctx.strokeStyle = "#000000"; // content value: meme text outline (classic black stroke)
   ctx.lineWidth = box.strokeWidth;
   ctx.lineJoin = "round";
 
@@ -343,9 +344,9 @@ export default function MemeGenerator() {
               </Card>
             ) : (
               <>
-                <Card className="p-4">
-                  <div className="flex items-center justify-between mb-3">
-                    <h3 className="text-sm font-semibold">{t("textBoxes")}</h3>
+                <SettingsCard
+                  title={t("textBoxes")}
+                  action={
                     <Button
                       size="sm"
                       variant="outline"
@@ -355,8 +356,8 @@ export default function MemeGenerator() {
                       <Plus className="w-4 h-4 me-1" />
                       {t("addText")}
                     </Button>
-                  </div>
-
+                  }
+                >
                   <div className="space-y-2">
                     {boxes.length === 0 && (
                       <p className="text-sm text-muted-foreground">
@@ -398,65 +399,32 @@ export default function MemeGenerator() {
                       </div>
                     ))}
                   </div>
-                </Card>
+                </SettingsCard>
 
                 {selected && (
-                  <Card className="p-4 space-y-4">
-                    <h3 className="text-sm font-semibold">{t("styleTitle")}</h3>
+                  <SettingsCard title={t("styleTitle")}>
+                    <SliderRow
+                      label={t("fontSize")}
+                      value={selected.fontSize}
+                      min={12}
+                      max={160}
+                      display={`${selected.fontSize}px`}
+                      onChange={(v) => updateBox(selected.id, { fontSize: v })}
+                    />
 
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <label className="text-sm font-medium">
-                          {t("fontSize")}
-                        </label>
-                        <span
-                          className="text-sm text-muted-foreground"
-                          dir="ltr"
-                        >
-                          {selected.fontSize}px
-                        </span>
-                      </div>
-                      <Slider
-                        value={[selected.fontSize]}
-                        onValueChange={([v]) =>
-                          updateBox(selected.id, { fontSize: v })
-                        }
-                        min={12}
-                        max={160}
-                        step={1}
-                        aria-label={t("fontSize")}
-                      />
-                    </div>
-
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <label className="text-sm font-medium">
-                          {t("strokeWidth")}
-                        </label>
-                        <span
-                          className="text-sm text-muted-foreground"
-                          dir="ltr"
-                        >
-                          {selected.strokeWidth}px
-                        </span>
-                      </div>
-                      <Slider
-                        value={[selected.strokeWidth]}
-                        onValueChange={([v]) =>
-                          updateBox(selected.id, { strokeWidth: v })
-                        }
-                        min={0}
-                        max={20}
-                        step={1}
-                        aria-label={t("strokeWidth")}
-                      />
-                    </div>
+                    <SliderRow
+                      label={t("strokeWidth")}
+                      value={selected.strokeWidth}
+                      min={0}
+                      max={20}
+                      display={`${selected.strokeWidth}px`}
+                      onChange={(v) =>
+                        updateBox(selected.id, { strokeWidth: v })
+                      }
+                    />
 
                     <div className="grid grid-cols-2 gap-4">
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">
-                          {t("textColor")}
-                        </label>
+                      <OptionRow label={t("textColor")}>
                         <input
                           type="color"
                           aria-label={t("textColor")}
@@ -467,12 +435,9 @@ export default function MemeGenerator() {
                           }
                           className="h-9 w-full rounded-md border border-input bg-background cursor-pointer"
                         />
-                      </div>
+                      </OptionRow>
 
-                      <div className="space-y-2">
-                        <label className="text-sm font-medium">
-                          {t("alignment")}
-                        </label>
+                      <OptionRow label={t("alignment")}>
                         <Select
                           value={selected.align}
                           onValueChange={(v) =>
@@ -492,9 +457,9 @@ export default function MemeGenerator() {
                             </SelectItem>
                           </SelectContent>
                         </Select>
-                      </div>
+                      </OptionRow>
                     </div>
-                  </Card>
+                  </SettingsCard>
                 )}
 
                 <Button

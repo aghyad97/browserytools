@@ -7,7 +7,7 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { downloadDataUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
 import { Upload, Undo, Redo } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
@@ -258,54 +258,38 @@ export default function ColorCorrection() {
             </TabsList>
             <TabsContent value="basic" className="space-y-4">
               {adjustmentControls.slice(0, 5).map((control) => (
-                <div key={control.key} className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">
-                      {control.label}
-                    </label>
-                    <span className="text-sm text-muted-foreground">
-                      {adjustments[control.key as keyof Adjustment]}
-                    </span>
-                  </div>
-                  <Slider
-                    min={control.min}
-                    max={control.max}
-                    step={control.step}
-                    value={[adjustments[control.key as keyof Adjustment]]}
-                    onValueChange={([value]) =>
-                      handleAdjustmentChange(
-                        control.key as keyof Adjustment,
-                        value
-                      )
-                    }
-                  />
-                </div>
+                <SliderRow
+                  key={control.key}
+                  label={control.label}
+                  value={adjustments[control.key as keyof Adjustment]}
+                  min={control.min}
+                  max={control.max}
+                  step={control.step}
+                  onChange={(value) =>
+                    handleAdjustmentChange(
+                      control.key as keyof Adjustment,
+                      value
+                    )
+                  }
+                />
               ))}
             </TabsContent>
             <TabsContent value="advanced" className="space-y-4">
               {adjustmentControls.slice(5).map((control) => (
-                <div key={control.key} className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">
-                      {control.label}
-                    </label>
-                    <span className="text-sm text-muted-foreground">
-                      {adjustments[control.key as keyof Adjustment]}
-                    </span>
-                  </div>
-                  <Slider
-                    min={control.min}
-                    max={control.max}
-                    step={control.step}
-                    value={[adjustments[control.key as keyof Adjustment]]}
-                    onValueChange={([value]) =>
-                      handleAdjustmentChange(
-                        control.key as keyof Adjustment,
-                        value
-                      )
-                    }
-                  />
-                </div>
+                <SliderRow
+                  key={control.key}
+                  label={control.label}
+                  value={adjustments[control.key as keyof Adjustment]}
+                  min={control.min}
+                  max={control.max}
+                  step={control.step}
+                  onChange={(value) =>
+                    handleAdjustmentChange(
+                      control.key as keyof Adjustment,
+                      value
+                    )
+                  }
+                />
               ))}
             </TabsContent>
           </Tabs>

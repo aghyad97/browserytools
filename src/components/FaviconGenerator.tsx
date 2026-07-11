@@ -4,7 +4,7 @@ import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -124,6 +124,7 @@ const WEBMANIFEST = JSON.stringify(
       { src: "/favicon-192x192.png", sizes: "192x192", type: "image/png" },
       { src: "/favicon-512x512.png", sizes: "512x512", type: "image/png" },
     ],
+    // content value: web-app manifest theme/background colors written into site.webmanifest
     theme_color: "#ffffff",
     background_color: "#ffffff",
     display: "standalone",
@@ -145,6 +146,7 @@ export default function FaviconGenerator() {
   const [mode, setMode] = useState<Mode>("upload");
   const [sourceUrl, setSourceUrl] = useState<string | null>(null);
   const [glyph, setGlyph] = useState("B");
+  // content value: default favicon background/foreground colors (user-editable via pickers)
   const [bgColor, setBgColor] = useState("#4f46e5");
   const [fgColor, setFgColor] = useState("#ffffff");
 
@@ -424,23 +426,20 @@ export default function FaviconGenerator() {
             </Card>
 
             {/* HTML snippet */}
-            <Card className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">{t("htmlSnippet")}</label>
-                <CopyButton
-                  text={HTML_SNIPPET}
-                  label={tCommon("copy")}
-                  successMessage={t("snippetCopied")}
-                  errorMessage={t("copyFailed")}
-                />
-              </div>
+            <OutputPanel
+              text={HTML_SNIPPET}
+              title={t("htmlSnippet")}
+              copyLabel={tCommon("copy")}
+              copySuccessMessage={t("snippetCopied")}
+              copyErrorMessage={t("copyFailed")}
+            >
               <pre
                 dir="ltr"
-                className="text-xs bg-muted rounded-md p-3 overflow-x-auto whitespace-pre"
+                className="m-0 p-[14px] text-xs font-mono whitespace-pre overflow-x-auto"
               >
                 <code>{HTML_SNIPPET}</code>
               </pre>
-            </Card>
+            </OutputPanel>
           </div>
 
           {/* ── Output column ── */}

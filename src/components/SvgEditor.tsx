@@ -35,6 +35,7 @@ export default function SvgEditor() {
   const tc = useTranslations("ToolsConfig");
 
   const [selectedTool, setSelectedTool] = useState<Tool>("select");
+  // content value: default shape draw/fill color (user-editable via picker)
   const [color, setColor] = useState("#000000");
   const [strokeWidth, setStrokeWidth] = useState(2);
   const [undoStack, setUndoStack] = useState<Action[]>([]);
@@ -53,6 +54,7 @@ export default function SvgEditor() {
         .viewbox(0, 0, 800, 600);
 
       drawRef.current = draw;
+      // content value: white drawing-canvas surface (the "paper" being drawn on)
       draw.rect(800, 600).fill("#ffffff");
 
       // Update event listeners to use the correct functions
@@ -323,6 +325,7 @@ export default function SvgEditor() {
           </Card>
 
           <Card className="h-[calc(100vh-20rem)]">
+            {/* bg-white = the drawing-canvas surface (content value), matches the white viewbox rect */}
             <div
               ref={canvasRef}
               className="w-full h-full bg-white rounded-lg overflow-hidden"

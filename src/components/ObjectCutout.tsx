@@ -57,6 +57,8 @@ export default function ObjectCutout() {
     for (const p of points) {
       ctx.beginPath();
       ctx.arc(p.x, p.y, r, 0, Math.PI * 2);
+      // content value: point markers encode selection intent — green = include
+      // (foreground), red = exclude (background), white outline for contrast.
       ctx.fillStyle = p.label === 1 ? "#22c55e" : "#ef4444";
       ctx.fill();
       ctx.lineWidth = Math.max(2, r / 3);
@@ -252,7 +254,12 @@ export default function ObjectCutout() {
               <Card className="p-4 space-y-3">
                 <p className="text-sm font-medium">{t("clickInstruction")}</p>
                 <div
-                  className="relative w-full rounded-lg overflow-hidden bg-[repeating-conic-gradient(#e5e7eb_0_25%,transparent_0_50%)] bg-[length:20px_20px]"
+                  className="relative w-full rounded-lg overflow-hidden"
+                  style={{
+                    backgroundImage:
+                      "repeating-conic-gradient(hsl(var(--muted)) 0 25%, transparent 0 50%)",
+                    backgroundSize: "20px 20px",
+                  }}
                   dir="ltr"
                 >
                   <canvas
@@ -306,7 +313,12 @@ export default function ObjectCutout() {
               <Card className="p-4 space-y-3">
                 <p className="text-sm font-medium">{t("resultLabel")}</p>
                 <div
-                  className="w-full rounded-lg overflow-hidden bg-[repeating-conic-gradient(#e5e7eb_0_25%,transparent_0_50%)] bg-[length:20px_20px] min-h-[12rem] flex items-center justify-center"
+                  className="w-full rounded-lg overflow-hidden min-h-[12rem] flex items-center justify-center"
+                  style={{
+                    backgroundImage:
+                      "repeating-conic-gradient(hsl(var(--muted)) 0 25%, transparent 0 50%)",
+                    backgroundSize: "20px 20px",
+                  }}
                   dir="ltr"
                 >
                   {cutoutUrl ? (

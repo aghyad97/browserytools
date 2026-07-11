@@ -9,9 +9,11 @@ import {
   CardDescription,
   CardContent,
 } from "@/components/ui/card";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { ModePicker } from "@/components/shared/ModePicker";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import {
@@ -46,7 +48,6 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { HexColorPicker } from "react-colorful";
 import { deviceJson } from "@/lib/device-frames";
-import { ValueSlider } from "@/components/ui/value-slider";
 import { ChevronDown } from "lucide-react";
 import { ToolShell } from "@/components/template/tool-shell";
 import { downloadDataUrl } from "@/lib/download";
@@ -331,9 +332,11 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
   const [roundedRadius, setRoundedRadius] = useState<number>(24);
   const [useShadow, setUseShadow] = useState<boolean>(true);
   const [shadowStrength, setShadowStrength] = useState<number>(24);
+  // content value: default drop-shadow color (user-editable via picker)
   const [shadowColor, setShadowColor] = useState<string>("#000000");
   const [shadowOpacity, setShadowOpacity] = useState<number>(35);
   const [useBackground, setUseBackground] = useState<boolean>(false);
+  // content value: default output background fill color (user-editable via picker)
   const [backgroundColor, setBackgroundColor] = useState<string>("#0b0b0e");
   const [backgroundImage, setBackgroundImage] = useState<string | null>(null);
   const [outputAspect, setOutputAspect] = useState<
@@ -723,12 +726,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
     >
       <div className="flex flex-col lg:flex-row gap-4">
         <div className="w-full lg:w-1/3 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("device")}</CardTitle>
-              <CardDescription>{t("selectFrame")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
+          <SettingsCard title={t("device")} description={t("selectFrame")}>
               <Popover>
                 <PopoverTrigger asChild>
                   <Button variant="outline" className="w-full justify-between">
@@ -763,31 +761,18 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 </PopoverContent>
               </Popover>
 
-              <Tabs
+              <ModePicker<MockupItem["orientation"]>
+                aria-label={t("selectFrame")}
                 value={selectedOrientation}
-                onValueChange={(v) =>
-                  setSelectedOrientation(v as MockupItem["orientation"])
-                }
-              >
-                <TabsList>
-                  {(
-                    ["portrait", "landscape", "front", "left", "right"] as const
-                  )
-                    .filter((o) =>
-                      selectedGroup?.items.some((i) => i.orientation === o)
-                    )
-                    .map((o) => (
-                      <TabsTrigger key={o} value={o}>
-                        {o}
-                      </TabsTrigger>
-                    ))}
-                </TabsList>
-                {(
+                onChange={setSelectedOrientation}
+                options={(
                   ["portrait", "landscape", "front", "left", "right"] as const
-                ).map((o) => (
-                  <TabsContent key={o} value={o} />
-                ))}
-              </Tabs>
+                )
+                  .filter((o) =>
+                    selectedGroup?.items.some((i) => i.orientation === o)
+                  )
+                  .map((o) => ({ value: o, label: o }))}
+              />
 
               <div className="space-y-3">
                 <div className="flex items-center justify-between">
@@ -804,8 +789,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                   />
                 </div>
                 {frameless && (
-                  <div className="space-y-2">
-                    <Label>{t("rotate")}</Label>
+                  <OptionRow label={t("rotate")}>
                     <UiSelect
                       value={String(framelessRotation)}
                       onValueChange={(v) =>
@@ -822,44 +806,30 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                         <UiSelectItem value="270">270°</UiSelectItem>
                       </UiSelectContent>
                     </UiSelect>
-                  </div>
+                  </OptionRow>
                 )}
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("image")}</CardTitle>
-              <CardDescription>
-                {t("imageDesc")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
+          <SettingsCard title={t("image")} description={t("imageDesc")}>
               <Input
                 className="cursor-pointer"
                 type="file"
                 accept="image/*"
                 onChange={handleUpload}
               />
-            </CardContent>
-          </Card>
+          </SettingsCard>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("appearance")}</CardTitle>
-              <CardDescription>{t("appearanceDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-5">
+          <SettingsCard title={t("appearance")} description={t("appearanceDesc")}>
               {frameless && (
-                <ValueSlider
+                <SliderRow
                   label={t("roundedCorners")}
                   value={roundedRadius}
                   onChange={setRoundedRadius}
                   min={0}
                   max={256}
                   step={1}
-                  suffix="px"
+                  display={`${roundedRadius}px`}
                 />
               )}
 
@@ -877,7 +847,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 />
               </div>
 
-              <ValueSlider
+              <SliderRow
                 label={t("shadowStrength")}
                 value={shadowStrength}
                 onChange={setShadowStrength}
@@ -885,13 +855,12 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 max={128}
                 step={1}
                 disabled={!useShadow}
-                suffix="px"
+                display={`${shadowStrength}px`}
               />
 
               {useShadow && (
                 <>
-                  <div className="space-y-2">
-                    <Label>{t("shadowColor")}</Label>
+                  <OptionRow label={t("shadowColor")}>
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -912,15 +881,15 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                         />
                       </PopoverContent>
                     </Popover>
-                  </div>
-                  <ValueSlider
+                  </OptionRow>
+                  <SliderRow
                     label={t("shadowOpacity")}
                     value={shadowOpacity}
                     onChange={setShadowOpacity}
                     min={0}
                     max={100}
                     step={1}
-                    suffix="%"
+                    display={`${shadowOpacity}%`}
                   />
                 </>
               )}
@@ -939,8 +908,7 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label>{t("backgroundColor")}</Label>
+              <OptionRow label={t("backgroundColor")}>
                 <Popover>
                   <PopoverTrigger asChild>
                     <Button
@@ -962,10 +930,9 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                     />
                   </PopoverContent>
                 </Popover>
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <Label htmlFor="background-image">{t("backgroundImage")}</Label>
+              <OptionRow label={t("backgroundImage")} htmlFor="background-image">
                 <Input
                   id="background-image"
                   className="cursor-pointer"
@@ -974,19 +941,18 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
                   onChange={handleBackgroundUpload}
                   disabled={!useBackground}
                 />
-              </div>
+              </OptionRow>
 
-              <ValueSlider
+              <SliderRow
                 label={t("contentPadding")}
                 value={outputPadding}
                 onChange={setOutputPadding}
                 min={-400}
                 max={400}
                 step={1}
-                suffix="px"
+                display={`${outputPadding}px`}
               />
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </div>
 
         <div className="w-full lg:w-2/3">

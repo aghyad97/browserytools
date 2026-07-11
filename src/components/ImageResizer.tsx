@@ -8,7 +8,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
@@ -33,6 +33,7 @@ import {
 // File-based `loadImage` callback defined inside this component.
 import { canvasToBlob, loadImage as loadHtmlImage } from "@/lib/image/canvas";
 import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 
 interface ImageInfo {
   url: string;
@@ -103,12 +104,6 @@ const ANCHORS: Anchor[] = [
   "bottom-right",
 ];
 
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return bytes + " B";
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-  return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-}
-
 function clamp(v: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, v));
 }
@@ -148,6 +143,7 @@ export default function ImageResizer() {
   const [wmKind, setWmKind] = useState<WatermarkKind>("text");
   const [wmText, setWmText] = useState("© BrowseryTools");
   const [wmFontSize, setWmFontSize] = useState(48);
+  // content value: default watermark draw color
   const [wmColor, setWmColor] = useState("#ffffff");
   const [wmOpacity, setWmOpacity] = useState(70);
   const [wmAnchor, setWmAnchor] = useState<Anchor>("bottom-right");
@@ -704,21 +700,15 @@ export default function ImageResizer() {
                             </Button>
                           ))}
                         </div>
-                        <div className="space-y-1">
-                          <div className="flex justify-between">
-                            <Label>{t("customPercentage")}</Label>
-                            <span className="text-sm font-mono" dir="ltr">
-                              {percentage}%
-                            </span>
-                          </div>
-                          <Slider
-                            min={1}
-                            max={400}
-                            step={1}
-                            value={[percentage]}
-                            onValueChange={([v]) => setPercentage(v)}
-                          />
-                        </div>
+                        <SliderRow
+                          label={t("customPercentage")}
+                          value={percentage}
+                          min={1}
+                          max={400}
+                          step={1}
+                          onChange={setPercentage}
+                          display={<span dir="ltr">{percentage}%</span>}
+                        />
                         <p className="text-sm text-muted-foreground" dir="ltr">
                           {t("outputInfo")}:{" "}
                           {Math.round((original.width * percentage) / 100)}x
@@ -890,21 +880,15 @@ export default function ImageResizer() {
                           />
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-1">
-                            <div className="flex justify-between">
-                              <Label>{t("watermarkFontSize")}</Label>
-                              <span className="text-sm font-mono" dir="ltr">
-                                {wmFontSize}px
-                              </span>
-                            </div>
-                            <Slider
-                              min={8}
-                              max={200}
-                              step={1}
-                              value={[wmFontSize]}
-                              onValueChange={([v]) => setWmFontSize(v)}
-                            />
-                          </div>
+                          <SliderRow
+                            label={t("watermarkFontSize")}
+                            value={wmFontSize}
+                            min={8}
+                            max={200}
+                            step={1}
+                            onChange={setWmFontSize}
+                            display={<span dir="ltr">{wmFontSize}px</span>}
+                          />
                           <div className="space-y-1">
                             <Label>{t("watermarkColor")}</Label>
                             <Input
@@ -974,51 +958,33 @@ export default function ImageResizer() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <Label>{t("watermarkOpacity")}</Label>
-                          <span className="text-sm font-mono" dir="ltr">
-                            {wmOpacity}%
-                          </span>
-                        </div>
-                        <Slider
-                          min={0}
-                          max={100}
-                          step={1}
-                          value={[wmOpacity]}
-                          onValueChange={([v]) => setWmOpacity(v)}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <Label>{t("watermarkScale")}</Label>
-                          <span className="text-sm font-mono" dir="ltr">
-                            {wmScale}%
-                          </span>
-                        </div>
-                        <Slider
-                          min={10}
-                          max={300}
-                          step={1}
-                          value={[wmScale]}
-                          onValueChange={([v]) => setWmScale(v)}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <Label>{t("watermarkRotation")}</Label>
-                          <span className="text-sm font-mono" dir="ltr">
-                            {wmRotation}°
-                          </span>
-                        </div>
-                        <Slider
-                          min={-180}
-                          max={180}
-                          step={1}
-                          value={[wmRotation]}
-                          onValueChange={([v]) => setWmRotation(v)}
-                        />
-                      </div>
+                      <SliderRow
+                        label={t("watermarkOpacity")}
+                        value={wmOpacity}
+                        min={0}
+                        max={100}
+                        step={1}
+                        onChange={setWmOpacity}
+                        display={<span dir="ltr">{wmOpacity}%</span>}
+                      />
+                      <SliderRow
+                        label={t("watermarkScale")}
+                        value={wmScale}
+                        min={10}
+                        max={300}
+                        step={1}
+                        onChange={setWmScale}
+                        display={<span dir="ltr">{wmScale}%</span>}
+                      />
+                      <SliderRow
+                        label={t("watermarkRotation")}
+                        value={wmRotation}
+                        min={-180}
+                        max={180}
+                        step={1}
+                        onChange={setWmRotation}
+                        display={<span dir="ltr">{wmRotation}°</span>}
+                      />
                       <div className="flex items-end">
                         <Button
                           type="button"
@@ -1051,21 +1017,15 @@ export default function ImageResizer() {
                     </Select>
                   </div>
                   {outputFormat !== "png" && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <Label>{t("quality")}</Label>
-                        <span className="text-sm font-mono" dir="ltr">
-                          {quality}%
-                        </span>
-                      </div>
-                      <Slider
-                        min={10}
-                        max={100}
-                        step={1}
-                        value={[quality]}
-                        onValueChange={([v]) => setQuality(v)}
-                      />
-                    </div>
+                    <SliderRow
+                      label={t("quality")}
+                      value={quality}
+                      min={10}
+                      max={100}
+                      step={1}
+                      onChange={setQuality}
+                      display={<span dir="ltr">{quality}%</span>}
+                    />
                   )}
                 </div>
 

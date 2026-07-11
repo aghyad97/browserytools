@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Badge } from "@/components/ui/badge";
 import { Upload, MapPin, Camera, Settings, Clock, HardDrive } from "lucide-react";
 import { toast } from "sonner";
+import { formatBytes } from "@/lib/format";
 
 interface ExifEntry {
   label: string;
@@ -21,12 +22,6 @@ interface ExifGroups {
   settings: ExifEntry[];
   datetime: ExifEntry[];
   gps: ExifEntry[];
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1048576) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1048576).toFixed(2)} MB`;
 }
 
 function readUint16(view: DataView, offset: number, le: boolean): number {
@@ -461,6 +456,7 @@ export default function ExifViewer() {
               <div className="flex gap-2 items-center flex-wrap">
                 <Badge variant="outline">{fileInfo.width} × {fileInfo.height}px</Badge>
                 <Badge variant="outline">{formatBytes(fileInfo.size)}</Badge>
+                {/* content value: green = "EXIF found" success status; no semantic success token exists in this monochrome design system */}
                 {exifGroups && <Badge className="bg-green-500 text-white">{t("exifDataFound")}</Badge>}
               </div>
               <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>

@@ -8,7 +8,9 @@ import { ControlStat } from "@/components/template/controls-bar";
 import { downloadDataUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OptionRow } from "@/components/shared/SettingsCard";
+import { formatBytes, formatPercent } from "@/lib/format";
 import {
   Select,
   SelectContent,
@@ -181,8 +183,8 @@ export default function ImageCompression() {
 
   const compressionRatio =
     compressedSize && image
-      ? ((1 - compressedSize / image.size) * 100).toFixed(1)
-      : 0;
+      ? formatPercent(1 - compressedSize / image.size, 1)
+      : "0%";
 
   return (
     <ToolShell
@@ -205,7 +207,7 @@ export default function ImageCompression() {
             </Button>
             <ControlStat label={t("sizeReduction")}>
               <span className="text-2xl font-bold text-green-500">
-                {compressionRatio}%
+                {compressionRatio}
               </span>
             </ControlStat>
           </>
@@ -288,9 +290,9 @@ export default function ImageCompression() {
                   alt="Original"
                   className="w-full h-full object-contain"
                 />
+                {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
                 <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                  {image.width} x {image.height} •{" "}
-                  {(image.size / 1024).toFixed(1)} KB
+                  {image.width} x {image.height} • {formatBytes(image.size)}
                 </div>
               </div>
             )}
@@ -304,12 +306,9 @@ export default function ImageCompression() {
               </TabsList>
 
               <TabsContent value="basic" className="space-y-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">
-                    {t("compressionMode")}
-                  </label>
+                <OptionRow label={t("compressionMode")} htmlFor="ic-mode">
                   <Select value={mode} onValueChange={setMode}>
-                    <SelectTrigger>
+                    <SelectTrigger id="ic-mode">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -320,15 +319,14 @@ export default function ImageCompression() {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
 
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t("outputFormat")}</label>
+                <OptionRow label={t("outputFormat")} htmlFor="ic-format">
                   <Select
                     value={targetFormat}
                     onValueChange={setTargetFormat}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="ic-format">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -339,43 +337,31 @@ export default function ImageCompression() {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
               </TabsContent>
 
               <TabsContent value="advanced" className="space-y-4">
                 {mode === "custom" && (
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <label className="text-sm font-medium">{t("quality")}</label>
-                      <span className="text-sm text-muted-foreground">
-                        {quality}%
-                      </span>
-                    </div>
-                    <Slider
-                      value={[quality]}
-                      onValueChange={([value]) => setQuality(value)}
-                      min={1}
-                      max={100}
-                      step={1}
-                    />
-                  </div>
+                  <SliderRow
+                    label={t("quality")}
+                    value={quality}
+                    min={1}
+                    max={100}
+                    step={1}
+                    onChange={setQuality}
+                    display={`${quality}%`}
+                  />
                 )}
 
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">{t("maxWidth")}</label>
-                    <span className="text-sm text-muted-foreground">
-                      {maxWidth}px
-                    </span>
-                  </div>
-                  <Slider
-                    value={[maxWidth]}
-                    onValueChange={([value]) => setMaxWidth(value)}
-                    min={320}
-                    max={3840}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("maxWidth")}
+                  value={maxWidth}
+                  min={320}
+                  max={3840}
+                  step={1}
+                  onChange={setMaxWidth}
+                  display={`${maxWidth}px`}
+                />
               </TabsContent>
             </Tabs>
 
@@ -399,8 +385,9 @@ export default function ImageCompression() {
                     alt="Compressed"
                     className="w-full h-full object-contain"
                   />
+                  {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
                   <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                    {(compressedSize / 1024).toFixed(1)} KB
+                    {formatBytes(compressedSize)}
                   </div>
                 </div>
               ) : (

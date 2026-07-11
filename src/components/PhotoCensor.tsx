@@ -6,7 +6,8 @@ import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import {
   Select,
   SelectContent,
@@ -73,6 +74,7 @@ function applyCensor(
 
   ctx.save();
   if (mode === "blackbox") {
+    // content value: solid black censor box drawn onto the image
     ctx.fillStyle = "#000000";
     ctx.fillRect(x, y, w, h);
   } else if (mode === "blur") {
@@ -195,6 +197,7 @@ export default function PhotoCensor() {
       }
       if (draft) {
         ctx.save();
+        // content value: selection-marquee stroke drawn on the canvas (no CSS-class equivalent for ctx.strokeStyle)
         ctx.strokeStyle = "#6366f1";
         ctx.lineWidth = Math.max(2, canvas.width / 400);
         ctx.setLineDash?.([6, 4]);
@@ -389,9 +392,8 @@ export default function PhotoCensor() {
 
           {/* Controls */}
           <div className="space-y-4">
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("censorMode")}</label>
+            <SettingsCard>
+              <OptionRow label={t("censorMode")}>
                 <Select
                   value={mode}
                   onValueChange={(v) => setMode(v as CensorMode)}
@@ -411,50 +413,33 @@ export default function PhotoCensor() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               {mode === "blur" && (
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">
-                      {t("blurRadius")}
-                    </label>
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {blurRadius}px
-                    </span>
-                  </div>
-                  <Slider
-                    value={[blurRadius]}
-                    onValueChange={([v]) => setBlurRadius(v)}
-                    min={2}
-                    max={40}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("blurRadius")}
+                  value={blurRadius}
+                  onChange={setBlurRadius}
+                  min={2}
+                  max={40}
+                  step={1}
+                  display={<span dir="ltr">{blurRadius}px</span>}
+                />
               )}
 
               {mode === "pixelate" && (
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">
-                      {t("pixelSize")}
-                    </label>
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {pixelSize}px
-                    </span>
-                  </div>
-                  <Slider
-                    value={[pixelSize]}
-                    onValueChange={([v]) => setPixelSize(v)}
-                    min={4}
-                    max={48}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("pixelSize")}
+                  value={pixelSize}
+                  onChange={setPixelSize}
+                  min={4}
+                  max={48}
+                  step={1}
+                  display={<span dir="ltr">{pixelSize}px</span>}
+                />
               )}
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("targetFormat")}</label>
+              <OptionRow label={t("targetFormat")}>
                 <Select value={targetFormat} onValueChange={setTargetFormat}>
                   <SelectTrigger>
                     <SelectValue />
@@ -467,24 +452,18 @@ export default function PhotoCensor() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               {formatOption?.quality && (
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">{t("quality")}</label>
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {quality}%
-                    </span>
-                  </div>
-                  <Slider
-                    value={[quality]}
-                    onValueChange={([v]) => setQuality(v)}
-                    min={1}
-                    max={100}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("quality")}
+                  value={quality}
+                  onChange={setQuality}
+                  min={1}
+                  max={100}
+                  step={1}
+                  display={<span dir="ltr">{quality}%</span>}
+                />
               )}
 
               <Button
@@ -501,7 +480,7 @@ export default function PhotoCensor() {
                   {t("outputSize")}: {(outputSize / 1024).toFixed(2)} KB
                 </p>
               )}
-            </Card>
+            </SettingsCard>
           </div>
         </div>
     </ToolShell>

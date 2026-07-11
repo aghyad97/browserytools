@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -35,8 +36,8 @@ type DepthEstimator = (input: string) => Promise<DepthOutput>;
 
 type Colormap = "grayscale" | "inferno" | "viridis";
 
-// Small perceptual color ramps (5 stops each) sampled from matplotlib.
-// We linearly interpolate between adjacent stops for a smooth gradient.
+// content value: perceptual colormap ramps (5 RGB stops each) sampled from
+// matplotlib — colormap output data, not UI chrome. Linearly interpolated.
 const RAMPS: Record<Exclude<Colormap, "grayscale">, [number, number, number][]> = {
   inferno: [
     [0, 0, 4],
@@ -259,11 +260,8 @@ export default function DepthMap() {
             </Card>
           </div>
 
-          <Card className="p-4 space-y-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium" htmlFor="dm-colormap">
-                {t("colormap")}
-              </label>
+          <SettingsCard>
+            <OptionRow label={t("colormap")} htmlFor="dm-colormap">
               <Select
                 value={colormap}
                 onValueChange={(v) => setColormap(v as Colormap)}
@@ -277,7 +275,7 @@ export default function DepthMap() {
                   <SelectItem value="viridis">{t("viridis")}</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </OptionRow>
 
             <div className="flex flex-col sm:flex-row gap-2">
               <Button
@@ -309,7 +307,7 @@ export default function DepthMap() {
                 </p>
               </div>
             )}
-          </Card>
+          </SettingsCard>
 
           <Card className="p-4">
             <div className="flex items-start gap-3">

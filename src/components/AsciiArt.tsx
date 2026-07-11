@@ -7,7 +7,9 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { downloadBlob } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import {
   Select,
   SelectContent,
@@ -16,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Upload, Copy, Download, Image as ImageIcon, FileImage } from "lucide-react";
+import { Upload, Download, Image as ImageIcon, FileImage } from "lucide-react";
 import { toast } from "sonner";
 
 interface SourceImage {
@@ -136,7 +138,7 @@ export default function AsciiArt() {
           if (colored) {
             gridRow.push({
               char: ch === " " ? " " : ch,
-              color: `rgb(${r},${g},${b})`,
+              color: `rgb(${r},${g},${b})`, // content value: sampled per-pixel ASCII cell color
             });
           }
         }
@@ -155,16 +157,6 @@ export default function AsciiArt() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [source, columns, ramp, invert, colored, isProcessing]);
-
-  const handleCopy = async () => {
-    if (!asciiText) return;
-    try {
-      await navigator.clipboard.writeText(asciiText);
-      toast.success(t("copied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  };
 
   const handleDownloadTxt = () => {
     if (!asciiText) return;
@@ -187,7 +179,7 @@ export default function AsciiArt() {
       canvas.height = Math.max(1, Math.ceil(lines.length * lineH));
       const ctx = canvas.getContext("2d");
       if (!ctx) throw new Error("no ctx");
-      ctx.fillStyle = invert ? "#000000" : "#ffffff";
+      ctx.fillStyle = invert ? "#000000" : "#ffffff"; // content value: ASCII PNG background
       ctx.fillRect(0, 0, canvas.width, canvas.height);
       ctx.font = `${fontSize}px monospace`;
       ctx.textBaseline = "top";
@@ -203,7 +195,7 @@ export default function AsciiArt() {
           }
         }
       } else {
-        ctx.fillStyle = invert ? "#ffffff" : "#000000";
+        ctx.fillStyle = invert ? "#ffffff" : "#000000"; // content value: ASCII PNG glyph color
         for (let y = 0; y < lines.length; y++) {
           ctx.fillText(lines[y], 0, y * lineH);
         }
@@ -285,25 +277,17 @@ export default function AsciiArt() {
               </FileDropzone>
             </Card>
 
-            <Card className="p-4 space-y-5">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">{t("width")}</label>
-                  <span className="text-sm text-muted-foreground">
-                    {columns}
-                  </span>
-                </div>
-                <Slider
-                  value={[columns]}
-                  onValueChange={([v]) => setColumns(v)}
-                  min={20}
-                  max={300}
-                  step={5}
-                />
-              </div>
+            <SettingsCard>
+              <SliderRow
+                label={t("width")}
+                value={columns}
+                min={20}
+                max={300}
+                step={5}
+                onChange={setColumns}
+              />
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("charset")}</label>
+              <OptionRow label={t("charset")}>
                 <Select value={ramp} onValueChange={setRamp}>
                   <SelectTrigger>
                     <SelectValue />
@@ -322,7 +306,7 @@ export default function AsciiArt() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               <div className="flex items-center gap-2">
                 <Checkbox
@@ -356,13 +340,19 @@ export default function AsciiArt() {
               >
                 {isProcessing ? t("processing") : t("generate")}
               </Button>
-            </Card>
+            </SettingsCard>
           </div>
 
           {/* Output column */}
           <div className="space-y-4">
-            <Card className="p-4">
-              <div className="h-[28rem] overflow-auto rounded-lg bg-muted/40 p-3">
+            <OutputPanel
+              text={asciiText}
+              data-testid="ascii-output-panel"
+              copyLabel={tCommon("copy")}
+              copySuccessMessage={t("copied")}
+              copyErrorMessage={t("copyFailed")}
+            >
+              <div className="h-[28rem] overflow-auto p-3">
                 {asciiText ? (
                   <pre
                     ref={preRef}
@@ -374,6 +364,7 @@ export default function AsciiArt() {
                       ? asciiGrid.map((row, y) => (
                           <div key={y}>
                             {row.map((cell, x) => (
+                              // content value: per-pixel ASCII cell color
                               <span key={x} style={{ color: cell.color }}>
                                 {cell.char}
                               </span>
@@ -393,18 +384,9 @@ export default function AsciiArt() {
                   </div>
                 )}
               </div>
-            </Card>
+            </OutputPanel>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-              <Button
-                onClick={handleCopy}
-                disabled={!asciiText}
-                variant="secondary"
-                data-testid="ascii-copy"
-              >
-                <Copy className="w-4 h-4 me-2" />
-                {tCommon("copy")}
-              </Button>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
               <Button
                 onClick={handleDownloadTxt}
                 disabled={!asciiText}

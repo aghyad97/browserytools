@@ -3,12 +3,12 @@
 import { useCallback, useRef, useState } from "react";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import { Upload, InfoIcon, AccessibilityIcon } from "lucide-react";
+import { Upload, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
@@ -134,47 +134,32 @@ export default function ImageCaptioner() {
           )}
 
           {caption && (
-            <Card className="p-4 space-y-4" data-testid="caption-result">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-3">
-                  <label className="text-sm font-medium">{t("captionLabel")}</label>
-                  <CopyButton
-                    text={caption}
-                    label={t("copyCaption")}
-                    successMessage={t("copied")}
-                    errorMessage={t("copyFailed")}
-                  />
-                </div>
-                <p
-                  dir="auto"
-                  className="rounded-lg border bg-muted/40 p-3 text-sm leading-relaxed"
-                >
+            <div className="space-y-4" data-testid="caption-result">
+              <OutputPanel
+                text={caption}
+                title={t("captionLabel")}
+                copyLabel={t("copyCaption")}
+                copySuccessMessage={t("copied")}
+                copyErrorMessage={t("copyFailed")}
+              >
+                <p dir="auto" className="p-3.5 text-sm leading-relaxed">
                   {caption}
                 </p>
-              </div>
+              </OutputPanel>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-3">
-                  <label className="text-sm font-medium flex items-center gap-2">
-                    <AccessibilityIcon className="h-4 w-4 text-primary" />
-                    {t("altLabel")}
-                  </label>
-                  <CopyButton
-                    text={altSnippet}
-                    label={t("copyAlt")}
-                    successMessage={t("copied")}
-                    errorMessage={t("copyFailed")}
-                  />
-                </div>
-                <pre
-                  dir="ltr"
-                  className="overflow-x-auto rounded-lg border bg-muted/40 p-3 text-xs"
-                >
+              <OutputPanel
+                text={altSnippet}
+                title={t("altLabel")}
+                copyLabel={t("copyAlt")}
+                copySuccessMessage={t("copied")}
+                copyErrorMessage={t("copyFailed")}
+              >
+                <pre dir="ltr" className="overflow-x-auto p-3.5 text-xs">
                   <code>{altSnippet}</code>
                 </pre>
-                <p className="text-xs text-muted-foreground">{t("altHint")}</p>
-              </div>
-            </Card>
+              </OutputPanel>
+              <p className="text-xs text-muted-foreground">{t("altHint")}</p>
+            </div>
           )}
 
           <Card className="p-4">

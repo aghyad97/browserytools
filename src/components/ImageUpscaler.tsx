@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
+import { TwoPane } from "@/components/shared/TwoPane";
 import { downloadUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -126,7 +127,8 @@ export default function ImageUpscaler() {
       sub={tc("tools.image-upscaler.description")}
     >
       <div className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <TwoPane
+            start={
             <div className="space-y-4">
               <Card className="p-6 shadow-none">
                 <FileDropzone
@@ -148,6 +150,7 @@ export default function ImageUpscaler() {
                         alt={t("original")}
                         className="w-full h-full object-contain"
                       />
+                      {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
                       <div className="absolute bottom-0 inset-x-0 bg-black/50 text-white p-2 text-sm flex justify-between">
                         <span>{t("original")}</span>
                         <span dir="ltr" className="tabular-nums">
@@ -196,7 +199,8 @@ export default function ImageUpscaler() {
                 </p>
               </Card>
             </div>
-
+            }
+            end={
             <div className="space-y-4">
               <Card className="p-6">
                 <div className="h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center">
@@ -208,6 +212,7 @@ export default function ImageUpscaler() {
                         className="w-full h-full object-contain"
                         data-testid="upscaled-image"
                       />
+                      {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
                       <div className="absolute bottom-0 inset-x-0 bg-black/50 text-white p-2 text-sm flex justify-between">
                         <span>{t("upscaled")}</span>
                         <span dir="ltr" className="tabular-nums">
@@ -237,7 +242,8 @@ export default function ImageUpscaler() {
                 {t("download")}
               </Button>
             </div>
-          </div>
+            }
+          />
 
           <Card className="p-4">
             <div className="flex items-start gap-3">
