@@ -2,6 +2,7 @@
   "Common": {
     "copy": "Salin",
     "copied": "Tersalin!",
+    "copyFailed": "Gagal menyalin",
     "download": "Unduh",
     "upload": "Unggah",
     "reset": "Atur Ulang",

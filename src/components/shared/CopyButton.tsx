@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 import { CopyIcon, CheckIcon } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { copyText } from "@/lib/clipboard";
@@ -19,13 +20,17 @@ interface CopyButtonProps {
 
 export function CopyButton({
   text,
-  label = "Copy",
+  label,
   size = "sm",
-  successMessage = "Copied to clipboard",
-  errorMessage = "Couldn't copy — check clipboard permissions",
+  successMessage,
+  errorMessage,
   disabled = false,
   "data-testid": dataTestId,
 }: CopyButtonProps) {
+  const t = useTranslations("Common");
+  const resolvedLabel = label ?? t("copy");
+  const resolvedSuccessMessage = successMessage ?? t("copied");
+  const resolvedErrorMessage = errorMessage ?? t("copyFailed");
   const [copied, setCopied] = useState(false);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout>>();
 
@@ -33,12 +38,12 @@ export function CopyButton({
 
   const onClick = async () => {
     if (await copyText(text)) {
-      toast.success(successMessage);
+      toast.success(resolvedSuccessMessage);
       setCopied(true);
       clearTimeout(resetTimerRef.current);
       resetTimerRef.current = setTimeout(() => setCopied(false), 1500);
     } else {
-      toast.error(errorMessage);
+      toast.error(resolvedErrorMessage);
     }
   };
 
@@ -46,13 +51,13 @@ export function CopyButton({
     <Button
       variant="ghost"
       size={size}
-      aria-label={label}
+      aria-label={resolvedLabel}
       onClick={onClick}
       disabled={disabled}
       data-testid={dataTestId}
     >
       {copied ? <CheckIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
-      {size !== "icon" && label}
+      {size !== "icon" && resolvedLabel}
     </Button>
   );
 }

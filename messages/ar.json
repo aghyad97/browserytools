@@ -2,6 +2,7 @@
   "Common": {
     "copy": "نسخ",
     "copied": "تم النسخ!",
+    "copyFailed": "فشل النسخ",
     "download": "تحميل",
     "upload": "رفع",
     "reset": "إعادة تعيين",
