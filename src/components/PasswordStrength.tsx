@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -14,9 +13,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
-  Eye, EyeOff, Copy, RefreshCw, Check, X, Shield, Lightbulb, Lock,
+  Eye, EyeOff, RefreshCw, Check, X, Shield, Lightbulb,
 } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 interface CheckItem { label: string; passed: boolean; }
 
 interface StrengthResult {
@@ -120,6 +121,7 @@ function generateStrongPassword(length = 20): string {
 
 export default function PasswordStrength() {
   const t = useTranslations("Tools.PasswordStrength");
+  const tc = useTranslations("ToolsConfig");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
 
@@ -175,15 +177,6 @@ export default function PasswordStrength() {
     if (tips.length === 0) tips.push(t("tipExcellent"));
   }
 
-  const copyToClipboard = useCallback(async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [t]);
-
   const handleGenerate = useCallback(() => {
     const pw = generateStrongPassword(20);
     setPassword(pw);
@@ -192,19 +185,15 @@ export default function PasswordStrength() {
   }, [t]);
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl space-y-6">
+    <ToolShell
+      slug="password-strength"
+      title={tc("tools.password-strength.name")}
+      sub={tc("tools.password-strength.description")}
+    >
+      <div className="max-w-3xl mx-auto space-y-6">
       {/* Input Card */}
       <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Lock className="h-5 w-5" />
-            {t("title")}
-          </CardTitle>
-          <CardDescription>
-            {t("description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div className="space-y-2">
             <Label htmlFor="pw-input">{t("passwordLabel")}</Label>
             <div className="relative">
@@ -224,10 +213,12 @@ export default function PasswordStrength() {
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </Button>
                 {password && (
-                  <Button variant="ghost" size="icon" className="h-7 w-7"
-                    onClick={() => copyToClipboard(password)} type="button">
-                    <Copy className="h-4 w-4" />
-                  </Button>
+                  <CopyButton
+                    text={password}
+                    size="icon"
+                    successMessage={t("copiedToClipboard")}
+                    errorMessage={t("failedToCopy")}
+                  />
                 )}
               </div>
             </div>
@@ -332,6 +323,7 @@ export default function PasswordStrength() {
           </ul>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

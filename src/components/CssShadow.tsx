@@ -2,11 +2,12 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 interface ShadowLayer { id: number; h: number; v: number; blur: number; spread: number; color: string; opacity: number; inset: boolean }
 
@@ -20,6 +21,7 @@ function layerToCss(l: ShadowLayer): string {
 
 export default function CssShadow() {
   const t = useTranslations("Tools.CssShadow");
+  const tc = useTranslations("ToolsConfig");
   const [layers, setLayers] = useState<ShadowLayer[]>([{ id: nextId++, ...DEFAULT }]);
   const [active, setActive] = useState(0);
   const layer = layers[active];
@@ -41,13 +43,14 @@ export default function CssShadow() {
   );
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
+    <ToolShell
+      slug="css-shadow"
+      title={tc("tools.css-shadow.name")}
+      sub={tc("tools.css-shadow.description")}
+    >
+      <div className="max-w-4xl mx-auto space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           <div className="flex gap-2 flex-wrap">
             {layers.map((l, i) => (
               <button key={l.id} onClick={() => setActive(i)}
@@ -97,10 +100,11 @@ export default function CssShadow() {
           <CardHeader><CardTitle className="text-base">{t("cssOutput")}</CardTitle></CardHeader>
           <CardContent className="space-y-3">
             <pre className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap">{cssOutput}</pre>
-            <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(cssOutput); toast.success(t("copied")); }}>{t("copyCSS")}</Button>
+            <CopyButton text={cssOutput} label={t("copyCSS")} successMessage={t("copied")} />
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

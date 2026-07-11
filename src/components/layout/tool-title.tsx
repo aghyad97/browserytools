@@ -173,6 +173,30 @@ const HAS_OWN_H1 = new Set([
   "cron-parser",
   "meta-tags",
   "curl-converter",
+  // R2 batch B7 (final): Design + Security Tools migrated onto ToolShell (the
+  // shell owns the h1). contrast-checker, emoji-picker and code-screenshot were
+  // already listed above (they rendered their own h1 pre-migration) and stay
+  // unchanged there.
+  "css-shadow",
+  "cubic-bezier",
+  "css-gradient",
+  "color-palette",
+  "color-converter",
+  "clip-path-generator",
+  "glassmorphism-generator",
+  "svg-blob-generator",
+  "og-image-generator",
+  "jwt-decoder",
+  "password-generator",
+  "hash-generator",
+  "password-strength",
+  "text-encryption",
+  // B7 also swept three Productivity tools that predate B6 and were missed by
+  // it (they were never in B6's derived scope): the shell now owns their h1.
+  // signature-maker was already listed above (it rendered its own h1); mind-map
+  // and random-picker previously relied on ToolTitle for the page h1.
+  "mind-map",
+  "random-picker",
 ]);
 
 export function ToolTitle() {

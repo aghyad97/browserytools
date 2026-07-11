@@ -2,11 +2,12 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 import hljs from "highlight.js";
 import "highlight.js/styles/github-dark.css";
 
@@ -70,6 +71,7 @@ function SliderRow({
 
 export default function GlassmorphismGenerator() {
   const t = useTranslations("Tools.GlassmorphismGenerator");
+  const tc = useTranslations("ToolsConfig");
 
   const [blur, setBlur] = useState(12);
   const [opacity, setOpacity] = useState(20);
@@ -109,11 +111,6 @@ export default function GlassmorphismGenerator() {
     border: `${borderWidth}px solid ${borderColor}`,
   };
 
-  const copyCss = () => {
-    navigator.clipboard.writeText(cssOutput);
-    toast.success(t("copied"));
-  };
-
   // Syntax-highlight the CSS output. The markup is hljs output of our own
   // generated CSS string (never user-supplied HTML); assigned via a computed
   // property key, matching the CodeHighlighter/CodeScreenshot pattern.
@@ -138,13 +135,14 @@ export default function GlassmorphismGenerator() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-5xl space-y-4">
+    <ToolShell
+      slug="glassmorphism-generator"
+      title={tc("tools.glassmorphism-generator.name")}
+      sub={tc("tools.glassmorphism-generator.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-4">
               <SliderRow label={t("blur")} value={blur} min={0} max={40} unit="px" onChange={setBlur} testId="blur-input" />
@@ -263,12 +261,11 @@ export default function GlassmorphismGenerator() {
                 {cssOutput}
               </code>
             </pre>
-            <Button variant="outline" size="sm" onClick={copyCss}>
-              {t("copyCSS")}
-            </Button>
+            <CopyButton text={cssOutput} label={t("copyCSS")} successMessage={t("copied")} />
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

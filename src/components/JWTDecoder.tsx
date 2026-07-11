@@ -15,7 +15,6 @@ import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
-  Copy,
   Shield,
   AlertCircle,
   CheckCircle,
@@ -23,6 +22,8 @@ import {
   EyeOff,
 } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 interface JWTPayload {
   header: any;
@@ -37,6 +38,7 @@ interface JWTPayload {
 
 export default function JWTDecoder() {
   const t = useTranslations("Tools.JWTDecoder");
+  const tc = useTranslations("ToolsConfig");
   const [jwtToken, setJwtToken] = useState<string>("");
   const [decodedJWT, setDecodedJWT] = useState<JWTPayload | null>(null);
   const [showSignature, setShowSignature] = useState<boolean>(false);
@@ -167,15 +169,6 @@ export default function JWTDecoder() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const clearAll = () => {
     setJwtToken("");
     setDecodedJWT(null);
@@ -189,7 +182,12 @@ export default function JWTDecoder() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <ToolShell
+      slug="jwt-decoder"
+      title={tc("tools.jwt-decoder.name")}
+      sub={tc("tools.jwt-decoder.description")}
+    >
+      <div className="max-w-6xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input Section */}
         <Card>
@@ -337,15 +335,12 @@ export default function JWTDecoder() {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 {t("header")}
-                <Button
-                  onClick={() =>
-                    copyToClipboard(JSON.stringify(decodedJWT.header, null, 2))
-                  }
-                  variant="ghost"
-                  size="sm"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
+                <CopyButton
+                  text={JSON.stringify(decodedJWT.header, null, 2)}
+                  size="icon"
+                  successMessage={t("copiedToClipboard")}
+                  errorMessage={t("copyFailed")}
+                />
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -370,15 +365,12 @@ export default function JWTDecoder() {
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
                 {t("payload")}
-                <Button
-                  onClick={() =>
-                    copyToClipboard(JSON.stringify(decodedJWT.payload, null, 2))
-                  }
-                  variant="ghost"
-                  size="sm"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
+                <CopyButton
+                  text={JSON.stringify(decodedJWT.payload, null, 2)}
+                  size="icon"
+                  successMessage={t("copiedToClipboard")}
+                  errorMessage={t("copyFailed")}
+                />
               </CardTitle>
             </CardHeader>
             <CardContent>
@@ -422,13 +414,12 @@ export default function JWTDecoder() {
                       <Eye className="h-4 w-4" />
                     )}
                   </Button>
-                  <Button
-                    onClick={() => copyToClipboard(decodedJWT.signature)}
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
+                  <CopyButton
+                    text={decodedJWT.signature}
+                    size="icon"
+                    successMessage={t("copiedToClipboard")}
+                    errorMessage={t("copyFailed")}
+                  />
                 </div>
               </CardTitle>
             </CardHeader>
@@ -492,6 +483,7 @@ export default function JWTDecoder() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

@@ -21,7 +21,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Copy, Plus, Trash2, RotateCcw } from "lucide-react";
+import { Plus, Trash2, RotateCcw } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 type ShapeType = "polygon" | "circle" | "ellipse" | "inset";
 
@@ -94,6 +96,7 @@ function buildClipPath(
 
 export default function ClipPathGenerator() {
   const t = useTranslations("Tools.ClipPathGenerator");
+  const tc = useTranslations("ToolsConfig");
   // next-intl requires literal keys — map preset keys to translations explicitly.
   const presetLabel = (key: string): string => {
     switch (key) {
@@ -185,24 +188,15 @@ export default function ClipPathGenerator() {
     toast.success(t("resetDone"));
   }, [t]);
 
-  const copyCSS = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(cssOutput);
-      toast.success(t("cssCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  }, [cssOutput, t]);
-
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
+    <ToolShell
+      slug="clip-path-generator"
+      title={tc("tools.clip-path-generator.name")}
+      sub={tc("tools.clip-path-generator.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-6">
         <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 pt-6">
             <Tabs value={shape} onValueChange={(v) => setShape(v as ShapeType)}>
               <TabsList className="w-full">
                 <TabsTrigger value="polygon" className="flex-1">{t("polygon")}</TabsTrigger>
@@ -324,11 +318,11 @@ export default function ClipPathGenerator() {
               <Label>{t("generatedCSS")}</Label>
               <div className="flex gap-2 items-start">
                 <pre dir="ltr" className="flex-1 text-xs bg-muted p-3 rounded-lg border overflow-x-auto whitespace-pre-wrap break-all font-mono text-left">{cssOutput}</pre>
-                <Button variant="outline" size="icon" onClick={copyCSS} className="shrink-0"><Copy className="w-4 h-4" /></Button>
+                <CopyButton text={cssOutput} size="icon" successMessage={t("cssCopied")} errorMessage={t("copyFailed")} />
               </div>
             </div>
 
-            <Button onClick={copyCSS} className="w-full"><Copy className="w-4 h-4 me-2" />{t("copyCSS")}</Button>
+            <CopyButton text={cssOutput} label={t("copyCSS")} successMessage={t("cssCopied")} errorMessage={t("copyFailed")} />
           </CardContent>
         </Card>
 
@@ -358,6 +352,6 @@ export default function ClipPathGenerator() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

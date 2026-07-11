@@ -2,17 +2,13 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 function clamp(n: number, min = 0, max = 1) {
   return Math.min(max, Math.max(min, n));
@@ -108,6 +104,7 @@ function getReadableTextColor(hex: string): string {
 
 export default function ColorConverter() {
   const t = useTranslations("Tools.ColorConverter");
+  const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
 
   const [hex, setHex] = useState<string>("");
@@ -228,14 +225,14 @@ export default function ColorConverter() {
   };
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6">
+    <ToolShell
+      slug="color-converter"
+      title={tc("tools.color-converter.name")}
+      sub={tc("tools.color-converter.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
         <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("subtitle")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+          <CardContent className="space-y-4 pt-6">
             <div className="space-y-2">
               <Label htmlFor="hex">HEX</Label>
               <div className="flex gap-2">
@@ -245,14 +242,12 @@ export default function ColorConverter() {
                   value={hex}
                   onChange={(e) => updateFromHex(e.target.value)}
                 />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => copy(hex, "HEX")}
+                <CopyButton
+                  text={hex}
+                  label={t("copyHex")}
+                  successMessage={t("copiedLabel", { label: "HEX" })}
                   disabled={!hex}
-                >
-                  {t("copyHex")}
-                </Button>
+                />
               </div>
             </div>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
@@ -332,13 +327,11 @@ export default function ColorConverter() {
                   <pre className="flex-1 whitespace-pre-wrap text-xs p-2 border rounded bg-muted overflow-auto">
                     {cssVars}
                   </pre>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => copy(cssVars, "CSS variables")}
-                  >
-                    {t("copyCss")}
-                  </Button>
+                  <CopyButton
+                    text={cssVars}
+                    label={t("copyCss")}
+                    successMessage={t("copiedLabel", { label: "CSS variables" })}
+                  />
                 </div>
               </div>
             )}
@@ -379,13 +372,11 @@ export default function ColorConverter() {
                   />
                 </div>
                 <div className="flex justify-end">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => copy(complementary, "Complementary HEX")}
-                  >
-                    {t("copyComplementary")}
-                  </Button>
+                  <CopyButton
+                    text={complementary}
+                    label={t("copyComplementary")}
+                    successMessage={t("copiedLabel", { label: "Complementary HEX" })}
+                  />
                 </div>
               </div>
             )}
@@ -395,6 +386,6 @@ export default function ColorConverter() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -7,8 +7,9 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Search, Clock, Smile } from "lucide-react";
+import { Search, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
 
 interface EmojiData {
   emoji: string;
@@ -514,6 +515,7 @@ function saveRecent(emojis: string[]) {
 
 export default function EmojiPicker() {
   const t = useTranslations("Tools.EmojiPicker");
+  const tc = useTranslations("ToolsConfig");
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("Smileys");
   const [recent, setRecent] = useState<string[]>([]);
@@ -597,18 +599,12 @@ export default function EmojiPicker() {
   );
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="emoji-picker"
+      title={tc("tools.emoji-picker.name")}
+      sub={tc("tools.emoji-picker.description")}
+    >
       <div className="max-w-3xl mx-auto space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Smile className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -732,6 +728,6 @@ export default function EmojiPicker() {
           {t("footer")} {t("footerCount", { emojiCount: ALL_EMOJIS.length, catCount: CATEGORIES.length })}
         </p>
       </div>
-    </div>
+    </ToolShell>
   );
 }

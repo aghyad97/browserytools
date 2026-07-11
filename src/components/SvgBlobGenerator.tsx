@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -21,6 +20,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RefreshCw, Copy, Download } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadBlob } from "@/lib/download";
 
 type Mode = "blob" | "wave";
 type Fill = "solid" | "gradient";
@@ -114,6 +115,7 @@ function buildWavePath(
 
 export default function SvgBlobGenerator() {
   const t = useTranslations("Tools.SvgBlobGenerator");
+  const tc = useTranslations("ToolsConfig");
 
   const [mode, setMode] = useState<Mode>("blob");
   const [points, setPoints] = useState(6);
@@ -169,25 +171,21 @@ export default function SvgBlobGenerator() {
   };
 
   const downloadSvg = () => {
-    const blob = new Blob([svg], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = mode === "wave" ? "wave-divider.svg" : "blob.svg";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(
+      new Blob([svg], { type: "image/svg+xml" }),
+      mode === "wave" ? "wave-divider.svg" : "blob.svg",
+    );
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-5xl space-y-4">
+    <ToolShell
+      slug="svg-blob-generator"
+      title={tc("tools.svg-blob-generator.name")}
+      sub={tc("tools.svg-blob-generator.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+        <CardContent className="space-y-6 pt-6">
           <div className="flex flex-wrap gap-2">
             <Button
               variant={mode === "blob" ? "default" : "outline"}
@@ -378,6 +376,7 @@ export default function SvgBlobGenerator() {
           </CardContent>
         </Card>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

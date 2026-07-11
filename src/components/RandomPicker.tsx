@@ -18,6 +18,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Copy, Dices, Hash, Coins, ListChecks, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 
 // ── Randomness ────────────────────────────────────────────────────────────────
 // Cryptographically-decent integer in [min, max] inclusive, using rejection
@@ -52,6 +53,7 @@ const DIE_SIZES: DieSize[] = [4, 6, 8, 10, 12, 20];
 
 export default function RandomPicker() {
   const t = useTranslations("Tools.RandomPicker");
+  const tc = useTranslations("ToolsConfig");
 
   // ── Random Number state ───────────────────────────────────────────────────
   const [min, setMin] = useState("1");
@@ -185,7 +187,12 @@ export default function RandomPicker() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl">
+    <ToolShell
+      slug="random-picker"
+      title={tc("tools.random-picker.name")}
+      sub={tc("tools.random-picker.description")}
+    >
+      <div className="max-w-3xl mx-auto">
       <Tabs defaultValue="number" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="number">{t("tabNumber")}</TabsTrigger>
@@ -531,6 +538,7 @@ export default function RandomPicker() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

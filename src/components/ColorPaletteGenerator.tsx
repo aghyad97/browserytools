@@ -2,19 +2,14 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Copy, RefreshCw, Download, Lock, LockOpen, Palette } from "lucide-react";
+import { Copy, RefreshCw, Download, Lock, LockOpen } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
 
 // Color math helpers
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -179,6 +174,7 @@ const SCHEME_VALUES = [
 
 export default function ColorPaletteGenerator() {
   const t = useTranslations("Tools.ColorPaletteGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [baseColor, setBaseColor] = useState("#667eea");
   const [scheme, setScheme] = useState<SchemeType>("complementary");
   const [paletteName, setPaletteName] = useState("My Palette");
@@ -280,14 +276,14 @@ export default function ColorPaletteGenerator() {
   }, [colors, t]);
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
+    <ToolShell
+      slug="color-palette"
+      title={tc("tools.color-palette.name")}
+      sub={tc("tools.color-palette.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
         <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>{t("paletteName")}</Label>
@@ -367,6 +363,6 @@ export default function ColorPaletteGenerator() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

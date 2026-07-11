@@ -14,6 +14,14 @@ const IGNORED = [
   // matches against text + location URL, so this stays scoped to the GitHub
   // API only. No unscoped status-code ignores.
   /api\.github\.com/i,
+  // Vercel Web Analytics (<Analytics/> in the global providers) injects
+  // /_vercel/insights/script.js, which only exists on Vercel infra and 404s
+  // under local `next start`. It is a pre-existing, every-route artifact (same
+  // class as the GitHub badge above), not a tool regression. It surfaces only
+  // on the slowest route (mind-map's React Flow canvas gives the deferred
+  // injection time to fire before the assertions settle); ignore it globally so
+  // it can't flake any route.
+  /_vercel\/insights/i,
 ];
 
 // Every route must render with exactly one h1 (the tool/page title), at least

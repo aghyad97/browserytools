@@ -14,8 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Download, Copy, Upload, X, Image as ImageIcon } from "lucide-react";
+import { Download, Upload, X, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadBlob } from "@/lib/download";
 
 // Open Graph / social-share images are a fixed 1200x630 canvas.
 const OG_WIDTH = 1200;
@@ -111,6 +115,7 @@ function wrapText(
 export default function OgImageGenerator() {
   const t = useTranslations("Tools.OgImageGenerator");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [title, setTitle] = useState("Build social images in seconds");
   const [subtitle, setSubtitle] = useState(
@@ -129,7 +134,6 @@ export default function OgImageGenerator() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const logoImgRef = useRef<HTMLImageElement | null>(null);
-  const objectUrlRef = useRef<string | null>(null);
 
   // Apply a template preset to all relevant fields.
   const applyTemplate = (id: string) => {
@@ -144,8 +148,8 @@ export default function OgImageGenerator() {
     setAlign(preset.align);
   };
 
-  const handleLogoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
+  const handleLogoFiles = (files: File[]) => {
+    const file = files[0];
     if (!file) return;
     if (!file.type.startsWith("image/")) {
       toast.error(t("invalidLogo"));
@@ -294,12 +298,6 @@ export default function OgImageGenerator() {
     draw();
   }, [draw]);
 
-  useEffect(() => {
-    return () => {
-      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
-    };
-  }, []);
-
   const handleDownload = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -308,15 +306,7 @@ export default function OgImageGenerator() {
         toast.error(t("exportFailed"));
         return;
       }
-      if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
-      const url = URL.createObjectURL(blob);
-      objectUrlRef.current = url;
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "og-image.png";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadBlob(blob, "og-image.png");
       toast.success(t("exported"));
     }, "image/png");
   };
@@ -326,15 +316,6 @@ export default function OgImageGenerator() {
 <meta property="og:image:height" content="630" />
 <meta name="twitter:card" content="summary_large_image" />
 <meta name="twitter:image" content="https://example.com/og-image.png" />`;
-
-  const handleCopySnippet = async () => {
-    try {
-      await navigator.clipboard.writeText(metaSnippet);
-      toast.success(t("snippetCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  };
 
   const colorField = (
     label: string,
@@ -361,9 +342,12 @@ export default function OgImageGenerator() {
   );
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="og-image-generator"
+      title={tc("tools.og-image-generator.name")}
+      sub={tc("tools.og-image-generator.description")}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
           {/* Controls */}
           <div className="space-y-4">
             <Card className="p-4 space-y-4">
@@ -526,17 +510,18 @@ export default function OgImageGenerator() {
                     </Button>
                   </div>
                 ) : (
-                  <label className="flex items-center gap-2 cursor-pointer rounded-md border border-dashed border-input px-4 py-3 text-sm text-muted-foreground hover:border-primary">
+                  <FileDropzone
+                    onFiles={handleLogoFiles}
+                    accept={{ "image/*": [] }}
+                    multiple={false}
+                    className={() =>
+                      "flex items-center gap-2 cursor-pointer rounded-md border border-dashed border-input px-4 py-3 text-sm text-muted-foreground hover:border-primary"
+                    }
+                    inputProps={{ "data-testid": "logo-input" }}
+                  >
                     <Upload className="h-4 w-4" />
                     {t("uploadLogo")}
-                    <input
-                      type="file"
-                      accept="image/*"
-                      className="hidden"
-                      onChange={handleLogoUpload}
-                      data-testid="logo-input"
-                    />
-                  </label>
+                  </FileDropzone>
                 )}
               </div>
             </Card>
@@ -567,10 +552,12 @@ export default function OgImageGenerator() {
             <Card className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium">{t("metaTags")}</label>
-                <Button variant="secondary" size="sm" onClick={handleCopySnippet}>
-                  <Copy className="h-4 w-4 me-1" />
-                  {tCommon("copy")}
-                </Button>
+                <CopyButton
+                  text={metaSnippet}
+                  label={tCommon("copy")}
+                  successMessage={t("snippetCopied")}
+                  errorMessage={t("copyFailed")}
+                />
               </div>
               <Textarea
                 readOnly
@@ -587,7 +574,6 @@ export default function OgImageGenerator() {
             </Card>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -14,10 +14,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Download, Trash2, Undo2, PenLine } from "lucide-react";
+import { Download, Trash2, Undo2 } from "lucide-react";
 import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadBlob } from "@/lib/download";
+import { ToolShell } from "@/components/template/tool-shell";
 
 // A single freehand stroke is a list of points captured between pointerdown and pointerup.
 interface Point {
@@ -47,6 +48,7 @@ const TYPE_FONTS = [
 export default function SignatureMaker() {
   const t = useTranslations("Tools.SignatureMaker");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   // ── Draw mode ────────────────────────────────────────────────────────────
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -227,16 +229,12 @@ export default function SignatureMaker() {
   };
 
   return (
-    <div className="flex-1 overflow-auto p-6">
+    <ToolShell
+      slug="signature-maker"
+      title={tc("tools.signature-maker.name")}
+      sub={tc("tools.signature-maker.description")}
+    >
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="space-y-1">
-          <h1 className="text-2xl font-bold flex items-center gap-2">
-            <PenLine className="w-6 h-6 text-primary" />
-            {t("title")}
-          </h1>
-          <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-        </div>
-
         <Tabs defaultValue="draw" className="w-full">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="draw">{t("drawTab")}</TabsTrigger>
@@ -435,6 +433,6 @@ export default function SignatureMaker() {
           {t("privacyNote")}
         </p>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -14,9 +14,11 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
-import { Copy, RotateCcw, RefreshCw, Shield, Lock, Key } from "lucide-react";
+import { RotateCcw, RefreshCw, Shield, Lock, Key } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 interface PasswordOptions {
   length: number;
@@ -37,6 +39,7 @@ interface PasswordStrength {
 
 export default function PasswordGenerator() {
   const t = useTranslations("Tools.PasswordGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [password, setPassword] = useState("");
   const [options, setOptions] = useState<PasswordOptions>({
     length: 12,
@@ -195,16 +198,6 @@ export default function PasswordGenerator() {
     });
   };
 
-  const handleCopy = () => {
-    if (!password) {
-      toast.error(t("noPassword"));
-      return;
-    }
-
-    navigator.clipboard.writeText(password);
-    toast.success(t("copiedToClipboard"));
-  };
-
   const handleClear = () => {
     setPassword("");
     setStrength({
@@ -232,7 +225,12 @@ export default function PasswordGenerator() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
+    <ToolShell
+      slug="password-generator"
+      title={tc("tools.password-generator.name")}
+      sub={tc("tools.password-generator.description")}
+    >
+      <div className="max-w-6xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Generator Options */}
         <Card>
@@ -380,9 +378,12 @@ export default function PasswordGenerator() {
                   className="font-mono text-lg bg-muted"
                   placeholder={t("passwordPlaceholder")}
                 />
-                <Button onClick={handleCopy} disabled={!password} size="sm">
-                  <Copy className="w-4 h-4" />
-                </Button>
+                <CopyButton
+                  text={password}
+                  size="icon"
+                  successMessage={t("copiedToClipboard")}
+                  disabled={!password}
+                />
               </div>
             </div>
 
@@ -545,6 +546,7 @@ export default function PasswordGenerator() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

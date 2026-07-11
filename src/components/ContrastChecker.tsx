@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeftRight, Copy, CheckCircle, XCircle, Eye } from "lucide-react";
-import { toast } from "sonner";
+import { ArrowLeftRight, CheckCircle, XCircle } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const clean = hex.trim().replace(/^#/, "");
@@ -49,6 +50,7 @@ const PRESETS = [
 
 export default function ContrastChecker() {
   const t = useTranslations("Tools.ContrastChecker");
+  const tc = useTranslations("ToolsConfig");
   const [fg, setFg] = useState("#1D4ED8");
   const [bg, setBg] = useState("#FFFFFF");
   const [fgInput, setFgInput] = useState("#1D4ED8");
@@ -101,16 +103,6 @@ export default function ContrastChecker() {
 
   const ratioStr = ratio !== null ? `${ratio.toFixed(2)}:1` : "—";
 
-  const copyRatio = useCallback(async () => {
-    if (ratio === null) return;
-    try {
-      await navigator.clipboard.writeText(ratioStr);
-      toast.success(t("ratioCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  }, [ratio, ratioStr]);
-
   const checks = useMemo(() => {
     if (ratio === null) return null;
     return {
@@ -129,18 +121,12 @@ export default function ContrastChecker() {
     );
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Eye className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="contrast-checker"
+      title={tc("tools.contrast-checker.name")}
+      sub={tc("tools.contrast-checker.description")}
+    >
+      <div className="max-w-2xl mx-auto space-y-4">
         {/* Color Inputs */}
         <Card>
           <CardHeader className="pb-3">
@@ -200,10 +186,7 @@ export default function ContrastChecker() {
                 <p className="text-sm text-muted-foreground mb-1">{t("contrastRatio")}</p>
                 <p className="text-5xl font-bold font-mono tracking-tight">{ratioStr}</p>
               </div>
-              <Button variant="outline" onClick={copyRatio} disabled={ratio === null}>
-                <Copy className="w-4 h-4 me-2" />
-                {t("copy")}
-              </Button>
+              <CopyButton text={ratioStr} label={t("copy")} successMessage={t("ratioCopied")} disabled={ratio === null} />
             </div>
           </CardContent>
         </Card>
@@ -306,6 +289,6 @@ export default function ContrastChecker() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

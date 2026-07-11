@@ -35,6 +35,8 @@ import {
   ArrowUpRight,
   ArrowUpLeft,
 } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 interface ColorStop {
   id: string;
@@ -121,6 +123,7 @@ function buildGradientCSS(
 
 export default function CssGradientGenerator() {
   const t = useTranslations("Tools.CssGradientGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [gradientType, setGradientType] = useState<GradientType>("linear");
   const [angle, setAngle] = useState(135);
   const [stops, setStops] = useState<ColorStop[]>([
@@ -212,14 +215,14 @@ export default function CssGradientGenerator() {
   }, [t]);
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
+    <ToolShell
+      slug="css-gradient"
+      title={tc("tools.css-gradient.name")}
+      sub={tc("tools.css-gradient.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
         <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 pt-6">
             <Tabs value={gradientType} onValueChange={(v) => setGradientType(v as GradientType)}>
               <TabsList className="w-full">
                 <TabsTrigger value="linear" className="flex-1">{t("linear")}</TabsTrigger>
@@ -322,7 +325,7 @@ export default function CssGradientGenerator() {
               <Label>{t("generatedCSS")}</Label>
               <div className="flex gap-2 items-start">
                 <pre className="flex-1 text-xs bg-muted p-3 rounded-lg border overflow-x-auto whitespace-pre-wrap break-all font-mono">{cssOutput}</pre>
-                <Button variant="outline" size="icon" onClick={copyCSS} className="shrink-0"><Copy className="w-4 h-4" /></Button>
+                <CopyButton text={cssOutput} size="icon" successMessage={t("cssCopied")} errorMessage={t("copyFailed")} />
               </div>
             </div>
 
@@ -361,6 +364,6 @@ export default function CssGradientGenerator() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

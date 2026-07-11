@@ -14,8 +14,10 @@ import {
 import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
 import hljs from "highlight.js";
-import { Download, Code2, Copy } from "lucide-react";
+import { Download, Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadDataUrl } from "@/lib/download";
 
 const LANGUAGE_OPTIONS = [
   { value: "javascript", label: "JavaScript" },
@@ -205,6 +207,7 @@ function escapeHtml(s: string): string {
 
 export default function CodeScreenshot() {
   const t = useTranslations("Tools.CodeScreenshot");
+  const tc = useTranslations("ToolsConfig");
   const [code, setCode] = useState(SAMPLE_CODE);
   const [language, setLanguage] = useState("javascript");
   const [themeId, setThemeId] = useState("midnight");
@@ -324,12 +327,7 @@ export default function CodeScreenshot() {
     try {
       const canvas = await rasterize();
       const dataUrl = canvas.toDataURL("image/png");
-      const a = document.createElement("a");
-      a.href = dataUrl;
-      a.download = "code-screenshot.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      downloadDataUrl(dataUrl, "code-screenshot.png");
       toast.success(t("exported"));
     } catch {
       toast.error(t("exportFailed"));
@@ -370,14 +368,12 @@ export default function CodeScreenshot() {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div className="flex items-center gap-2">
-            <Code2 className="h-5 w-5 text-primary" />
-            <h1 className="text-lg font-semibold">{t("title")}</h1>
-          </div>
-
+    <ToolShell
+      slug="code-screenshot"
+      title={tc("tools.code-screenshot.name")}
+      sub={tc("tools.code-screenshot.description")}
+    >
+      <div className="max-w-7xl mx-auto space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-4">
             {/* Controls + code input */}
             <div className="space-y-4">
@@ -600,8 +596,7 @@ export default function CodeScreenshot() {
               </div>
             </Card>
           </div>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

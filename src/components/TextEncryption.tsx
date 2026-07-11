@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -9,8 +9,10 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Eye, EyeOff, Copy, Lock, Unlock, RefreshCw, Trash2, Shield, Info, KeyRound } from "lucide-react";
+import { Eye, EyeOff, Lock, Unlock, RefreshCw, Trash2, Shield, Info, KeyRound } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 // ---- Crypto helpers ----
 
@@ -70,18 +72,13 @@ function generateRandomKey(length = 24): string {
 }
 export default function TextEncryption() {
   const t = useTranslations("Tools.TextEncryption");
+  const tc = useTranslations("ToolsConfig");
   const [inputText, setInputText] = useState("");
   const [password, setPassword] = useState("");
   const [outputText, setOutputText] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const copyToClipboard = useCallback(async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch { toast.error(t("failedToCopy")); }
-  }, [t]);
   const doEncrypt = async () => {
     if (!inputText.trim()) { toast.error(t("enterTextToEncrypt")); return; }
     if (!password) { toast.error(t("enterEncryptionPassword")); return; }
@@ -117,7 +114,12 @@ export default function TextEncryption() {
     toast.success(t("randomKeyGenerated"));
   };
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl space-y-6">
+    <ToolShell
+      slug="text-encryption"
+      title={tc("tools.text-encryption.name")}
+      sub={tc("tools.text-encryption.description")}
+    >
+      <div className="max-w-3xl mx-auto space-y-6">
       {/* Security note */}
       <Alert className="border-green-200 bg-green-50 dark:bg-green-950 dark:border-green-800">
         <Shield className="h-4 w-4 text-green-600" />
@@ -224,18 +226,20 @@ export default function TextEncryption() {
                   dir="ltr"
                   className="min-h-[120px] font-mono text-sm bg-muted pr-12"
                 />
-                <Button
-                  variant="ghost" size="icon"
-                  className="absolute right-2 top-2 h-8 w-8"
-                  onClick={() => copyToClipboard(outputText)}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
+                <div className="absolute end-2 top-2">
+                  <CopyButton
+                    text={outputText}
+                    size="icon"
+                    successMessage={t("copiedToClipboard")}
+                    errorMessage={t("failedToCopy")}
+                  />
+                </div>
               </div>
             </div>
           )}
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

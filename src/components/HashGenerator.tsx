@@ -17,6 +17,9 @@ import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Hash, FileText, Download, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 interface HashResult {
   algorithm: string;
@@ -26,6 +29,7 @@ interface HashResult {
 
 export default function HashGenerator() {
   const t = useTranslations("Tools.HashGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [inputText, setInputText] = useState<string>("");
   const [hashResults, setHashResults] = useState<HashResult[]>([]);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -101,15 +105,6 @@ export default function HashGenerator() {
     toast(t("hashesGeneratedToast"));
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const copyAllHashes = async () => {
     const allHashes = hashResults
       .map((result) => `${result.algorithm}: ${result.hash}`)
@@ -128,15 +123,7 @@ export default function HashGenerator() {
       .map((result) => `${result.algorithm}: ${result.hash}`)
       .join("\n");
 
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "hashes.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([content], { type: "text/plain" }), "hashes.txt");
   };
 
   const clearAll = () => {
@@ -149,7 +136,12 @@ export default function HashGenerator() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="hash-generator"
+      title={tc("tools.hash-generator.name")}
+      sub={tc("tools.hash-generator.description")}
+    >
+      <div className="max-w-4xl mx-auto">
       <Tabs defaultValue="text" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="text">{t("textInputTab")}</TabsTrigger>
@@ -260,13 +252,12 @@ export default function HashGenerator() {
                               {t("hashLength", { count: result.length })}
                             </span>
                           </div>
-                          <Button
-                            onClick={() => copyToClipboard(result.hash)}
-                            variant="ghost"
-                            size="sm"
-                          >
-                            <Copy className="h-4 w-4" />
-                          </Button>
+                          <CopyButton
+                            text={result.hash}
+                            size="icon"
+                            successMessage={t("copiedToClipboard")}
+                            errorMessage={t("copyFailed")}
+                          />
                         </div>
                         <div className="font-mono text-sm bg-muted p-2 rounded break-all" dir="ltr">
                           {result.hash}
@@ -354,6 +345,7 @@ export default function HashGenerator() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }
