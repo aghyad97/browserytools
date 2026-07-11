@@ -79,7 +79,9 @@
   position: relative;
   display: block;
   width: fit-content;
-  padding-inline-end: 14px; /* reserved slot for the active dot */
+  padding-block: 2px;
+  padding-inline: 8px;
+  margin-inline-start: -8px; /* keep label text aligned with the rail edge */
   font-size: 13px;
   line-height: 1.5;
   font-weight: 400;
@@ -89,6 +91,7 @@
   cursor: pointer;
   text-align: start;
   transition: color 140ms ease;
+  border-radius: 7px;
 }
 @media (hover: hover) and (pointer: fine) {
   .railLink:hover { color: var(--bt-nav-active); }
@@ -97,18 +100,16 @@
 .railLinkActive {
   composes: railLink;
   color: var(--bt-nav-active);
+  font-weight: 500;
 }
 
-/* active dot — 8px, absolute in the link's reserved end slot */
+/* active pill — a soft fill that slides between categories (layoutId) */
 .activeDot {
   position: absolute;
-  inset-inline-end: 0;
-  top: 50%;
-  width: 8px;
-  height: 8px;
-  margin-top: -4px;
-  border-radius: 50%;
-  background: var(--bt-nav-active);
+  inset: 0;
+  border-radius: 7px;
+  background: var(--bt-fill);
+  z-index: -1;
 }
 
 /* hand-drawn "new" marker — 13px/400, pink-9, single 33x7 scribble */
