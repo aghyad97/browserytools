@@ -1,4 +1,4 @@
-import HomePage from "@/components/HomePage";
+import Landing from "@/components/landing/landing";
 import StructuredData from "@/components/StructuredData";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -89,7 +89,7 @@ export default async function Home({ searchParams }: HomeProps) {
   return (
     <>
       <StructuredData type="website" />
-      <HomePage initialSearchQuery={params.search} />
+      <Landing />
     </>
   );
 }

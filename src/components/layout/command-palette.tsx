@@ -42,8 +42,18 @@ const TOOL_INDEX = tools.flatMap((c) =>
 const TOOL_COUNT = TOOL_INDEX.length;
 const MAX_RESULTS = 9;
 
+/* Event the landing search button (a sibling tree from the AppShell that owns
+   the palette state) dispatches to open the palette without prop-drilling. */
+export const OPEN_COMMAND_PALETTE_EVENT = "bt:open-command-palette";
+
+/** Request the ⌘K palette to open from anywhere in the app. */
+export function openCommandPalette() {
+  window.dispatchEvent(new Event(OPEN_COMMAND_PALETTE_EVENT));
+}
+
 /* Open/close state + global shortcuts: ⌘K / Ctrl+K toggle, "/" when idle,
-   Escape closes. Ported unchanged from the prototype. */
+   Escape closes. Ported from the prototype; also opens on the custom event
+   above so the landing search button can trigger it. */
 export function useCommandPalette() {
   const [open, setOpen] = useState(false);
   useEffect(() => {
@@ -57,8 +67,13 @@ export function useCommandPalette() {
       }
       if (e.key === "Escape") setOpen(false);
     };
+    const openViaEvent = () => setOpen(true);
     window.addEventListener("keydown", down);
-    return () => window.removeEventListener("keydown", down);
+    window.addEventListener(OPEN_COMMAND_PALETTE_EVENT, openViaEvent);
+    return () => {
+      window.removeEventListener("keydown", down);
+      window.removeEventListener(OPEN_COMMAND_PALETTE_EVENT, openViaEvent);
+    };
   }, []);
   return { open, setOpen };
 }
