@@ -1,13 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -18,13 +12,14 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 
 const tzOptions = ["UTC", Intl.DateTimeFormat().resolvedOptions().timeZone];
 
 export default function UnixTimestampConverter() {
   const t = useTranslations("Tools.UnixTimestampConverter");
+  const tc = useTranslations("ToolsConfig");
   const [epoch, setEpoch] = useState<string>("");
   const [dateStr, setDateStr] = useState<string>("");
   const [tz, setTz] = useState<string>(tzOptions[1] || "UTC");
@@ -110,15 +105,37 @@ export default function UnixTimestampConverter() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
+    <ToolShell
+      slug="unix-timestamp"
+      title={tc("tools.unix-timestamp.name")}
+      sub={tc("tools.unix-timestamp.description")}
+      controls={
+        <>
+          <Button
+            variant="outline"
+            onClick={() =>
+              epoch && setEpoch((Number(epoch) * 1000).toString())
+            }
+          >
+            {t("toMsButton")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() =>
+              epoch && setEpoch(Math.floor(Number(epoch) / 1000).toString())
+            }
+          >
+            {t("toSButton")}
+          </Button>
+          <Button variant="outline" onClick={clearAll}>
+            {t("clearButton")}
+          </Button>
+        </>
+      }
+      primaryAction={{ label: t("nowButton"), onClick: now }}
+    >
       <Card className="shadow-none">
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>
-            {t("description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="epoch">{t("epochLabel")}</Label>
@@ -157,34 +174,8 @@ export default function UnixTimestampConverter() {
               dir="ltr"
             />
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 pt-2">
-            <Button variant="secondary" onClick={now}>
-              {t("nowButton")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() =>
-                epoch && setEpoch((Number(epoch) * 1000).toString())
-              }
-            >
-              {t("toMsButton")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() =>
-                epoch && setEpoch(Math.floor(Number(epoch) / 1000).toString())
-              }
-            >
-              {t("toSButton")}
-            </Button>
-          </div>
-          <div className="pt-2">
-            <Button variant="outline" className="w-full" onClick={clearAll}>
-              {t("clearButton")}
-            </Button>
-          </div>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

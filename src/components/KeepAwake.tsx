@@ -2,12 +2,12 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
-import { Coffee, Infinity as InfinityIcon, Info, Play, Square, Zap } from "lucide-react";
+import { Coffee, Infinity as InfinityIcon, Info } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
 
 type PresetKey = "15m" | "30m" | "1h" | "2h" | "4h" | "8h" | "infinity" | "custom";
 
@@ -32,6 +32,7 @@ function formatRemaining(seconds: number): string {
 export default function KeepAwake() {
   const t = useTranslations("Tools.KeepAwake");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [supported, setSupported] = useState(true);
   const [selectedPreset, setSelectedPreset] = useState<PresetKey>("1h");
@@ -170,18 +171,17 @@ export default function KeepAwake() {
   const statusLabel = isActive ? t("active") : t("inactive");
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="keep-awake"
+      title={tc("tools.keep-awake.name")}
+      sub={tc("tools.keep-awake.description")}
+      primaryAction={{
+        label: isActive ? t("deactivate") : t("activate"),
+        onClick: handleToggle,
+        disabled: !supported,
+      }}
+    >
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Zap className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
         {!supported && (
           <Card className="border-destructive/40 bg-destructive/5">
             <CardContent className="pt-4 pb-4">
@@ -236,29 +236,6 @@ export default function KeepAwake() {
                   {isActive ? t("running") : t("idle")}
                 </div>
               </div>
-
-              <Button
-                size="lg"
-                onClick={handleToggle}
-                disabled={!supported}
-                className={`rounded-full h-14 px-8 text-white shadow-md transition-colors ${
-                  isActive
-                    ? "bg-rose-500 hover:bg-rose-600"
-                    : "bg-emerald-500 hover:bg-emerald-600"
-                }`}
-              >
-                {isActive ? (
-                  <>
-                    <Square className="w-4 h-4 me-2" />
-                    {t("deactivate")}
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-4 h-4 me-2" />
-                    {t("activate")}
-                  </>
-                )}
-              </Button>
             </div>
           </CardContent>
         </Card>
@@ -373,6 +350,6 @@ export default function KeepAwake() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

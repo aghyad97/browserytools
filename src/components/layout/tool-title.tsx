@@ -161,6 +161,18 @@ const HAS_OWN_H1 = new Set([
   "mic-camera",
   "compress-video",
   "gif-maker",
+  // R2 batch B6: Productivity + Developer Tools migrated onto ToolShell (the
+  // shell owns the h1). pomodoro, world-clock, stopwatch, habit-tracker,
+  // keep-awake, css-minifier, http-status and sql-formatter were already listed
+  // above (they rendered their own h1 pre-migration) and are unchanged here.
+  "todo",
+  "uuid-generator",
+  "unix-timestamp",
+  "chmod",
+  "regex-tester",
+  "cron-parser",
+  "meta-tags",
+  "curl-converter",
 ]);
 
 export function ToolTitle() {

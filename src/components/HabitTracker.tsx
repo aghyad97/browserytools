@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Check, Flame, Trophy, Edit2, X, BarChart3 } from "lucide-react";
+import { Plus, Trash2, Check, Flame, Trophy, Edit2, X } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
 
 interface Habit {
   id: string;
@@ -110,6 +111,7 @@ function getColorObj(name: string) {
 
 export default function HabitTracker() {
   const t = useTranslations("Tools.HabitTracker");
+  const tc = useTranslations("ToolsConfig");
   const [habits, setHabits] = useState<Habit[]>([]);
   const [newName, setNewName] = useState("");
   const [newEmoji, setNewEmoji] = useState(PRESET_EMOJIS[0]);
@@ -196,23 +198,16 @@ export default function HabitTracker() {
   }, [habits, today]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="habit-tracker"
+      title={tc("tools.habit-tracker.name")}
+      sub={tc("tools.habit-tracker.description")}
+      primaryAction={{
+        label: showAdd ? t("cancel") : t("addHabit"),
+        onClick: () => setShowAdd((v) => !v),
+      }}
+    >
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-primary/10">
-              <BarChart3 className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-            </div>
-          </div>
-          <Button onClick={() => setShowAdd((v) => !v)} variant={showAdd ? "outline" : "default"}>
-            {showAdd ? <><X className="w-4 h-4 me-2" />{t("cancel")}</> : <><Plus className="w-4 h-4 me-2" />{t("addHabit")}</>}
-          </Button>
-        </div>
-
         {/* Stats Row */}
         <div className="grid grid-cols-3 gap-3">
           <Card>
@@ -420,6 +415,6 @@ export default function HabitTracker() {
           })}
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -5,9 +5,11 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Timer, Play, Pause, RotateCcw, Flag, Download } from "lucide-react";
+import { RotateCcw, Flag, Download } from "lucide-react";
 import { toast } from "sonner";
 import { formatStopwatch } from "@/lib/time-format";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadBlob } from "@/lib/download";
 
 interface Lap {
   number: number;
@@ -17,6 +19,7 @@ interface Lap {
 
 export default function Stopwatch() {
   const t = useTranslations("Tools.Stopwatch");
+  const tc = useTranslations("ToolsConfig");
   const [elapsed, setElapsed] = useState(0);
   const [laps, setLaps] = useState<Lap[]>([]);
   const [isRunning, setIsRunning] = useState(false);
@@ -110,61 +113,37 @@ export default function Stopwatch() {
       return;
     }
     const rows = ["Lap #,Lap Time,Total Time", ...laps.slice().reverse().map((l) => `${l.number},${formatStopwatch(l.lapTime)},${formatStopwatch(l.totalTime)}`)];
-    const blob = new Blob([rows.join("\n")], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "stopwatch-laps.csv";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([rows.join("\n")], { type: "text/csv" }), "stopwatch-laps.csv");
     toast.success(t("lapsExported"));
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="stopwatch"
+      title={tc("tools.stopwatch.name")}
+      sub={tc("tools.stopwatch.description")}
+      controls={
+        <>
+          <Button variant="outline" onClick={handleLap} disabled={!isRunning}>
+            <Flag className="w-4 h-4 me-2" />
+            {t("lap")}
+          </Button>
+          <Button variant="outline" onClick={handleReset} disabled={isRunning}>
+            <RotateCcw className="w-4 h-4 me-2" />
+            {t("reset")}
+          </Button>
+        </>
+      }
+      primaryAction={{
+        label: isRunning ? t("pause") : t("start"),
+        onClick: handleStartPause,
+      }}
+    >
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Timer className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
         <Card>
           <CardContent className="pt-8 pb-6 flex flex-col items-center gap-6">
             <div dir="ltr" className="font-mono text-6xl md:text-7xl font-bold tracking-tight tabular-nums select-none text-primary">
               {formatStopwatch(elapsed)}
-            </div>
-
-            <div className="flex items-center gap-3 flex-wrap justify-center">
-              <Button
-                size="lg"
-                onClick={handleStartPause}
-                className={isRunning ? "bg-amber-500 hover:bg-amber-600 text-white" : ""}
-              >
-                {isRunning ? <><Pause className="w-4 h-4 me-2" />{t("pause")}</> : <><Play className="w-4 h-4 me-2" />{t("start")}</>}
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={handleLap}
-                disabled={!isRunning}
-              >
-                <Flag className="w-4 h-4 me-2" />
-                {t("lap")}
-              </Button>
-              <Button
-                size="lg"
-                variant="outline"
-                onClick={handleReset}
-                disabled={isRunning}
-              >
-                <RotateCcw className="w-4 h-4 me-2" />
-                {t("reset")}
-              </Button>
             </div>
 
             <p className="text-xs text-muted-foreground">
@@ -228,6 +207,6 @@ export default function Stopwatch() {
           </Card>
         )}
       </div>
-    </div>
+    </ToolShell>
   );
 }

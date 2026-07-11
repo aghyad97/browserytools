@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { useTodoStore } from "@/store/todo-store";
+import { ToolShell } from "@/components/template/tool-shell";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
@@ -47,6 +48,7 @@ const priorityIcons = {
 
 export default function TodoList() {
   const t = useTranslations("Tools.TodoList");
+  const tc = useTranslations("ToolsConfig");
   const [newTodoText, setNewTodoText] = useState("");
   const [newTodoPriority, setNewTodoPriority] = useState<
     "low" | "medium" | "high"
@@ -117,7 +119,11 @@ export default function TodoList() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <ToolShell
+      slug="todo"
+      title={tc("tools.todo.name")}
+      sub={tc("tools.todo.description")}
+    >
       {/* Add Todo Form */}
       <Card className="mb-6">
         <CardHeader>
@@ -310,6 +316,6 @@ export default function TodoList() {
           </Tabs>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

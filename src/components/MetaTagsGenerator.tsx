@@ -5,6 +5,8 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { AlertTriangle, ImageOff } from "lucide-react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -152,6 +154,7 @@ interface Warning {
 
 export default function MetaTagsGenerator() {
   const t = useTranslations("Tools.MetaTagsGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [fields, setFields] = useState<MetaFields>(EMPTY);
   const [pasted, setPasted] = useState("");
   const [imgError, setImgError] = useState(false);
@@ -210,11 +213,6 @@ export default function MetaTagsGenerator() {
     return w;
   }, [fields, imgError, imgDims]);
 
-  const copy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success(t("copied"));
-  };
-
   // Shared preview values.
   const host = hostOf(fields.url);
   const title = fields.title || t("previewTitleFallback");
@@ -247,13 +245,14 @@ export default function MetaTagsGenerator() {
     );
 
   return (
-    <div className="container mx-auto p-4 max-w-5xl space-y-4">
+    <ToolShell
+      slug="meta-tags"
+      title={tc("tools.meta-tags.name")}
+      sub={tc("tools.meta-tags.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label htmlFor="mt-title">{t("siteTitle")}</Label>
@@ -561,9 +560,7 @@ export default function MetaTagsGenerator() {
         <CardHeader>
           <div className="flex items-center justify-between flex-wrap gap-2">
             <CardTitle className="text-base">{t("htmlOutput")}</CardTitle>
-            <Button variant="outline" size="sm" onClick={() => copy(allTags)}>
-              {t("copyAll")}
-            </Button>
+            <CopyButton text={allTags} label={t("copyAll")} successMessage={t("copied")} />
           </div>
         </CardHeader>
         <CardContent>
@@ -581,19 +578,18 @@ export default function MetaTagsGenerator() {
                 >
                   {tags[tab] || "—"}
                 </pre>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => copy(tags[tab])}
+                <CopyButton
+                  text={tags[tab]}
+                  label={t("copyAll")}
+                  successMessage={t("copied")}
                   disabled={!tags[tab]}
-                >
-                  {t("copyAll")}
-                </Button>
+                />
               </TabsContent>
             ))}
           </Tabs>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

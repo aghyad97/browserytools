@@ -15,8 +15,11 @@ import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
-import { Copy, RefreshCw, Download, Hash, Trash2 } from "lucide-react";
+import { Copy, Download, Hash, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadText } from "@/lib/download";
 
 interface UUIDFormat {
   value: string;
@@ -26,6 +29,7 @@ interface UUIDFormat {
 
 export default function UUIDGenerator() {
   const t = useTranslations("Tools.UUIDGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [count, setCount] = useState<number>(1);
   const [format, setFormat] = useState<string>("v4");
   const [generatedUUIDs, setGeneratedUUIDs] = useState<string[]>([]);
@@ -163,27 +167,8 @@ export default function UUIDGenerator() {
     }
   };
 
-  const copyAllToClipboard = async () => {
-    const allUUIDs = generatedUUIDs.join("\n");
-    try {
-      await navigator.clipboard.writeText(allUUIDs);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const downloadUUIDs = () => {
-    const content = generatedUUIDs.join("\n");
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `uuids-${format}-${count}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadText(generatedUUIDs.join("\n"), `uuids-${format}-${count}.txt`);
   };
 
   const clearUUIDs = () => {
@@ -214,7 +199,12 @@ export default function UUIDGenerator() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="uuid-generator"
+      title={tc("tools.uuid-generator.name")}
+      sub={tc("tools.uuid-generator.description")}
+      primaryAction={{ label: t("generateUUIDs"), onClick: generateUUIDs }}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Generator Controls */}
         <Card>
@@ -291,10 +281,6 @@ export default function UUIDGenerator() {
               </div>
             )}
 
-            <Button onClick={generateUUIDs} className="w-full" size="lg">
-              <RefreshCw className="h-4 w-4 me-2" />
-              {t("generateUUIDs")}
-            </Button>
           </CardContent>
         </Card>
 
@@ -321,14 +307,12 @@ export default function UUIDGenerator() {
                 </div>
 
                 <div className="flex flex-wrap gap-2">
-                  <Button
-                    onClick={copyAllToClipboard}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Copy className="h-4 w-4 me-2" />
-                    {t("copyAll")}
-                  </Button>
+                  <CopyButton
+                    text={generatedUUIDs.join("\n")}
+                    label={t("copyAll")}
+                    successMessage={t("copiedToClipboard")}
+                    errorMessage={t("copyFailed")}
+                  />
                   <Button onClick={downloadUUIDs} variant="outline" size="sm">
                     <Download className="h-4 w-4 me-2" />
                     {t("download")}
@@ -419,6 +403,6 @@ export default function UUIDGenerator() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

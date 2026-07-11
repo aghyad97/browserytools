@@ -12,9 +12,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Copy, Download, RotateCcw, Database, Minimize2, Sparkles } from "lucide-react";
+import { Download, RotateCcw, Minimize2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 // ── Sample ────────────────────────────────────────────────────────────────────
 
@@ -245,6 +248,7 @@ type Dialect = "standard" | "mysql" | "postgresql" | "sqlite";
 export default function SqlFormatter() {
   const t = useTranslations("Tools.SqlFormatter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [dialect, setDialect] = useState<Dialect>("standard");
@@ -293,25 +297,9 @@ export default function SqlFormatter() {
     }
   }, [input, t]);
 
-  const handleCopy = useCallback(async () => {
-    if (!output) return;
-    try {
-      await navigator.clipboard.writeText(output);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [output, t]);
-
   const handleDownload = useCallback(() => {
     if (!output) return;
-    const blob = new Blob([output], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `query-${mode ?? "output"}.sql`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([output], { type: "text/plain" }), `query-${mode ?? "output"}.sql`);
     toast.success(t("downloaded"));
   }, [output, mode, t]);
 
@@ -322,19 +310,12 @@ export default function SqlFormatter() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="sql-formatter"
+      title={tc("tools.sql-formatter.name")}
+      sub={tc("tools.sql-formatter.description")}
+    >
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Database className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
         {/* Controls */}
         <div className="flex flex-wrap items-end gap-3">
           <div className="space-y-1">
@@ -433,16 +414,7 @@ export default function SqlFormatter() {
                     </div>
                   )}
                   <div className="flex gap-1">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-7 w-7"
-                      onClick={handleCopy}
-                      disabled={!output}
-                      aria-label="Copy"
-                    >
-                      <Copy className="w-3.5 h-3.5" />
-                    </Button>
+                    <CopyButton text={output} size="icon" disabled={!output} />
                     <Button
                       size="icon"
                       variant="ghost"
@@ -469,6 +441,6 @@ export default function SqlFormatter() {
           </Card>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

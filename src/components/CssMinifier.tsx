@@ -5,9 +5,12 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Download, RotateCcw, ArrowLeftRight, FileCode2 } from "lucide-react";
+import { Download, RotateCcw, ArrowLeftRight } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 const SAMPLE_CSS = `/* Main layout styles */
 .container {
@@ -241,6 +244,7 @@ function beautifyCss(css: string): string {
 export default function CssMinifier() {
   const t = useTranslations("Tools.CssMinifier");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [tab, setTab] = useState<"minify" | "beautify">("minify");
   const [input, setInput] = useState("");
   const debounceRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -273,25 +277,9 @@ export default function CssMinifier() {
 
   const lineCount = useMemo(() => input.split("\n").length, [input]);
 
-  const handleCopy = useCallback(async () => {
-    if (!output) return;
-    try {
-      await navigator.clipboard.writeText(output);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [output, t]);
-
   const handleDownload = useCallback(() => {
     if (!output) return;
-    const blob = new Blob([output], { type: "text/css" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `styles-${tab}.css`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([output], { type: "text/css" }), `styles-${tab}.css`);
     toast.success(t("downloaded"));
   }, [output, tab, t]);
 
@@ -305,19 +293,12 @@ export default function CssMinifier() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="css-minifier"
+      title={tc("tools.css-minifier.name")}
+      sub={tc("tools.css-minifier.description")}
+    >
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <FileCode2 className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
         <Tabs value={tab} onValueChange={(v) => setTab(v as "minify" | "beautify")}>
           <div className="flex flex-wrap items-center justify-between gap-3">
             <TabsList>
@@ -369,7 +350,6 @@ export default function CssMinifier() {
               />
               <OutputPanel
                 value={output}
-                onCopy={handleCopy}
                 onDownload={handleDownload}
                 label={t("minifiedCss")}
                 placeholder={t("minifiedPlaceholder")}
@@ -390,7 +370,6 @@ export default function CssMinifier() {
               />
               <OutputPanel
                 value={output}
-                onCopy={handleCopy}
                 onDownload={handleDownload}
                 label={t("beautifiedCss")}
                 placeholder={t("beautifiedPlaceholder")}
@@ -399,7 +378,7 @@ export default function CssMinifier() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </ToolShell>
   );
 }
 
@@ -460,13 +439,11 @@ function InputPanel({
 
 function OutputPanel({
   value,
-  onCopy,
   onDownload,
   label,
   placeholder,
 }: {
   value: string;
-  onCopy: () => void;
   onDownload: () => void;
   label: string;
   placeholder: string;
@@ -477,16 +454,7 @@ function OutputPanel({
         <CardTitle className="text-sm font-medium flex items-center justify-between">
           {label}
           <div className="flex gap-1">
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-7 w-7"
-              onClick={onCopy}
-              disabled={!value}
-              aria-label="Copy"
-            >
-              <Copy className="w-3.5 h-3.5" />
-            </Button>
+            <CopyButton text={value} size="icon" disabled={!value} />
             <Button
               size="icon"
               variant="ghost"

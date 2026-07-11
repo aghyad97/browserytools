@@ -9,6 +9,7 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, Copy, Globe } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
 
 interface StatusCode {
   code: number;
@@ -91,6 +92,7 @@ function getCategoryStyle(category: string) {
 }
 export default function HttpStatusCodes() {
   const t = useTranslations("Tools.HttpStatusCodes");
+  const tc = useTranslations("ToolsConfig");
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -127,18 +129,12 @@ export default function HttpStatusCodes() {
     }
   };
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <Globe className="h-7 w-7 text-primary" />
-        <div>
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-          <p className="text-sm text-muted-foreground">
-            {t("subtitle")}
-          </p>
-        </div>
-      </div>
-
+    <ToolShell
+      slug="http-status"
+      title={tc("tools.http-status.name")}
+      sub={tc("tools.http-status.description")}
+    >
+      <div className="space-y-6">
       {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -211,6 +207,7 @@ export default function HttpStatusCodes() {
           })}
         </div>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

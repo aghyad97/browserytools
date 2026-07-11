@@ -2,15 +2,11 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -21,10 +17,10 @@ import {
 } from "@/components/ui/select";
 import { CronExpressionParser } from "cron-parser";
 import cronstrue from "cronstrue";
-import { toast } from "sonner";
 
 export default function CronParser() {
   const t = useTranslations("Tools.CronParser");
+  const tc = useTranslations("ToolsConfig");
   const [activeTab, setActiveTab] = useState<string>("parse");
   const [expr, setExpr] = useState<string>("*/5 * * * *");
   const [count, setCount] = useState<number>(5);
@@ -87,16 +83,14 @@ export default function CronParser() {
   const tzOptions = useMemo(() => ["UTC", tz].filter(Boolean), [tz]);
 
   return (
-    <div className="container mx-auto max-w-6xl flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
+    <ToolShell
+      slug="cron-parser"
+      title={tc("tools.cron-parser.name")}
+      sub={tc("tools.cron-parser.description")}
+    >
+      <div className="max-w-6xl mx-auto">
         <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>
-              {t("description")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+          <CardContent className="pt-6">
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="parse">{t("parserTab")}</TabsTrigger>
@@ -335,19 +329,12 @@ export default function CronParser() {
                   </Button>
                 </div>
                 <div className="flex justify-end gap-2">
-                  <Button
-                    variant="outline"
-                    onClick={async () => {
-                      try {
-                        await navigator.clipboard.writeText(builtExpr);
-                        toast.success(t("copiedToClipboard"));
-                      } catch {
-                        toast.error(t("copyFailed"));
-                      }
-                    }}
-                  >
-                    {t("copyExpression")}
-                  </Button>
+                  <CopyButton
+                    text={builtExpr}
+                    label={t("copyExpression")}
+                    successMessage={t("copiedToClipboard")}
+                    errorMessage={t("copyFailed")}
+                  />
                   <Button onClick={applyFromBuilder}>{t("useInParser")}</Button>
                 </div>
               </TabsContent>
@@ -355,7 +342,7 @@ export default function CronParser() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }
 

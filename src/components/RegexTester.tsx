@@ -2,13 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -23,6 +18,7 @@ import {
 
 export default function RegexTester() {
   const t = useTranslations("Tools.RegexTester");
+  const tc = useTranslations("ToolsConfig");
   const [pattern, setPattern] = useState<string>("");
   const [flags, setFlags] = useState<string>("g");
   const [text, setText] = useState<string>("");
@@ -288,15 +284,13 @@ export default function RegexTester() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
+    <ToolShell
+      slug="regex-tester"
+      title={tc("tools.regex-tester.name")}
+      sub={tc("tools.regex-tester.description")}
+    >
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>
-            {t("description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
             <div className="space-y-2 md:col-span-3">
               <label className="text-sm font-medium">{t("presetLabel")}</label>
@@ -462,6 +456,6 @@ export default function RegexTester() {
           ) : null}
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

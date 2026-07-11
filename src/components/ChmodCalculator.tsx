@@ -2,9 +2,9 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 interface Perms { r: boolean; w: boolean; x: boolean }
 function toBits(p: Perms) { return (p.r ? 4 : 0) + (p.w ? 2 : 0) + (p.x ? 1 : 0); }
@@ -12,6 +12,7 @@ function toSymbolic(p: Perms) { return `${p.r ? "r" : "-"}${p.w ? "w" : "-"}${p.
 
 export default function ChmodCalculator() {
   const t = useTranslations("Tools.ChmodCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [owner, setOwner] = useState<Perms>({ r: true, w: true, x: false });
   const [group, setGroup] = useState<Perms>({ r: true, w: false, x: false });
   const [others, setOthers] = useState<Perms>({ r: true, w: false, x: false });
@@ -41,13 +42,14 @@ export default function ChmodCalculator() {
   );
 
   return (
-    <div className="container mx-auto p-4 max-w-3xl space-y-4">
+    <ToolShell
+      slug="chmod"
+      title={tc("tools.chmod.name")}
+      sub={tc("tools.chmod.description")}
+    >
+      <div className="max-w-3xl mx-auto space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent>
+        <CardContent className="pt-6">
           <PermRow label={t("owner")} value={owner} onChange={setOwner} />
           <PermRow label={t("group")} value={group} onChange={setGroup} />
           <PermRow label={t("others")} value={others} onChange={setOthers} />
@@ -66,9 +68,7 @@ export default function ChmodCalculator() {
         <Card><CardContent className="pt-6 space-y-2">
           <p className="text-xs text-muted-foreground">{t("command")}</p>
           <p className="font-mono text-sm bg-muted rounded px-2 py-1 break-all">{command}</p>
-          <Button variant="outline" size="sm" className="w-full" onClick={() => { navigator.clipboard.writeText(command); toast.success(t("copied")); }}>
-            {t("copyCommand")}
-          </Button>
+          <CopyButton text={command} label={t("copyCommand")} successMessage={t("copied")} />
         </CardContent></Card>
       </div>
 
@@ -79,6 +79,7 @@ export default function ChmodCalculator() {
             className="font-mono text-xl w-16 text-center border rounded px-2 py-1 bg-background" placeholder="644" />
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

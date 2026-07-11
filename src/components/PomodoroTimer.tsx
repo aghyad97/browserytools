@@ -7,9 +7,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
-import { Play, Pause, RotateCcw, SkipForward, Settings, X, Timer, Coffee, Brain } from "lucide-react";
+import { Play, Pause, RotateCcw, SkipForward, Settings, X, Coffee, Brain } from "lucide-react";
 import { toast } from "sonner";
 import { formatMMSS, playBeep } from "@/lib/time-format";
+import { ToolShell } from "@/components/template/tool-shell";
 
 type SessionType = "work" | "shortBreak" | "longBreak";
 
@@ -88,6 +89,7 @@ function saveStats(s: DailyStats) {
 export default function PomodoroTimer() {
   const t = useTranslations("Tools.PomodoroTimer");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [settings, setSettings] = useState<PomodoroSettings>(DEFAULT_SETTINGS);
   const [sessionType, setSessionType] = useState<SessionType>("work");
   const [isRunning, setIsRunning] = useState(false);
@@ -252,28 +254,22 @@ export default function PomodoroTimer() {
   const currentSessionNumber = sessionType === "work" ? workSessionCount + 1 : null;
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="pomodoro"
+      title={tc("tools.pomodoro.name")}
+      sub={tc("tools.pomodoro.description")}
+      controls={
+        <Button
+          variant="outline"
+          onClick={() => setShowSettings((s) => !s)}
+          className={showSettings ? "border-primary text-primary" : ""}
+        >
+          {showSettings ? <X className="w-4 h-4 me-2" /> : <Settings className="w-4 h-4 me-2" />}
+          {t("settings")}
+        </Button>
+      }
+    >
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-primary/10">
-              <Timer className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-            </div>
-          </div>
-          <Button
-            variant="outline"
-            size="icon"
-            onClick={() => setShowSettings((s) => !s)}
-            className={showSettings ? "border-primary text-primary" : ""}
-          >
-            {showSettings ? <X className="w-4 h-4" /> : <Settings className="w-4 h-4" />}
-          </Button>
-        </div>
-
         {showSettings && (
           <Card>
             <CardHeader className="pb-3">
@@ -435,6 +431,6 @@ export default function PomodoroTimer() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }
