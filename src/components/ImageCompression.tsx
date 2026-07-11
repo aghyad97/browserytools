@@ -4,7 +4,7 @@ import { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { ToolShell } from "@/components/template/tool-shell";
-import shell from "@/components/template/tool-shell.module.css";
+import { ControlStat } from "@/components/template/controls-bar";
 import { downloadDataUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -194,21 +194,20 @@ export default function ImageCompression() {
           <>
             <Button
               variant="outline"
-              size="sm"
+              size="icon"
               onClick={() => setComparing(!comparing)}
             >
               {comparing ? (
-                <MinusSquare className="h-4 w-4 me-2" />
+                <MinusSquare className="h-4 w-4" />
               ) : (
-                <Maximize2 className="h-4 w-4 me-2" />
+                <Maximize2 className="h-4 w-4" />
               )}
-              {t("sizeReduction")}
             </Button>
-            <span className={shell.controlStat}>
+            <ControlStat label={t("sizeReduction")}>
               <span className="text-2xl font-bold text-green-500">
                 {compressionRatio}%
               </span>
-            </span>
+            </ControlStat>
           </>
         ) : undefined
       }

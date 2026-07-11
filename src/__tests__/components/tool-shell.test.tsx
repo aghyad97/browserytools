@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 import { render, screen, within } from "@testing-library/react";
 import { ToolShell } from "@/components/template/tool-shell";
+import { ControlStat } from "@/components/template/controls-bar";
 
 // ToolShell resolves category / crumb / related from tools-config and the
 // Template + ToolsConfig i18n namespaces (real English messages via the global
@@ -8,7 +9,7 @@ import { ToolShell } from "@/components/template/tool-shell";
 // imageTools category (short label "Image", 24 sibling tools).
 
 describe("ToolShell", () => {
-  it("renders the crumb: colored category short-label + tool name", () => {
+  it("renders a category-only crumb eyebrow in the chip colour", () => {
     render(
       <ToolShell slug="image-compression" title="Compress images. Right here.">
         <div>stage</div>
@@ -22,9 +23,10 @@ describe("ToolShell", () => {
     // in var(--bt-cat-<x>-fg)).
     expect(cat.getAttribute("style") ?? "").toContain("--bt-cat-image-fg");
 
-    // Tool name (resolved from ToolsConfig.tools.<slug>.name) sits in the crumb.
+    // Design ruling: the crumb is category-only — the tool name would exactly
+    // duplicate the h1, so it must NOT appear in the crumb.
     const crumb = within(screen.getByTestId("tool-shell-crumb"));
-    expect(crumb.getByText("Image Compression")).toBeInTheDocument();
+    expect(crumb.queryByText("Image Compression")).not.toBeInTheDocument();
   });
 
   it("renders exactly one h1 (the title) — the smoke gate's invariant", () => {
@@ -134,6 +136,28 @@ describe("ToolShell", () => {
       </ToolShell>,
     );
     expect(screen.queryByTestId("tool-shell-controls")).toBeNull();
+  });
+
+  it("ControlStat renders a mono caption over the value inside the controls bar", () => {
+    render(
+      <ToolShell
+        slug="image-compression"
+        title="Compress images."
+        controls={<ControlStat label="Size Reduction">42%</ControlStat>}
+        primaryAction={{ label: "Download", onClick: () => {} }}
+      >
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const stat = screen.getByTestId("tool-shell-control-stat");
+    expect(stat).toHaveTextContent("Size Reduction");
+    expect(stat).toHaveTextContent("42%");
+    // Lives inside the controls bar (zone 4).
+    expect(
+      within(screen.getByTestId("tool-shell-controls")).getByTestId(
+        "tool-shell-control-stat",
+      ),
+    ).toBe(stat);
   });
 
   it("keeps related tiles within the same category (data tools example)", () => {

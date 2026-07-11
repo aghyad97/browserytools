@@ -31,10 +31,6 @@
   /* category name painted in its chip foreground token (spec §3). */
   color: var(--crumb-fg, var(--bt-muted));
 }
-.crumbName {
-  color: var(--bt-ink);
-  font-weight: 600;
-}
 
 /* ---------- zone 2 · title + sub ---------- */
 .title {

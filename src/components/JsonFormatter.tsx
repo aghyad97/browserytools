@@ -135,14 +135,15 @@ export default function JsonFormatter() {
         <>
           <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 me-2" />{t("minify")}</Button>
           <Button variant="outline" onClick={handleValidate}><FlaskConical className="h-4 w-4 me-2" />{t("validate")}</Button>
-          {copyText && (
-            <CopyButton
-              text={copyText}
-              label={t("copy")}
-              successMessage={t("copiedToClipboard")}
-              errorMessage={t("failedToCopy")}
-            />
-          )}
+          {/* Persistent affordance, inert while there is nothing to copy.
+              (Tools.JsonFormatter.nothingToCopy is now unused — cleanup.) */}
+          <CopyButton
+            text={copyText}
+            label={t("copy")}
+            successMessage={t("copiedToClipboard")}
+            errorMessage={t("failedToCopy")}
+            disabled={!copyText}
+          />
           <Button variant="outline" onClick={handleLoadSample}><FileJson className="h-4 w-4 me-2" />{t("loadSample")}</Button>
           <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 me-2" />{t("clear")}</Button>
           <div className="flex items-center gap-2 flex-wrap">

@@ -15,7 +15,7 @@
  *     {stage}                            // zone 3 — the tool's primary surface
  *   </ToolShell>
  *
- * Zones: 1 Crumb (mono CATEGORY / TOOL, category in its chip fg) → 2 Title+sub
+ * Zones: 1 Crumb (mono CATEGORY eyebrow in its chip fg) → 2 Title+sub
  * (sub always ends with the on-device promise) → 3 Stage (max-width 880) →
  * 4 ControlsBar → 5 Related (3 same-category tiles, the shared landing tile).
  * ToolSeoContent is the rest of zone 5 and is rendered once by the tools layout
@@ -110,7 +110,6 @@ export function ToolShell({
   const catShort = categoryId
     ? (tc(`categoriesShort.${categoryId}` as never) as string)
     : "";
-  const toolName = tc(`tools.${slug}.name` as never) as string;
 
   // 3 same-category siblings (excluding the current tool). Reuses the landing
   // tile visual (spec §3).
@@ -123,7 +122,9 @@ export function ToolShell({
 
   return (
     <div className={s.shell}>
-      {/* zone 1 · crumb */}
+      {/* zone 1 · crumb — category-only eyebrow (design ruling: the tool name
+          would exactly duplicate the h1 below, so the crumb carries only the
+          mono category label in its chip colour). */}
       <div className={s.crumb} data-testid="tool-shell-crumb">
         <span
           className={s.crumbCat}
@@ -132,8 +133,6 @@ export function ToolShell({
         >
           {catShort}
         </span>
-        {catShort ? " / " : null}
-        <span className={s.crumbName}>{toolName}</span>
       </div>
 
       {/* zone 2 · title + sub (sub always ends with the on-device promise) */}

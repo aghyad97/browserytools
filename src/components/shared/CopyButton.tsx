@@ -12,6 +12,8 @@ interface CopyButtonProps {
   size?: "sm" | "icon";
   successMessage?: string;
   errorMessage?: string;
+  /** Keep the affordance visible but inert (e.g. nothing to copy yet). */
+  disabled?: boolean;
 }
 
 export function CopyButton({
@@ -20,6 +22,7 @@ export function CopyButton({
   size = "sm",
   successMessage = "Copied to clipboard",
   errorMessage = "Couldn't copy — check clipboard permissions",
+  disabled = false,
 }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -38,7 +41,13 @@ export function CopyButton({
   };
 
   return (
-    <Button variant="ghost" size={size} aria-label={label} onClick={onClick}>
+    <Button
+      variant="ghost"
+      size={size}
+      aria-label={label}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {copied ? <CheckIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
       {size !== "icon" && label}
     </Button>
