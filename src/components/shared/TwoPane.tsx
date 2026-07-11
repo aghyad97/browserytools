@@ -29,7 +29,7 @@ export function TwoPane({ start, end, ratio = 1, className, "data-testid": dataT
     <div
       className={className ? `${s.pane} ${className}` : s.pane}
       data-testid={dataTestId}
-      style={{ "--ratio": ratio } as React.CSSProperties}
+      style={{ "--cols": `${ratio}fr 1fr` } as React.CSSProperties}
     >
       <div className={s.cell}>{start}</div>
       <div className={s.cell}>{end}</div>

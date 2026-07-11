@@ -3,15 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -19,10 +11,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowUpDown, Calculator } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { ToolShell } from "@/components/template/tool-shell";
+import { ModePicker } from "@/components/shared/ModePicker";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { TwoPane } from "@/components/shared/TwoPane";
 
 interface ConversionUnit {
   name: string;
@@ -285,204 +279,181 @@ export default function UnitConverter() {
       title={tc("tools.unit-converter.name")}
       sub={tc("tools.unit-converter.description")}
     >
-      <Tabs
-        value={activeCategory}
-        onValueChange={handleCategoryChange}
-        className="w-full"
-      >
-        <TabsList className="grid w-full grid-cols-3 lg:grid-cols-6">
-          {conversionCategories.map((category) => (
-            <TabsTrigger key={category.name} value={category.name}>
-              {category.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
+      <div className="space-y-6">
+        {/* Category picker — a trivial mode switch (panel structure is identical
+            per category, only the unit data differs), so ModePicker replaces the
+            Tabs-as-category-picker. */}
+        <ModePicker
+          aria-label={tc("tools.unit-converter.name")}
+          value={activeCategory}
+          onChange={handleCategoryChange}
+          options={conversionCategories.map((category) => ({
+            value: category.name,
+            label: tAny(`categories.${category.name}`),
+          }))}
+        />
 
-        {conversionCategories.map((category) => (
-          <TabsContent
-            key={category.name}
-            value={category.name}
-            className="mt-6"
-          >
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calculator className="w-5 h-5" />
-                  {tAny(`categories.${category.name}`)} {t("converter")}
-                </CardTitle>
-                <CardDescription>
-                  {t("convertBetween")} {String(tAny(`categories.${category.name}`)).toLowerCase()} {t("units")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                  {/* Input Section - Left Side */}
-                  <div className="space-y-4">
-                    {/* From Unit */}
-                    <div className="space-y-2">
-                      <Label htmlFor="from-unit">{t("from")}</Label>
-                      <Select
-                        value={fromUnit}
-                        onValueChange={handleFromUnitChange}
-                      >
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {category.units.map((unit) => (
-                            <SelectItem key={unit.name} value={unit.name}>
-                              {unit.name} ({unit.symbol})
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+        <TwoPane
+          start={
+            <SettingsCard
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <Calculator className="w-4 h-4" />
+                  {tAny(`categories.${activeCategory}`)} {t("converter")}
+                </span>
+              }
+              description={`${t("convertBetween")} ${String(
+                tAny(`categories.${activeCategory}`)
+              ).toLowerCase()} ${t("units")}`}
+            >
+              <OptionRow label={t("from")} htmlFor="from-unit">
+                <Select value={fromUnit} onValueChange={handleFromUnitChange}>
+                  <SelectTrigger id="from-unit">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {currentCategory?.units.map((unit) => (
+                      <SelectItem key={unit.name} value={unit.name}>
+                        {unit.name} ({unit.symbol})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </OptionRow>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="from-value">{t("value")}</Label>
-                      <Input
-                        id="from-value"
-                        type="number"
-                        placeholder={t("enterValue")}
-                        value={fromValue}
-                        onChange={(e) => handleFromValueChange(e.target.value)}
-                        dir="ltr"
-                      />
-                    </div>
+              <OptionRow label={t("value")} htmlFor="from-value">
+                <Input
+                  id="from-value"
+                  type="number"
+                  placeholder={t("enterValue")}
+                  value={fromValue}
+                  onChange={(e) => handleFromValueChange(e.target.value)}
+                  dir="ltr"
+                />
+              </OptionRow>
 
-                    {/* Swap Button */}
-                    <div className="flex items-center justify-center">
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={handleSwapUnits}
-                        className="rounded-full p-2"
-                      >
-                        <ArrowUpDown className="w-4 h-4" />
-                      </Button>
-                    </div>
+              {/* Swap Button */}
+              <div className="flex items-center justify-center">
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={handleSwapUnits}
+                  className="rounded-full p-2"
+                >
+                  <ArrowUpDown className="w-4 h-4" />
+                </Button>
+              </div>
 
-                    {/* To Unit */}
-                    <div className="space-y-2">
-                      <Label htmlFor="to-unit">{t("to")}</Label>
-                      <Select value={toUnit} onValueChange={handleToUnitChange}>
-                        <SelectTrigger>
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          {category.units.map((unit) => (
-                            <SelectItem key={unit.name} value={unit.name}>
-                              {unit.name} ({unit.symbol})
-                            </SelectItem>
-                          ))}
-                        </SelectContent>
-                      </Select>
-                    </div>
+              <OptionRow label={t("to")} htmlFor="to-unit">
+                <Select value={toUnit} onValueChange={handleToUnitChange}>
+                  <SelectTrigger id="to-unit">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {currentCategory?.units.map((unit) => (
+                      <SelectItem key={unit.name} value={unit.name}>
+                        {unit.name} ({unit.symbol})
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+              </OptionRow>
 
-                    <div className="space-y-2">
-                      <Label htmlFor="to-value">{t("convertedValue")}</Label>
-                      <Input
-                        id="to-value"
-                        type="number"
-                        placeholder={t("convertedValue")}
-                        value={toValue}
-                        onChange={(e) => handleToValueChange(e.target.value)}
-                        readOnly
-                        className="bg-muted"
-                        dir="ltr"
-                      />
-                    </div>
-                  </div>
+              <OptionRow label={t("convertedValue")} htmlFor="to-value">
+                <Input
+                  id="to-value"
+                  type="number"
+                  placeholder={t("convertedValue")}
+                  value={toValue}
+                  onChange={(e) => handleToValueChange(e.target.value)}
+                  readOnly
+                  className="bg-muted"
+                  dir="ltr"
+                />
+              </OptionRow>
+            </SettingsCard>
+          }
+          end={
+            <SettingsCard title={t("result")}>
+              {fromValue && toValue && fromUnitData && toUnitData ? (
+                <div dir="ltr">
+                  <p className="text-lg font-medium">
+                    <NumberFlow value={parseFloat(fromValue)} />{" "}
+                    {fromUnitData.symbol} ={" "}
+                    <NumberFlow value={parseFloat(toValue)} />{" "}
+                    {toUnitData.symbol}
+                  </p>
 
-                  {/* Results Section - Right Side */}
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold">{t("result")}</h3>
-
-                    {/* Conversion Result */}
-                    {fromValue && toValue && fromUnitData && toUnitData ? (
-                      <div className="p-4 bg-muted rounded-lg" dir="ltr">
-                        <p className="text-lg font-medium">
-                          <NumberFlow value={parseFloat(fromValue)} />{" "}
-                          {fromUnitData.symbol} ={" "}
-                          <NumberFlow value={parseFloat(toValue)} />{" "}
-                          {toUnitData.symbol}
+                  {/* Working Calculation */}
+                  <div className="mt-3 p-3 bg-background rounded border">
+                    <p className="text-sm font-medium text-muted-foreground mb-2">
+                      {t("working")}
+                    </p>
+                    {activeCategory === "Temperature" ? (
+                      <div className="text-sm space-y-1">
+                        <p>
+                          • Convert {fromValue}°
+                          {fromUnitData.name === "Celsius"
+                            ? "C"
+                            : fromUnitData.name === "Fahrenheit"
+                            ? "F"
+                            : "K"}{" "}
+                          to Celsius
                         </p>
-
-                        {/* Working Calculation */}
-                        <div className="mt-3 p-3 bg-background rounded border">
-                          <p className="text-sm font-medium text-muted-foreground mb-2">
-                            {t("working")}
-                          </p>
-                          {activeCategory === "Temperature" ? (
-                            <div className="text-sm space-y-1">
-                              <p>
-                                • Convert {fromValue}°
-                                {fromUnitData.name === "Celsius"
-                                  ? "C"
-                                  : fromUnitData.name === "Fahrenheit"
-                                  ? "F"
-                                  : "K"}{" "}
-                                to Celsius
-                              </p>
-                              <p>
-                                • Convert Celsius to{" "}
-                                {toUnitData.name === "Celsius"
-                                  ? "Celsius"
-                                  : toUnitData.name === "Fahrenheit"
-                                  ? "Fahrenheit"
-                                  : "Kelvin"}
-                              </p>
-                            </div>
-                          ) : (
-                            <div className="text-sm space-y-1">
-                              <p>
-                                • {fromValue} {fromUnitData.symbol} ×{" "}
-                                {fromUnitData.factor} ={" "}
-                                {parseFloat(fromValue) * fromUnitData.factor}{" "}
-                                ({t("baseUnit")})
-                              </p>
-                              <p>
-                                • {parseFloat(fromValue) * fromUnitData.factor}{" "}
-                                ÷ {toUnitData.factor} = {toValue}{" "}
-                                {toUnitData.symbol}
-                              </p>
-                            </div>
-                          )}
-                        </div>
-
-                        {activeCategory !== "Temperature" && (
-                          <p className="text-xs text-muted-foreground mt-2">
-                            1 {fromUnitData.symbol} ={" "}
-                            {parseFloat(
-                              (fromUnitData.factor / toUnitData.factor).toFixed(
-                                6
-                              )
-                            )}{" "}
-                            {toUnitData.symbol}
-                          </p>
-                        )}
+                        <p>
+                          • Convert Celsius to{" "}
+                          {toUnitData.name === "Celsius"
+                            ? "Celsius"
+                            : toUnitData.name === "Fahrenheit"
+                            ? "Fahrenheit"
+                            : "Kelvin"}
+                        </p>
                       </div>
                     ) : (
-                      <div className="p-4 bg-muted rounded-lg text-center text-muted-foreground">
-                        {t("enterValuePrompt")}
+                      <div className="text-sm space-y-1">
+                        <p>
+                          • {fromValue} {fromUnitData.symbol} ×{" "}
+                          {fromUnitData.factor} ={" "}
+                          {parseFloat(fromValue) * fromUnitData.factor}{" "}
+                          ({t("baseUnit")})
+                        </p>
+                        <p>
+                          • {parseFloat(fromValue) * fromUnitData.factor}{" "}
+                          ÷ {toUnitData.factor} = {toValue}{" "}
+                          {toUnitData.symbol}
+                        </p>
                       </div>
                     )}
                   </div>
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-        ))}
-      </Tabs>
 
-      {/* Quick Conversions */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>{t("quickConversions")}</CardTitle>
-          <CardDescription>{t("commonExamples")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm" dir="ltr">
+                  {activeCategory !== "Temperature" && (
+                    <p className="text-xs text-muted-foreground mt-2">
+                      1 {fromUnitData.symbol} ={" "}
+                      {parseFloat(
+                        (fromUnitData.factor / toUnitData.factor).toFixed(6)
+                      )}{" "}
+                      {toUnitData.symbol}
+                    </p>
+                  )}
+                </div>
+              ) : (
+                <div className="text-center text-muted-foreground">
+                  {t("enterValuePrompt")}
+                </div>
+              )}
+            </SettingsCard>
+          }
+        />
+
+        {/* Quick Conversions */}
+        <SettingsCard
+          title={t("quickConversions")}
+          description={t("commonExamples")}
+        >
+          <div
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm"
+            dir="ltr"
+          >
             <div className="p-3 bg-muted rounded-lg">
               <p className="font-medium">Length</p>
               <p>1 meter = 3.281 feet</p>
@@ -514,8 +485,8 @@ export default function UnitConverter() {
               <p>1 mph = 1.609 km/h</p>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </SettingsCard>
+      </div>
     </ToolShell>
   );
 }

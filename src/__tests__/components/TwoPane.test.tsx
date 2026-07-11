@@ -14,13 +14,16 @@ describe("TwoPane", () => {
     expect(screen.getByTestId("out")).toBeInTheDocument();
   });
 
-  it("defaults --ratio to 1 and applies a custom ratio", () => {
+  it("builds the grid track string from ratio (default 1)", () => {
+    // The track string is authored in JS as valid fr units — a bare unitless
+    // var (`1 1fr`) or fr-in-calc is an invalid grid track that collapses the
+    // grid to one column, so the component emits "<ratio>fr 1fr" via --cols.
     const { rerender } = render(
       <TwoPane data-testid="pane" start={<i />} end={<i />} />
     );
-    expect(screen.getByTestId("pane").style.getPropertyValue("--ratio")).toBe("1");
+    expect(screen.getByTestId("pane").style.getPropertyValue("--cols")).toBe("1fr 1fr");
 
     rerender(<TwoPane data-testid="pane" ratio={2} start={<i />} end={<i />} />);
-    expect(screen.getByTestId("pane").style.getPropertyValue("--ratio")).toBe("2");
+    expect(screen.getByTestId("pane").style.getPropertyValue("--cols")).toBe("2fr 1fr");
   });
 });

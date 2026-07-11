@@ -8,7 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { toast } from "sonner";
 import { Trash2, CheckCircle2, XCircle, Minimize2, FlaskConical, FileJson } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -124,7 +125,6 @@ export default function JsonFormatter() {
 
   const handleLoadSample = () => { setInput(sampleJson); setOutput(""); resetError(); };
   const stats = getJsonStats(input);
-  const copyText = output || input;
 
   return (
     <ToolShell
@@ -136,14 +136,6 @@ export default function JsonFormatter() {
         <>
           <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 me-2" />{t("minify")}</Button>
           <Button variant="outline" onClick={handleValidate}><FlaskConical className="h-4 w-4 me-2" />{t("validate")}</Button>
-          {/* Persistent affordance, inert while there is nothing to copy. */}
-          <CopyButton
-            text={copyText}
-            label={t("copy")}
-            successMessage={t("copiedToClipboard")}
-            errorMessage={t("failedToCopy")}
-            disabled={!copyText}
-          />
           <Button variant="outline" onClick={handleLoadSample}><FileJson className="h-4 w-4 me-2" />{t("loadSample")}</Button>
           <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 me-2" />{t("clear")}</Button>
           <div className="flex items-center gap-2 flex-wrap">
@@ -179,37 +171,47 @@ export default function JsonFormatter() {
             </div>
           </div>
         )}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Card className="p-4 flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">{t("input")}</span>
-              <div className="flex items-center gap-3 text-xs text-muted-foreground">
-                {input && <span>{input.length} {t("chars")}</span>}
-                {stats && <span>{stats.keys} {t("keys")}</span>}
+        <TwoPane
+          start={
+            <Card className="p-4 flex flex-col gap-2">
+              <div className="flex items-center justify-between">
+                <span className="text-sm font-medium">{t("input")}</span>
+                <div className="flex items-center gap-3 text-xs text-muted-foreground">
+                  {input && <span>{input.length} {t("chars")}</span>}
+                  {stats && <span>{stats.keys} {t("keys")}</span>}
+                </div>
               </div>
-            </div>
-            <Textarea
-              placeholder={t("inputPlaceholder")}
-              className="min-h-[420px] font-mono text-sm resize-none text-left"
-              dir="ltr"
-              value={input}
-              onChange={(e) => { setInput(e.target.value); resetError(); }}
-            />
-          </Card>
-          <Card className="p-4 flex flex-col gap-2">
-            <div className="flex items-center justify-between">
-              <span className="text-sm font-medium">{t("output")}</span>
-              {output && <span className="text-xs text-muted-foreground">{output.length} {t("chars")}</span>}
-            </div>
-            <Textarea
-              placeholder={t("outputPlaceholder")}
-              className="min-h-[420px] font-mono text-sm resize-none text-left"
-              dir="ltr"
-              value={output}
-              readOnly
-            />
-          </Card>
-        </div>
+              <Textarea
+                placeholder={t("inputPlaceholder")}
+                className="min-h-[420px] font-mono text-sm resize-none text-left"
+                dir="ltr"
+                value={input}
+                onChange={(e) => { setInput(e.target.value); resetError(); }}
+              />
+            </Card>
+          }
+          end={
+            <OutputPanel
+              text={output}
+              filename="formatted.json"
+              mime="application/json"
+              title={
+                <>
+                  {t("output")}
+                  {output ? ` · ${output.length} ${t("chars")}` : ""}
+                </>
+              }
+            >
+              <Textarea
+                placeholder={t("outputPlaceholder")}
+                className="min-h-[420px] rounded-none border-0 bg-transparent font-mono text-sm resize-none text-left focus-visible:ring-0"
+                dir="ltr"
+                value={output}
+                readOnly
+              />
+            </OutputPanel>
+          }
+        />
       </div>
     </ToolShell>
   );

@@ -5,7 +5,11 @@
 .pane {
   container-type: inline-size;
   display: grid;
-  grid-template-columns: var(--ratio, 1) 1fr;
+  /* start:end proportion = ratio:1. The track string is built in JS (`--cols`,
+     e.g. "1fr 1fr" / "2fr 1fr") because neither a bare unitless var nor an
+     fr-in-calc() is a valid grid track — either collapses the grid to one
+     column. */
+  grid-template-columns: var(--cols, 1fr 1fr);
   gap: 16px;
   align-items: stretch;
 }
