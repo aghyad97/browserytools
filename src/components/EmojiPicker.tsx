@@ -623,7 +623,7 @@ export default function EmojiPicker() {
             <button
               key={tone.label}
               onClick={() => setSkinTone(i)}
-              className={`w-7 h-7 rounded-full flex items-center justify-center text-base transition-all border-2 ${
+              className={`w-7 h-7 rounded-full flex items-center justify-center text-base transition-[transform,border-color] border-2 ${
                 skinTone === i ? "border-primary scale-110" : "border-transparent hover:border-border"
               }`}
               title={tone.label}

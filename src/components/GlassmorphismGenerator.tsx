@@ -216,7 +216,7 @@ export default function GlassmorphismGenerator() {
                       aria-label={`${t("background")} ${i + 1}`}
                       onClick={() => setBgIndex(i)}
                       style={{ background: gr }}
-                      className={`h-9 w-9 rounded-md border-2 transition-all ${
+                      className={`h-9 w-9 rounded-md border-2 transition-transform ${
                         i === bgIndex ? "border-foreground scale-110" : "border-transparent"
                       }`}
                     />

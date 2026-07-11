@@ -268,7 +268,7 @@ export default function TodoList() {
                       return (
                         <div
                           key={todo.id}
-                          className={`flex items-center gap-3 p-4 rounded-lg border transition-all hover:shadow-sm ${
+                          className={`flex items-center gap-3 p-4 rounded-lg border transition-shadow hover:shadow-sm ${
                             todo.completed ? "bg-muted/50" : "bg-background"
                           }`}
                         >

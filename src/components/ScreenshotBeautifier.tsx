@@ -450,7 +450,7 @@ export default function ScreenshotBeautifier() {
                     type="button"
                     aria-label={t(`preset_${p.id}` as never)}
                     onClick={() => setPresetId(p.id)}
-                    className={`h-12 rounded-md ring-1 ring-border transition-all ${
+                    className={`h-12 rounded-md ring-1 ring-border transition-[transform,box-shadow] ${
                       presetId === p.id ? "ring-2 ring-primary scale-95" : "hover:scale-95"
                     }`}
                     style={{

@@ -255,7 +255,7 @@ export default function HabitTracker() {
                     <button
                       key={em}
                       onClick={() => setNewEmoji(em)}
-                      className={`text-2xl w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-all ${
+                      className={`text-2xl w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-[transform,border-color,box-shadow] ${
                         newEmoji === em ? "border-primary bg-primary/10 scale-110" : "border-transparent hover:border-border"
                       }`}
                     >
@@ -271,7 +271,7 @@ export default function HabitTracker() {
                     <button
                       key={c.name}
                       onClick={() => setNewColor(c.name)}
-                      className={`w-8 h-8 rounded-full ${c.tw} transition-all ${
+                      className={`w-8 h-8 rounded-full ${c.tw} transition-[transform,opacity,box-shadow] ${
                         newColor === c.name ? `ring-2 ring-offset-2 ${c.ring} scale-110` : "opacity-70 hover:opacity-100"
                       }`}
                       title={c.label}
@@ -312,7 +312,7 @@ export default function HabitTracker() {
                     {/* Toggle Button */}
                     <button
                       onClick={() => toggleToday(habit.id)}
-                      className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all border-2 ${
+                      className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-[transform,border-color] border-2 ${
                         doneToday
                           ? `${colorObj.tw} border-transparent text-white shadow-md scale-105`
                           : "border-border hover:border-primary bg-muted/30 hover:bg-muted/60"
@@ -359,7 +359,7 @@ export default function HabitTracker() {
                                 {t(dayKey)}
                               </span>
                               <div
-                                className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+                                className={`w-5 h-5 rounded-full flex items-center justify-center transition-[transform,background-color] ${
                                   done
                                     ? `${colorObj.tw} text-white`
                                     : isToday
