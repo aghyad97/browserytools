@@ -3,7 +3,7 @@
   --bt-bg: #fcfcfb;
   --bt-surface: #ffffff;
   --bt-ink: #161615;
-  --bt-muted: #8a8a85;
+  --bt-muted: #757570; /* darkened from #8a8a85 for 4.5:1 AA on surface (R3 foundation review I-1) */
   --bt-faint: #b6b6b0;
   --bt-line: rgba(22, 22, 21, 0.09);
   --bt-line-strong: rgba(22, 22, 21, 0.16);

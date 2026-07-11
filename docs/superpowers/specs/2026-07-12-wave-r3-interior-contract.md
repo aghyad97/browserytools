@@ -79,3 +79,8 @@ markup changes). Bespoke keeps require per-tool justification. Full gates per ba
 Zero `text-gray-|slate-|#[0-9a-f]{6}` color literals inside tool components (grep-enforced, allowlist for
 genuine content like color-picker swatch data); molecules adopted at the recon counts ±20%; all 24 wide
 tools verified at 1440+1920; unit+smoke+e2e green; RTL + dark full pass.
+
+## Post-review amendments (coordinator, after foundation approval)
+- Light `--bt-muted` darkened #8a8a85 → #757570 (4.5:1 AA on surface; review finding I-1). Bridge transcode synced.
+- StatStrip's value-above-caption order is DELIBERATE (conventional stat-card reading); ControlStat keeps caption-above-value in the controls bar. Not a defect (M-2).
+- ModePicker dark-mode indicator lifts with --bt-fill-hover (M-3).

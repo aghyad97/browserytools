@@ -30,6 +30,12 @@
   transform: translateX(calc(var(--active) * 100%));
   transition: transform 220ms var(--bt-ease-out);
 }
+/* Dark: --bt-surface is darker than the --bt-fill track, so the active pill
+   would recede; lift it above the track instead. */
+:global(.dark) .indicator {
+  background: var(--bt-fill-hover);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
 /* Logical-property translate: in RTL the inline axis flips, so mirror the
    indicator travel to follow the visual segment order. */
 :global([dir="rtl"]) .indicator {

@@ -24,7 +24,7 @@ body {
     --secondary: 0 0% 94%; /* = --bt-fill #efefef */
     --secondary-foreground: 60 2% 8%; /* = --bt-ink #161615 */
     --muted: 0 0% 94%; /* = --bt-fill #efefef */
-    --muted-foreground: 60 2% 53%; /* = --bt-muted #8a8a85 */
+    --muted-foreground: 60 2% 45%; /* = --bt-muted #757570 */
     --accent: 0 0% 89%; /* = --bt-fill-hover #e4e4e4 */
     --accent-foreground: 60 2% 8%; /* = --bt-ink #161615 */
     --destructive: 0 84.2% 60.2%; /* keep current red pair — out of bt palette by design */
