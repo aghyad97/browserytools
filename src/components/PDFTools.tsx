@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
 import JSZip from "jszip";
 import { Card } from "@/components/ui/card";
@@ -36,6 +35,9 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadBlob } from "@/lib/download";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -77,23 +79,13 @@ function formatBytes(bytes: number) {
   return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
 }
 
-function triggerDownload(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
 function downloadPdfBytes(data: Uint8Array, filename: string) {
-  triggerDownload(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
+  downloadBlob(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
 }
 
 export default function PDFTools() {
   const t = useTranslations("Tools.PDFTools");
+  const tc = useTranslations("ToolsConfig");
 
   // ── Shared PDF state (Merge + Split tabs) ──────────────────────────────────
   const [files, setFiles] = useState<PDFFile[]>([]);
@@ -171,11 +163,7 @@ export default function PDFTools() {
     }
   }, []);
 
-  const pdfDropzone = useDropzone({
-    onDrop: onDropPdf,
-    accept: { "application/pdf": [".pdf"] },
-    multiple: true,
-  });
+  const pdfAccept = { "application/pdf": [".pdf"] };
 
   // ── Image upload ──────────────────────────────────────────────────────────────
   const onDropImages = useCallback(async (acceptedFiles: File[]) => {
@@ -197,11 +185,7 @@ export default function PDFTools() {
     }
   }, []);
 
-  const imageDropzone = useDropzone({
-    onDrop: onDropImages,
-    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] },
-    multiple: true,
-  });
+  const imageAccept = { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] };
 
   // ── Reorder / remove helpers ──────────────────────────────────────────────────
   const moveFile = (index: number, direction: "up" | "down") => {
@@ -288,7 +272,7 @@ export default function PDFTools() {
           const zip = new JSZip();
           outputs.forEach((o) => zip.file(o.name, o.bytes as Uint8Array));
           const blob = await zip.generateAsync({ type: "blob" });
-          triggerDownload(blob, `${baseName}_pages.zip`);
+          downloadBlob(blob, `${baseName}_pages.zip`);
         }
         toast.success(t("splitSuccess", { count: outputs.length }));
         return;
@@ -337,7 +321,7 @@ export default function PDFTools() {
         const zip = new JSZip();
         outputs.forEach((o) => zip.file(o.name, o.bytes as Uint8Array));
         const blob = await zip.generateAsync({ type: "blob" });
-        triggerDownload(blob, `${baseName}_split.zip`);
+        downloadBlob(blob, `${baseName}_split.zip`);
       }
       toast.success(t("splitSuccess", { count: outputs.length }));
     } catch {
@@ -400,9 +384,12 @@ export default function PDFTools() {
   const splitFile = files[splitFileIndex];
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
+    <ToolShell
+      slug="pdf"
+      title={tc("tools.pdf.name")}
+      sub={tc("tools.pdf.description")}
+    >
+      <div className="space-y-6">
           <Tabs defaultValue="images" className="w-full">
             <TabsList className="flex-wrap h-auto">
               <TabsTrigger value="images">
@@ -422,15 +409,17 @@ export default function PDFTools() {
             {/* ── Images → PDF ─────────────────────────────────────────── */}
             <TabsContent value="images" className="space-y-6">
               <Card className="p-6">
-                <div
-                  {...imageDropzone.getRootProps()}
-                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
-                    imageDropzone.isDragActive
+                <FileDropzone
+                  onFiles={onDropImages}
+                  accept={imageAccept}
+                  multiple
+                  inputProps={{ "data-testid": "image-input" }}
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                    isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                   }`}
                 >
-                  <input {...imageDropzone.getInputProps()} data-testid="image-input" />
                   <div className="p-4 rounded-full bg-primary/10">
                     <Upload className="w-8 h-8 text-primary" />
                   </div>
@@ -440,7 +429,7 @@ export default function PDFTools() {
                       {t("supportedImageFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {images.length > 0 && (
@@ -559,15 +548,17 @@ export default function PDFTools() {
             {/* ── Merge ─────────────────────────────────────────────────── */}
             <TabsContent value="merge" className="space-y-6">
               <Card className="p-6">
-                <div
-                  {...pdfDropzone.getRootProps()}
-                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
-                    pdfDropzone.isDragActive
+                <FileDropzone
+                  onFiles={onDropPdf}
+                  accept={pdfAccept}
+                  multiple
+                  inputProps={{ "data-testid": "pdf-input" }}
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                    isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                   }`}
                 >
-                  <input {...pdfDropzone.getInputProps()} data-testid="pdf-input" />
                   <div className="p-4 rounded-full bg-primary/10">
                     <Upload className="w-8 h-8 text-primary" />
                   </div>
@@ -577,7 +568,7 @@ export default function PDFTools() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {files.length > 0 && (
@@ -668,15 +659,17 @@ export default function PDFTools() {
             {/* ── Split / Extract ──────────────────────────────────────── */}
             <TabsContent value="split" className="space-y-6">
               <Card className="p-6">
-                <div
-                  {...pdfDropzone.getRootProps()}
-                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
-                    pdfDropzone.isDragActive
+                <FileDropzone
+                  onFiles={onDropPdf}
+                  accept={pdfAccept}
+                  multiple
+                  inputProps={{ "data-testid": "pdf-split-input" }}
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
+                    isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                   }`}
                 >
-                  <input {...pdfDropzone.getInputProps()} data-testid="pdf-split-input" />
                   <div className="p-4 rounded-full bg-primary/10">
                     <Upload className="w-8 h-8 text-primary" />
                   </div>
@@ -686,7 +679,7 @@ export default function PDFTools() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {files.length > 0 && splitFile && (
@@ -761,8 +754,7 @@ export default function PDFTools() {
               />
             </Card>
           )}
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -27,6 +26,9 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import JSZip from "jszip";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadBlob } from "@/lib/download";
 
 interface FileEntry {
   name: string;
@@ -38,6 +40,7 @@ interface FileEntry {
 
 export default function ZipTool() {
   const t = useTranslations("Tools.ZipTools");
+  const tc = useTranslations("ToolsConfig");
   const [files, setFiles] = useState<FileEntry[]>([]);
   const [zipContent, setZipContent] = useState<FileEntry[]>([]);
   const [loading, setLoading] = useState(false);
@@ -97,26 +100,10 @@ export default function ZipTool() {
     }
   }, []);
 
-  const {
-    getRootProps: getCompressRootProps,
-    getInputProps: getCompressInputProps,
-    isDragActive: isCompressDragActive,
-  } = useDropzone({
-    onDrop: onDropCompress,
-  });
-
-  const {
-    getRootProps: getExtractRootProps,
-    getInputProps: getExtractInputProps,
-    isDragActive: isExtractDragActive,
-  } = useDropzone({
-    onDrop: onDropExtract,
-    accept: {
-      "application/zip": [".zip"],
-      "application/x-zip-compressed": [".zip"],
-    },
-    multiple: false,
-  });
+  const extractAccept = {
+    "application/zip": [".zip"],
+    "application/x-zip-compressed": [".zip"],
+  };
 
   const createZip = async () => {
     if (files.length === 0) {
@@ -149,14 +136,7 @@ export default function ZipTool() {
         }
       );
 
-      const url = URL.createObjectURL(content);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "archive.zip";
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(url);
+      downloadBlob(content, "archive.zip");
 
       toast.success(t("zipCreatedSuccess"));
     } catch (error) {
@@ -169,15 +149,7 @@ export default function ZipTool() {
 
   const downloadFile = async (file: FileEntry) => {
     if (!file.data) return;
-
-    const url = URL.createObjectURL(file.data);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = file.name;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadBlob(file.data, file.name);
   };
 
   const removeFile = (index: number) => {
@@ -193,11 +165,12 @@ export default function ZipTool() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
+    <ToolShell
+      slug="zip"
+      title={tc("tools.zip.name")}
+      sub={tc("tools.zip.description")}
+    >
+      <div className="space-y-6">
           <Tabs defaultValue="compress" className="space-y-6">
             <TabsList className="grid w-full grid-cols-2">
               <TabsTrigger value="compress">
@@ -212,20 +185,20 @@ export default function ZipTool() {
 
             <TabsContent value="compress" className="space-y-4">
               <Card className="p-6">
-                <div
-                  {...getCompressRootProps()}
-                  className={`
+                <FileDropzone
+                  onFiles={onDropCompress}
+                  multiple
+                  className={({ isDragActive }) => `
                     h-32 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
                     cursor-pointer transition-all duration-200
                     ${
-                      isCompressDragActive
+                      isDragActive
                         ? "border-primary bg-primary/10 scale-[0.99]"
                         : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                     }
                   `}
                 >
-                  <input {...getCompressInputProps()} />
                   <div className="flex items-center space-x-4">
                     <Upload className="w-8 h-8 text-muted-foreground" />
                     <div>
@@ -237,7 +210,7 @@ export default function ZipTool() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {files.length > 0 && (
@@ -309,20 +282,20 @@ export default function ZipTool() {
 
             <TabsContent value="extract" className="space-y-4">
               <Card className="p-6">
-                <div
-                  {...getExtractRootProps()}
-                  className={`
+                <FileDropzone
+                  onFiles={onDropExtract}
+                  accept={extractAccept}
+                  className={({ isDragActive }) => `
                     h-32 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
                     cursor-pointer transition-all duration-200
                     ${
-                      isExtractDragActive
+                      isDragActive
                         ? "border-primary bg-primary/10 scale-[0.99]"
                         : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                     }
                   `}
                 >
-                  <input {...getExtractInputProps()} />
                   <div className="flex items-center space-x-4">
                     <Folder className="w-8 h-8 text-muted-foreground" />
                     <div>
@@ -334,7 +307,7 @@ export default function ZipTool() {
                       </p>
                     </div>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {loading && (
@@ -386,8 +359,7 @@ export default function ZipTool() {
               )}
             </TabsContent>
           </Tabs>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

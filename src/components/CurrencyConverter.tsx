@@ -21,6 +21,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import NumberFlow from "@number-flow/react";
+import { ToolShell } from "@/components/template/tool-shell";
 
 const CURRENCY_API_BASE = "https://api.frankfurter.app";
 
@@ -178,6 +179,7 @@ function setStored(value: StoredRates) {
 
 export default function CurrencyConverter() {
   const t = useTranslations("Tools.CurrencyConverter");
+  const tc = useTranslations("ToolsConfig");
   const [amount, setAmount] = useState<string>("1");
   const [from, setFrom] = useState<string>("USD");
   const [to, setTo] = useState<string>("EUR");
@@ -254,8 +256,11 @@ export default function CurrencyConverter() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="space-y-6"></div>
+    <ToolShell
+      slug="currency-converter"
+      title={tc("tools.currency-converter.name")}
+      sub={tc("tools.currency-converter.description")}
+    >
       {/* Main Converter Card */}
       <Card className="overflow-hidden">
         <CardContent className="p-0">
@@ -458,6 +463,6 @@ export default function CurrencyConverter() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

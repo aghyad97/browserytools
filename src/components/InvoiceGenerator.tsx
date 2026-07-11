@@ -47,6 +47,7 @@ import {
   ClientDetails,
 } from "@/store/invoice-store";
 import InvoiceManager from "@/components/InvoiceManager";
+import { ToolShell } from "@/components/template/tool-shell";
 import { uniqueCurrencies } from "@/lib/currencies";
 import { setPreferredCurrency } from "@/lib/utils";
 import { toast } from "sonner";
@@ -54,6 +55,7 @@ import { useTranslations } from "next-intl";
 
 export default function InvoiceGenerator() {
   const t = useTranslations("Tools.InvoiceGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [activeTab, setActiveTab] = useState("details");
   const [showManager, setShowManager] = useState(true); // Start with manager view
 
@@ -459,28 +461,40 @@ export default function InvoiceGenerator() {
 
   if (showManager) {
     return (
-      <div className="container mx-auto p-6 max-w-7xl">
+      <ToolShell
+        slug="invoice"
+        title={tc("tools.invoice.name")}
+        sub={tc("tools.invoice.description")}
+      >
         <InvoiceManager
           onSelectInvoice={handleSelectInvoice}
           onCreateNew={handleCreateNew}
         />
-      </div>
+      </ToolShell>
     );
   }
 
   if (!invoiceData) {
     return (
-      <div className="container mx-auto p-6 max-w-7xl">
+      <ToolShell
+        slug="invoice"
+        title={tc("tools.invoice.name")}
+        sub={tc("tools.invoice.description")}
+      >
         <InvoiceManager
           onSelectInvoice={handleSelectInvoice}
           onCreateNew={handleCreateNew}
         />
-      </div>
+      </ToolShell>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <ToolShell
+      slug="invoice"
+      title={tc("tools.invoice.name")}
+      sub={tc("tools.invoice.description")}
+    >
       {/* Header with Save and Manager buttons */}
       <div className="flex items-center justify-between mb-6">
         <div>
@@ -1492,6 +1506,6 @@ export default function InvoiceGenerator() {
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </ToolShell>
   );
 }

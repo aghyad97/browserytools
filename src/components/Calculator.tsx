@@ -9,6 +9,7 @@ import { Label } from "./ui/label";
 import { CalculatorIcon, ChartLine, Plus, X as XIcon } from "lucide-react";
 import { Function } from "@phosphor-icons/react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 import { create, all, type MathJsInstance } from "mathjs";
 import { toast } from "sonner";
 
@@ -58,6 +59,7 @@ const PLOT_COLORS = [
 
 const Calculator = () => {
   const t = useTranslations("Tools.Calculator");
+  const tc = useTranslations("ToolsConfig");
   const [mode, setMode] = useState<Mode>("basic");
   const [state, setState] = useState<CalculatorState>({
     display: "0",
@@ -606,7 +608,11 @@ const Calculator = () => {
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4">
+    <ToolShell
+      slug="calculator"
+      title={tc("tools.calculator.name")}
+      sub={tc("tools.calculator.description")}
+    >
       <Card className="border bg-card/50 backdrop-blur-sm shadow-none">
         <CardContent className="space-y-6 pt-6">
           <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
@@ -885,7 +891,7 @@ const Calculator = () => {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 };
 

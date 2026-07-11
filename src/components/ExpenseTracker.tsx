@@ -19,6 +19,7 @@ import {
   SettingsIcon,
 } from "lucide-react";
 import NumberFlow from "@number-flow/react";
+import { ToolShell } from "@/components/template/tool-shell";
 import ExpenseForm from "./expense-tracker/ExpenseForm";
 import { useExpenseStore } from "@/store/expense-store";
 import ExpenseList from "./expense-tracker/ExpenseList";
@@ -29,6 +30,7 @@ import ImportExport from "./expense-tracker/ImportExport";
 
 export default function ExpenseTracker() {
   const t = useTranslations("Tools.ExpenseTracker");
+  const tc = useTranslations("ToolsConfig");
   const [activeTab, setActiveTab] = useState("overview");
   const [isClient, setIsClient] = useState(false);
   const { getTotalExpenses, getFilteredExpenses } = useExpenseStore();
@@ -40,9 +42,11 @@ export default function ExpenseTracker() {
   // Don't render until client-side hydration is complete
   if (!isClient) {
     return (
-      <div className="container mx-auto p-6 max-w-7xl">
-        <Skeleton className="h-8 w-1/3 mb-4" />
-        <Skeleton className="h-4 w-1/2 mb-8" />
+      <ToolShell
+        slug="expense-tracker"
+        title={tc("tools.expense-tracker.name")}
+        sub={tc("tools.expense-tracker.description")}
+      >
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
           {[1, 2, 3].map((i) => (
             <Card key={i}>
@@ -65,7 +69,7 @@ export default function ExpenseTracker() {
             <Skeleton className="h-96 w-full" />
           </CardContent>
         </Card>
-      </div>
+      </ToolShell>
     );
   }
 
@@ -74,7 +78,11 @@ export default function ExpenseTracker() {
   const expenseCount = filteredExpenses.length;
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
+    <ToolShell
+      slug="expense-tracker"
+      title={tc("tools.expense-tracker.name")}
+      sub={tc("tools.expense-tracker.description")}
+    >
       {/* Summary Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
         <Card>
@@ -246,6 +254,6 @@ export default function ExpenseTracker() {
           <ImportExport />
         </TabsContent>
       </Tabs>
-    </div>
+    </ToolShell>
   );
 }

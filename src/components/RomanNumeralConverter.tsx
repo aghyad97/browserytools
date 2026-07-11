@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Hash } from "lucide-react";
-import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 // ── Conversion tables ─────────────────────────────────────────────────────────
 
@@ -163,6 +162,7 @@ function romanToNumber(
 
 export default function RomanNumeralConverter() {
   const t = useTranslations("Tools.RomanNumeralConverter");
+  const tc = useTranslations("ToolsConfig");
   const [tab, setTab] = useState<"toRoman" | "toNumber">("toRoman");
 
   // Number → Roman state
@@ -185,44 +185,13 @@ export default function RomanNumeralConverter() {
     return romanToNumber(romanInput);
   }, [romanInput]);
 
-  const handleCopyRoman = useCallback(async () => {
-    const val = toRomanResult && !("errorKey" in toRomanResult) ? toRomanResult.roman : "";
-    if (!val) return;
-    try {
-      await navigator.clipboard.writeText(val);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [toRomanResult, t]);
-
-  const handleCopyNumber = useCallback(async () => {
-    const val = toNumberResult && !toNumberResult.errorKey ? String(toNumberResult.value) : "";
-    if (!val) return;
-    try {
-      await navigator.clipboard.writeText(val);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [toNumberResult, t]);
-
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Hash className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">
-              {t("subtitle")}
-            </p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="roman-numeral"
+      title={tc("tools.roman-numeral.name")}
+      sub={tc("tools.roman-numeral.description")}
+    >
+      <div className="space-y-6">
         <Tabs value={tab} onValueChange={(v) => setTab(v as "toRoman" | "toNumber")}>
           <TabsList className="w-full">
             <TabsTrigger value="toRoman" className="flex-1">
@@ -258,9 +227,10 @@ export default function RomanNumeralConverter() {
                   <CardTitle className="text-base flex items-center justify-between">
                     {t("result")}
                     {"roman" in toRomanResult && (
-                      <Button size="sm" variant="ghost" onClick={handleCopyRoman}>
-                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
-                      </Button>
+                      <CopyButton
+                        text={toRomanResult.roman}
+                        successMessage={t("copiedToClipboard")}
+                      />
                     )}
                   </CardTitle>
                 </CardHeader>
@@ -332,9 +302,10 @@ export default function RomanNumeralConverter() {
                   <CardTitle className="text-base flex items-center justify-between">
                     {t("result")}
                     {!toNumberResult.errorKey && (
-                      <Button size="sm" variant="ghost" onClick={handleCopyNumber}>
-                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
-                      </Button>
+                      <CopyButton
+                        text={String(toNumberResult.value)}
+                        successMessage={t("copiedToClipboard")}
+                      />
                     )}
                   </CardTitle>
                 </CardHeader>
@@ -418,6 +389,6 @@ export default function RomanNumeralConverter() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

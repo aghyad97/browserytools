@@ -7,8 +7,9 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Copy, RotateCcw, Minus, Plus, Receipt } from "lucide-react";
-import { toast } from "sonner";
+import { RotateCcw, Minus, Plus } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -35,6 +36,7 @@ function applyRounding(value: number, mode: RoundMode, context: "total" | "perso
 
 export default function TipCalculator() {
   const t = useTranslations("Tools.TipCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [billStr, setBillStr] = useState("");
   const [tipMode, setTipMode] = useState<"quick" | "custom">("quick");
   const [quickTip, setQuickTip] = useState(18);
@@ -85,9 +87,9 @@ export default function TipCalculator() {
     [people]
   );
 
-  const handleCopySummary = useCallback(async () => {
-    if (!calc) return;
-    const lines = [
+  const summaryText = useMemo(() => {
+    if (!calc) return "";
+    return [
       `Bill: $${fmt(bill)}`,
       `Tip (${tipPercent}%): $${fmt(calc.tipAmount)}`,
       `Total: $${fmt(calc.total)}`,
@@ -102,12 +104,6 @@ export default function TipCalculator() {
     ]
       .filter(Boolean)
       .join("\n");
-    try {
-      await navigator.clipboard.writeText(lines);
-      toast.success(t("summaryCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
   }, [calc, bill, tipPercent, people]);
 
   const handleReset = useCallback(() => {
@@ -135,19 +131,17 @@ export default function TipCalculator() {
   }, [splitEnabled, personAmounts, calc]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Receipt className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="tip-calculator"
+      title={tc("tools.tip-calculator.name")}
+      sub={tc("tools.tip-calculator.description")}
+      controls={
+        <Button variant="outline" size="sm" onClick={handleReset}>
+          <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
+        </Button>
+      }
+    >
+      <div className="space-y-6">
         {/* Bill amount */}
         <Card>
           <CardHeader className="pb-3">
@@ -288,9 +282,7 @@ export default function TipCalculator() {
             <CardHeader className="pb-3">
               <CardTitle className="text-base flex items-center justify-between">
                 {t("summary")}
-                <Button size="sm" variant="ghost" onClick={handleCopySummary}>
-                  <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
-                </Button>
+                <CopyButton text={summaryText} successMessage={t("summaryCopied")} />
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
@@ -399,14 +391,7 @@ export default function TipCalculator() {
             </CardContent>
           </Card>
         )}
-
-        {/* Reset */}
-        <div className="flex justify-end">
-          <Button variant="outline" size="sm" onClick={handleReset}>
-            <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
-          </Button>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

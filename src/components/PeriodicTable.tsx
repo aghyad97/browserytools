@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/dialog";
 import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 import {
   elements,
   categoryOrder,
@@ -23,6 +24,7 @@ import {
 
 export default function PeriodicTable() {
   const t = useTranslations("Tools.PeriodicTable");
+  const tc = useTranslations("ToolsConfig");
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<ElementCategory | null>(
     null,
@@ -81,9 +83,12 @@ export default function PeriodicTable() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-4 sm:p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="periodic-table"
+      title={tc("tools.periodic-table.name")}
+      sub={tc("tools.periodic-table.description")}
+    >
+      <div className="space-y-4">
           {/* Controls */}
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div className="relative w-full sm:max-w-xs">
@@ -167,7 +172,6 @@ export default function PeriodicTable() {
           </div>
 
           <p className="text-xs text-muted-foreground">{t("hint")}</p>
-        </div>
       </div>
 
       {/* Detail dialog */}
@@ -206,7 +210,7 @@ export default function PeriodicTable() {
           )}
         </DialogContent>
       </Dialog>
-    </div>
+    </ToolShell>
   );
 }
 

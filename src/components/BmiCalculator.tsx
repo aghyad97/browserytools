@@ -7,7 +7,8 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { RotateCcw, Scale } from "lucide-react";
+import { RotateCcw } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
 
 // ── BMI Categories ─────────────────────────────────────────────────────────────
 
@@ -105,6 +106,7 @@ type UnitSystem = "metric" | "imperial";
 
 export default function BmiCalculator() {
   const t = useTranslations("Tools.BmiCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [unit, setUnit] = useState<UnitSystem>("metric");
 
   // Metric
@@ -160,19 +162,17 @@ export default function BmiCalculator() {
   }, [unit, weightKg, heightCm, weightLbs, heightFt, heightIn]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Scale className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="bmi-calculator"
+      title={tc("tools.bmi-calculator.name")}
+      sub={tc("tools.bmi-calculator.description")}
+      controls={
+        <Button variant="outline" size="sm" onClick={handleClear}>
+          <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
+        </Button>
+      }
+    >
+      <div className="space-y-6">
         {/* Unit toggle */}
         <div className="flex gap-2">
           <Button
@@ -188,9 +188,6 @@ export default function BmiCalculator() {
             onClick={() => setUnit("imperial")}
           >
             {t("imperial")}
-          </Button>
-          <Button variant="ghost" size="sm" className="ms-auto" onClick={handleClear}>
-            <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
           </Button>
         </div>
 
@@ -364,6 +361,6 @@ export default function BmiCalculator() {
           </Card>
         )}
       </div>
-    </div>
+    </ToolShell>
   );
 }

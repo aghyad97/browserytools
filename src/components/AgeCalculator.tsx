@@ -19,10 +19,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Calendar } from "@/components/ui/calendar";
-import { Copy, Calendar as CalendarIcon, Users } from "lucide-react";
+import { Calendar as CalendarIcon, Users } from "lucide-react";
 import { format } from "date-fns";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 interface AgeResult {
   years: number;
@@ -49,6 +51,7 @@ interface AgeDifference {
 
 export default function AgeCalculator() {
   const t = useTranslations("Tools.AgeCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [birthDate, setBirthDate] = useState<Date | undefined>(undefined);
   const [ageResult, setAgeResult] = useState<AgeResult | null>(null);
   const [person1BirthDate, setPerson1BirthDate] = useState<Date | undefined>(
@@ -240,15 +243,6 @@ export default function AgeCalculator() {
     setAgeDifference(result);
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const setCurrentDate = () => {
     const today = new Date();
     const year = today.getFullYear() - 25; // Default to 25 years ago
@@ -257,7 +251,11 @@ export default function AgeCalculator() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="age-calculator"
+      title={tc("tools.age-calculator.name")}
+      sub={tc("tools.age-calculator.description")}
+    >
       <Tabs defaultValue="single" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="single">{t("tabSingle")}</TabsTrigger>
@@ -402,18 +400,11 @@ export default function AgeCalculator() {
                     </div>
                   </div>
 
-                  <Button
-                    onClick={() =>
-                      copyToClipboard(
-                        `Age: ${ageResult.years} years, ${ageResult.months} months, ${ageResult.days} days (${ageResult.totalDays} total days)`
-                      )
-                    }
-                    variant="outline"
-                    className="w-full"
-                  >
-                    <Copy className="h-4 w-4 me-2" />
-                    {t("copyAgeInfo")}
-                  </Button>
+                  <CopyButton
+                    text={`Age: ${ageResult.years} years, ${ageResult.months} months, ${ageResult.days} days (${ageResult.totalDays} total days)`}
+                    label={t("copyAgeInfo")}
+                    successMessage={t("copiedToClipboard")}
+                  />
                 </div>
               )}
             </CardContent>
@@ -560,24 +551,17 @@ export default function AgeCalculator() {
                     </div>
                   </div>
 
-                  <Button
-                    onClick={() =>
-                      copyToClipboard(
-                        `Age difference between ${ageDifference.olderPerson} and ${ageDifference.youngerPerson}: ${ageDifference.years} years, ${ageDifference.months} months, ${ageDifference.days} days`
-                      )
-                    }
-                    variant="outline"
-                    className="w-full"
-                  >
-                    <Copy className="h-4 w-4 me-2" />
-                    {t("copyAgeDiff")}
-                  </Button>
+                  <CopyButton
+                    text={`Age difference between ${ageDifference.olderPerson} and ${ageDifference.youngerPerson}: ${ageDifference.years} years, ${ageDifference.months} months, ${ageDifference.days} days`}
+                    label={t("copyAgeDiff")}
+                    successMessage={t("copiedToClipboard")}
+                  />
                 </div>
               )}
             </CardContent>
           </Card>
         </TabsContent>
       </Tabs>
-    </div>
+    </ToolShell>
   );
 }

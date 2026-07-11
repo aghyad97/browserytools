@@ -19,9 +19,11 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { Copy, Clock, Globe, Calendar } from "lucide-react";
+import { Clock, Globe, Calendar } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 interface TimeZoneInfo {
   timezone: string;
@@ -33,6 +35,7 @@ interface TimeZoneInfo {
 
 export default function TimeZoneConverter() {
   const t = useTranslations("Tools.TimeZoneConverter");
+  const tc = useTranslations("ToolsConfig");
   const [fromTimeZone, setFromTimeZone] = useState<string>("");
   const [toTimeZone, setToTimeZone] = useState<string>("");
   const [inputDateTime, setInputDateTime] = useState<string>("");
@@ -190,15 +193,6 @@ export default function TimeZoneConverter() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const setCurrentDateTime = () => {
     const now = new Date();
     const year = now.getFullYear();
@@ -211,7 +205,11 @@ export default function TimeZoneConverter() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <ToolShell
+      slug="timezone-converter"
+      title={tc("tools.timezone-converter.name")}
+      sub={tc("tools.timezone-converter.description")}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Time Converter */}
         <Card>
@@ -303,17 +301,11 @@ export default function TimeZoneConverter() {
                           {time.date}
                         </div>
                       </div>
-                      <Button
-                        onClick={() =>
-                          copyToClipboard(
-                            `${time.date} ${time.time} (${time.timezone})`
-                          )
-                        }
-                        variant="ghost"
-                        size="sm"
-                      >
-                        <Copy className="h-4 w-4" />
-                      </Button>
+                      <CopyButton
+                        text={`${time.date} ${time.time} (${time.timezone})`}
+                        size="icon"
+                        successMessage={t("copiedToClipboard")}
+                      />
                     </div>
                   </div>
                 ))}
@@ -417,6 +409,6 @@ export default function TimeZoneConverter() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

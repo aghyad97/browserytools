@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
-import { DollarSign } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
 
 function formatCurrency(value: number, currency = "USD") {
   return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 2 }).format(value);
@@ -63,6 +63,7 @@ function calculateLoan(principal: number, annualRate: number, months: number) {
 
 export default function LoanCalculator() {
   const t = useTranslations("Tools.LoanCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [principal, setPrincipal] = useState("10000");
   const [rate, setRate] = useState("5");
   const [years, setYears] = useState("3");
@@ -82,18 +83,12 @@ export default function LoanCalculator() {
     : "0";
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <DollarSign className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="loan-calculator"
+      title={tc("tools.loan-calculator.name")}
+      sub={tc("tools.loan-calculator.description")}
+    >
+      <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <Card>
             <CardHeader><CardTitle className="text-base">{t("loanDetails")}</CardTitle></CardHeader>
@@ -241,6 +236,6 @@ export default function LoanCalculator() {
           </div>
         )}
       </div>
-    </div>
+    </ToolShell>
   );
 }

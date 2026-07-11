@@ -2,17 +2,12 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
 
 type BaseKey = "bin" | "oct" | "dec" | "hex";
 
@@ -32,6 +27,7 @@ const validators: Record<BaseKey, RegExp> = {
 
 export default function NumberBaseConverter() {
   const t = useTranslations("Tools.NumberBaseConverter");
+  const tc = useTranslations("ToolsConfig");
   const [values, setValues] = useState<Record<BaseKey, string>>({
     bin: "",
     oct: "",
@@ -73,15 +69,18 @@ export default function NumberBaseConverter() {
   const clearAll = () => setValues({ bin: "", oct: "", dec: "", hex: "" });
 
   return (
-    <div className="container mx-auto p-6 max-w-3xl">
+    <ToolShell
+      slug="number-base-converter"
+      title={tc("tools.number-base-converter.name")}
+      sub={tc("tools.number-base-converter.description")}
+      controls={
+        <Button variant="outline" size="sm" onClick={clearAll}>
+          {t("clear")}
+        </Button>
+      }
+    >
       <Card className="shadow-none">
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>
-            {t("subtitle")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="space-y-4 pt-6">
           <div className="space-y-2">
             <Label htmlFor="bin">{t("binary")}</Label>
             <Input
@@ -126,13 +125,8 @@ export default function NumberBaseConverter() {
               dir="ltr"
             />
           </div>
-          <div className="pt-2">
-            <Button variant="outline" onClick={clearAll} className="w-full">
-              {t("clear")}
-            </Button>
-          </div>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

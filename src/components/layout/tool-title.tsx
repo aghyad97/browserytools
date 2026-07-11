@@ -125,6 +125,23 @@ const HAS_OWN_H1 = new Set([
   "text-sorter",
   "typing-test",
   "word-frequency",
+  // R2 batch B4: Math & Finance + File Tools migrated onto ToolShell (the shell
+  // owns the h1). Slugs already listed above (aspect-ratio, bmi-calculator,
+  // loan-calculator, percentage-calculator, roman-numeral, tip-calculator) had
+  // their own h1 before and are unchanged here.
+  "age-calculator",
+  "calculator",
+  "number-base-converter",
+  "unit-converter",
+  "timezone-converter",
+  "currency-converter",
+  "expense-tracker",
+  "periodic-table",
+  "invoice",
+  "pdf",
+  "zip",
+  "spreadsheet",
+  "file-converter",
 ]);
 
 export function ToolTitle() {

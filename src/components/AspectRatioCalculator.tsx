@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { RectangleHorizontal } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
 
 function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
@@ -32,6 +32,7 @@ const COMMON_RATIOS = [
 
 export default function AspectRatioCalculator() {
   const t = useTranslations("Tools.AspectRatioCalculator");
+  const tc = useTranslations("ToolsConfig");
   // Tab 1: Dimensions → Ratio
   const [dimW, setDimW] = useState("1920");
   const [dimH, setDimH] = useState("1080");
@@ -63,18 +64,12 @@ export default function AspectRatioCalculator() {
   }, [ratioW, ratioH, knownDim, solveFor]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-3xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <RectangleHorizontal className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="aspect-ratio"
+      title={tc("tools.aspect-ratio.name")}
+      sub={tc("tools.aspect-ratio.description")}
+    >
+      <div className="space-y-6">
         <Tabs defaultValue="dimensions">
           <TabsList className="grid w-full grid-cols-2">
             <TabsTrigger value="dimensions">{t("dimensionsToRatio")}</TabsTrigger>
@@ -188,6 +183,6 @@ export default function AspectRatioCalculator() {
           </TabsContent>
         </Tabs>
       </div>
-    </div>
+    </ToolShell>
   );
 }

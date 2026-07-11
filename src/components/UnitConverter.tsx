@@ -22,6 +22,7 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ArrowUpDown, Calculator } from "lucide-react";
 import NumberFlow from "@number-flow/react";
+import { ToolShell } from "@/components/template/tool-shell";
 
 interface ConversionUnit {
   name: string;
@@ -112,6 +113,7 @@ const conversionCategories: ConversionCategory[] = [
 
 export default function UnitConverter() {
   const t = useTranslations("Tools.UnitConverter");
+  const tc = useTranslations("ToolsConfig");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const tAny = t as any;
   const [activeCategory, setActiveCategory] = useState("Length");
@@ -278,7 +280,11 @@ export default function UnitConverter() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
+    <ToolShell
+      slug="unit-converter"
+      title={tc("tools.unit-converter.name")}
+      sub={tc("tools.unit-converter.description")}
+    >
       <Tabs
         value={activeCategory}
         onValueChange={handleCategoryChange}
@@ -510,6 +516,6 @@ export default function UnitConverter() {
           </div>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 }

@@ -20,8 +20,11 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Copy, Download, RefreshCw, FileIcon, AlertCircle } from "lucide-react";
+import { ArrowRight, Download, RefreshCw, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadText } from "@/lib/download";
 
 type Format = "csv" | "tsv" | "json" | "xml" | "yaml";
 
@@ -276,6 +279,7 @@ function detectFormat(text: string): Format | null {
 export default function FileConverter() {
   const t = useTranslations("Tools.FileConverter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [fromFmt, setFromFmt] = useState<Format>("csv");
@@ -317,21 +321,9 @@ export default function FileConverter() {
     setRowCount(null);
   };
 
-  const copyOutput = async () => {
-    if (!output) return;
-    await navigator.clipboard.writeText(output);
-    toast.success(t("copiedToClipboard"));
-  };
-
   const downloadOutput = () => {
     if (!output) return;
-    const blob = new Blob([output], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `converted.${FORMAT_EXTENSIONS[toFmt]}`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadText(output, `converted.${FORMAT_EXTENSIONS[toFmt]}`);
     toast.success(`Downloaded as .${FORMAT_EXTENSIONS[toFmt]}`);
   };
 
@@ -347,21 +339,12 @@ export default function FileConverter() {
   const formats: Format[] = ["csv", "tsv", "json", "xml", "yaml"];
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <FileIcon className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">
-              {t("subtitle")}
-            </p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="file-converter"
+      title={tc("tools.file-converter.name")}
+      sub={tc("tools.file-converter.description")}
+    >
+      <div className="space-y-6">
         {/* Format selectors */}
         <Card>
           <CardContent className="pt-5 pb-5">
@@ -471,10 +454,11 @@ export default function FileConverter() {
                   )}
                 </CardTitle>
                 <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!output}>
-                    <Copy className="w-3.5 h-3.5 me-1" />
-                    {tCommon("copy")}
-                  </Button>
+                  <CopyButton
+                    text={output}
+                    successMessage={t("copiedToClipboard")}
+                    disabled={!output}
+                  />
                   <Button variant="ghost" size="sm" onClick={downloadOutput} disabled={!output}>
                     <Download className="w-3.5 h-3.5 me-1" />
                     {tCommon("download")}
@@ -518,6 +502,6 @@ export default function FileConverter() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }
