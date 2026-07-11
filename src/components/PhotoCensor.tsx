@@ -298,6 +298,7 @@ export default function PhotoCensor() {
       slug="photo-censor"
       title={tc("tools.photo-censor.name")}
       sub={tc("tools.photo-censor.description")}
+      width="wide"
     >
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Canvas / dropzone */}

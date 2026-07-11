@@ -70,6 +70,7 @@ export function Charts() {
       slug="charts"
       title={tc("tools.charts.name")}
       sub={tc("tools.charts.description")}
+      width="wide"
     >
       <div className="flex flex-col lg:flex-row gap-4 min-h-screen">
         {/* Left Sidebar - Controls */}

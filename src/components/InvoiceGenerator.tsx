@@ -465,6 +465,7 @@ export default function InvoiceGenerator() {
         slug="invoice"
         title={tc("tools.invoice.name")}
         sub={tc("tools.invoice.description")}
+        width="wide"
       >
         <InvoiceManager
           onSelectInvoice={handleSelectInvoice}
@@ -480,6 +481,7 @@ export default function InvoiceGenerator() {
         slug="invoice"
         title={tc("tools.invoice.name")}
         sub={tc("tools.invoice.description")}
+        width="wide"
       >
         <InvoiceManager
           onSelectInvoice={handleSelectInvoice}
@@ -494,6 +496,7 @@ export default function InvoiceGenerator() {
       slug="invoice"
       title={tc("tools.invoice.name")}
       sub={tc("tools.invoice.description")}
+      width="wide"
     >
       {/* Header with Save and Manager buttons */}
       <div className="flex items-center justify-between mb-6">

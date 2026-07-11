@@ -233,6 +233,7 @@ export default function SignatureMaker() {
       slug="signature-maker"
       title={tc("tools.signature-maker.name")}
       sub={tc("tools.signature-maker.description")}
+      width="wide"
     >
       <div className="max-w-3xl mx-auto space-y-6">
         <Tabs defaultValue="draw" className="w-full">

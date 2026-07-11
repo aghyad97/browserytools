@@ -198,4 +198,28 @@ describe("ToolShell", () => {
     const tiles = related.getAllByTestId("tool-shell-related-tile");
     expect(tiles).toHaveLength(3);
   });
+
+  // width variant (spec §F2): default stays the 880px canvas; width="wide"
+  // widens the stage to 1180 and stamps data-width="wide" on the shell root
+  // so the layout's SEO zone can pick it up via CSS :has() (no prop path
+  // between the two sibling components).
+  it("defaults to width=\"default\" and stamps data-width accordingly", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const shell = screen.getByTestId("tool-shell-crumb").parentElement;
+    expect(shell).toHaveAttribute("data-width", "default");
+  });
+
+  it('stamps data-width="wide" when width="wide" is passed', () => {
+    render(
+      <ToolShell slug="expense-tracker" title="Track expenses." width="wide">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const shell = screen.getByTestId("tool-shell-crumb").parentElement;
+    expect(shell).toHaveAttribute("data-width", "wide");
+  });
 });

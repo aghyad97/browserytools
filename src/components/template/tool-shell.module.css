@@ -19,6 +19,14 @@
   font-feature-settings: "ss01";
 }
 
+/* width="wide" (spec §F2): tools whose primary surface needs more room
+   (spreadsheets, charts, canvases) get 1180px instead of 880, still centred.
+   The layout's SEO zone widens to match via [data-width="wide"] :has() (see
+   app-shell.module.css .toolSeoZone). */
+.shellWide {
+  max-inline-size: min(100%, 1180px);
+}
+
 /* ---------- zone 1 · crumb ---------- */
 .crumb {
   font-family: var(--mono);
@@ -137,6 +145,10 @@
 }
 
 .grid {
+  /* auto-fill already caps at 4-up under width="wide": stage content area is
+     1180 - 2*48 = 1084px; 5 tracks would need 5*210 + 4*12 = 1098px (doesn't
+     fit), 4 tracks need 4*210 + 3*12 = 876px (fits, stretches via 1fr) —
+     verified arithmetically, no explicit column cap needed. */
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: 12px;

@@ -349,6 +349,7 @@ export default function PhotoCollage() {
       slug="photo-collage"
       title={tc("tools.photo-collage.name")}
       sub={tc("tools.photo-collage.description")}
+      width="wide"
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Controls column */}

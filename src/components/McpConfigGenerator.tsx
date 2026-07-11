@@ -84,6 +84,7 @@ export default function McpConfigGenerator() {
       slug="mcp-config"
       title={tc("tools.mcp-config.name")}
       sub={tc("tools.mcp-config.description")}
+      width="wide"
       controls={
         <CopyButton text={output} label={t("copy")} successMessage={t("copied")} />
       }

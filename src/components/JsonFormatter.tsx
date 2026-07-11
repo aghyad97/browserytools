@@ -131,6 +131,7 @@ export default function JsonFormatter() {
       slug="json-formatter"
       title={tc("tools.json-formatter.name")}
       sub={tc("tools.json-formatter.description")}
+      width="wide"
       controls={
         <>
           <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 me-2" />{t("minify")}</Button>

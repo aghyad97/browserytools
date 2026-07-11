@@ -372,6 +372,7 @@ export default function CodeScreenshot() {
       slug="code-screenshot"
       title={tc("tools.code-screenshot.name")}
       sub={tc("tools.code-screenshot.description")}
+      width="wide"
     >
       <div className="max-w-7xl mx-auto space-y-4">
           <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-4">

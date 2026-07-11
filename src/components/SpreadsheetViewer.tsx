@@ -188,6 +188,7 @@ export default function SpreadsheetViewer() {
       slug="spreadsheet"
       title={tc("tools.spreadsheet.name")}
       sub={tc("tools.spreadsheet.description")}
+      width="wide"
       controls={
         data.length > 0 ? (
           <>

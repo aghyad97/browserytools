@@ -76,6 +76,7 @@ export default function ModelComparison() {
       slug="model-comparison"
       title={tc("tools.model-comparison.name")}
       sub={tc("tools.model-comparison.description")}
+      width="wide"
       controls={
         <>
           <Input

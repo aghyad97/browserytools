@@ -197,6 +197,7 @@ export default function WorldClock() {
       slug="world-clock"
       title={tc("tools.world-clock.name")}
       sub={tc("tools.world-clock.description")}
+      width="wide"
       controls={
         <>
           <Select value={selectedTz} onValueChange={handleAddCity}>

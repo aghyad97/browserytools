@@ -200,6 +200,7 @@ export default function ObjectCutout() {
       slug="object-cutout"
       title={tc("tools.object-cutout.name")}
       sub={tc("tools.object-cutout.description")}
+      width="wide"
       primaryAction={{
         label: tCommon("download"),
         onClick: handleDownload,

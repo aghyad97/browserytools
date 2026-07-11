@@ -58,6 +58,9 @@ export interface ToolShellProps {
   primaryAction?: PrimaryAction;
   /** Zone 3 — the tool's primary surface. */
   children: React.ReactNode;
+  /** Shell width. "wide" widens the stage to 1180px for tools whose primary
+   *  surface needs the room (spec §F2); default stays 880. */
+  width?: "default" | "wide";
 }
 
 interface RelatedEntry {
@@ -91,6 +94,7 @@ export function ToolShell({
   controls,
   primaryAction,
   children,
+  width = "default",
 }: ToolShellProps) {
   const tc = useTranslations("ToolsConfig");
   const tt = useTranslations("Template");
@@ -112,7 +116,10 @@ export function ToolShell({
   const subLine = sub ? `${sub} ${promise}` : promise;
 
   return (
-    <div className={s.shell}>
+    <div
+      className={width === "wide" ? `${s.shell} ${s.shellWide}` : s.shell}
+      data-width={width}
+    >
       {/* zone 1 · crumb — category-only eyebrow (design ruling: the tool name
           would exactly duplicate the h1 below, so the crumb carries only the
           mono category label in its chip colour). */}

@@ -73,6 +73,7 @@ export default function MermaidViewer() {
       slug="mermaid"
       title={tc("tools.mermaid.name")}
       sub={tc("tools.mermaid.description")}
+      width="wide"
     >
       <div className="space-y-4">
       <Card>

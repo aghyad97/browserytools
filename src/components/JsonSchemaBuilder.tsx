@@ -78,6 +78,7 @@ export default function JsonSchemaBuilder() {
       slug="json-schema-builder"
       title={tc("tools.json-schema-builder.name")}
       sub={tc("tools.json-schema-builder.description")}
+      width="wide"
       controls={
         <>
           <select className="border rounded px-2 py-1 text-sm bg-background" value={format} onChange={e => setFormat(e.target.value as OutputFormat)}>

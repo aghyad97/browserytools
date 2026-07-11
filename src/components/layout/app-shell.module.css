@@ -44,3 +44,21 @@
     padding-inline: 18px;
   }
 }
+
+/* width="wide" seam (spec §F2): ToolShell and ToolSeoContent are unrelated
+   siblings under this same <main> — the layout renders them independently, so
+   there's no prop path from one to the other. The shell stamps
+   data-width="wide" on its root; :has() lets this stylesheet read that
+   signal from a shared ancestor with zero JS and zero prop drilling, which is
+   the only mechanism that stays correct with SSR/RSC (no hydration flash) and
+   survives either component changing independently. :has() is Baseline
+   (Chrome 105+/Safari 15.4+/Firefox 121+), well within Next 15's supported
+   browser set — verified against the built page.
+   ToolSeoContent's own <section> carries Tailwind's max-w-4xl (56rem); this
+   selector's specificity (module class + :has + descendant attribute
+   selector) outranks that single-class utility, so no !important is needed.
+   64rem matches Tailwind's default max-w-5xl (unconfigured in this repo). */
+.contentScroll:has([data-width="wide"])
+  :global([data-testid="tool-seo-content"]) {
+  max-width: 64rem;
+}

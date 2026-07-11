@@ -178,6 +178,7 @@ export default function QRCodeGenerator() {
       slug="qr-generator"
       title={tc("tools.qr-generator.name")}
       sub={tc("tools.qr-generator.description")}
+      width="wide"
     >
       <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
         {/* Input Section - Sticky Sidebar */}

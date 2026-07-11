@@ -288,6 +288,7 @@ function MindMapEditor() {
       slug="mind-map"
       title={tc("tools.mind-map.name")}
       sub={tc("tools.mind-map.description")}
+      width="wide"
     >
       <div className="max-w-6xl mx-auto space-y-4">
       <Card>

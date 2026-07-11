@@ -219,6 +219,7 @@ export default function CssGradientGenerator() {
       slug="css-gradient"
       title={tc("tools.css-gradient.name")}
       sub={tc("tools.css-gradient.description")}
+      width="wide"
     >
       <div className="max-w-5xl mx-auto space-y-4">
         <Card className="shadow-none">

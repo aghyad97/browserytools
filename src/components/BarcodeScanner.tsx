@@ -447,6 +447,7 @@ export default function BarcodeScanner() {
       slug="barcode-scanner"
       title={tc("tools.barcode-scanner.name")}
       sub={tc("tools.barcode-scanner.description")}
+      width="wide"
     >
       <div className="w-full">
       <Tabs defaultValue="camera" className="w-full">

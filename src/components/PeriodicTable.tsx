@@ -87,6 +87,7 @@ export default function PeriodicTable() {
       slug="periodic-table"
       title={tc("tools.periodic-table.name")}
       sub={tc("tools.periodic-table.description")}
+      width="wide"
     >
       <div className="space-y-4">
           {/* Controls */}

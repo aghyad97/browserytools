@@ -265,6 +265,7 @@ Paragraphs are separated by blank lines and rendered correctly.
       slug="markdown-html"
       title={tc("tools.markdown-html.name")}
       sub={tc("tools.markdown-html.description")}
+      width="wide"
       controls={
         <>
           <Button

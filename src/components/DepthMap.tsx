@@ -194,6 +194,7 @@ export default function DepthMap() {
       slug="depth-map"
       title={tc("tools.depth-map.name")}
       sub={tc("tools.depth-map.description")}
+      width="wide"
     >
       <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

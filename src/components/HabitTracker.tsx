@@ -202,6 +202,7 @@ export default function HabitTracker() {
       slug="habit-tracker"
       title={tc("tools.habit-tracker.name")}
       sub={tc("tools.habit-tracker.description")}
+      width="wide"
       primaryAction={{
         label: showAdd ? t("cancel") : t("addHabit"),
         onClick: () => setShowAdd((v) => !v),

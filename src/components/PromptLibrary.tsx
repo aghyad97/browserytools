@@ -142,6 +142,7 @@ export default function PromptLibrary() {
       slug="prompt-library"
       title={tc("tools.prompt-library.name")}
       sub={tc("tools.prompt-library.description")}
+      width="wide"
       controls={
         <>
           <Button
