@@ -14,6 +14,7 @@ interface CopyButtonProps {
   errorMessage?: string;
   /** Keep the affordance visible but inert (e.g. nothing to copy yet). */
   disabled?: boolean;
+  "data-testid"?: string;
 }
 
 export function CopyButton({
@@ -23,6 +24,7 @@ export function CopyButton({
   successMessage = "Copied to clipboard",
   errorMessage = "Couldn't copy — check clipboard permissions",
   disabled = false,
+  "data-testid": dataTestId,
 }: CopyButtonProps) {
   const [copied, setCopied] = useState(false);
   const resetTimerRef = useRef<ReturnType<typeof setTimeout>>();
@@ -47,6 +49,7 @@ export function CopyButton({
       aria-label={label}
       onClick={onClick}
       disabled={disabled}
+      data-testid={dataTestId}
     >
       {copied ? <CheckIcon className="h-4 w-4" /> : <CopyIcon className="h-4 w-4" />}
       {size !== "icon" && label}
