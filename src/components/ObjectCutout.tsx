@@ -2,13 +2,14 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
   Upload,
-  Download,
   Trash2,
   ScissorsIcon,
   InfoIcon,
@@ -28,6 +29,7 @@ type LoadedImage = {
 export default function ObjectCutout() {
   const t = useTranslations("Tools.ObjectCutout");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<LoadedImage | null>(null);
   const [points, setPoints] = useState<SamPoint[]>([]);
@@ -99,14 +101,6 @@ export default function ObjectCutout() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
-    multiple: false,
-    noClick: !!image,
-    noKeyboard: !!image,
-  });
 
   // Map a click on the displayed canvas back to original image pixel coords.
   const handleCanvasClick = useCallback(
@@ -197,26 +191,22 @@ export default function ObjectCutout() {
   const handleDownload = useCallback(() => {
     if (!cutoutUrl || !image) return;
     const base = image.name.replace(/\.[^.]+$/, "");
-    const link = document.createElement("a");
-    link.href = cutoutUrl;
-    link.download = `${base}-cutout.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(cutoutUrl, `${base}-cutout.png`);
     toast.success(t("downloaded"));
   }, [cutoutUrl, image, t]);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-5xl mx-auto space-y-4">
-          <div>
-            <h1 className="text-xl font-semibold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("subtitle")}
-            </p>
-          </div>
-
+    <ToolShell
+      slug="object-cutout"
+      title={tc("tools.object-cutout.name")}
+      sub={tc("tools.object-cutout.description")}
+      primaryAction={{
+        label: tCommon("download"),
+        onClick: handleDownload,
+        disabled: !cutoutUrl,
+      }}
+    >
+      <div className="space-y-4">
           {!hasWebGPU() && (
             <Card className="p-3 border-amber-500/40 bg-amber-500/5">
               <div className="flex items-start gap-3">
@@ -230,15 +220,18 @@ export default function ObjectCutout() {
 
           {!image ? (
             <Card className="p-6">
-              <div
-                {...getRootProps()}
-                className={`h-64 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
-                  isDragActive
-                    ? "border-primary bg-primary/10 scale-[0.99]"
-                    : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                }`}
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp"] }}
+                multiple={false}
+                className={({ isDragActive }) =>
+                  `h-64 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
+                    isDragActive
+                      ? "border-primary bg-primary/10 scale-[0.99]"
+                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                  }`
+                }
               >
-                <input {...getInputProps()} />
                 <div className="text-center">
                   <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <Upload className="w-10 h-10 text-primary" />
@@ -250,7 +243,7 @@ export default function ObjectCutout() {
                     {t("supportedFormats")}
                   </p>
                 </div>
-              </div>
+              </FileDropzone>
             </Card>
           ) : (
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
@@ -327,15 +320,6 @@ export default function ObjectCutout() {
                     </p>
                   )}
                 </div>
-                <Button
-                  variant="secondary"
-                  className="w-full"
-                  onClick={handleDownload}
-                  disabled={!cutoutUrl}
-                >
-                  <Download className="w-4 h-4 me-2" />
-                  {tCommon("download")}
-                </Button>
               </Card>
             </div>
           )}
@@ -346,8 +330,7 @@ export default function ObjectCutout() {
               <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
             </div>
           </Card>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

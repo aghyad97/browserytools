@@ -2,7 +2,9 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
@@ -37,6 +39,7 @@ interface UpscaledImage {
 
 export default function ImageUpscaler() {
   const t = useTranslations("Tools.ImageUpscaler");
+  const tc = useTranslations("ToolsConfig");
 
   const [source, setSource] = useState<SourceImage | null>(null);
   const [output, setOutput] = useState<UpscaledImage | null>(null);
@@ -80,12 +83,6 @@ export default function ImageUpscaler() {
     [t]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
-    multiple: false,
-  });
-
   const upscale = useCallback(async () => {
     if (!source) {
       toast.error(t("noImage"));
@@ -118,38 +115,32 @@ export default function ImageUpscaler() {
   const handleDownload = useCallback(() => {
     if (!output || !source) return;
     const base = source.name.replace(/\.[^.]+$/, "");
-    const link = document.createElement("a");
-    link.href = output.url;
-    link.download = `${base}_upscaled.png`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(output.url, `${base}_upscaled.png`);
     toast.success(t("downloaded"));
   }, [output, source, t]);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div>
-            <h1 className="text-xl font-semibold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">
-              {t("subtitle")}
-            </p>
-          </div>
-
+    <ToolShell
+      slug="image-upscaler"
+      title={tc("tools.image-upscaler.name")}
+      sub={tc("tools.image-upscaler.description")}
+    >
+      <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div className="space-y-4">
               <Card className="p-6 shadow-none">
-                <div
-                  {...getRootProps()}
-                  className={`h-64 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
-                    isDragActive
-                      ? "border-primary bg-primary/10 scale-[0.99]"
-                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                  }`}
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp"] }}
+                  multiple={false}
+                  className={({ isDragActive }) =>
+                    `h-64 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
+                      isDragActive
+                        ? "border-primary bg-primary/10 scale-[0.99]"
+                        : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                    }`
+                  }
                 >
-                  <input {...getInputProps()} />
                   {source ? (
                     <div className="w-full h-full relative">
                       <img
@@ -177,7 +168,7 @@ export default function ImageUpscaler() {
                       </p>
                     </div>
                   )}
-                </div>
+                </FileDropzone>
               </Card>
 
               <Card className="p-4 space-y-3">
@@ -254,8 +245,7 @@ export default function ImageUpscaler() {
               <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
             </div>
           </Card>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

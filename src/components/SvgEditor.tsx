@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadBlob } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import {
@@ -18,7 +20,6 @@ import {
   Circle,
   Type,
   Pencil,
-  Download,
   Move,
   Undo,
   Redo,
@@ -30,6 +31,8 @@ type Action = { type: string; element: any };
 
 export default function SvgEditor() {
   const t = useTranslations("Tools.SvgEditor");
+  const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [selectedTool, setSelectedTool] = useState<Tool>("select");
   const [color, setColor] = useState("#000000");
@@ -220,30 +223,18 @@ export default function SvgEditor() {
 
     const svgData = drawRef.current.svg();
     const blob = new Blob([svgData], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "drawing.svg";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, "drawing.svg");
     toast.success(t("downloadedSuccess"));
   };
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground mt-1">
-            {t("subtitle")}
-          </p>
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-hidden p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="svg"
+      title={tc("tools.svg.name")}
+      sub={tc("tools.svg.description")}
+      primaryAction={{ label: tCommon("download"), onClick: downloadSVG }}
+    >
+      <div className="space-y-4">
           <Card className="p-4">
             <div className="flex items-center justify-between">
               <div className="flex items-center space-x-2">
@@ -327,9 +318,6 @@ export default function SvgEditor() {
                 >
                   <Redo className="h-4 w-4" />
                 </Button>
-                <Button variant="outline" size="icon" onClick={downloadSVG}>
-                  <Download className="h-4 w-4" />
-                </Button>
               </div>
             </div>
           </Card>
@@ -340,8 +328,7 @@ export default function SvgEditor() {
               className="w-full h-full bg-white rounded-lg overflow-hidden"
             />
           </Card>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -2,12 +2,14 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { CopyButton } from "@/components/shared/CopyButton";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Upload, Download, Copy, Sparkles } from "lucide-react";
+import { Upload, Download, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadBlob } from "@/lib/download";
@@ -138,6 +140,7 @@ function fileNameFor(size: number): string {
 export default function FaviconGenerator() {
   const t = useTranslations("Tools.FaviconGenerator");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [mode, setMode] = useState<Mode>("upload");
   const [sourceUrl, setSourceUrl] = useState<string | null>(null);
@@ -173,12 +176,6 @@ export default function FaviconGenerator() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".svg", ".gif"] },
-    multiple: false,
-  });
 
   const handleGenerate = async () => {
     if (isGenerating) return;
@@ -280,23 +277,15 @@ export default function FaviconGenerator() {
     }
   };
 
-  const handleCopySnippet = async () => {
-    try {
-      await navigator.clipboard.writeText(HTML_SNIPPET);
-      toast.success(t("snippetCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60" />
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
-          {/* ── Input column ── */}
-          <div className="space-y-4">
+    <ToolShell
+      slug="favicon-generator"
+      title={tc("tools.favicon-generator.name")}
+      sub={tc("tools.favicon-generator.description")}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* ── Input column ── */}
+        <div className="space-y-4">
             <Card className="p-6 shadow-none">
               <Tabs
                 value={mode}
@@ -311,9 +300,13 @@ export default function FaviconGenerator() {
                 </TabsList>
 
                 <TabsContent value="upload" className="mt-4">
-                  <div
-                    {...getRootProps()}
-                    className={`
+                  <FileDropzone
+                    onFiles={onDrop}
+                    accept={{
+                      "image/*": [".png", ".jpg", ".jpeg", ".webp", ".svg", ".gif"],
+                    }}
+                    multiple={false}
+                    className={({ isDragActive }) => `
                       h-56 rounded-lg border-2 border-dashed
                       flex flex-col items-center justify-center space-y-4 p-8
                       cursor-pointer transition-all duration-200
@@ -324,7 +317,6 @@ export default function FaviconGenerator() {
                       }
                     `}
                   >
-                    <input {...getInputProps()} />
                     {sourceUrl ? (
                       <img
                         src={sourceUrl}
@@ -344,7 +336,7 @@ export default function FaviconGenerator() {
                         </p>
                       </div>
                     )}
-                  </div>
+                  </FileDropzone>
                 </TabsContent>
 
                 <TabsContent value="letter" className="mt-4 space-y-4">
@@ -435,15 +427,12 @@ export default function FaviconGenerator() {
             <Card className="p-4 space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-sm font-medium">{t("htmlSnippet")}</label>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  onClick={handleCopySnippet}
-                  aria-label={t("copySnippet")}
-                >
-                  <Copy className="w-4 h-4 me-1.5" />
-                  {tCommon("copy")}
-                </Button>
+                <CopyButton
+                  text={HTML_SNIPPET}
+                  label={tCommon("copy")}
+                  successMessage={t("snippetCopied")}
+                  errorMessage={t("copyFailed")}
+                />
               </div>
               <pre
                 dir="ltr"
@@ -508,7 +497,6 @@ export default function FaviconGenerator() {
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -8,7 +8,8 @@ import {
   useLayoutEffect,
 } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -97,6 +98,7 @@ function drawTextBox(
 export default function MemeGenerator() {
   const t = useTranslations("Tools.MemeGenerator");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<ImageInfo | null>(null);
   const [boxes, setBoxes] = useState<TextBox[]>([]);
@@ -138,12 +140,6 @@ export default function MemeGenerator() {
     },
     [t],
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] },
-    multiple: false,
-  });
 
   // Keep the loaded image element in sync so the render loop can draw it.
   useEffect(() => {
@@ -272,9 +268,12 @@ export default function MemeGenerator() {
   const selected = boxes.find((b) => b.id === selectedId) ?? null;
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="meme-generator"
+      title={tc("tools.meme-generator.name")}
+      sub={tc("tools.meme-generator.description")}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* ── Canvas / upload column ──────────────────────────────── */}
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
@@ -293,9 +292,11 @@ export default function MemeGenerator() {
                   </p>
                 </div>
               ) : (
-                <div
-                  {...getRootProps()}
-                  className={`
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] }}
+                  multiple={false}
+                  className={({ isDragActive }) => `
                     h-72 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
                     cursor-pointer transition-all duration-200
@@ -306,7 +307,6 @@ export default function MemeGenerator() {
                     }
                   `}
                 >
-                  <input {...getInputProps()} />
                   <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
                     <Upload className="w-10 h-10 text-primary" />
                   </div>
@@ -318,7 +318,7 @@ export default function MemeGenerator() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               )}
             </Card>
 
@@ -512,7 +512,6 @@ export default function MemeGenerator() {
             )}
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

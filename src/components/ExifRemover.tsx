@@ -2,10 +2,11 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Upload, ShieldCheck, MapPin, Camera, Clock, Download, Eraser, CheckCircle2, AlertTriangle } from "lucide-react";
+import { Upload, ShieldCheck, MapPin, Camera, Clock, Download, CheckCircle2, AlertTriangle } from "lucide-react";
 import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadUrl } from "@/lib/download";
@@ -224,6 +225,7 @@ interface ProcessedImage {
 
 export default function ExifRemover() {
   const t = useTranslations("Tools.ExifRemover");
+  const tc = useTranslations("ToolsConfig");
   const [images, setImages] = useState<ProcessedImage[]>([]);
   const [processing, setProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -354,18 +356,12 @@ export default function ExifRemover() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-3xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Eraser className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="exif-remover"
+      title={tc("tools.exif-remover.name")}
+      sub={tc("tools.exif-remover.description")}
+    >
+      <div className="space-y-6">
         <Card className="border-primary/20 bg-primary/5">
           <CardContent className="pt-5 pb-5 flex items-start gap-3">
             <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -497,7 +493,7 @@ export default function ExifRemover() {
           ))}
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }
 

@@ -2,11 +2,13 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadDataUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
-import { Upload, Download, Undo, Redo } from "lucide-react";
+import { Upload, Undo, Redo } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Adjustment {
@@ -36,6 +38,7 @@ const defaultAdjustments: Adjustment = {
 export default function ColorCorrection() {
   const t = useTranslations("Tools.ColorCorrection");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<string | null>(null);
   const [adjustments, setAdjustments] =
@@ -57,14 +60,6 @@ export default function ColorCorrection() {
       reader.readAsDataURL(file);
     }
   }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
-    },
-    multiple: false,
-  });
 
   const applyAdjustments = useCallback(() => {
     if (!image || !canvasRef.current) return;
@@ -165,10 +160,7 @@ export default function ColorCorrection() {
 
   const handleDownload = () => {
     if (!canvasRef.current) return;
-    const link = document.createElement("a");
-    link.download = "corrected-image.png";
-    link.href = canvasRef.current.toDataURL();
-    link.click();
+    downloadDataUrl(canvasRef.current.toDataURL(), "corrected-image.png");
   };
 
   const adjustmentControls = [
@@ -184,14 +176,27 @@ export default function ColorCorrection() {
   ];
 
   return (
-    <div className="flex flex-col h-full">
-      <div className="flex flex-1 gap-6 p-6 overflow-hidden">
+    <ToolShell
+      slug="color-correction"
+      title={tc("tools.color-correction.name")}
+      sub={tc("tools.color-correction.description")}
+      primaryAction={{
+        label: tCommon("download"),
+        onClick: handleDownload,
+        disabled: !image,
+      }}
+    >
+      <div className="flex gap-6">
         <div className="flex-1 min-w-0">
-          <Card className="h-full">
+          <Card className="h-[28rem]">
             {!image ? (
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg"],
+                }}
+                multiple={false}
+                className={({ isDragActive }) => `
                   h-full rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
                   cursor-pointer transition-colors
@@ -202,7 +207,6 @@ export default function ColorCorrection() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
                   <Upload className="w-10 h-10 text-primary" />
                 </div>
@@ -214,7 +218,7 @@ export default function ColorCorrection() {
                     {t("supportedFormats")}
                   </p>
                 </div>
-              </div>
+              </FileDropzone>
             ) : (
               <div className="relative h-full overflow-hidden rounded-lg">
                 <canvas
@@ -226,7 +230,7 @@ export default function ColorCorrection() {
           </Card>
         </div>
 
-        <Card className="w-80 p-4 overflow-y-auto">
+        <Card className="w-80 p-4 overflow-y-auto max-h-[28rem]">
           <div className="flex gap-2 items-center mb-4 justify-center">
             <Button
               variant="outline"
@@ -305,15 +309,8 @@ export default function ColorCorrection() {
               ))}
             </TabsContent>
           </Tabs>
-
-          {image && (
-            <Button onClick={handleDownload} className="w-full mt-4" size="lg">
-              <Download className="w-4 h-4 me-2" />
-              {tCommon("download")}
-            </Button>
-          )}
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

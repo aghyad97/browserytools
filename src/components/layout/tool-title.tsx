@@ -49,6 +49,20 @@ const HAS_OWN_H1 = new Set([
   // Five-zone ToolShell pilots (R2): the shell owns the page <h1>.
   "image-compression",
   "image-upscaler",
+  // R2 batch B1: Image Tools migrated onto ToolShell (the shell owns the h1).
+  "ascii-art",
+  "bg-removal",
+  "color-correction",
+  "favicon-generator",
+  "image-color-picker",
+  "image-converter",
+  "image-resizer",
+  "meme-generator",
+  "photo-censor",
+  "photo-collage",
+  "phone-mockups",
+  "screenshot-beautifier",
+  "svg-png",
   "json-formatter",
   // NOT "invoice": its own <h1> sits inside the Radix "preview" tab, which is
   // not in the DOM at load (default tab is "details") — ToolTitle must supply

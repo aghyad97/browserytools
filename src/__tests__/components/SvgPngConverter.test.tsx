@@ -31,7 +31,7 @@ describe("SvgPngConverter", () => {
   it("renders the title, dropzone, and export buttons", () => {
     render(<SvgPngConverter />);
     expect(
-      screen.getByText(/svg .* png converter/i)
+      screen.getByRole("heading", { name: /svg to png/i })
     ).toBeInTheDocument();
     expect(screen.getByText(/drop svg here/i)).toBeInTheDocument();
     expect(

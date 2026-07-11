@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -106,6 +107,7 @@ function applyCensor(
 export default function PhotoCensor() {
   const t = useTranslations("Tools.PhotoCensor");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<ImageInfo | null>(null);
   const [regions, setRegions] = useState<Region[]>([]);
@@ -142,12 +144,6 @@ export default function PhotoCensor() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
-    multiple: false,
-  });
 
   useEffect(() => {
     return () => {
@@ -298,11 +294,14 @@ export default function PhotoCensor() {
   const formatOption = formatOptions.find((f) => f.value === targetFormat);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {/* Canvas / dropzone */}
-          <div className="md:col-span-2 space-y-4">
+    <ToolShell
+      slug="photo-censor"
+      title={tc("tools.photo-censor.name")}
+      sub={tc("tools.photo-censor.description")}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Canvas / dropzone */}
+        <div className="md:col-span-2 space-y-4">
             <Card className="p-6 shadow-none">
               {image ? (
                 <div className="space-y-3">
@@ -349,9 +348,11 @@ export default function PhotoCensor() {
                   </div>
                 </div>
               ) : (
-                <div
-                  {...getRootProps()}
-                  className={`
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp"] }}
+                  multiple={false}
+                  className={({ isDragActive }) => `
                     h-80 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
                     cursor-pointer transition-all duration-200
@@ -362,7 +363,6 @@ export default function PhotoCensor() {
                     }
                   `}
                 >
-                  <input {...getInputProps()} />
                   <div className="text-center">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-10 h-10 text-primary" />
@@ -374,7 +374,7 @@ export default function PhotoCensor() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               )}
             </Card>
 
@@ -503,7 +503,6 @@ export default function PhotoCensor() {
             </Card>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

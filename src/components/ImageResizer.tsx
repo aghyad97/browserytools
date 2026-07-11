@@ -2,13 +2,9 @@
 
 import React, { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -119,6 +115,7 @@ function clamp(v: number, min: number, max: number): number {
 
 export default function ImageResizer() {
   const t = useTranslations("Tools.ImageResizer");
+  const tc = useTranslations("ToolsConfig");
   const [original, setOriginal] = useState<ImageInfo | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
@@ -163,7 +160,6 @@ export default function ImageResizer() {
   // Shared output
   const [outputFormat, setOutputFormat] = useState("jpeg");
   const [quality, setQuality] = useState(85);
-  const [isDragOver, setIsDragOver] = useState(false);
   const [processing, setProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -199,16 +195,6 @@ export default function ImageResizer() {
       reader.readAsDataURL(file);
     },
     [t]
-  );
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setIsDragOver(false);
-      const file = e.dataTransfer.files[0];
-      if (file) loadImage(file);
-    },
-    [loadImage]
   );
 
   const handleWidthChange = useCallback(
@@ -563,29 +549,29 @@ export default function ImageResizer() {
   const { w: targetW, h: targetH } = computeTargetDimensions();
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
+    <ToolShell
+      slug="image-resizer"
+      title={tc("tools.image-resizer.name")}
+      sub={tc("tools.image-resizer.description")}
+    >
         <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 pt-6">
             {!original ? (
-              <button
-                className={`flex flex-col items-center justify-center w-full rounded-xl border-2 border-dashed p-12 transition-colors cursor-pointer ${isDragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary hover:bg-primary/5"}`}
-                onClick={() => fileInputRef.current?.click()}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setIsDragOver(true);
+              <FileDropzone
+                onFiles={(files) => {
+                  const file = files[0];
+                  if (file) loadImage(file);
                 }}
-                onDragLeave={() => setIsDragOver(false)}
-                onDrop={handleDrop}
+                accept={{ "image/*": [] }}
+                multiple={false}
+                className={({ isDragActive }) =>
+                  `flex flex-col items-center justify-center w-full rounded-xl border-2 border-dashed p-12 transition-colors cursor-pointer ${isDragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary hover:bg-primary/5"}`
+                }
               >
                 <ImageIcon className="w-12 h-12 text-muted-foreground mb-4" />
                 <p className="text-lg font-medium">{t("dropImage")}</p>
                 <p className="text-sm text-muted-foreground mt-1">{t("browseHint")}</p>
-              </button>
+              </FileDropzone>
             ) : (
               <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
                 <ImageIcon className="w-8 h-8 text-primary shrink-0" />
@@ -1140,7 +1126,6 @@ export default function ImageResizer() {
             )}
           </CardContent>
         </Card>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -163,6 +164,7 @@ function drawImageFitted(
 export default function PhotoCollage() {
   const t = useTranslations("Tools.PhotoCollage");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [images, setImages] = useState<CollageImage[]>([]);
   const [layoutId, setLayoutId] = useState("grid-2x2");
@@ -222,12 +224,6 @@ export default function PhotoCollage() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"] },
-    multiple: true,
-  });
 
   // Clean up all object URLs on unmount.
   useEffect(() => {
@@ -349,17 +345,22 @@ export default function PhotoCollage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
-          {/* Controls column */}
-          <div className="space-y-4">
-            <Card className="p-6 shadow-none">
-              <div
-                {...getRootProps()}
-                className={`
+    <ToolShell
+      slug="photo-collage"
+      title={tc("tools.photo-collage.name")}
+      sub={tc("tools.photo-collage.description")}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Controls column */}
+        <div className="space-y-4">
+          <Card className="p-6 shadow-none">
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"],
+                }}
+                multiple
+                className={({ isDragActive }) => `
                   min-h-40 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
                   cursor-pointer transition-all duration-200
@@ -370,7 +371,6 @@ export default function PhotoCollage() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
                     <Upload className="w-8 h-8 text-primary" />
@@ -382,7 +382,7 @@ export default function PhotoCollage() {
                     {t("supportedFormats")}
                   </p>
                 </div>
-              </div>
+              </FileDropzone>
 
               {images.length > 0 && (
                 <div className="mt-4">
@@ -618,7 +618,6 @@ export default function PhotoCollage() {
             </Card>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

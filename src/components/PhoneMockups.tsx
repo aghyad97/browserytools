@@ -48,6 +48,8 @@ import { HexColorPicker } from "react-colorful";
 import { deviceJson } from "@/lib/device-frames";
 import { ValueSlider } from "@/components/ui/value-slider";
 import { ChevronDown } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadDataUrl } from "@/lib/download";
 
 export type MockupItem = {
   filename: string;
@@ -293,6 +295,7 @@ const detectCornerRadiusFromFrame = (
 export default function PhoneMockups({ groups }: PhoneMockupsProps) {
   const t = useTranslations("Tools.PhoneMockups");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   // Enhance groups with device-frames data
   const enhancedGroups = useMemo(
@@ -662,12 +665,12 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
     }
 
     const url = canvas.toDataURL(mimeType, quality);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `${selectedGroup?.brand ?? "mockup"}-${
-      selectedGroup?.model ?? "device"
-    }-${selectedOrientation}.${extension}`;
-    a.click();
+    downloadDataUrl(
+      url,
+      `${selectedGroup?.brand ?? "mockup"}-${
+        selectedGroup?.model ?? "device"
+      }-${selectedOrientation}.${extension}`,
+    );
   };
 
   const copyImageToClipboard = async (format: "png" | "webp" | "jpeg") => {
@@ -713,9 +716,13 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
-      <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
-        <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pr-4 scrollbar-hide">
+    <ToolShell
+      slug="phone-mockups"
+      title={tc("tools.phone-mockups.name")}
+      sub={tc("tools.phone-mockups.description")}
+    >
+      <div className="flex flex-col lg:flex-row gap-4">
+        <div className="w-full lg:w-1/3 space-y-4">
           <Card>
             <CardHeader>
               <CardTitle>{t("device")}</CardTitle>
@@ -982,8 +989,8 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
           </Card>
         </div>
 
-        <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit">
-          <Card className="h-full">
+        <div className="w-full lg:w-2/3">
+          <Card>
             <CardHeader>
               <div className="flex items-center justify-between gap-3">
                 <div>
@@ -1087,6 +1094,6 @@ export default function PhoneMockups({ groups }: PhoneMockupsProps) {
           </Card>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

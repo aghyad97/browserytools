@@ -2,7 +2,8 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -99,6 +100,7 @@ function roundRect(
 export default function ScreenshotBeautifier() {
   const t = useTranslations("Tools.ScreenshotBeautifier");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<SourceImage | null>(null);
   const [bgMode, setBgMode] = useState<BgMode>("preset");
@@ -147,12 +149,6 @@ export default function ScreenshotBeautifier() {
     },
     [t],
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] },
-    multiple: false,
-  });
 
   const onDropBackground = useCallback((files: File[]) => {
     const file = files[0];
@@ -360,22 +356,28 @@ export default function ScreenshotBeautifier() {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="screenshot-beautifier"
+      title={tc("tools.screenshot-beautifier.name")}
+      sub={tc("tools.screenshot-beautifier.description")}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
           {/* Preview / canvas */}
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
               {!image ? (
-                <div
-                  {...getRootProps()}
-                  className={`h-80 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
-                    isDragActive
-                      ? "border-primary bg-primary/10 scale-[0.99]"
-                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                  }`}
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] }}
+                  multiple={false}
+                  className={({ isDragActive }) =>
+                    `h-80 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
+                      isDragActive
+                        ? "border-primary bg-primary/10 scale-[0.99]"
+                        : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                    }`
+                  }
                 >
-                  <input {...getInputProps()} />
                   <div className="text-center">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-10 h-10 text-primary" />
@@ -383,7 +385,7 @@ export default function ScreenshotBeautifier() {
                     <h3 className="text-lg font-semibold mb-1">{t("dropImageHere")}</h3>
                     <p className="text-sm text-muted-foreground">{t("supportedFormats")}</p>
                   </div>
-                </div>
+                </FileDropzone>
               ) : (
                 <div className="space-y-3">
                   <div className="rounded-lg overflow-hidden bg-[conic-gradient(at_top_left,_#f3f4f6_25%,_#fff_0_50%,_#f3f4f6_0_75%,_#fff_0)] [background-size:20px_20px] flex items-center justify-center p-2">
@@ -518,9 +520,8 @@ export default function ScreenshotBeautifier() {
             </div>
           </Card>
         </div>
-        <p className="sr-only">{tCommon("download")}</p>
-      </div>
-    </div>
+      <p className="sr-only">{tCommon("download")}</p>
+    </ToolShell>
   );
 }
 
@@ -570,21 +571,19 @@ function BgImageDrop({
   replaceLabel: string;
   hasImage: boolean;
 }) {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
-    multiple: false,
-  });
   return (
-    <div
-      {...getRootProps()}
-      className={`rounded-md border-2 border-dashed p-4 text-center cursor-pointer text-sm transition-colors ${
-        isDragActive ? "border-primary bg-primary/10" : "border-muted-foreground/50 hover:border-primary"
-      }`}
+    <FileDropzone
+      onFiles={onDrop}
+      accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp"] }}
+      multiple={false}
+      className={({ isDragActive }) =>
+        `rounded-md border-2 border-dashed p-4 text-center cursor-pointer text-sm transition-colors ${
+          isDragActive ? "border-primary bg-primary/10" : "border-muted-foreground/50 hover:border-primary"
+        }`
+      }
     >
-      <input {...getInputProps()} />
       <ImageIcon className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />
       {hasImage ? replaceLabel : label}
-    </div>
+    </FileDropzone>
   );
 }

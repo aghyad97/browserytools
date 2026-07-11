@@ -2,7 +2,9 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadBlob } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -47,6 +49,7 @@ interface AsciiCell {
 export default function AsciiArt() {
   const t = useTranslations("Tools.AsciiArt");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [source, setSource] = useState<SourceImage | null>(null);
   const [columns, setColumns] = useState(100);
@@ -78,12 +81,6 @@ export default function AsciiArt() {
     reader.readAsDataURL(file);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"] },
-    multiple: false,
-  });
 
   const generate = useCallback(async () => {
     if (!source || isProcessing) return;
@@ -172,15 +169,8 @@ export default function AsciiArt() {
   const handleDownloadTxt = () => {
     if (!asciiText) return;
     const blob = new Blob([asciiText], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
     const base = source?.name.split(".")[0] || "ascii-art";
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = `${base}.txt`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, `${base}.txt`);
     toast.success(t("downloadedTxt"));
   };
 
@@ -224,15 +214,8 @@ export default function AsciiArt() {
           toast.error(t("generateFailed"));
           return;
         }
-        const url = URL.createObjectURL(blob);
         const base = source?.name.split(".")[0] || "ascii-art";
-        const link = document.createElement("a");
-        link.href = url;
-        link.download = `${base}-ascii.png`;
-        document.body.appendChild(link);
-        link.click();
-        document.body.removeChild(link);
-        URL.revokeObjectURL(url);
+        downloadBlob(blob, `${base}-ascii.png`);
         toast.success(t("downloadedPng"));
       }, "image/png");
     } catch (e) {
@@ -253,23 +236,30 @@ export default function AsciiArt() {
   }, [columns, ramp, invert, colored]);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="ascii-art"
+      title={tc("tools.ascii-art.name")}
+      sub={tc("tools.ascii-art.description")}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Controls column */}
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
-              <div
-                {...getRootProps()}
-                className={`h-56 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
-                  isDragActive
-                    ? "border-primary bg-primary/10 scale-[0.99]"
-                    : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                }`}
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"],
+                }}
+                multiple={false}
+                inputProps={{ "data-testid": "ascii-file-input" }}
+                className={({ isDragActive }) =>
+                  `h-56 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
+                    isDragActive
+                      ? "border-primary bg-primary/10 scale-[0.99]"
+                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                  }`
+                }
               >
-                <input {...getInputProps()} data-testid="ascii-file-input" />
                 {source ? (
                   <div className="w-full h-full relative">
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -292,7 +282,7 @@ export default function AsciiArt() {
                     </p>
                   </div>
                 )}
-              </div>
+              </FileDropzone>
             </Card>
 
             <Card className="p-4 space-y-5">
@@ -435,8 +425,7 @@ export default function AsciiArt() {
               </Button>
             </div>
           </div>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

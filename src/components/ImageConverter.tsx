@@ -2,6 +2,7 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
@@ -14,7 +15,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Upload, Download, Image as ImageIcon } from "lucide-react";
+import { Upload, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadUrl } from "@/lib/download";
@@ -49,6 +50,7 @@ async function encodeAvif(
 
 export default function ImageConverter() {
   const t = useTranslations("Tools.ImageConverter");
+  const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
 
   const [image, setImage] = useState<ImageInfo | null>(null);
@@ -190,11 +192,17 @@ export default function ImageConverter() {
   const formatOption = formatOptions.find((f) => f.value === targetFormat);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="image-converter"
+      title={tc("tools.image-converter.name")}
+      sub={tc("tools.image-converter.description")}
+      primaryAction={{
+        label: tCommon("download"),
+        onClick: handleDownload,
+        disabled: !convertedImage,
+      }}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
               <FileDropzone
@@ -311,19 +319,8 @@ export default function ImageConverter() {
                 )}
               </div>
             </Card>
-
-            <Button
-              onClick={handleDownload}
-              className="w-full"
-              disabled={!convertedImage}
-              variant="secondary"
-            >
-              <Download className="w-4 h-4 me-2" />
-              {tCommon("download")}
-            </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

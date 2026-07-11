@@ -2,11 +2,13 @@
 
 import { useCallback, useRef, useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { CopyButton } from "@/components/shared/CopyButton";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Upload, Pipette, Copy, Trash2 } from "lucide-react";
+import { Upload, Pipette, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 
 interface PickedColor {
@@ -120,6 +122,7 @@ const LOUPE_ZOOM = 8;
 export default function ImageColorPicker() {
   const t = useTranslations("Tools.ImageColorPicker");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const loupeRef = useRef<HTMLCanvasElement>(null);
@@ -183,12 +186,9 @@ export default function ImageColorPicker() {
     [t],
   );
 
-  const { getRootProps, getInputProps, isDragActive, open } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"] },
-    multiple: false,
-    noClick: true,
-  });
+  const IMAGE_ACCEPT = {
+    "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"],
+  } as const;
 
   const colorAt = useCallback((x: number, y: number): PickedColor | null => {
     const ctx = ctxRef.current;
@@ -283,23 +283,29 @@ export default function ImageColorPicker() {
   const current = picked ?? hover?.color ?? null;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="image-color-picker"
+      title={tc("tools.image-color-picker.name")}
+      sub={tc("tools.image-color-picker.description")}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left: canvas / dropzone */}
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
               {!src ? (
-                <div
-                  {...getRootProps()}
-                  onClick={open}
-                  className={`h-72 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
-                    isDragActive
-                      ? "border-primary bg-primary/10 scale-[0.99]"
-                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                  }`}
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={IMAGE_ACCEPT}
+                  multiple={false}
+                  inputProps={{ "data-testid": "image-input" }}
+                  className={({ isDragActive }) =>
+                    `h-72 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
+                      isDragActive
+                        ? "border-primary bg-primary/10 scale-[0.99]"
+                        : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                    }`
+                  }
                 >
-                  <input {...getInputProps()} data-testid="image-input" />
                   <div className="text-center">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-10 h-10 text-primary" />
@@ -311,7 +317,7 @@ export default function ImageColorPicker() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               ) : (
                 <div className="space-y-3">
                   <div className="relative inline-block max-w-full">
@@ -355,10 +361,19 @@ export default function ImageColorPicker() {
                       </div>
                     )}
                   </div>
-                  <Button variant="outline" size="sm" onClick={open}>
-                    <Upload className="w-4 h-4 me-2" />
-                    {t("changeImage")}
-                  </Button>
+                  <FileDropzone
+                    onFiles={onDrop}
+                    accept={IMAGE_ACCEPT}
+                    multiple={false}
+                    className={() => "inline-block"}
+                  >
+                    <Button variant="outline" size="sm" asChild>
+                      <span>
+                        <Upload className="w-4 h-4 me-2" />
+                        {t("changeImage")}
+                      </span>
+                    </Button>
+                  </FileDropzone>
                 </div>
               )}
             </Card>
@@ -421,15 +436,13 @@ export default function ImageColorPicker() {
                         >
                           {value}
                         </code>
-                        <Button
-                          type="button"
-                          variant="outline"
+                        <CopyButton
+                          text={value}
+                          label={t("copyLabel", { label })}
+                          successMessage={t("copied", { value })}
+                          errorMessage={t("copyFailed")}
                           size="icon"
-                          aria-label={t("copyLabel", { label })}
-                          onClick={() => copy(value)}
-                        >
-                          <Copy className="w-4 h-4" />
-                        </Button>
+                        />
                       </div>
                     ))}
                   </div>
@@ -470,8 +483,7 @@ export default function ImageColorPicker() {
               </Card>
             )}
           </div>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }
