@@ -22,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Copy,
   Camera,
   Upload,
   Download,
@@ -40,9 +39,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadText } from "@/lib/download";
 
 export default function BarcodeScanner() {
   const t = useTranslations("Tools.BarcodeScanner");
+  const tc = useTranslations("ToolsConfig");
   const [scannedData, setScannedData] = useState<string>("");
   const [barcodeType, setBarcodeType] = useState<string>("");
   const [isScanning, setIsScanning] = useState(false);
@@ -301,32 +304,17 @@ export default function BarcodeScanner() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const downloadResult = () => {
     const result = {
       barcode: scannedData,
       type: barcodeType,
       timestamp: new Date().toISOString(),
     };
-    const blob = new Blob([JSON.stringify(result, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "barcode-scan-result.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadText(
+      JSON.stringify(result, null, 2),
+      "barcode-scan-result.json",
+      "application/json"
+    );
   };
 
   const clearResults = () => {
@@ -455,7 +443,12 @@ export default function BarcodeScanner() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="barcode-scanner"
+      title={tc("tools.barcode-scanner.name")}
+      sub={tc("tools.barcode-scanner.description")}
+    >
+      <div className="w-full">
       <Tabs defaultValue="camera" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="camera">{t("cameraScan")}</TabsTrigger>
@@ -807,14 +800,12 @@ export default function BarcodeScanner() {
             </div>
 
             <div className="flex gap-2">
-              <Button
-                onClick={() => copyToClipboard(scannedData)}
-                variant="outline"
-                size="sm"
-              >
-                <Copy className="h-4 w-4 me-2" />
-                {t("copyData")}
-              </Button>
+              <CopyButton
+                text={scannedData}
+                label={t("copyData")}
+                successMessage={t("copiedToClipboard")}
+                errorMessage={t("copyFailed")}
+              />
               <Button onClick={downloadResult} variant="outline" size="sm">
                 <Download className="h-4 w-4 me-2" />
                 {t("downloadResult")}
@@ -841,6 +832,7 @@ export default function BarcodeScanner() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

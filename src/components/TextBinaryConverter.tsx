@@ -8,6 +8,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Copy, Trash2, ArrowRightLeft, FileText } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 
 type RepTab = "binary" | "hex" | "octal" | "decimal";
 type Direction = "text-to-binary" | "binary-to-text";
@@ -64,6 +65,7 @@ function reverseConvert(val: string, tab: RepTab): string {
 export default function TextBinaryConverter() {
   const t = useTranslations("Tools.TextBinaryConverter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [input, setInput] = useState("");
   const [reverseInput, setReverseInput] = useState("");
@@ -93,9 +95,12 @@ export default function TextBinaryConverter() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="text-binary"
+      title={tc("tools.text-binary.name")}
+      sub={tc("tools.text-binary.description")}
+    >
+      <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <Button variant={direction === "text-to-binary" ? "default" : "outline"} onClick={() => setDirection("text-to-binary")}>{t("textToBinary")}</Button>
             <Button variant={direction === "binary-to-text" ? "default" : "outline"} onClick={() => setDirection("binary-to-text")}>{t("binaryToText")}</Button>
@@ -131,8 +136,7 @@ export default function TextBinaryConverter() {
               </div>
             </TabsContent>
           </Tabs>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

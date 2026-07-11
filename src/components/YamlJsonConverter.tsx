@@ -8,12 +8,14 @@ import { toast } from "sonner";
 import { ArrowRightLeft, Copy, Trash2, FileText } from "lucide-react";
 import yaml from "js-yaml";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 
 type Mode = "yaml-to-json" | "json-to-yaml";
 
 export default function YamlJsonConverter() {
   const t = useTranslations("Tools.YamlJsonConverter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const sampleYaml = useMemo(() => {
     const n = tCommon("siteName");
     return [`name: ${n}`,"version: 1.0.0","features:","  - JSON Formatter","  - YAML Converter","meta:","  author: Dev Team","active: true","count: 42"].join("\n");
@@ -82,9 +84,12 @@ export default function YamlJsonConverter() {
   const outputLabel = mode === "yaml-to-json" ? t("jsonOutput") : t("yamlOutput");
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="yaml-json"
+      title={tc("tools.yaml-json.name")}
+      sub={tc("tools.yaml-json.description")}
+    >
+      <div className="space-y-4">
           <div className="flex flex-wrap items-center gap-2">
             <Button onClick={handleConvert}><ArrowRightLeft className="h-4 w-4 me-2" />{modeLabel}</Button>
             <Button variant="outline" onClick={handleSwap}><ArrowRightLeft className="h-4 w-4 me-2" />{t("swap")}</Button>
@@ -114,8 +119,7 @@ export default function YamlJsonConverter() {
               <Textarea placeholder={t("outputPlaceholder")} className="min-h-[420px] font-mono text-sm resize-none" dir="ltr" value={output} readOnly />
             </Card>
           </div>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

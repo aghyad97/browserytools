@@ -25,6 +25,8 @@ import {
   Film,
 } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadUrl } from "@/lib/download";
 import { encodeGif, type GifFrame } from "@/lib/media/gif-encode";
 
 type Quality = "720" | "1080" | "max";
@@ -60,6 +62,7 @@ function qualityDimensions(q: Quality): { width?: number; height?: number } {
 
 export default function ScreenRecorder() {
   const t = useTranslations("Tools.ScreenRecorder");
+  const tc = useTranslations("ToolsConfig");
 
   // Settings
   const [includeAudio, setIncludeAudio] = useState(false);
@@ -362,13 +365,13 @@ export default function ScreenRecorder() {
   };
 
   const downloadRecording = (entry: RecordingEntry) => {
-    const a = document.createElement("a");
-    a.href = entry.url;
-    a.download = `recording-${entry.createdAt
-      .toISOString()
-      .slice(0, 19)
-      .replace(/[:]/g, "-")}.webm`;
-    a.click();
+    downloadUrl(
+      entry.url,
+      `recording-${entry.createdAt
+        .toISOString()
+        .slice(0, 19)
+        .replace(/[:]/g, "-")}.webm`
+    );
     toast.success(t("downloadStarted"));
   };
 
@@ -459,18 +462,12 @@ export default function ScreenRecorder() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Monitor className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="screen-recorder"
+      title={tc("tools.screen-recorder.name")}
+      sub={tc("tools.screen-recorder.description")}
+    >
+      <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Controls */}
           <Card>
@@ -721,6 +718,6 @@ export default function ScreenRecorder() {
           </div>
         </div>
       )}
-    </div>
+    </ToolShell>
   );
 }

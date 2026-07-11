@@ -2,13 +2,8 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
 import {
   Select,
   SelectContent,
@@ -27,6 +22,7 @@ interface MediaDeviceInfoLite {
 
 export default function MicCameraTester() {
   const t = useTranslations("Tools.MicCameraTester");
+  const tc = useTranslations("ToolsConfig");
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [cameras, setCameras] = useState<MediaDeviceInfoLite[]>([]);
   const [mics, setMics] = useState<MediaDeviceInfoLite[]>([]);
@@ -152,16 +148,13 @@ export default function MicCameraTester() {
   })();
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>
-              {t("subtitle")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
+    <ToolShell
+      slug="mic-camera"
+      title={tc("tools.mic-camera.name")}
+      sub={tc("tools.mic-camera.description")}
+    >
+      <Card>
+        <CardContent className="space-y-4 pt-6">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>{t("camera")}</Label>
@@ -231,9 +224,8 @@ export default function MicCameraTester() {
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
-    </div>
+        </CardContent>
+      </Card>
+    </ToolShell>
   );
 }

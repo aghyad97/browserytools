@@ -2,8 +2,10 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadUrl } from "@/lib/download";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
@@ -51,6 +53,7 @@ function formatBytes(bytes: number): string {
 export default function CompressVideo() {
   const t = useTranslations("Tools.CompressVideo");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [video, setVideo] = useState<VideoInfo | null>(null);
   const [crf, setCrf] = useState(28);
@@ -93,12 +96,6 @@ export default function CompressVideo() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "video/*": [".mp4", ".mov", ".webm", ".mkv", ".avi", ".m4v"] },
-    multiple: false,
-  });
 
   const handleCompress = async () => {
     if (!video || isCompressing) return;
@@ -171,12 +168,7 @@ export default function CompressVideo() {
   const handleDownload = () => {
     if (!outputUrl || !video) return;
     const base = video.name.replace(/\.[^.]+$/, "");
-    const link = document.createElement("a");
-    link.href = outputUrl;
-    link.download = `${base}_compressed.mp4`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(outputUrl, `${base}_compressed.mp4`);
     toast.success(t("downloadedSuccess"));
   };
 
@@ -186,16 +178,21 @@ export default function CompressVideo() {
       : null;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="compress-video"
+      title={tc("tools.compress-video.name")}
+      sub={tc("tools.compress-video.description")}
+    >
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "video/*": [".mp4", ".mov", ".webm", ".mkv", ".avi", ".m4v"],
+                }}
+                multiple={false}
+                className={({ isDragActive }) => `
                   h-64 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
                   cursor-pointer transition-all duration-200
@@ -206,7 +203,6 @@ export default function CompressVideo() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 {video ? (
                   <div className="w-full h-full relative">
                     <video
@@ -232,7 +228,7 @@ export default function CompressVideo() {
                     </p>
                   </div>
                 )}
-              </div>
+              </FileDropzone>
             </Card>
 
             <Card className="p-4 space-y-4">
@@ -377,7 +373,6 @@ export default function CompressVideo() {
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

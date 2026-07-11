@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 function sanitizeName(s: string): string {
   return s.replace(/[^a-zA-Z0-9_]/g, "_").replace(/^[0-9]/, "_$&");
@@ -68,6 +69,7 @@ const SAMPLE = JSON.stringify({
 
 export default function JsonToTs() {
   const t = useTranslations("Tools.JsonToTs");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [rootName, setRootName] = useState("");
   const [optionalNulls, setOptionalNulls] = useState(false);
@@ -84,13 +86,14 @@ export default function JsonToTs() {
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
+    <ToolShell
+      slug="json-to-ts"
+      title={tc("tools.json-to-ts.name")}
+      sub={tc("tools.json-to-ts.description")}
+    >
+      <div className="space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="pt-6 space-y-4">
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className="space-y-2">
               <Label>{t("rootName")}</Label>
@@ -125,12 +128,11 @@ export default function JsonToTs() {
           </CardHeader>
           <CardContent className="space-y-3">
             <pre className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap">{output}</pre>
-            <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(output); toast.success(t("copied")); }}>
-              {t("copyOutput")}
-            </Button>
+            <CopyButton text={output} label={t("copyOutput")} successMessage={t("copied")} />
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

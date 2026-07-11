@@ -2,11 +2,12 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 const SAMPLES: Record<string, string> = {
   flowchart: `flowchart TD
@@ -42,6 +43,7 @@ async function loadMermaid(): Promise<MermaidApi> {
 
 export default function MermaidViewer() {
   const t = useTranslations("Tools.MermaidViewer");
+  const tc = useTranslations("ToolsConfig");
   const [code, setCode] = useState(SAMPLES.flowchart);
   const [svg, setSvg] = useState("");
   const [error, setError] = useState("");
@@ -67,13 +69,14 @@ export default function MermaidViewer() {
   }, [code, t]);
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
+    <ToolShell
+      slug="mermaid"
+      title={tc("tools.mermaid.name")}
+      sub={tc("tools.mermaid.description")}
+    >
+      <div className="space-y-4">
       <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+        <CardContent className="pt-6 space-y-4">
           <div className="space-y-2">
             <Label>{t("inputLabel")}</Label>
             <Textarea dir="ltr" value={code} onChange={(e) => setCode(e.target.value)} placeholder={t("inputPlaceholder")} className="min-h-[200px] font-mono text-sm resize-y" />
@@ -84,7 +87,7 @@ export default function MermaidViewer() {
               <Button key={key} variant="outline" size="sm" onClick={() => setCode(SAMPLES[key])}>{key}</Button>
             ))}
             <Button variant="outline" size="sm" onClick={() => setCode("")}>{t("clearAll")}</Button>
-            {code && <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(code); toast.success(t("copied")); }}>{t("copyCode")}</Button>}
+            {code && <CopyButton text={code} label={t("copyCode")} successMessage={t("copied")} />}
           </div>
         </CardContent>
       </Card>
@@ -100,6 +103,7 @@ export default function MermaidViewer() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

@@ -2,8 +2,10 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -65,6 +67,7 @@ const formatOptions = [
 export default function VideoEditor() {
   const t = useTranslations("Tools.VideoEditor");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [video, setVideo] = useState<VideoInfo | null>(null);
   const [trimRange, setTrimRange] = useState<TrimRange>({ start: 0, end: 0 });
   const [targetFormat, setTargetFormat] = useState("video/mp4");
@@ -132,14 +135,6 @@ export default function VideoEditor() {
       reader.readAsDataURL(file);
     }
   }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "video/*": [".mp4", ".webm", ".ogg", ".mov", ".avi"],
-    },
-    multiple: false,
-  });
 
   const handlePlayPause = () => {
     if (!videoRef.current) return;
@@ -436,12 +431,7 @@ export default function VideoEditor() {
 
   const handleDownloadGif = () => {
     if (!gifUrl || !video) return;
-    const link = document.createElement("a");
-    link.href = gifUrl;
-    link.download = `${video.name.split(".")[0]}.gif`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(gifUrl, `${video.name.split(".")[0]}.gif`);
     toast.success(t("downloadedSuccess"));
   };
 
@@ -452,12 +442,7 @@ export default function VideoEditor() {
     const extension = formatOption?.extension || "mp4";
     const filename = `${video.name.split(".")[0]}_processed.${extension}`;
 
-    const link = document.createElement("a");
-    link.href = processedVideo;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(processedVideo, filename);
     toast.success(t("downloadedSuccess"));
   };
 
@@ -504,16 +489,21 @@ export default function VideoEditor() {
   const showGifWarning = gifFrameEstimate > 300 || gifWidth > 800;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
+    <ToolShell
+      slug="video"
+      title={tc("tools.video.name")}
+      sub={tc("tools.video.description")}
+    >
+        <div className="space-y-6">
           {!video ? (
             <Card className="p-6">
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "video/*": [".mp4", ".webm", ".ogg", ".mov", ".avi"],
+                }}
+                multiple={false}
+                className={({ isDragActive }) => `
                   h-64 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
                   cursor-pointer transition-all duration-200
@@ -524,7 +514,6 @@ export default function VideoEditor() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="text-center">
                   <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <Upload className="w-10 h-10 text-primary" />
@@ -536,7 +525,7 @@ export default function VideoEditor() {
                     {t("supportedFormats")}
                   </p>
                 </div>
-              </div>
+              </FileDropzone>
             </Card>
           ) : (
             <div className="space-y-6">
@@ -1062,7 +1051,6 @@ export default function VideoEditor() {
           {/* Hidden canvas for video processing */}
           <canvas ref={canvasRef} className="hidden" />
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

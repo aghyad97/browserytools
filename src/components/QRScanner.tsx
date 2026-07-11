@@ -15,7 +15,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import {
-  Copy,
   Camera,
   Upload,
   Download,
@@ -32,9 +31,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadText } from "@/lib/download";
 
 export default function QRScanner() {
   const t = useTranslations("Tools.QRScanner");
+  const tc = useTranslations("ToolsConfig");
   const [scannedData, setScannedData] = useState<string>("");
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string>("");
@@ -265,25 +268,8 @@ export default function QRScanner() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const downloadResult = () => {
-    const blob = new Blob([scannedData], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "qr-code-data.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadText(scannedData, "qr-code-data.txt");
   };
 
   const clearResults = () => {
@@ -394,7 +380,12 @@ export default function QRScanner() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="qr-scanner"
+      title={tc("tools.qr-scanner.name")}
+      sub={tc("tools.qr-scanner.description")}
+    >
+      <div className="w-full">
       <Tabs defaultValue="camera" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="camera">{t("cameraScan")}</TabsTrigger>
@@ -722,14 +713,12 @@ export default function QRScanner() {
             </div>
 
             <div className="flex gap-2">
-              <Button
-                onClick={() => copyToClipboard(scannedData)}
-                variant="outline"
-                size="sm"
-              >
-                <Copy className="h-4 w-4 me-2" />
-                {t("copy")}
-              </Button>
+              <CopyButton
+                text={scannedData}
+                label={t("copy")}
+                successMessage={t("copiedToClipboard")}
+                errorMessage={t("copyFailed")}
+              />
               <Button onClick={downloadResult} variant="outline" size="sm">
                 <Download className="h-4 w-4 me-2" />
                 {t("download")}
@@ -750,6 +739,7 @@ export default function QRScanner() {
           </CardContent>
         </Card>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

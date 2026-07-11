@@ -23,6 +23,8 @@ import { Copy, Download, RotateCcw, BarChart3 } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadDataUrl } from "@/lib/download";
 
 // Barcode types supported by JsBarcode
 const BARCODE_TYPES = [
@@ -70,6 +72,7 @@ const SAMPLE_DATA = {
 
 export default function BarcodeGenerator() {
   const t = useTranslations("Tools.BarcodeGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [inputText, setInputText] = useState("");
   const [barcodeType, setBarcodeType] = useState("CODE128");
   const [width, setWidth] = useState(2);
@@ -142,12 +145,7 @@ export default function BarcodeGenerator() {
     }
 
     try {
-      const link = document.createElement("a");
-      link.download = `${fileName}.png`;
-      link.href = canvas.toDataURL();
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadDataUrl(canvas.toDataURL(), `${fileName}.png`);
 
       toast.success(t("downloadStarted"));
     } catch (error) {
@@ -182,7 +180,11 @@ export default function BarcodeGenerator() {
   }, [inputText, barcodeType, width, height, displayValue, fontSize, margin]);
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
+    <ToolShell
+      slug="barcode-generator"
+      title={tc("tools.barcode-generator.name")}
+      sub={tc("tools.barcode-generator.description")}
+    >
       <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
         {/* Input Section - Sticky Sidebar */}
         <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pe-4 scrollbar-hide">
@@ -412,6 +414,6 @@ export default function BarcodeGenerator() {
           </Card>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -26,9 +26,11 @@ import {
   Code,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 
 export function Charts() {
   const t = useTranslations("Tools.Charts");
+  const tc = useTranslations("ToolsConfig");
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [data, setData] = useState<ChartDataPoint[]>(SAMPLE_DATA.bar);
   const [settings, setSettings] = useState<ChartSettings>(
@@ -64,7 +66,11 @@ export function Charts() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
+    <ToolShell
+      slug="charts"
+      title={tc("tools.charts.name")}
+      sub={tc("tools.charts.description")}
+    >
       <div className="flex flex-col lg:flex-row gap-4 min-h-screen">
         {/* Left Sidebar - Controls */}
         <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pe-4 scrollbar-hide max-h-screen">
@@ -200,6 +206,6 @@ export function Charts() {
           </div>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

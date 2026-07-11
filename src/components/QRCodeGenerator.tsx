@@ -25,6 +25,8 @@ import NumberFlow from "@number-flow/react";
 import QRCode from "qrcode";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadBlob, downloadDataUrl } from "@/lib/download";
 
 // QR Code generator using the qrcode package
 const generateQRCode = async (
@@ -58,6 +60,7 @@ const generateQRCode = async (
 
 export default function QRCodeGenerator() {
   const t = useTranslations("Tools.QRCodeGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [inputText, setInputText] = useState("");
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState("");
   const [size, setSize] = useState(256);
@@ -125,25 +128,13 @@ export default function QRCodeGenerator() {
         format
       );
 
-      const link = document.createElement("a");
-      link.download = `${fileName}.${format}`;
-
       if (format === "svg") {
         // For SVG, create a blob with the SVG content
         const blob = new Blob([qrCodeData], { type: "image/svg+xml" });
-        link.href = URL.createObjectURL(blob);
+        downloadBlob(blob, `${fileName}.${format}`);
       } else {
         // For PNG/JPEG, use the data URL directly
-        link.href = qrCodeData;
-      }
-
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Clean up the object URL for SVG
-      if (format === "svg") {
-        URL.revokeObjectURL(link.href);
+        downloadDataUrl(qrCodeData, `${fileName}.${format}`);
       }
 
       toast.success(t("downloadStarted"));
@@ -183,7 +174,11 @@ export default function QRCodeGenerator() {
   }, [inputText, size, errorCorrectionLevel, format]);
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
+    <ToolShell
+      slug="qr-generator"
+      title={tc("tools.qr-generator.name")}
+      sub={tc("tools.qr-generator.description")}
+    >
       <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
         {/* Input Section - Sticky Sidebar */}
         <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pe-4 scrollbar-hide">
@@ -412,6 +407,6 @@ export default function QRCodeGenerator() {
           </Card>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

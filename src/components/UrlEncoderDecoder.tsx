@@ -10,12 +10,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import { Copy, Trash2, ArrowRightLeft, FileText } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 
 const SAMPLE_URL = "https://example.com/search?q=hello world&lang=en&filter=a+b";
 const SAMPLE_TEXT = "Hello World! Special chars: @#$%^&*() URL: https://example.com/path?foo=bar";
 
 export default function UrlEncoderDecoder() {
   const t = useTranslations("Tools.UrlEncoderDecoder");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [tab, setTab] = useState("encode");
@@ -60,9 +62,12 @@ export default function UrlEncoderDecoder() {
   const handleLoadSample = () => { setInput(fullUrl ? SAMPLE_URL : SAMPLE_TEXT); };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="url-encoder"
+      title={tc("tools.url-encoder.name")}
+      sub={tc("tools.url-encoder.description")}
+    >
+      <div className="space-y-4">
           <Tabs value={tab} onValueChange={setTab}>
             <div className="flex flex-wrap items-center gap-2">
               <TabsList>
@@ -100,8 +105,7 @@ export default function UrlEncoderDecoder() {
               </div>
             </TabsContent>
           </Tabs>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

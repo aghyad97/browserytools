@@ -18,6 +18,8 @@ import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
 import "highlight.js/styles/github-dark.css";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadText } from "@/lib/download";
 
 type ConversionMode = "jsonToCsv" | "csvToJson";
 // Register the languages
@@ -25,6 +27,7 @@ hljs.registerLanguage("json", json);
 
 export default function JsonCsvConverter() {
   const t = useTranslations("Tools.JsonCsvConverter");
+  const tc = useTranslations("ToolsConfig");
   const outputRef = useRef<HTMLPreElement>(null);
 
   const [input, setInput] = useState("");
@@ -109,17 +112,11 @@ export default function JsonCsvConverter() {
       return;
     }
 
-    const blob = new Blob([output], {
-      type: mode === "jsonToCsv" ? "text/csv" : "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = mode === "jsonToCsv" ? "converted.csv" : "converted.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadText(
+      output,
+      mode === "jsonToCsv" ? "converted.csv" : "converted.json",
+      mode === "jsonToCsv" ? "text/csv" : "application/json",
+    );
     toast.success(t("fileDownloadedSuccessfully"));
   };
 
@@ -173,11 +170,12 @@ export default function JsonCsvConverter() {
   }, [output, mode]);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-hidden p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="json-csv"
+      title={tc("tools.json-csv.name")}
+      sub={tc("tools.json-csv.description")}
+    >
+      <div className="space-y-4">
           <div className="flex items-center justify-between">
             <Select
               value={mode}
@@ -257,8 +255,7 @@ export default function JsonCsvConverter() {
               </div>
             </Card>
           </div>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

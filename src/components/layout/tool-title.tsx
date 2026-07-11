@@ -142,6 +142,25 @@ const HAS_OWN_H1 = new Set([
   "zip",
   "spreadsheet",
   "file-converter",
+  // R2 batch B5: Data + Media Tools migrated onto ToolShell (the shell owns the
+  // h1). fake-data, audio and screen-recorder were already listed above (they
+  // rendered their own h1 pre-migration) and are unchanged here.
+  "json-csv",
+  "base64",
+  "qr-generator",
+  "barcode-generator",
+  "qr-scanner",
+  "barcode-scanner",
+  "charts",
+  "yaml-json",
+  "url-encoder",
+  "text-binary",
+  "json-to-ts",
+  "mermaid",
+  "video",
+  "mic-camera",
+  "compress-video",
+  "gif-maker",
 ]);
 
 export function ToolTitle() {

@@ -2,8 +2,10 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadUrl } from "@/lib/download";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -61,6 +63,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 export default function GifMaker() {
   const t = useTranslations("Tools.GifMaker");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [frames, setFrames] = useState<Frame[]>([]);
   const [delay, setDelay] = useState(200); // ms per frame
@@ -111,14 +114,6 @@ export default function GifMaker() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"],
-    },
-    multiple: true,
-  });
 
   const removeFrame = (id: string) => {
     setFrames((prev) => {
@@ -209,26 +204,28 @@ export default function GifMaker() {
 
   const handleDownload = () => {
     if (!result) return;
-    const link = document.createElement("a");
-    link.href = result;
-    link.download = "animation.gif";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(result, "animation.gif");
   };
 
   const fps = (1000 / delay).toFixed(1);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="gif-maker"
+      title={tc("tools.gif-maker.name")}
+      sub={tc("tools.gif-maker.description")}
+    >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left: frames + controls */}
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"],
+                }}
+                multiple={true}
+                className={({ isDragActive }) => `
                   h-40 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-3 p-6
                   cursor-pointer transition-all duration-200
@@ -239,7 +236,6 @@ export default function GifMaker() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
                   <Upload className="w-7 h-7 text-primary" />
                 </div>
@@ -247,7 +243,7 @@ export default function GifMaker() {
                   <h3 className="text-base font-semibold">{t("dropHere")}</h3>
                   <p className="text-sm text-muted-foreground">{t("supported")}</p>
                 </div>
-              </div>
+              </FileDropzone>
             </Card>
 
             {frames.length > 0 && (
@@ -462,7 +458,6 @@ export default function GifMaker() {
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

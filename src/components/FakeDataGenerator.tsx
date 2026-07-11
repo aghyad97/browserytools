@@ -7,9 +7,12 @@ import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Copy, Download, RefreshCw, UserCircle2 } from "lucide-react";
+import { Download, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
 
 // Data pools
 const FIRST_NAMES = ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank", "Grace", "Henry", "Isabella", "James", "Kate", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn", "Rachel", "Sam", "Tina", "Uma", "Victor", "Wendy", "Xander", "Yara", "Zoe"];
@@ -45,6 +48,7 @@ interface FieldConfig {
 
 export default function FakeDataGenerator() {
   const t = useTranslations("Tools.FakeDataGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [count, setCount] = useState(10);
   const [format, setFormat] = useState<"json" | "csv">("json");
   const [output, setOutput] = useState("");
@@ -96,26 +100,11 @@ export default function FakeDataGenerator() {
     toast.success(t("generatedRecords", { count: rows.length }));
   };
 
-  const handleCopy = async () => {
-    if (!output) return;
-    try {
-      await navigator.clipboard.writeText(output);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  };
-
   const handleDownload = () => {
     if (!output) return;
     const ext = format === "json" ? "json" : "csv";
     const blob = new Blob([output], { type: format === "json" ? "application/json" : "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `fake-data-${Date.now()}.${ext}`;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(blob, `fake-data-${Date.now()}.${ext}`);
   };
 
   const toggleField = (key: string) => {
@@ -123,18 +112,12 @@ export default function FakeDataGenerator() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-5xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <UserCircle2 className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="fake-data"
+      title={tc("tools.fake-data.name")}
+      sub={tc("tools.fake-data.description")}
+    >
+      <div className="space-y-6">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Controls */}
           <div className="space-y-4">
@@ -203,9 +186,12 @@ export default function FakeDataGenerator() {
                 <CardTitle className="text-sm flex items-center justify-between">
                   {t("outputTitle")}
                   <div className="flex gap-2">
-                    <Button size="sm" variant="outline" onClick={handleCopy} disabled={!output}>
-                      <Copy className="w-3.5 h-3.5 me-1.5" /> {t("copy")}
-                    </Button>
+                    <CopyButton
+                      text={output}
+                      disabled={!output}
+                      successMessage={t("copiedToClipboard")}
+                      errorMessage={t("failedToCopy")}
+                    />
                     <Button size="sm" variant="outline" onClick={handleDownload} disabled={!output}>
                       <Download className="w-3.5 h-3.5 me-1.5" /> {t("download")}
                     </Button>
@@ -224,6 +210,6 @@ export default function FakeDataGenerator() {
           </div>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }
