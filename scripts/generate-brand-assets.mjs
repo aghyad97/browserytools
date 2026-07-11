@@ -39,6 +39,10 @@ const TILE_SIZE = 512;
 const TILE_RADIUS_PCT = 0.24;
 const TILE_INSET_PCT = 0.18;
 const TILE_COLOR = "#161615";
+// false = raw mark on transparent (no rounded dark tile behind app icons);
+// icon.svg stays black (light UIs), icon-dark.svg becomes the white variant.
+const TILE_ENABLED = false;
+const BARE_INSET_PCT = 0.04;
 
 const GENERATED_HEADER =
   "/* AUTO-GENERATED from src/brand/logo.svg — run: bun run brand */";
@@ -144,8 +148,8 @@ ${indented}
 
 // --- public/icon.svg + icon-dark.svg (dark tile, white mark, 18% inset) ----
 
-function buildTileIcon(logo) {
-  const inset = TILE_SIZE * TILE_INSET_PCT;
+function buildTileIcon(logo, { markColor = "#FFFFFF" } = {}) {
+  const inset = TILE_SIZE * (TILE_ENABLED ? TILE_INSET_PCT : BARE_INSET_PCT);
   const innerBox = TILE_SIZE - inset * 2;
   const radius = TILE_SIZE * TILE_RADIUS_PCT;
 
@@ -156,10 +160,12 @@ function buildTileIcon(logo) {
   const tx = inset + (innerBox - logo.vw * scale) / 2 - logo.vx * scale;
   const ty = inset + (innerBox - logo.vh * scale) / 2 - logo.vy * scale;
 
-  const mark = recolor(logo.inner, "#FFFFFF");
+  const mark = recolor(logo.inner, TILE_ENABLED ? "#FFFFFF" : markColor);
+  const tileRect = TILE_ENABLED
+    ? `\n<rect width="${TILE_SIZE}" height="${TILE_SIZE}" rx="${radius}" fill="${TILE_COLOR}"/>`
+    : "";
 
-  return `<svg width="${TILE_SIZE}" height="${TILE_SIZE}" viewBox="0 0 ${TILE_SIZE} ${TILE_SIZE}" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect width="${TILE_SIZE}" height="${TILE_SIZE}" rx="${radius}" fill="${TILE_COLOR}"/>
+  return `<svg width="${TILE_SIZE}" height="${TILE_SIZE}" viewBox="0 0 ${TILE_SIZE} ${TILE_SIZE}" fill="none" xmlns="http://www.w3.org/2000/svg">${tileRect}
 <g transform="translate(${tx} ${ty}) scale(${scale})">
 ${mark}
 </g>
@@ -218,9 +224,14 @@ async function main() {
   console.log("Generating brand assets...");
   writeFile(GLYPH_OUT, buildGlyphComponent(logo));
 
-  const tileIcon = buildTileIcon(logo);
+  const tileIcon = buildTileIcon(logo, { markColor: "#000000" });
   writeFile(ICON_OUT, tileIcon);
-  writeFile(ICON_DARK_OUT, tileIcon);
+  // Dark-UI variant: with the tile the two are identical; without it the
+  // mark must flip to white or it vanishes on dark browser chrome.
+  writeFile(
+    ICON_DARK_OUT,
+    TILE_ENABLED ? tileIcon : buildTileIcon(logo, { markColor: "#FFFFFF" })
+  );
 
   writeFile(SAFARI_OUT, buildSafariPinnedTab(logo));
 
