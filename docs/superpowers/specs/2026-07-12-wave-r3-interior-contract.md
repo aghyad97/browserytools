@@ -84,3 +84,4 @@ tools verified at 1440+1920; unit+smoke+e2e green; RTL + dark full pass.
 - Light `--bt-muted` darkened #8a8a85 → #757570 (4.5:1 AA on surface; review finding I-1). Bridge transcode synced.
 - StatStrip's value-above-caption order is DELIBERATE (conventional stat-card reading); ControlStat keeps caption-above-value in the controls bar. Not a defect (M-2).
 - ModePicker dark-mode indicator lifts with --bt-fill-hover (M-3).
+- Pilot review precedents RATIFIED: Tabs→ModePicker only when panels structurally identical AND options fit narrow containers (see ModePicker overflow fix); shell ControlsBar keeps global controls — SettingsCard only for hand-rolled body options; computed explanations → titled SettingsCard prose; OutputPanel owns copy+download (controls-bar copy deduped).
