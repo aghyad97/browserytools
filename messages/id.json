@@ -103,7 +103,10 @@
       "devTools": "Alat Pengembang",
       "securityTools": "Alat Keamanan",
       "designTools": "Desain & Visual",
-      "aiTools": "Alat AI"
+      "aiTools": "Alat AI",
+      "testsGames": "Tes & Permainan",
+      "schoolLearning": "Sekolah & Belajar",
+      "business": "Bisnis"
     },
     "tools": {
       "bg-removal": {
@@ -666,7 +669,10 @@
       "devTools": "Dev",
       "designTools": "Desain",
       "securityTools": "Keamanan",
-      "aiTools": "AI"
+      "aiTools": "AI",
+      "testsGames": "Permainan",
+      "schoolLearning": "Sekolah",
+      "business": "Bisnis"
     }
   },
   "Tools": {

@@ -103,7 +103,10 @@
       "devTools": "Инструменты для разработчиков",
       "securityTools": "Инструменты безопасности",
       "designTools": "Дизайн и графика",
-      "aiTools": "ИИ-инструменты"
+      "aiTools": "ИИ-инструменты",
+      "testsGames": "Тесты и игры",
+      "schoolLearning": "Школа и обучение",
+      "business": "Бизнес"
     },
     "tools": {
       "bg-removal": {
@@ -666,7 +669,10 @@
       "devTools": "Разработка",
       "designTools": "Дизайн",
       "securityTools": "Безопасность",
-      "aiTools": "ИИ"
+      "aiTools": "ИИ",
+      "testsGames": "Игры",
+      "schoolLearning": "Школа",
+      "business": "Бизнес"
     }
   },
   "Tools": {

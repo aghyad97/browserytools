@@ -73,6 +73,12 @@ const CHIP: Record<string, { bg: string; fg: string }> = {
   designTools: { bg: "var(--bt-cat-design-bg)", fg: "var(--bt-cat-design-fg)" },
   securityTools: { bg: "var(--bt-cat-sec-bg)", fg: "var(--bt-cat-sec-fg)" },
   aiTools: { bg: "var(--bt-cat-ai-bg)", fg: "var(--bt-cat-ai-fg)" },
+  testsGames: { bg: "var(--bt-cat-games-bg)", fg: "var(--bt-cat-games-fg)" },
+  schoolLearning: {
+    bg: "var(--bt-cat-school-bg)",
+    fg: "var(--bt-cat-school-fg)",
+  },
+  business: { bg: "var(--bt-cat-biz-bg)", fg: "var(--bt-cat-biz-fg)" },
 };
 
 interface RelatedEntry {

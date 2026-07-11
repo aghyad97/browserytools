@@ -178,16 +178,6 @@ export const tools: ToolCategory[] = [
           "Combine multiple photos into a collage with grid, strip, and mosaic layouts. Adjust spacing, corner radius, background, and output size, then export as PNG or JPEG. 100% in your browser.",
       },
       {
-        name: "Image Color Picker",
-        href: "/tools/image-color-picker",
-        icon: PipetteIcon,
-        available: true,
-        order: 13,
-        creationDate: "2026-05-21",
-        description:
-          "Pick any color from an image. Upload a photo and hover or click to get HEX, RGB, and HSL plus a dominant-color palette. 100% in-browser via canvas.",
-      },
-      {
         name: "EXIF Remover",
         href: "/tools/exif-remover",
         icon: EraserIcon,
@@ -306,16 +296,6 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-20",
         description:
           "Resize images to exact dimensions or by percentage. Lock aspect ratio, choose output format, and adjust quality. No file size limits, runs fully in browser.",
-      },
-      {
-        name: "Color Blindness Simulator",
-        href: "/tools/color-blindness",
-        icon: EyeIcon,
-        available: true,
-        order: 21,
-        creationDate: "2026-02-22",
-        description:
-          "Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.",
       },
       {
         name: "EXIF Viewer",
@@ -460,7 +440,7 @@ export const tools: ToolCategory[] = [
     order: 5,
     items: [
       {
-        name: "Speech to Text",
+        name: "Live Dictation (mic)",
         href: "/tools/speech-to-text",
         icon: MicIcon,
         available: true,
@@ -510,16 +490,6 @@ export const tools: ToolCategory[] = [
           "Count words, characters, lines, and paragraphs in text. Analyze readability, estimate reading time, and get detailed statistics for content analysis.",
       },
       {
-        name: "Code Formatter",
-        href: "/tools/code-format",
-        icon: CodeIcon,
-        available: true,
-        order: 3,
-        creationDate: "2025-08-20",
-        description:
-          "Format and beautify your code with proper indentation and syntax highlighting. Supports JavaScript, Python, HTML, CSS, JSON, and many more languages.",
-      },
-      {
         name: "Rich Editor",
         href: "/tools/rich-editor",
         icon: BookMinusIcon,
@@ -538,16 +508,6 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-08-20",
         description:
           "Generate placeholder text for designs and mockups. Customize length, paragraphs, and format. Perfect for web design, presentations, and prototyping.",
-      },
-      {
-        name: "Typing Test",
-        href: "/tools/typing-test",
-        icon: TypeIcon,
-        available: true,
-        order: 6,
-        creationDate: "2025-09-01",
-        description:
-          "Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.",
       },
       {
         name: "Text Diff Viewer",
@@ -569,16 +529,6 @@ export const tools: ToolCategory[] = [
           "Write Markdown with a live split-pane preview. Supports GFM tables, code blocks, and task lists. Export as Markdown or HTML.",
       },
       {
-        name: "HTML Formatter",
-        href: "/tools/html-formatter",
-        icon: CodeIcon,
-        available: true,
-        order: 9,
-        creationDate: "2026-02-20",
-        description:
-          "Format, prettify, or minify HTML code. Automatically indents tags, fixes nesting, and removes whitespace for production builds.",
-      },
-      {
         name: "Notepad",
         href: "/tools/notepad",
         icon: NotebookIcon,
@@ -597,16 +547,6 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-22",
         description:
           "Sort lines of text alphabetically, by length, or numerically. Remove duplicates, reverse order, shuffle randomly, and trim whitespace.",
-      },
-      {
-        name: "Morse Code Converter",
-        href: "/tools/morse-code",
-        icon: RadioIcon,
-        available: true,
-        order: 12,
-        creationDate: "2026-02-22",
-        description:
-          "Convert text to Morse code and decode Morse code back to text. Supports all letters, numbers, and punctuation. Copy or play audio beeps.",
       },
       {
         name: "Word Frequency Analyzer",
@@ -726,16 +666,6 @@ export const tools: ToolCategory[] = [
           "Create beautiful, customizable charts with full control over every detail. Support for area, bar, line, pie, radar, and radial charts with multiple export options.",
       },
       {
-        name: "JSON Formatter",
-        href: "/tools/json-formatter",
-        icon: BracesIcon,
-        available: true,
-        order: 8,
-        creationDate: "2026-02-20",
-        description:
-          "Format, validate, and minify JSON. Pretty-print with syntax highlighting, detect errors, sort keys, and minify for production. Works entirely in your browser.",
-      },
-      {
         name: "YAML ↔ JSON",
         href: "/tools/yaml-json",
         icon: RefreshCwIcon,
@@ -795,6 +725,16 @@ export const tools: ToolCategory[] = [
         description:
           "Write Mermaid markdown and see your diagram rendered live. Supports flowcharts, sequence diagrams, ER diagrams, and more.",
       },
+      {
+        name: "Morse Code Converter",
+        href: "/tools/morse-code",
+        icon: RadioIcon,
+        available: true,
+        order: 15,
+        creationDate: "2026-02-22",
+        description:
+          "Convert text to Morse code and decode Morse code back to text. Supports all letters, numbers, and punctuation. Copy or play audio beeps.",
+      },
     ],
   },
   {
@@ -802,26 +742,6 @@ export const tools: ToolCategory[] = [
     id: "mathFinance",
     order: 7,
     items: [
-      {
-        name: "Periodic Table",
-        href: "/tools/periodic-table",
-        icon: AtomIcon,
-        available: true,
-        order: 14,
-        creationDate: "2026-05-21",
-        description:
-          "Interactive periodic table of all 118 elements in the standard layout. Color-coded by category, searchable by name, symbol, or atomic number. Click any element for atomic mass, group, period, and electron configuration.",
-      },
-      {
-        name: "Invoice Generator",
-        href: "/tools/invoice",
-        icon: ReceiptIcon,
-        available: true,
-        order: 1,
-        creationDate: "2025-08-20",
-        description:
-          "Create professional invoices with customizable templates, automatic tax calculations, and PDF export. Perfect for freelancers, small businesses, and contractors.",
-      },
       {
         name: "Unit Converter",
         href: "/tools/unit-converter",
@@ -872,16 +792,6 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-09-10",
         description:
           "Convert between binary, octal, decimal and hexadecimal with live validation.",
-      },
-      {
-        name: "Expense Tracker",
-        href: "/tools/expense-tracker",
-        icon: DollarSignIcon,
-        available: true,
-        order: 7,
-        creationDate: "2025-09-11",
-        description:
-          "Track your expenses with detailed categorization, budget management, and comprehensive reports. Visualize spending patterns with interactive charts and export data for analysis.",
       },
       {
         name: "Currency Converter",
@@ -1166,6 +1076,36 @@ export const tools: ToolCategory[] = [
         description:
           "Convert a curl command into ready-to-run code for JavaScript fetch, Node.js, Python requests, Go, and PHP. Parses headers, query, auth, and body entirely in your browser.",
       },
+      {
+        name: "Code Formatter",
+        href: "/tools/code-format",
+        icon: CodeIcon,
+        available: true,
+        order: 11,
+        creationDate: "2025-08-20",
+        description:
+          "Format and beautify your code with proper indentation and syntax highlighting. Supports JavaScript, Python, HTML, CSS, JSON, and many more languages.",
+      },
+      {
+        name: "HTML Formatter",
+        href: "/tools/html-formatter",
+        icon: CodeIcon,
+        available: true,
+        order: 12,
+        creationDate: "2026-02-20",
+        description:
+          "Format, prettify, or minify HTML code. Automatically indents tags, fixes nesting, and removes whitespace for production builds.",
+      },
+      {
+        name: "JSON Formatter",
+        href: "/tools/json-formatter",
+        icon: BracesIcon,
+        available: true,
+        order: 13,
+        creationDate: "2026-02-20",
+        description:
+          "Format, validate, and minify JSON. Pretty-print with syntax highlighting, detect errors, sort keys, and minify for production. Works entirely in your browser.",
+      },
     ],
   },
   {
@@ -1348,6 +1288,26 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-03-05",
         description:
           "Build CSS box shadows visually with sliders for offset, blur, spread, color, and opacity. Supports multiple shadow layers.",
+      },
+      {
+        name: "Image Color Picker",
+        href: "/tools/image-color-picker",
+        icon: PipetteIcon,
+        available: true,
+        order: 22,
+        creationDate: "2026-05-21",
+        description:
+          "Pick any color from an image. Upload a photo and hover or click to get HEX, RGB, and HSL plus a dominant-color palette. 100% in-browser via canvas.",
+      },
+      {
+        name: "Color Blindness Simulator",
+        href: "/tools/color-blindness",
+        icon: EyeIcon,
+        available: true,
+        order: 23,
+        creationDate: "2026-02-22",
+        description:
+          "Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.",
       },
     ],
   },
@@ -1555,6 +1515,67 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-03-05",
         description:
           "Measure semantic similarity between texts using TF-IDF cosine similarity, all in the browser. Useful for comparing prompts, outputs, or any text pairs.",
+      },
+    ],
+  },
+  {
+    category: "Tests & Games",
+    id: "testsGames",
+    order: 12,
+    items: [
+      {
+        name: "Typing Test",
+        href: "/tools/typing-test",
+        icon: TypeIcon,
+        available: true,
+        order: 1,
+        creationDate: "2025-09-01",
+        description:
+          "Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.",
+      },
+    ],
+  },
+  {
+    category: "School & Learning",
+    id: "schoolLearning",
+    order: 13,
+    items: [
+      {
+        name: "Periodic Table",
+        href: "/tools/periodic-table",
+        icon: AtomIcon,
+        available: true,
+        order: 1,
+        creationDate: "2026-05-21",
+        description:
+          "Interactive periodic table of all 118 elements in the standard layout. Color-coded by category, searchable by name, symbol, or atomic number. Click any element for atomic mass, group, period, and electron configuration.",
+      },
+    ],
+  },
+  {
+    category: "Business",
+    id: "business",
+    order: 14,
+    items: [
+      {
+        name: "Invoice Generator",
+        href: "/tools/invoice",
+        icon: ReceiptIcon,
+        available: true,
+        order: 1,
+        creationDate: "2025-08-20",
+        description:
+          "Create professional invoices with customizable templates, automatic tax calculations, and PDF export. Perfect for freelancers, small businesses, and contractors.",
+      },
+      {
+        name: "Expense Tracker",
+        href: "/tools/expense-tracker",
+        icon: DollarSignIcon,
+        available: true,
+        order: 2,
+        creationDate: "2025-09-11",
+        description:
+          "Track your expenses with detailed categorization, budget management, and comprehensive reports. Visualize spending patterns with interactive charts and export data for analysis.",
       },
     ],
   },

@@ -35,6 +35,9 @@
   --bt-cat-design-bg: #fdedf7; --bt-cat-design-fg: #d6409f;
   --bt-cat-sec-bg: #fdecec;    --bt-cat-sec-fg: #ce2c31;
   --bt-cat-ai-bg: #eaefff;     --bt-cat-ai-fg: #2e5cff;
+  --bt-cat-games-bg: #fff0e8;  --bt-cat-games-fg: #d4570e;
+  --bt-cat-school-bg: #e9f4fb; --bt-cat-school-fg: #1d74a6;
+  --bt-cat-biz-bg: #f0f1e4;    --bt-cat-biz-fg: #77731c;
 
   --bt-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
   --bt-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
@@ -76,4 +79,7 @@
   --bt-cat-design-bg: rgba(214, 64, 159, 0.2); --bt-cat-design-fg: #e58cc4;
   --bt-cat-sec-bg: rgba(206, 44, 49, 0.2);     --bt-cat-sec-fg: #e2807f;
   --bt-cat-ai-bg: rgba(46, 92, 255, 0.22);     --bt-cat-ai-fg: #8fa8ff;
+  --bt-cat-games-bg: rgba(212, 87, 14, 0.2);   --bt-cat-games-fg: #ea9462;
+  --bt-cat-school-bg: rgba(29, 116, 166, 0.2); --bt-cat-school-fg: #6cacd0;
+  --bt-cat-biz-bg: rgba(119, 115, 28, 0.2);    --bt-cat-biz-fg: #b9b56a;
 }

@@ -104,7 +104,10 @@
       "devTools": "开发者工具",
       "securityTools": "安全工具",
       "designTools": "设计与视觉",
-      "aiTools": "人工智能工具"
+      "aiTools": "人工智能工具",
+      "testsGames": "测试与游戏",
+      "schoolLearning": "学校与学习",
+      "business": "商业"
     },
     "tools": {
       "bg-removal": {
@@ -667,7 +670,10 @@
       "devTools": "开发",
       "designTools": "设计",
       "securityTools": "安全",
-      "aiTools": "AI"
+      "aiTools": "AI",
+      "testsGames": "游戏",
+      "schoolLearning": "学校",
+      "business": "商业"
     }
   },
   "Tools": {

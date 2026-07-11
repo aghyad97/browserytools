@@ -17,6 +17,13 @@ import { readFileSync, writeFileSync } from "node:fs";
  *
  * NOTE: the Arabic (ar) strings must be reviewed by a native speaker before
  * merge — flag this in the PR description.
+ *
+ * R2 Task 12 (audit spec §4.3) extends this script with `categoriesNew` —
+ * the full-name + short-label pair for the three new categories (Tests &
+ * Games / School & Learning / Business) added by the category reorg. Unlike
+ * `categoriesShort` (full-replace, must carry all keys), `categoriesNew` is
+ * merged into the existing `ToolsConfig.categories` object so the 11
+ * pre-existing full names never need to be re-typed here.
  */
 
 const BY_LOCALE = {
@@ -75,6 +82,14 @@ const BY_LOCALE = {
       designTools: "Design",
       securityTools: "Security",
       aiTools: "AI",
+      testsGames: "Games",
+      schoolLearning: "School",
+      business: "Business",
+    },
+    categoriesNew: {
+      testsGames: "Tests & Games",
+      schoolLearning: "School & Learning",
+      business: "Business",
     },
   },
 
@@ -130,6 +145,14 @@ const BY_LOCALE = {
       designTools: "التصميم",
       securityTools: "الأمان",
       aiTools: "الذكاء الاصطناعي",
+      testsGames: "ألعاب",
+      schoolLearning: "مدرسة",
+      business: "أعمال",
+    },
+    categoriesNew: {
+      testsGames: "الاختبارات والألعاب",
+      schoolLearning: "المدرسة والتعلّم",
+      business: "الأعمال",
     },
   },
 
@@ -188,6 +211,14 @@ const BY_LOCALE = {
       designTools: "Diseño",
       securityTools: "Seguridad",
       aiTools: "IA",
+      testsGames: "Juegos",
+      schoolLearning: "Escuela",
+      business: "Negocios",
+    },
+    categoriesNew: {
+      testsGames: "Pruebas y juegos",
+      schoolLearning: "Escuela y aprendizaje",
+      business: "Negocios",
     },
   },
 
@@ -246,6 +277,14 @@ const BY_LOCALE = {
       designTools: "Design",
       securityTools: "Segurança",
       aiTools: "IA",
+      testsGames: "Jogos",
+      schoolLearning: "Escola",
+      business: "Negócios",
+    },
+    categoriesNew: {
+      testsGames: "Testes e Jogos",
+      schoolLearning: "Escola e Aprendizado",
+      business: "Negócios",
     },
   },
 
@@ -304,6 +343,14 @@ const BY_LOCALE = {
       designTools: "Design",
       securityTools: "Sécurité",
       aiTools: "IA",
+      testsGames: "Jeux",
+      schoolLearning: "École",
+      business: "Entreprise",
+    },
+    categoriesNew: {
+      testsGames: "Tests et jeux",
+      schoolLearning: "École et apprentissage",
+      business: "Entreprise",
     },
   },
 
@@ -362,6 +409,14 @@ const BY_LOCALE = {
       designTools: "Design",
       securityTools: "Sicherheit",
       aiTools: "KI",
+      testsGames: "Spiele",
+      schoolLearning: "Schule",
+      business: "Business",
+    },
+    categoriesNew: {
+      testsGames: "Tests & Spiele",
+      schoolLearning: "Schule & Lernen",
+      business: "Business",
     },
   },
 
@@ -420,6 +475,14 @@ const BY_LOCALE = {
       designTools: "Дизайн",
       securityTools: "Безопасность",
       aiTools: "ИИ",
+      testsGames: "Игры",
+      schoolLearning: "Школа",
+      business: "Бизнес",
+    },
+    categoriesNew: {
+      testsGames: "Тесты и игры",
+      schoolLearning: "Школа и обучение",
+      business: "Бизнес",
     },
   },
 
@@ -478,6 +541,14 @@ const BY_LOCALE = {
       designTools: "Desain",
       securityTools: "Keamanan",
       aiTools: "AI",
+      testsGames: "Permainan",
+      schoolLearning: "Sekolah",
+      business: "Bisnis",
+    },
+    categoriesNew: {
+      testsGames: "Tes & Permainan",
+      schoolLearning: "Sekolah & Belajar",
+      business: "Bisnis",
     },
   },
 
@@ -533,13 +604,22 @@ const BY_LOCALE = {
       designTools: "设计",
       securityTools: "安全",
       aiTools: "AI",
+      testsGames: "游戏",
+      schoolLearning: "学校",
+      business: "商业",
+    },
+    categoriesNew: {
+      testsGames: "测试与游戏",
+      schoolLearning: "学校与学习",
+      business: "商业",
     },
   },
 };
 
-for (const [locale, { Rail, Landing, Template, categoriesShort }] of Object.entries(
-  BY_LOCALE,
-)) {
+for (const [
+  locale,
+  { Rail, Landing, Template, categoriesShort, categoriesNew },
+] of Object.entries(BY_LOCALE)) {
   const path = `messages/${locale}.json`;
   const json = JSON.parse(readFileSync(path, "utf8"));
 
@@ -547,6 +627,9 @@ for (const [locale, { Rail, Landing, Template, categoriesShort }] of Object.entr
   json.Landing = Landing;
   json.Template = Template;
   json.ToolsConfig.categoriesShort = categoriesShort;
+  // Merge (not replace) — preserves the 11 pre-existing full category names
+  // that this script has never owned.
+  Object.assign(json.ToolsConfig.categories, categoriesNew);
 
   writeFileSync(path, JSON.stringify(json, null, 2) + "\n");
 }

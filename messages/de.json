@@ -103,7 +103,10 @@
       "devTools": "Entwicklertools",
       "securityTools": "Sicherheitstools",
       "designTools": "Design & Visuelles",
-      "aiTools": "KI-Tools"
+      "aiTools": "KI-Tools",
+      "testsGames": "Tests & Spiele",
+      "schoolLearning": "Schule & Lernen",
+      "business": "Business"
     },
     "tools": {
       "bg-removal": {
@@ -666,7 +669,10 @@
       "devTools": "Dev",
       "designTools": "Design",
       "securityTools": "Sicherheit",
-      "aiTools": "KI"
+      "aiTools": "KI",
+      "testsGames": "Spiele",
+      "schoolLearning": "Schule",
+      "business": "Business"
     }
   },
   "Tools": {
