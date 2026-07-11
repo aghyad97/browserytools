@@ -23,6 +23,7 @@ import { tools } from "@/lib/tools-config";
 import { SPONSORS, ROTATE_MS, type Sponsor } from "@/lib/sponsors";
 import { LanguageSwitcher } from "@/components/language-switcher";
 import { ThemeSwitcher } from "@/components/theme-switcher";
+import { BrandGlyph } from "./brand-glyph";
 import s from "./rail.module.css";
 
 /* Categories carrying the hand-drawn "new" treatment. */
@@ -137,7 +138,9 @@ export function Rail({
   return (
     <aside className={variant === "sheet" ? s.railSheet : s.rail}>
       <Link href="/" aria-label={tCommon("siteName")}>
-        <div className={s.railGlyph}>b_</div>
+        <div className={s.railGlyph}>
+          <BrandGlyph size={16} />
+        </div>
       </Link>
 
       <div className={s.railLive}>

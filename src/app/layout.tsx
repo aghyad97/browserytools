@@ -119,7 +119,7 @@ export const metadata: Metadata = {
       {
         rel: "mask-icon",
         url: "/safari-pinned-tab.svg",
-        color: "#000000",
+        color: "#161615",
       },
     ],
   },
@@ -130,7 +130,7 @@ export const metadata: Metadata = {
     title: "BrowseryTools",
   },
   other: {
-    "msapplication-TileColor": "#000000",
+    "msapplication-TileColor": "#161615",
     "msapplication-config": "/browserconfig.xml",
     github: "https://github.com/aghyad97",
     x: "https://twitter.com/aghyadev",

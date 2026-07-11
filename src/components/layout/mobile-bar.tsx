@@ -18,6 +18,7 @@ import { useTranslations } from "next-intl";
 import { useLanguageStore } from "@/store/language-store";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
 import { Rail } from "./rail";
+import { BrandGlyph } from "./brand-glyph";
 import s from "./mobile-bar.module.css";
 
 export function MobileBar({ onSearch }: { onSearch: () => void }) {
@@ -30,7 +31,7 @@ export function MobileBar({ onSearch }: { onSearch: () => void }) {
   return (
     <div className={s.bar} data-testid="mobile-bar">
       <Link href="/" className={s.glyph} aria-label={tCommon("siteName")}>
-        b_
+        <BrandGlyph size={16} />
       </Link>
 
       <button className={s.search} onClick={onSearch}>
