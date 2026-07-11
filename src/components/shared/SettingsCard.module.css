@@ -13,12 +13,23 @@
   margin-block-end: 16px;
 }
 
+.headRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
 .title {
   font-family: var(--mono);
   font-size: 10.5px;
   letter-spacing: 0.09em;
   text-transform: uppercase;
   color: var(--bt-muted);
+}
+
+.action {
+  flex-shrink: 0;
 }
 
 .description {

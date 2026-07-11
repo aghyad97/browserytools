@@ -37,3 +37,9 @@
   text-transform: uppercase;
   color: var(--bt-muted);
 }
+
+.sub {
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--bt-muted);
+}

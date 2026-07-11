@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { OutputPanel } from "@/components/shared/OutputPanel";
 
 describe("OutputPanel", () => {
@@ -53,6 +54,51 @@ describe("OutputPanel", () => {
     it("disables download when text is empty", () => {
       render(<OutputPanel text="" filename="out.txt" />);
       expect(screen.getByRole("button", { name: "Download" })).toBeDisabled();
+    });
+  });
+
+  describe("copy toast parity (API-friction #2)", () => {
+    it("uses the default translated copy label/message when no overrides are given", async () => {
+      const user = userEvent.setup();
+      render(<OutputPanel text="hello" />);
+      expect(screen.getByRole("button", { name: "Copy" })).toBeInTheDocument();
+
+      const { toast } = await import("sonner");
+      const writeText = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+      await user.click(screen.getByRole("button", { name: "Copy" }));
+      await waitFor(() => expect(writeText).toHaveBeenCalledWith("hello"));
+      expect(toast.success).toHaveBeenCalledWith("Copied!");
+    });
+
+    it("forwards copyLabel/copySuccessMessage/copyErrorMessage to the inner CopyButton", async () => {
+      const user = userEvent.setup();
+      render(
+        <OutputPanel
+          text="formatted"
+          copyLabel="Copy JSON"
+          copySuccessMessage="Copied to clipboard"
+          copyErrorMessage="Failed to copy to clipboard"
+        />
+      );
+      const button = screen.getByRole("button", { name: "Copy JSON" });
+      expect(button).toBeInTheDocument();
+
+      const { toast } = await import("sonner");
+      vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
+      await user.click(button);
+      await waitFor(() => expect(toast.success).toHaveBeenCalledWith("Copied to clipboard"));
+    });
+
+    it("surfaces the custom error message when copy fails", async () => {
+      const user = userEvent.setup();
+      render(<OutputPanel text="formatted" copyErrorMessage="Failed to copy to clipboard" />);
+
+      const { toast } = await import("sonner");
+      vi.spyOn(navigator.clipboard, "writeText").mockRejectedValue(new Error("denied"));
+      await user.click(screen.getByRole("button", { name: "Copy" }));
+      await waitFor(() =>
+        expect(toast.error).toHaveBeenCalledWith("Failed to copy to clipboard")
+      );
     });
   });
 });

@@ -24,6 +24,52 @@ describe("SettingsCard", () => {
     // no <p> description present
     expect(container.querySelector("p")).toBeNull();
   });
+
+  it("renders an optional header action alongside the title", () => {
+    render(
+      <SettingsCard title="All Expenses" description="Manage" action={<button>Add</button>}>
+        <span>body</span>
+      </SettingsCard>
+    );
+    expect(screen.getByRole("button", { name: "Add" })).toBeInTheDocument();
+  });
+
+  it("places title at the row start and action at the row end (RTL-safe via flex order)", () => {
+    // A REAL layout assertion, not just "the button exists somewhere": title
+    // and action must be SIBLINGS in one flex row so `justify-content:
+    // space-between` pushes title to inline-start and action to inline-end
+    // regardless of direction (mirrors automatically under dir="rtl" — no
+    // separate RTL-only markup needed). Description must NOT be inside that
+    // row (it spans full width on its own line below).
+    render(
+      <SettingsCard title="All Expenses" description="Manage" action={<button>Add</button>}>
+        <span>body</span>
+      </SettingsCard>
+    );
+    const title = screen.getByText("All Expenses");
+    const actionButton = screen.getByRole("button", { name: "Add" });
+    const actionContainer = actionButton.parentElement as HTMLElement;
+    const description = screen.getByText("Manage");
+
+    // title and action are siblings in ONE flex row.
+    expect(title.parentElement).toBe(actionContainer.parentElement);
+    const row = title.parentElement as HTMLElement;
+    const [first, last] = Array.from(row.children);
+    expect(first).toBe(title);
+    expect(last).toBe(actionContainer);
+    // description lives in the head block but outside the title/action row.
+    expect(description.parentElement).not.toBe(row);
+  });
+
+  it("renders the action even with no description", () => {
+    render(<SettingsCard title="Options" action={<button>Go</button>} />);
+    expect(screen.getByRole("button", { name: "Go" })).toBeInTheDocument();
+  });
+
+  it("renders the action even with no title", () => {
+    render(<SettingsCard action={<button>Go</button>} />);
+    expect(screen.getByRole("button", { name: "Go" })).toBeInTheDocument();
+  });
 });
 
 describe("OptionRow", () => {

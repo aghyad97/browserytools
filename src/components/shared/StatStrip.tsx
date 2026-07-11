@@ -18,6 +18,8 @@ import s from "./StatStrip.module.css";
 export interface StatItem {
   label: ReactNode;
   value: ReactNode;
+  /** Optional secondary caption under the label — muted, 12px, normal-case. */
+  sub?: ReactNode;
 }
 
 export interface StatStripProps {
@@ -33,6 +35,7 @@ export function StatStrip({ items, className, "data-testid": dataTestId }: StatS
         <div className={s.stat} key={i}>
           <span className={s.value}>{item.value}</span>
           <span className={s.label}>{item.label}</span>
+          {item.sub != null && <span className={s.sub}>{item.sub}</span>}
         </div>
       ))}
     </div>

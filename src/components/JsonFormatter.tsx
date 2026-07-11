@@ -195,6 +195,8 @@ export default function JsonFormatter() {
               text={output}
               filename="formatted.json"
               mime="application/json"
+              copySuccessMessage={t("copiedToClipboard")}
+              copyErrorMessage={t("failedToCopy")}
               title={
                 <>
                   {t("output")}

@@ -39,6 +39,12 @@ export interface OutputPanelProps {
   className?: string;
   /** data-testid for the root, when a call site needs to query it. */
   "data-testid"?: string;
+  /** Overrides the CopyButton's aria-label (default: translated "Copy"). */
+  copyLabel?: string;
+  /** Overrides the CopyButton's success toast (default: translated "Copied"). */
+  copySuccessMessage?: string;
+  /** Overrides the CopyButton's error toast (default: translated "Copy failed"). */
+  copyErrorMessage?: string;
 }
 
 export function OutputPanel({
@@ -49,6 +55,9 @@ export function OutputPanel({
   children,
   className,
   "data-testid": dataTestId,
+  copyLabel,
+  copySuccessMessage,
+  copyErrorMessage,
 }: OutputPanelProps) {
   const t = useTranslations("Common");
   const empty = !text;
@@ -58,7 +67,13 @@ export function OutputPanel({
       <div className={s.header}>
         {title != null && <span className={s.title}>{title}</span>}
         <div className={s.actions}>
-          <CopyButton text={text} disabled={empty} />
+          <CopyButton
+            text={text}
+            disabled={empty}
+            label={copyLabel}
+            successMessage={copySuccessMessage}
+            errorMessage={copyErrorMessage}
+          />
           {filename && (
             <Button
               variant="ghost"

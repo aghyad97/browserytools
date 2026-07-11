@@ -32,7 +32,7 @@ describe("JsonFormatter (ToolShell pilot)", () => {
     expect(toast.success).toHaveBeenCalled();
   });
 
-  it("copies the output via CopyButton (translated success message)", async () => {
+  it("copies the output via CopyButton with the tool's own pre-pilot toast (API-friction #2)", async () => {
     const user = userEvent.setup();
     render(<JsonFormatter />);
 
@@ -41,11 +41,16 @@ describe("JsonFormatter (ToolShell pilot)", () => {
     await user.paste('{"a":1}');
     await user.click(screen.getByTestId("tool-shell-primary")); // format
 
+    const { toast } = await import("sonner");
     const writeText = vi.spyOn(navigator.clipboard, "writeText");
     // CopyButton is labelled with the translated "Copy" aria-label.
     await user.click(screen.getByRole("button", { name: /^copy$/i }));
     await waitFor(() => expect(writeText).toHaveBeenCalled());
     expect(writeText.mock.calls[0][0]).toContain('"a": 1');
+    // Restored via OutputPanel's copySuccessMessage passthrough — the tool's
+    // own `copiedToClipboard` string ("Copied to clipboard"), not the generic
+    // `Common.copied` ("Copied") the pilot regressed to.
+    expect(toast.success).toHaveBeenCalledWith("Copied to clipboard");
   });
 
   it("surfaces a parse error banner on invalid JSON", async () => {

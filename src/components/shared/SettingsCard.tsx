@@ -22,6 +22,8 @@ export interface SettingsCardProps {
   title?: ReactNode;
   /** Optional descriptive line under the title. */
   description?: ReactNode;
+  /** Optional action (e.g. a button) rendered at the header's inline-end, next to the title. */
+  action?: ReactNode;
   children?: ReactNode;
   /** Extra class(es) merged onto the root after the card's own class. */
   className?: string;
@@ -31,15 +33,21 @@ export interface SettingsCardProps {
 export function SettingsCard({
   title,
   description,
+  action,
   children,
   className,
   "data-testid": dataTestId,
 }: SettingsCardProps) {
   return (
     <div className={className ? `${s.card} ${className}` : s.card} data-testid={dataTestId}>
-      {(title != null || description != null) && (
+      {(title != null || description != null || action != null) && (
         <div className={s.head}>
-          {title != null && <div className={s.title}>{title}</div>}
+          {(title != null || action != null) && (
+            <div className={s.headRow}>
+              {title != null && <div className={s.title}>{title}</div>}
+              {action != null && <div className={s.action}>{action}</div>}
+            </div>
+          )}
           {description != null && <p className={s.description}>{description}</p>}
         </div>
       )}

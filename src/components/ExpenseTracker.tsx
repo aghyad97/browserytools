@@ -2,12 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -49,6 +43,7 @@ export default function ExpenseTracker() {
             items={[1, 2, 3].map((i) => ({
               value: <Skeleton key={i} className="h-8 w-24" />,
               label: <Skeleton className="h-3 w-16" />,
+              sub: <Skeleton className="h-3 w-24" />,
             }))}
           />
         </div>
@@ -84,12 +79,10 @@ export default function ExpenseTracker() {
                   />
                 </span>
               ),
-              label: (
-                <span className="flex flex-col gap-1">
-                  <span>{t("totalExpenses")}</span>
-                  <span className="font-sans normal-case tracking-normal" dir="ltr">
-                    <NumberFlow value={expenseCount} /> {t("transactions")}
-                  </span>
+              label: t("totalExpenses"),
+              sub: (
+                <span dir="ltr">
+                  <NumberFlow value={expenseCount} /> {t("transactions")}
                 </span>
               ),
             },
@@ -111,14 +104,8 @@ export default function ExpenseTracker() {
                   />
                 </span>
               ),
-              label: (
-                <span className="flex flex-col gap-1">
-                  <span>{t("thisMonth")}</span>
-                  <span className="font-sans normal-case tracking-normal">
-                    {t("currentMonthSpending")}
-                  </span>
-                </span>
-              ),
+              label: t("thisMonth"),
+              sub: t("currentMonthSpending"),
             },
             {
               value: (
@@ -130,14 +117,8 @@ export default function ExpenseTracker() {
                   />
                 </span>
               ),
-              label: (
-                <span className="flex flex-col gap-1">
-                  <span>{t("averagePerTransaction")}</span>
-                  <span className="font-sans normal-case tracking-normal">
-                    {t("basedOnFilteredData")}
-                  </span>
-                </span>
-              ),
+              label: t("averagePerTransaction"),
+              sub: t("basedOnFilteredData"),
             },
           ]}
         />
@@ -185,27 +166,18 @@ export default function ExpenseTracker() {
         </TabsContent>
 
         <TabsContent value="expenses" className="space-y-6">
-          {/* Kept as a Card: this shell carries a header action (Add Expense),
-              which SettingsCard's title/description head has no slot for. */}
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>{t("allExpenses")}</CardTitle>
-                  <p className="text-sm text-muted-foreground">
-                    {t("manageExpenses")}
-                  </p>
-                </div>
-                <Button onClick={() => setActiveTab("overview")}>
-                  <PlusIcon className="h-4 w-4 me-2" />
-                  {t("addExpense")}
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ExpenseList />
-            </CardContent>
-          </Card>
+          <SettingsCard
+            title={t("allExpenses")}
+            description={t("manageExpenses")}
+            action={
+              <Button onClick={() => setActiveTab("overview")}>
+                <PlusIcon className="h-4 w-4 me-2" />
+                {t("addExpense")}
+              </Button>
+            }
+          >
+            <ExpenseList />
+          </SettingsCard>
         </TabsContent>
 
         <TabsContent value="charts" className="space-y-6">
