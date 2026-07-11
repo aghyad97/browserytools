@@ -4,7 +4,6 @@ import routes from "./tool-routes.json";
 // Console errors that predate this suite and are not tool regressions.
 const IGNORED = [
   /was preloaded using link preload/i, // font preload warnings surface as errors in some builds
-  /hydration/i, // tracked separately; do not let it mask new breakage — remove once fixed
   // The rail renders on every route and fetches its live GitHub-star badge from
   // api.github.com. Unauthenticated calls rate-limit to HTTP 403 during the
   // rapid full-catalog smoke; the rail already hides the badge on failure

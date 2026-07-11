@@ -119,7 +119,11 @@ function AppViz({ viz }: { viz: FeaturedApp["viz"] }) {
               key={i}
               className={s.vizBar}
               style={{
-                height: `${30 + 60 * Math.abs(Math.sin(i * 1.7))}%`,
+                // Quantize to 2 decimals: Math.sin is transcendental and only
+                // defined to ~1 ULP, so the dev server's V8 and the browser's V8
+                // format the raw float differently → hydration mismatch. Rounding
+                // to a fixed precision makes both sides emit an identical string.
+                height: `${(30 + 60 * Math.abs(Math.sin(i * 1.7))).toFixed(2)}%`,
                 animationDelay: `${i * 55}ms`,
               }}
             />
