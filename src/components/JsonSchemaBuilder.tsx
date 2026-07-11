@@ -1,13 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 import { Plus, Trash2 } from "lucide-react";
 
 type PropType = "string" | "number" | "boolean" | "array" | "object";
@@ -57,6 +58,7 @@ function buildSchema(name: string, description: string, properties: Property[], 
 
 export default function JsonSchemaBuilder() {
   const t = useTranslations("Tools.JsonSchemaBuilder");
+  const tc = useTranslations("ToolsConfig");
   const [toolName, setToolName] = useState("");
   const [toolDesc, setToolDesc] = useState("");
   const [properties, setProperties] = useState<Property[]>([
@@ -71,80 +73,75 @@ export default function JsonSchemaBuilder() {
 
   const output = buildSchema(toolName, toolDesc, properties, format);
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(output);
-    toast.success(t("copied"));
-  };
-
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label>{t("toolName")}</Label>
-              <Input dir="auto" value={toolName} onChange={e => setToolName(e.target.value)} placeholder={t("toolNamePlaceholder")} />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("toolDescription")}</Label>
-              <Input dir="auto" value={toolDesc} onChange={e => setToolDesc(e.target.value)} placeholder={t("toolDescriptionPlaceholder")} />
-            </div>
-          </div>
-
-          <div className="space-y-2">
-            <div className="flex items-center justify-between">
-              <Label>{t("addProperty")}</Label>
-              <Button size="sm" variant="outline" onClick={addProperty}><Plus className="h-4 w-4 mr-1" />{t("addProperty")}</Button>
-            </div>
-            {properties.map((prop) => (
-              <div key={prop.id} className="grid grid-cols-[1fr_auto_1fr_auto_auto] gap-2 items-center border rounded-md p-3">
-                <Input dir="auto" value={prop.name} onChange={e => updateProp(prop.id, "name", e.target.value)} placeholder={t("propertyName")} />
-                <Select value={prop.type} onValueChange={v => updateProp(prop.id, "type", v)}>
-                  <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
-                  <SelectContent>
-                    {(["string", "number", "boolean", "array", "object"] as PropType[]).map(pt => (
-                      <SelectItem key={pt} value={pt}>{pt}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-                <Input dir="auto" value={prop.description} onChange={e => updateProp(prop.id, "description", e.target.value)} placeholder={t("propertyDescription")} />
-                <div className="flex items-center gap-1">
-                  <Checkbox checked={prop.required} onCheckedChange={v => updateProp(prop.id, "required", !!v)} id={`req-${prop.id}`} />
-                  <label htmlFor={`req-${prop.id}`} className="text-xs text-muted-foreground cursor-pointer">{t("propertyRequired")}</label>
-                </div>
-                <Button variant="ghost" size="icon" onClick={() => removeProperty(prop.id)} disabled={properties.length === 1}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
-                </Button>
+    <ToolShell
+      slug="json-schema-builder"
+      title={tc("tools.json-schema-builder.name")}
+      sub={tc("tools.json-schema-builder.description")}
+      controls={
+        <>
+          <select className="border rounded px-2 py-1 text-sm bg-background" value={format} onChange={e => setFormat(e.target.value as OutputFormat)}>
+            <option value="openai">{t("formatOpenAI")}</option>
+            <option value="anthropic">{t("formatAnthropic")}</option>
+            <option value="schema">{t("formatJsonSchema")}</option>
+          </select>
+          <CopyButton text={output} label={t("copy")} successMessage={t("copied")} />
+        </>
+      }
+    >
+      <div className="space-y-4">
+        <Card>
+          <CardContent className="pt-6 space-y-4">
+            <div className="grid sm:grid-cols-2 gap-4">
+              <div className="space-y-1.5">
+                <Label>{t("toolName")}</Label>
+                <Input dir="auto" value={toolName} onChange={e => setToolName(e.target.value)} placeholder={t("toolNamePlaceholder")} />
               </div>
-            ))}
-          </div>
+              <div className="space-y-1.5">
+                <Label>{t("toolDescription")}</Label>
+                <Input dir="auto" value={toolDesc} onChange={e => setToolDesc(e.target.value)} placeholder={t("toolDescriptionPlaceholder")} />
+              </div>
+            </div>
 
-          <div className="flex items-center gap-3 flex-wrap">
-            <Label>{t("outputFormat")}</Label>
-            <select className="border rounded px-2 py-1 text-sm bg-background" value={format} onChange={e => setFormat(e.target.value as OutputFormat)}>
-              <option value="openai">{t("formatOpenAI")}</option>
-              <option value="anthropic">{t("formatAnthropic")}</option>
-              <option value="schema">{t("formatJsonSchema")}</option>
-            </select>
-          </div>
-        </CardContent>
-      </Card>
+            <div className="space-y-2">
+              <div className="flex items-center justify-between">
+                <Label>{t("addProperty")}</Label>
+                <Button size="sm" variant="outline" onClick={addProperty}><Plus className="h-4 w-4 mr-1" />{t("addProperty")}</Button>
+              </div>
+              {properties.map((prop) => (
+                <div key={prop.id} className="grid grid-cols-[1fr_auto_1fr_auto_auto] gap-2 items-center border rounded-md p-3">
+                  <Input dir="auto" value={prop.name} onChange={e => updateProp(prop.id, "name", e.target.value)} placeholder={t("propertyName")} />
+                  <Select value={prop.type} onValueChange={v => updateProp(prop.id, "type", v)}>
+                    <SelectTrigger className="w-28"><SelectValue /></SelectTrigger>
+                    <SelectContent>
+                      {(["string", "number", "boolean", "array", "object"] as PropType[]).map(pt => (
+                        <SelectItem key={pt} value={pt}>{pt}</SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                  <Input dir="auto" value={prop.description} onChange={e => updateProp(prop.id, "description", e.target.value)} placeholder={t("propertyDescription")} />
+                  <div className="flex items-center gap-1">
+                    <Checkbox checked={prop.required} onCheckedChange={v => updateProp(prop.id, "required", !!v)} id={`req-${prop.id}`} />
+                    <label htmlFor={`req-${prop.id}`} className="text-xs text-muted-foreground cursor-pointer">{t("propertyRequired")}</label>
+                  </div>
+                  <Button variant="ghost" size="icon" onClick={() => removeProperty(prop.id)} disabled={properties.length === 1}>
+                    <Trash2 className="h-4 w-4 text-destructive" />
+                  </Button>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between">
+        <Card>
+          <CardHeader>
             <CardTitle className="text-base">{t("outputFormat")}</CardTitle>
-            <Button size="sm" onClick={handleCopy}>{t("copy")}</Button>
-          </div>
-        </CardHeader>
-        <CardContent>
-          <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto max-h-[400px] overflow-y-auto">{output}</pre>
-        </CardContent>
-      </Card>
-    </div>
+          </CardHeader>
+          <CardContent>
+            <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto max-h-[400px] overflow-y-auto">{output}</pre>
+          </CardContent>
+        </Card>
+      </div>
+    </ToolShell>
   );
 }

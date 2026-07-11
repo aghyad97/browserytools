@@ -91,6 +91,21 @@ const HAS_OWN_H1 = new Set([
   "translator",
   "world-clock",
   "zero-shot-classifier",
+  // R2 batch B2: AI Tools migrated onto ToolShell (the shell owns the h1).
+  "ai-cost-calculator",
+  "ai-instruction-diff",
+  "ai-rules-generator",
+  "claude-md-generator",
+  "context-window",
+  "json-schema-builder",
+  "mcp-config",
+  "model-comparison",
+  "prompt-formatter",
+  "prompt-library",
+  "skill-builder",
+  "system-prompt-builder",
+  "text-similarity",
+  "token-counter",
 ]);
 
 export function ToolTitle() {

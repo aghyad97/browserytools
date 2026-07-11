@@ -1,10 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { ToolShell } from "@/components/template/tool-shell";
 import { Plus, Trash2 } from "lucide-react";
 
 function tokenize(text: string): string[] {
@@ -37,6 +38,7 @@ interface TextEntry { id: string; value: string; }
 
 export default function TextSimilarity() {
   const t = useTranslations("Tools.TextSimilarity");
+  const tc = useTranslations("ToolsConfig");
   const [texts, setTexts] = useState<TextEntry[]>([
     { id: crypto.randomUUID(), value: "" },
     { id: crypto.randomUUID(), value: "" },
@@ -94,69 +96,79 @@ export default function TextSimilarity() {
     return "bg-red-50 border-red-200 dark:bg-red-950 dark:border-red-800";
   };
 
+  const clearAll = () => {
+    setTexts([{ id: crypto.randomUUID(), value: "" }, { id: crypto.randomUUID(), value: "" }]);
+    setResults([]);
+    setCalculated(false);
+  };
+
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          {texts.map((entry, idx) => (
-            <div key={entry.id} className="space-y-1.5">
-              <div className="flex items-center justify-between">
-                <Label>{idx === 0 ? t("text1Label") : idx === 1 ? t("text2Label") : `${t("pairLabel")} ${idx + 1}`}</Label>
-                {texts.length > 2 && (
-                  <Button variant="ghost" size="sm" onClick={() => removeText(entry.id)}>
-                    <Trash2 className="h-4 w-4 text-destructive" />
-                  </Button>
-                )}
+    <ToolShell
+      slug="text-similarity"
+      title={tc("tools.text-similarity.name")}
+      sub={tc("tools.text-similarity.description")}
+      controls={
+        <Button variant="outline" size="sm" onClick={clearAll}>
+          {t("clearAll")}
+        </Button>
+      }
+      primaryAction={{
+        label: t("calculate"),
+        onClick: handleCalculate,
+        disabled: texts.filter(entry => entry.value.trim()).length < 2,
+      }}
+    >
+      <div className="space-y-4">
+        <Card>
+          <CardContent className="pt-6 space-y-3">
+            {texts.map((entry, idx) => (
+              <div key={entry.id} className="space-y-1.5">
+                <div className="flex items-center justify-between">
+                  <Label>{idx === 0 ? t("text1Label") : idx === 1 ? t("text2Label") : `${t("pairLabel")} ${idx + 1}`}</Label>
+                  {texts.length > 2 && (
+                    <Button variant="ghost" size="sm" onClick={() => removeText(entry.id)}>
+                      <Trash2 className="h-4 w-4 text-destructive" />
+                    </Button>
+                  )}
+                </div>
+                <Textarea
+                  dir="auto"
+                  value={entry.value}
+                  onChange={e => updateText(entry.id, e.target.value)}
+                  placeholder={idx === 0 ? t("text1Placeholder") : t("text2Placeholder")}
+                  rows={3}
+                  className="resize-y"
+                />
               </div>
-              <Textarea
-                dir="auto"
-                value={entry.value}
-                onChange={e => updateText(entry.id, e.target.value)}
-                placeholder={idx === 0 ? t("text1Placeholder") : t("text2Placeholder")}
-                rows={3}
-                className="resize-y"
-              />
-            </div>
-          ))}
-          <div className="flex gap-2 flex-wrap">
+            ))}
             {texts.length < 5 && (
               <Button variant="outline" size="sm" onClick={addText}>
                 <Plus className="h-4 w-4 mr-1" />{t("addComparison")}
               </Button>
             )}
-            <Button size="sm" onClick={handleCalculate} disabled={texts.filter(entry => entry.value.trim()).length < 2}>
-              {t("calculate")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => { setTexts([{ id: crypto.randomUUID(), value: "" }, { id: crypto.randomUUID(), value: "" }]); setResults([]); setCalculated(false); }}>
-              {t("clearAll")}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
-
-      {calculated && results.length > 0 && (
-        <div className="grid sm:grid-cols-2 gap-3">
-          {results.map((r, idx) => (
-            <div key={idx} className={`rounded-lg border p-4 ${getScoreBg(r.score)}`}>
-              <p className="text-sm text-muted-foreground mb-1">{t("pairLabel")} {r.i + 1} &#8596; {r.j + 1}</p>
-              <p className={`text-3xl font-bold tabular-nums ${getScoreColor(r.score)}`}>
-                {(r.score * 100).toFixed(1)}%
-              </p>
-              <p className={`text-sm font-medium mt-1 ${getScoreColor(r.score)}`}>{getScoreLabel(r.score)}</p>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {calculated && results.length === 0 && (
-        <Card>
-          <CardContent className="py-6 text-center text-muted-foreground text-sm">{t("noInput")}</CardContent>
+          </CardContent>
         </Card>
-      )}
-    </div>
+
+        {calculated && results.length > 0 && (
+          <div className="grid sm:grid-cols-2 gap-3">
+            {results.map((r, idx) => (
+              <div key={idx} className={`rounded-lg border p-4 ${getScoreBg(r.score)}`}>
+                <p className="text-sm text-muted-foreground mb-1">{t("pairLabel")} {r.i + 1} &#8596; {r.j + 1}</p>
+                <p className={`text-3xl font-bold tabular-nums ${getScoreColor(r.score)}`}>
+                  {(r.score * 100).toFixed(1)}%
+                </p>
+                <p className={`text-sm font-medium mt-1 ${getScoreColor(r.score)}`}>{getScoreLabel(r.score)}</p>
+              </div>
+            ))}
+          </div>
+        )}
+
+        {calculated && results.length === 0 && (
+          <Card>
+            <CardContent className="py-6 text-center text-muted-foreground text-sm">{t("noInput")}</CardContent>
+          </Card>
+        )}
+      </div>
+    </ToolShell>
   );
 }

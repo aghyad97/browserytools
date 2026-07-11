@@ -4,14 +4,14 @@ import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 
 type ExportFormat = "plain" | "xml" | "json";
 
@@ -67,6 +67,7 @@ function buildPrompt(
 
 export default function SystemPromptBuilder() {
   const t = useTranslations("Tools.SystemPromptBuilder");
+  const tc = useTranslations("ToolsConfig");
   const [role, setRole] = useState("");
   const [tone, setTone] = useState("");
   const [constraints, setConstraints] = useState("");
@@ -75,12 +76,6 @@ export default function SystemPromptBuilder() {
   const [format, setFormat] = useState<ExportFormat>("plain");
 
   const preview = buildPrompt(role, tone, constraints, outputFmt, examples, format);
-
-  const handleCopy = () => {
-    if (!preview) return;
-    navigator.clipboard.writeText(preview);
-    toast.success(t("copied"));
-  };
 
   const handleClear = () => {
     setRole("");
@@ -117,86 +112,91 @@ export default function SystemPromptBuilder() {
   );
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <Field
-            label={t("roleLabel")}
-            value={role}
-            onChange={setRole}
-            placeholder={t("rolePlaceholder")}
-            rows={3}
-          />
-          <Field
-            label={t("toneLabel")}
-            value={tone}
-            onChange={setTone}
-            placeholder={t("tonePlaceholder")}
-            rows={2}
-          />
-          <Field
-            label={t("constraintsLabel")}
-            value={constraints}
-            onChange={setConstraints}
-            placeholder={t("constraintsPlaceholder")}
-            rows={3}
-          />
-          <Field
-            label={t("outputFormatLabel")}
-            value={outputFmt}
-            onChange={setOutputFmt}
-            placeholder={t("outputFormatPlaceholder")}
-            rows={2}
-          />
-          <Field
-            label={t("examplesLabel")}
-            value={examples}
-            onChange={setExamples}
-            placeholder={t("examplesPlaceholder")}
-            rows={3}
-          />
+    <ToolShell
+      slug="system-prompt-builder"
+      title={tc("tools.system-prompt-builder.name")}
+      sub={tc("tools.system-prompt-builder.description")}
+      controls={
+        <>
+          <select
+            className="text-sm border rounded px-2 py-1 bg-background"
+            value={format}
+            onChange={(e) => setFormat(e.target.value as ExportFormat)}
+          >
+            <option value="plain">{t("formatPlain")}</option>
+            <option value="xml">{t("formatXml")}</option>
+            <option value="json">{t("formatJson")}</option>
+          </select>
           <Button variant="outline" size="sm" onClick={handleClear}>
             {t("clearAll")}
           </Button>
-        </CardContent>
-      </Card>
+          <CopyButton
+            text={preview}
+            label={t("copyPrompt")}
+            successMessage={t("copied")}
+            disabled={!preview}
+          />
+        </>
+      }
+    >
+      <div className="space-y-4">
+        <Card>
+          <CardContent className="pt-6 space-y-4">
+            <Field
+              label={t("roleLabel")}
+              value={role}
+              onChange={setRole}
+              placeholder={t("rolePlaceholder")}
+              rows={3}
+            />
+            <Field
+              label={t("toneLabel")}
+              value={tone}
+              onChange={setTone}
+              placeholder={t("tonePlaceholder")}
+              rows={2}
+            />
+            <Field
+              label={t("constraintsLabel")}
+              value={constraints}
+              onChange={setConstraints}
+              placeholder={t("constraintsPlaceholder")}
+              rows={3}
+            />
+            <Field
+              label={t("outputFormatLabel")}
+              value={outputFmt}
+              onChange={setOutputFmt}
+              placeholder={t("outputFormatPlaceholder")}
+              rows={2}
+            />
+            <Field
+              label={t("examplesLabel")}
+              value={examples}
+              onChange={setExamples}
+              placeholder={t("examplesPlaceholder")}
+              rows={3}
+            />
+          </CardContent>
+        </Card>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between flex-wrap gap-3">
+        <Card>
+          <CardHeader>
             <CardTitle className="text-base">{t("preview")}</CardTitle>
-            <div className="flex gap-2">
-              <select
-                className="text-sm border rounded px-2 py-1 bg-background"
-                value={format}
-                onChange={(e) => setFormat(e.target.value as ExportFormat)}
-              >
-                <option value="plain">{t("formatPlain")}</option>
-                <option value="xml">{t("formatXml")}</option>
-                <option value="json">{t("formatJson")}</option>
-              </select>
-              <Button size="sm" onClick={handleCopy} disabled={!preview}>
-                {t("copyPrompt")}
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {preview ? (
-            <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words">
-              {preview}
-            </pre>
-          ) : (
-            <p className="text-muted-foreground text-sm py-4 text-center">
-              {t("emptyPreview")}
-            </p>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+          </CardHeader>
+          <CardContent>
+            {preview ? (
+              <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words">
+                {preview}
+              </pre>
+            ) : (
+              <p className="text-muted-foreground text-sm py-4 text-center">
+                {t("emptyPreview")}
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      </div>
+    </ToolShell>
   );
 }

@@ -6,7 +6,6 @@ import { encode } from "gpt-tokenizer";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -20,7 +19,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 import { AI_MODELS } from "@/lib/ai-models";
 
 interface ModelOption {
@@ -43,6 +43,7 @@ const SAMPLE_TEXT =
 
 export default function TokenCounter() {
   const t = useTranslations("Tools.TokenCounter");
+  const tc = useTranslations("ToolsConfig");
   const [text, setText] = useState("");
   const [selectedModelId, setSelectedModelId] = useState("gpt-4o");
 
@@ -67,11 +68,6 @@ export default function TokenCounter() {
     return `$${cost.toFixed(4)}`;
   };
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(tokens.toString());
-    toast.success(t("copiedToClipboard"));
-  };
-
   const StatCard = ({
     label,
     value,
@@ -89,118 +85,113 @@ export default function TokenCounter() {
   );
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>{t("modelLabel")}</Label>
-            <Select
-              value={selectedModelId}
-              onValueChange={setSelectedModelId}
-            >
-              <SelectTrigger className="w-full sm:w-64">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {MODEL_OPTIONS.map((m) => (
-                  <SelectItem key={m.id} value={m.id}>
-                    {m.label}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-
-          <div className="space-y-2">
-            <Label>{t("inputLabel")}</Label>
-            <Textarea
-              dir="auto"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              placeholder={t("inputPlaceholder")}
-              className="min-h-[200px] font-mono text-sm resize-y"
+    <ToolShell
+      slug="token-counter"
+      title={tc("tools.token-counter.name")}
+      sub={tc("tools.token-counter.description")}
+      controls={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={() => setText(SAMPLE_TEXT)}
+          >
+            {t("loadSample")}
+          </Button>
+          <Button variant="outline" size="sm" onClick={() => setText("")}>
+            {t("clearAll")}
+          </Button>
+          {text && (
+            <CopyButton
+              text={tokens.toString()}
+              label={`${t("totalTokens")}: ${tokens.toLocaleString()}`}
+              successMessage={t("copiedToClipboard")}
             />
-          </div>
+          )}
+        </>
+      }
+    >
+      <div className="space-y-4">
+        <div className="space-y-2">
+          <Label>{t("modelLabel")}</Label>
+          <Select value={selectedModelId} onValueChange={setSelectedModelId}>
+            <SelectTrigger className="w-full sm:w-64">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {MODEL_OPTIONS.map((m) => (
+                <SelectItem key={m.id} value={m.id}>
+                  {m.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
 
-          <div className="flex gap-2 flex-wrap">
-            <Button
-              variant="outline"
-              size="sm"
-              onClick={() => setText(SAMPLE_TEXT)}
-            >
-              {t("loadSample")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={() => setText("")}>
-              {t("clearAll")}
-            </Button>
-            {text && (
-              <Button variant="outline" size="sm" onClick={handleCopy}>
-                {t("totalTokens")}: {tokens.toLocaleString()}
-              </Button>
-            )}
-          </div>
-        </CardContent>
-      </Card>
-
-      {text ? (
-        <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-          <StatCard
-            label={t("totalTokens")}
-            value={tokens.toLocaleString()}
-          />
-          <StatCard
-            label={t("characters")}
-            value={characters.toLocaleString()}
-          />
-          <StatCard label={t("words")} value={words.toLocaleString()} />
-          <StatCard
-            label={t("estimatedCost")}
-            value={formatCost(inputCost)}
-            sub={t("inputCost")}
+        <div className="space-y-2">
+          <Label>{t("inputLabel")}</Label>
+          <Textarea
+            dir="auto"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={t("inputPlaceholder")}
+            className="min-h-[200px] font-mono text-sm resize-y"
           />
         </div>
-      ) : (
-        <Card>
-          <CardContent className="py-8 text-center text-muted-foreground">
-            {t("noText")}
-          </CardContent>
-        </Card>
-      )}
 
-      {text && aiModel && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">
-              {aiModel.name} — {aiModel.provider}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-2 gap-4 text-sm">
-              <div>
-                <p className="text-muted-foreground">{t("inputCost")}</p>
-                <p className="font-medium">{formatCost(inputCost)}</p>
-                <p className="text-xs text-muted-foreground">
-                  ${aiModel.inputPricePer1M}/1M tokens
-                </p>
+        {text ? (
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <StatCard label={t("totalTokens")} value={tokens.toLocaleString()} />
+            <StatCard
+              label={t("characters")}
+              value={characters.toLocaleString()}
+            />
+            <StatCard label={t("words")} value={words.toLocaleString()} />
+            <StatCard
+              label={t("estimatedCost")}
+              value={formatCost(inputCost)}
+              sub={t("inputCost")}
+            />
+          </div>
+        ) : (
+          <Card>
+            <CardContent className="py-8 text-center text-muted-foreground">
+              {t("noText")}
+            </CardContent>
+          </Card>
+        )}
+
+        {text && aiModel && (
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-base">
+                {aiModel.name} — {aiModel.provider}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="grid grid-cols-2 gap-4 text-sm">
+                <div>
+                  <p className="text-muted-foreground">{t("inputCost")}</p>
+                  <p className="font-medium">{formatCost(inputCost)}</p>
+                  <p className="text-xs text-muted-foreground">
+                    ${aiModel.inputPricePer1M}/1M tokens
+                  </p>
+                </div>
+                <div>
+                  <p className="text-muted-foreground">{t("outputCost")}</p>
+                  <p className="font-medium">{formatCost(outputCost)}</p>
+                  <p className="text-xs text-muted-foreground">
+                    ${aiModel.outputPricePer1M}/1M tokens
+                  </p>
+                </div>
               </div>
-              <div>
-                <p className="text-muted-foreground">{t("outputCost")}</p>
-                <p className="font-medium">{formatCost(outputCost)}</p>
-                <p className="text-xs text-muted-foreground">
-                  ${aiModel.outputPricePer1M}/1M tokens
-                </p>
-              </div>
-            </div>
-            <p className="text-xs text-muted-foreground mt-2">
-              {t("assumingOutputLabel")}
-            </p>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+              <p className="text-xs text-muted-foreground mt-2">
+                {t("assumingOutputLabel")}
+              </p>
+            </CardContent>
+          </Card>
+        )}
+      </div>
+    </ToolShell>
   );
 }
