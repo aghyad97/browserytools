@@ -38,18 +38,9 @@
   white-space: nowrap;
 }
 
-.railGlyph {
-  width: 28px;
-  height: 28px;
-  border-radius: 7px;
-  background: var(--bt-ink);
-  color: var(--bt-bg);
-  font-family: var(--mono);
-  font-size: 11.5px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  letter-spacing: -0.5px;
+.railGlyphBare {
+  display: inline-flex;
+  color: var(--bt-ink);
 }
 
 .railLive {

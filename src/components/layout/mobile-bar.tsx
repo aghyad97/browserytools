@@ -31,7 +31,7 @@ export function MobileBar({ onSearch }: { onSearch: () => void }) {
   return (
     <div className={s.bar} data-testid="mobile-bar">
       <Link href="/" className={s.glyph} aria-label={tCommon("siteName")}>
-        <BrandGlyph size={16} />
+        <BrandGlyph size={22} />
       </Link>
 
       <button className={s.search} onClick={onSearch}>
