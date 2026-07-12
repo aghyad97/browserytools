@@ -251,8 +251,16 @@ function LiveDemo() {
 
   const handle = async (file?: File) => {
     if (!file) return;
+    // Every drop gets routed suggestions — raster images ALSO run the live
+    // compress demo alongside them (suggestions alone read as "nothing
+    // happened" for the demo's own file type).
+    setRouted({
+      name: file.name,
+      ext: extOf(file.name) || file.type.split("/").pop() || "file",
+      match: routeFile(file.name, file.type),
+    });
+    playCue("tick");
     if (file.type.startsWith("image/") && file.type !== "image/svg+xml") {
-      setRouted(null);
       setBusy(true);
       try {
         const blob = await compressImage(file, 0.72);
@@ -264,12 +272,6 @@ function LiveDemo() {
       return;
     }
     setResult(null);
-    setRouted({
-      name: file.name,
-      ext: extOf(file.name) || file.type.split("/").pop() || "file",
-      match: routeFile(file.name, file.type),
-    });
-    playCue("tick");
   };
 
   /* Whole-landing drop target: window-level listeners (the landing is the
