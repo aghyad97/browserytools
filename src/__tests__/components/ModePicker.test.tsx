@@ -86,6 +86,62 @@ describe("ModePicker", () => {
     }
   });
 
+  it("observes every segment (not just the root) and re-measures when one resizes without the root resizing — RB4 fresh-load-RTL regression", () => {
+    // Root cause: the original ResizeObserver only observed the root, so a
+    // post-hydration locale/dir flip that reflows segment label widths
+    // (different glyphs, different text) without changing the ROOT's size
+    // left the indicator stuck at its stale mount-time position until the
+    // next click. The fix observes every segment button too, so a
+    // segment-only resize (what a real browser fires for a reflowed label)
+    // now triggers a re-measure on its own.
+    const captured: { callback: ResizeObserverCallback | null } = { callback: null };
+    const observedElements: Element[] = [];
+    const originalRO = global.ResizeObserver;
+
+    class SpyResizeObserver {
+      constructor(cb: ResizeObserverCallback) {
+        captured.callback = cb;
+      }
+      observe(el: Element) {
+        observedElements.push(el);
+      }
+      unobserve() {}
+      disconnect() {}
+    }
+    global.ResizeObserver = SpyResizeObserver as unknown as typeof ResizeObserver;
+
+    let restoreOffsets = stubOffsets([0, 60, 130], [56, 66, 40]);
+    try {
+      render(
+        <ModePicker options={options} value="py" onChange={() => {}} aria-label="Output language" />
+      );
+      const group = screen.getByRole("group", { name: "Output language" });
+      const buttons = screen.getAllByRole("button");
+
+      // Regression check: every segment button was passed to observe(), not
+      // just the root.
+      expect(observedElements).toContain(group);
+      for (const button of buttons) {
+        expect(observedElements).toContain(button);
+      }
+      expect(group.style.getPropertyValue("--x")).toBe("60px");
+      expect(group.style.getPropertyValue("--w")).toBe("66px");
+
+      // Simulate a reflow: segment geometry changes (e.g. RTL label swap)
+      // with no click and no root resize — only the ResizeObserver firing,
+      // exactly as a real browser would for an observed segment resizing.
+      restoreOffsets();
+      restoreOffsets = stubOffsets([0, 90, 180], [80, 95, 50]);
+      captured.callback?.([], {} as ResizeObserver);
+
+      expect(group.style.getPropertyValue("--x")).toBe("90px");
+      expect(group.style.getPropertyValue("--w")).toBe("95px");
+    } finally {
+      restoreOffsets();
+      global.ResizeObserver = originalRO;
+    }
+  });
+
   it("scrolls the active segment into view when the active option changes", () => {
     const scrollIntoView = vi.fn();
     HTMLElement.prototype.scrollIntoView = scrollIntoView;

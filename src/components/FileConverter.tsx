@@ -452,6 +452,7 @@ export default function FileConverter() {
               filename={`converted.${FORMAT_EXTENSIONS[toFmt]}`}
               mime={FORMAT_MIME[toFmt]}
               copySuccessMessage={t("copiedToClipboard")}
+              downloadSuccessMessage={`Downloaded as .${FORMAT_EXTENSIONS[toFmt]}`}
               className="h-full flex flex-col"
             >
               <div className="flex items-center gap-2 px-3 pt-3 flex-wrap">

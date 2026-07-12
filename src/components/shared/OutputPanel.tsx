@@ -11,6 +11,9 @@
  * the visual body — so a syntax-highlighted panel still copies the raw string.
  * CopyButton is passed `disabled={!text}` (empty state), and the download
  * button (rendered only when `filename` is given) routes through lib/download.
+ * The download is silent by default (unlike copy, which always toasts); pass
+ * `downloadSuccessMessage` to opt a call site back into a toast — e.g. a tool
+ * that had its own "Downloaded as .ext" toast before adopting this molecule.
  *
  * All colours via var(--bt-*) tokens; logical properties throughout (RTL for
  * free); both themes; no single-edge borders.
@@ -19,6 +22,7 @@
 import type { ReactNode } from "react";
 import { DownloadIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { downloadText } from "@/lib/download";
 import { CopyButton } from "./CopyButton";
@@ -45,6 +49,8 @@ export interface OutputPanelProps {
   copySuccessMessage?: string;
   /** Overrides the CopyButton's error toast (default: translated "Copy failed"). */
   copyErrorMessage?: string;
+  /** When set, fires `toast.success(message)` after the download click (no toast by default). */
+  downloadSuccessMessage?: string;
 }
 
 export function OutputPanel({
@@ -58,6 +64,7 @@ export function OutputPanel({
   copyLabel,
   copySuccessMessage,
   copyErrorMessage,
+  downloadSuccessMessage,
 }: OutputPanelProps) {
   const t = useTranslations("Common");
   const empty = !text;
@@ -80,7 +87,10 @@ export function OutputPanel({
               size="sm"
               aria-label={t("download")}
               disabled={empty}
-              onClick={() => downloadText(text, filename, mime)}
+              onClick={() => {
+                downloadText(text, filename, mime);
+                if (downloadSuccessMessage) toast.success(downloadSuccessMessage);
+              }}
             >
               <DownloadIcon className="h-4 w-4" />
               {t("download")}

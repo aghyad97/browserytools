@@ -55,6 +55,27 @@ describe("OutputPanel", () => {
       render(<OutputPanel text="" filename="out.txt" />);
       expect(screen.getByRole("button", { name: "Download" })).toBeDisabled();
     });
+
+    it("does not toast on download when downloadSuccessMessage is omitted", async () => {
+      const { toast } = await import("sonner");
+      render(<OutputPanel text="content" filename="out.txt" />);
+      fireEvent.click(screen.getByRole("button", { name: "Download" }));
+      expect(toast.success).not.toHaveBeenCalled();
+    });
+
+    it("fires toast.success(downloadSuccessMessage) after the download click when provided", async () => {
+      const { toast } = await import("sonner");
+      render(
+        <OutputPanel
+          text="content"
+          filename="converted.json"
+          downloadSuccessMessage="Downloaded as .json"
+        />
+      );
+      fireEvent.click(screen.getByRole("button", { name: "Download" }));
+      expect(clicked).toHaveLength(1);
+      expect(toast.success).toHaveBeenCalledWith("Downloaded as .json");
+    });
   });
 
   describe("copy toast parity (API-friction #2)", () => {

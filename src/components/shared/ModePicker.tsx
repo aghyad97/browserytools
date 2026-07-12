@@ -73,14 +73,28 @@ export function ModePicker<T extends string = string>({
   }, [measure]);
 
   // Re-measure on container resize (viewport resize, container queries,
-  // sidebar collapse, etc.) — segment widths are layout-dependent.
+  // sidebar collapse, etc.) — segment widths are layout-dependent. Also
+  // observe every segment button, not just the root: a post-hydration
+  // locale/dir flip (e.g. cookie-driven RTL that only resolves client-side)
+  // reflows segment label widths — different glyphs, different text — without
+  // changing the ROOT's size, so the root-only observer never fired and the
+  // indicator sat at its stale first-paint position until the next click
+  // (which changes activeIndex and self-corrects via the effect above). Any
+  // segment's width change now fires this same observer, so the reflow
+  // re-measures itself with no click needed. Keyed on `options.length`
+  // (not the `options` array itself, which most call sites pass as a fresh
+  // literal every render) so segments added/removed after mount are also
+  // picked up, without tearing the observer down on every unrelated render.
   useEffect(() => {
     const root = rootRef.current;
     if (!root || typeof ResizeObserver === "undefined") return;
     const ro = new ResizeObserver(() => measure());
     ro.observe(root);
+    for (const segment of segmentRefs.current) {
+      if (segment) ro.observe(segment);
+    }
     return () => ro.disconnect();
-  }, [measure]);
+  }, [measure, options.length]);
 
   // Web fonts can finish loading after first paint and change label widths.
   useEffect(() => {
