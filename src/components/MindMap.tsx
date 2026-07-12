@@ -266,6 +266,7 @@ function MindMapEditor() {
     if (!el) return;
     try {
       const dataUrl = await toPng(el, {
+        // content value: exported PNG background fill (always white, independent of app theme)
         backgroundColor: "#ffffff",
         cacheBust: true,
       });

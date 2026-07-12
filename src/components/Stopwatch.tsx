@@ -3,13 +3,14 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { RotateCcw, Flag, Download } from "lucide-react";
 import { toast } from "sonner";
 import { formatStopwatch } from "@/lib/time-format";
 import { ToolShell } from "@/components/template/tool-shell";
 import { downloadBlob } from "@/lib/download";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 interface Lap {
   number: number;
@@ -155,56 +156,54 @@ export default function Stopwatch() {
         </Card>
 
         {laps.length > 0 && (
-          <Card>
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">{t("laps")} ({laps.length})</CardTitle>
-                <Button variant="outline" size="sm" onClick={exportCSV}>
-                  <Download className="w-4 h-4 me-2" />
-                  {t("exportCSV")}
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="p-0">
-              <div className="overflow-auto max-h-80">
-                <table className="w-full text-sm">
-                  <thead className="sticky top-0 bg-muted/80 backdrop-blur-sm">
-                    <tr>
-                      <th className="text-start px-4 py-2 font-medium text-muted-foreground">{t("lapColumn")}</th>
-                      <th className="text-end px-4 py-2 font-medium text-muted-foreground">{t("lapTime")}</th>
-                      <th className="text-end px-4 py-2 font-medium text-muted-foreground">{t("totalTime")}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {laps.map((lap) => {
-                      const isFastest = laps.length >= 2 && lap.lapTime === fastestLapTime;
-                      const isSlowest = laps.length >= 2 && lap.lapTime === slowestLapTime;
-                      return (
-                        <tr
-                          key={lap.number}
-                          className={`border-t transition-colors ${
-                            isFastest
-                              ? "bg-green-50 dark:bg-green-950/30"
-                              : isSlowest
-                              ? "bg-red-50 dark:bg-red-950/30"
-                              : "hover:bg-muted/30"
-                          }`}
-                        >
-                          <td className="px-4 py-2.5 font-medium">
-                            <span dir="ltr">#{lap.number}</span>
-                            {isFastest && <Badge className="ms-2 bg-green-500 text-white text-xs py-0">{t("best")}</Badge>}
-                            {isSlowest && <Badge className="ms-2 bg-red-500 text-white text-xs py-0">{t("slowest")}</Badge>}
-                          </td>
-                          <td className="px-4 py-2.5 text-right font-mono tabular-nums" dir="ltr">{formatStopwatch(lap.lapTime)}</td>
-                          <td className="px-4 py-2.5 text-right font-mono tabular-nums text-muted-foreground" dir="ltr">{formatStopwatch(lap.totalTime)}</td>
-                        </tr>
-                      );
-                    })}
-                  </tbody>
-                </table>
-              </div>
-            </CardContent>
-          </Card>
+          <SettingsCard
+            title={`${t("laps")} (${laps.length})`}
+            action={
+              <Button variant="outline" size="sm" onClick={exportCSV}>
+                <Download className="w-4 h-4 me-2" />
+                {t("exportCSV")}
+              </Button>
+            }
+          >
+            <div className="overflow-auto max-h-80 -mx-5">
+              <table className="w-full text-sm">
+                <thead className="sticky top-0 bg-muted/80 backdrop-blur-sm">
+                  <tr>
+                    <th className="text-start px-4 py-2 font-medium text-muted-foreground">{t("lapColumn")}</th>
+                    <th className="text-end px-4 py-2 font-medium text-muted-foreground">{t("lapTime")}</th>
+                    <th className="text-end px-4 py-2 font-medium text-muted-foreground">{t("totalTime")}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {laps.map((lap) => {
+                    const isFastest = laps.length >= 2 && lap.lapTime === fastestLapTime;
+                    const isSlowest = laps.length >= 2 && lap.lapTime === slowestLapTime;
+                    return (
+                      <tr
+                        key={lap.number}
+                        // status color, no bt token: fastest/slowest lap highlight
+                        className={`border-t transition-colors ${
+                          isFastest
+                            ? "bg-green-50 dark:bg-green-950/30"
+                            : isSlowest
+                            ? "bg-red-50 dark:bg-red-950/30"
+                            : "hover:bg-muted/30"
+                        }`}
+                      >
+                        <td className="px-4 py-2.5 font-medium">
+                          <span dir="ltr">#{lap.number}</span>
+                          {isFastest && <Badge className="ms-2 bg-green-500 text-white text-xs py-0">{t("best")}</Badge>}
+                          {isSlowest && <Badge className="ms-2 bg-red-500 text-white text-xs py-0">{t("slowest")}</Badge>}
+                        </td>
+                        <td className="px-4 py-2.5 text-right font-mono tabular-nums" dir="ltr">{formatStopwatch(lap.lapTime)}</td>
+                        <td className="px-4 py-2.5 text-right font-mono tabular-nums text-muted-foreground" dir="ltr">{formatStopwatch(lap.totalTime)}</td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </SettingsCard>
         )}
       </div>
     </ToolShell>

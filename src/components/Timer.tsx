@@ -5,7 +5,6 @@ import { useTranslations } from "next-intl";
 import NumberFlow from "@number-flow/react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToolShell } from "@/components/template/tool-shell";
 import {
@@ -17,6 +16,7 @@ import {
   Bell,
 } from "lucide-react";
 import { playBeep } from "@/lib/time-format";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 type Mode = "countdown" | "stopwatch";
 
@@ -272,49 +272,48 @@ export default function Timer() {
                 <TabsTrigger value="stopwatch">{t("stopwatch")}</TabsTrigger>
               </TabsList>
               <TabsContent value="countdown" className="space-y-4">
-                <div className="grid grid-cols-3 gap-3 max-w-md">
-                  <div className="space-y-2">
-                    <Label>{t("hours")}</Label>
-                    <Input
-                      type="number"
-                      min={0}
-                      value={hInput}
-                      onChange={(e) =>
-                        setHInput(Math.max(0, Number(e.target.value)))
-                      }
-                    />
+                <SettingsCard className="max-w-md">
+                  <div className="grid grid-cols-3 gap-3">
+                    <OptionRow label={t("hours")}>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={hInput}
+                        onChange={(e) =>
+                          setHInput(Math.max(0, Number(e.target.value)))
+                        }
+                      />
+                    </OptionRow>
+                    <OptionRow label={t("minutes")}>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={mInput}
+                        onChange={(e) =>
+                          setMInput(Math.max(0, Number(e.target.value)))
+                        }
+                      />
+                    </OptionRow>
+                    <OptionRow label={t("seconds")}>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={sInput}
+                        onChange={(e) =>
+                          setSInput(Math.max(0, Number(e.target.value)))
+                        }
+                      />
+                    </OptionRow>
                   </div>
-                  <div className="space-y-2">
-                    <Label>{t("minutes")}</Label>
-                    <Input
-                      type="number"
-                      min={0}
-                      value={mInput}
-                      onChange={(e) =>
-                        setMInput(Math.max(0, Number(e.target.value)))
-                      }
-                    />
+                  <div>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleApplyCountdown(hInput, mInput, sInput)}
+                    >
+                      {t("apply")}
+                    </Button>
                   </div>
-                  <div className="space-y-2">
-                    <Label>{t("seconds")}</Label>
-                    <Input
-                      type="number"
-                      min={0}
-                      value={sInput}
-                      onChange={(e) =>
-                        setSInput(Math.max(0, Number(e.target.value)))
-                      }
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleApplyCountdown(hInput, mInput, sInput)}
-                  >
-                    {t("apply")}
-                  </Button>
-                </div>
+                </SettingsCard>
               </TabsContent>
               <TabsContent value="stopwatch">
                 <p className="text-sm text-muted-foreground">

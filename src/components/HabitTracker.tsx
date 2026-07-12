@@ -4,12 +4,14 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2, Check, Flame, Trophy, Edit2, X } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 interface Habit {
   id: string;
@@ -210,82 +212,70 @@ export default function HabitTracker() {
     >
       <div className="max-w-2xl mx-auto space-y-6">
         {/* Stats Row */}
-        <div className="grid grid-cols-3 gap-3">
-          <Card>
-            <CardContent className="pt-4 pb-4 text-center">
-              <div className="text-2xl font-bold text-primary">{stats.total}</div>
-              <div className="text-xs text-muted-foreground mt-0.5">{t("totalHabits")}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-4 pb-4 text-center">
-              <div className="text-2xl font-bold text-green-500">{stats.rate}%</div>
-              <div className="text-xs text-muted-foreground mt-0.5">{t("doneToday")}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-4 pb-4 text-center">
-              <div className="text-2xl font-bold text-orange-500 flex items-center justify-center gap-1">
-                <Flame className="w-5 h-5" />{stats.longestActive}
-              </div>
-              <div className="text-xs text-muted-foreground mt-0.5">{t("bestStreak")}</div>
-            </CardContent>
-          </Card>
-        </div>
+        <StatStrip
+          items={[
+            { label: t("totalHabits"), value: stats.total },
+            { label: t("doneToday"), value: `${stats.rate}%` },
+            {
+              label: t("bestStreak"),
+              value: (
+                <span className="inline-flex items-center gap-1">
+                  <Flame className="w-5 h-5" />
+                  {stats.longestActive}
+                </span>
+              ),
+            },
+          ]}
+        />
 
         {/* Add Habit Form */}
         {showAdd && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">{t("newHabit")}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-1.5">
-                <Label>{t("habitName")}</Label>
-                <Input
-                  placeholder={t("habitNamePlaceholder")}
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && addHabit()}
-                />
+          <SettingsCard title={t("newHabit")}>
+            <div className="space-y-1.5">
+              <Label>{t("habitName")}</Label>
+              <Input
+                placeholder={t("habitNamePlaceholder")}
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addHabit()}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>{t("emoji")}</Label>
+              <div className="flex gap-2 flex-wrap">
+                {PRESET_EMOJIS.map((em) => (
+                  <button
+                    key={em}
+                    onClick={() => setNewEmoji(em)}
+                    className={`text-2xl w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-[transform,border-color,box-shadow] ${
+                      newEmoji === em ? "border-primary bg-primary/10 scale-110" : "border-transparent hover:border-border"
+                    }`}
+                  >
+                    {em}
+                  </button>
+                ))}
               </div>
-              <div className="space-y-1.5">
-                <Label>{t("emoji")}</Label>
-                <div className="flex gap-2 flex-wrap">
-                  {PRESET_EMOJIS.map((em) => (
-                    <button
-                      key={em}
-                      onClick={() => setNewEmoji(em)}
-                      className={`text-2xl w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-[transform,border-color,box-shadow] ${
-                        newEmoji === em ? "border-primary bg-primary/10 scale-110" : "border-transparent hover:border-border"
-                      }`}
-                    >
-                      {em}
-                    </button>
-                  ))}
-                </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label>{t("color")}</Label>
+              <div className="flex gap-2">
+                {COLORS.map((c) => (
+                  <button
+                    key={c.name}
+                    onClick={() => setNewColor(c.name)}
+                    className={`w-8 h-8 rounded-full ${c.tw} transition-[transform,opacity,box-shadow] ${
+                      newColor === c.name ? `ring-2 ring-offset-2 ${c.ring} scale-110` : "opacity-70 hover:opacity-100"
+                    }`}
+                    title={c.label}
+                  />
+                ))}
               </div>
-              <div className="space-y-1.5">
-                <Label>{t("color")}</Label>
-                <div className="flex gap-2">
-                  {COLORS.map((c) => (
-                    <button
-                      key={c.name}
-                      onClick={() => setNewColor(c.name)}
-                      className={`w-8 h-8 rounded-full ${c.tw} transition-[transform,opacity,box-shadow] ${
-                        newColor === c.name ? `ring-2 ring-offset-2 ${c.ring} scale-110` : "opacity-70 hover:opacity-100"
-                      }`}
-                      title={c.label}
-                    />
-                  ))}
-                </div>
-              </div>
-              <Button onClick={addHabit} className="w-full">
-                <Plus className="w-4 h-4 me-2" />
-                {t("addHabit")}
-              </Button>
-            </CardContent>
-          </Card>
+            </div>
+            <Button onClick={addHabit} className="w-full">
+              <Plus className="w-4 h-4 me-2" />
+              {t("addHabit")}
+            </Button>
+          </SettingsCard>
         )}
 
         {/* Habits List */}

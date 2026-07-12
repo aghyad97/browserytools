@@ -3,14 +3,15 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import { Switch } from "@/components/ui/switch";
 import { Separator } from "@/components/ui/separator";
 import { Play, Pause, RotateCcw, SkipForward, Settings, X, Coffee, Brain } from "lucide-react";
 import { toast } from "sonner";
 import { formatMMSS, playBeep } from "@/lib/time-format";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 type SessionType = "work" | "shortBreak" | "longBreak";
 
@@ -271,41 +272,32 @@ export default function PomodoroTimer() {
     >
       <div className="max-w-2xl mx-auto space-y-6">
         {showSettings && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">{t("settings")}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              <div className="grid grid-cols-2 gap-4">
-                {([
-                  { key: "workDuration" as const, label: t("workDuration"), min: 1, max: 90 },
-                  { key: "shortBreakDuration" as const, label: t("shortBreak"), min: 1, max: 30 },
-                  { key: "longBreakDuration" as const, label: t("longBreak"), min: 1, max: 60 },
-                  { key: "sessionsBeforeLongBreak" as const, label: t("sessionsBeforeLongBreak"), min: 1, max: 10 },
-                ]).map(({ key, label, min, max }) => (
-                  <div key={key} className="space-y-1.5">
-                    <Label className="text-sm">{label}</Label>
-                    <input
-                      type="number" min={min} max={max} value={settings[key]}
-                      onChange={(e) => updateSetting(key, Math.max(min, Math.min(max, Number(e.target.value))))}
-                      className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
-                    />
-                  </div>
-                ))}
-              </div>
-              <Separator />
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm">{t("soundNotifications")}</Label>
-                  <Switch checked={settings.soundEnabled} onCheckedChange={(v) => updateSetting("soundEnabled", v)} />
-                </div>
-                <div className="flex items-center justify-between">
-                  <Label className="text-sm">{t("autoAdvance")}</Label>
-                  <Switch checked={settings.autoAdvance} onCheckedChange={(v) => updateSetting("autoAdvance", v)} />
-                </div>
-              </div>
-            </CardContent>
-          </Card>
+          <SettingsCard title={t("settings")}>
+            <div className="grid grid-cols-2 gap-4">
+              {([
+                { key: "workDuration" as const, label: t("workDuration"), min: 1, max: 90 },
+                { key: "shortBreakDuration" as const, label: t("shortBreak"), min: 1, max: 30 },
+                { key: "longBreakDuration" as const, label: t("longBreak"), min: 1, max: 60 },
+                { key: "sessionsBeforeLongBreak" as const, label: t("sessionsBeforeLongBreak"), min: 1, max: 10 },
+              ]).map(({ key, label, min, max }) => (
+                <OptionRow key={key} label={label} htmlFor={`pomodoro-${key}`}>
+                  <input
+                    id={`pomodoro-${key}`}
+                    type="number" min={min} max={max} value={settings[key]}
+                    onChange={(e) => updateSetting(key, Math.max(min, Math.min(max, Number(e.target.value))))}
+                    className="w-full h-9 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring"
+                  />
+                </OptionRow>
+              ))}
+            </div>
+            <Separator />
+            <OptionRow label={t("soundNotifications")}>
+              <Switch checked={settings.soundEnabled} onCheckedChange={(v) => updateSetting("soundEnabled", v)} />
+            </OptionRow>
+            <OptionRow label={t("autoAdvance")}>
+              <Switch checked={settings.autoAdvance} onCheckedChange={(v) => updateSetting("autoAdvance", v)} />
+            </OptionRow>
+          </SettingsCard>
         )}
 
         <Card className={`bg-gradient-to-br ${colors.bg} border-0 shadow-lg`}>
@@ -388,48 +380,38 @@ export default function PomodoroTimer() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base flex items-center gap-2">
+        <SettingsCard
+          title={
+            <span className="flex items-center gap-2">
               <Brain className="w-4 h-4 text-primary" />
               {t("todayStats")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-3 gap-4">
-              <div className="text-center p-3 rounded-lg bg-muted/50">
-                <div dir="ltr" className="text-2xl font-bold text-red-500">{formatFocusTime(stats.totalFocusSeconds)}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{t("focusTime")}</div>
-              </div>
-              <div className="text-center p-3 rounded-lg bg-muted/50">
-                <div dir="ltr" className="text-2xl font-bold text-primary">{stats.completedSessions}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{t("sessionsDone")}</div>
-              </div>
-              <div className="text-center p-3 rounded-lg bg-muted/50">
-                <div dir="ltr" className="text-2xl font-bold text-emerald-500">{stats.breaksTaken}</div>
-                <div className="text-xs text-muted-foreground mt-0.5">{t("breaksTaken")}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </span>
+          }
+        >
+          <StatStrip
+            items={[
+              { label: t("focusTime"), value: <span dir="ltr" className="text-red-500">{formatFocusTime(stats.totalFocusSeconds)}</span> },
+              { label: t("sessionsDone"), value: <span dir="ltr" className="text-primary">{stats.completedSessions}</span> },
+              { label: t("breaksTaken"), value: <span dir="ltr" className="text-emerald-500">{stats.breaksTaken}</span> },
+            ]}
+          />
+        </SettingsCard>
 
-        <Card className="border-dashed">
-          <CardContent className="pt-4 pb-4">
-            <div className="flex items-start gap-3 text-sm text-muted-foreground">
-              <Coffee className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
-              <p>
-                {t("workFor")} <strong className="text-foreground">{settings.workDuration} {t("min")}</strong>
-                {", "}
-                {t("thenTake")} <strong className="text-foreground">{settings.shortBreakDuration}-{t("min")}</strong>{" "}
-                {t("shortBreakMin")}{" "}
-                <strong className="text-foreground">{settings.sessionsBeforeLongBreak}</strong>{" "}
-                {t("sessions")}{" "}
-                <strong className="text-foreground">{settings.longBreakDuration}-{t("min")}</strong>{" "}
-                {t("longBreakMin")}
-              </p>
-            </div>
-          </CardContent>
-        </Card>
+        <SettingsCard>
+          <div className="flex items-start gap-3 text-sm text-muted-foreground">
+            <Coffee className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
+            <p>
+              {t("workFor")} <strong className="text-foreground">{settings.workDuration} {t("min")}</strong>
+              {", "}
+              {t("thenTake")} <strong className="text-foreground">{settings.shortBreakDuration}-{t("min")}</strong>{" "}
+              {t("shortBreakMin")}{" "}
+              <strong className="text-foreground">{settings.sessionsBeforeLongBreak}</strong>{" "}
+              {t("sessions")}{" "}
+              <strong className="text-foreground">{settings.longBreakDuration}-{t("min")}</strong>{" "}
+              {t("longBreakMin")}
+            </p>
+          </div>
+        </SettingsCard>
       </div>
     </ToolShell>
   );

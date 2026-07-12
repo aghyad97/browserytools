@@ -4,14 +4,15 @@ import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Download, RotateCcw, ArrowLeftRight } from "lucide-react";
-import { toast } from "sonner";
+import { RotateCcw, ArrowLeftRight } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
-import { downloadBlob } from "@/lib/download";
+import { ModePicker } from "@/components/shared/ModePicker";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel as SharedOutputPanel } from "@/components/shared/OutputPanel";
+import { formatPercent } from "@/lib/format";
 
+// content value: sample CSS source text loaded into the input on demand
 const SAMPLE_CSS = `/* Main layout styles */
 .container {
   max-width: 1200px;
@@ -271,17 +272,11 @@ export default function CssMinifier() {
     if (!debouncedInput.trim() || !output) return null;
     const before = new Blob([debouncedInput]).size;
     const after = new Blob([output]).size;
-    const reduction = before > 0 ? (((before - after) / before) * 100).toFixed(1) : "0";
-    return { before, after, reduction: parseFloat(reduction) };
+    const reductionRatio = before > 0 ? (before - after) / before : 0;
+    return { before, after, reductionRatio };
   }, [debouncedInput, output]);
 
   const lineCount = useMemo(() => input.split("\n").length, [input]);
-
-  const handleDownload = useCallback(() => {
-    if (!output) return;
-    downloadBlob(new Blob([output], { type: "text/css" }), `styles-${tab}.css`);
-    toast.success(t("downloaded"));
-  }, [output, tab, t]);
 
   const handleSwap = useCallback(() => {
     if (!output) return;
@@ -299,84 +294,78 @@ export default function CssMinifier() {
       sub={tc("tools.css-minifier.description")}
     >
       <div className="max-w-6xl mx-auto space-y-6">
-        <Tabs value={tab} onValueChange={(v) => setTab(v as "minify" | "beautify")}>
-          <div className="flex flex-wrap items-center justify-between gap-3">
-            <TabsList>
-              <TabsTrigger value="minify">{t("tabMinify")}</TabsTrigger>
-              <TabsTrigger value="beautify">{t("tabBeautify")}</TabsTrigger>
-            </TabsList>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_CSS)}>
-                {t("sampleCss")}
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleSwap} disabled={!output}>
-                <ArrowLeftRight className="w-4 h-4 me-1.5" /> {t("swap")}
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleClear}>
-                <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
-              </Button>
-            </div>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <ModePicker
+            aria-label={t("inputCss")}
+            value={tab}
+            onChange={(v) => setTab(v)}
+            options={[
+              { value: "minify", label: t("tabMinify") },
+              { value: "beautify", label: t("tabBeautify") },
+            ]}
+          />
+          <div className="flex gap-2">
+            <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_CSS)}>
+              {t("sampleCss")}
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleSwap} disabled={!output}>
+              <ArrowLeftRight className="w-4 h-4 me-1.5" /> {t("swap")}
+            </Button>
+            <Button variant="outline" size="sm" onClick={handleClear}>
+              <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
+            </Button>
           </div>
+        </div>
 
-          {/* Stats bar */}
-          {stats && (
-            <div className="flex flex-wrap gap-2 items-center">
-              <Badge variant="secondary">{t("before")} {stats.before} {t("bytes")}</Badge>
-              <Badge variant="secondary">{t("after")} {stats.after} {t("bytes")}</Badge>
-              {tab === "minify" && (
-                <Badge
-                  className={
-                    stats.reduction > 0
-                      ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
-                      : "bg-muted text-muted-foreground"
-                  }
-                >
-                  {stats.reduction > 0 ? `-${stats.reduction}%` : t("noReduction")}
-                </Badge>
-              )}
-            </div>
-          )}
+        {/* Stats bar */}
+        {stats && (
+          <div className="flex flex-wrap gap-2 items-center">
+            <Badge variant="secondary">{t("before")} {stats.before} {t("bytes")}</Badge>
+            <Badge variant="secondary">{t("after")} {stats.after} {t("bytes")}</Badge>
+            {tab === "minify" && (
+              <Badge
+                className={
+                  stats.reductionRatio > 0
+                    ? "bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200"
+                    : "bg-muted text-muted-foreground"
+                }
+              >
+                {stats.reductionRatio > 0 ? `-${formatPercent(stats.reductionRatio, 1)}` : t("noReduction")}
+              </Badge>
+            )}
+          </div>
+        )}
 
-          <TabsContent value="minify" className="mt-0">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <InputPanel
-                value={input}
-                onChange={setInput}
-                lineCount={lineCount}
-                placeholder={t("inputPlaceholder")}
-                inputLabel={t("inputCss")}
-                linesLabel={t("lines")}
-                charsLabel={t("chars")}
-              />
-              <OutputPanel
+        <TwoPane
+          start={
+            <InputPanel
+              value={input}
+              onChange={setInput}
+              lineCount={lineCount}
+              placeholder={t("inputPlaceholder")}
+              inputLabel={t("inputCss")}
+              linesLabel={t("lines")}
+              charsLabel={t("chars")}
+            />
+          }
+          end={
+            <SharedOutputPanel
+              title={tab === "minify" ? t("minifiedCss") : t("beautifiedCss")}
+              text={output}
+              filename={`styles-${tab}.css`}
+              mime="text/css"
+              downloadSuccessMessage={t("downloaded")}
+            >
+              <textarea
                 value={output}
-                onDownload={handleDownload}
-                label={t("minifiedCss")}
-                placeholder={t("minifiedPlaceholder")}
+                readOnly
+                placeholder={tab === "minify" ? t("minifiedPlaceholder") : t("beautifiedPlaceholder")}
+                className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5 pt-2"
+                aria-label="CSS output"
               />
-            </div>
-          </TabsContent>
-
-          <TabsContent value="beautify" className="mt-0">
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-              <InputPanel
-                value={input}
-                onChange={setInput}
-                lineCount={lineCount}
-                placeholder={t("inputPlaceholder")}
-                inputLabel={t("inputCss")}
-                linesLabel={t("lines")}
-                charsLabel={t("chars")}
-              />
-              <OutputPanel
-                value={output}
-                onDownload={handleDownload}
-                label={t("beautifiedCss")}
-                placeholder={t("beautifiedPlaceholder")}
-              />
-            </div>
-          </TabsContent>
-        </Tabs>
+            </SharedOutputPanel>
+          }
+        />
       </div>
     </ToolShell>
   );
@@ -437,46 +426,3 @@ function InputPanel({
   );
 }
 
-function OutputPanel({
-  value,
-  onDownload,
-  label,
-  placeholder,
-}: {
-  value: string;
-  onDownload: () => void;
-  label: string;
-  placeholder: string;
-}) {
-  return (
-    <Card>
-      <CardHeader className="pb-2">
-        <CardTitle className="text-sm font-medium flex items-center justify-between">
-          {label}
-          <div className="flex gap-1">
-            <CopyButton text={value} size="icon" disabled={!value} />
-            <Button
-              size="icon"
-              variant="ghost"
-              className="h-7 w-7"
-              onClick={onDownload}
-              disabled={!value}
-              aria-label="Download"
-            >
-              <Download className="w-3.5 h-3.5" />
-            </Button>
-          </div>
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <textarea
-          value={value}
-          readOnly
-          placeholder={placeholder}
-          className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5 pt-2"
-          aria-label="CSS output"
-        />
-      </CardContent>
-    </Card>
-  );
-}

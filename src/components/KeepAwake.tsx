@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Coffee, Infinity as InfinityIcon, Info } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 type PresetKey = "15m" | "30m" | "1h" | "2h" | "4h" | "8h" | "infinity" | "custom";
 
@@ -197,7 +198,7 @@ export default function KeepAwake() {
           className={`transition-colors border-0 shadow-lg bg-gradient-to-br ${
             isActive
               ? "from-emerald-50 to-green-100 dark:from-emerald-950/30 dark:to-green-900/20"
-              : "from-slate-50 to-zinc-100 dark:from-slate-950/40 dark:to-zinc-900/30"
+              : "from-muted to-secondary/60 dark:from-muted dark:to-secondary/40"
           }`}
         >
           <CardContent className="pt-8 pb-6">
@@ -240,115 +241,84 @@ export default function KeepAwake() {
           </CardContent>
         </Card>
 
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("presets")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-              {PRESETS.map((p) => {
-                const active = selectedPreset === p.key;
-                const isInf = p.key === "infinity";
-                const label =
+        <SettingsCard title={t("presets")}>
+          <ModePicker
+            aria-label={t("presets")}
+            value={selectedPreset}
+            onChange={(key) => {
+              if (!isActive) setSelectedPreset(key);
+            }}
+            options={[
+              ...PRESETS.map((p) => ({
+                value: p.key,
+                label:
                   p.key === "15m" ? t("preset15")
                   : p.key === "30m" ? t("preset30")
                   : p.key === "1h" ? t("preset1h")
                   : p.key === "2h" ? t("preset2h")
                   : p.key === "4h" ? t("preset4h")
                   : p.key === "8h" ? t("preset8h")
-                  : t("infinity");
-                return (
-                  <button
-                    key={p.key}
-                    type="button"
-                    onClick={() => setSelectedPreset(p.key)}
-                    disabled={isActive}
-                    className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors flex items-center justify-center gap-1.5 ${
-                      active
-                        ? "bg-primary text-primary-foreground border-primary"
-                        : "bg-background text-foreground border-input hover:border-primary/40"
-                    } ${isActive ? "opacity-60 cursor-not-allowed" : ""}`}
-                  >
-                    {isInf && <InfinityIcon className="w-3.5 h-3.5" />}
-                    {label}
-                  </button>
-                );
-              })}
-              <button
-                type="button"
-                onClick={() => setSelectedPreset("custom")}
-                disabled={isActive}
-                className={`px-3 py-2 rounded-lg text-sm font-medium border transition-colors ${
-                  selectedPreset === "custom"
-                    ? "bg-primary text-primary-foreground border-primary"
-                    : "bg-background text-foreground border-input hover:border-primary/40"
-                } ${isActive ? "opacity-60 cursor-not-allowed" : ""}`}
-              >
-                {t("custom")}
-              </button>
-            </div>
+                  : (
+                    <span className="inline-flex items-center gap-1.5">
+                      <InfinityIcon className="w-3.5 h-3.5" />
+                      {t("infinity")}
+                    </span>
+                  ),
+              })),
+              { value: "custom" as PresetKey, label: t("custom") },
+            ]}
+          />
 
-            {selectedPreset === "custom" && (
-              <div className="space-y-2">
-                <Label className="text-sm">{t("customLabel")}</Label>
-                <div className="flex gap-2">
-                  <input
-                    type="number"
-                    min={1}
-                    max={customUnit === "h" ? 48 : 1440}
-                    value={customValue}
-                    disabled={isActive}
-                    onChange={(e) => setCustomValue(Math.max(1, Number(e.target.value) || 0))}
-                    placeholder={t("customPlaceholder")}
-                    className="flex-1 h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-60"
-                  />
-                  <div className="inline-flex rounded-md border border-input overflow-hidden">
-                    <button
-                      type="button"
-                      onClick={() => setCustomUnit("min")}
-                      disabled={isActive}
-                      className={`px-3 text-sm ${customUnit === "min" ? "bg-primary text-primary-foreground" : "bg-background text-foreground"}`}
-                    >
-                      {t("unitMinutes")}
-                    </button>
-                    <button
-                      type="button"
-                      onClick={() => setCustomUnit("h")}
-                      disabled={isActive}
-                      className={`px-3 text-sm border-s border-input ${customUnit === "h" ? "bg-primary text-primary-foreground" : "bg-background text-foreground"}`}
-                    >
-                      {t("unitHours")}
-                    </button>
-                  </div>
-                </div>
+          {selectedPreset === "custom" && (
+            <OptionRow label={t("customLabel")}>
+              <div className="flex gap-2">
+                <input
+                  type="number"
+                  min={1}
+                  max={customUnit === "h" ? 48 : 1440}
+                  value={customValue}
+                  disabled={isActive}
+                  onChange={(e) => setCustomValue(Math.max(1, Number(e.target.value) || 0))}
+                  placeholder={t("customPlaceholder")}
+                  className="flex-1 h-10 rounded-md border border-input bg-background px-3 text-sm focus:outline-none focus:ring-1 focus:ring-ring disabled:opacity-60"
+                />
+                <ModePicker
+                  aria-label={t("customLabel")}
+                  value={customUnit}
+                  onChange={(unit) => {
+                    if (!isActive) setCustomUnit(unit);
+                  }}
+                  options={[
+                    { value: "min" as const, label: t("unitMinutes") },
+                    { value: "h" as const, label: t("unitHours") },
+                  ]}
+                />
               </div>
-            )}
+            </OptionRow>
+          )}
 
-            {selectedPreset === "infinity" && (
-              <div className="flex items-start gap-2 text-sm text-muted-foreground">
-                <InfinityIcon className="w-4 h-4 mt-0.5 shrink-0" />
-                <p>{t("infinityDesc")}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          {selectedPreset === "infinity" && (
+            <div className="flex items-start gap-2 text-sm text-muted-foreground">
+              <InfinityIcon className="w-4 h-4 mt-0.5 shrink-0" />
+              <p>{t("infinityDesc")}</p>
+            </div>
+          )}
+        </SettingsCard>
 
-        <Card className="border-dashed">
-          <CardContent className="pt-4 pb-4 space-y-3">
-            <div className="flex items-start gap-3 text-sm text-muted-foreground">
-              <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
-              <div className="space-y-1">
-                <p className="font-medium text-foreground">{t("tipTitle")}</p>
-                <p>{t("tipBody")}</p>
-              </div>
+        <SettingsCard>
+          <div className="flex items-start gap-3 text-sm text-muted-foreground">
+            <Info className="w-4 h-4 mt-0.5 shrink-0 text-primary" />
+            <div className="space-y-1">
+              <p className="font-medium text-foreground">{t("tipTitle")}</p>
+              <p>{t("tipBody")}</p>
             </div>
-            <Separator />
-            <div className="flex items-start gap-3 text-sm text-muted-foreground">
-              <Coffee className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
-              <p>{t("warnClosedLid")}</p>
-            </div>
-          </CardContent>
-        </Card>
+          </div>
+          <Separator />
+          <div className="flex items-start gap-3 text-sm text-muted-foreground">
+            <Coffee className="w-4 h-4 mt-0.5 shrink-0 text-amber-500" />
+            <p>{t("warnClosedLid")}</p>
+          </div>
+        </SettingsCard>
       </div>
     </ToolShell>
   );

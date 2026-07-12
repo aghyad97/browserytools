@@ -15,7 +15,9 @@ import { toast } from "sonner";
 import { Terminal, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 type TargetLang =
   | "fetch"
@@ -578,50 +580,44 @@ export default function CurlConverter() {
       }
     >
       <div className="max-w-7xl mx-auto space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <Card className="p-4">
-              <div className="flex items-center mb-2 text-sm font-medium text-muted-foreground">
-                <Terminal className="h-4 w-4 me-2" />
-                {t("inputLabel")}
-              </div>
-              <Textarea
-                placeholder={t("inputPlaceholder")}
-                className="min-h-[300px] font-mono text-left"
-                dir="ltr"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                aria-label={t("inputLabel")}
-              />
-            </Card>
-
-            <Card className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-muted-foreground">
-                  {t("outputLabel")}
-                </span>
-                {output && (
-                  <CopyButton
-                    text={output}
-                    size="icon"
-                    successMessage={t("copiedToClipboard")}
-                    errorMessage={t("failedToCopy")}
-                  />
-                )}
-              </div>
-              <Textarea
-                placeholder={t("outputPlaceholder")}
-                className="min-h-[300px] font-mono text-left"
-                dir="ltr"
-                value={output}
-                readOnly
-                aria-label={t("outputLabel")}
-              />
-            </Card>
-          </div>
+          <TwoPane
+            start={
+              <Card className="p-4">
+                <div className="flex items-center mb-2 text-sm font-medium text-muted-foreground">
+                  <Terminal className="h-4 w-4 me-2" />
+                  {t("inputLabel")}
+                </div>
+                <Textarea
+                  placeholder={t("inputPlaceholder")}
+                  className="min-h-[300px] font-mono text-left"
+                  dir="ltr"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  aria-label={t("inputLabel")}
+                />
+              </Card>
+            }
+            end={
+              <OutputPanel
+                title={t("outputLabel")}
+                text={output}
+                copySuccessMessage={t("copiedToClipboard")}
+                copyErrorMessage={t("failedToCopy")}
+              >
+                <Textarea
+                  placeholder={t("outputPlaceholder")}
+                  className="min-h-[300px] font-mono text-left border-0 rounded-none"
+                  dir="ltr"
+                  value={output}
+                  readOnly
+                  aria-label={t("outputLabel")}
+                />
+              </OutputPanel>
+            }
+          />
 
           {parsed && (
-            <Card className="p-4">
-              <div className="text-sm font-medium mb-3">{t("breakdown")}</div>
+            <SettingsCard title={t("breakdown")}>
               <div className="space-y-3 text-sm">
                 <div className="flex flex-wrap items-start gap-2">
                   <span className="font-medium min-w-[80px] text-muted-foreground">
@@ -681,7 +677,7 @@ export default function CurlConverter() {
                   </div>
                 )}
               </div>
-            </Card>
+            </SettingsCard>
           )}
       </div>
     </ToolShell>

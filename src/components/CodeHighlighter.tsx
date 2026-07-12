@@ -18,6 +18,7 @@ import { RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
 
 const LANGUAGE_OPTIONS = [
   { value: "javascript", label: "JavaScript" },
@@ -146,36 +147,42 @@ export default function CodeHighlighter() {
         </>
       }
     >
-      <div className="space-y-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 min-h-[600px]">
-            <Card className="flex flex-col">
-              <div className="p-2 bg-muted font-medium text-sm border-b">
-                {t("inputLabel")}
-              </div>
-              <div className="flex-1 p-4">
-                <Textarea
-                  value={code}
-                  onChange={(e) => setCode(e.target.value)}
-                  className="w-full h-[500px] font-mono text-sm resize-none text-left rtl:text-left"
-                  placeholder={t("codePlaceholder")}
-                />
-              </div>
-            </Card>
-
-            <Card className="flex flex-col">
-              <div className="p-2 bg-muted font-medium text-sm border-b">
-                {t("outputLabel")}
-              </div>
-              <div className="flex-1 p-4 bg-[#0d1117] overflow-auto max-h-[500px]">
-                <pre className="whitespace-pre-wrap">
-                  <code
-                    className={`language-${language} hljs`}
-                    dangerouslySetInnerHTML={{ __html: highlighted }}
+      <div className="space-y-4 min-h-[600px]">
+          <TwoPane
+            start={
+              <Card className="flex flex-col">
+                <div className="p-2 bg-muted font-medium text-sm border-b">
+                  {t("inputLabel")}
+                </div>
+                <div className="flex-1 p-4">
+                  <Textarea
+                    value={code}
+                    onChange={(e) => setCode(e.target.value)}
+                    className="w-full h-[500px] font-mono text-sm resize-none text-left rtl:text-left"
+                    placeholder={t("codePlaceholder")}
                   />
-                </pre>
-              </div>
-            </Card>
-          </div>
+                </div>
+              </Card>
+            }
+            end={
+              <Card className="flex flex-col">
+                <div className="p-2 bg-muted font-medium text-sm border-b">
+                  {t("outputLabel")}
+                </div>
+                {/* content value: highlight.js "github-dark" theme is a fixed
+                    code-syntax palette, always dark regardless of app theme —
+                    same allowlist class as InvoiceGenerator's WYSIWYG preview. */}
+                <div className="flex-1 p-4 bg-[#0d1117] overflow-auto max-h-[500px]">
+                  <pre className="whitespace-pre-wrap">
+                    <code
+                      className={`language-${language} hljs`}
+                      dangerouslySetInnerHTML={{ __html: highlighted }}
+                    />
+                  </pre>
+                </div>
+              </Card>
+            }
+          />
       </div>
     </ToolShell>
   );

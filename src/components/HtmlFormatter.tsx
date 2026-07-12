@@ -7,12 +7,12 @@ import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Download, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
-import { downloadBlob } from "@/lib/download";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 const SAMPLE_HTML = `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>Sample</title></head><body><h1>Hello World</h1><p>This is a <strong>sample</strong> HTML document.</p><ul><li>Item 1</li><li>Item 2</li></ul></body></html>`;
 
@@ -105,12 +105,6 @@ export default function HtmlFormatter() {
     }
   };
 
-  const handleDownload = () => {
-    if (!output) return;
-    downloadBlob(new Blob([output], { type: "text/html" }), `formatted-${Date.now()}.html`);
-    toast.success(t("downloaded"));
-  };
-
   const handleClear = () => {
     setInput("");
     setOutput("");
@@ -166,58 +160,50 @@ export default function HtmlFormatter() {
       }}
     >
       <div className="space-y-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
-                {t("inputHtml")}
-                <Badge variant="secondary">{input.length} chars</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={t("htmlInputPlaceholder")}
-                className="min-h-[50vh] font-mono text-sm resize-none text-left rtl:text-left"
-                aria-label="HTML input"
-              />
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
-                {t("outputLabel")}
-                <div className="flex gap-1">
-                  <CopyButton
-                    text={output}
-                    size="icon"
-                    successMessage={t("copiedToClipboard")}
-                    errorMessage={t("failedToCopy")}
-                    disabled={!output}
-                  />
-                  <Button size="icon" variant="ghost" className="h-7 w-7" onClick={handleDownload} disabled={!output} aria-label="Download">
-                    <Download className="w-3.5 h-3.5" />
-                  </Button>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+        <TwoPane
+          start={
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium flex items-center justify-between">
+                  {t("inputHtml")}
+                  <Badge variant="secondary">{input.length} chars</Badge>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={t("htmlInputPlaceholder")}
+                  className="min-h-[50vh] font-mono text-sm resize-none text-left rtl:text-left"
+                  aria-label="HTML input"
+                />
+              </CardContent>
+            </Card>
+          }
+          end={
+            <OutputPanel
+              title={t("outputLabel")}
+              text={output}
+              filename={`formatted-${Date.now()}.html`}
+              mime="text/html"
+              copySuccessMessage={t("copiedToClipboard")}
+              copyErrorMessage={t("failedToCopy")}
+              downloadSuccessMessage={t("downloaded")}
+            >
               {error ? (
-                <div className="text-destructive text-sm p-3 rounded bg-destructive/10">{error}</div>
+                <div className="text-destructive text-sm p-3.5 rounded bg-destructive/10">{error}</div>
               ) : (
                 <Textarea
                   value={output}
                   readOnly
                   placeholder={t("htmlOutputPlaceholder")}
-                  className="min-h-[50vh] font-mono text-sm resize-none text-left rtl:text-left"
+                  className="min-h-[50vh] font-mono text-sm resize-none text-left rtl:text-left border-0 rounded-none"
                   aria-label="HTML output"
                 />
               )}
-            </CardContent>
-          </Card>
-        </div>
+            </OutputPanel>
+          }
+        />
       </div>
     </ToolShell>
   );

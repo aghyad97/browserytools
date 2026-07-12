@@ -2,9 +2,7 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -19,6 +17,8 @@ import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadBlob } from "@/lib/download";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
 
 // A single freehand stroke is a list of points captured between pointerdown and pointerup.
 interface Point {
@@ -55,12 +55,14 @@ export default function SignatureMaker() {
   const [strokes, setStrokes] = useState<Stroke[]>([]);
   const currentStroke = useRef<Stroke | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
+  // content value: default pen color (user-adjustable via the color-picker input below)
   const [penColor, setPenColor] = useState("#1d4ed8");
   const [penWidth, setPenWidth] = useState(3);
 
   // ── Type mode ────────────────────────────────────────────────────────────
   const [typedName, setTypedName] = useState("");
   const [typeFont, setTypeFont] = useState(TYPE_FONTS[0].value);
+  // content value: default text color (user-adjustable via the color-picker input below)
   const [typeColor, setTypeColor] = useState("#1d4ed8");
   const [typeSize, setTypeSize] = useState(64);
 
@@ -244,9 +246,11 @@ export default function SignatureMaker() {
 
           {/* ── Draw mode ──────────────────────────────────────────────── */}
           <TabsContent value="draw" className="space-y-4">
-            <Card className="p-4 space-y-4">
+            <SettingsCard>
               <div
                 className="rounded-lg border-2 border-dashed border-muted-foreground/40"
+                // content value: fixed neutral checkerboard = "transparent background"
+                // indicator (same convention as image editors), independent of app theme
                 style={{
                   backgroundImage:
                     "linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)",
@@ -269,36 +273,24 @@ export default function SignatureMaker() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t("penColor")}</label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      aria-label={t("penColor")}
-                      value={penColor}
-                      onChange={(e) => setPenColor(e.target.value)}
-                      className="h-9 w-12 rounded border border-input bg-background p-1"
-                    />
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {penColor}
-                    </span>
-                  </div>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">{t("thickness")}</label>
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {penWidth}px
-                    </span>
-                  </div>
-                  <Slider
-                    value={[penWidth]}
-                    onValueChange={([v]) => setPenWidth(v)}
-                    min={1}
-                    max={12}
-                    step={1}
+                <OptionRow label={t("penColor")} hint={<span dir="ltr">{penColor}</span>}>
+                  <input
+                    type="color"
+                    aria-label={t("penColor")}
+                    value={penColor}
+                    onChange={(e) => setPenColor(e.target.value)}
+                    className="h-9 w-12 rounded border border-input bg-background p-1"
                   />
-                </div>
+                </OptionRow>
+                <SliderRow
+                  label={t("thickness")}
+                  value={penWidth}
+                  display={`${penWidth}px`}
+                  onChange={setPenWidth}
+                  min={1}
+                  max={12}
+                  step={1}
+                />
               </div>
 
               <div className="flex flex-wrap gap-2">
@@ -327,26 +319,25 @@ export default function SignatureMaker() {
                   {t("downloadSvg")}
                 </Button>
               </div>
-            </Card>
+            </SettingsCard>
           </TabsContent>
 
           {/* ── Type mode ──────────────────────────────────────────────── */}
           <TabsContent value="type" className="space-y-4">
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="typed-name">
-                  {t("yourName")}
-                </label>
+            <SettingsCard>
+              <OptionRow label={t("yourName")} htmlFor="typed-name">
                 <Input
                   id="typed-name"
                   value={typedName}
                   onChange={(e) => setTypedName(e.target.value)}
                   placeholder={t("namePlaceholder")}
                 />
-              </div>
+              </OptionRow>
 
               <div
                 className="rounded-lg border-2 border-dashed border-muted-foreground/40 flex items-center justify-center min-h-[140px] p-4"
+                // content value: fixed neutral checkerboard = "transparent background"
+                // indicator (same convention as image editors), independent of app theme
                 style={{
                   backgroundImage:
                     "linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)",
@@ -368,8 +359,7 @@ export default function SignatureMaker() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t("font")}</label>
+                <OptionRow label={t("font")}>
                   <Select value={typeFont} onValueChange={setTypeFont}>
                     <SelectTrigger>
                       <SelectValue />
@@ -386,39 +376,27 @@ export default function SignatureMaker() {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t("textColor")}</label>
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="color"
-                      aria-label={t("textColor")}
-                      value={typeColor}
-                      onChange={(e) => setTypeColor(e.target.value)}
-                      className="h-9 w-12 rounded border border-input bg-background p-1"
-                    />
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {typeColor}
-                    </span>
-                  </div>
-                </div>
+                </OptionRow>
+                <OptionRow label={t("textColor")} hint={<span dir="ltr">{typeColor}</span>}>
+                  <input
+                    type="color"
+                    aria-label={t("textColor")}
+                    value={typeColor}
+                    onChange={(e) => setTypeColor(e.target.value)}
+                    className="h-9 w-12 rounded border border-input bg-background p-1"
+                  />
+                </OptionRow>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">{t("fontSize")}</label>
-                  <span className="text-sm text-muted-foreground" dir="ltr">
-                    {typeSize}px
-                  </span>
-                </div>
-                <Slider
-                  value={[typeSize]}
-                  onValueChange={([v]) => setTypeSize(v)}
-                  min={24}
-                  max={120}
-                  step={2}
-                />
-              </div>
+              <SliderRow
+                label={t("fontSize")}
+                value={typeSize}
+                display={`${typeSize}px`}
+                onChange={setTypeSize}
+                min={24}
+                max={120}
+                step={2}
+              />
 
               <div className="flex justify-end">
                 <Button onClick={handleExportType}>
@@ -426,7 +404,7 @@ export default function SignatureMaker() {
                   {t("downloadPng")}
                 </Button>
               </div>
-            </Card>
+            </SettingsCard>
           </TabsContent>
         </Tabs>
 

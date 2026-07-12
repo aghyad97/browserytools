@@ -2,7 +2,6 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ToolShell } from "@/components/template/tool-shell";
@@ -17,6 +16,7 @@ import {
 } from "@/components/ui/select";
 import { CronExpressionParser } from "cron-parser";
 import cronstrue from "cronstrue";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 export default function CronParser() {
   const t = useTranslations("Tools.CronParser");
@@ -89,8 +89,7 @@ export default function CronParser() {
       sub={tc("tools.cron-parser.description")}
     >
       <div className="max-w-6xl mx-auto">
-        <Card className="shadow-none">
-          <CardContent className="pt-6">
+        <SettingsCard>
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid w-full grid-cols-2">
                 <TabsTrigger value="parse">{t("parserTab")}</TabsTrigger>
@@ -339,8 +338,7 @@ export default function CronParser() {
                 </div>
               </TabsContent>
             </Tabs>
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
     </ToolShell>
   );
