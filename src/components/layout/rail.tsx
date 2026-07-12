@@ -233,7 +233,13 @@ function SponsorRotator({ label }: { label: string }) {
       <div className={s.sponsorEyebrow}>{label}</div>
       <div className={s.sponsorInner} key={sp.name}>
         <div className={s.sponsorHead}>
-          <div className={s.sponsorLogo}>{sp.initial}</div>
+          <img
+            className={s.sponsorLogo}
+            src={sp.icon}
+            alt={sp.name}
+            width={32}
+            height={32}
+          />
           <div>
             <div className={s.railSponsorName}>{sp.name}</div>
             <div className={s.sponsorTag}>{sp.tag}</div>

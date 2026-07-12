@@ -15,6 +15,12 @@
 
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "@/components/ui/tooltip";
 import s from "./ToolTile.module.css";
 
 export interface ToolTileProps {
@@ -38,6 +44,9 @@ export interface ToolTileProps {
   style?: React.CSSProperties;
   /** data-testid for the root link, when a call site needs to query it. */
   testId?: string;
+  /** Localized tool description — shown in a hover tooltip when provided
+      (parity with the pre-redesign ToolCard behavior). */
+  description?: string;
 }
 
 export function ToolTile({
@@ -51,8 +60,9 @@ export function ToolTile({
   className,
   style,
   testId,
+  description,
 }: ToolTileProps) {
-  return (
+  const tile = (
     <Link
       href={href}
       data-slug={slug}
@@ -73,5 +83,17 @@ export function ToolTile({
         ↗
       </span>
     </Link>
+  );
+
+  if (!description) return tile;
+  return (
+    <TooltipProvider delayDuration={300}>
+      <Tooltip>
+        <TooltipTrigger asChild>{tile}</TooltipTrigger>
+        <TooltipContent side="top" className="max-w-xs">
+          {description}
+        </TooltipContent>
+      </Tooltip>
+    </TooltipProvider>
   );
 }

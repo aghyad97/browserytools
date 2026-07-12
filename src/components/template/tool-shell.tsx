@@ -160,6 +160,7 @@ export function ToolShell({
                 icon={r.icon}
                 name={tc(`tools.${r.slug}.name` as never) as string}
                 catLabel={catShort}
+                description={tc(`tools.${r.slug}.description` as never) as string}
                 chipBg={chip?.bg}
                 chipFg={chip?.fg}
                 testId="tool-shell-related-tile"

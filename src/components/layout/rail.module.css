@@ -258,13 +258,8 @@
   width: 32px;
   height: 32px;
   border-radius: 6px;
+  object-fit: contain;
   background: var(--bt-fill);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 600;
-  font-size: 14px;
-  color: var(--bt-ink);
   flex-shrink: 0;
 }
 .railSponsorName { font-size: 13px; font-weight: 400; line-height: 1.4; color: var(--bt-ink); }

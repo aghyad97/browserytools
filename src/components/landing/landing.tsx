@@ -79,6 +79,7 @@ function Tile({
   categoryId,
   name,
   catLabel,
+  description,
 }: {
   href: string;
   slug: string;
@@ -86,6 +87,7 @@ function Tile({
   categoryId: string;
   name: string;
   catLabel: string;
+  description?: string;
 }) {
   const c = CHIP[categoryId];
   return (
@@ -97,6 +99,7 @@ function Tile({
       catLabel={catLabel}
       chipBg={c?.bg}
       chipFg={c?.fg}
+      description={description}
     />
   );
 }
@@ -406,7 +409,7 @@ function ToolRow({
   items,
 }: {
   label: string;
-  items: { href: string; slug: string; icon: FeaturedApp["icon"]; categoryId: string; name: string; catLabel: string }[];
+  items: { href: string; slug: string; icon: FeaturedApp["icon"]; categoryId: string; name: string; catLabel: string; description?: string }[];
 }) {
   if (items.length === 0) return null;
   return (
@@ -458,6 +461,7 @@ export default function Landing() {
         ...tool,
         name: tc(`tools.${tool.slug}.name` as never) as string,
         catLabel: tc(`categoriesShort.${tool.categoryId}` as never) as string,
+        description: tc(`tools.${tool.slug}.description` as never) as string,
       })).sort((a, b) => a.name.localeCompare(b.name)),
     [tc],
   );
@@ -573,6 +577,7 @@ export default function Landing() {
             categoryId={tool.categoryId}
             name={tool.name}
             catLabel={tool.catLabel}
+            description={tool.description}
           />
         ))}
       </div>
