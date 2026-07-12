@@ -7,12 +7,12 @@
 
 .shell {
   --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
-  /* Centred canvas: the shell and the layout's ToolSeoContent (mx-auto,
-     max-w-4xl) both centre in the content column, so zone 5's SEO block lines
-     up under the tool canvas instead of the shell hugging the inline-start
-     while the SEO block sits centred (R2 pilot seam, reconciled here). */
+  /* Start-aligned canvas: the shell begins at the content column's
+     inline-start — the same edge the top bar's search field starts from —
+     and the layout's SEO zone is start-aligned to match (user ruling
+     2026-07-12, supersedes the centred-seam reconciliation). */
   max-inline-size: 880px;
-  margin-inline: auto;
+  margin-inline: 0;
   padding-block: 26px 90px;
   padding-inline: 48px;
   color: var(--bt-ink);

@@ -161,9 +161,6 @@ export function Rail({
         {catButton(null, t("everything"))}
         {CATEGORIES.map((c) => catButton(c.id, tc(`categoriesShort.${c.id}` as never)))}
         <div className={s.railGroupGap} />
-        <Link className={s.railLink} href="/blog">
-          {t("blog")}
-        </Link>
         <a className={s.railLink} href={GITHUB_URL} target="_blank" rel="noreferrer">
           <span className={s.githubRow}>
             {t("github")}
@@ -192,10 +189,10 @@ export function Rail({
             <span title={t("theme")}>
               <ThemeSwitcher />
             </span>
+            <SoundSwitcher />
             <span title={t("language")}>
               <LanguageSwitcher />
             </span>
-            <SoundSwitcher />
           </div>
         </div>
       </div>

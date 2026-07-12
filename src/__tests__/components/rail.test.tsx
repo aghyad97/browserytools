@@ -44,7 +44,8 @@ describe("Rail", () => {
   it("resolves the on-device status and nav strings from i18n", () => {
     render(<Rail />);
     expect(screen.getByText(/tools · on-device/)).toBeInTheDocument();
-    expect(screen.getByText("Blog")).toBeInTheDocument();
+    // Blog intentionally removed from the rail (user ruling 2026-07-12).
+    expect(screen.queryByText("Blog")).toBeNull();
     expect(screen.getByText("GitHub")).toBeInTheDocument();
     // The search pill moved out of the rail (⌘K / mobile-bar own search now).
     expect(screen.queryByText("Search")).toBeNull();
@@ -68,10 +69,12 @@ describe("Rail", () => {
     expect(dots[0].closest("button")).toHaveTextContent("Image");
   });
 
-  it("renders no sponsor section while SPONSORS is empty", () => {
+  it("renders the maker's real apps in the sponsor slot", () => {
     render(<Rail />);
-    // sponsorLabel ("Sponsor") only appears when a sponsor is on screen.
-    expect(screen.queryByTestId("rail-sponsor")).toBeNull();
-    expect(screen.queryByText("Sponsor")).toBeNull();
+    // SPONSORS carries real house apps (spec §3: live products, honest copy);
+    // the rotor shows one at a time under the "From the maker" eyebrow.
+    expect(screen.getByTestId("rail-sponsor")).toBeInTheDocument();
+    expect(screen.getByText("From the maker")).toBeInTheDocument();
+    expect(screen.getByText("KashfBank")).toBeInTheDocument();
   });
 });

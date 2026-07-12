@@ -39,6 +39,12 @@
 .toolSeoZone {
   padding-inline: 48px;
 }
+/* Start-align zone 5 with the (now start-aligned) tool canvas — overrides
+   ToolSeoContent's own mx-auto utility (same specificity rationale as the
+   :has() seam below). */
+.toolSeoZone :global([data-testid="tool-seo-content"]) {
+  margin-inline: 0;
+}
 @media (max-width: 900px) {
   .toolSeoZone {
     padding-inline: 18px;
