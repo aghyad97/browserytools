@@ -1,11 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { formatPercent } from "@/lib/format";
 import { Plus, Trash2 } from "lucide-react";
 
 function tokenize(text: string): string[] {
@@ -119,19 +119,22 @@ export default function TextSimilarity() {
       }}
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6 space-y-3">
+        <SettingsCard>
             {texts.map((entry, idx) => (
-              <div key={entry.id} className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <Label>{idx === 0 ? t("text1Label") : idx === 1 ? t("text2Label") : `${t("pairLabel")} ${idx + 1}`}</Label>
-                  {texts.length > 2 && (
+              <OptionRow
+                key={entry.id}
+                label={idx === 0 ? t("text1Label") : idx === 1 ? t("text2Label") : `${t("pairLabel")} ${idx + 1}`}
+                htmlFor={`sim-text-${entry.id}`}
+                hint={
+                  texts.length > 2 ? (
                     <Button variant="ghost" size="sm" onClick={() => removeText(entry.id)}>
                       <Trash2 className="h-4 w-4 text-destructive" />
                     </Button>
-                  )}
-                </div>
+                  ) : undefined
+                }
+              >
                 <Textarea
+                  id={`sim-text-${entry.id}`}
                   dir="auto"
                   value={entry.value}
                   onChange={e => updateText(entry.id, e.target.value)}
@@ -139,15 +142,14 @@ export default function TextSimilarity() {
                   rows={3}
                   className="resize-y"
                 />
-              </div>
+              </OptionRow>
             ))}
             {texts.length < 5 && (
-              <Button variant="outline" size="sm" onClick={addText}>
+              <Button variant="outline" size="sm" onClick={addText} className="self-start">
                 <Plus className="h-4 w-4 mr-1" />{t("addComparison")}
               </Button>
             )}
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
         {calculated && results.length > 0 && (
           <div className="grid sm:grid-cols-2 gap-3">
@@ -155,7 +157,7 @@ export default function TextSimilarity() {
               <div key={idx} className={`rounded-lg border p-4 ${getScoreBg(r.score)}`}>
                 <p className="text-sm text-muted-foreground mb-1">{t("pairLabel")} {r.i + 1} &#8596; {r.j + 1}</p>
                 <p className={`text-3xl font-bold tabular-nums ${getScoreColor(r.score)}`}>
-                  {(r.score * 100).toFixed(1)}%
+                  {formatPercent(r.score, 1)}
                 </p>
                 <p className={`text-sm font-medium mt-1 ${getScoreColor(r.score)}`}>{getScoreLabel(r.score)}</p>
               </div>
@@ -164,9 +166,9 @@ export default function TextSimilarity() {
         )}
 
         {calculated && results.length === 0 && (
-          <Card>
-            <CardContent className="py-6 text-center text-muted-foreground text-sm">{t("noInput")}</CardContent>
-          </Card>
+          <SettingsCard>
+            <p className="py-6 text-center text-muted-foreground text-sm">{t("noInput")}</p>
+          </SettingsCard>
         )}
       </div>
     </ToolShell>

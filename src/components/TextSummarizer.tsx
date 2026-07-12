@@ -9,7 +9,7 @@ import { toast } from "sonner";
 import { InfoIcon, TextQuoteIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
 const MODEL = "Xenova/distilbart-cnn-6-6";
@@ -134,26 +134,28 @@ export default function TextSummarizer() {
           )}
 
           {summary && (
-            <div className="rounded-lg border p-4 space-y-3" data-testid="summary-result">
-              <div className="flex items-center justify-between gap-2">
-                <div className="flex items-center gap-2">
+            <OutputPanel
+              data-testid="summary-result"
+              text={summary}
+              title={
+                <span className="inline-flex items-center gap-2">
                   <TextQuoteIcon className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm font-medium">{t("summaryLabel")}</span>
-                </div>
-                <CopyButton
-                  text={summary}
-                  label={t("copy")}
-                  successMessage={t("copied")}
-                  errorMessage={t("copyFailed")}
-                />
+                  {t("summaryLabel")}
+                </span>
+              }
+              copyLabel={t("copy")}
+              copySuccessMessage={t("copied")}
+              copyErrorMessage={t("copyFailed")}
+            >
+              <div className="p-4 space-y-3">
+                <p dir="auto" className="text-sm leading-relaxed whitespace-pre-wrap">
+                  {summary}
+                </p>
+                <p className="text-xs text-muted-foreground tabular-nums">
+                  {t("words")}: <span dir="ltr">{summaryWords}</span>
+                </p>
               </div>
-              <p dir="auto" className="text-sm leading-relaxed whitespace-pre-wrap">
-                {summary}
-              </p>
-              <p className="text-xs text-muted-foreground tabular-nums">
-                {t("words")}: <span dir="ltr">{summaryWords}</span>
-              </p>
-            </div>
+            </OutputPanel>
           )}
         </Card>
 

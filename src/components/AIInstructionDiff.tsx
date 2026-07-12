@@ -2,12 +2,11 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { diffLines, Change } from "diff";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 const SAMPLE_V1 = `You are a helpful assistant. Be concise.
 Always respond in English.
@@ -48,42 +47,42 @@ export default function AIInstructionDiff() {
       primaryAction={{ label: t("compare"), onClick: handleCompare, disabled: !left || !right }}
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6">
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <Label>{t("leftLabel")}</Label>
-                  <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => setLeft(SAMPLE_V1)}>{t("loadSampleLeft")}</Button>
-                </div>
-                <Textarea dir="auto" value={left} onChange={e => { setLeft(e.target.value); setChanges(null); }} placeholder={t("leftPlaceholder")} rows={10} className="font-mono text-sm resize-y" />
-              </div>
-              <div className="space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <Label>{t("rightLabel")}</Label>
-                  <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => setRight(SAMPLE_V2)}>{t("loadSampleRight")}</Button>
-                </div>
-                <Textarea dir="auto" value={right} onChange={e => { setRight(e.target.value); setChanges(null); }} placeholder={t("rightPlaceholder")} rows={10} className="font-mono text-sm resize-y" />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <SettingsCard>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <OptionRow
+              label={t("leftLabel")}
+              htmlFor="diff-left"
+              hint={
+                <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => setLeft(SAMPLE_V1)}>{t("loadSampleLeft")}</Button>
+              }
+            >
+              <Textarea id="diff-left" dir="auto" value={left} onChange={e => { setLeft(e.target.value); setChanges(null); }} placeholder={t("leftPlaceholder")} rows={10} className="font-mono text-sm resize-y" />
+            </OptionRow>
+            <OptionRow
+              label={t("rightLabel")}
+              htmlFor="diff-right"
+              hint={
+                <Button variant="ghost" size="sm" className="text-xs h-6 px-2" onClick={() => setRight(SAMPLE_V2)}>{t("loadSampleRight")}</Button>
+              }
+            >
+              <Textarea id="diff-right" dir="auto" value={right} onChange={e => { setRight(e.target.value); setChanges(null); }} placeholder={t("rightPlaceholder")} rows={10} className="font-mono text-sm resize-y" />
+            </OptionRow>
+          </div>
+        </SettingsCard>
 
         {changes !== null && (
-          <Card>
-            <CardHeader>
-              <div className="flex items-center gap-3 flex-wrap">
-                <CardTitle className="text-base">{t("compare")}</CardTitle>
-                {changes.length > 0 && (
-                  <div className="flex gap-2">
-                    <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">{t("additions")}: {additions}</Badge>
-                    <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">{t("deletions")}: {deletions}</Badge>
-                    <Badge variant="secondary">{t("unchanged")}: {unchanged}</Badge>
-                  </div>
-                )}
-              </div>
-            </CardHeader>
-            <CardContent>
+          <SettingsCard
+            title={t("compare")}
+            action={
+              changes.length > 0 ? (
+                <div className="flex gap-2">
+                  <Badge className="bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200">{t("additions")}: {additions}</Badge>
+                  <Badge className="bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200">{t("deletions")}: {deletions}</Badge>
+                  <Badge variant="secondary">{t("unchanged")}: {unchanged}</Badge>
+                </div>
+              ) : undefined
+            }
+          >
               {changes.every(c => !c.added && !c.removed) ? (
                 <p className="text-muted-foreground text-sm py-4 text-center">{t("noChanges")}</p>
               ) : (
@@ -107,14 +106,13 @@ export default function AIInstructionDiff() {
                   ))}
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         )}
 
         {!changes && (!left || !right) && (
-          <Card>
-            <CardContent className="py-6 text-center text-muted-foreground text-sm">{t("emptyInputs")}</CardContent>
-          </Card>
+          <SettingsCard>
+            <p className="py-6 text-center text-muted-foreground text-sm">{t("emptyInputs")}</p>
+          </SettingsCard>
         )}
       </div>
     </ToolShell>

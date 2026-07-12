@@ -1,14 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { downloadText } from "@/lib/download";
 
 function buildClaudeMd(fields: {
@@ -79,108 +78,96 @@ export default function ClaudeMdGenerator() {
           <Button variant="outline" size="sm" onClick={handleClear}>
             {t("clearAll")}
           </Button>
-          <CopyButton
-            text={output}
-            label={t("copy")}
-            successMessage={t("copied")}
-            disabled={!output}
-          />
         </>
       }
       primaryAction={{ label: t("download"), onClick: handleDownload, disabled: !output }}
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6 space-y-4">
-            <div className="space-y-1.5">
-              <Label>{t("projectNameLabel")}</Label>
-              <Input
-                dir="auto"
-                value={fields.projectName}
-                onChange={set("projectName")}
-                placeholder={t("projectNamePlaceholder")}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("descriptionLabel")}</Label>
+        <SettingsCard>
+          <OptionRow label={t("projectNameLabel")} htmlFor="cmd-project-name">
+            <Input
+              id="cmd-project-name"
+              dir="auto"
+              value={fields.projectName}
+              onChange={set("projectName")}
+              placeholder={t("projectNamePlaceholder")}
+            />
+          </OptionRow>
+          <OptionRow label={t("descriptionLabel")} htmlFor="cmd-description">
+            <Textarea
+              id="cmd-description"
+              dir="auto"
+              value={fields.description}
+              onChange={set("description")}
+              placeholder={t("descriptionPlaceholder")}
+              rows={3}
+            />
+          </OptionRow>
+          <OptionRow label={t("techStackLabel")} htmlFor="cmd-tech-stack">
+            <Textarea
+              id="cmd-tech-stack"
+              dir="auto"
+              value={fields.techStack}
+              onChange={set("techStack")}
+              placeholder={t("techStackPlaceholder")}
+              rows={2}
+            />
+          </OptionRow>
+          <OptionRow label={t("commandsLabel")} htmlFor="cmd-commands">
+            <Textarea
+              id="cmd-commands"
+              dir="auto"
+              value={fields.commands}
+              onChange={set("commands")}
+              placeholder={t("commandsPlaceholder")}
+              rows={3}
+              className="font-mono text-sm"
+            />
+          </OptionRow>
+          <OptionRow label={t("conventionsLabel")} htmlFor="cmd-conventions">
+            <Textarea
+              id="cmd-conventions"
+              dir="auto"
+              value={fields.conventions}
+              onChange={set("conventions")}
+              placeholder={t("conventionsPlaceholder")}
+              rows={3}
+            />
+          </OptionRow>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <OptionRow label={t("doLabel")} htmlFor="cmd-do">
               <Textarea
+                id="cmd-do"
                 dir="auto"
-                value={fields.description}
-                onChange={set("description")}
-                placeholder={t("descriptionPlaceholder")}
-                rows={3}
+                value={fields.doRules}
+                onChange={set("doRules")}
+                placeholder={t("doPlaceholder")}
+                rows={4}
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("techStackLabel")}</Label>
+            </OptionRow>
+            <OptionRow label={t("dontLabel")} htmlFor="cmd-dont">
               <Textarea
+                id="cmd-dont"
                 dir="auto"
-                value={fields.techStack}
-                onChange={set("techStack")}
-                placeholder={t("techStackPlaceholder")}
-                rows={2}
+                value={fields.dontRules}
+                onChange={set("dontRules")}
+                placeholder={t("dontPlaceholder")}
+                rows={4}
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("commandsLabel")}</Label>
-              <Textarea
-                dir="auto"
-                value={fields.commands}
-                onChange={set("commands")}
-                placeholder={t("commandsPlaceholder")}
-                rows={3}
-                className="font-mono text-sm"
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("conventionsLabel")}</Label>
-              <Textarea
-                dir="auto"
-                value={fields.conventions}
-                onChange={set("conventions")}
-                placeholder={t("conventionsPlaceholder")}
-                rows={3}
-              />
-            </div>
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label>{t("doLabel")}</Label>
-                <Textarea
-                  dir="auto"
-                  value={fields.doRules}
-                  onChange={set("doRules")}
-                  placeholder={t("doPlaceholder")}
-                  rows={4}
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>{t("dontLabel")}</Label>
-                <Textarea
-                  dir="auto"
-                  value={fields.dontRules}
-                  onChange={set("dontRules")}
-                  placeholder={t("dontPlaceholder")}
-                  rows={4}
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+            </OptionRow>
+          </div>
+        </SettingsCard>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("preview")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {output ? (
-              <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words max-h-[500px] overflow-y-auto">
-                {output}
-              </pre>
-            ) : (
-              <p className="text-muted-foreground text-sm py-4 text-center">{t("emptyPreview")}</p>
-            )}
-          </CardContent>
-        </Card>
+        <OutputPanel
+          text={output}
+          title={t("preview")}
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copied")}
+        >
+          {output ? undefined : (
+            <p className="text-muted-foreground text-sm py-4 text-center">{t("emptyPreview")}</p>
+          )}
+        </OutputPanel>
       </div>
     </ToolShell>
   );

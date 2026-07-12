@@ -1,17 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type ExportFormat = "plain" | "xml" | "json";
 
@@ -86,21 +80,23 @@ export default function SystemPromptBuilder() {
   };
 
   const Field = ({
+    id,
     label,
     value,
     onChange,
     placeholder,
     rows = 3,
   }: {
+    id: string;
     label: string;
     value: string;
     onChange: (v: string) => void;
     placeholder: string;
     rows?: number;
   }) => (
-    <div className="space-y-1.5">
-      <Label>{label}</Label>
+    <OptionRow label={label} htmlFor={id}>
       <Textarea
+        id={id}
         dir="auto"
         value={value}
         onChange={(e) => onChange(e.target.value)}
@@ -108,7 +104,7 @@ export default function SystemPromptBuilder() {
         rows={rows}
         className="resize-y"
       />
-    </div>
+    </OptionRow>
   );
 
   return (
@@ -130,72 +126,65 @@ export default function SystemPromptBuilder() {
           <Button variant="outline" size="sm" onClick={handleClear}>
             {t("clearAll")}
           </Button>
-          <CopyButton
-            text={preview}
-            label={t("copyPrompt")}
-            successMessage={t("copied")}
-            disabled={!preview}
-          />
         </>
       }
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6 space-y-4">
-            <Field
-              label={t("roleLabel")}
-              value={role}
-              onChange={setRole}
-              placeholder={t("rolePlaceholder")}
-              rows={3}
-            />
-            <Field
-              label={t("toneLabel")}
-              value={tone}
-              onChange={setTone}
-              placeholder={t("tonePlaceholder")}
-              rows={2}
-            />
-            <Field
-              label={t("constraintsLabel")}
-              value={constraints}
-              onChange={setConstraints}
-              placeholder={t("constraintsPlaceholder")}
-              rows={3}
-            />
-            <Field
-              label={t("outputFormatLabel")}
-              value={outputFmt}
-              onChange={setOutputFmt}
-              placeholder={t("outputFormatPlaceholder")}
-              rows={2}
-            />
-            <Field
-              label={t("examplesLabel")}
-              value={examples}
-              onChange={setExamples}
-              placeholder={t("examplesPlaceholder")}
-              rows={3}
-            />
-          </CardContent>
-        </Card>
+        <SettingsCard>
+          <Field
+            id="spb-role"
+            label={t("roleLabel")}
+            value={role}
+            onChange={setRole}
+            placeholder={t("rolePlaceholder")}
+            rows={3}
+          />
+          <Field
+            id="spb-tone"
+            label={t("toneLabel")}
+            value={tone}
+            onChange={setTone}
+            placeholder={t("tonePlaceholder")}
+            rows={2}
+          />
+          <Field
+            id="spb-constraints"
+            label={t("constraintsLabel")}
+            value={constraints}
+            onChange={setConstraints}
+            placeholder={t("constraintsPlaceholder")}
+            rows={3}
+          />
+          <Field
+            id="spb-output-format"
+            label={t("outputFormatLabel")}
+            value={outputFmt}
+            onChange={setOutputFmt}
+            placeholder={t("outputFormatPlaceholder")}
+            rows={2}
+          />
+          <Field
+            id="spb-examples"
+            label={t("examplesLabel")}
+            value={examples}
+            onChange={setExamples}
+            placeholder={t("examplesPlaceholder")}
+            rows={3}
+          />
+        </SettingsCard>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("preview")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {preview ? (
-              <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words">
-                {preview}
-              </pre>
-            ) : (
-              <p className="text-muted-foreground text-sm py-4 text-center">
-                {t("emptyPreview")}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <OutputPanel
+          text={preview}
+          title={t("preview")}
+          copyLabel={t("copyPrompt")}
+          copySuccessMessage={t("copied")}
+        >
+          {preview ? undefined : (
+            <p className="text-muted-foreground text-sm py-4 text-center">
+              {t("emptyPreview")}
+            </p>
+          )}
+        </OutputPanel>
       </div>
     </ToolShell>
   );

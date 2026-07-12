@@ -3,12 +3,6 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { encode } from "gpt-tokenizer";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -21,6 +15,8 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 import { AI_MODELS } from "@/lib/ai-models";
 
 const MULTIPLIERS: Record<string, number> = {
@@ -110,71 +106,46 @@ export default function ContextWindowCalculator() {
           />
         </div>
 
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <CardTitle className="text-base">
-                {selectedModel.name} — {selectedModel.provider}
-              </CardTitle>
-              {text && (
-                <Badge className={status.className}>{status.label}</Badge>
-              )}
+        <SettingsCard
+          title={`${selectedModel.name} — ${selectedModel.provider}`}
+          action={
+            text ? <Badge className={status.className}>{status.label}</Badge> : undefined
+          }
+        >
+          <div className="space-y-2">
+            <div className="flex justify-between text-sm">
+              <span className="text-muted-foreground">{t("tokenCount")}</span>
+              <span className="font-medium tabular-nums">
+                {tokenCount.toLocaleString()} /{" "}
+                {contextWindow.toLocaleString()}
+              </span>
             </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <div className="flex justify-between text-sm">
-                <span className="text-muted-foreground">{t("tokenCount")}</span>
-                <span className="font-medium tabular-nums">
-                  {tokenCount.toLocaleString()} /{" "}
-                  {contextWindow.toLocaleString()}
-                </span>
-              </div>
-              <div className="w-full bg-muted rounded-full h-3 overflow-hidden">
-                <div
-                  className={`h-full rounded-full transition-[width] ${getBarColor()}`}
-                  style={{ width: `${usagePercent}%` }}
-                />
-              </div>
-              <p className="text-xs text-muted-foreground text-right">
-                {usagePercent.toFixed(1)}% {t("percentFilled")}
-              </p>
+            <div className="w-full bg-muted rounded-full h-3 overflow-hidden">
+              <div
+                className={`h-full rounded-full transition-[width] ${getBarColor()}`}
+                style={{ width: `${usagePercent}%` }}
+              />
             </div>
+            <p className="text-xs text-muted-foreground text-right">
+              {usagePercent.toFixed(1)}% {t("percentFilled")}
+            </p>
+          </div>
 
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-sm">
-              <div className="rounded-lg border bg-card p-3">
-                <p className="text-muted-foreground text-xs">{t("tokenCount")}</p>
-                <p className="font-bold text-xl tabular-nums">
-                  {tokenCount.toLocaleString()}
-                </p>
-              </div>
-              <div className="rounded-lg border bg-card p-3">
-                <p className="text-muted-foreground text-xs">{t("contextWindow")}</p>
-                <p className="font-bold text-xl tabular-nums">
-                  {contextWindow.toLocaleString()}
-                </p>
-              </div>
-              <div className="rounded-lg border bg-card p-3">
-                <p className="text-muted-foreground text-xs">{t("contextUsed")}</p>
-                <p className="font-bold text-xl tabular-nums">
-                  {usagePercent.toFixed(1)}%
-                </p>
-              </div>
-              <div className="rounded-lg border bg-card p-3">
-                <p className="text-muted-foreground text-xs">{t("tokensRemaining")}</p>
-                <p className="font-bold text-xl tabular-nums">
-                  {remaining.toLocaleString()}
-                </p>
-              </div>
-            </div>
+          <StatStrip
+            items={[
+              { label: t("tokenCount"), value: tokenCount.toLocaleString() },
+              { label: t("contextWindow"), value: contextWindow.toLocaleString() },
+              { label: t("contextUsed"), value: `${usagePercent.toFixed(1)}%` },
+              { label: t("tokensRemaining"), value: remaining.toLocaleString() },
+            ]}
+          />
 
-            {usagePercent >= 80 && (
-              <p className="text-sm text-orange-600 dark:text-orange-400 font-medium">
-                {usagePercent >= 95 ? t("criticalZone") : t("dangerZone")}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+          {usagePercent >= 80 && (
+            <p className="text-sm text-orange-600 dark:text-orange-400 font-medium">
+              {usagePercent >= 95 ? t("criticalZone") : t("dangerZone")}
+            </p>
+          )}
+        </SettingsCard>
       </div>
     </ToolShell>
   );

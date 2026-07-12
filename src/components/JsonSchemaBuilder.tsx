@@ -1,14 +1,14 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { Plus, Trash2 } from "lucide-react";
 
 type PropType = "string" | "number" | "boolean" | "array" | "object";
@@ -86,22 +86,18 @@ export default function JsonSchemaBuilder() {
             <option value="anthropic">{t("formatAnthropic")}</option>
             <option value="schema">{t("formatJsonSchema")}</option>
           </select>
-          <CopyButton text={output} label={t("copy")} successMessage={t("copied")} />
         </>
       }
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6 space-y-4">
+        <SettingsCard>
             <div className="grid sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label>{t("toolName")}</Label>
-                <Input dir="auto" value={toolName} onChange={e => setToolName(e.target.value)} placeholder={t("toolNamePlaceholder")} />
-              </div>
-              <div className="space-y-1.5">
-                <Label>{t("toolDescription")}</Label>
-                <Input dir="auto" value={toolDesc} onChange={e => setToolDesc(e.target.value)} placeholder={t("toolDescriptionPlaceholder")} />
-              </div>
+              <OptionRow label={t("toolName")} htmlFor="jsb-tool-name">
+                <Input id="jsb-tool-name" dir="auto" value={toolName} onChange={e => setToolName(e.target.value)} placeholder={t("toolNamePlaceholder")} />
+              </OptionRow>
+              <OptionRow label={t("toolDescription")} htmlFor="jsb-tool-desc">
+                <Input id="jsb-tool-desc" dir="auto" value={toolDesc} onChange={e => setToolDesc(e.target.value)} placeholder={t("toolDescriptionPlaceholder")} />
+              </OptionRow>
             </div>
 
             <div className="space-y-2">
@@ -131,17 +127,14 @@ export default function JsonSchemaBuilder() {
                 </div>
               ))}
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("outputFormat")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto max-h-[400px] overflow-y-auto">{output}</pre>
-          </CardContent>
-        </Card>
+        <OutputPanel
+          text={output}
+          title={t("outputFormat")}
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copied")}
+        />
       </div>
     </ToolShell>
   );

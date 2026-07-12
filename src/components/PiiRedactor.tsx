@@ -9,7 +9,8 @@ import { toast } from "sonner";
 import { EyeOffIcon, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
 const MODEL = "Xenova/bert-base-NER";
@@ -270,8 +271,7 @@ export default function PiiRedactor() {
 
         {entities && (
           <>
-            <Card className="p-4 space-y-3">
-              <p className="text-sm font-medium">{t("categoriesLabel")}</p>
+            <SettingsCard title={t("categoriesLabel")}>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
                 {CATEGORIES.map((c) => (
                   <label
@@ -299,30 +299,28 @@ export default function PiiRedactor() {
                   </label>
                 ))}
               </div>
-            </Card>
+            </SettingsCard>
 
-            <Card className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <p className="text-sm font-medium flex items-center gap-2">
+            <OutputPanel
+              text={redacted}
+              title={
+                <span className="inline-flex items-center gap-2">
                   <EyeOffIcon className="h-4 w-4" />
                   {t("redactedLabel")}
-                </p>
-                <CopyButton
-                  text={redacted}
-                  label={t("copy")}
-                  successMessage={t("copied")}
-                  errorMessage={t("copyFailed")}
-                  disabled={!redacted}
-                />
-              </div>
+                </span>
+              }
+              copyLabel={t("copy")}
+              copySuccessMessage={t("copied")}
+              copyErrorMessage={t("copyFailed")}
+            >
               <Textarea
                 dir="auto"
-                className="min-h-[160px] font-mono text-sm"
+                className="min-h-[160px] rounded-none border-0 bg-transparent font-mono text-sm focus-visible:ring-0"
                 value={redacted}
                 readOnly
                 data-testid="pii-output"
               />
-            </Card>
+            </OutputPanel>
           </>
         )}
 

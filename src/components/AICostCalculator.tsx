@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 import { AI_MODELS } from "@/lib/ai-models";
 
 export default function AICostCalculator() {
@@ -44,16 +44,6 @@ export default function AICostCalculator() {
     setModelId("gpt-4o");
   };
 
-  const CostRow = ({ label, value, sub }: { label: string; value: string; sub?: string }) => (
-    <div className="flex justify-between items-center py-2">
-      <div>
-        <p className="text-sm font-medium">{label}</p>
-        {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
-      </div>
-      <p className="font-mono font-semibold text-lg">{value}</p>
-    </div>
-  );
-
   return (
     <ToolShell
       slug="ai-cost-calculator"
@@ -66,85 +56,79 @@ export default function AICostCalculator() {
       }
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6 space-y-4">
-            <div className="space-y-2">
-              <Label>{t("modelLabel")}</Label>
-              <Select value={modelId} onValueChange={setModelId}>
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  {AI_MODELS.map((m) => (
-                    <SelectItem key={m.id} value={m.id}>
-                      {m.name} — {m.provider}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <div className="flex gap-4 text-xs text-muted-foreground">
-                <span>{t("inputPrice")}: ${model.inputPricePer1M} {t("per1MTokens")}</span>
-                <span>{t("outputPrice")}: ${model.outputPricePer1M} {t("per1MTokens")}</span>
-              </div>
+        <SettingsCard>
+          <OptionRow label={t("modelLabel")} htmlFor="cost-model">
+            <Select value={modelId} onValueChange={setModelId}>
+              <SelectTrigger id="cost-model">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                {AI_MODELS.map((m) => (
+                  <SelectItem key={m.id} value={m.id}>
+                    {m.name} — {m.provider}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+            <div className="flex gap-4 text-xs text-muted-foreground">
+              <span>{t("inputPrice")}: ${model.inputPricePer1M} {t("per1MTokens")}</span>
+              <span>{t("outputPrice")}: ${model.outputPricePer1M} {t("per1MTokens")}</span>
             </div>
+          </OptionRow>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div className="space-y-2">
-                <Label>{t("inputTokensLabel")}</Label>
-                <Input
-                  dir="auto"
-                  type="number"
-                  min="0"
-                  value={inputTokens}
-                  onChange={(e) => setInputTokens(e.target.value)}
-                  placeholder="0"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>{t("outputTokensLabel")}</Label>
-                <Input
-                  dir="auto"
-                  type="number"
-                  min="0"
-                  value={outputTokens}
-                  onChange={(e) => setOutputTokens(e.target.value)}
-                  placeholder="0"
-                />
-              </div>
-              <div className="space-y-2">
-                <Label>{t("requestsLabel")}</Label>
-                <Input
-                  dir="auto"
-                  type="number"
-                  min="1"
-                  value={requests}
-                  onChange={(e) => setRequests(e.target.value)}
-                  placeholder="1"
-                />
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <OptionRow label={t("inputTokensLabel")} htmlFor="cost-input-tokens">
+              <Input
+                id="cost-input-tokens"
+                dir="auto"
+                type="number"
+                min="0"
+                value={inputTokens}
+                onChange={(e) => setInputTokens(e.target.value)}
+                placeholder="0"
+              />
+            </OptionRow>
+            <OptionRow label={t("outputTokensLabel")} htmlFor="cost-output-tokens">
+              <Input
+                id="cost-output-tokens"
+                dir="auto"
+                type="number"
+                min="0"
+                value={outputTokens}
+                onChange={(e) => setOutputTokens(e.target.value)}
+                placeholder="0"
+              />
+            </OptionRow>
+            <OptionRow label={t("requestsLabel")} htmlFor="cost-requests">
+              <Input
+                id="cost-requests"
+                dir="auto"
+                type="number"
+                min="1"
+                value={requests}
+                onChange={(e) => setRequests(e.target.value)}
+                placeholder="1"
+              />
+            </OptionRow>
+          </div>
+        </SettingsCard>
 
-        <Card>
-          <CardContent className="pt-6 space-y-1">
-            <CostRow label={t("inputCost")} value={fmt(inputCostPerReq)} sub={t("perRequest")} />
-            <Separator />
-            <CostRow label={t("outputCost")} value={fmt(outputCostPerReq)} sub={t("perRequest")} />
-            <Separator />
-            <CostRow label={t("totalCost")} value={fmt(totalPerReq)} sub={t("perRequest")} />
-            {reqs > 1 && (
-              <>
-                <Separator />
-                <CostRow
-                  label={t("totalCost")}
-                  value={fmt(totalAll)}
-                  sub={`${t("totalForRequests")} (×${reqs.toLocaleString()})`}
-                />
-              </>
-            )}
-          </CardContent>
-        </Card>
+        <StatStrip
+          items={[
+            { label: t("inputCost"), value: fmt(inputCostPerReq), sub: t("perRequest") },
+            { label: t("outputCost"), value: fmt(outputCostPerReq), sub: t("perRequest") },
+            { label: t("totalCost"), value: fmt(totalPerReq), sub: t("perRequest") },
+            ...(reqs > 1
+              ? [
+                  {
+                    label: t("totalCost"),
+                    value: fmt(totalAll),
+                    sub: `${t("totalForRequests")} (×${reqs.toLocaleString()})`,
+                  },
+                ]
+              : []),
+          ]}
+        />
       </div>
     </ToolShell>
   );

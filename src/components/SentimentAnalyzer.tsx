@@ -9,6 +9,7 @@ import { SmileIcon, FrownIcon, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
+import { formatPercent } from "@/lib/format";
 
 const MODEL = "Xenova/distilbert-base-uncased-finetuned-sst-2-english";
 
@@ -103,7 +104,7 @@ export default function SentimentAnalyzer() {
                 </span>
               </div>
               <span className="text-sm text-muted-foreground tabular-nums" dir="ltr">
-                {(result.score * 100).toFixed(1)}%
+                {formatPercent(result.score, 1)}
               </span>
             </div>
           )}

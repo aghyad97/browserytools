@@ -1,12 +1,11 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type Format = "plain" | "chatml" | "llama3" | "claude_xml" | "openai_json";
 
@@ -99,67 +98,55 @@ export default function PromptFormatter() {
           <Button variant="outline" size="sm" onClick={handleClear}>
             {t("clearAll")}
           </Button>
-          <CopyButton
-            text={output}
-            label={t("copy")}
-            successMessage={t("copied")}
-            disabled={!output}
-          />
         </>
       }
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6 space-y-4">
-            <div className="space-y-1.5">
-              <Label>{t("systemLabel")}</Label>
-              <Textarea
-                dir="auto"
-                value={system}
-                onChange={(e) => setSystem(e.target.value)}
-                placeholder={t("systemPlaceholder")}
-                rows={3}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("userLabel")}</Label>
-              <Textarea
-                dir="auto"
-                value={user}
-                onChange={(e) => setUser(e.target.value)}
-                placeholder={t("userPlaceholder")}
-                rows={3}
-              />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("assistantLabel")}</Label>
-              <Textarea
-                dir="auto"
-                value={assistant}
-                onChange={(e) => setAssistant(e.target.value)}
-                placeholder={t("assistantPlaceholder")}
-                rows={2}
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <SettingsCard>
+          <OptionRow label={t("systemLabel")} htmlFor="pf-system">
+            <Textarea
+              id="pf-system"
+              dir="auto"
+              value={system}
+              onChange={(e) => setSystem(e.target.value)}
+              placeholder={t("systemPlaceholder")}
+              rows={3}
+            />
+          </OptionRow>
+          <OptionRow label={t("userLabel")} htmlFor="pf-user">
+            <Textarea
+              id="pf-user"
+              dir="auto"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              placeholder={t("userPlaceholder")}
+              rows={3}
+            />
+          </OptionRow>
+          <OptionRow label={t("assistantLabel")} htmlFor="pf-assistant">
+            <Textarea
+              id="pf-assistant"
+              dir="auto"
+              value={assistant}
+              onChange={(e) => setAssistant(e.target.value)}
+              placeholder={t("assistantPlaceholder")}
+              rows={2}
+            />
+          </OptionRow>
+        </SettingsCard>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("output")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            {output ? (
-              <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto max-h-[400px] overflow-y-auto">
-                {output}
-              </pre>
-            ) : (
-              <p className="text-muted-foreground text-sm py-4 text-center">
-                {t("systemPlaceholder")}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+        <OutputPanel
+          text={output}
+          title={t("output")}
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copied")}
+        >
+          {output ? undefined : (
+            <p className="text-muted-foreground text-sm py-4 text-center">
+              {t("systemPlaceholder")}
+            </p>
+          )}
+        </OutputPanel>
       </div>
     </ToolShell>
   );

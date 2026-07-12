@@ -3,12 +3,7 @@
 import { useState } from "react";
 import { useTranslations } from "next-intl";
 import { encode } from "gpt-tokenizer";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
@@ -21,6 +16,8 @@ import {
 } from "@/components/ui/select";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 import { AI_MODELS } from "@/lib/ai-models";
 
 interface ModelOption {
@@ -67,22 +64,6 @@ export default function TokenCounter() {
     if (cost < 0.01) return `$${cost.toFixed(6)}`;
     return `$${cost.toFixed(4)}`;
   };
-
-  const StatCard = ({
-    label,
-    value,
-    sub,
-  }: {
-    label: string;
-    value: string | number;
-    sub?: string;
-  }) => (
-    <div className="rounded-lg border bg-card p-4 flex flex-col gap-1">
-      <p className="text-sm text-muted-foreground">{label}</p>
-      <p className="text-2xl font-bold tabular-nums">{value}</p>
-      {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
-    </div>
-  );
 
   return (
     <ToolShell
@@ -140,19 +121,18 @@ export default function TokenCounter() {
         </div>
 
         {text ? (
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            <StatCard label={t("totalTokens")} value={tokens.toLocaleString()} />
-            <StatCard
-              label={t("characters")}
-              value={characters.toLocaleString()}
-            />
-            <StatCard label={t("words")} value={words.toLocaleString()} />
-            <StatCard
-              label={t("estimatedCost")}
-              value={formatCost(inputCost)}
-              sub={t("inputCost")}
-            />
-          </div>
+          <StatStrip
+            items={[
+              { label: t("totalTokens"), value: tokens.toLocaleString() },
+              { label: t("characters"), value: characters.toLocaleString() },
+              { label: t("words"), value: words.toLocaleString() },
+              {
+                label: t("estimatedCost"),
+                value: formatCost(inputCost),
+                sub: t("inputCost"),
+              },
+            ]}
+          />
         ) : (
           <Card>
             <CardContent className="py-8 text-center text-muted-foreground">
@@ -162,34 +142,25 @@ export default function TokenCounter() {
         )}
 
         {text && aiModel && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-base">
-                {aiModel.name} — {aiModel.provider}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="grid grid-cols-2 gap-4 text-sm">
-                <div>
-                  <p className="text-muted-foreground">{t("inputCost")}</p>
-                  <p className="font-medium">{formatCost(inputCost)}</p>
-                  <p className="text-xs text-muted-foreground">
-                    ${aiModel.inputPricePer1M}/1M tokens
-                  </p>
-                </div>
-                <div>
-                  <p className="text-muted-foreground">{t("outputCost")}</p>
-                  <p className="font-medium">{formatCost(outputCost)}</p>
-                  <p className="text-xs text-muted-foreground">
-                    ${aiModel.outputPricePer1M}/1M tokens
-                  </p>
-                </div>
-              </div>
-              <p className="text-xs text-muted-foreground mt-2">
-                {t("assumingOutputLabel")}
-              </p>
-            </CardContent>
-          </Card>
+          <SettingsCard title={`${aiModel.name} — ${aiModel.provider}`}>
+            <StatStrip
+              items={[
+                {
+                  label: t("inputCost"),
+                  value: formatCost(inputCost),
+                  sub: `$${aiModel.inputPricePer1M}/1M tokens`,
+                },
+                {
+                  label: t("outputCost"),
+                  value: formatCost(outputCost),
+                  sub: `$${aiModel.outputPricePer1M}/1M tokens`,
+                },
+              ]}
+            />
+            <p className="text-xs text-muted-foreground">
+              {t("assumingOutputLabel")}
+            </p>
+          </SettingsCard>
         )}
       </div>
     </ToolShell>

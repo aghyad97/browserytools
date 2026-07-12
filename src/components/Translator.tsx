@@ -16,7 +16,8 @@ import { toast } from "sonner";
 import { ArrowRightLeft, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
 const MODEL = "Xenova/m2m100_418M";
@@ -158,49 +159,42 @@ export default function Translator() {
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium" htmlFor="tr-input">
-                {t("inputLabel")}
-              </label>
-              <Textarea
-                id="tr-input"
-                dir="auto"
-                className="min-h-[200px]"
-                placeholder={t("inputPlaceholder")}
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-              />
-            </div>
-
-            <div className="space-y-1.5">
-              <label className="text-sm font-medium" htmlFor="tr-output">
-                {t("outputLabel")}
-              </label>
-              <div className="relative">
+          <TwoPane
+            start={
+              <div className="space-y-1.5">
+                <label className="text-sm font-medium" htmlFor="tr-input">
+                  {t("inputLabel")}
+                </label>
+                <Textarea
+                  id="tr-input"
+                  dir="auto"
+                  className="min-h-[200px]"
+                  placeholder={t("inputPlaceholder")}
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                />
+              </div>
+            }
+            end={
+              <OutputPanel
+                text={output}
+                title={t("outputLabel")}
+                copyLabel={t("copy")}
+                copySuccessMessage={t("copied")}
+                copyErrorMessage={t("copyFailed")}
+              >
                 <Textarea
                   id="tr-output"
                   dir="auto"
-                  className="min-h-[200px]"
+                  className="min-h-[200px] rounded-none border-0 bg-transparent focus-visible:ring-0"
                   placeholder={t("outputPlaceholder")}
                   value={output}
                   readOnly
                   data-testid="translator-output"
                 />
-                {output && (
-                  <span className="absolute top-2 end-2">
-                    <CopyButton
-                      text={output}
-                      size="icon"
-                      label={t("copy")}
-                      successMessage={t("copied")}
-                      errorMessage={t("copyFailed")}
-                    />
-                  </span>
-                )}
-              </div>
-            </div>
-          </div>
+              </OutputPanel>
+            }
+          />
 
           {busy && progress && progress.status === "progress" && (
             <div className="space-y-1">

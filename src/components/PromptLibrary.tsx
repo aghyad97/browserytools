@@ -5,11 +5,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadText } from "@/lib/download";
 import { Plus, Pencil, Trash2, Download, Upload, Search } from "lucide-react";
 
@@ -185,36 +185,35 @@ export default function PromptLibrary() {
     >
       <div className="space-y-4">
         {isAdding && (
-          <Card>
-            <CardContent className="pt-4 space-y-3">
-              <div className="space-y-1.5">
-                <Label>{t("promptTitle")}</Label>
+          <SettingsCard>
+              <OptionRow label={t("promptTitle")} htmlFor="pl-title">
                 <Input
+                  id="pl-title"
                   dir="auto"
                   value={form.title}
                   onChange={(e) => setForm({ ...form, title: e.target.value })}
                   placeholder={t("titlePlaceholder")}
                 />
-              </div>
-              <div className="space-y-1.5">
-                <Label>{t("promptContent")}</Label>
+              </OptionRow>
+              <OptionRow label={t("promptContent")} htmlFor="pl-content">
                 <Textarea
+                  id="pl-content"
                   dir="auto"
                   value={form.content}
                   onChange={(e) => setForm({ ...form, content: e.target.value })}
                   placeholder={t("contentPlaceholder")}
                   rows={5}
                 />
-              </div>
-              <div className="space-y-1.5">
-                <Label>{t("promptTags")}</Label>
+              </OptionRow>
+              <OptionRow label={t("promptTags")} htmlFor="pl-tags">
                 <Input
+                  id="pl-tags"
                   dir="auto"
                   value={form.tags}
                   onChange={(e) => setForm({ ...form, tags: e.target.value })}
                   placeholder={t("tagsPlaceholder")}
                 />
-              </div>
+              </OptionRow>
               <div className="flex gap-2">
                 <Button size="sm" onClick={handleSave}>
                   {t("save")}
@@ -230,8 +229,7 @@ export default function PromptLibrary() {
                   {t("cancel")}
                 </Button>
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
         )}
 
         <div className="flex flex-col sm:flex-row gap-2">

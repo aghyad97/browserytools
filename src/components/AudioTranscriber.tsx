@@ -16,6 +16,7 @@ import {
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { downloadText } from "@/lib/download";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
@@ -257,24 +258,21 @@ export default function AudioTranscriber() {
 
         {text && (
           <Card className="p-4 space-y-3" data-testid="transcript-result">
-            <div className="flex items-center justify-between">
-              <label className="text-sm font-medium" htmlFor="at-transcript">
-                {t("transcriptLabel")}
-              </label>
-              <CopyButton
-                text={text}
-                label={t("copyText")}
-                successMessage={t("copied")}
-                errorMessage={t("copyFailed")}
+            <OutputPanel
+              text={text}
+              title={t("transcriptLabel")}
+              copyLabel={t("copyText")}
+              copySuccessMessage={t("copied")}
+              copyErrorMessage={t("copyFailed")}
+            >
+              <Textarea
+                id="at-transcript"
+                dir="auto"
+                className="min-h-[180px] rounded-none border-0 bg-transparent focus-visible:ring-0"
+                value={text}
+                readOnly
               />
-            </div>
-            <Textarea
-              id="at-transcript"
-              dir="auto"
-              className="min-h-[180px]"
-              value={text}
-              readOnly
-            />
+            </OutputPanel>
 
             <div className="flex flex-wrap gap-2">
               <Button

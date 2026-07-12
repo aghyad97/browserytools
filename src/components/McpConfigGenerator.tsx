@@ -1,12 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { downloadText } from "@/lib/download";
 import { Plus, Trash2 } from "lucide-react";
 
@@ -85,9 +85,6 @@ export default function McpConfigGenerator() {
       title={tc("tools.mcp-config.name")}
       sub={tc("tools.mcp-config.description")}
       width="wide"
-      controls={
-        <CopyButton text={output} label={t("copy")} successMessage={t("copied")} />
-      }
       primaryAction={{ label: t("download"), onClick: handleDownload }}
     >
       <div className="space-y-4">
@@ -96,38 +93,33 @@ export default function McpConfigGenerator() {
         </div>
 
         {servers.map((server, idx) => (
-          <Card key={server.id}>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base">{t("serverName")} {idx + 1}</CardTitle>
-                <Button variant="ghost" size="sm" onClick={() => removeServer(server.id)} disabled={servers.length === 1}>
-                  <Trash2 className="h-4 w-4 text-destructive" />
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent className="space-y-3">
+          <SettingsCard
+            key={server.id}
+            title={`${t("serverName")} ${idx + 1}`}
+            action={
+              <Button variant="ghost" size="sm" onClick={() => removeServer(server.id)} disabled={servers.length === 1}>
+                <Trash2 className="h-4 w-4 text-destructive" />
+              </Button>
+            }
+          >
               <div className="grid sm:grid-cols-2 gap-3">
-                <div className="space-y-1.5">
-                  <Label>{t("serverName")}</Label>
-                  <Input dir="auto" value={server.name} onChange={e => updateServer(server.id, "name", e.target.value)} placeholder={t("serverNamePlaceholder")} />
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t("transport")}</Label>
-                  <select className="w-full border rounded px-3 py-2 text-sm bg-background" value={server.transport} onChange={e => updateServer(server.id, "transport", e.target.value)}>
+                <OptionRow label={t("serverName")} htmlFor={`mcp-name-${server.id}`}>
+                  <Input id={`mcp-name-${server.id}`} dir="auto" value={server.name} onChange={e => updateServer(server.id, "name", e.target.value)} placeholder={t("serverNamePlaceholder")} />
+                </OptionRow>
+                <OptionRow label={t("transport")} htmlFor={`mcp-transport-${server.id}`}>
+                  <select id={`mcp-transport-${server.id}`} className="w-full border rounded px-3 py-2 text-sm bg-background" value={server.transport} onChange={e => updateServer(server.id, "transport", e.target.value)}>
                     <option value="stdio">{t("transportStdio")}</option>
                     <option value="sse">{t("transportSse")}</option>
                   </select>
-                </div>
+                </OptionRow>
               </div>
-              <div className="space-y-1.5">
-                <Label>{server.transport === "sse" ? "URL" : t("command")}</Label>
-                <Input dir="auto" value={server.command} onChange={e => updateServer(server.id, "command", e.target.value)} placeholder={t("commandPlaceholder")} className="font-mono text-sm" />
-              </div>
+              <OptionRow label={server.transport === "sse" ? "URL" : t("command")} htmlFor={`mcp-command-${server.id}`}>
+                <Input id={`mcp-command-${server.id}`} dir="auto" value={server.command} onChange={e => updateServer(server.id, "command", e.target.value)} placeholder={t("commandPlaceholder")} className="font-mono text-sm" />
+              </OptionRow>
               {server.transport === "stdio" && (
-                <div className="space-y-1.5">
-                  <Label>{t("args")}</Label>
-                  <Input dir="auto" value={server.args} onChange={e => updateServer(server.id, "args", e.target.value)} placeholder={t("argsPlaceholder")} className="font-mono text-sm" />
-                </div>
+                <OptionRow label={t("args")} htmlFor={`mcp-args-${server.id}`}>
+                  <Input id={`mcp-args-${server.id}`} dir="auto" value={server.args} onChange={e => updateServer(server.id, "args", e.target.value)} placeholder={t("argsPlaceholder")} className="font-mono text-sm" />
+                </OptionRow>
               )}
               <div className="space-y-2">
                 <div className="flex items-center justify-between">
@@ -142,18 +134,15 @@ export default function McpConfigGenerator() {
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
         ))}
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("preview")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words overflow-x-auto max-h-[400px] overflow-y-auto">{output}</pre>
-          </CardContent>
-        </Card>
+        <OutputPanel
+          text={output}
+          title={t("preview")}
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copied")}
+        />
       </div>
     </ToolShell>
   );

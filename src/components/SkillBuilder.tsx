@@ -1,13 +1,12 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { downloadText } from "@/lib/download";
 
 type OutputFormat = "markdown" | "yaml" | "json";
@@ -105,77 +104,72 @@ export default function SkillBuilder() {
           <Button variant="outline" size="sm" onClick={handleClear}>
             {t("clearAll")}
           </Button>
-          <CopyButton text={output} label={t("copy")} successMessage={t("copied")} />
         </>
       }
       primaryAction={{ label: t("download"), onClick: handleDownload }}
     >
       <div className="space-y-4">
-        <Card>
-          <CardContent className="pt-6 space-y-4">
-            <div className="grid sm:grid-cols-2 gap-4">
-              <div className="space-y-1.5">
-                <Label>{t("nameLabel")}</Label>
-                <Input
-                  dir="auto"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder={t("namePlaceholder")}
-                  className="font-mono"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>{t("triggersLabel")}</Label>
-                <Input
-                  dir="auto"
-                  value={triggers}
-                  onChange={(e) => setTriggers(e.target.value)}
-                  placeholder={t("triggersPlaceholder")}
-                />
-              </div>
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("descriptionLabel")}</Label>
-              <Textarea
+        <SettingsCard>
+          <div className="grid sm:grid-cols-2 gap-4">
+            <OptionRow label={t("nameLabel")} htmlFor="skill-name">
+              <Input
+                id="skill-name"
                 dir="auto"
-                value={description}
-                onChange={(e) => setDescription(e.target.value)}
-                placeholder={t("descriptionPlaceholder")}
-                rows={2}
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder={t("namePlaceholder")}
+                className="font-mono"
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("instructionsLabel")}</Label>
-              <Textarea
+            </OptionRow>
+            <OptionRow label={t("triggersLabel")} htmlFor="skill-triggers">
+              <Input
+                id="skill-triggers"
                 dir="auto"
-                value={instructions}
-                onChange={(e) => setInstructions(e.target.value)}
-                placeholder={t("instructionsPlaceholder")}
-                rows={8}
+                value={triggers}
+                onChange={(e) => setTriggers(e.target.value)}
+                placeholder={t("triggersPlaceholder")}
               />
-            </div>
-          </CardContent>
-        </Card>
+            </OptionRow>
+          </div>
+          <OptionRow label={t("descriptionLabel")} htmlFor="skill-description">
+            <Textarea
+              id="skill-description"
+              dir="auto"
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              placeholder={t("descriptionPlaceholder")}
+              rows={2}
+            />
+          </OptionRow>
+          <OptionRow label={t("instructionsLabel")} htmlFor="skill-instructions">
+            <Textarea
+              id="skill-instructions"
+              dir="auto"
+              value={instructions}
+              onChange={(e) => setInstructions(e.target.value)}
+              placeholder={t("instructionsPlaceholder")}
+              rows={8}
+            />
+          </OptionRow>
+        </SettingsCard>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">
+        <OutputPanel
+          text={output}
+          title={
+            <>
               {t("preview")} —{" "}
               <code className="text-xs bg-muted px-1 rounded">{filename}</code>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {name || description || instructions ? (
-              <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words max-h-[500px] overflow-y-auto">
-                {output}
-              </pre>
-            ) : (
-              <p className="text-muted-foreground text-sm py-4 text-center">
-                {t("emptyPreview")}
-              </p>
-            )}
-          </CardContent>
-        </Card>
+            </>
+          }
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copied")}
+        >
+          {name || description || instructions ? undefined : (
+            <p className="text-muted-foreground text-sm py-4 text-center">
+              {t("emptyPreview")}
+            </p>
+          )}
+        </OutputPanel>
       </div>
     </ToolShell>
   );

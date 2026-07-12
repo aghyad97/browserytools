@@ -12,6 +12,7 @@ import { InfoIcon, XIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
+import { formatPercent } from "@/lib/format";
 
 const MODEL = "Xenova/nli-deberta-v3-xsmall";
 
@@ -233,7 +234,7 @@ export default function ZeroShotClassifier() {
                       className="text-muted-foreground tabular-nums"
                       dir="ltr"
                     >
-                      {(r.score * 100).toFixed(1)}%
+                      {formatPercent(r.score, 1)}
                     </span>
                   </div>
                   <Progress value={Math.round(r.score * 100)} />
