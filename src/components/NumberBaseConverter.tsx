@@ -2,12 +2,11 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 type BaseKey = "bin" | "oct" | "dec" | "hex";
 
@@ -79,54 +78,48 @@ export default function NumberBaseConverter() {
         </Button>
       }
     >
-      <Card className="shadow-none">
-        <CardContent className="space-y-4 pt-6">
-          <div className="space-y-2">
-            <Label htmlFor="bin">{t("binary")}</Label>
-            <Input
-              id="bin"
-              placeholder="e.g., 101011"
-              value={values.bin}
-              onChange={(e) => updateAll("bin", e.target.value)}
-              className={errorBase === "bin" ? "border-destructive" : ""}
-              dir="ltr"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="oct">{t("octal")}</Label>
-            <Input
-              id="oct"
-              placeholder="e.g., 53"
-              value={values.oct}
-              onChange={(e) => updateAll("oct", e.target.value)}
-              className={errorBase === "oct" ? "border-destructive" : ""}
-              dir="ltr"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="dec">{t("decimal")}</Label>
-            <Input
-              id="dec"
-              placeholder="e.g., 43"
-              value={values.dec}
-              onChange={(e) => updateAll("dec", e.target.value)}
-              className={errorBase === "dec" ? "border-destructive" : ""}
-              dir="ltr"
-            />
-          </div>
-          <div className="space-y-2">
-            <Label htmlFor="hex">{t("hexadecimal")}</Label>
-            <Input
-              id="hex"
-              placeholder="e.g., 2B"
-              value={values.hex}
-              onChange={(e) => updateAll("hex", e.target.value)}
-              className={errorBase === "hex" ? "border-destructive" : ""}
-              dir="ltr"
-            />
-          </div>
-        </CardContent>
-      </Card>
+      <SettingsCard>
+        <OptionRow label={t("binary")} htmlFor="bin">
+          <Input
+            id="bin"
+            placeholder="e.g., 101011"
+            value={values.bin}
+            onChange={(e) => updateAll("bin", e.target.value)}
+            className={errorBase === "bin" ? "border-destructive" : ""}
+            dir="ltr"
+          />
+        </OptionRow>
+        <OptionRow label={t("octal")} htmlFor="oct">
+          <Input
+            id="oct"
+            placeholder="e.g., 53"
+            value={values.oct}
+            onChange={(e) => updateAll("oct", e.target.value)}
+            className={errorBase === "oct" ? "border-destructive" : ""}
+            dir="ltr"
+          />
+        </OptionRow>
+        <OptionRow label={t("decimal")} htmlFor="dec">
+          <Input
+            id="dec"
+            placeholder="e.g., 43"
+            value={values.dec}
+            onChange={(e) => updateAll("dec", e.target.value)}
+            className={errorBase === "dec" ? "border-destructive" : ""}
+            dir="ltr"
+          />
+        </OptionRow>
+        <OptionRow label={t("hexadecimal")} htmlFor="hex">
+          <Input
+            id="hex"
+            placeholder="e.g., 2B"
+            value={values.hex}
+            onChange={(e) => updateAll("hex", e.target.value)}
+            className={errorBase === "hex" ? "border-destructive" : ""}
+            dir="ltr"
+          />
+        </OptionRow>
+      </SettingsCard>
     </ToolShell>
   );
 }

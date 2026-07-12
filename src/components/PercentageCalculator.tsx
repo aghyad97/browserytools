@@ -2,11 +2,10 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 function fmt(n: number): string {
   if (!isFinite(n)) return "—";
@@ -99,41 +98,27 @@ export default function PercentageCalculator() {
       title={tc("tools.percentage-calculator.name")}
       sub={tc("tools.percentage-calculator.description")}
     >
-      <div className="space-y-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {sections.map((section) => {
-            const results = section.calculate({});
-            return (
-              <Card key={section.title}>
-                <CardHeader className="pb-3">
-                  <CardTitle className="text-sm font-semibold">{section.title}</CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-3">
-                  {section.inputs.map((input) => (
-                    <div key={input.key} className="space-y-1">
-                      <Label className="text-xs">{input.label}</Label>
-                      <Input
-                        type="number"
-                        placeholder={input.placeholder}
-                        value={vals[input.key] ?? ""}
-                        onChange={(e) => set(input.key, e.target.value)}
-                        className="h-8 text-sm"
-                      />
-                    </div>
-                  ))}
-                  <div className="pt-2 space-y-1.5 border-t">
-                    {section.calculate({}).map((r) => (
-                      <div key={r.label} className="flex justify-between items-center">
-                        <span className="text-xs text-muted-foreground">{r.label}</span>
-                        <Badge variant="secondary" className="font-mono text-sm">{r.value}</Badge>
-                      </div>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
-            );
-          })}
-        </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        {sections.map((section) => {
+          const results = section.calculate({});
+          return (
+            <SettingsCard key={section.title} title={section.title}>
+              {section.inputs.map((input) => (
+                <OptionRow key={input.key} label={input.label} htmlFor={input.key}>
+                  <Input
+                    id={input.key}
+                    type="number"
+                    placeholder={input.placeholder}
+                    value={vals[input.key] ?? ""}
+                    onChange={(e) => set(input.key, e.target.value)}
+                    dir="ltr"
+                  />
+                </OptionRow>
+              ))}
+              <StatStrip items={results.map((r) => ({ label: r.label, value: r.value }))} />
+            </SettingsCard>
+          );
+        })}
       </div>
     </ToolShell>
   );

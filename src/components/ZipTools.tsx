@@ -29,6 +29,7 @@ import JSZip from "jszip";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { downloadBlob } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 
 interface FileEntry {
   name: string;
@@ -154,14 +155,6 @@ export default function ZipTool() {
 
   const removeFile = (index: number) => {
     setFiles(files.filter((_, i) => i !== index));
-  };
-
-  const formatBytes = (bytes: number) => {
-    if (bytes === 0) return "0 Bytes";
-    const k = 1024;
-    const sizes = ["Bytes", "KB", "MB", "GB"];
-    const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
   };
 
   return (

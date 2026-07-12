@@ -2,13 +2,6 @@
 
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
@@ -48,6 +41,8 @@ import {
 } from "@/store/invoice-store";
 import InvoiceManager from "@/components/InvoiceManager";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 import { uniqueCurrencies } from "@/lib/currencies";
 import { setPreferredCurrency } from "@/lib/utils";
 import { toast } from "sonner";
@@ -542,455 +537,432 @@ export default function InvoiceGenerator() {
         <TabsContent value="details" className="mt-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Invoice Details */}
-            <Card className="lg:col-span-2">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Calendar className="w-5 h-5" />
+            <SettingsCard
+              className="lg:col-span-2"
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <Calendar className="w-4 h-4" />
                   {t("invoiceDetails")}
-                </CardTitle>
-                <CardDescription>
-                  {t("basicInvoiceInfo")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="invoice-number">{t("invoiceNumber")}</Label>
-                    <Input
-                      id="invoice-number"
-                      value={invoiceData.invoiceNumber}
-                      onChange={(e) =>
-                        updateInvoiceData({ invoiceNumber: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="invoice-date">{t("invoiceDate")}</Label>
-                    <Input
-                      id="invoice-date"
-                      type="date"
-                      value={invoiceData.date}
-                      onChange={(e) =>
-                        updateInvoiceData({ date: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="due-date">{t("dueDate")}</Label>
-                    <Input
-                      id="due-date"
-                      type="date"
-                      value={invoiceData.dueDate}
-                      onChange={(e) =>
-                        updateInvoiceData({ dueDate: e.target.value })
-                      }
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t("currency")}</Label>
-                    <Select
-                      value={invoiceData.currency}
-                      onValueChange={(val) => {
-                        updateInvoiceData({ currency: val });
-                        setPreferredCurrency(val);
-                      }}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {uniqueCurrencies
-                          .sort((a, b) => {
-                            // Put major currencies first
-                            const majorCurrencies = [
-                              "USD",
-                              "EUR",
-                              "GBP",
-                              "JPY",
-                              "CAD",
-                              "AUD",
-                              "CHF",
-                              "CNY",
-                              "INR",
-                            ];
-                            const aIsMajor = majorCurrencies.includes(a);
-                            const bIsMajor = majorCurrencies.includes(b);
+                </span>
+              }
+              description={t("basicInvoiceInfo")}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                <OptionRow label={t("invoiceNumber")} htmlFor="invoice-number">
+                  <Input
+                    id="invoice-number"
+                    value={invoiceData.invoiceNumber}
+                    onChange={(e) =>
+                      updateInvoiceData({ invoiceNumber: e.target.value })
+                    }
+                  />
+                </OptionRow>
+                <OptionRow label={t("invoiceDate")} htmlFor="invoice-date">
+                  <Input
+                    id="invoice-date"
+                    type="date"
+                    value={invoiceData.date}
+                    onChange={(e) =>
+                      updateInvoiceData({ date: e.target.value })
+                    }
+                  />
+                </OptionRow>
+                <OptionRow label={t("dueDate")} htmlFor="due-date">
+                  <Input
+                    id="due-date"
+                    type="date"
+                    value={invoiceData.dueDate}
+                    onChange={(e) =>
+                      updateInvoiceData({ dueDate: e.target.value })
+                    }
+                  />
+                </OptionRow>
+                <OptionRow label={t("currency")}>
+                  <Select
+                    value={invoiceData.currency}
+                    onValueChange={(val) => {
+                      updateInvoiceData({ currency: val });
+                      setPreferredCurrency(val);
+                    }}
+                  >
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {uniqueCurrencies
+                        .sort((a, b) => {
+                          // Put major currencies first
+                          const majorCurrencies = [
+                            "USD",
+                            "EUR",
+                            "GBP",
+                            "JPY",
+                            "CAD",
+                            "AUD",
+                            "CHF",
+                            "CNY",
+                            "INR",
+                          ];
+                          const aIsMajor = majorCurrencies.includes(a);
+                          const bIsMajor = majorCurrencies.includes(b);
 
-                            if (aIsMajor && !bIsMajor) return -1;
-                            if (!aIsMajor && bIsMajor) return 1;
-                            if (aIsMajor && bIsMajor) {
-                              return (
-                                majorCurrencies.indexOf(a) -
-                                majorCurrencies.indexOf(b)
-                              );
-                            }
-                            return a.localeCompare(b);
-                          })
-                          .map((currency) => (
-                            <SelectItem key={currency} value={currency}>
-                              {currency}
-                            </SelectItem>
-                          ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+                          if (aIsMajor && !bIsMajor) return -1;
+                          if (!aIsMajor && bIsMajor) return 1;
+                          if (aIsMajor && bIsMajor) {
+                            return (
+                              majorCurrencies.indexOf(a) -
+                              majorCurrencies.indexOf(b)
+                            );
+                          }
+                          return a.localeCompare(b);
+                        })
+                        .map((currency) => (
+                          <SelectItem key={currency} value={currency}>
+                            {currency}
+                          </SelectItem>
+                        ))}
+                    </SelectContent>
+                  </Select>
+                </OptionRow>
+              </div>
+            </SettingsCard>
             {/* Company Details */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Building2 className="w-5 h-5" />
+            <SettingsCard
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <Building2 className="w-4 h-4" />
                   {t("companyDetails")}
-                </CardTitle>
-                <CardDescription>
-                  {t("companyInfo")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Logo Upload */}
-                <div className="space-y-2">
-                  <Label htmlFor="company-logo">Company Logo</Label>
-                  <div className="flex items-center gap-4">
-                    <Input
-                      id="company-logo"
-                      type="file"
-                      accept="image/*"
-                      onChange={(e) => {
-                        const file = e.target.files?.[0];
-                        if (!file) return;
-                        const reader = new FileReader();
-                        reader.onload = () => {
+                </span>
+              }
+              description={t("companyInfo")}
+            >
+              {/* Logo Upload */}
+              <OptionRow label="Company Logo" htmlFor="company-logo">
+                <div className="flex items-center gap-4">
+                  <Input
+                    id="company-logo"
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => {
+                      const file = e.target.files?.[0];
+                      if (!file) return;
+                      const reader = new FileReader();
+                      reader.onload = () => {
+                        updateInvoiceData({
+                          company: {
+                            ...invoiceData.company,
+                            logoDataUrl: String(reader.result || ""),
+                          },
+                        });
+                      };
+                      reader.readAsDataURL(file);
+                    }}
+                  />
+                  {invoiceData.company.logoDataUrl && (
+                    <div className="flex items-center gap-2">
+                      <img
+                        src={invoiceData.company.logoDataUrl}
+                        alt="Company logo preview"
+                        className="h-10 w-auto object-contain border rounded"
+                      />
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() =>
                           updateInvoiceData({
                             company: {
                               ...invoiceData.company,
-                              logoDataUrl: String(reader.result || ""),
+                              logoDataUrl: undefined,
                             },
-                          });
-                        };
-                        reader.readAsDataURL(file);
-                      }}
-                    />
-                    {invoiceData.company.logoDataUrl && (
-                      <div className="flex items-center gap-2">
-                        <img
-                          src={invoiceData.company.logoDataUrl}
-                          alt="Company logo preview"
-                          className="h-10 w-auto object-contain border rounded"
-                        />
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() =>
-                            updateInvoiceData({
-                              company: {
-                                ...invoiceData.company,
-                                logoDataUrl: undefined,
-                              },
-                            })
-                          }
-                        >
-                          Remove
-                        </Button>
-                      </div>
-                    )}
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    If no logo is uploaded, the invoice will show "Invoice" text
-                    in the top right.
-                  </p>
+                          })
+                        }
+                      >
+                        Remove
+                      </Button>
+                    </div>
+                  )}
                 </div>
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="company-name">{t("companyName")}</Label>
-                    <Input
-                      id="company-name"
-                      value={invoiceData.company.name}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          company: {
-                            ...invoiceData.company,
-                            name: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("companyNamePlaceholder")}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company-email">Email</Label>
-                    <Input
-                      id="company-email"
-                      type="email"
-                      value={invoiceData.company.email}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          company: {
-                            ...invoiceData.company,
-                            email: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("companyEmailPlaceholder")}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="company-address">Address</Label>
+                <p className="text-xs text-muted-foreground">
+                  If no logo is uploaded, the invoice will show "Invoice" text
+                  in the top right.
+                </p>
+              </OptionRow>
+              <div className="grid grid-cols-2 gap-4">
+                <OptionRow label={t("companyName")} htmlFor="company-name">
                   <Input
-                    id="company-address"
-                    value={invoiceData.company.address}
+                    id="company-name"
+                    value={invoiceData.company.name}
                     onChange={(e) =>
                       updateInvoiceData({
                         company: {
                           ...invoiceData.company,
-                          address: e.target.value,
+                          name: e.target.value,
                         },
                       })
                     }
-                    placeholder={t("companyAddressPlaceholder")}
+                    placeholder={t("companyNamePlaceholder")}
                   />
-                </div>
-
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="company-city">City</Label>
-                    <Input
-                      id="company-city"
-                      value={invoiceData.company.city}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          company: {
-                            ...invoiceData.company,
-                            city: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("cityPlaceholder")}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company-state">State</Label>
-                    <Input
-                      id="company-state"
-                      value={invoiceData.company.state}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          company: {
-                            ...invoiceData.company,
-                            state: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("statePlaceholder")}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company-zip">ZIP Code</Label>
-                    <Input
-                      id="company-zip"
-                      value={invoiceData.company.zipCode}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          company: {
-                            ...invoiceData.company,
-                            zipCode: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder="12345"
-                    />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="company-phone">Phone</Label>
-                    <Input
-                      id="company-phone"
-                      value={invoiceData.company.phone}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          company: {
-                            ...invoiceData.company,
-                            phone: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("phonePlaceholder")}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="company-tax-id">Tax ID</Label>
-                    <Input
-                      id="company-tax-id"
-                      value={invoiceData.company.taxId}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          company: {
-                            ...invoiceData.company,
-                            taxId: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("taxIdPlaceholder")}
-                    />
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Client Details */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <User className="w-5 h-5" />
-                  {t("clientDetails")}
-                </CardTitle>
-                <CardDescription>
-                  {t("clientInfo")}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="client-name">{t("clientName")}</Label>
-                    <Input
-                      id="client-name"
-                      value={invoiceData.client.name}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          client: {
-                            ...invoiceData.client,
-                            name: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("clientNamePlaceholder")}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="client-email">Email</Label>
-                    <Input
-                      id="client-email"
-                      type="email"
-                      value={invoiceData.client.email}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          client: {
-                            ...invoiceData.client,
-                            email: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("clientEmailPlaceholder")}
-                    />
-                  </div>
-                </div>
-
-                <div className="space-y-2">
-                  <Label htmlFor="client-address">Address</Label>
+                </OptionRow>
+                <OptionRow label="Email" htmlFor="company-email">
                   <Input
-                    id="client-address"
-                    value={invoiceData.client.address}
+                    id="company-email"
+                    type="email"
+                    value={invoiceData.company.email}
                     onChange={(e) =>
                       updateInvoiceData({
-                        client: {
-                          ...invoiceData.client,
-                          address: e.target.value,
+                        company: {
+                          ...invoiceData.company,
+                          email: e.target.value,
                         },
                       })
                     }
-                    placeholder={t("clientAddressPlaceholder")}
+                    placeholder={t("companyEmailPlaceholder")}
                   />
-                </div>
+                </OptionRow>
+              </div>
 
-                <div className="grid grid-cols-3 gap-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="client-city">City</Label>
-                    <Input
-                      id="client-city"
-                      value={invoiceData.client.city}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          client: {
-                            ...invoiceData.client,
-                            city: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("cityPlaceholder")}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="client-state">State</Label>
-                    <Input
-                      id="client-state"
-                      value={invoiceData.client.state}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          client: {
-                            ...invoiceData.client,
-                            state: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder={t("statePlaceholder")}
-                    />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="client-zip">ZIP Code</Label>
-                    <Input
-                      id="client-zip"
-                      value={invoiceData.client.zipCode}
-                      onChange={(e) =>
-                        updateInvoiceData({
-                          client: {
-                            ...invoiceData.client,
-                            zipCode: e.target.value,
-                          },
-                        })
-                      }
-                      placeholder="12345"
-                    />
-                  </div>
-                </div>
+              <OptionRow label="Address" htmlFor="company-address">
+                <Input
+                  id="company-address"
+                  value={invoiceData.company.address}
+                  onChange={(e) =>
+                    updateInvoiceData({
+                      company: {
+                        ...invoiceData.company,
+                        address: e.target.value,
+                      },
+                    })
+                  }
+                  placeholder={t("companyAddressPlaceholder")}
+                />
+              </OptionRow>
 
-                <div className="space-y-2">
-                  <Label htmlFor="client-phone">Phone</Label>
+              <div className="grid grid-cols-3 gap-4">
+                <OptionRow label="City" htmlFor="company-city">
                   <Input
-                    id="client-phone"
-                    value={invoiceData.client.phone}
+                    id="company-city"
+                    value={invoiceData.company.city}
                     onChange={(e) =>
                       updateInvoiceData({
-                        client: {
-                          ...invoiceData.client,
+                        company: {
+                          ...invoiceData.company,
+                          city: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder={t("cityPlaceholder")}
+                  />
+                </OptionRow>
+                <OptionRow label="State" htmlFor="company-state">
+                  <Input
+                    id="company-state"
+                    value={invoiceData.company.state}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        company: {
+                          ...invoiceData.company,
+                          state: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder={t("statePlaceholder")}
+                  />
+                </OptionRow>
+                <OptionRow label="ZIP Code" htmlFor="company-zip">
+                  <Input
+                    id="company-zip"
+                    value={invoiceData.company.zipCode}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        company: {
+                          ...invoiceData.company,
+                          zipCode: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder="12345"
+                  />
+                </OptionRow>
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <OptionRow label="Phone" htmlFor="company-phone">
+                  <Input
+                    id="company-phone"
+                    value={invoiceData.company.phone}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        company: {
+                          ...invoiceData.company,
                           phone: e.target.value,
                         },
                       })
                     }
                     placeholder={t("phonePlaceholder")}
                   />
-                </div>
-              </CardContent>
-            </Card>
+                </OptionRow>
+                <OptionRow label="Tax ID" htmlFor="company-tax-id">
+                  <Input
+                    id="company-tax-id"
+                    value={invoiceData.company.taxId}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        company: {
+                          ...invoiceData.company,
+                          taxId: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder={t("taxIdPlaceholder")}
+                  />
+                </OptionRow>
+              </div>
+            </SettingsCard>
+
+            {/* Client Details */}
+            <SettingsCard
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <User className="w-4 h-4" />
+                  {t("clientDetails")}
+                </span>
+              }
+              description={t("clientInfo")}
+            >
+              <div className="grid grid-cols-2 gap-4">
+                <OptionRow label={t("clientName")} htmlFor="client-name">
+                  <Input
+                    id="client-name"
+                    value={invoiceData.client.name}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        client: {
+                          ...invoiceData.client,
+                          name: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder={t("clientNamePlaceholder")}
+                  />
+                </OptionRow>
+                <OptionRow label="Email" htmlFor="client-email">
+                  <Input
+                    id="client-email"
+                    type="email"
+                    value={invoiceData.client.email}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        client: {
+                          ...invoiceData.client,
+                          email: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder={t("clientEmailPlaceholder")}
+                  />
+                </OptionRow>
+              </div>
+
+              <OptionRow label="Address" htmlFor="client-address">
+                <Input
+                  id="client-address"
+                  value={invoiceData.client.address}
+                  onChange={(e) =>
+                    updateInvoiceData({
+                      client: {
+                        ...invoiceData.client,
+                        address: e.target.value,
+                      },
+                    })
+                  }
+                  placeholder={t("clientAddressPlaceholder")}
+                />
+              </OptionRow>
+
+              <div className="grid grid-cols-3 gap-4">
+                <OptionRow label="City" htmlFor="client-city">
+                  <Input
+                    id="client-city"
+                    value={invoiceData.client.city}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        client: {
+                          ...invoiceData.client,
+                          city: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder={t("cityPlaceholder")}
+                  />
+                </OptionRow>
+                <OptionRow label="State" htmlFor="client-state">
+                  <Input
+                    id="client-state"
+                    value={invoiceData.client.state}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        client: {
+                          ...invoiceData.client,
+                          state: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder={t("statePlaceholder")}
+                  />
+                </OptionRow>
+                <OptionRow label="ZIP Code" htmlFor="client-zip">
+                  <Input
+                    id="client-zip"
+                    value={invoiceData.client.zipCode}
+                    onChange={(e) =>
+                      updateInvoiceData({
+                        client: {
+                          ...invoiceData.client,
+                          zipCode: e.target.value,
+                        },
+                      })
+                    }
+                    placeholder="12345"
+                  />
+                </OptionRow>
+              </div>
+
+              <OptionRow label="Phone" htmlFor="client-phone">
+                <Input
+                  id="client-phone"
+                  value={invoiceData.client.phone}
+                  onChange={(e) =>
+                    updateInvoiceData({
+                      client: {
+                        ...invoiceData.client,
+                        phone: e.target.value,
+                      },
+                    })
+                  }
+                  placeholder={t("phonePlaceholder")}
+                />
+              </OptionRow>
+            </SettingsCard>
           </div>
         </TabsContent>
 
         <TabsContent value="items" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Hash className="w-5 h-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <Hash className="w-4 h-4" />
                 {t("invoiceItems")}
-              </CardTitle>
-              <CardDescription>
-                {t("addProducts")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </span>
+            }
+            description={t("addProducts")}
+            action={
+              <Button onClick={addInvoiceItem}>
+                <Plus className="w-4 h-4 me-2" />
+                {t("addItem")}
+              </Button>
+            }
+          >
+              {/* Dense computed line-item editor — stays bespoke (data-table-like surface). */}
               <div className="space-y-4">
                 {invoiceData.items.map((item, index) => (
                   <div
@@ -1066,15 +1038,6 @@ export default function InvoiceGenerator() {
                     </div>
                   </div>
                 ))}
-
-                <Button
-                  variant="outline"
-                  onClick={addInvoiceItem}
-                  className="w-full"
-                >
-                  <Plus className="w-4 h-4 me-2" />
-                  {t("addItem")}
-                </Button>
               </div>
 
               <Separator className="my-6" />
@@ -1082,8 +1045,7 @@ export default function InvoiceGenerator() {
               {/* Tax and Discount Settings */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div className="space-y-4">
-                  <div className="space-y-2">
-                    <Label htmlFor="tax-rate">{t("taxRate")}</Label>
+                  <OptionRow label={t("taxRate")} htmlFor="tax-rate">
                     <Input
                       id="tax-rate"
                       type="number"
@@ -1098,9 +1060,8 @@ export default function InvoiceGenerator() {
                       }
                       placeholder="0.00"
                     />
-                  </div>
-                  <div className="space-y-2">
-                    <Label htmlFor="discount">{t("discount")}</Label>
+                  </OptionRow>
+                  <OptionRow label={t("discount")} htmlFor="discount">
                     <Input
                       id="discount"
                       type="number"
@@ -1114,63 +1075,75 @@ export default function InvoiceGenerator() {
                       }
                       placeholder="0.00"
                     />
-                  </div>
+                  </OptionRow>
                 </div>
 
-                <div className="space-y-4">
-                  <div className="p-4 bg-muted rounded-lg">
-                    <h3 className="font-semibold mb-2">{t("invoiceSummary")}</h3>
-                    <div className="space-y-1 text-sm" dir="ltr">
-                      <div className="flex justify-between">
-                        <span>{t("subtotal")}:</span>
-                        <span>
+                <StatStrip
+                  items={[
+                    {
+                      label: t("subtotal"),
+                      value: (
+                        <span dir="ltr">
                           {invoiceData.currency === "USD" && "$"}
                           <NumberFlow value={invoiceData.subtotal} />
                           {invoiceData.currency !== "USD" &&
                             ` ${invoiceData.currency}`}
                         </span>
-                      </div>
-                      {invoiceData.discount > 0 && (
-                        <div className="flex justify-between text-red-600">
-                          <span>{t("discount")}:</span>
-                          <span>
-                            -{invoiceData.currency === "USD" && "$"}
-                            <NumberFlow value={invoiceData.discount} />
-                            {invoiceData.currency !== "USD" &&
-                              ` ${invoiceData.currency}`}
-                          </span>
-                        </div>
-                      )}
-                      {invoiceData.taxRate > 0 && (
-                        <div className="flex justify-between">
-                          <span>{t("tax")} ({invoiceData.taxRate}%):</span>
-                          <span>
-                            {invoiceData.currency === "USD" && "$"}
-                            <NumberFlow value={invoiceData.taxAmount} />
-                            {invoiceData.currency !== "USD" &&
-                              ` ${invoiceData.currency}`}
-                          </span>
-                        </div>
-                      )}
-                      <Separator />
-                      <div className="flex justify-between font-semibold text-lg">
-                        <span>{t("total")}:</span>
-                        <span>
+                      ),
+                      sub: (
+                        <span dir="ltr">
+                          {invoiceData.items.length} {t("tabs.items")}
+                        </span>
+                      ),
+                    },
+                    ...(invoiceData.discount > 0
+                      ? [
+                          {
+                            label: t("discount"),
+                            value: (
+                              <span dir="ltr">
+                                -{invoiceData.currency === "USD" && "$"}
+                                <NumberFlow value={invoiceData.discount} />
+                                {invoiceData.currency !== "USD" &&
+                                  ` ${invoiceData.currency}`}
+                              </span>
+                            ),
+                          },
+                        ]
+                      : []),
+                    ...(invoiceData.taxRate > 0
+                      ? [
+                          {
+                            label: `${t("tax")} (${invoiceData.taxRate}%)`,
+                            value: (
+                              <span dir="ltr">
+                                {invoiceData.currency === "USD" && "$"}
+                                <NumberFlow value={invoiceData.taxAmount} />
+                                {invoiceData.currency !== "USD" &&
+                                  ` ${invoiceData.currency}`}
+                              </span>
+                            ),
+                          },
+                        ]
+                      : []),
+                    {
+                      label: t("total"),
+                      value: (
+                        <span dir="ltr">
                           {invoiceData.currency === "USD" && "$"}
                           <NumberFlow value={invoiceData.total} />
                           {invoiceData.currency !== "USD" &&
                             ` ${invoiceData.currency}`}
                         </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                      ),
+                    },
+                  ]}
+                />
               </div>
 
               {/* Notes and Terms */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
-                <div className="space-y-2">
-                  <Label htmlFor="notes">{t("notes")}</Label>
+                <OptionRow label={t("notes")} htmlFor="notes">
                   <Textarea
                     id="notes"
                     value={invoiceData.notes}
@@ -1180,9 +1153,8 @@ export default function InvoiceGenerator() {
                     placeholder={t("notesPlaceholder")}
                     rows={3}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="terms">{t("termsConditions")}</Label>
+                </OptionRow>
+                <OptionRow label={t("termsConditions")} htmlFor="terms">
                   <Textarea
                     id="terms"
                     value={invoiceData.terms}
@@ -1192,24 +1164,27 @@ export default function InvoiceGenerator() {
                     placeholder={t("termsPlaceholder")}
                     rows={3}
                   />
-                </div>
+                </OptionRow>
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
 
         <TabsContent value="preview" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Eye className="w-5 h-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <Eye className="w-4 h-4" />
                 Invoice Preview
-              </CardTitle>
-              <CardDescription>
-                Preview how your invoice will look
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </span>
+            }
+            description="Preview how your invoice will look"
+          >
+              {/* content value: this block is a WYSIWYG mock of the exported PDF
+                  page, so it stays fixed white/black — the exported PDF is always
+                  white paper regardless of site theme, and routing these through
+                  bt tokens would make the preview misrepresent the real export in
+                  dark mode. Every gray text/border utility below is part of this
+                  fixed paper surface, not app chrome. */}
               <div className="bg-white border rounded-lg p-8 max-w-4xl mx-auto">
                 {/* Invoice Header */}
                 <div className="flex justify-between items-start mb-8">
@@ -1430,22 +1405,19 @@ export default function InvoiceGenerator() {
                   </div>
                 )}
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
 
         <TabsContent value="export" className="mt-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Download className="w-5 h-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <Download className="w-4 h-4" />
                 {t("exportInvoice")}
-              </CardTitle>
-              <CardDescription>
-                {t("downloadAsPdf")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+              </span>
+            }
+            description={t("downloadAsPdf")}
+          >
               <div className="text-center space-y-6">
                 <div className="p-8 rounded-lg">
                   <FileText className="w-16 h-16 mx-auto mb-4 text-muted-foreground" />
@@ -1456,8 +1428,7 @@ export default function InvoiceGenerator() {
                     {t("readyToExportDesc")}
                   </p>
                   <div className="text-start max-w-md mx-auto">
-                    <div className="space-y-2">
-                      <Label>{t("pdfPageSize")}</Label>
+                    <OptionRow label={t("pdfPageSize")}>
                       <Select
                         value={invoiceData.pageSize}
                         onValueChange={(val: "a4" | "letter") =>
@@ -1474,7 +1445,7 @@ export default function InvoiceGenerator() {
                           </SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
+                    </OptionRow>
                   </div>
                   <div className="space-y-2 text-sm text-muted-foreground mt-2" dir="ltr">
                     <p>{t("invoiceNumber")}: {invoiceData.invoiceNumber}</p>
@@ -1505,8 +1476,7 @@ export default function InvoiceGenerator() {
                   </p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
       </Tabs>
     </ToolShell>

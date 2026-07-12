@@ -278,6 +278,7 @@ export default function SpreadsheetViewer() {
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
+                        {/* content value: chart data-series fill, no --bt-chart token exists */}
                         <Bar dataKey="value" fill="#4f46e5" />
                       </BarChart>
                     </ResponsiveContainer>

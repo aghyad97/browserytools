@@ -20,11 +20,12 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Download, RefreshCw, AlertCircle } from "lucide-react";
+import { ArrowRight, RefreshCw, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
-import { downloadText } from "@/lib/download";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type Format = "csv" | "tsv" | "json" | "xml" | "yaml";
 
@@ -42,6 +43,14 @@ const FORMAT_EXTENSIONS: Record<Format, string> = {
   json: "json",
   xml: "xml",
   yaml: "yaml",
+};
+
+const FORMAT_MIME: Record<Format, string> = {
+  csv: "text/csv;charset=utf-8",
+  tsv: "text/tab-separated-values;charset=utf-8",
+  json: "application/json;charset=utf-8",
+  xml: "application/xml;charset=utf-8",
+  yaml: "application/x-yaml;charset=utf-8",
 };
 
 const SAMPLES: Record<Format, string> = {
@@ -321,12 +330,6 @@ export default function FileConverter() {
     setRowCount(null);
   };
 
-  const downloadOutput = () => {
-    if (!output) return;
-    downloadText(output, `converted.${FORMAT_EXTENSIONS[toFmt]}`);
-    toast.success(`Downloaded as .${FORMAT_EXTENSIONS[toFmt]}`);
-  };
-
   const swap = () => {
     setFromFmt(toFmt);
     setToFmt(fromFmt);
@@ -345,58 +348,60 @@ export default function FileConverter() {
       sub={tc("tools.file-converter.description")}
     >
       <div className="space-y-6">
-        {/* Format selectors */}
-        <Card>
-          <CardContent className="pt-5 pb-5">
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Label className="text-sm font-medium whitespace-nowrap">{t("from")}</Label>
-                <Select value={fromFmt} onValueChange={(v) => setFromFmt(v as Format)}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {formats.map((f) => (
-                      <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 rtl:rotate-180" />
-
-              <div className="flex items-center gap-2">
-                <Label className="text-sm font-medium whitespace-nowrap">{t("to")}</Label>
-                <Select value={toFmt} onValueChange={(v) => setToFmt(v as Format)}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {formats.map((f) => (
-                      <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex items-center gap-2 ms-auto flex-wrap">
-                <Button variant="outline" size="sm" onClick={handleAutoDetect}>
-                  {t("autoDetect")}
-                </Button>
-                <Button variant="outline" size="sm" onClick={loadSample}>
-                  {t("loadSample")}
-                </Button>
-                <Button variant="outline" size="sm" onClick={swap} disabled={!output}>
-                  <RefreshCw className="w-4 h-4 me-1.5" />
-                  {t("swap")}
-                </Button>
-                <Button onClick={convert} size="sm">
-                  {tCommon("convert")}
-                </Button>
-              </div>
+        {/* Format selectors — mixed select+button toolbar, not a stacked
+            settings form; kept bespoke inside the SettingsCard shell (same
+            "inline stage control row" reasoning as SpeechToText/TextSorter's
+            toggle rows — OptionRow's column layout would break this
+            horizontal arrangement for a cosmetic swap only). */}
+        <SettingsCard>
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm font-medium whitespace-nowrap">{t("from")}</Label>
+              <Select value={fromFmt} onValueChange={(v) => setFromFmt(v as Format)}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {formats.map((f) => (
+                    <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          </CardContent>
-        </Card>
+
+            <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 rtl:rotate-180" />
+
+            <div className="flex items-center gap-2">
+              <Label className="text-sm font-medium whitespace-nowrap">{t("to")}</Label>
+              <Select value={toFmt} onValueChange={(v) => setToFmt(v as Format)}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {formats.map((f) => (
+                    <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center gap-2 ms-auto flex-wrap">
+              <Button variant="outline" size="sm" onClick={handleAutoDetect}>
+                {t("autoDetect")}
+              </Button>
+              <Button variant="outline" size="sm" onClick={loadSample}>
+                {t("loadSample")}
+              </Button>
+              <Button variant="outline" size="sm" onClick={swap} disabled={!output}>
+                <RefreshCw className="w-4 h-4 me-1.5" />
+                {t("swap")}
+              </Button>
+              <Button onClick={convert} size="sm">
+                {tCommon("convert")}
+              </Button>
+            </div>
+          </div>
+        </SettingsCard>
 
         {/* Error */}
         {error && (
@@ -407,78 +412,68 @@ export default function FileConverter() {
         )}
 
         {/* Panels */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Input */}
-          <Card className="flex flex-col">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base flex items-center gap-2">
-                  {t("inputTitle")}
-                  <Badge variant="secondary">{FORMAT_LABELS[fromFmt]}</Badge>
-                </CardTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-xs text-muted-foreground"
-                  onClick={() => { setInput(""); setOutput(""); setError(null); setRowCount(null); }}
-                >
-                  {tCommon("clear")}
-                </Button>
-              </div>
-              <CardDescription className="text-xs">
-                {t("inputDesc", { format: FORMAT_LABELS[fromFmt] })}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 pb-4">
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={t("inputPlaceholder", { format: FORMAT_LABELS[fromFmt] })}
-                className="font-mono text-xs resize-none h-96"
-                spellCheck={false}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Output */}
-          <Card className="flex flex-col">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base flex items-center gap-2">
-                  {t("outputTitle")}
-                  <Badge variant="secondary">{FORMAT_LABELS[toFmt]}</Badge>
-                  {rowCount !== null && (
-                    <Badge variant="outline" className="text-xs">
-                      {rowCount !== 1 ? t("rowCountPlural", { count: rowCount }) : t("rowCount", { count: rowCount })}
-                    </Badge>
-                  )}
-                </CardTitle>
-                <div className="flex items-center gap-1">
-                  <CopyButton
-                    text={output}
-                    successMessage={t("copiedToClipboard")}
-                    disabled={!output}
-                  />
-                  <Button variant="ghost" size="sm" onClick={downloadOutput} disabled={!output}>
-                    <Download className="w-3.5 h-3.5 me-1" />
-                    {tCommon("download")}
+        <TwoPane
+          start={
+            <Card className="flex flex-col h-full">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    {t("inputTitle")}
+                    <Badge variant="secondary">{FORMAT_LABELS[fromFmt]}</Badge>
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-xs text-muted-foreground"
+                    onClick={() => { setInput(""); setOutput(""); setError(null); setRowCount(null); }}
+                  >
+                    {tCommon("clear")}
                   </Button>
                 </div>
+                <CardDescription className="text-xs">
+                  {t("inputDesc", { format: FORMAT_LABELS[fromFmt] })}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1 pb-4">
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={t("inputPlaceholder", { format: FORMAT_LABELS[fromFmt] })}
+                  className="font-mono text-xs resize-none h-96"
+                  spellCheck={false}
+                />
+              </CardContent>
+            </Card>
+          }
+          end={
+            <OutputPanel
+              text={output}
+              title={t("outputTitle")}
+              filename={`converted.${FORMAT_EXTENSIONS[toFmt]}`}
+              mime={FORMAT_MIME[toFmt]}
+              copySuccessMessage={t("copiedToClipboard")}
+              className="h-full flex flex-col"
+            >
+              <div className="flex items-center gap-2 px-3 pt-3 flex-wrap">
+                <Badge variant="secondary">{FORMAT_LABELS[toFmt]}</Badge>
+                {rowCount !== null && (
+                  <Badge variant="outline" className="text-xs">
+                    {rowCount !== 1 ? t("rowCountPlural", { count: rowCount }) : t("rowCount", { count: rowCount })}
+                  </Badge>
+                )}
+                <span className="text-xs text-muted-foreground">
+                  {t("outputDesc", { format: FORMAT_LABELS[toFmt] })}
+                </span>
               </div>
-              <CardDescription className="text-xs">
-                {t("outputDesc", { format: FORMAT_LABELS[toFmt] })}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 pb-4">
               <Textarea
                 value={output}
                 readOnly
                 placeholder={t("outputPlaceholder")}
-                className="font-mono text-xs resize-none h-96 bg-muted/30"
+                className="font-mono text-xs resize-none h-96 border-0 rounded-none bg-transparent focus-visible:ring-0"
               />
-            </CardContent>
-          </Card>
-        </div>
+            </OutputPanel>
+          }
+        />
 
         {/* Supported formats info */}
         <Card className="border-dashed">

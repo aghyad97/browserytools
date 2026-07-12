@@ -9,6 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Volume2, VolumeX, RotateCcw, RefreshCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 function generateParagraph(wordCount: number): string[] {
   const corpus =
@@ -304,11 +305,14 @@ export default function TypingTest() {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          <Stat label={t("wpm")} value={wpm} />
-          <Stat label={t("accuracy")} value={`${accuracy}%`} />
-          <Stat label={t("errors")} value={errorCount} />
-        </div>
+        {/* Results — computed WPM/accuracy/errors summary (R3 §F3 M5). */}
+        <StatStrip
+          items={[
+            { label: t("wpm"), value: wpm },
+            { label: t("accuracy"), value: `${accuracy}%` },
+            { label: t("errors"), value: errorCount },
+          ]}
+        />
 
         <div className="text-sm text-muted-foreground">
           {isRunning ? t("statusTyping") : endedAt ? t("statusCompleted") : t("statusIdle")} ·{" "}
@@ -317,14 +321,5 @@ export default function TypingTest() {
       </CardContent>
       </Card>
     </ToolShell>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: number | string }) {
-  return (
-    <div className="p-4 rounded-md border bg-card">
-      <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="text-2xl font-semibold">{value}</div>
-    </div>
   );
 }

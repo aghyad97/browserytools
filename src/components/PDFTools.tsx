@@ -37,7 +37,9 @@ import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -70,14 +72,6 @@ const PAGE_DIMENSIONS: Record<string, [number, number]> = {
   a4: [595.28, 841.89],
   letter: [612, 792],
 };
-
-function formatBytes(bytes: number) {
-  if (bytes === 0) return "0 Bytes";
-  const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-}
 
 function downloadPdfBytes(data: Uint8Array, filename: string) {
   downloadBlob(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
@@ -434,14 +428,13 @@ export default function PDFTools() {
 
               {images.length > 0 && (
                 <>
-                  <Card className="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t("pageSize")}</label>
+                  <SettingsCard>
+                    <OptionRow label={t("pageSize")} htmlFor="pdf-page-size">
                       <Select
                         value={pageSize}
                         onValueChange={(v) => setPageSize(v as PageSize)}
                       >
-                        <SelectTrigger aria-label={t("pageSize")}>
+                        <SelectTrigger id="pdf-page-size" aria-label={t("pageSize")}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -450,15 +443,14 @@ export default function PDFTools() {
                           <SelectItem value="fit">{t("sizeFit")}</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t("orientation")}</label>
+                    </OptionRow>
+                    <OptionRow label={t("orientation")} htmlFor="pdf-orientation">
                       <Select
                         value={orientation}
                         onValueChange={(v) => setOrientation(v as Orientation)}
                         disabled={pageSize === "fit"}
                       >
-                        <SelectTrigger aria-label={t("orientation")}>
+                        <SelectTrigger id="pdf-orientation" aria-label={t("orientation")}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -466,12 +458,10 @@ export default function PDFTools() {
                           <SelectItem value="landscape">{t("landscape")}</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">
-                        {t("marginLabel", { value: margin })}
-                      </label>
+                    </OptionRow>
+                    <OptionRow label={t("marginLabel", { value: margin })} htmlFor="pdf-margin">
                       <Input
+                        id="pdf-margin"
                         type="number"
                         min={0}
                         max={144}
@@ -479,10 +469,9 @@ export default function PDFTools() {
                         onChange={(e) =>
                           setMargin(Math.max(0, Number(e.target.value) || 0))
                         }
-                        aria-label={t("margin")}
                       />
-                    </div>
-                  </Card>
+                    </OptionRow>
+                  </SettingsCard>
 
                   <Card className="p-4 space-y-2">
                     {images.map((img, index) => (
@@ -683,14 +672,13 @@ export default function PDFTools() {
               </Card>
 
               {files.length > 0 && splitFile && (
-                <Card className="p-6 space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">{t("selectedFile")}</label>
+                <SettingsCard>
+                  <OptionRow label={t("selectedFile")} htmlFor="pdf-split-file">
                     <Select
                       value={String(splitFileIndex)}
                       onValueChange={(v) => setSplitFileIndex(Number(v))}
                     >
-                      <SelectTrigger aria-label={t("selectedFile")}>
+                      <SelectTrigger id="pdf-split-file" aria-label={t("selectedFile")}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -701,15 +689,14 @@ export default function PDFTools() {
                         ))}
                       </SelectContent>
                     </Select>
-                  </div>
+                  </OptionRow>
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">{t("splitModeLabel")}</label>
+                  <OptionRow label={t("splitModeLabel")} htmlFor="pdf-split-mode">
                     <Select
                       value={splitMode}
                       onValueChange={(v) => setSplitMode(v as "range" | "all")}
                     >
-                      <SelectTrigger aria-label={t("splitModeLabel")}>
+                      <SelectTrigger id="pdf-split-mode" aria-label={t("splitModeLabel")}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -717,20 +704,19 @@ export default function PDFTools() {
                         <SelectItem value="all">{t("modeAll")}</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
+                  </OptionRow>
 
                   {splitMode === "range" && (
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t("pageRanges")}</label>
+                    <OptionRow label={t("pageRanges")} htmlFor="pdf-page-ranges">
                       <Input
+                        id="pdf-page-ranges"
                         dir="ltr"
                         placeholder={t("pageRangesPlaceholder")}
                         value={pageRanges}
                         onChange={(e) => setPageRanges(e.target.value)}
-                        aria-label={t("pageRanges")}
                       />
                       <p className="text-sm text-muted-foreground">{t("pageRangesHelp")}</p>
-                    </div>
+                    </OptionRow>
                   )}
 
                   <Button
@@ -741,7 +727,7 @@ export default function PDFTools() {
                     <SplitSquareHorizontal className="w-4 h-4 me-2" />
                     {loading ? t("splitting") : t("splitAction")}
                   </Button>
-                </Card>
+                </SettingsCard>
               )}
             </TabsContent>
           </Tabs>

@@ -1,16 +1,8 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -24,6 +16,8 @@ import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { TwoPane } from "@/components/shared/TwoPane";
 
 interface TimeZoneInfo {
   timezone: string;
@@ -210,45 +204,44 @@ export default function TimeZoneConverter() {
       title={tc("tools.timezone-converter.name")}
       sub={tc("tools.timezone-converter.description")}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Time Converter */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Clock className="h-5 w-5" />
-              {t("timeConverterTitle")}
-            </CardTitle>
-            <CardDescription>
-              {t("timeConverterDesc")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="datetime">{t("dateTimeLabel")}</Label>
-              <div className="flex gap-2">
-                <Input
-                  id="datetime"
-                  type="datetime-local"
-                  value={inputDateTime}
-                  onChange={(e) => setInputDateTime(e.target.value)}
-                  className="flex-1"
-                  dir="ltr"
-                />
-                <Button
-                  onClick={setCurrentDateTime}
-                  variant="outline"
-                  size="sm"
-                >
-                  {t("nowButton")}
-                </Button>
-              </div>
-            </div>
+      <div className="space-y-6">
+        {/* Time Converter (form + its own result) | World Clock (unrelated live
+            reference list) — a plain grid-cols-2 pane pair, same pattern TwoPane
+            replaces elsewhere (container-query stacking > viewport media query). */}
+        <TwoPane
+          start={
+            <SettingsCard
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <Clock className="w-4 h-4" />
+                  {t("timeConverterTitle")}
+                </span>
+              }
+              description={t("timeConverterDesc")}
+            >
+              <OptionRow label={t("dateTimeLabel")} htmlFor="datetime">
+                <div className="flex gap-2">
+                  <Input
+                    id="datetime"
+                    type="datetime-local"
+                    value={inputDateTime}
+                    onChange={(e) => setInputDateTime(e.target.value)}
+                    className="flex-1"
+                    dir="ltr"
+                  />
+                  <Button
+                    onClick={setCurrentDateTime}
+                    variant="outline"
+                    size="sm"
+                  >
+                    {t("nowButton")}
+                  </Button>
+                </div>
+              </OptionRow>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>{t("fromTimezone")}</Label>
+              <OptionRow label={t("fromTimezone")} htmlFor="from-timezone">
                 <Select value={fromTimeZone} onValueChange={setFromTimeZone}>
-                  <SelectTrigger>
+                  <SelectTrigger id="from-timezone">
                     <SelectValue placeholder={t("selectTimezone")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -259,12 +252,11 @@ export default function TimeZoneConverter() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <Label>{t("toTimezone")}</Label>
+              <OptionRow label={t("toTimezone")} htmlFor="to-timezone">
                 <Select value={toTimeZone} onValueChange={setToTimeZone}>
-                  <SelectTrigger>
+                  <SelectTrigger id="to-timezone">
                     <SelectValue placeholder={t("selectTimezone")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -275,100 +267,101 @@ export default function TimeZoneConverter() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-            </div>
+              </OptionRow>
 
-            <Button onClick={convertTime} className="w-full">
-              {t("convertButton")}
-            </Button>
+              <Button onClick={convertTime} className="w-full">
+                {t("convertButton")}
+              </Button>
 
-            {convertedTimes.length > 0 && (
-              <div className="space-y-3">
-                <h3 className="font-semibold">{t("conversionResult")}</h3>
-                {convertedTimes.map((time, index) => (
-                  <div key={index} className="p-3 border rounded-lg">
-                    <div className="flex items-center justify-between mb-2">
-                      <Badge variant="outline">{time.timezone}</Badge>
-                      <div className="flex gap-1">
-                        <Badge variant="secondary">{time.offset}</Badge>
-                        <Badge variant="secondary">{time.abbreviation}</Badge>
-                      </div>
-                    </div>
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="font-mono text-lg">{time.time}</div>
-                        <div className="text-sm text-muted-foreground">
-                          {time.date}
+              {/* Conversion result — a fixed 2-item (from/to) list, each with its
+                  own copy payload, kept bespoke rather than forced into
+                  StatStrip (no per-item action slot there). */}
+              {convertedTimes.length > 0 && (
+                <div className="space-y-3">
+                  <h3 className="font-semibold text-sm">{t("conversionResult")}</h3>
+                  {convertedTimes.map((time, index) => (
+                    <div key={index} className="p-3 border rounded-lg">
+                      <div className="flex items-center justify-between mb-2">
+                        <Badge variant="outline">{time.timezone}</Badge>
+                        <div className="flex gap-1">
+                          <Badge variant="secondary">{time.offset}</Badge>
+                          <Badge variant="secondary">{time.abbreviation}</Badge>
                         </div>
                       </div>
-                      <CopyButton
-                        text={`${time.date} ${time.time} (${time.timezone})`}
-                        size="icon"
-                        successMessage={t("copiedToClipboard")}
-                      />
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <div className="font-mono text-lg">{time.time}</div>
+                          <div className="text-sm text-muted-foreground">
+                            {time.date}
+                          </div>
+                        </div>
+                        <CopyButton
+                          text={`${time.date} ${time.time} (${time.timezone})`}
+                          size="icon"
+                          successMessage={t("copiedToClipboard")}
+                        />
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </SettingsCard>
+          }
+          end={
+            <SettingsCard
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <Globe className="w-4 h-4" />
+                  {t("worldClockTitle")}
+                </span>
+              }
+              description={t("worldClockDesc")}
+            >
+              {/* Variable-length live data list, not a fixed stat set — stays bespoke. */}
+              <div className="space-y-2 max-h-96 overflow-y-auto">
+                {currentTime.map((time, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between p-2 border rounded"
+                  >
+                    <div className="flex-1">
+                      <div className="font-medium text-sm">
+                        {timezones
+                          .find((tz) => tz.value === time.timezone)
+                          ?.label.split(" (")[0] || time.timezone}
+                      </div>
+                      <div className="text-xs text-muted-foreground">
+                        {time.timezone}
+                      </div>
+                    </div>
+                    <div className="text-end">
+                      <div className="font-mono text-sm">{time.time}</div>
+                      <div className="text-xs text-muted-foreground">
+                        {time.date}
+                      </div>
+                    </div>
+                    <div className="ms-2">
+                      <Badge variant="outline" className="text-xs">
+                        {time.offset}
+                      </Badge>
                     </div>
                   </div>
                 ))}
               </div>
-            )}
-          </CardContent>
-        </Card>
+            </SettingsCard>
+          }
+        />
 
-        {/* World Clock */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Globe className="h-5 w-5" />
-              {t("worldClockTitle")}
-            </CardTitle>
-            <CardDescription>
-              {t("worldClockDesc")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-2 max-h-96 overflow-y-auto">
-              {currentTime.map((time, index) => (
-                <div
-                  key={index}
-                  className="flex items-center justify-between p-2 border rounded"
-                >
-                  <div className="flex-1">
-                    <div className="font-medium text-sm">
-                      {timezones
-                        .find((tz) => tz.value === time.timezone)
-                        ?.label.split(" (")[0] || time.timezone}
-                    </div>
-                    <div className="text-xs text-muted-foreground">
-                      {time.timezone}
-                    </div>
-                  </div>
-                  <div className="text-end">
-                    <div className="font-mono text-sm">{time.time}</div>
-                    <div className="text-xs text-muted-foreground">
-                      {time.date}
-                    </div>
-                  </div>
-                  <div className="ms-2">
-                    <Badge variant="outline" className="text-xs">
-                      {time.offset}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
-      </div>
-
-      {/* Quick Reference */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Calendar className="h-5 w-5" />
-            {t("quickRefTitle")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+        {/* Quick Reference — static reference content, bespoke; SettingsCard
+            swap is padding normalization only. */}
+        <SettingsCard
+          title={
+            <span className="inline-flex items-center gap-2">
+              <Calendar className="w-4 h-4" />
+              {t("quickRefTitle")}
+            </span>
+          }
+        >
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
             <div>
               <h4 className="font-semibold mb-2">{t("americas")}</h4>
@@ -407,8 +400,8 @@ export default function TimeZoneConverter() {
               </ul>
             </div>
           </div>
-        </CardContent>
-      </Card>
+        </SettingsCard>
+      </div>
     </ToolShell>
   );
 }

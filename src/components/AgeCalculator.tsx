@@ -1,16 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import {
@@ -24,7 +16,9 @@ import { format } from "date-fns";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 interface AgeResult {
   years: number;
@@ -263,303 +257,267 @@ export default function AgeCalculator() {
         </TabsList>
 
         <TabsContent value="single" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <CalendarIcon className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <CalendarIcon className="h-4 w-4" />
                 {t("calculateAgeTitle")}
-              </CardTitle>
-              <CardDescription>
-                {t("calculateAgeDesc")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label>{t("birthDateLabel")}</Label>
-                <div className="flex gap-2">
-                  <Popover open={birthDateOpen} onOpenChange={setBirthDateOpen}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="flex-1 justify-start text-start font-normal"
-                      >
-                        <CalendarIcon className="me-2 h-4 w-4" />
-                        {birthDate
-                          ? format(birthDate, "PPP")
-                          : t("selectBirthDate")}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-auto overflow-hidden p-0"
-                      align="start"
+              </span>
+            }
+            description={t("calculateAgeDesc")}
+          >
+            <OptionRow label={t("birthDateLabel")}>
+              <div className="flex gap-2">
+                <Popover open={birthDateOpen} onOpenChange={setBirthDateOpen}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="flex-1 justify-start text-start font-normal"
                     >
-                      <Calendar
-                        mode="single"
-                        captionLayout="dropdown"
-                        defaultMonth={birthDate}
-                        startMonth={fromDate}
-                        endMonth={today}
-                        selected={birthDate}
-                        onSelect={(date) => {
-                          setBirthDate(date);
-                          setBirthDateOpen(false);
-                        }}
-                        disabled={(date) => date > today || date < fromDate}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
-                  <Button onClick={setCurrentDate} variant="outline" size="sm">
-                    {t("exampleButton")}
-                  </Button>
+                      <CalendarIcon className="me-2 h-4 w-4" />
+                      {birthDate
+                        ? format(birthDate, "PPP")
+                        : t("selectBirthDate")}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-auto overflow-hidden p-0"
+                    align="start"
+                  >
+                    <Calendar
+                      mode="single"
+                      captionLayout="dropdown"
+                      defaultMonth={birthDate}
+                      startMonth={fromDate}
+                      endMonth={today}
+                      selected={birthDate}
+                      onSelect={(date) => {
+                        setBirthDate(date);
+                        setBirthDateOpen(false);
+                      }}
+                      disabled={(date) => date > today || date < fromDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+                <Button onClick={setCurrentDate} variant="outline" size="sm">
+                  {t("exampleButton")}
+                </Button>
+              </div>
+            </OptionRow>
+
+            <Button onClick={handleCalculateAge} className="w-full">
+              {t("calculateAgeButton")}
+            </Button>
+          </SettingsCard>
+
+          {ageResult && (
+            <SettingsCard>
+              <StatStrip
+                items={[
+                  { label: t("years"), value: ageResult.years },
+                  { label: t("months"), value: ageResult.months },
+                  { label: t("days"), value: ageResult.days },
+                ]}
+              />
+
+              <StatStrip
+                items={[
+                  {
+                    label: t("totalDays"),
+                    value: ageResult.totalDays.toLocaleString(),
+                  },
+                  {
+                    label: t("totalHours"),
+                    value: ageResult.totalHours.toLocaleString(),
+                  },
+                  {
+                    label: t("totalMinutes"),
+                    value: ageResult.totalMinutes.toLocaleString(),
+                  },
+                  {
+                    label: t("totalSeconds"),
+                    value: ageResult.totalSeconds.toLocaleString(),
+                  },
+                ]}
+              />
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 border rounded">
+                  <span className="font-medium">{t("nextBirthday")}</span>
+                  <span dir="ltr">{ageResult.nextBirthday}</span>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded">
+                  <span className="font-medium">{t("daysUntilBirthday")}</span>
+                  <Badge variant="secondary">
+                    {ageResult.daysUntilBirthday} {t("daysLabel")}
+                  </Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded">
+                  <span className="font-medium">{t("zodiacSign")}</span>
+                  <Badge variant="outline">{ageResult.zodiacSign}</Badge>
+                </div>
+                <div className="flex items-center justify-between p-3 border rounded">
+                  <span className="font-medium">{t("bornOn")}</span>
+                  <span>{ageResult.dayOfWeek}</span>
                 </div>
               </div>
 
-              <Button onClick={handleCalculateAge} className="w-full">
-                {t("calculateAgeButton")}
-              </Button>
-
-              {ageResult && (
-                <div className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="text-center p-4 border rounded-lg">
-                      <div className="text-3xl font-bold text-primary">
-                        {ageResult.years}
-                      </div>
-                      <div className="text-sm text-muted-foreground">{t("years")}</div>
-                    </div>
-                    <div className="text-center p-4 border rounded-lg">
-                      <div className="text-3xl font-bold text-primary">
-                        {ageResult.months}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {t("months")}
-                      </div>
-                    </div>
-                    <div className="text-center p-4 border rounded-lg">
-                      <div className="text-3xl font-bold text-primary">
-                        {ageResult.days}
-                      </div>
-                      <div className="text-sm text-muted-foreground">{t("days")}</div>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    <div className="text-center p-3 border rounded">
-                      <div className="font-semibold">
-                        {ageResult.totalDays.toLocaleString()}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {t("totalDays")}
-                      </div>
-                    </div>
-                    <div className="text-center p-3 border rounded">
-                      <div className="font-semibold">
-                        {ageResult.totalHours.toLocaleString()}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {t("totalHours")}
-                      </div>
-                    </div>
-                    <div className="text-center p-3 border rounded">
-                      <div className="font-semibold">
-                        {ageResult.totalMinutes.toLocaleString()}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {t("totalMinutes")}
-                      </div>
-                    </div>
-                    <div className="text-center p-3 border rounded">
-                      <div className="font-semibold">
-                        {ageResult.totalSeconds.toLocaleString()}
-                      </div>
-                      <div className="text-xs text-muted-foreground">
-                        {t("totalSeconds")}
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">{t("nextBirthday")}</span>
-                      <span dir="ltr">{ageResult.nextBirthday}</span>
-                    </div>
-                    <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">{t("daysUntilBirthday")}</span>
-                      <Badge variant="secondary">
-                        {ageResult.daysUntilBirthday} {t("daysLabel")}
-                      </Badge>
-                    </div>
-                    <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">{t("zodiacSign")}</span>
-                      <Badge variant="outline">{ageResult.zodiacSign}</Badge>
-                    </div>
-                    <div className="flex items-center justify-between p-3 border rounded">
-                      <span className="font-medium">{t("bornOn")}</span>
-                      <span>{ageResult.dayOfWeek}</span>
-                    </div>
-                  </div>
-
-                  <CopyButton
-                    text={`Age: ${ageResult.years} years, ${ageResult.months} months, ${ageResult.days} days (${ageResult.totalDays} total days)`}
-                    label={t("copyAgeInfo")}
-                    successMessage={t("copiedToClipboard")}
-                  />
-                </div>
-              )}
-            </CardContent>
-          </Card>
+              <OutputPanel
+                text={`Age: ${ageResult.years} years, ${ageResult.months} months, ${ageResult.days} days (${ageResult.totalDays} total days)`}
+                copyLabel={t("copyAgeInfo")}
+                copySuccessMessage={t("copiedToClipboard")}
+              />
+            </SettingsCard>
+          )}
         </TabsContent>
 
         <TabsContent value="difference" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Users className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <Users className="h-4 w-4" />
                 {t("ageDiffTitle")}
-              </CardTitle>
-              <CardDescription>{t("ageDiffDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="person1-name">{t("person1Name")}</Label>
-                  <Input
-                    id="person1-name"
-                    value={person1Name}
-                    onChange={(e) => setPerson1Name(e.target.value)}
-                    placeholder={t("enterName")}
-                  />
+              </span>
+            }
+            description={t("ageDiffDesc")}
+          >
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <OptionRow label={t("person1Name")} htmlFor="person1-name">
+                <Input
+                  id="person1-name"
+                  value={person1Name}
+                  onChange={(e) => setPerson1Name(e.target.value)}
+                  placeholder={t("enterName")}
+                />
+              </OptionRow>
+              <OptionRow label={t("person2Name")} htmlFor="person2-name">
+                <Input
+                  id="person2-name"
+                  value={person2Name}
+                  onChange={(e) => setPerson2Name(e.target.value)}
+                  placeholder={t("enterName")}
+                />
+              </OptionRow>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <OptionRow label={t("person1BirthDate")}>
+                <Popover open={person1Open} onOpenChange={setPerson1Open}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-start font-normal"
+                    >
+                      <CalendarIcon className="me-2 h-4 w-4" />
+                      {person1BirthDate
+                        ? format(person1BirthDate, "PPP")
+                        : t("selectBirthDate")}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-auto overflow-hidden p-0"
+                    align="start"
+                  >
+                    <Calendar
+                      mode="single"
+                      captionLayout="dropdown"
+                      defaultMonth={person1BirthDate}
+                      startMonth={fromDate}
+                      endMonth={today}
+                      selected={person1BirthDate}
+                      onSelect={(date) => {
+                        setPerson1BirthDate(date);
+                        setPerson1Open(false);
+                      }}
+                      disabled={(date) => date > today || date < fromDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </OptionRow>
+              <OptionRow label={t("person2BirthDate")}>
+                <Popover open={person2Open} onOpenChange={setPerson2Open}>
+                  <PopoverTrigger asChild>
+                    <Button
+                      variant="outline"
+                      className="w-full justify-start text-start font-normal"
+                    >
+                      <CalendarIcon className="me-2 h-4 w-4" />
+                      {person2BirthDate
+                        ? format(person2BirthDate, "PPP")
+                        : t("selectBirthDate")}
+                    </Button>
+                  </PopoverTrigger>
+                  <PopoverContent
+                    className="w-auto overflow-hidden p-0"
+                    align="start"
+                  >
+                    <Calendar
+                      mode="single"
+                      captionLayout="dropdown"
+                      defaultMonth={person2BirthDate}
+                      startMonth={fromDate}
+                      endMonth={today}
+                      selected={person2BirthDate}
+                      onSelect={(date) => {
+                        setPerson2BirthDate(date);
+                        setPerson2Open(false);
+                      }}
+                      disabled={(date) => date > today || date < fromDate}
+                      initialFocus
+                    />
+                  </PopoverContent>
+                </Popover>
+              </OptionRow>
+            </div>
+
+            <Button onClick={handleCalculateDifference} className="w-full">
+              {t("calculateDiffButton")}
+            </Button>
+          </SettingsCard>
+
+          {ageDifference && (
+            <SettingsCard>
+              <div className="text-center" dir="ltr">
+                <div className="text-sm font-medium text-muted-foreground mb-2">
+                  {t("ageDifferenceLabel")}
                 </div>
-                <div className="space-y-2">
-                  <Label htmlFor="person2-name">{t("person2Name")}</Label>
-                  <Input
-                    id="person2-name"
-                    value={person2Name}
-                    onChange={(e) => setPerson2Name(e.target.value)}
-                    placeholder={t("enterName")}
-                  />
+                <div className="text-2xl font-bold text-primary">
+                  {ageDifference.years} {t("years")}, {ageDifference.months}{" "}
+                  {t("months")}, {ageDifference.days} {t("days")}
+                </div>
+                <div className="text-sm text-muted-foreground mt-2">
+                  {ageDifference.totalDays.toLocaleString()} {t("totalDaysLabel")}
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label>{t("person1BirthDate")}</Label>
-                  <Popover open={person1Open} onOpenChange={setPerson1Open}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-start font-normal"
-                      >
-                        <CalendarIcon className="me-2 h-4 w-4" />
-                        {person1BirthDate
-                          ? format(person1BirthDate, "PPP")
-                          : t("selectBirthDate")}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-auto overflow-hidden p-0"
-                      align="start"
-                    >
-                      <Calendar
-                        mode="single"
-                        captionLayout="dropdown"
-                        defaultMonth={person1BirthDate}
-                        startMonth={fromDate}
-                        endMonth={today}
-                        selected={person1BirthDate}
-                        onSelect={(date) => {
-                          setPerson1BirthDate(date);
-                          setPerson1Open(false);
-                        }}
-                        disabled={(date) => date > today || date < fromDate}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                <div className="p-3 border rounded text-center">
+                  {/* content value: older/younger comparison colors carry meaning, no bt token */}
+                  <div className="font-semibold text-green-600">
+                    {ageDifference.olderPerson}
+                  </div>
+                  <div className="text-sm text-muted-foreground">{t("older")}</div>
                 </div>
-                <div className="space-y-2">
-                  <Label>{t("person2BirthDate")}</Label>
-                  <Popover open={person2Open} onOpenChange={setPerson2Open}>
-                    <PopoverTrigger asChild>
-                      <Button
-                        variant="outline"
-                        className="w-full justify-start text-start font-normal"
-                      >
-                        <CalendarIcon className="me-2 h-4 w-4" />
-                        {person2BirthDate
-                          ? format(person2BirthDate, "PPP")
-                          : t("selectBirthDate")}
-                      </Button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                      className="w-auto overflow-hidden p-0"
-                      align="start"
-                    >
-                      <Calendar
-                        mode="single"
-                        captionLayout="dropdown"
-                        defaultMonth={person2BirthDate}
-                        startMonth={fromDate}
-                        endMonth={today}
-                        selected={person2BirthDate}
-                        onSelect={(date) => {
-                          setPerson2BirthDate(date);
-                          setPerson2Open(false);
-                        }}
-                        disabled={(date) => date > today || date < fromDate}
-                        initialFocus
-                      />
-                    </PopoverContent>
-                  </Popover>
+                <div className="p-3 border rounded text-center">
+                  {/* content value: older/younger comparison colors carry meaning, no bt token */}
+                  <div className="font-semibold text-blue-600">
+                    {ageDifference.youngerPerson}
+                  </div>
+                  <div className="text-sm text-muted-foreground">
+                    {t("younger")}
+                  </div>
                 </div>
               </div>
 
-              <Button onClick={handleCalculateDifference} className="w-full">
-                {t("calculateDiffButton")}
-              </Button>
-
-              {ageDifference && (
-                <div className="space-y-4">
-                  <div className="text-center p-4 border rounded-lg bg-muted">
-                    <div className="text-lg font-semibold mb-2">
-                      {t("ageDifferenceLabel")}
-                    </div>
-                    <div className="text-2xl font-bold text-primary" dir="ltr">
-                      {ageDifference.years} {t("years")}, {ageDifference.months}{" "}
-                      {t("months")}, {ageDifference.days} {t("days")}
-                    </div>
-                    <div className="text-sm text-muted-foreground mt-2" dir="ltr">
-                      {ageDifference.totalDays.toLocaleString()} {t("totalDaysLabel")}
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-3 border rounded text-center">
-                      <div className="font-semibold text-green-600">
-                        {ageDifference.olderPerson}
-                      </div>
-                      <div className="text-sm text-muted-foreground">{t("older")}</div>
-                    </div>
-                    <div className="p-3 border rounded text-center">
-                      <div className="font-semibold text-blue-600">
-                        {ageDifference.youngerPerson}
-                      </div>
-                      <div className="text-sm text-muted-foreground">
-                        {t("younger")}
-                      </div>
-                    </div>
-                  </div>
-
-                  <CopyButton
-                    text={`Age difference between ${ageDifference.olderPerson} and ${ageDifference.youngerPerson}: ${ageDifference.years} years, ${ageDifference.months} months, ${ageDifference.days} days`}
-                    label={t("copyAgeDiff")}
-                    successMessage={t("copiedToClipboard")}
-                  />
-                </div>
-              )}
-            </CardContent>
-          </Card>
+              <OutputPanel
+                text={`Age difference between ${ageDifference.olderPerson} and ${ageDifference.youngerPerson}: ${ageDifference.years} years, ${ageDifference.months} months, ${ageDifference.days} days`}
+                copyLabel={t("copyAgeDiff")}
+                copySuccessMessage={t("copiedToClipboard")}
+              />
+            </SettingsCard>
+          )}
         </TabsContent>
       </Tabs>
     </ToolShell>

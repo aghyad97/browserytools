@@ -2,13 +2,12 @@
 
 import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 function gcd(a: number, b: number): number {
   return b === 0 ? a : gcd(b, a % b);
@@ -69,120 +68,97 @@ export default function AspectRatioCalculator() {
       title={tc("tools.aspect-ratio.name")}
       sub={tc("tools.aspect-ratio.description")}
     >
-      <div className="space-y-6">
-        <Tabs defaultValue="dimensions">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="dimensions">{t("dimensionsToRatio")}</TabsTrigger>
-            <TabsTrigger value="scale">{t("ratioToScale")}</TabsTrigger>
-          </TabsList>
+      {/* Tabs kept bespoke: the two panels are structurally different (dimensions
+          → ratio vs. ratio+known-dimension → scaled dimension), not a trivial
+          mode switch over identical panel shape, so this doesn't qualify for
+          the ModePicker swap. */}
+      <Tabs defaultValue="dimensions">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="dimensions">{t("dimensionsToRatio")}</TabsTrigger>
+          <TabsTrigger value="scale">{t("ratioToScale")}</TabsTrigger>
+        </TabsList>
 
-          <TabsContent value="dimensions" className="space-y-4">
-            <Card>
-              <CardHeader><CardTitle className="text-sm">{t("enterDimensions")}</CardTitle></CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-1.5">
-                    <Label>{t("width")}</Label>
-                    <Input type="number" value={dimW} onChange={(e) => setDimW(e.target.value)} placeholder="1920" dir="ltr" />
-                  </div>
-                  <div className="space-y-1.5">
-                    <Label>{t("height")}</Label>
-                    <Input type="number" value={dimH} onChange={(e) => setDimH(e.target.value)} placeholder="1080" dir="ltr" />
-                  </div>
-                </div>
+        <TabsContent value="dimensions" className="space-y-4 mt-4">
+          <SettingsCard title={t("enterDimensions")}>
+            <OptionRow label={t("width")} htmlFor="dim-w">
+              <Input id="dim-w" type="number" value={dimW} onChange={(e) => setDimW(e.target.value)} placeholder="1920" dir="ltr" />
+            </OptionRow>
+            <OptionRow label={t("height")} htmlFor="dim-h">
+              <Input id="dim-h" type="number" value={dimH} onChange={(e) => setDimH(e.target.value)} placeholder="1080" dir="ltr" />
+            </OptionRow>
 
-                {dimResult && (
-                  <div className="flex gap-3 flex-wrap pt-2 border-t" dir="ltr">
-                    <div className="text-center p-3 rounded-lg bg-primary/10 flex-1">
-                      <div className="text-xs text-muted-foreground mb-1">{t("simplifiedRatio")}</div>
-                      <div className="text-2xl font-bold text-primary">{dimResult.ratio}</div>
-                    </div>
-                    <div className="text-center p-3 rounded-lg bg-muted flex-1">
-                      <div className="text-xs text-muted-foreground mb-1">{t("decimal")}</div>
-                      <div className="text-2xl font-bold">{dimResult.decimal}</div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            {dimResult && (
+              <StatStrip
+                items={[
+                  { label: t("simplifiedRatio"), value: dimResult.ratio },
+                  { label: t("decimal"), value: dimResult.decimal },
+                ]}
+              />
+            )}
+          </SettingsCard>
 
-            {/* Common ratios reference */}
-            <Card>
-              <CardHeader><CardTitle className="text-sm">{t("commonRatios")}</CardTitle></CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-2 gap-2">
-                  {COMMON_RATIOS.map((r) => (
-                    <button
-                      key={r.label}
-                      onClick={() => { setDimW(String(r.w * 100)); setDimH(String(r.h * 100)); }}
-                      className="text-start p-2.5 rounded-lg border hover:border-primary hover:bg-primary/5 transition-colors text-sm"
-                    >
-                      <span className="font-semibold">{r.w}:{r.h}</span>
-                      <span className="text-muted-foreground ms-2 text-xs">{r.label.split(" ")[1]}</span>
-                    </button>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
+          {/* Preset grid: fire-once buttons that set values, not a persisted
+              single-select mode — doesn't fit ModePicker's controlled-value
+              API, so it stays a bespoke button grid inside the molecule card. */}
+          <SettingsCard title={t("commonRatios")}>
+            <div className="grid grid-cols-2 gap-2">
+              {COMMON_RATIOS.map((r) => (
+                <button
+                  key={r.label}
+                  onClick={() => { setDimW(String(r.w * 100)); setDimH(String(r.h * 100)); }}
+                  className="text-start p-2.5 rounded-lg border hover:border-primary hover:bg-primary/5 transition-colors text-sm"
+                >
+                  <span className="font-semibold">{r.w}:{r.h}</span>
+                  <span className="text-muted-foreground ms-2 text-xs">{r.label.split(" ")[1]}</span>
+                </button>
+              ))}
+            </div>
+          </SettingsCard>
+        </TabsContent>
 
-          <TabsContent value="scale" className="space-y-4">
-            <Card>
-              <CardHeader><CardTitle className="text-sm">{t("scaleToNewDimension")}</CardTitle></CardHeader>
-              <CardContent className="space-y-4">
-                <div className="grid grid-cols-3 gap-4 items-end">
-                  <div className="space-y-1.5">
-                    <Label>{t("ratioWidth")}</Label>
-                    <Input type="number" value={ratioW} onChange={(e) => setRatioW(e.target.value)} placeholder="16" dir="ltr" />
-                  </div>
-                  <div className="flex items-end pb-2 justify-center text-muted-foreground font-bold">:</div>
-                  <div className="space-y-1.5">
-                    <Label>{t("ratioHeight")}</Label>
-                    <Input type="number" value={ratioH} onChange={(e) => setRatioH(e.target.value)} placeholder="9" dir="ltr" />
-                  </div>
-                </div>
+        <TabsContent value="scale" className="space-y-4 mt-4">
+          <SettingsCard title={t("scaleToNewDimension")}>
+            <OptionRow label={t("ratioWidth")} htmlFor="ratio-w">
+              <Input id="ratio-w" type="number" value={ratioW} onChange={(e) => setRatioW(e.target.value)} placeholder="16" dir="ltr" />
+            </OptionRow>
+            <OptionRow label={t("ratioHeight")} htmlFor="ratio-h">
+              <Input id="ratio-h" type="number" value={ratioH} onChange={(e) => setRatioH(e.target.value)} placeholder="9" dir="ltr" />
+            </OptionRow>
 
-                <div className="flex gap-2">
-                  <Button
-                    size="sm"
-                    variant={solveFor === "h" ? "default" : "outline"}
-                    onClick={() => setSolveFor("h")}
-                  >
-                    {t("knownWidthFindHeight")}
-                  </Button>
-                  <Button
-                    size="sm"
-                    variant={solveFor === "w" ? "default" : "outline"}
-                    onClick={() => setSolveFor("w")}
-                  >
-                    {t("knownHeightFindWidth")}
-                  </Button>
-                </div>
+            <ModePicker
+              aria-label={t("scaleToNewDimension")}
+              value={solveFor}
+              onChange={setSolveFor}
+              options={[
+                { value: "h", label: t("knownWidthFindHeight") },
+                { value: "w", label: t("knownHeightFindWidth") },
+              ]}
+            />
 
-                <div className="space-y-1.5">
-                  <Label>{solveFor === "h" ? t("width") : t("height")} (px)</Label>
-                  <Input
-                    type="number"
-                    value={knownDim}
-                    onChange={(e) => setKnownDim(e.target.value)}
-                    placeholder="1280"
-                    dir="ltr"
-                  />
-                </div>
+            <OptionRow label={`${solveFor === "h" ? t("width") : t("height")} (px)`} htmlFor="known-dim">
+              <Input
+                id="known-dim"
+                type="number"
+                value={knownDim}
+                onChange={(e) => setKnownDim(e.target.value)}
+                placeholder="1280"
+                dir="ltr"
+              />
+            </OptionRow>
 
-                {scaleResult && (
-                  <div className="pt-2 border-t">
-                    <div className="text-center p-4 rounded-lg bg-primary/10">
-                      <div className="text-xs text-muted-foreground mb-1">{scaleResult.label === "Height" ? t("height") : t("width")}</div>
-                      <div className="text-3xl font-bold text-primary" dir="ltr">{scaleResult.value} px</div>
-                    </div>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
-          </TabsContent>
-        </Tabs>
-      </div>
+            {scaleResult && (
+              <StatStrip
+                items={[
+                  {
+                    label: scaleResult.label === "Height" ? t("height") : t("width"),
+                    value: <span dir="ltr">{scaleResult.value} px</span>,
+                  },
+                ]}
+              />
+            )}
+          </SettingsCard>
+        </TabsContent>
+      </Tabs>
     </ToolShell>
   );
 }
