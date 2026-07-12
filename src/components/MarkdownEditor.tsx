@@ -1,19 +1,13 @@
 "use client";
 
 import { useState, useCallback, useRef } from "react";
-import ReactMarkdown from "react-markdown";
+import ReactMarkdown, { type Components } from "react-markdown";
 import remarkGfm from "remark-gfm";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { ModePicker } from "@/components/shared/ModePicker";
+import { TwoPane } from "@/components/shared/TwoPane";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Separator } from "@/components/ui/separator";
 import {
   Bold,
   Italic,
@@ -27,7 +21,6 @@ import {
   Copy,
   Download,
   RotateCcw,
-  FileText,
   AlignLeft,
   CodeSquare,
 } from "lucide-react";
@@ -110,8 +103,17 @@ function countWords(text: string): number {
   return text.trim() === "" ? 0 : text.trim().split(/\s+/).length;
 }
 
+// The preview renders user markdown; a leading `# ` would otherwise emit a real
+// <h1>, colliding with the ToolShell page <h1> (breaks the exactly-one-h1 smoke
+// gate). Render markdown top-level headings as a visually-identical <div> so the
+// shell owns the page's only <h1>. Styling lives in `.md-preview .md-h1`.
+const PREVIEW_COMPONENTS: Components = {
+  h1: ({ node: _node, ...props }) => <div className="md-h1" {...props} />,
+};
+
 export default function MarkdownEditor() {
   const t = useTranslations("Tools.MarkdownEditor");
+  const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
   const [markdown, setMarkdown] = useState(SAMPLE_MARKDOWN);
   const [viewMode, setViewMode] = useState<ViewMode>("split");
@@ -221,50 +223,70 @@ export default function MarkdownEditor() {
       id="md-preview-content"
       className="md-preview prose prose-sm dark:prose-invert max-w-none p-4"
     >
-      <ReactMarkdown remarkPlugins={[remarkGfm]}>
+      <ReactMarkdown remarkPlugins={[remarkGfm]} components={PREVIEW_COMPONENTS}>
         {markdown || `*${t("nothingToPreview")}*`}
       </ReactMarkdown>
     </div>
   );
 
-  return (
-    <div className="container mx-auto p-6 max-w-7xl">
-      <Card>
-        <CardHeader className="pb-3">
-          <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3">
-            <div>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="w-5 h-5" />
-                {t("title")}
-              </CardTitle>
-              <CardDescription>
-                {t("description")}
-              </CardDescription>
-            </div>
-            <div className="flex flex-wrap gap-2 shrink-0">
-              <Button variant="outline" size="sm" onClick={handleCopyMarkdown}>
-                <Copy className="w-4 h-4 me-1" />
-                {t("copyMd")}
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleCopyHtml}>
-                <AlignLeft className="w-4 h-4 me-1" />
-                {t("copyHtml")}
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleDownload}>
-                <Download className="w-4 h-4 me-1" />
-                {t("downloadMd")}
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleLoadSample}>
-                {t("loadSample")}
-              </Button>
-              <Button variant="outline" size="sm" onClick={handleClear}>
-                <RotateCcw className="w-4 h-4 me-1" />
-                {tCommon("clear")}
-              </Button>
-            </div>
-          </div>
+  const editorPane = (
+    <Textarea
+      ref={viewMode === "split" ? splitTextareaRef : textareaRef}
+      value={markdown}
+      onChange={(e) => setMarkdown(e.target.value)}
+      placeholder={t("startWriting")}
+      className="font-mono text-sm resize-none text-left rtl:text-left min-h-[520px]"
+    />
+  );
 
-          <div className="flex flex-wrap gap-1 mt-3 p-1 bg-muted/40 rounded-md">
+  const previewPane = (
+    <div className="border rounded-md overflow-auto min-h-[520px]">
+      <PreviewContent />
+    </div>
+  );
+
+  return (
+    <ToolShell
+      slug="markdown-editor"
+      title={tc("tools.markdown-editor.name")}
+      sub={tc("tools.markdown-editor.description")}
+      controls={
+        <>
+          <Button variant="outline" onClick={handleCopyMarkdown}>
+            <Copy className="w-4 h-4 me-2" />
+            {t("copyMd")}
+          </Button>
+          <Button variant="outline" onClick={handleCopyHtml}>
+            <AlignLeft className="w-4 h-4 me-2" />
+            {t("copyHtml")}
+          </Button>
+          <Button variant="outline" onClick={handleLoadSample}>
+            {t("loadSample")}
+          </Button>
+          <Button variant="ghost" onClick={handleClear}>
+            <RotateCcw className="w-4 h-4 me-2" />
+            {tCommon("clear")}
+          </Button>
+        </>
+      }
+      primaryAction={{
+        label: t("downloadMd"),
+        onClick: handleDownload,
+      }}
+    >
+      <div className="space-y-3">
+        <div className="flex flex-wrap items-center gap-3">
+          <ModePicker
+            aria-label={t("previewLabel")}
+            value={viewMode}
+            onChange={(v) => setViewMode(v as ViewMode)}
+            options={[
+              { value: "editor", label: t("tabEditor") },
+              { value: "preview", label: t("tabPreview") },
+              { value: "split", label: t("tabSplit") },
+            ]}
+          />
+          <div className="flex flex-wrap gap-1 p-1 bg-muted/40 rounded-md">
             {TOOLBAR_ACTIONS.map((action) => {
               const Icon = action.icon;
               return (
@@ -281,80 +303,40 @@ export default function MarkdownEditor() {
               );
             })}
           </div>
-        </CardHeader>
+        </div>
 
-        <CardContent className="pt-0">
-          <Tabs
-            value={viewMode}
-            onValueChange={(v) => setViewMode(v as ViewMode)}
-          >
-            <TabsList>
-              <TabsTrigger value="editor">{t("tabEditor")}</TabsTrigger>
-              <TabsTrigger value="preview">{t("tabPreview")}</TabsTrigger>
-              <TabsTrigger value="split">{t("tabSplit")}</TabsTrigger>
-            </TabsList>
-
-            <TabsContent value="editor" className="mt-3">
-              <Textarea
-                ref={textareaRef}
-                value={markdown}
-                onChange={(e) => setMarkdown(e.target.value)}
-                placeholder={t("startWriting")}
-                className="font-mono text-sm resize-none text-left rtl:text-left"
-                style={{ minHeight: "520px" }}
-              />
-            </TabsContent>
-
-            <TabsContent value="preview" className="mt-3">
-              <div
-                className="border rounded-md overflow-auto"
-                style={{ minHeight: "520px" }}
-              >
-                <PreviewContent />
+        {viewMode === "editor" && editorPane}
+        {viewMode === "preview" && previewPane}
+        {viewMode === "split" && (
+          <TwoPane
+            start={
+              <div className="flex flex-col gap-1">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  {t("editorLabel")}
+                </p>
+                {editorPane}
               </div>
-            </TabsContent>
-
-            <TabsContent value="split" className="mt-3">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="flex flex-col gap-1">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    {t("editorLabel")}
-                  </p>
-                  <Textarea
-                    ref={splitTextareaRef}
-                    value={markdown}
-                    onChange={(e) => setMarkdown(e.target.value)}
-                    placeholder={t("startWriting")}
-                    className="font-mono text-sm resize-none text-left rtl:text-left"
-                    style={{ minHeight: "520px" }}
-                  />
-                </div>
-                <div className="flex flex-col gap-1">
-                  <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
-                    {t("previewLabel")}
-                  </p>
-                  <div
-                    className="border rounded-md overflow-auto"
-                    style={{ minHeight: "520px" }}
-                  >
-                    <PreviewContent />
-                  </div>
-                </div>
+            }
+            end={
+              <div className="flex flex-col gap-1">
+                <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wide">
+                  {t("previewLabel")}
+                </p>
+                {previewPane}
               </div>
-            </TabsContent>
-          </Tabs>
+            }
+          />
+        )}
 
-          <Separator className="mt-4" />
-          <div className="flex items-center gap-4 pt-3 text-xs text-muted-foreground">
-            <span>{charCount.toLocaleString()} {t("characters")}</span>
-            <span>{wordCount.toLocaleString()} {t("words")}</span>
-            <span>{lineCount.toLocaleString()} {t("lines")}</span>
-          </div>
-        </CardContent>
-      </Card>
+        <div className="flex items-center gap-4 pt-1 text-xs text-muted-foreground">
+          <span>{charCount.toLocaleString()} {t("characters")}</span>
+          <span>{wordCount.toLocaleString()} {t("words")}</span>
+          <span>{lineCount.toLocaleString()} {t("lines")}</span>
+        </div>
+      </div>
 
       <style>{`
-        .md-preview h1 { font-size: 1.875rem; font-weight: 700; margin: 1rem 0 0.5rem; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.3rem; }
+        .md-preview .md-h1 { font-size: 1.875rem; font-weight: 700; margin: 1rem 0 0.5rem; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.3rem; }
         .md-preview h2 { font-size: 1.5rem; font-weight: 600; margin: 1rem 0 0.5rem; border-bottom: 1px solid hsl(var(--border)); padding-bottom: 0.2rem; }
         .md-preview h3 { font-size: 1.25rem; font-weight: 600; margin: 0.75rem 0 0.5rem; }
         .md-preview h4 { font-size: 1.1rem; font-weight: 600; margin: 0.75rem 0 0.4rem; }
@@ -374,6 +356,6 @@ export default function MarkdownEditor() {
         .md-preview strong { font-weight: 700; }
         .md-preview em { font-style: italic; }
       `}</style>
-    </div>
+    </ToolShell>
   );
 }
