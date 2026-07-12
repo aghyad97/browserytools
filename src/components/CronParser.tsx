@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -24,9 +24,16 @@ export default function CronParser() {
   const [activeTab, setActiveTab] = useState<string>("parse");
   const [expr, setExpr] = useState<string>("*/5 * * * *");
   const [count, setCount] = useState<number>(5);
-  const [tz, setTz] = useState<string>(
-    Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC"
-  );
+  // Resolved after mount: this page is statically prerendered, so anything
+  // "now"-dependent in the first render (build machine's timezone here, and
+  // the next-run timestamps below) is baked into the HTML at build time and
+  // can never match what the client computes at hydration — React #418.
+  const [mounted, setMounted] = useState(false);
+  const [tz, setTz] = useState<string>("UTC");
+  useEffect(() => {
+    setTz(Intl.DateTimeFormat().resolvedOptions().timeZone || "UTC");
+    setMounted(true);
+  }, []);
 
   // Builder state
   const [min, setMin] = useState<string>("*");
@@ -44,8 +51,13 @@ export default function CronParser() {
     try {
       const interval = CronExpressionParser.parse(expr, { tz });
       const next: string[] = [];
-      for (let i = 0; i < count; i++) {
-        next.push(interval.next().toDate().toLocaleString());
+      // Next-run times start from "now" and render via toLocaleString() —
+      // both differ between the build-time prerender and the client, so only
+      // compute them after mount (SSR shows the empty state briefly).
+      if (mounted) {
+        for (let i = 0; i < count; i++) {
+          next.push(interval.next().toDate().toLocaleString());
+        }
       }
       const description = safeCronstrue(expr);
       return { next, description, error: null as string | null };
@@ -56,7 +68,7 @@ export default function CronParser() {
         error: e.message as string,
       };
     }
-  }, [expr, tz, count]);
+  }, [expr, tz, count, mounted]);
 
   const builderPreview = useMemo(() => {
     try {
