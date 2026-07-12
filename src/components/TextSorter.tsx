@@ -3,13 +3,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import {
   RotateCcw,
@@ -22,7 +15,9 @@ import {
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
 
 type SortMode =
@@ -211,22 +206,15 @@ export default function TextSorter() {
       title={tc("tools.text-sorter.name")}
       sub={tc("tools.text-sorter.description")}
       controls={
-        <>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleClear}
-            className="flex items-center gap-2"
-          >
-            <RotateCcw className="w-4 h-4" />
-            {tCommon("clear")}
-          </Button>
-          <CopyButton
-            text={output}
-            successMessage={t("copiedToClipboard")}
-            disabled={!output}
-          />
-        </>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleClear}
+          className="flex items-center gap-2"
+        >
+          <RotateCcw className="w-4 h-4" />
+          {tCommon("clear")}
+        </Button>
       }
       primaryAction={{
         label: tCommon("download"),
@@ -236,69 +224,60 @@ export default function TextSorter() {
     >
       <div className="space-y-6">
       {/* Sort Buttons */}
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("sortOptionsTitle")}</CardTitle>
-          <CardDescription>{t("sortOptionsDesc")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-wrap gap-2 mb-4">
-            {sortButtons.map(({ label, mode, icon }) => (
-              <Button
-                key={mode}
-                variant={activeMode === mode ? "default" : "outline"}
-                size="sm"
-                onClick={() => handleSort(mode)}
-                className="flex items-center gap-2"
-              >
-                {icon}
-                {label}
-              </Button>
-            ))}
-          </div>
+      <SettingsCard title={t("sortOptionsTitle")} description={t("sortOptionsDesc")}>
+        <div className="flex flex-wrap gap-2">
+          {sortButtons.map(({ label, mode, icon }) => (
+            <Button
+              key={mode}
+              variant={activeMode === mode ? "default" : "outline"}
+              size="sm"
+              onClick={() => handleSort(mode)}
+              className="flex items-center gap-2"
+            >
+              {icon}
+              {label}
+            </Button>
+          ))}
+        </div>
 
-          <div className="border-t pt-4">
-            <p className="text-sm font-medium text-muted-foreground mb-3">
-              {t("optionsLabel")}
-            </p>
-            <div className="flex flex-wrap gap-x-6 gap-y-3">
-              <ToggleOption
-                id="remove-duplicates"
-                label={t("removeDuplicates")}
-                checked={removeDuplicates}
-                onChange={setRemoveDuplicates}
-              />
-              <ToggleOption
-                id="trim-whitespace"
-                label={t("trimWhitespace")}
-                checked={trimWhitespace}
-                onChange={setTrimWhitespace}
-              />
-              <ToggleOption
-                id="remove-empty"
-                label={t("removeEmptyLines")}
-                checked={removeEmptyLines}
-                onChange={setRemoveEmptyLines}
-              />
-              <ToggleOption
-                id="case-insensitive"
-                label={t("caseInsensitive")}
-                checked={caseInsensitive}
-                onChange={setCaseInsensitive}
-              />
-            </div>
+        <div className="border-t pt-4">
+          <p className="text-sm font-medium text-muted-foreground mb-3">
+            {t("optionsLabel")}
+          </p>
+          <div className="flex flex-wrap gap-x-6 gap-y-3">
+            <ToggleOption
+              id="remove-duplicates"
+              label={t("removeDuplicates")}
+              checked={removeDuplicates}
+              onChange={setRemoveDuplicates}
+            />
+            <ToggleOption
+              id="trim-whitespace"
+              label={t("trimWhitespace")}
+              checked={trimWhitespace}
+              onChange={setTrimWhitespace}
+            />
+            <ToggleOption
+              id="remove-empty"
+              label={t("removeEmptyLines")}
+              checked={removeEmptyLines}
+              onChange={setRemoveEmptyLines}
+            />
+            <ToggleOption
+              id="case-insensitive"
+              label={t("caseInsensitive")}
+              checked={caseInsensitive}
+              onChange={setCaseInsensitive}
+            />
           </div>
-        </CardContent>
-      </Card>
+        </div>
+      </SettingsCard>
 
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Input */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("inputTitle")}</CardTitle>
-            <CardDescription>{t("inputDesc")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+      <TwoPane
+        start={
+          <div className="space-y-1.5">
+            <p className="text-sm font-medium">{t("inputTitle")}</p>
+            <p className="text-sm text-muted-foreground">{t("inputDesc")}</p>
             <Textarea
               placeholder={t("inputPlaceholder")}
               value={input}
@@ -312,34 +291,33 @@ export default function TextSorter() {
                 <Badge variant="secondary">{input.length} {t("chars")}</Badge>
               </div>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Output */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("outputTitle")}</CardTitle>
-            <CardDescription>
+          </div>
+        }
+        end={
+          <OutputPanel
+            text={output}
+            title={t("outputTitle")}
+            copySuccessMessage={t("copiedToClipboard")}
+          >
+            <p className="text-sm text-muted-foreground px-1 pt-1">
               {activeMode ? t("outputDesc") : t("outputPlaceholderEmpty")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+            </p>
             <Textarea
               placeholder={t("outputPlaceholder")}
               value={output}
               readOnly
-              className="min-h-[320px] resize-none font-mono text-sm bg-muted"
+              className="min-h-[320px] rounded-none border-0 bg-transparent resize-none font-mono text-sm focus-visible:ring-0"
               rows={14}
             />
-            <div className="flex justify-between items-center mt-3">
+            <div className="flex justify-between items-center px-1 pb-1">
               <div className="flex gap-3">
                 <Badge variant="secondary">{outputLines} {t("lines")}</Badge>
                 <Badge variant="secondary">{output.length} {t("chars")}</Badge>
               </div>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </OutputPanel>
+        }
+      />
       </div>
     </ToolShell>
   );

@@ -1,11 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Card, CardContent } from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 // Minimal diff using diff-match-patch algorithm port
 // To avoid heavy deps, implement a simple line-based diff for MVP
@@ -62,34 +62,36 @@ export default function TextDiffViewer() {
       slug="text-diff"
       title={tc("tools.text-diff.name")}
       sub={tc("tools.text-diff.description")}
-      controls={
-        <CopyButton
-          text={patchText}
-          label={t("copyPatch")}
-          successMessage={t("patchCopied")}
-          errorMessage={t("copyFailed")}
-        />
-      }
     >
-      <Card className="shadow-none">
-        <CardContent className="space-y-4 pt-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="space-y-4">
+        <TwoPane
+          start={
             <Textarea
               value={left}
               onChange={(e) => setLeft(e.target.value)}
               className="min-h-[260px] font-mono text-sm"
               placeholder={t("originalPlaceholder")}
             />
+          }
+          end={
             <Textarea
               value={right}
               onChange={(e) => setRight(e.target.value)}
               className="min-h-[260px] font-mono text-sm"
               placeholder={t("modifiedPlaceholder")}
             />
-          </div>
-          <div className="border rounded overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="p-3 border-r rtl:border-r-0 rtl:border-l bg-muted/30">
+          }
+        />
+
+        <OutputPanel
+          text={patchText}
+          copyLabel={t("copyPatch")}
+          copySuccessMessage={t("patchCopied")}
+          copyErrorMessage={t("copyFailed")}
+        >
+          <TwoPane
+            start={
+              <div className="p-3">
                 {left.split(/\r?\n/).map((line, i) => (
                   <div
                     key={i}
@@ -99,6 +101,8 @@ export default function TextDiffViewer() {
                   </div>
                 ))}
               </div>
+            }
+            end={
               <div className="p-3">
                 {diff.map((p, i) => (
                   <div
@@ -120,10 +124,10 @@ export default function TextDiffViewer() {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
+            }
+          />
+        </OutputPanel>
+      </div>
     </ToolShell>
   );
 }

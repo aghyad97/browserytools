@@ -16,7 +16,8 @@ import { toast } from "sonner";
 import { MicIcon, MicOffIcon, Download, Trash2, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
 
 // ── Minimal Web Speech API typings ──────────────────────────────────────────
@@ -199,13 +200,6 @@ export default function SpeechToText() {
       sub={tc("tools.speech-to-text.description")}
       controls={
         <>
-          <CopyButton
-            text={transcript}
-            label={t("copy")}
-            successMessage={t("copied")}
-            errorMessage={t("copyFailed")}
-            disabled={!transcript.trim()}
-          />
           <Button
             variant="outline"
             size="sm"
@@ -305,29 +299,26 @@ export default function SpeechToText() {
             )}
           </div>
 
-          <Card className="p-4">
+          <OutputPanel
+            text={interim ? `${transcript} ${interim}`.trim() : transcript}
+            copyLabel={t("copy")}
+            copySuccessMessage={t("copied")}
+            copyErrorMessage={t("copyFailed")}
+          >
             <Textarea
               data-testid="transcript"
               dir="auto"
               placeholder={t("placeholder")}
-              className="min-h-[340px] text-base leading-relaxed"
+              className="min-h-[340px] rounded-none border-0 bg-transparent text-base leading-relaxed focus-visible:ring-0"
               value={interim ? `${transcript} ${interim}`.trim() : transcript}
               onChange={(e) => {
                 setTranscript(e.target.value);
                 setInterim("");
               }}
             />
-          </Card>
+          </OutputPanel>
 
-          <Card className="p-4">
-            <div className="flex items-start gap-2 text-sm text-muted-foreground">
-              <Info className="h-4 w-4 mt-0.5 shrink-0" />
-              <div>
-                <p className="font-medium text-foreground">{t("tipTitle")}</p>
-                <p>{t("tipBody")}</p>
-              </div>
-            </div>
-          </Card>
+          <SettingsCard title={t("tipTitle")} description={t("tipBody")} />
       </div>
     </ToolShell>
   );

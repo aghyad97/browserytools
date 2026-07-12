@@ -15,7 +15,9 @@ import { RotateCcw, Eye, Code, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { ModePicker } from "@/components/shared/ModePicker";
 import { downloadBlob } from "@/lib/download";
 
 // ─── Markdown Parser ────────────────────────────────────────────────────────
@@ -286,12 +288,6 @@ Paragraphs are separated by blank lines and rendered correctly.
             <RotateCcw className="w-4 h-4" />
             {tCommon("clear")}
           </Button>
-          <CopyButton
-            text={html}
-            label={t("copyHtml")}
-            successMessage={t("htmlCopied")}
-            disabled={!html.trim()}
-          />
         </>
       }
       primaryAction={{
@@ -300,106 +296,93 @@ Paragraphs are separated by blank lines and rendered correctly.
         disabled: !html.trim(),
       }}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Markdown Input */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("markdownInputTitle")}</CardTitle>
-            <CardDescription>
-              {t("markdownInputDesc")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <Textarea
-              placeholder={t("markdownPlaceholder")}
-              value={markdown}
-              onChange={(e) => setMarkdown(e.target.value)}
-              className="min-h-[480px] resize-none font-mono text-sm text-left rtl:text-left"
-              rows={22}
-            />
-            <div className="flex gap-3 mt-3 flex-wrap">
-              <Badge variant="secondary">{charCount} {t("chars")}</Badge>
-              <Badge variant="secondary">{wordCount} {t("words")}</Badge>
-              <Badge variant="secondary">~{readingTimeMin} {t("minRead")}</Badge>
-            </div>
-          </CardContent>
-        </Card>
-
-        {/* HTML Output */}
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between">
-              <div>
-                <CardTitle>{t("outputTitle")}</CardTitle>
-                <CardDescription>
-                  {viewMode === "preview" ? t("outputRendered") : t("outputRawHtml")}
-                </CardDescription>
-              </div>
-              <div className="flex gap-1 border rounded-md overflow-hidden">
-                <button
-                  onClick={() => setViewMode("preview")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-sm transition-colors ${
-                    viewMode === "preview"
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
-                  }`}
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                  {t("previewButton")}
-                </button>
-                <button
-                  onClick={() => setViewMode("source")}
-                  className={`flex items-center gap-1.5 px-3 py-1.5 text-sm transition-colors ${
-                    viewMode === "source"
-                      ? "bg-primary text-primary-foreground"
-                      : "hover:bg-muted"
-                  }`}
-                >
-                  <Code className="w-3.5 h-3.5" />
-                  {t("htmlButton")}
-                </button>
-              </div>
-            </div>
-          </CardHeader>
-          <CardContent>
-            {viewMode === "preview" ? (
-              <div
-                className="min-h-[480px] border rounded-md p-4 bg-background prose prose-sm dark:prose-invert max-w-none overflow-auto text-sm
-                  [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-3 [&_h1]:mt-4
-                  [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mb-2 [&_h2]:mt-4
-                  [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-3
-                  [&_h4]:font-semibold [&_h4]:mb-1 [&_h4]:mt-2
-                  [&_p]:mb-3 [&_p]:leading-relaxed
-                  [&_ul]:mb-3 [&_ul]:pl-5 [&_ul]:list-disc
-                  [&_ol]:mb-3 [&_ol]:pl-5 [&_ol]:list-decimal
-                  [&_li]:mb-1
-                  [&_blockquote]:border-l-4 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-muted-foreground [&_blockquote]:my-3
-                  [&_pre]:bg-muted [&_pre]:rounded [&_pre]:p-3 [&_pre]:overflow-x-auto [&_pre]:mb-3 [&_pre]:text-xs
-                  [&_code]:bg-muted [&_code]:px-1 [&_code]:rounded [&_code]:text-xs [&_code]:font-mono
-                  [&_pre_code]:bg-transparent [&_pre_code]:p-0
-                  [&_table]:w-full [&_table]:border-collapse [&_table]:mb-3
-                  [&_th]:border [&_th]:border-border [&_th]:p-2 [&_th]:bg-muted [&_th]:font-semibold [&_th]:text-left
-                  [&_td]:border [&_td]:border-border [&_td]:p-2
-                  [&_hr]:border-border [&_hr]:my-4
-                  [&_a]:text-primary [&_a]:underline
-                  [&_strong]:font-bold
-                  [&_em]:italic
-                  [&_del]:line-through [&_del]:text-muted-foreground
-                  [&_img]:max-w-full [&_img]:rounded"
-                dangerouslySetInnerHTML={{ __html: html || "<p class='text-muted-foreground text-sm'>Preview will appear here...</p>" }}
-              />
-            ) : (
+      <TwoPane
+        start={
+          <Card>
+            <CardHeader>
+              <CardTitle>{t("markdownInputTitle")}</CardTitle>
+              <CardDescription>
+                {t("markdownInputDesc")}
+              </CardDescription>
+            </CardHeader>
+            <CardContent>
               <Textarea
-                value={html}
-                readOnly
-                placeholder={t("htmlOutputPlaceholder")}
-                className="min-h-[480px] resize-none font-mono text-xs bg-muted text-left rtl:text-left"
+                placeholder={t("markdownPlaceholder")}
+                value={markdown}
+                onChange={(e) => setMarkdown(e.target.value)}
+                className="min-h-[480px] resize-none font-mono text-sm text-left rtl:text-left"
                 rows={22}
               />
-            )}
-          </CardContent>
-        </Card>
-      </div>
+              <div className="flex gap-3 mt-3 flex-wrap">
+                <Badge variant="secondary">{charCount} {t("chars")}</Badge>
+                <Badge variant="secondary">{wordCount} {t("words")}</Badge>
+                <Badge variant="secondary">~{readingTimeMin} {t("minRead")}</Badge>
+              </div>
+            </CardContent>
+          </Card>
+        }
+        end={
+          <div className="space-y-3">
+            <div className="flex items-center justify-between gap-2">
+              <p className="text-sm text-muted-foreground">
+                {viewMode === "preview" ? t("outputRendered") : t("outputRawHtml")}
+              </p>
+              <ModePicker
+                aria-label={t("outputTitle")}
+                value={viewMode}
+                onChange={setViewMode}
+                options={[
+                  { value: "preview", label: (<span className="flex items-center gap-1.5"><Eye className="w-3.5 h-3.5" />{t("previewButton")}</span>) },
+                  { value: "source", label: (<span className="flex items-center gap-1.5"><Code className="w-3.5 h-3.5" />{t("htmlButton")}</span>) },
+                ]}
+              />
+            </div>
+
+            <OutputPanel
+              text={html}
+              title={t("outputTitle")}
+              copyLabel={t("copyHtml")}
+              copySuccessMessage={t("htmlCopied")}
+            >
+              {viewMode === "preview" ? (
+                <div
+                  className="min-h-[480px] p-4 prose prose-sm dark:prose-invert max-w-none overflow-auto text-sm
+                    [&_h1]:text-2xl [&_h1]:font-bold [&_h1]:mb-3 [&_h1]:mt-4
+                    [&_h2]:text-xl [&_h2]:font-bold [&_h2]:mb-2 [&_h2]:mt-4
+                    [&_h3]:text-lg [&_h3]:font-semibold [&_h3]:mb-2 [&_h3]:mt-3
+                    [&_h4]:font-semibold [&_h4]:mb-1 [&_h4]:mt-2
+                    [&_p]:mb-3 [&_p]:leading-relaxed
+                    [&_ul]:mb-3 [&_ul]:pl-5 [&_ul]:list-disc
+                    [&_ol]:mb-3 [&_ol]:pl-5 [&_ol]:list-decimal
+                    [&_li]:mb-1
+                    [&_blockquote]:border-l-4 [&_blockquote]:border-primary/40 [&_blockquote]:pl-4 [&_blockquote]:italic [&_blockquote]:text-muted-foreground [&_blockquote]:my-3
+                    [&_pre]:bg-muted [&_pre]:rounded [&_pre]:p-3 [&_pre]:overflow-x-auto [&_pre]:mb-3 [&_pre]:text-xs
+                    [&_code]:bg-muted [&_code]:px-1 [&_code]:rounded [&_code]:text-xs [&_code]:font-mono
+                    [&_pre_code]:bg-transparent [&_pre_code]:p-0
+                    [&_table]:w-full [&_table]:border-collapse [&_table]:mb-3
+                    [&_th]:border [&_th]:border-border [&_th]:p-2 [&_th]:bg-muted [&_th]:font-semibold [&_th]:text-left
+                    [&_td]:border [&_td]:border-border [&_td]:p-2
+                    [&_hr]:border-border [&_hr]:my-4
+                    [&_a]:text-primary [&_a]:underline
+                    [&_strong]:font-bold
+                    [&_em]:italic
+                    [&_del]:line-through [&_del]:text-muted-foreground
+                    [&_img]:max-w-full [&_img]:rounded"
+                  dangerouslySetInnerHTML={{ __html: html || "<p class='text-muted-foreground text-sm'>Preview will appear here...</p>" }}
+                />
+              ) : (
+                <Textarea
+                  value={html}
+                  readOnly
+                  placeholder={t("htmlOutputPlaceholder")}
+                  className="min-h-[480px] resize-none rounded-none border-0 bg-transparent font-mono text-xs text-left rtl:text-left focus-visible:ring-0"
+                  rows={22}
+                />
+              )}
+            </OutputPanel>
+          </div>
+        }
+      />
     </ToolShell>
   );
 }

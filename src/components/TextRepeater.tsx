@@ -3,13 +3,6 @@
 import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
@@ -17,7 +10,8 @@ import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { downloadBlob } from "@/lib/download";
 
 const MAX_OUTPUT_CHARS = 1_000_000;
@@ -93,13 +87,6 @@ export default function TextRepeater() {
       slug="text-repeater"
       title={tc("tools.text-repeater.name")}
       sub={tc("tools.text-repeater.description")}
-      controls={
-        <CopyButton
-          text={output}
-          successMessage={t("copiedToClipboard")}
-          disabled={!output || overLimit}
-        />
-      }
       primaryAction={{
         label: tCommon("download"),
         onClick: handleDownload,
@@ -109,84 +96,66 @@ export default function TextRepeater() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Controls */}
         <div className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("textToRepeatTitle")}</CardTitle>
-              <CardDescription>{t("textToRepeatDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Textarea
-                placeholder={t("textPlaceholder")}
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                className="min-h-[140px] resize-none"
-                rows={6}
-              />
-              <div className="mt-2">
-                <Badge variant="secondary">{text.length} {t("chars")}</Badge>
-              </div>
-            </CardContent>
-          </Card>
+          <SettingsCard title={t("textToRepeatTitle")} description={t("textToRepeatDesc")}>
+            <Textarea
+              placeholder={t("textPlaceholder")}
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              className="min-h-[140px] resize-none"
+              rows={6}
+            />
+            <div>
+              <Badge variant="secondary">{text.length} {t("chars")}</Badge>
+            </div>
+          </SettingsCard>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("repeatCountTitle")}</CardTitle>
-              <CardDescription>{t("repeatCountDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Input
-                type="number"
-                min={1}
-                max={10000}
-                value={count}
-                onChange={(e) => handleCountChange(e.target.value)}
-                className="text-lg h-11"
-              />
-            </CardContent>
-          </Card>
+          <SettingsCard title={t("repeatCountTitle")} description={t("repeatCountDesc")}>
+            <Input
+              type="number"
+              min={1}
+              max={10000}
+              value={count}
+              onChange={(e) => handleCountChange(e.target.value)}
+              className="text-lg h-11"
+            />
+          </SettingsCard>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("separatorTitle")}</CardTitle>
-              <CardDescription>{t("separatorDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex flex-wrap gap-2">
-                {SEPARATOR_PRESETS.map((p) => (
-                  <Button
-                    key={p.key}
-                    size="sm"
-                    variant={separatorPreset === p.key ? "default" : "outline"}
-                    onClick={() => setSeparatorPreset(p.key)}
-                  >
-                    {t(p.labelKey as any)}
-                  </Button>
-                ))}
+          <SettingsCard title={t("separatorTitle")} description={t("separatorDesc")}>
+            <div className="flex flex-wrap gap-2">
+              {SEPARATOR_PRESETS.map((p) => (
                 <Button
+                  key={p.key}
                   size="sm"
-                  variant={separatorPreset === "custom" ? "default" : "outline"}
-                  onClick={() => setSeparatorPreset("custom")}
+                  variant={separatorPreset === p.key ? "default" : "outline"}
+                  onClick={() => setSeparatorPreset(p.key)}
                 >
-                  {t("customBtn")}
+                  {t(p.labelKey as any)}
                 </Button>
-              </div>
+              ))}
+              <Button
+                size="sm"
+                variant={separatorPreset === "custom" ? "default" : "outline"}
+                onClick={() => setSeparatorPreset("custom")}
+              >
+                {t("customBtn")}
+              </Button>
+            </div>
 
-              {separatorPreset === "custom" && (
-                <div className="space-y-1.5">
-                  <Label htmlFor="custom-sep" className="text-sm">
-                    {t("customSeparatorLabel")}
-                  </Label>
-                  <Input
-                    id="custom-sep"
-                    value={customSeparator}
-                    onChange={(e) => setCustomSeparator(e.target.value)}
-                    placeholder={t("customSeparatorPlaceholder")}
-                    className="font-mono"
-                  />
-                </div>
-              )}
-            </CardContent>
-          </Card>
+            {separatorPreset === "custom" && (
+              <div className="space-y-1.5">
+                <Label htmlFor="custom-sep" className="text-sm">
+                  {t("customSeparatorLabel")}
+                </Label>
+                <Input
+                  id="custom-sep"
+                  value={customSeparator}
+                  onChange={(e) => setCustomSeparator(e.target.value)}
+                  placeholder={t("customSeparatorPlaceholder")}
+                  className="font-mono"
+                />
+              </div>
+            )}
+          </SettingsCard>
 
           <Button
             variant="outline"
@@ -200,47 +169,46 @@ export default function TextRepeater() {
 
         {/* Output */}
         <div className="lg:col-span-2">
-          <Card className="h-full">
-            <CardHeader>
-              <CardTitle>{t("outputTitle")}</CardTitle>
-              <CardDescription>
-                {overLimit
-                  ? t("outputTooLarge")
-                  : output
-                  ? t("repeatedCount", { count })
-                  : t("resultPlaceholder")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              {overLimit ? (
-                <div className="min-h-[400px] flex items-center justify-center border rounded-md bg-destructive/5 border-destructive/20">
-                  <div className="text-center p-6 space-y-2">
-                    <p className="font-semibold text-destructive">
-                      {t("outputTooLargeTitle")}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      {t("outputTooLargeDesc")}
-                    </p>
-                  </div>
+          <OutputPanel
+            text={overLimit ? "" : output}
+            title={t("outputTitle")}
+            copySuccessMessage={t("copiedToClipboard")}
+            className="h-full"
+          >
+            <p className="text-sm text-muted-foreground px-1 pt-1">
+              {overLimit
+                ? t("outputTooLarge")
+                : output
+                ? t("repeatedCount", { count })
+                : t("resultPlaceholder")}
+            </p>
+            {overLimit ? (
+              <div className="min-h-[400px] flex items-center justify-center rounded-md bg-destructive/5 border border-destructive/20 m-1">
+                <div className="text-center p-6 space-y-2">
+                  <p className="font-semibold text-destructive">
+                    {t("outputTooLargeTitle")}
+                  </p>
+                  <p className="text-sm text-muted-foreground">
+                    {t("outputTooLargeDesc")}
+                  </p>
                 </div>
-              ) : (
+              </div>
+            ) : (
+              <>
                 <Textarea
                   value={output}
                   readOnly
                   placeholder={t("outputPlaceholder")}
-                  className="min-h-[400px] resize-none font-mono text-sm bg-muted"
+                  className="min-h-[400px] resize-none rounded-none border-0 bg-transparent font-mono text-sm focus-visible:ring-0"
                   rows={18}
                 />
-              )}
-
-              {!overLimit && (
-                <div className="flex gap-3 mt-3 flex-wrap">
+                <div className="flex gap-3 px-1 pb-1 flex-wrap">
                   <Badge variant="secondary">{output.length} {t("chars")}</Badge>
                   <Badge variant="secondary">{outputLines} {t("lines")}</Badge>
                 </div>
-              )}
-            </CardContent>
-          </Card>
+              </>
+            )}
+          </OutputPanel>
         </div>
       </div>
     </ToolShell>

@@ -13,17 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import {
-  Upload,
-  Loader2,
-  Download,
-  Trash2,
-  ShieldCheck,
-} from "lucide-react";
+import { Upload, Loader2, Download, Trash2 } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
 
 interface ImageInfo {
@@ -152,13 +148,6 @@ export default function ImageToText() {
       sub={tc("tools.image-to-text.description")}
       controls={
         <>
-          <CopyButton
-            text={text}
-            label={tCommon("copy")}
-            successMessage={t("copied")}
-            errorMessage={t("copyFailed")}
-            disabled={!text}
-          />
           <Button
             variant="outline"
             size="sm"
@@ -190,8 +179,8 @@ export default function ImageToText() {
         disabled: !image || isRecognizing,
       }}
     >
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {/* Left: upload + controls */}
+      <TwoPane
+        start={
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
               <FileDropzone
@@ -231,9 +220,8 @@ export default function ImageToText() {
               </FileDropzone>
             </Card>
 
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("language")}</label>
+            <SettingsCard>
+              <OptionRow label={t("language")}>
                 <Select
                   value={language}
                   onValueChange={setLanguage}
@@ -250,7 +238,7 @@ export default function ImageToText() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               {isRecognizing && (
                 <div className="space-y-2">
@@ -261,34 +249,31 @@ export default function ImageToText() {
                   <Progress value={progress} />
                 </div>
               )}
-            </Card>
+            </SettingsCard>
 
             {/* Privacy note — engine on-device, language model downloads once */}
-            <Card className="p-4">
-              <div className="flex items-start gap-3">
-                <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />
-                <p className="text-sm text-muted-foreground">
-                  {t("privacyNote")}
-                </p>
-              </div>
-            </Card>
+            <SettingsCard description={t("privacyNote")} />
           </div>
-
-          {/* Right: output */}
-          <div className="space-y-4">
-            <Card className="p-4 space-y-4">
-              <label className="text-sm font-medium">{t("outputLabel")}</label>
-              <Textarea
-                dir="auto"
-                value={text}
-                onChange={(e) => setText(e.target.value)}
-                placeholder={t("outputPlaceholder")}
-                className="min-h-[16rem] font-mono text-sm"
-                aria-label={t("outputLabel")}
-              />
-            </Card>
-          </div>
-      </div>
+        }
+        end={
+          <OutputPanel
+            text={text}
+            title={t("outputLabel")}
+            copyLabel={tCommon("copy")}
+            copySuccessMessage={t("copied")}
+            copyErrorMessage={t("copyFailed")}
+          >
+            <Textarea
+              dir="auto"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              placeholder={t("outputPlaceholder")}
+              className="min-h-[16rem] rounded-none border-0 bg-transparent font-mono text-sm focus-visible:ring-0"
+              aria-label={t("outputLabel")}
+            />
+          </OutputPanel>
+        }
+      />
     </ToolShell>
   );
 }

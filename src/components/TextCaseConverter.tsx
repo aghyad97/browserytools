@@ -3,19 +3,14 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 export default function TextCaseConverter() {
   const t = useTranslations("Tools.TextCaseConverter");
@@ -121,39 +116,42 @@ export default function TextCaseConverter() {
     }
   };
 
+  const caseOptions = [
+    { value: "uppercase", label: t("upper") },
+    { value: "lowercase", label: t("lower") },
+    { value: "titlecase", label: t("title") },
+    { value: "camelcase", label: "camelCase" },
+    { value: "pascalcase", label: "PascalCase" },
+    { value: "snakecase", label: "snake_case" },
+    { value: "kebabcase", label: "kebab-case" },
+    { value: "constantcase", label: "CONSTANT" },
+    { value: "sentencecase", label: t("sentence") },
+    { value: "alternatingcase", label: t("alternating") },
+  ];
+
   return (
     <ToolShell
       slug="text-case"
       title={tc("tools.text-case.name")}
       sub={tc("tools.text-case.description")}
       controls={
-        <>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={handleClear}
-            className="flex items-center gap-2"
-          >
-            <RotateCcw className="w-4 h-4" />
-            {tCommon("clear")}
-          </Button>
-          <CopyButton
-            text={outputText}
-            successMessage={t("copiedToClipboard")}
-            disabled={!outputText}
-          />
-        </>
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleClear}
+          className="flex items-center gap-2"
+        >
+          <RotateCcw className="w-4 h-4" />
+          {tCommon("clear")}
+        </Button>
       }
     >
       <div className="space-y-6">
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Input Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("inputTitle")}</CardTitle>
-            <CardDescription>{t("inputDesc")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+      <TwoPane
+        start={
+          <div className="space-y-1.5">
+            <p className="text-sm font-medium">{t("inputTitle")}</p>
+            <p className="text-sm text-muted-foreground">{t("inputDesc")}</p>
             <Textarea
               placeholder={t("inputPlaceholder")}
               value={inputText}
@@ -165,114 +163,47 @@ export default function TextCaseConverter() {
                 {inputText.length} {t("characters")}
               </span>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Output Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("outputTitle")}</CardTitle>
-            <CardDescription>{t("outputDesc")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+          </div>
+        }
+        end={
+          <OutputPanel
+            text={outputText}
+            title={t("outputTitle")}
+            copySuccessMessage={t("copiedToClipboard")}
+          >
+            <p className="text-sm text-muted-foreground px-1 pt-1">{t("outputDesc")}</p>
             <Textarea
               placeholder={t("outputPlaceholder")}
               value={outputText}
               readOnly
-              className="min-h-[200px] resize-none bg-muted"
+              className="min-h-[200px] rounded-none border-0 bg-transparent resize-none focus-visible:ring-0"
             />
-            <div className="flex justify-between items-center mt-4">
+            <div className="flex justify-between items-center px-1 pb-1">
               <span className="text-sm text-muted-foreground">
                 {outputText.length} {t("characters")}
               </span>
             </div>
-          </CardContent>
-        </Card>
-      </div>
+          </OutputPanel>
+        }
+      />
 
       {/* Case Options */}
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("caseOptions")}</CardTitle>
-          <CardDescription>{t("caseOptionsDesc")}</CardDescription>
-        </CardHeader>
-        <CardContent>
-          <Tabs value={activeCase} onValueChange={setActiveCase}>
-            <TabsList className="grid w-full grid-cols-5 lg:grid-cols-10">
-              <TabsTrigger
-                value="uppercase"
-                onClick={() => handleConvert("uppercase")}
-              >
-                {t("upper")}
-              </TabsTrigger>
-              <TabsTrigger
-                value="lowercase"
-                onClick={() => handleConvert("lowercase")}
-              >
-                {t("lower")}
-              </TabsTrigger>
-              <TabsTrigger
-                value="titlecase"
-                onClick={() => handleConvert("titlecase")}
-              >
-                {t("title")}
-              </TabsTrigger>
-              <TabsTrigger
-                value="camelcase"
-                onClick={() => handleConvert("camelcase")}
-              >
-                camelCase
-              </TabsTrigger>
-              <TabsTrigger
-                value="pascalcase"
-                onClick={() => handleConvert("pascalcase")}
-              >
-                PascalCase
-              </TabsTrigger>
-              <TabsTrigger
-                value="snakecase"
-                onClick={() => handleConvert("snakecase")}
-              >
-                snake_case
-              </TabsTrigger>
-              <TabsTrigger
-                value="kebabcase"
-                onClick={() => handleConvert("kebabcase")}
-              >
-                kebab-case
-              </TabsTrigger>
-              <TabsTrigger
-                value="constantcase"
-                onClick={() => handleConvert("constantcase")}
-              >
-                CONSTANT
-              </TabsTrigger>
-              <TabsTrigger
-                value="sentencecase"
-                onClick={() => handleConvert("sentencecase")}
-              >
-                {t("sentence")}
-              </TabsTrigger>
-              <TabsTrigger
-                value="alternatingcase"
-                onClick={() => handleConvert("alternatingcase")}
-              >
-                {t("alternating")}
-              </TabsTrigger>
-            </TabsList>
-          </Tabs>
+      <SettingsCard title={t("caseOptions")} description={t("caseOptionsDesc")}>
+        <ModePicker
+          aria-label={t("caseOptions")}
+          options={caseOptions}
+          value={activeCase}
+          onChange={handleConvert}
+        />
 
-          <div className="mt-4">
-            <Button
-              variant="outline"
-              onClick={() => handleConvert("inverse")}
-              className="w-full"
-            >
-              {t("inverseCase")}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+        <Button
+          variant="outline"
+          onClick={() => handleConvert("inverse")}
+          className="w-full"
+        >
+          {t("inverseCase")}
+        </Button>
+      </SettingsCard>
       </div>
     </ToolShell>
   );
