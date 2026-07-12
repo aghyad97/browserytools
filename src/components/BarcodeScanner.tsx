@@ -59,6 +59,18 @@ export default function BarcodeScanner() {
   const [scanningDuration, setScanningDuration] = useState(0);
   const [showNoBarcodeAlert, setShowNoBarcodeAlert] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  // Detected after mount: reading navigator.userAgent during render makes the
+  // SSR text ("Other") differ from the client's ("Chrome"...) — React #418.
+  const [browserName, setBrowserName] = useState("…");
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    setBrowserName(
+      ua.includes("Chrome") ? "Chrome"
+      : ua.includes("Firefox") ? "Firefox"
+      : ua.includes("Safari") ? "Safari"
+      : "Other"
+    );
+  }, []);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -663,13 +675,7 @@ export default function BarcodeScanner() {
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Permission Status: {permissionStatus} | Browser:{" "}
-                        {typeof navigator !== "undefined" && navigator.userAgent.includes("Chrome")
-                          ? "Chrome"
-                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Firefox")
-                          ? "Firefox"
-                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Safari")
-                          ? "Safari"
-                          : "Other"}
+                        {browserName}
                       </p>
                     </div>
                   </AlertDescription>

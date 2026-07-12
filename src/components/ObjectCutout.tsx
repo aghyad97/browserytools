@@ -36,6 +36,14 @@ export default function ObjectCutout() {
   const [busy, setBusy] = useState(false);
   const [progress, setProgress] = useState<LoadProgress | null>(null);
   const [cutoutUrl, setCutoutUrl] = useState<string | null>(null);
+  // Checked after mount: hasWebGPU() reads navigator.gpu, so calling it during
+  // render made the server (always false → amber note) disagree with a
+  // WebGPU-capable client (no note) — React #418. Default true so the common
+  // case never flashes the warning; unsupported browsers get it post-mount.
+  const [webgpuAvailable, setWebgpuAvailable] = useState(true);
+  useEffect(() => {
+    setWebgpuAvailable(hasWebGPU());
+  }, []);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const imgElRef = useRef<HTMLImageElement | null>(null);
@@ -210,7 +218,7 @@ export default function ObjectCutout() {
       }}
     >
       <div className="space-y-4">
-          {!hasWebGPU() && (
+          {!webgpuAvailable && (
             <Card className="p-3 border-amber-500/40 bg-amber-500/5">
               <div className="flex items-start gap-3">
                 <InfoIcon className="h-4 w-4 shrink-0 text-amber-600 mt-0.5" />

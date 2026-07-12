@@ -33,7 +33,14 @@ function calculateWpm(charactersTyped: number, elapsedMs: number): number {
 export default function TypingTest() {
   const t = useTranslations("Tools.TypingTest");
   const tc = useTranslations("ToolsConfig");
-  const [words, setWords] = useState<string[]>(() => generateParagraph(100));
+  // Generated on the client only: Math.random() in a useState initializer
+  // runs on the server AND the client with different results, so the SSR text
+  // never matched what the client hydrated with (React #418). Start empty and
+  // fill after mount — the word stream is interactive-only content.
+  const [words, setWords] = useState<string[]>([]);
+  useEffect(() => {
+    setWords(generateParagraph(100));
+  }, []);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentInput, setCurrentInput] = useState<string>("");
   const [startedAt, setStartedAt] = useState<number | null>(null);
