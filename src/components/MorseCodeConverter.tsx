@@ -235,6 +235,9 @@ export default function MorseCodeConverter() {
             copyLabel={t("copyOutput")}
             copySuccessMessage={t("copiedToClipboard")}
           >
+            <p className="text-xs text-muted-foreground px-3 pt-2">
+              {isTextToMorse ? t("morseOutputDesc") : t("textOutputDesc")}
+            </p>
             <Textarea
               value={copyValue}
               readOnly
