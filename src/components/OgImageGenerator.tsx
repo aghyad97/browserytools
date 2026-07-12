@@ -1,12 +1,11 @@
 "use client";
 
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useState, useRef, useEffect, useCallback, useId } from "react";
 import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -17,8 +16,10 @@ import {
 import { Download, Upload, X, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
 import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { downloadBlob } from "@/lib/download";
 
 // Open Graph / social-share images are a fixed 1200x630 canvas.
@@ -38,8 +39,9 @@ interface TemplatePreset {
   align: Align;
 }
 
-// A few tasteful layout/colour presets. The preview always renders LTR because
-// it is a fixed social card, regardless of the surrounding UI direction.
+// content value: fixed template swatch presets, independent of app theme. The
+// preview always renders LTR because it is a fixed social card, regardless of
+// the surrounding UI direction.
 const TEMPLATES: TemplatePreset[] = [
   {
     id: "midnight",
@@ -124,6 +126,8 @@ export default function OgImageGenerator() {
   const [author, setAuthor] = useState("browserytools.com");
   const [templateId, setTemplateId] = useState("midnight");
   const [background, setBackground] = useState<BackgroundKind>("gradient");
+  // content value: default color-picker values (matching the "midnight"
+  // template), independent of app theme.
   const [bgColor, setBgColor] = useState("#0f172a");
   const [bgColor2, setBgColor2] = useState("#1e3a8a");
   const [textColor, setTextColor] = useState("#ffffff");
@@ -134,6 +138,8 @@ export default function OgImageGenerator() {
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const logoImgRef = useRef<HTMLImageElement | null>(null);
+  const bgKindId = useId();
+  const alignId = useId();
 
   // Apply a template preset to all relevant fields.
   const applyTemplate = (id: string) => {
@@ -322,8 +328,7 @@ export default function OgImageGenerator() {
     value: string,
     onChange: (v: string) => void
   ) => (
-    <div className="space-y-2">
-      <label className="text-sm font-medium">{label}</label>
+    <OptionRow label={label}>
       <div className="flex items-center gap-2">
         <input
           type="color"
@@ -338,7 +343,7 @@ export default function OgImageGenerator() {
           className="flex-1"
         />
       </div>
-    </div>
+    </OptionRow>
   );
 
   return (
@@ -350,23 +355,17 @@ export default function OgImageGenerator() {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
           {/* Controls */}
           <div className="space-y-4">
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="og-title">
-                  {t("title")}
-                </label>
+            <SettingsCard>
+              <OptionRow label={t("title")} htmlFor="og-title">
                 <Input
                   id="og-title"
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                   placeholder={t("titlePlaceholder")}
                 />
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="og-subtitle">
-                  {t("subtitle")}
-                </label>
+              <OptionRow label={t("subtitle")} htmlFor="og-subtitle">
                 <Textarea
                   id="og-subtitle"
                   value={subtitle}
@@ -374,24 +373,23 @@ export default function OgImageGenerator() {
                   placeholder={t("subtitlePlaceholder")}
                   rows={2}
                 />
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium" htmlFor="og-author">
-                  {t("author")}
-                </label>
+              <OptionRow label={t("author")} htmlFor="og-author">
                 <Input
                   id="og-author"
                   value={author}
                   onChange={(e) => setAuthor(e.target.value)}
                   placeholder={t("authorPlaceholder")}
                 />
-              </div>
-            </Card>
+              </OptionRow>
+            </SettingsCard>
 
-            <Card className="p-4 space-y-4">
+            <SettingsCard>
               <div className="space-y-2">
                 <label className="text-sm font-medium">{t("template")}</label>
+                {/* Visual preset swatch grid — fire-once picker, bespoke per
+                    CronParser/HabitTracker preset-grid precedent. */}
                 <div className="flex flex-wrap gap-2">
                   {TEMPLATES.map((tpl) => (
                     <button
@@ -427,15 +425,12 @@ export default function OgImageGenerator() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  {t("background")}
-                </label>
+              <OptionRow label={t("background")} htmlFor={bgKindId}>
                 <Select
                   value={background}
                   onValueChange={(v) => setBackground(v as BackgroundKind)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id={bgKindId}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -444,7 +439,7 @@ export default function OgImageGenerator() {
                     <SelectItem value="mesh">{t("bgMesh")}</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               <div className="grid grid-cols-2 gap-3">
                 {colorField(t("bgColor"), bgColor, setBgColor)}
@@ -456,13 +451,12 @@ export default function OgImageGenerator() {
                 {colorField(t("accentColor"), accentColor, setAccentColor)}
               </div>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("alignment")}</label>
+              <OptionRow label={t("alignment")} htmlFor={alignId}>
                 <Select
                   value={align}
                   onValueChange={(v) => setAlign(v as Align)}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id={alignId}>
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -471,25 +465,9 @@ export default function OgImageGenerator() {
                     <SelectItem value="right">{t("alignRight")}</SelectItem>
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">
-                    {t("fontSize")}
-                  </label>
-                  <span className="text-sm text-muted-foreground">
-                    {fontSize}px
-                  </span>
-                </div>
-                <Slider
-                  value={[fontSize]}
-                  onValueChange={([v]) => setFontSize(v)}
-                  min={40}
-                  max={100}
-                  step={2}
-                />
-              </div>
+              <SliderRow label={t("fontSize")} value={fontSize} display={<>{fontSize}px</>} min={40} max={100} step={2} onChange={setFontSize} />
 
               <div className="space-y-2">
                 <label className="text-sm font-medium">{t("logo")}</label>
@@ -524,7 +502,7 @@ export default function OgImageGenerator() {
                   </FileDropzone>
                 )}
               </div>
-            </Card>
+            </SettingsCard>
           </div>
 
           {/* Preview + export */}
@@ -549,29 +527,18 @@ export default function OgImageGenerator() {
               </Button>
             </Card>
 
-            <Card className="p-4 space-y-3">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">{t("metaTags")}</label>
-                <CopyButton
-                  text={metaSnippet}
-                  label={tCommon("copy")}
-                  successMessage={t("snippetCopied")}
-                  errorMessage={t("copyFailed")}
-                />
-              </div>
-              <Textarea
-                readOnly
-                value={metaSnippet}
-                rows={5}
-                className="font-mono text-xs"
-                dir="ltr"
-                data-testid="meta-snippet"
-              />
-              <p className="text-xs text-muted-foreground flex items-center gap-1">
-                <ImageIcon className="h-3 w-3" />
-                {t("metaHint")}
-              </p>
-            </Card>
+            <OutputPanel
+              title={t("metaTags")}
+              text={metaSnippet}
+              data-testid="meta-snippet"
+              copyLabel={tCommon("copy")}
+              copySuccessMessage={t("snippetCopied")}
+              copyErrorMessage={t("copyFailed")}
+            />
+            <p className="text-xs text-muted-foreground flex items-center gap-1">
+              <ImageIcon className="h-3 w-3" />
+              {t("metaHint")}
+            </p>
           </div>
         </div>
     </ToolShell>

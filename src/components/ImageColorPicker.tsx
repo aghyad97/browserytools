@@ -7,9 +7,9 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Label } from "@/components/ui/label";
 import { Upload, Pipette, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 interface PickedColor {
   hex: string;
@@ -70,6 +70,8 @@ function makeColor(r: number, g: number, b: number): PickedColor {
   };
 }
 
+// content value: WCAG-contrast-computed b&w overlay text color for a given
+// swatch fill, independent of app theme.
 function getReadableText(r: number, g: number, b: number): string {
   const srgb = [r, g, b]
     .map((v) => v / 255)
@@ -379,8 +381,9 @@ export default function ImageColorPicker() {
             </Card>
 
             {palette.length > 0 && (
-              <Card className="p-4 space-y-3 shadow-none">
-                <Label>{t("dominantColors")}</Label>
+              <SettingsCard title={t("dominantColors")}>
+                {/* Swatch grid is genuine content (extracted dominant colors,
+                    per-swatch copy actions) — data list, kept bespoke. */}
                 <div className="grid grid-cols-6 gap-2">
                   {palette.map((c) => (
                     <button
@@ -399,18 +402,20 @@ export default function ImageColorPicker() {
                     </button>
                   ))}
                 </div>
-              </Card>
+              </SettingsCard>
             )}
           </div>
 
           {/* Right: picked color details + history */}
           <div className="space-y-4">
-            <Card className="p-6 space-y-4 shadow-none">
-              <div className="flex items-center gap-2">
-                <Pipette className="w-5 h-5 text-primary" />
-                <h2 className="text-lg font-semibold">{t("pickedColor")}</h2>
-              </div>
-
+            <SettingsCard
+              title={
+                <span className="flex items-center gap-2">
+                  <Pipette className="w-4 h-4 text-primary" />
+                  {t("pickedColor")}
+                </span>
+              }
+            >
               {current ? (
                 <>
                   <div
@@ -452,12 +457,12 @@ export default function ImageColorPicker() {
                   {t("pickHint")}
                 </p>
               )}
-            </Card>
+            </SettingsCard>
 
             {history.length > 0 && (
-              <Card className="p-4 space-y-3 shadow-none">
-                <div className="flex items-center justify-between">
-                  <Label>{t("history")}</Label>
+              <SettingsCard
+                title={t("history")}
+                action={
                   <Button
                     type="button"
                     variant="ghost"
@@ -467,7 +472,8 @@ export default function ImageColorPicker() {
                     <Trash2 className="w-4 h-4 me-2" />
                     {tCommon("clear")}
                   </Button>
-                </div>
+                }
+              >
                 <div className="grid grid-cols-9 gap-2">
                   {history.map((c, i) => (
                     <button
@@ -480,7 +486,7 @@ export default function ImageColorPicker() {
                     />
                   ))}
                 </div>
-              </Card>
+              </SettingsCard>
             )}
           </div>
       </div>

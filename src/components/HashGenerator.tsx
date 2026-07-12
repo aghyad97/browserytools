@@ -2,16 +2,7 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -20,6 +11,7 @@ import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
 import { downloadBlob } from "@/lib/download";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 interface HashResult {
   algorithm: string;
@@ -149,17 +141,16 @@ export default function HashGenerator() {
         </TabsList>
 
         <TabsContent value="text" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
                 {t("inputTitle")}
-              </CardTitle>
-              <CardDescription>{t("inputDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="input-text">{t("textToHashLabel")}</Label>
+              </span>
+            }
+            description={t("inputDesc")}
+          >
+              <OptionRow label={t("textToHashLabel")} htmlFor="input-text">
                 <Textarea
                   id="input-text"
                   value={inputText}
@@ -167,7 +158,7 @@ export default function HashGenerator() {
                   placeholder={t("textToHashPlaceholder")}
                   className="min-h-[120px]"
                 />
-              </div>
+              </OptionRow>
 
               <div className="flex gap-2">
                 <Button
@@ -210,21 +201,16 @@ export default function HashGenerator() {
                   <div>{t("lines")} {inputText.split("\n").length}</div>
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
 
         <TabsContent value="results" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("generatedHashesTitle")}</CardTitle>
-              <CardDescription>
-                {hashResults.length > 0
+          <SettingsCard
+            title={t("generatedHashesTitle")}
+            description={hashResults.length > 0
                   ? t("hashesGenerated", { count: hashResults.length })
                   : t("noHashesYet")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          >
               {hashResults.length > 0 ? (
                 <div className="space-y-4">
                   <div className="flex gap-2">
@@ -272,17 +258,12 @@ export default function HashGenerator() {
                   <p>{t("generateToSeeResults")}</p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
       </Tabs>
 
       {/* Algorithm Information */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>{t("algorithmInfo")}</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <SettingsCard title={t("algorithmInfo")} className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h4 className="font-semibold mb-2">{t("algorithmDetails")}</h4>
@@ -343,8 +324,7 @@ export default function HashGenerator() {
               </ul>
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
       </div>
     </ToolShell>
   );

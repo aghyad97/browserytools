@@ -6,11 +6,12 @@ import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { downloadDataUrl } from "@/lib/download";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Upload, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 type SimType = "deuteranopia" | "protanopia" | "tritanopia" | "achromatopsia";
 
@@ -217,55 +218,55 @@ export default function ColorBlindnessSimulator() {
               />
             </div>
 
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SimType)}>
-              <TabsList className="grid grid-cols-4 w-full">
-                <TabsTrigger value="deuteranopia">{t("tabGreenBlind")}</TabsTrigger>
-                <TabsTrigger value="protanopia">{t("tabRedBlind")}</TabsTrigger>
-                <TabsTrigger value="tritanopia">{t("tabBlueBlind")}</TabsTrigger>
-                <TabsTrigger value="achromatopsia">{t("tabNoColor")}</TabsTrigger>
-              </TabsList>
+            {/* Mode switch: all 4 panels are structurally identical (info
+                card + before/after comparison), differing only by
+                translated content — ratified ModePicker criterion. */}
+            <ModePicker
+              aria-label={t("simulation")}
+              value={activeTab}
+              onChange={setActiveTab}
+              options={[
+                { value: "deuteranopia", label: t("tabGreenBlind") },
+                { value: "protanopia", label: t("tabRedBlind") },
+                { value: "tritanopia", label: t("tabBlueBlind") },
+                { value: "achromatopsia", label: t("tabNoColor") },
+              ]}
+            />
 
-              {(["deuteranopia", "protanopia", "tritanopia", "achromatopsia"] as SimType[]).map((type) => (
-                <TabsContent key={type} value={type} className="space-y-4">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base flex items-center gap-2">
-                        {t(`${type}Label` as any)}
-                        <Badge variant="secondary">{t(`${type}Desc` as any)}</Badge>
-                      </CardTitle>
-                      <CardDescription className="text-sm">{t(`${type}Detail` as any)}</CardDescription>
-                    </CardHeader>
-                  </Card>
+            <div className="space-y-4">
+              <SettingsCard
+                title={t(`${activeTab}Label` as any)}
+                description={t(`${activeTab}Detail` as any)}
+                action={<Badge variant="secondary">{t(`${activeTab}Desc` as any)}</Badge>}
+              />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-sm text-muted-foreground">{t("original")}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-3 pt-0">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={originalSrc} alt="Original" className="w-full rounded-md object-contain max-h-64" />
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-sm text-muted-foreground">{SIM_INFO[type].label} {t("simulation")}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-3 pt-0">
-                        {simSrc && !processing ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={simSrc} alt={`${type} simulation`} className="w-full rounded-md object-contain max-h-64" />
-                        ) : (
-                          <div className="w-full h-40 bg-muted rounded-md flex items-center justify-center">
-                            <p className="text-sm text-muted-foreground">{processing ? t("processing") : t("simulationAppears")}</p>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">{t("original")}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={originalSrc} alt="Original" className="w-full rounded-md object-contain max-h-64" />
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">{SIM_INFO[activeTab].label} {t("simulation")}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    {simSrc && !processing ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={simSrc} alt={`${activeTab} simulation`} className="w-full rounded-md object-contain max-h-64" />
+                    ) : (
+                      <div className="w-full h-40 bg-muted rounded-md flex items-center justify-center">
+                        <p className="text-sm text-muted-foreground">{processing ? t("processing") : t("simulationAppears")}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </>
         )}
       </div>

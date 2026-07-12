@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo, useRef, useEffect } from "react";
+import { useState, useMemo, useRef, useEffect, useId } from "react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
@@ -11,13 +11,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
 import hljs from "highlight.js";
 import { Download, Copy } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { downloadDataUrl } from "@/lib/download";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
 
 const LANGUAGE_OPTIONS = [
   { value: "javascript", label: "JavaScript" },
@@ -67,6 +68,8 @@ interface Theme {
   colors: Record<string, string>; // hljs token color map
 }
 
+// content value: fixed syntax-theme presets, exported into the rendered image
+// independent of the app's own light/dark theme.
 const THEMES: Theme[] = [
   {
     id: "midnight",
@@ -154,6 +157,7 @@ const THEMES: Theme[] = [
   },
 ];
 
+// content value: fixed export-backdrop presets, independent of app theme.
 const BACKGROUNDS = [
   { id: "candy", label: "Candy", value: "linear-gradient(135deg, #ff9a9e 0%, #fad0c4 100%)" },
   { id: "ocean", label: "Ocean", value: "linear-gradient(135deg, #2193b0 0%, #6dd5ed 100%)" },
@@ -218,6 +222,10 @@ export default function CodeScreenshot() {
   const [radius, setRadius] = useState(12);
   const [fontSize, setFontSize] = useState(14);
   const [exporting, setExporting] = useState(false);
+  const languageId = useId();
+  const themeSelectId = useId();
+  const bgSelectId = useId();
+  const windowSelectId = useId();
 
   const theme = useMemo(
     () => THEMES.find((th) => th.id === themeId) ?? THEMES[0],
@@ -262,6 +270,7 @@ export default function CodeScreenshot() {
         ).join("")}</div>`
       : "";
 
+    // content value: fixed macOS traffic-light colors, exported into the image.
     const trafficLights =
       windowStyle === "mac"
         ? `<div style="display:flex;gap:8px;padding-bottom:16px"><span style="width:12px;height:12px;border-radius:50%;background:#ff5f56;display:inline-block"></span><span style="width:12px;height:12px;border-radius:50%;background:#ffbd2e;display:inline-block"></span><span style="width:12px;height:12px;border-radius:50%;background:#27c93f;display:inline-block"></span></div>`
@@ -378,8 +387,7 @@ export default function CodeScreenshot() {
           <div className="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-4">
             {/* Controls + code input */}
             <div className="space-y-4">
-              <Card className="p-4 space-y-3">
-                <div className="text-sm font-medium">{t("codeLabel")}</div>
+              <SettingsCard title={t("codeLabel")}>
                 <Textarea
                   data-testid="code-input"
                   value={code}
@@ -388,13 +396,12 @@ export default function CodeScreenshot() {
                   dir="ltr"
                   className="min-h-[200px] font-mono text-sm resize-y text-left"
                 />
-              </Card>
+              </SettingsCard>
 
-              <Card className="p-4 grid grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">{t("language")}</label>
+              <SettingsCard>
+                <OptionRow label={t("language")} htmlFor={languageId}>
                   <Select value={language} onValueChange={setLanguage}>
-                    <SelectTrigger data-testid="language-select">
+                    <SelectTrigger id={languageId} data-testid="language-select">
                       <SelectValue placeholder={t("language")} />
                     </SelectTrigger>
                     <SelectContent className="max-h-72">
@@ -405,12 +412,11 @@ export default function CodeScreenshot() {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
 
-                <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">{t("theme")}</label>
+                <OptionRow label={t("theme")} htmlFor={themeSelectId}>
                   <Select value={themeId} onValueChange={setThemeId}>
-                    <SelectTrigger data-testid="theme-select">
+                    <SelectTrigger id={themeSelectId} data-testid="theme-select">
                       <SelectValue placeholder={t("theme")} />
                     </SelectTrigger>
                     <SelectContent>
@@ -421,12 +427,11 @@ export default function CodeScreenshot() {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
 
-                <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">{t("background")}</label>
+                <OptionRow label={t("background")} htmlFor={bgSelectId}>
                   <Select value={bgId} onValueChange={setBgId}>
-                    <SelectTrigger data-testid="bg-select">
+                    <SelectTrigger id={bgSelectId} data-testid="bg-select">
                       <SelectValue placeholder={t("background")} />
                     </SelectTrigger>
                     <SelectContent>
@@ -437,15 +442,14 @@ export default function CodeScreenshot() {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
 
-                <div className="space-y-1">
-                  <label className="text-xs text-muted-foreground">{t("windowStyle")}</label>
+                <OptionRow label={t("windowStyle")} htmlFor={windowSelectId}>
                   <Select
                     value={windowStyle}
                     onValueChange={(v) => setWindowStyle(v as "mac" | "plain")}
                   >
-                    <SelectTrigger data-testid="window-select">
+                    <SelectTrigger id={windowSelectId} data-testid="window-select">
                       <SelectValue placeholder={t("windowStyle")} />
                     </SelectTrigger>
                     <SelectContent>
@@ -453,52 +457,15 @@ export default function CodeScreenshot() {
                       <SelectItem value="plain">{t("plainStyle")}</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
-              </Card>
+                </OptionRow>
+              </SettingsCard>
 
-              <Card className="p-4 space-y-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>{t("padding")}</span>
-                    <span>{padding}px</span>
-                  </div>
-                  <Slider
-                    aria-label={t("padding")}
-                    value={[padding]}
-                    min={0}
-                    max={128}
-                    step={4}
-                    onValueChange={([v]) => setPadding(v)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>{t("cornerRadius")}</span>
-                    <span>{radius}px</span>
-                  </div>
-                  <Slider
-                    aria-label={t("cornerRadius")}
-                    value={[radius]}
-                    min={0}
-                    max={32}
-                    step={2}
-                    onValueChange={([v]) => setRadius(v)}
-                  />
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-xs text-muted-foreground">
-                    <span>{t("fontSize")}</span>
-                    <span>{fontSize}px</span>
-                  </div>
-                  <Slider
-                    aria-label={t("fontSize")}
-                    value={[fontSize]}
-                    min={10}
-                    max={24}
-                    step={1}
-                    onValueChange={([v]) => setFontSize(v)}
-                  />
-                </div>
+              <SettingsCard>
+                <SliderRow label={t("padding")} value={padding} display={<>{padding}px</>} min={0} max={128} step={4} onChange={setPadding} />
+                <SliderRow label={t("cornerRadius")} value={radius} display={<>{radius}px</>} min={0} max={32} step={2} onChange={setRadius} />
+                <SliderRow label={t("fontSize")} value={fontSize} display={<>{fontSize}px</>} min={10} max={24} step={1} onChange={setFontSize} />
+                {/* Inline checkbox+label toggle — bespoke per RB3 ToggleOption
+                    precedent (horizontal affordance, not OptionRow's stacked shape). */}
                 <label className="flex items-center gap-2 text-sm cursor-pointer">
                   <input
                     type="checkbox"
@@ -509,7 +476,7 @@ export default function CodeScreenshot() {
                   />
                   {t("lineNumbers")}
                 </label>
-              </Card>
+              </SettingsCard>
 
               <div className="flex gap-2">
                 <Button
@@ -556,6 +523,7 @@ export default function CodeScreenshot() {
                   }}
                 >
                   {windowStyle === "mac" && (
+                    // content value: fixed macOS traffic-light colors, mirrors buildWindowSvg's export markup.
                     <div style={{ display: "flex", gap: 8, paddingBottom: 16 }}>
                       <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ff5f56" }} />
                       <span style={{ width: 12, height: 12, borderRadius: "50%", background: "#ffbd2e" }} />

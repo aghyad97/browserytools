@@ -3,22 +3,15 @@
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
 import { RotateCcw, RefreshCw, Shield, Lock, Key } from "lucide-react";
-import NumberFlow from "@number-flow/react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
 
 interface PasswordOptions {
   length: number;
@@ -233,33 +226,24 @@ export default function PasswordGenerator() {
       <div className="max-w-6xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Generator Options */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Key className="w-5 h-5" />
+        <SettingsCard
+          title={
+            <span className="flex items-center gap-2">
+              <Key className="h-4 w-4" />
               {t("generatorOptionsTitle")}
-            </CardTitle>
-            <CardDescription>
-              {t("generatorOptionsDesc")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+            </span>
+          }
+          description={t("generatorOptionsDesc")}
+        >
             {/* Length */}
-            <div className="space-y-2">
-              <Label>
-                {t("lengthLabel", { count: options.length })}
-              </Label>
-              <Slider
-                min={4}
-                max={128}
-                step={1}
-                value={[options.length]}
-                onValueChange={(value) =>
-                  handleOptionChange("length", value[0])
-                }
-                className="w-full"
-              />
-            </div>
+            <SliderRow
+              label={t("lengthLabel", { count: options.length })}
+              display=""
+              value={options.length}
+              min={4}
+              max={128}
+              onChange={(v) => handleOptionChange("length", v)}
+            />
 
             {/* Character Types */}
             <div className="space-y-4">
@@ -352,22 +336,22 @@ export default function PasswordGenerator() {
               <RefreshCw className="w-4 h-4 me-2" />
               {t("generatePassword")}
             </Button>
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
         {/* Password Output */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Lock className="w-5 h-5" />
+        <SettingsCard
+          title={
+            <span className="flex items-center gap-2">
+              <Lock className="h-4 w-4" />
               {t("generatedPasswordTitle")}
-            </CardTitle>
-            <CardDescription>
-              {t("generatedPasswordDesc")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            {/* Password Display */}
+            </span>
+          }
+          description={t("generatedPasswordDesc")}
+        >
+            {/* Password Display — kept bespoke: readOnly Input with an exact
+                placeholder/value contract the tests assert on; OutputPanel's
+                mono <pre> body doesn't carry the same interactive-input
+                semantics. */}
             <div className="space-y-2">
               <Label>{t("passwordLabel")}</Label>
               <div className="flex gap-2">
@@ -419,19 +403,11 @@ export default function PasswordGenerator() {
                 {t("clear")}
               </Button>
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
 
       {/* Quick Generate */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>{t("quickGenerate")}</CardTitle>
-          <CardDescription>
-            {t("quickGenerateDesc")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
+      <SettingsCard title={t("quickGenerate")} description={t("quickGenerateDesc")} className="mt-6">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
             <Button
               variant="outline"
@@ -502,18 +478,18 @@ export default function PasswordGenerator() {
               {t("maximumPreset")}
             </Button>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       {/* Security Tips */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Shield className="w-5 h-5" />
+      <SettingsCard
+        title={
+          <span className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
             {t("securityTipsTitle")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </span>
+        }
+        className="mt-6"
+      >
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm">
             <ul className="space-y-2">
               <li className="flex items-start gap-2">
@@ -544,8 +520,7 @@ export default function PasswordGenerator() {
               </li>
             </ul>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
       </div>
     </ToolShell>
   );

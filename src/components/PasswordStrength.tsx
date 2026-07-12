@@ -2,15 +2,8 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import {
   Eye, EyeOff, RefreshCw, Check, X, Shield, Lightbulb,
@@ -18,6 +11,8 @@ import {
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 interface CheckItem { label: string; passed: boolean; }
 
 interface StrengthResult {
@@ -192,10 +187,8 @@ export default function PasswordStrength() {
     >
       <div className="max-w-3xl mx-auto space-y-6">
       {/* Input Card */}
-      <Card>
-        <CardContent className="space-y-4 pt-6">
-          <div className="space-y-2">
-            <Label htmlFor="pw-input">{t("passwordLabel")}</Label>
+      <SettingsCard>
+          <OptionRow label={t("passwordLabel")} htmlFor="pw-input">
             <div className="relative">
               <Input
                 id="pw-input"
@@ -222,7 +215,7 @@ export default function PasswordStrength() {
                 )}
               </div>
             </div>
-          </div>
+          </OptionRow>
           <div className="flex flex-wrap gap-2">
             <Button onClick={handleGenerate} variant="outline" className="gap-2">
               <RefreshCw className="h-4 w-4" />
@@ -234,24 +227,24 @@ export default function PasswordStrength() {
               </Button>
             )}
           </div>
-        </CardContent>
-      </Card>
-      {/* Strength Meter */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center justify-between">
-            <span className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
-              {t("strengthAnalysisTitle")}
-            </span>
-            {password && (
-              <Badge className={`${badgeBg} text-white`}>
-                {strengthLabel}
-              </Badge>
-            )}
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-5">
+      </SettingsCard>
+      {/* Strength Meter — segmented bar is semantically score-colored,
+          bespoke per RB2 precedent (no bt status token exists). */}
+      <SettingsCard
+        title={
+          <span className="flex items-center gap-2">
+            <Shield className="h-4 w-4" />
+            {t("strengthAnalysisTitle")}
+          </span>
+        }
+        action={
+          password && (
+            <Badge className={`${badgeBg} text-white`}>
+              {strengthLabel}
+            </Badge>
+          )
+        }
+      >
           {/* Segmented bar */}
           <div className="space-y-1">
             <div className="flex gap-1 h-2">
@@ -270,20 +263,13 @@ export default function PasswordStrength() {
             </div>
           </div>
           {/* Stats */}
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="p-3 border rounded-lg">
-              <div className="text-2xl font-bold tabular-nums">{password.length}</div>
-              <div className="text-xs text-muted-foreground mt-1">{t("charactersLabel")}</div>
-            </div>
-            <div className="p-3 border rounded-lg">
-              <div className="text-2xl font-bold tabular-nums">{entropy}</div>
-              <div className="text-xs text-muted-foreground mt-1">{t("entropyLabel")}</div>
-            </div>
-            <div className="p-3 border rounded-lg">
-              <div className="text-sm font-semibold leading-snug pt-1">{timeToCrack}</div>
-              <div className="text-xs text-muted-foreground mt-1">{t("timeToCrackLabel")}</div>
-            </div>
-          </div>
+          <StatStrip
+            items={[
+              { label: t("charactersLabel"), value: password.length },
+              { label: t("entropyLabel"), value: entropy },
+              { label: t("timeToCrackLabel"), value: timeToCrack },
+            ]}
+          />
           {/* Checklist */}
           <div className="space-y-2">
             <p className="text-sm font-medium">{t("requirementsLabel")}</p>
@@ -302,17 +288,16 @@ export default function PasswordStrength() {
               ))}
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
       {/* Tips */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Lightbulb className="h-5 w-5" />
+      <SettingsCard
+        title={
+          <span className="flex items-center gap-2">
+            <Lightbulb className="h-4 w-4" />
             {t("tipsTitle")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+          </span>
+        }
+      >
           <ul className="space-y-2">
             {tips.map((tip, idx) => (
               <li key={idx} className="flex items-start gap-2 text-sm">
@@ -321,8 +306,7 @@ export default function PasswordStrength() {
               </li>
             ))}
           </ul>
-        </CardContent>
-      </Card>
+      </SettingsCard>
       </div>
     </ToolShell>
   );

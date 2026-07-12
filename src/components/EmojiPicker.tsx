@@ -3,13 +3,13 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
 import { Search, Clock } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 interface EmojiData {
   emoji: string;
@@ -648,33 +648,18 @@ export default function EmojiPicker() {
 
         {/* Search Results */}
         {filtered !== null ? (
-          <Card>
-            <CardHeader className="pb-2 pt-4">
-              <CardTitle className="text-sm flex items-center gap-2">
-                {t("searchResults")}
-                <Badge variant="secondary">{filtered.length}</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pb-4">
+          <SettingsCard title={t("searchResults")} action={<Badge variant="secondary">{filtered.length}</Badge>}>
               {filtered.length > 0 ? (
                 <EmojiGrid emojis={filtered} />
               ) : (
                 <p className="text-sm text-muted-foreground text-center py-4">{t("noResults")} &quot;{search}&quot;</p>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         ) : (
           <>
             {/* Recently Used */}
             {recent.length > 0 && (
-              <Card>
-                <CardHeader className="pb-2 pt-4">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    {t("recentlyUsed")}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pb-4">
+              <SettingsCard title={<span className="flex items-center gap-2"><Clock className="w-4 h-4" />{t("recentlyUsed")}</span>}>
                   <div className="grid grid-cols-8 sm:grid-cols-10 md:grid-cols-12 gap-0.5">
                     {recent.map((emoji, i) => (
                       <button
@@ -697,11 +682,10 @@ export default function EmojiPicker() {
                       </button>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
+              </SettingsCard>
             )}
 
-            {/* Category Tabs */}
+            {/* Category Tabs — 9 distinct data panels, kept as real tab semantics. */}
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-5 sm:grid-cols-9 w-full h-auto gap-0.5 flex-wrap">
                 {CATEGORIES.map((cat) => (
@@ -713,11 +697,9 @@ export default function EmojiPicker() {
 
               {CATEGORIES.map((cat) => (
                 <TabsContent key={cat} value={cat}>
-                  <Card>
-                    <CardContent className="pt-4 pb-4">
+                  <SettingsCard>
                       <EmojiGrid emojis={byCategory[cat] ?? []} />
-                    </CardContent>
-                  </Card>
+                  </SettingsCard>
                 </TabsContent>
               ))}
             </Tabs>

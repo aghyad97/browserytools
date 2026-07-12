@@ -4,12 +4,12 @@ import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { ArrowLeftRight, CheckCircle, XCircle } from "lucide-react";
 import { ToolShell } from "@/components/template/tool-shell";
 import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 function hexToRgb(hex: string): { r: number; g: number; b: number } | null {
   const clean = hex.trim().replace(/^#/, "");
@@ -39,6 +39,7 @@ function ensureHash(hex: string): string {
   return "#" + clean;
 }
 
+// content value: named fg/bg preset swatches, independent of app theme.
 const PRESETS = [
   { label: "White on Black", fg: "#FFFFFF", bg: "#000000" },
   { label: "Black on White", fg: "#000000", bg: "#FFFFFF" },
@@ -51,6 +52,7 @@ const PRESETS = [
 export default function ContrastChecker() {
   const t = useTranslations("Tools.ContrastChecker");
   const tc = useTranslations("ToolsConfig");
+  // content value: default fg/bg color-picker seeds, independent of app theme.
   const [fg, setFg] = useState("#1D4ED8");
   const [bg, setBg] = useState("#FFFFFF");
   const [fgInput, setFgInput] = useState("#1D4ED8");
@@ -128,55 +130,48 @@ export default function ContrastChecker() {
     >
       <div className="max-w-2xl mx-auto space-y-4">
         {/* Color Inputs */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("colors")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <SettingsCard title={t("colors")}>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>{t("foregroundColor")}</Label>
+              <OptionRow label={t("foregroundColor")}>
                 <div className="flex gap-2">
-                  <div className="relative">
-                    <input
-                      type="color"
-                      value={fg}
-                      onChange={(e) => handleFgPicker(e.target.value)}
-                      className="w-10 h-10 rounded border cursor-pointer p-0.5"
-                    />
-                  </div>
+                  <input
+                    type="color"
+                    value={fg}
+                    onChange={(e) => handleFgPicker(e.target.value)}
+                    aria-label={t("foregroundColor")}
+                    className="w-10 h-10 rounded border cursor-pointer p-0.5"
+                  />
                   <Input
                     value={fgInput}
                     onChange={(e) => handleFgInput(e.target.value)}
-                    placeholder="#000000"
+                    placeholder="#000000" // content value: format-hint example, not styling
                     className="font-mono"
                   />
                 </div>
-              </div>
-              <div className="space-y-2">
-                <Label>{t("backgroundColor")}</Label>
+              </OptionRow>
+              <OptionRow label={t("backgroundColor")}>
                 <div className="flex gap-2">
                   <input
                     type="color"
                     value={bg}
                     onChange={(e) => handleBgPicker(e.target.value)}
+                    aria-label={t("backgroundColor")}
                     className="w-10 h-10 rounded border cursor-pointer p-0.5"
                   />
                   <Input
                     value={bgInput}
                     onChange={(e) => handleBgInput(e.target.value)}
-                    placeholder="#FFFFFF"
+                    placeholder="#FFFFFF" // content value: format-hint example, not styling
                     className="font-mono"
                   />
                 </div>
-              </div>
+              </OptionRow>
             </div>
             <Button variant="outline" onClick={swap} className="w-full">
               <ArrowLeftRight className="w-4 h-4 me-2" />
               {t("swapColors")}
             </Button>
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
         {/* Contrast Ratio */}
         <Card>
@@ -193,12 +188,8 @@ export default function ContrastChecker() {
 
         {/* WCAG Results */}
         {checks && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">{t("wcagCompliance")}</CardTitle>
-              <CardDescription>{t("wcagDescription")}</CardDescription>
-            </CardHeader>
-            <CardContent>
+          <SettingsCard title={t("wcagCompliance")} description={t("wcagDescription")}>
+              {/* status color, no bt token: pass/fail semantic backgrounds */}
               <div className="grid grid-cols-2 gap-3">
                 {[
                   { label: t("aaNormal"), sublabel: t("aaNormalSub"), pass: checks.aaNormal },
@@ -215,16 +206,12 @@ export default function ContrastChecker() {
                   </div>
                 ))}
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
         )}
 
-        {/* Live Preview */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("preview")}</CardTitle>
-          </CardHeader>
-          <CardContent>
+        {/* Live Preview — sample text/UI rendered in the user's exact fg/bg
+            pair IS the content being evaluated, not app chrome. */}
+        <SettingsCard title={t("preview")}>
             <div className="rounded-lg overflow-hidden border" style={{ backgroundColor: bg, color: fg }}>
               <div className="p-6 space-y-4">
                 <p style={{ fontSize: "16px", fontWeight: "normal" }}>
@@ -262,15 +249,10 @@ export default function ContrastChecker() {
                 </div>
               </div>
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
         {/* Presets */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("presets")}</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <SettingsCard title={t("presets")}>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
               {PRESETS.map((p) => (
                 <button
@@ -286,8 +268,7 @@ export default function ContrastChecker() {
                 </button>
               ))}
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
     </ToolShell>
   );

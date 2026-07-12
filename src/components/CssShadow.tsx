@@ -7,10 +7,13 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 interface ShadowLayer { id: number; h: number; v: number; blur: number; spread: number; color: string; opacity: number; inset: boolean }
 
+// content value: default shadow color, independent of app theme.
 const DEFAULT: Omit<ShadowLayer, "id"> = { h: 4, v: 4, blur: 10, spread: 0, color: "#000000", opacity: 25, inset: false };
 let nextId = 1;
 
@@ -32,16 +35,6 @@ export default function CssShadow() {
   const update = (patch: Partial<ShadowLayer>) =>
     setLayers((prev) => prev.map((l, i) => (i === active ? { ...l, ...patch } : l)));
 
-  const SR = ({ label, value, min, max, onChange }: { label: string; value: number; min: number; max: number; onChange: (v: number) => void }) => (
-    <div className="space-y-1">
-      <div className="flex justify-between text-sm">
-        <Label>{label}</Label>
-        <span className="text-muted-foreground tabular-nums">{value}px</span>
-      </div>
-      <Slider min={min} max={max} value={[value]} onValueChange={([v]) => onChange(v)} />
-    </div>
-  );
-
   return (
     <ToolShell
       slug="css-shadow"
@@ -49,8 +42,10 @@ export default function CssShadow() {
       sub={tc("tools.css-shadow.description")}
     >
       <div className="max-w-4xl mx-auto space-y-4">
-      <Card>
-        <CardContent className="space-y-6 pt-6">
+      <SettingsCard>
+          {/* Layer switcher: dynamic add/remove list, no existing translation
+              key fits ModePicker's required aria-label — kept bespoke (same
+              rationale as SvgBlobGenerator's mode toggle). */}
           <div className="flex gap-2 flex-wrap">
             {layers.map((l, i) => (
               <button key={l.id} onClick={() => setActive(i)}
@@ -63,14 +58,11 @@ export default function CssShadow() {
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <SR label={t("horizontalOffset")} value={layer.h} min={-50} max={50} onChange={(v) => update({ h: v })} />
-              <SR label={t("verticalOffset")} value={layer.v} min={-50} max={50} onChange={(v) => update({ v: v })} />
-              <SR label={t("blurRadius")} value={layer.blur} min={0} max={100} onChange={(v) => update({ blur: v })} />
-              <SR label={t("spreadRadius")} value={layer.spread} min={-50} max={50} onChange={(v) => update({ spread: v })} />
-              <div className="space-y-1">
-                <div className="flex justify-between text-sm"><Label>Opacity</Label><span className="text-muted-foreground tabular-nums">{layer.opacity}%</span></div>
-                <Slider min={0} max={100} value={[layer.opacity]} onValueChange={([v]) => update({ opacity: v })} />
-              </div>
+              <SliderRow label={t("horizontalOffset")} value={layer.h} display={<>{layer.h}px</>} min={-50} max={50} onChange={(v) => update({ h: v })} />
+              <SliderRow label={t("verticalOffset")} value={layer.v} display={<>{layer.v}px</>} min={-50} max={50} onChange={(v) => update({ v: v })} />
+              <SliderRow label={t("blurRadius")} value={layer.blur} display={<>{layer.blur}px</>} min={0} max={100} onChange={(v) => update({ blur: v })} />
+              <SliderRow label={t("spreadRadius")} value={layer.spread} display={<>{layer.spread}px</>} min={-50} max={50} onChange={(v) => update({ spread: v })} />
+              <SliderRow label="Opacity" value={layer.opacity} display={<>{layer.opacity}%</>} min={0} max={100} onChange={(v) => update({ opacity: v })} />
             </div>
             <div className="space-y-4">
               <div className="space-y-2">
@@ -86,8 +78,7 @@ export default function CssShadow() {
               </label>
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
         <Card>
@@ -96,13 +87,7 @@ export default function CssShadow() {
             <div className="w-32 h-32 bg-card rounded-lg border" style={{ boxShadow: layers.map(layerToCss).join(", ") }} />
           </CardContent>
         </Card>
-        <Card>
-          <CardHeader><CardTitle className="text-base">{t("cssOutput")}</CardTitle></CardHeader>
-          <CardContent className="space-y-3">
-            <pre className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap">{cssOutput}</pre>
-            <CopyButton text={cssOutput} label={t("copyCSS")} successMessage={t("copied")} />
-          </CardContent>
-        </Card>
+        <OutputPanel title={t("cssOutput")} text={cssOutput} copyLabel={t("copyCSS")} copySuccessMessage={t("copied")} />
       </div>
       </div>
     </ToolShell>
