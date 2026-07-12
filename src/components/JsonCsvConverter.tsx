@@ -12,14 +12,15 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Download, Upload, ArrowRightLeft } from "lucide-react";
+import { Upload, ArrowRightLeft } from "lucide-react";
 import { useEffect, useRef } from "react";
 import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
 import "highlight.js/styles/github-dark.css";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { downloadText } from "@/lib/download";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type ConversionMode = "jsonToCsv" | "csvToJson";
 // Register the languages
@@ -104,20 +105,6 @@ export default function JsonCsvConverter() {
     } catch (error) {
       toast.error(error instanceof Error ? error.message : t("conversionSuccessful"));
     }
-  };
-
-  const handleDownload = () => {
-    if (!output) {
-      toast.error(t("noOutputToDownload"));
-      return;
-    }
-
-    downloadText(
-      output,
-      mode === "jsonToCsv" ? "converted.csv" : "converted.json",
-      mode === "jsonToCsv" ? "text/csv" : "application/json",
-    );
-    toast.success(t("fileDownloadedSuccessfully"));
   };
 
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,19 +200,26 @@ export default function JsonCsvConverter() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <Card className="p-4">
-              <Textarea
-                placeholder={mode === "jsonToCsv" ? t("inputPlaceholderJson") : t("inputPlaceholderCsv")}
-                className="min-h-[400px] font-mono text-left"
-                dir="ltr"
-                value={input}
-                onChange={handleInputChange}
-              />
-            </Card>
-
-            <Card className="p-4">
-              <div className="relative">
+          <TwoPane
+            start={
+              <Card className="p-4">
+                <Textarea
+                  placeholder={mode === "jsonToCsv" ? t("inputPlaceholderJson") : t("inputPlaceholderCsv")}
+                  className="min-h-[400px] font-mono text-left"
+                  dir="ltr"
+                  value={input}
+                  onChange={handleInputChange}
+                />
+              </Card>
+            }
+            end={
+              <OutputPanel
+                text={output}
+                title={mode === "jsonToCsv" ? "CSV" : "JSON"}
+                filename={mode === "jsonToCsv" ? "converted.csv" : "converted.json"}
+                mime={mode === "jsonToCsv" ? "text/csv" : "application/json"}
+                downloadSuccessMessage={t("fileDownloadedSuccessfully")}
+              >
                 {mode === "csvToJson" ? (
                   <pre
                     ref={outputRef}
@@ -237,24 +231,15 @@ export default function JsonCsvConverter() {
                 ) : (
                   <Textarea
                     placeholder={t("outputPlaceholder")}
-                    className="min-h-[400px] font-mono text-left"
+                    className="min-h-[400px] rounded-none border-0 bg-transparent font-mono text-left resize-none focus-visible:ring-0"
                     dir="ltr"
                     value={output}
                     readOnly
                   />
                 )}
-                {output && (
-                  <Button
-                    size="icon"
-                    className="absolute top-2 end-2"
-                    onClick={handleDownload}
-                  >
-                    <Download className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-            </Card>
-          </div>
+              </OutputPanel>
+            }
+          />
       </div>
     </ToolShell>
   );

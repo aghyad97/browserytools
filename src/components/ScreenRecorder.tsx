@@ -7,7 +7,8 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { Slider } from "@/components/ui/slider";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
 import {
   Select,
   SelectContent,
@@ -27,6 +28,7 @@ import {
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import { encodeGif, type GifFrame } from "@/lib/media/gif-encode";
 
 type Quality = "720" | "1080" | "max";
@@ -49,10 +51,6 @@ function formatDuration(seconds: number): string {
   return `${m}:${s}`;
 }
 
-function formatSize(bytes: number): string {
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-}
 
 function qualityDimensions(q: Quality): { width?: number; height?: number } {
   if (q === "1080") return { width: 1920, height: 1080 };
@@ -470,9 +468,9 @@ export default function ScreenRecorder() {
       <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {/* Controls */}
-          <Card>
-            <CardContent className="pt-6 space-y-5">
+          <SettingsCard>
               <div className="space-y-4">
+                {/* Inline toggle rows kept bespoke (label-start / switch-end); OptionRow is a stacked label-above-control layout, wrong for switches. */}
                 <div className="flex items-center justify-between">
                   <Label>{t("includeMicrophone")}</Label>
                   <Switch
@@ -494,14 +492,13 @@ export default function ScreenRecorder() {
 
                 {includeWebcam && (
                   <div className="space-y-4 rounded-lg bg-muted/40 p-3">
-                    <div className="space-y-1.5">
-                      <Label>{t("webcamPosition")}</Label>
+                    <OptionRow label={t("webcamPosition")} htmlFor="sr-pip-position">
                       <Select
                         value={pipPosition}
                         onValueChange={(v) => setPipPosition(v as PipPosition)}
                         disabled={isRecording}
                       >
-                        <SelectTrigger>
+                        <SelectTrigger id="sr-pip-position">
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -519,24 +516,17 @@ export default function ScreenRecorder() {
                           </SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <Label>{t("webcamSize")}</Label>
-                        <span className="text-xs text-muted-foreground" dir="ltr">
-                          {pipSize}%
-                        </span>
-                      </div>
-                      <Slider
-                        value={[pipSize]}
-                        min={10}
-                        max={40}
-                        step={1}
-                        onValueChange={(v) => setPipSize(v[0])}
-                        disabled={isRecording}
-                        aria-label={t("webcamSize")}
-                      />
-                    </div>
+                    </OptionRow>
+                    <SliderRow
+                      label={t("webcamSize")}
+                      value={pipSize}
+                      min={10}
+                      max={40}
+                      step={1}
+                      onChange={setPipSize}
+                      disabled={isRecording}
+                      display={<span dir="ltr">{pipSize}%</span>}
+                    />
                   </div>
                 )}
 
@@ -550,14 +540,13 @@ export default function ScreenRecorder() {
                   />
                 </div>
 
-                <div className="space-y-1.5">
-                  <Label>{t("videoQuality")}</Label>
+                <OptionRow label={t("videoQuality")} htmlFor="sr-quality">
                   <Select
                     value={videoQuality}
                     onValueChange={(v) => setVideoQuality(v as Quality)}
                     disabled={isRecording}
                   >
-                    <SelectTrigger>
+                    <SelectTrigger id="sr-quality">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -566,7 +555,7 @@ export default function ScreenRecorder() {
                       <SelectItem value="max">{t("qualityMax")}</SelectItem>
                     </SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
               </div>
 
               {isRecording ? (
@@ -605,8 +594,7 @@ export default function ScreenRecorder() {
                 <p>• {t("privacyNote2")}</p>
                 <p>• {t("privacyNote3")}</p>
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
 
           {/* Preview */}
           <Card>
@@ -658,7 +646,7 @@ export default function ScreenRecorder() {
                             {formatDuration(entry.duration)}
                           </Badge>
                           <Badge variant="outline" className="text-xs">
-                            {formatSize(entry.size)}
+                            {formatBytes(entry.size)}
                           </Badge>
                           {gifBusyId === entry.id && (
                             <Badge variant="outline" className="text-xs" dir="ltr">

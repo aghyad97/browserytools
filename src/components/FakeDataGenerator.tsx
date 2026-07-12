@@ -2,17 +2,16 @@
 
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Download, RefreshCw } from "lucide-react";
+import { RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
-import { downloadBlob } from "@/lib/download";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 // Data pools
 const FIRST_NAMES = ["Alice", "Bob", "Charlie", "Diana", "Eve", "Frank", "Grace", "Henry", "Isabella", "James", "Kate", "Liam", "Mia", "Noah", "Olivia", "Paul", "Quinn", "Rachel", "Sam", "Tina", "Uma", "Victor", "Wendy", "Xander", "Yara", "Zoe"];
@@ -100,13 +99,6 @@ export default function FakeDataGenerator() {
     toast.success(t("generatedRecords", { count: rows.length }));
   };
 
-  const handleDownload = () => {
-    if (!output) return;
-    const ext = format === "json" ? "json" : "csv";
-    const blob = new Blob([output], { type: format === "json" ? "application/json" : "text/csv" });
-    downloadBlob(blob, `fake-data-${Date.now()}.${ext}`);
-  };
-
   const toggleField = (key: string) => {
     setFields((prev) => prev.map((f) => f.key === key ? { ...f, enabled: !f.enabled } : f));
   };
@@ -121,46 +113,35 @@ export default function FakeDataGenerator() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Controls */}
           <div className="space-y-4">
-            <Card>
-              <CardHeader className="pb-3"><CardTitle className="text-sm">{t("settingsTitle")}</CardTitle></CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-1.5">
-                  <Label>{t("numberOfRecords")}</Label>
-                  <Input
-                    type="number"
-                    min={1}
-                    max={1000}
-                    value={count}
-                    onChange={(e) => setCount(Math.max(1, Math.min(1000, Number(e.target.value))))}
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t("format")}</Label>
-                  <div className="flex gap-2">
-                    {(["json", "csv"] as const).map((f) => (
-                      <Button
-                        key={f}
-                        size="sm"
-                        variant={format === f ? "default" : "outline"}
-                        onClick={() => setFormat(f)}
-                        className="flex-1"
-                      >
-                        {f.toUpperCase()}
-                      </Button>
-                    ))}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+            <SettingsCard title={t("settingsTitle")}>
+              <OptionRow label={t("numberOfRecords")} htmlFor="fake-count">
+                <Input
+                  id="fake-count"
+                  type="number"
+                  min={1}
+                  max={1000}
+                  value={count}
+                  onChange={(e) => setCount(Math.max(1, Math.min(1000, Number(e.target.value))))}
+                />
+              </OptionRow>
+              <OptionRow label={t("format")}>
+                <ModePicker
+                  aria-label={t("format")}
+                  value={format}
+                  onChange={setFormat}
+                  options={[
+                    { value: "json", label: "JSON" },
+                    { value: "csv", label: "CSV" },
+                  ]}
+                />
+              </OptionRow>
+            </SettingsCard>
 
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm flex items-center justify-between">
-                  {t("fieldsTitle")}
-                  <Badge variant="secondary">{t("selectedCount", { count: enabledFields.length })}</Badge>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-2">
+            <SettingsCard
+              title={t("fieldsTitle")}
+              action={<Badge variant="secondary">{t("selectedCount", { count: enabledFields.length })}</Badge>}
+            >
+              <div className="space-y-2">
                 {fields.map((field) => (
                   <div key={field.key} className="flex items-center gap-2">
                     <Checkbox
@@ -171,8 +152,8 @@ export default function FakeDataGenerator() {
                     <label htmlFor={field.key} className="text-sm cursor-pointer">{field.label}</label>
                   </div>
                 ))}
-              </CardContent>
-            </Card>
+              </div>
+            </SettingsCard>
 
             <Button onClick={generate} className="w-full gap-2">
               <RefreshCw className="w-4 h-4" /> {t("generateData")}
@@ -181,32 +162,22 @@ export default function FakeDataGenerator() {
 
           {/* Output */}
           <div className="lg:col-span-2">
-            <Card className="h-full">
-              <CardHeader className="pb-3">
-                <CardTitle className="text-sm flex items-center justify-between">
-                  {t("outputTitle")}
-                  <div className="flex gap-2">
-                    <CopyButton
-                      text={output}
-                      disabled={!output}
-                      successMessage={t("copiedToClipboard")}
-                      errorMessage={t("failedToCopy")}
-                    />
-                    <Button size="sm" variant="outline" onClick={handleDownload} disabled={!output}>
-                      <Download className="w-3.5 h-3.5 me-1.5" /> {t("download")}
-                    </Button>
-                  </div>
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <textarea
-                  readOnly
-                  value={output}
-                  placeholder={t("outputPlaceholder")}
-                  className="w-full min-h-[60vh] font-mono text-xs bg-muted/50 rounded-lg p-3 resize-none outline-none"
-                />
-              </CardContent>
-            </Card>
+            <OutputPanel
+              className="h-full"
+              text={output}
+              title={t("outputTitle")}
+              filename={`fake-data-${Date.now()}.${format === "json" ? "json" : "csv"}`}
+              mime={format === "json" ? "application/json" : "text/csv"}
+              copySuccessMessage={t("copiedToClipboard")}
+              copyErrorMessage={t("failedToCopy")}
+            >
+              <textarea
+                readOnly
+                value={output}
+                placeholder={t("outputPlaceholder")}
+                className="w-full min-h-[60vh] font-mono text-xs bg-muted/50 rounded-lg p-3 resize-none outline-none"
+              />
+            </OutputPanel>
           </div>
         </div>
       </div>

@@ -10,12 +10,13 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { RotateCcw, ArrowLeftRight, ChevronDown, ChevronUp } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 const MORSE_MAP: Record<string, string> = {
   A: ".-",
@@ -121,7 +122,8 @@ export default function MorseCodeConverter() {
   const morseOutput = useMemo(() => textToMorse(textInput), [textInput]);
   const textOutput = useMemo(() => morseToText(morseInput), [morseInput]);
 
-  const copyValue = activeTab === "text-to-morse" ? morseOutput : textOutput;
+  const isTextToMorse = activeTab === "text-to-morse";
+  const copyValue = isTextToMorse ? morseOutput : textOutput;
 
   const handleSwap = useCallback(() => {
     if (activeTab === "text-to-morse") {
@@ -166,36 +168,30 @@ export default function MorseCodeConverter() {
             <RotateCcw className="w-4 h-4" />
             {tCommon("clear")}
           </Button>
-          <CopyButton
-            text={copyValue}
-            label={t("copyOutput")}
-            successMessage={t("copiedToClipboard")}
-          />
         </>
       }
     >
-      <Tabs
-        value={activeTab}
-        onValueChange={(v) =>
-          setActiveTab(v as "text-to-morse" | "morse-to-text")
-        }
-      >
-        <div className="mb-4">
-          <TabsList>
-            <TabsTrigger value="text-to-morse">{t("textToMorse")}</TabsTrigger>
-            <TabsTrigger value="morse-to-text">{t("morseToText")}</TabsTrigger>
-          </TabsList>
-        </div>
+      <div className="mb-4">
+        <ModePicker
+          aria-label={t("textToMorse")}
+          value={activeTab}
+          onChange={setActiveTab}
+          options={[
+            { value: "text-to-morse", label: t("textToMorse") },
+            { value: "morse-to-text", label: t("morseToText") },
+          ]}
+        />
+      </div>
 
-        {/* Text → Morse */}
-        <TabsContent value="text-to-morse">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("textInputTitle")}</CardTitle>
-                <CardDescription>{t("textInputDesc")}</CardDescription>
-              </CardHeader>
-              <CardContent>
+      <TwoPane
+        start={
+          <Card>
+            <CardHeader>
+              <CardTitle>{isTextToMorse ? t("textInputTitle") : t("morseInputTitle")}</CardTitle>
+              <CardDescription>{isTextToMorse ? t("textInputDesc") : t("morseInputDesc")}</CardDescription>
+            </CardHeader>
+            <CardContent>
+              {isTextToMorse ? (
                 <Textarea
                   placeholder={t("textInputPlaceholder")}
                   value={textInput}
@@ -203,45 +199,7 @@ export default function MorseCodeConverter() {
                   className="min-h-[240px] resize-none"
                   rows={10}
                 />
-                <div className="mt-2 flex gap-2">
-                  <Badge variant="secondary">{textInput.length} {t("chars")}</Badge>
-                  <Badge variant="secondary">
-                    {textInput.trim() ? textInput.trim().split(/\s+/).length : 0} {t("words")}
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("morseOutputTitle")}</CardTitle>
-                <CardDescription>{t("morseOutputDesc")}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  value={morseOutput}
-                  readOnly
-                  placeholder={t("morseOutputPlaceholder")}
-                  className="min-h-[240px] resize-none bg-muted font-mono text-sm"
-                  rows={10}
-                />
-                <div className="mt-2">
-                  <Badge variant="secondary">{morseOutput.length} {t("chars")}</Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-
-        {/* Morse → Text */}
-        <TabsContent value="morse-to-text">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("morseInputTitle")}</CardTitle>
-                <CardDescription>{t("morseInputDesc")}</CardDescription>
-              </CardHeader>
-              <CardContent>
+              ) : (
                 <Textarea
                   placeholder={t("morseInputPlaceholder")}
                   value={morseInput}
@@ -249,33 +207,44 @@ export default function MorseCodeConverter() {
                   className="min-h-[240px] resize-none font-mono text-sm"
                   rows={10}
                 />
-                <div className="mt-2">
+              )}
+              <div className="mt-2 flex gap-2">
+                {isTextToMorse ? (
+                  <>
+                    <Badge variant="secondary">{textInput.length} {t("chars")}</Badge>
+                    <Badge variant="secondary">
+                      {textInput.trim() ? textInput.trim().split(/\s+/).length : 0} {t("words")}
+                    </Badge>
+                  </>
+                ) : (
                   <Badge variant="secondary">{morseInput.length} {t("chars")}</Badge>
-                </div>
-              </CardContent>
-            </Card>
-
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("textOutputTitle")}</CardTitle>
-                <CardDescription>{t("textOutputDesc")}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Textarea
-                  value={textOutput}
-                  readOnly
-                  placeholder={t("textOutputPlaceholder")}
-                  className="min-h-[240px] resize-none bg-muted"
-                  rows={10}
-                />
-                <div className="mt-2">
-                  <Badge variant="secondary">{textOutput.length} {t("chars")}</Badge>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </TabsContent>
-      </Tabs>
+                )}
+              </div>
+            </CardContent>
+          </Card>
+        }
+        end={
+          <OutputPanel
+            text={copyValue}
+            title={
+              <>
+                {isTextToMorse ? t("morseOutputTitle") : t("textOutputTitle")}
+                {copyValue ? ` · ${copyValue.length} ${t("chars")}` : ""}
+              </>
+            }
+            copyLabel={t("copyOutput")}
+            copySuccessMessage={t("copiedToClipboard")}
+          >
+            <Textarea
+              value={copyValue}
+              readOnly
+              placeholder={isTextToMorse ? t("morseOutputPlaceholder") : t("textOutputPlaceholder")}
+              className={`min-h-[240px] rounded-none border-0 bg-transparent resize-none focus-visible:ring-0${isTextToMorse ? " font-mono text-sm" : ""}`}
+              rows={10}
+            />
+          </OutputPanel>
+        }
+      />
 
       {/* Reference Table */}
       <Card className="mt-6">

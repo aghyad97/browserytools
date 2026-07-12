@@ -17,7 +17,6 @@ import { Badge } from "@/components/ui/badge";
 import {
   Camera,
   Upload,
-  Download,
   AlertCircle,
   CheckCircle,
   Settings,
@@ -32,8 +31,7 @@ import {
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
-import { CopyButton } from "@/components/shared/CopyButton";
-import { downloadText } from "@/lib/download";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 export default function QRScanner() {
   const t = useTranslations("Tools.QRScanner");
@@ -266,10 +264,6 @@ export default function QRScanner() {
       };
       reader.readAsDataURL(file);
     }
-  };
-
-  const downloadResult = () => {
-    downloadText(scannedData, "qr-code-data.txt");
   };
 
   const clearResults = () => {
@@ -692,17 +686,25 @@ export default function QRScanner() {
       </Tabs>
 
       {scannedData && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+        <OutputPanel
+          className="mt-6"
+          text={scannedData}
+          filename="qr-code-data.txt"
+          title={
+            <span className="inline-flex items-center gap-2">
+              {/* status color, no bt token: */}
+              <CheckCircle className="h-4 w-4 text-green-500" />
               {t("scanResult")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </span>
+          }
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copiedToClipboard")}
+          copyErrorMessage={t("copyFailed")}
+        >
+          <div className="space-y-4 p-3">
             <div className="space-y-2">
               <Label>{t("detectedData")}</Label>
-              <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all">
+              <div className="bg-muted rounded-lg p-3 font-mono text-sm break-all">
                 {scannedData}
               </div>
             </div>
@@ -713,16 +715,6 @@ export default function QRScanner() {
             </div>
 
             <div className="flex gap-2">
-              <CopyButton
-                text={scannedData}
-                label={t("copy")}
-                successMessage={t("copiedToClipboard")}
-                errorMessage={t("copyFailed")}
-              />
-              <Button onClick={downloadResult} variant="outline" size="sm">
-                <Download className="h-4 w-4 me-2" />
-                {t("download")}
-              </Button>
               {isUrl(scannedData) && (
                 <Button
                   onClick={() => window.open(scannedData, "_blank")}
@@ -736,8 +728,8 @@ export default function QRScanner() {
                 {t("clear")}
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </OutputPanel>
       )}
       </div>
     </ToolShell>

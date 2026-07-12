@@ -144,6 +144,7 @@ export default function AudioEditor() {
       ctx.lineTo(i, (1 + max) * amp);
     }
 
+    // content value: waveform stroke drawn onto a <canvas> (no CSS var access in 2D context)
     ctx.strokeStyle = "#0ea5e9";
     ctx.stroke();
   };

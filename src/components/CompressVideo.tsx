@@ -5,9 +5,12 @@ import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { StatStrip } from "@/components/shared/StatStrip";
 import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
 import {
   Select,
@@ -43,12 +46,6 @@ const resolutionOptions = [
   { value: "720p", scale: "scale=-2:720" },
   { value: "480p", scale: "scale=-2:480" },
 ] as const;
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / (1024 * 1024)).toFixed(2)} MB`;
-}
 
 export default function CompressVideo() {
   const t = useTranslations("Tools.CompressVideo");
@@ -231,33 +228,26 @@ export default function CompressVideo() {
               </FileDropzone>
             </Card>
 
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">{t("quality")}</label>
-                  <span className="text-sm text-muted-foreground" dir="ltr">
-                    {t("crf")} {crf}
-                  </span>
-                </div>
-                <Slider
-                  value={[crf]}
-                  onValueChange={([value]) => setCrf(value)}
-                  min={18}
-                  max={35}
-                  step={1}
-                  disabled={isCompressing}
-                />
-                <p className="text-xs text-muted-foreground">{t("crfHint")}</p>
-              </div>
+            <SettingsCard>
+              <SliderRow
+                label={t("quality")}
+                value={crf}
+                min={18}
+                max={35}
+                step={1}
+                onChange={setCrf}
+                disabled={isCompressing}
+                display={<span dir="ltr">{t("crf")} {crf}</span>}
+              />
+              <p className="text-xs text-muted-foreground -mt-2">{t("crfHint")}</p>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("preset")}</label>
+              <OptionRow label={t("preset")} htmlFor="cv-preset">
                 <Select
                   value={preset}
                   onValueChange={setPreset}
                   disabled={isCompressing}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="cv-preset">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -268,18 +258,15 @@ export default function CompressVideo() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  {t("resolution")}
-                </label>
+              <OptionRow label={t("resolution")} htmlFor="cv-resolution">
                 <Select
                   value={resolution}
                   onValueChange={setResolution}
                   disabled={isCompressing}
                 >
-                  <SelectTrigger>
+                  <SelectTrigger id="cv-resolution">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -292,7 +279,7 @@ export default function CompressVideo() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               <Button
                 onClick={handleCompress}
@@ -316,7 +303,7 @@ export default function CompressVideo() {
                   </p>
                 </div>
               )}
-            </Card>
+            </SettingsCard>
           </div>
 
           <div className="space-y-4">
@@ -340,26 +327,15 @@ export default function CompressVideo() {
             </Card>
 
             {outputUrl && (
-              <Card className="p-4 space-y-2 text-sm">
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("originalSize")}
-                  </span>
-                  <span dir="ltr">{formatBytes(video?.size ?? 0)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">
-                    {t("compressedSize")}
-                  </span>
-                  <span dir="ltr">{formatBytes(outputSize)}</span>
-                </div>
-                {savings !== null && (
-                  <div className="flex justify-between font-medium">
-                    <span>{t("savings")}</span>
-                    <span dir="ltr">{savings}%</span>
-                  </div>
-                )}
-              </Card>
+              <StatStrip
+                items={[
+                  { label: t("originalSize"), value: <span dir="ltr">{formatBytes(video?.size ?? 0)}</span> },
+                  { label: t("compressedSize"), value: <span dir="ltr">{formatBytes(outputSize)}</span> },
+                  ...(savings !== null
+                    ? [{ label: t("savings"), value: <span dir="ltr">{savings}%</span> }]
+                    : []),
+                ]}
+              />
             )}
 
             <Button

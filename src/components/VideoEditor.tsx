@@ -5,7 +5,10 @@ import { useTranslations } from "next-intl";
 import { motion, AnimatePresence } from "framer-motion";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
 import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -613,13 +616,14 @@ export default function VideoEditor() {
                   </div>
                 </Card>
 
-                <Card className="p-6">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <Info className="w-5 h-5" />
+                <SettingsCard
+                  title={
+                    <span className="inline-flex items-center gap-2">
+                      <Info className="w-4 h-4" />
                       {t("videoInfo")}
-                    </h3>
-
+                    </span>
+                  }
+                >
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">
@@ -634,7 +638,7 @@ export default function VideoEditor() {
                           {t("infoSize")}
                         </span>
                         <span className="text-sm font-medium">
-                          {(video.size / 1024 / 1024).toFixed(2)} MB
+                          {formatBytes(video.size)}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -662,8 +666,7 @@ export default function VideoEditor() {
                         </span>
                       </div>
                     </div>
-                  </div>
-                </Card>
+                </SettingsCard>
               </div>
 
               <Tabs defaultValue="edit" className="space-y-6">
@@ -825,16 +828,16 @@ export default function VideoEditor() {
 
                 <TabsContent value="gif" className="space-y-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <Card className="p-6">
-                      <div className="space-y-5">
-                        <h3 className="text-lg font-semibold flex items-center gap-2">
-                          <ImagePlay className="w-5 h-5" />
+                    <SettingsCard
+                      title={
+                        <span className="inline-flex items-center gap-2">
+                          <ImagePlay className="w-4 h-4" />
                           {t("gifTitle")}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {t("gifDescription")}
-                        </p>
-
+                        </span>
+                      }
+                      description={t("gifDescription")}
+                    >
+                        {/* Trim range kept bespoke (dual-slider editing flow shared with the Edit tab). */}
                         <div className="space-y-2">
                           <Label>{t("gifTrimHint")}</Label>
                           <div className="space-y-2">
@@ -874,26 +877,33 @@ export default function VideoEditor() {
                           </div>
                         </div>
 
-                        <div className="space-y-2">
-                          <Label>
-                            {t("gifFps")}{" "}
-                            <span dir="ltr" className="font-mono">
-                              {gifFps}
-                            </span>
-                          </Label>
-                          <Slider
-                            value={[gifFps]}
-                            onValueChange={([value]) => setGifFps(value)}
-                            min={1}
-                            max={30}
-                            step={1}
-                            disabled={isGifProcessing}
-                          />
-                        </div>
+                        <SliderRow
+                          label={t("gifFps")}
+                          value={gifFps}
+                          min={1}
+                          max={30}
+                          step={1}
+                          onChange={setGifFps}
+                          disabled={isGifProcessing}
+                          display={<span className="font-mono">{gifFps}</span>}
+                        />
 
-                        <div className="space-y-2">
-                          <Label>{t("gifWidth")}</Label>
+                        <OptionRow
+                          label={t("gifWidth")}
+                          htmlFor="gif-width"
+                          hint={t("gifHeightAuto", {
+                            height: video.width
+                              ? Math.max(
+                                  2,
+                                  Math.round(
+                                    gifWidth * (video.height / video.width)
+                                  )
+                                )
+                              : 0,
+                          })}
+                        >
                           <Input
+                            id="gif-width"
                             type="number"
                             dir="ltr"
                             value={gifWidth}
@@ -904,22 +914,9 @@ export default function VideoEditor() {
                             }
                             disabled={isGifProcessing}
                           />
-                          <p className="text-xs text-muted-foreground">
-                            {t("gifHeightAuto", {
-                              height: video.width
-                                ? Math.max(
-                                    2,
-                                    Math.round(
-                                      gifWidth * (video.height / video.width)
-                                    )
-                                  )
-                                : 0,
-                            })}
-                          </p>
-                        </div>
+                        </OptionRow>
 
-                        <div className="space-y-2">
-                          <Label>{t("gifQuality")}</Label>
+                        <OptionRow label={t("gifQuality")} htmlFor="gif-quality">
                           <Select
                             value={gifQuality}
                             onValueChange={(v) =>
@@ -927,7 +924,7 @@ export default function VideoEditor() {
                             }
                             disabled={isGifProcessing}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger id="gif-quality">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -942,7 +939,7 @@ export default function VideoEditor() {
                               </SelectItem>
                             </SelectContent>
                           </Select>
-                        </div>
+                        </OptionRow>
 
                         <div className="flex items-center justify-between">
                           <Label htmlFor="gif-dither">{t("gifDither")}</Label>
@@ -995,8 +992,7 @@ export default function VideoEditor() {
                             {t("gifConvertAction")}
                           </Button>
                         )}
-                      </div>
-                    </Card>
+                    </SettingsCard>
 
                     <Card className="p-6">
                       <div className="space-y-4">
@@ -1027,7 +1023,7 @@ export default function VideoEditor() {
                                 {t("gifFileSize")}
                               </span>
                               <span className="text-sm font-medium" dir="ltr">
-                                {(gifSize / 1024 / 1024).toFixed(2)} MB
+                                {formatBytes(gifSize)}
                               </span>
                             </div>
                             <Button

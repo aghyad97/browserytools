@@ -2,8 +2,9 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import {
   Select,
   SelectContent,
@@ -153,13 +154,12 @@ export default function MicCameraTester() {
       title={tc("tools.mic-camera.name")}
       sub={tc("tools.mic-camera.description")}
     >
-      <Card>
-        <CardContent className="space-y-4 pt-6">
+      <div className="space-y-4">
+        <SettingsCard>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>{t("camera")}</Label>
+              <OptionRow label={t("camera")} htmlFor="mct-camera">
                 <Select value={selectedCam} onValueChange={setSelectedCam}>
-                  <SelectTrigger>
+                  <SelectTrigger id="mct-camera">
                     <SelectValue placeholder={t("chooseCamera")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -170,11 +170,10 @@ export default function MicCameraTester() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
-              <div className="space-y-2">
-                <Label>{t("microphone")}</Label>
+              </OptionRow>
+              <OptionRow label={t("microphone")} htmlFor="mct-mic">
                 <Select value={selectedMic} onValueChange={setSelectedMic}>
-                  <SelectTrigger>
+                  <SelectTrigger id="mct-mic">
                     <SelectValue placeholder={t("chooseMic")} />
                   </SelectTrigger>
                   <SelectContent>
@@ -185,7 +184,7 @@ export default function MicCameraTester() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
             </div>
 
             <div className="flex gap-2">
@@ -198,7 +197,9 @@ export default function MicCameraTester() {
                 {t("stop")}
               </Button>
             </div>
+        </SettingsCard>
 
+        <Card className="p-4">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
               <div className="lg:col-span-2 border rounded overflow-hidden bg-black/5 dark:bg-white/5">
                 <video
@@ -211,6 +212,7 @@ export default function MicCameraTester() {
               <div className="space-y-2">
                 <Label>{t("micLevel")}</Label>
                 <div className="h-3 w-full bg-muted rounded">
+                  {/* status color, no bt token: live audio-level meter fill */}
                   <div
                     className="h-3 rounded bg-green-500 transition-[width] duration-100"
                     style={{ width: `${levelPercent}%` }}
@@ -224,8 +226,8 @@ export default function MicCameraTester() {
                 </div>
               </div>
             </div>
-        </CardContent>
-      </Card>
+        </Card>
+      </div>
     </ToolShell>
   );
 }
