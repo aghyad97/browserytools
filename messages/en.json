@@ -1051,7 +1051,6 @@
       "alternating": "aLtErNaTiNg",
       "inverseCase": "InVeRsE cAsE",
       "noTextToConvert": "No text to convert",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "Speaking Time",
       "speakingTimeDesc": "155 words per minute",
       "minSuffix": "min",
-      "noTextToCopy": "No text to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "Shuffle",
       "reverse": "Reverse",
       "enterTextFirst": "Please enter some text first",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "nothingToDownload": "Nothing to download",
       "downloaded": "Downloaded sorted-text.txt"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "Enter text here...",
       "inputPlaceholderEncoded": "Enter encoded value here...",
       "charsBytes": "{chars} chars / {bytes} bytes",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "copyFailed": "Failed to copy to clipboard",
       "binaryInput": "Binary Input",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "The result would exceed 1,000,000 characters. Please reduce the repeat count or shorten your input text.",
       "chars": "chars",
       "lines": "lines",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "nothingToDownload": "Nothing to download",
       "downloaded": "Downloaded repeated-text.txt",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "A–Z, 0–9 character table",
       "words": "words",
       "chars": "chars",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "min read",
       "previewPlaceholder": "Preview will appear here...",
       "htmlOutputPlaceholder": "HTML output will appear here...",
-      "nothingToCopy": "Nothing to copy",
       "htmlCopied": "HTML copied to clipboard",
       "nothingToDownload": "Nothing to download",
       "downloadedHtml": "Downloaded document.html"
@@ -1283,7 +1276,6 @@
       "downloaded": "Downloaded",
       "ariaHtmlInput": "HTML input",
       "ariaHtmlOutput": "HTML output",
-      "ariaCopy": "Copy",
       "ariaDownload": "Download",
       "processingFailed": "Processing failed"
     },
@@ -1314,12 +1306,9 @@
       "lines": "lines",
       "chars": "chars",
       "noReduction": "No reduction",
-      "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy",
       "downloaded": "Downloaded",
       "ariaCssInput": "CSS input",
       "ariaCssOutput": "CSS output",
-      "ariaCopy": "Copy",
       "ariaDownload": "Download"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL minified",
       "formattingFailed": "Formatting failed",
       "minificationFailed": "Minification failed",
-      "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy",
       "downloaded": "Downloaded",
       "dialectStandard": "Standard SQL",
       "ariaSqlInput": "SQL input",
       "ariaSqlOutput": "SQL output",
-      "ariaCopy": "Copy",
       "ariaDownload": "Download"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "Format",
       "minify": "Minify",
       "validate": "Validate",
-      "copy": "Copy",
       "loadSample": "Load Sample",
       "clear": "Clear",
       "indent": "Indent:",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Please enter some input",
       "conversionSuccessful": "Conversion successful",
       "fileLoadedSuccessfully": "File loaded successfully",
-      "noOutputToCopy": "No output to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard",
       "noOutputToDownload": "No output to download",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Swap",
-      "copyOutput": "Copy Output",
       "loadSample": "Load Sample",
       "clear": "Clear",
       "yamlInput": "YAML Input",
@@ -1765,7 +1748,6 @@
       "valid": "Valid",
       "conversionFailed": "Conversion failed",
       "convertedSuccessfully": "Converted successfully",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard",
       "error": "Error:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Please enter input",
       "encodedSuccessfully": "Encoded successfully",
       "decodedSuccessfully": "Decoded successfully",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard",
       "encodingFailed": "Encoding failed: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} selected",
       "generateData": "Generate Data",
       "outputTitle": "Output",
-      "copy": "Copy",
       "download": "Download",
       "outputPlaceholder": "Click 'Generate Data' to create fake records...",
       "selectAtLeastOneField": "Select at least one field",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Your Lorem Ipsum placeholder text",
       "generatedTextPlaceholder": "Generated text will appear here...",
       "characters": "characters",
-      "copyText": "Copy Text",
       "quickGenerate": "Quick Generate",
       "quickGenerateDesc": "Generate common amounts with one click",
       "oneParagraph": "1 Paragraph",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5 Sentences",
       "aboutLoremTitle": "About Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It is commonly used in web design, graphic design, and publishing as placeholder text.",
-      "noTextToCopy": "No text to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "Different amounts per person",
       "pays": "pays",
       "enterBillPrompt": "Enter a bill amount to get started",
-      "summaryCopied": "Summary copied to clipboard",
-      "copyFailed": "Failed to copy"
+      "summaryCopied": "Summary copied to clipboard"
     },
     "UnitConverter": {
       "converter": "Converter",
@@ -2409,7 +2386,6 @@
       "enterNumber": "Enter Number",
       "enterRoman": "Enter Roman Numeral",
       "result": "Result",
-      "copy": "Copy",
       "stepByStep": "Step by Step",
       "runningTotal": "Running Total",
       "remaining": "Remaining",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "Invalid Roman numeral — check the numeral format",
       "errorOutOfRange": "Enter a number between 1 and 3999",
       "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy",
       "numberPlaceholder": "e.g. 2024",
       "romanPlaceholder": "e.g. MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "Button Component",
       "previewUI": "UI Component Example",
       "presets": "Presets",
-      "ratioCopied": "Contrast ratio copied",
-      "copyFailed": "Copy failed"
+      "ratioCopied": "Contrast ratio copied"
     },
     "ColorBlindnessSimulator": {
       "title": "Color Blindness Simulator",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "Birth date cannot be in the future",
       "errorMissingBirthDates": "Please select both birth dates",
       "errorFutureDates": "Birth dates cannot be in the future",
-      "copiedToClipboard": "Copied to clipboard",
-      "copyFailed": "Copy failed"
+      "copiedToClipboard": "Copied to clipboard"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. All rights reserved.",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "Please select both timezones and enter date/time",
       "errorInvalidDate": "Invalid date — please enter a valid date and time",
       "errorConversion": "Conversion error — unable to convert the time",
-      "copiedToClipboard": "Copied to clipboard",
-      "copyFailed": "Copy failed"
+      "copiedToClipboard": "Copied to clipboard"
     },
     "TypingTest": {
       "title": "Typing Test",
@@ -4242,7 +4214,6 @@
       "copied": "Transcript copied to clipboard",
       "copyFailed": "Could not copy to clipboard",
       "downloaded": "Transcript downloaded",
-      "nothingToCopy": "Nothing to copy yet",
       "nothingToDownload": "Nothing to download yet",
       "notSupported": "Your browser does not support speech recognition. Use Google Chrome or Microsoft Edge for the best experience. Firefox support is limited.",
       "micDenied": "Microphone access was denied. Allow microphone permission and try again.",
@@ -4534,7 +4505,6 @@
       "captionLabel": "Caption",
       "altLabel": "Alt text (HTML)",
       "altHint": "Paste this into your <img> tag to improve accessibility and SEO. Review and edit it to match the image's context.",
-      "copy": "Copy",
       "copyCaption": "Copy caption",
       "copyAlt": "Copy alt text",
       "copied": "Copied to clipboard",
@@ -4565,7 +4535,6 @@
       "copy": "Copy",
       "copied": "Copied to clipboard",
       "copyFailed": "Could not copy to clipboard",
-      "nothingToCopy": "Nothing to copy yet",
       "enterText": "Please enter some text",
       "noneFound": "No personal information detected",
       "detectedToast": "Detected {count} item(s) of personal information",

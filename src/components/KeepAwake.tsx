@@ -245,6 +245,7 @@ export default function KeepAwake() {
           <ModePicker
             aria-label={t("presets")}
             value={selectedPreset}
+            disabled={isActive}
             onChange={(key) => {
               if (!isActive) setSelectedPreset(key);
             }}
@@ -285,6 +286,7 @@ export default function KeepAwake() {
                 <ModePicker
                   aria-label={t("customLabel")}
                   value={customUnit}
+                  disabled={isActive}
                   onChange={(unit) => {
                     if (!isActive) setCustomUnit(unit);
                   }}

@@ -1051,7 +1051,6 @@
       "alternating": "مُتَنَاوِب",
       "inverseCase": "عكسي",
       "noTextToConvert": "لا يوجد نص للتحويل",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "وقت التحدث",
       "speakingTimeDesc": "155 كلمة في الدقيقة",
       "minSuffix": "دقيقة",
-      "noTextToCopy": "لا يوجد نص للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "تخليط",
       "reverse": "عكس",
       "enterTextFirst": "الرجاء إدخال نص أولاً",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "nothingToDownload": "لا يوجد شيء للتحميل",
       "downloaded": "تم تحميل sorted-text.txt"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "أدخل النص هنا...",
       "inputPlaceholderEncoded": "أدخل القيمة المشفّرة هنا...",
       "charsBytes": "{chars} حرف / {bytes} بايت",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "copyFailed": "فشل النسخ إلى الحافظة",
       "binaryInput": "إدخال ثنائي",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "ستتجاوز النتيجة مليون حرف. الرجاء تقليل عدد التكرارات أو تقصير النص.",
       "chars": "أحرف",
       "lines": "أسطر",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "nothingToDownload": "لا يوجد شيء للتحميل",
       "downloaded": "تم تحميل repeated-text.txt",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "جدول الأحرف A–Z والأرقام 0–9",
       "words": "كلمات",
       "chars": "أحرف",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "دقيقة قراءة",
       "previewPlaceholder": "ستظهر المعاينة هنا...",
       "htmlOutputPlaceholder": "ستظهر ناتج HTML هنا...",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "htmlCopied": "تم نسخ HTML إلى الحافظة",
       "nothingToDownload": "لا يوجد شيء للتحميل",
       "downloadedHtml": "تم تحميل document.html"
@@ -1283,7 +1276,6 @@
       "downloaded": "تم التحميل",
       "ariaHtmlInput": "إدخال HTML",
       "ariaHtmlOutput": "ناتج HTML",
-      "ariaCopy": "نسخ",
       "ariaDownload": "تحميل",
       "processingFailed": "فشلت المعالجة"
     },
@@ -1314,12 +1306,9 @@
       "lines": "أسطر",
       "chars": "أحرف",
       "noReduction": "لا تخفيض",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "failedToCopy": "فشل النسخ",
       "downloaded": "تم التحميل",
       "ariaCssInput": "إدخال CSS",
       "ariaCssOutput": "ناتج CSS",
-      "ariaCopy": "نسخ",
       "ariaDownload": "تحميل"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "تم ضغط SQL",
       "formattingFailed": "فشل التنسيق",
       "minificationFailed": "فشل الضغط",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "failedToCopy": "فشل النسخ",
       "downloaded": "تم التحميل",
       "dialectStandard": "SQL قياسي",
       "ariaSqlInput": "إدخال SQL",
       "ariaSqlOutput": "ناتج SQL",
-      "ariaCopy": "نسخ",
       "ariaDownload": "تحميل"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "تنسيق",
       "minify": "ضغط",
       "validate": "تحقق",
-      "copy": "نسخ",
       "loadSample": "تحميل مثال",
       "clear": "مسح",
       "indent": "المسافة البادئة:",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "الرجاء إدخال بيانات",
       "conversionSuccessful": "تم التحويل بنجاح",
       "fileLoadedSuccessfully": "تم تحميل الملف بنجاح",
-      "noOutputToCopy": "لا يوجد ناتج للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة",
       "noOutputToDownload": "لا يوجد ناتج للتحميل",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "تبديل",
-      "copyOutput": "نسخ الناتج",
       "loadSample": "تحميل مثال",
       "clear": "مسح",
       "yamlInput": "مدخل YAML",
@@ -1765,7 +1748,6 @@
       "valid": "صالح",
       "conversionFailed": "فشل التحويل",
       "convertedSuccessfully": "تم التحويل بنجاح",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة",
       "error": "خطأ:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "الرجاء إدخال بيانات",
       "encodedSuccessfully": "تم الترميز بنجاح",
       "decodedSuccessfully": "تم فك الترميز بنجاح",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة",
       "encodingFailed": "فشل الترميز: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} محدد",
       "generateData": "توليد البيانات",
       "outputTitle": "الناتج",
-      "copy": "نسخ",
       "download": "تحميل",
       "outputPlaceholder": "انقر على 'توليد البيانات' لإنشاء سجلات وهمية...",
       "selectAtLeastOneField": "حدد حقلاً واحداً على الأقل",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "نص Lorem Ipsum الخاص بك",
       "generatedTextPlaceholder": "سيظهر النص المولّد هنا...",
       "characters": "حرف",
-      "copyText": "نسخ النص",
       "quickGenerate": "توليد سريع",
       "quickGenerateDesc": "أنشئ كميات شائعة بنقرة واحدة",
       "oneParagraph": "فقرة واحدة",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5 جمل",
       "aboutLoremTitle": "عن Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum هو نص وهمي شائع في صناعة الطباعة والتنضيد. وقد ظل النص الوهمي القياسي في الصناعة منذ القرن الخامس عشر الميلادي، عندما أخذ طابع مجهول مقطعاً من النص وخلّطه لصنع كتاب نماذج. يُستخدم شائعاً في تصميم الويب والتصميم الجرافيكي والنشر كنص بديل.",
-      "noTextToCopy": "لا يوجد نص للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "مبالغ مختلفة لكل شخص",
       "pays": "يدفع",
       "enterBillPrompt": "أدخل مبلغ الفاتورة للبدء",
-      "summaryCopied": "تم نسخ الملخص",
-      "copyFailed": "فشل النسخ"
+      "summaryCopied": "تم نسخ الملخص"
     },
     "UnitConverter": {
       "converter": "محوّل",
@@ -2409,7 +2386,6 @@
       "enterNumber": "أدخل رقماً",
       "enterRoman": "أدخل رقماً رومانياً",
       "result": "النتيجة",
-      "copy": "نسخ",
       "stepByStep": "خطوة بخطوة",
       "runningTotal": "المجموع الجاري",
       "remaining": "المتبقي",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "أرقام رومانية غير صحيحة — تحقق من تنسيق الأرقام",
       "errorOutOfRange": "أدخل رقماً بين 1 و 3999",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "failedToCopy": "فشل النسخ",
       "numberPlaceholder": "مثال: 2024",
       "romanPlaceholder": "مثال: MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "مكوّن زر",
       "previewUI": "مثال على مكوّن واجهة",
       "presets": "إعدادات مسبقة",
-      "ratioCopied": "تم نسخ نسبة التباين",
-      "copyFailed": "فشل النسخ"
+      "ratioCopied": "تم نسخ نسبة التباين"
     },
     "ColorBlindnessSimulator": {
       "title": "محاكي عمى الألوان",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "لا يمكن أن يكون تاريخ الميلاد في المستقبل",
       "errorMissingBirthDates": "الرجاء اختيار تاريخي الميلاد",
       "errorFutureDates": "لا يمكن أن تكون تواريخ الميلاد في المستقبل",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "copyFailed": "فشل النسخ"
+      "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. جميع الحقوق محفوظة.",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "الرجاء اختيار المنطقتين الزمنيتين وإدخال التاريخ والوقت",
       "errorInvalidDate": "تاريخ غير صالح — الرجاء إدخال تاريخ ووقت صحيحين",
       "errorConversion": "خطأ في التحويل — تعذّر تحويل الوقت",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "copyFailed": "فشل النسخ"
+      "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TypingTest": {
       "title": "اختبار الكتابة",
@@ -4242,7 +4214,6 @@
       "copied": "تم نسخ النص إلى الحافظة",
       "copyFailed": "تعذّر النسخ إلى الحافظة",
       "downloaded": "تم تنزيل النص",
-      "nothingToCopy": "لا يوجد نص لنسخه بعد",
       "nothingToDownload": "لا يوجد نص لتنزيله بعد",
       "notSupported": "متصفحك لا يدعم التعرّف على الكلام. استخدم Google Chrome أو Microsoft Edge للحصول على أفضل تجربة. الدعم في Firefox محدود.",
       "micDenied": "تم رفض الوصول إلى الميكروفون. اسمح بإذن الميكروفون وحاول مرة أخرى.",
@@ -4534,7 +4505,6 @@
       "captionLabel": "الوصف",
       "altLabel": "النص البديل (HTML)",
       "altHint": "الصق هذا داخل وسم <img> لتحسين إمكانية الوصول وتحسين محركات البحث. راجِعه وعدّله ليناسب سياق الصورة.",
-      "copy": "نسخ",
       "copyCaption": "نسخ الوصف",
       "copyAlt": "نسخ النص البديل",
       "copied": "تم النسخ إلى الحافظة",
@@ -4565,7 +4535,6 @@
       "copy": "نسخ",
       "copied": "نُسخ إلى الحافظة",
       "copyFailed": "تعذّر النسخ إلى الحافظة",
-      "nothingToCopy": "لا يوجد ما يُنسخ بعد",
       "enterText": "يرجى إدخال نص",
       "noneFound": "لم يُكتشف أي معلومات شخصية",
       "detectedToast": "اكتُشف {count} عنصراً من المعلومات الشخصية",

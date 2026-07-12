@@ -68,6 +68,28 @@ describe("ModePicker", () => {
     expect(onChange).toHaveBeenCalledWith("go");
   });
 
+  it("when disabled: marks the group aria-disabled, disables every segment, and swallows onChange", () => {
+    const onChange = vi.fn();
+    render(
+      <ModePicker options={options} value="js" onChange={onChange} aria-label="Output language" disabled />
+    );
+    const group = screen.getByRole("group", { name: "Output language" });
+    expect(group).toHaveAttribute("aria-disabled", "true");
+    for (const opt of options) {
+      expect(screen.getByRole("button", { name: opt.label })).toBeDisabled();
+    }
+    fireEvent.click(screen.getByRole("button", { name: "Go" }));
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("is not aria-disabled and fires onChange normally when not disabled", () => {
+    const onChange = vi.fn();
+    render(<ModePicker options={options} value="js" onChange={onChange} aria-label="Output language" />);
+    expect(screen.getByRole("group", { name: "Output language" })).not.toHaveAttribute("aria-disabled");
+    fireEvent.click(screen.getByRole("button", { name: "Python" }));
+    expect(onChange).toHaveBeenCalledWith("py");
+  });
+
   it("positions the indicator from the active segment's measured offsetLeft/offsetWidth", () => {
     const restore = stubOffsets([0, 60, 130], [56, 66, 40]);
     try {

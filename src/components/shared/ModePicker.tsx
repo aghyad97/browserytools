@@ -40,6 +40,13 @@ export interface ModePickerProps<T extends string = string> {
   "aria-label": string;
   className?: string;
   "data-testid"?: string;
+  /**
+   * When true the whole control is dimmed (opacity + pointer-events:none) and
+   * `aria-disabled`; `onChange` is guarded so segment clicks are inert. Lets a
+   * caller freeze the picker while a session/operation is running without
+   * losing the visual "not editable now" cue.
+   */
+  disabled?: boolean;
 }
 
 export function ModePicker<T extends string = string>({
@@ -49,6 +56,7 @@ export function ModePicker<T extends string = string>({
   "aria-label": ariaLabel,
   className,
   "data-testid": dataTestId,
+  disabled = false,
 }: ModePickerProps<T>) {
   const activeIndex = Math.max(
     0,
@@ -120,9 +128,12 @@ export function ModePicker<T extends string = string>({
   return (
     <div
       ref={rootRef}
-      className={className ? `${s.picker} ${className}` : s.picker}
+      className={[s.picker, disabled && s.disabled, className]
+        .filter(Boolean)
+        .join(" ")}
       role="group"
       aria-label={ariaLabel}
+      aria-disabled={disabled || undefined}
       data-testid={dataTestId}
     >
       {options.length > 0 && <span className={s.indicator} aria-hidden />}
@@ -138,7 +149,10 @@ export function ModePicker<T extends string = string>({
             className={s.segment}
             aria-pressed={active}
             data-active={active || undefined}
-            onClick={() => onChange(opt.value)}
+            disabled={disabled}
+            onClick={() => {
+              if (!disabled) onChange(opt.value);
+            }}
           >
             {opt.label}
           </button>

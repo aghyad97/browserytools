@@ -1051,7 +1051,6 @@
       "alternating": "大小写交替",
       "inverseCase": "反转大小写",
       "noTextToConvert": "没有要转换的文本",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "朗读时间",
       "speakingTimeDesc": "每分钟 155 词",
       "minSuffix": "分钟",
-      "noTextToCopy": "没有可复制的文本",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "随机排列",
       "reverse": "反转",
       "enterTextFirst": "请先输入一些文字",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "nothingToDownload": "暂无可供下载的内容。",
       "downloaded": "已下载 sorted-text.txt"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "在此处输入文本...",
       "inputPlaceholderEncoded": "在此处输入编码值...",
       "charsBytes": "{chars} 字符 / {bytes} 字节",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "copyFailed": "复制到剪贴板失败",
       "binaryInput": "二进制输入",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "结果将超过 1,000,000 个字符。请减少重复次数或缩短输入文本。",
       "chars": "字符",
       "lines": "行",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "nothingToDownload": "暂无可供下载的内容。",
       "downloaded": "已下载 重复文本.txt",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "A–Z、0–9 字符表",
       "words": "单词",
       "chars": "字符",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "分钟阅读",
       "previewPlaceholder": "预览将显示在此处...",
       "htmlOutputPlaceholder": "HTML 输出将显示在此处...",
-      "nothingToCopy": "没有可复制的内容",
       "htmlCopied": "已将 HTML 复制到剪贴板。",
       "nothingToDownload": "暂无可供下载的内容。",
       "downloadedHtml": "已下载 document.html"
@@ -1283,7 +1276,6 @@
       "downloaded": "已下载",
       "ariaHtmlInput": "HTML 输入",
       "ariaHtmlOutput": "HTML 输出",
-      "ariaCopy": "复制",
       "ariaDownload": "下载",
       "processingFailed": "处理失败"
     },
@@ -1314,12 +1306,9 @@
       "lines": "行",
       "chars": "字符",
       "noReduction": "无缩减",
-      "copiedToClipboard": "已复制到剪贴板",
-      "failedToCopy": "复制失败",
       "downloaded": "已下载",
       "ariaCssInput": "CSS 输入",
       "ariaCssOutput": "CSS 输出",
-      "ariaCopy": "复制",
       "ariaDownload": "下载"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL 已压缩",
       "formattingFailed": "格式化失败",
       "minificationFailed": "压缩未成功",
-      "copiedToClipboard": "已复制到剪贴板",
-      "failedToCopy": "复制失败",
       "downloaded": "已下载",
       "dialectStandard": "标准 SQL",
       "ariaSqlInput": "SQL 输入",
       "ariaSqlOutput": "SQL 输出",
-      "ariaCopy": "复制",
       "ariaDownload": "下载"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "格式",
       "minify": "压缩",
       "validate": "验证",
-      "copy": "复制",
       "loadSample": "加载样本",
       "clear": "清除",
       "indent": "缩进：",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "请输入",
       "conversionSuccessful": "转换成功",
       "fileLoadedSuccessfully": "文件加载成功",
-      "noOutputToCopy": "没有可复制的内容。",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败",
       "noOutputToDownload": "没有输出可下载。",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "交换",
-      "copyOutput": "复制输出",
       "loadSample": "加载样本",
       "clear": "清除",
       "yamlInput": "YAML 输入",
@@ -1765,7 +1748,6 @@
       "valid": "有效",
       "conversionFailed": "转换失败",
       "convertedSuccessfully": "转换成功",
-      "nothingToCopy": "无内容可复制",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败",
       "error": "错误："
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "请输入",
       "encodedSuccessfully": "编码成功",
       "decodedSuccessfully": "解码成功",
-      "nothingToCopy": "无内容可复制",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败",
       "encodingFailed": "编码失败：{msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} 已选择",
       "generateData": "生成数据",
       "outputTitle": "输出",
-      "copy": "复制",
       "download": "下载",
       "outputPlaceholder": "点击“生成数据”来创建虚假记录……",
       "selectAtLeastOneField": "至少选择一个字段",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "您的Lorem Ipsum占位文本",
       "generatedTextPlaceholder": "生成的文本将出现在这里...",
       "characters": "字符",
-      "copyText": "复制文本",
       "quickGenerate": "快速生成",
       "quickGenerateDesc": "一键生成常用数量",
       "oneParagraph": "1 段落",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5个句子",
       "aboutLoremTitle": "关于Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum 是印刷和排版行业的简单虚拟文本。自16世纪以来，它一直是行业的标准占位文本，当时一位不知名的印刷商将一版铅字打乱，制作了一本样本书。它常用于网页设计、平面设计和出版领域作为占位文字。",
-      "noTextToCopy": "没有文本可供复制",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "每人不同金额",
       "pays": "支付",
       "enterBillPrompt": "输入账单金额以开始",
-      "summaryCopied": "摘要已复制到剪贴板",
-      "copyFailed": "复制失败"
+      "summaryCopied": "摘要已复制到剪贴板"
     },
     "UnitConverter": {
       "converter": "转换器",
@@ -2409,7 +2386,6 @@
       "enterNumber": "输入阿拉伯数字",
       "enterRoman": "输入罗马数字",
       "result": "结果",
-      "copy": "复制",
       "stepByStep": "拆分步骤",
       "runningTotal": "累计总数",
       "remaining": "剩余",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "无效的罗马数字 — 检查数字格式",
       "errorOutOfRange": "输入一个介于1到3999之间的数字",
       "copiedToClipboard": "已复制到剪贴板",
-      "failedToCopy": "复制失败",
       "numberPlaceholder": "例如 2024",
       "romanPlaceholder": "例如 MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "按钮组件",
       "previewUI": "UI组件示例",
       "presets": "预设",
-      "ratioCopied": "对比度已复制",
-      "copyFailed": "复制失败"
+      "ratioCopied": "对比度已复制"
     },
     "ColorBlindnessSimulator": {
       "title": "色盲模拟器",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "出生日期不能在未来",
       "errorMissingBirthDates": "请选择两个出生日期",
       "errorFutureDates": "出生日期不能在未来",
-      "copiedToClipboard": "已复制到剪贴板",
-      "copyFailed": "复制失败"
+      "copiedToClipboard": "已复制到剪贴板"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools。保留所有权利。",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "请选择两个时区并输入日期/时间",
       "errorInvalidDate": "无效日期 — 请输入有效的日期和时间",
       "errorConversion": "转换错误 — 无法转换时间",
-      "copiedToClipboard": "已复制到剪贴板",
-      "copyFailed": "复制失败"
+      "copiedToClipboard": "已复制到剪贴板"
     },
     "TypingTest": {
       "title": "打字测试",
@@ -4242,7 +4214,6 @@
       "copied": "转录文本已复制到剪贴板",
       "copyFailed": "无法复制到剪贴板",
       "downloaded": "转录文本已下载",
-      "nothingToCopy": "还没有可复制的内容",
       "nothingToDownload": "还没有可下载的内容",
       "notSupported": "您的浏览器不支持语音识别。请使用 Google Chrome 或 Microsoft Edge 以获得最佳体验。Firefox 的支持有限。",
       "micDenied": "麦克风访问被拒绝。请允许麦克风权限后重试。",
@@ -4534,7 +4505,6 @@
       "captionLabel": "标题",
       "altLabel": "替代文本 (HTML)",
       "altHint": "将其粘贴到您的 <img> 标签中以改善无障碍和 SEO。请查看并编辑以匹配图片的上下文。",
-      "copy": "复制",
       "copyCaption": "复制标题",
       "copyAlt": "复制替代文本",
       "copied": "已复制到剪贴板",
@@ -4565,7 +4535,6 @@
       "copy": "复制",
       "copied": "已复制到剪贴板",
       "copyFailed": "无法复制到剪贴板",
-      "nothingToCopy": "还没有可复制的内容",
       "enterText": "请输入一些文本",
       "noneFound": "未检测到个人信息",
       "detectedToast": "检测到 {count} 条个人信息",

@@ -1051,7 +1051,6 @@
       "alternating": "aLtErNaDo",
       "inverseCase": "InVeRsO",
       "noTextToConvert": "No hay texto para convertir",
-      "nothingToCopy": "No hay nada que copiar",
       "copiedToClipboard": "Copiado al portapapeles"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "Tiempo de habla",
       "speakingTimeDesc": "155 palabras por minuto",
       "minSuffix": "min",
-      "noTextToCopy": "No hay texto para copiar",
       "copiedToClipboard": "Copiado al portapapeles"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "Mezclar",
       "reverse": "Invertir",
       "enterTextFirst": "Primero introduce algún texto",
-      "nothingToCopy": "No hay nada que copiar",
       "copiedToClipboard": "Copiado al portapapeles",
       "nothingToDownload": "No hay nada que descargar",
       "downloaded": "Se descargó sorted-text.txt"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "Introduce el texto aquí...",
       "inputPlaceholderEncoded": "Introduce el valor codificado aquí...",
       "charsBytes": "{chars} caracteres / {bytes} bytes",
-      "nothingToCopy": "No hay nada que copiar",
       "copiedToClipboard": "Copiado al portapapeles",
       "copyFailed": "No se pudo copiar al portapapeles",
       "binaryInput": "Entrada binaria",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "El resultado superaría 1.000.000 de caracteres. Reduce el número de repeticiones o acorta el texto de entrada.",
       "chars": "caracteres",
       "lines": "líneas",
-      "nothingToCopy": "No hay nada que copiar",
       "copiedToClipboard": "Copiado al portapapeles",
       "nothingToDownload": "No hay nada que descargar",
       "downloaded": "Se descargó repeated-text.txt",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "Tabla de caracteres A–Z, 0–9",
       "words": "palabras",
       "chars": "caracteres",
-      "nothingToCopy": "No hay nada que copiar",
       "copiedToClipboard": "Copiado al portapapeles"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "min de lectura",
       "previewPlaceholder": "La vista previa aparecerá aquí...",
       "htmlOutputPlaceholder": "La salida HTML aparecerá aquí...",
-      "nothingToCopy": "No hay nada que copiar",
       "htmlCopied": "HTML copiado al portapapeles",
       "nothingToDownload": "No hay nada que descargar",
       "downloadedHtml": "Se descargó document.html"
@@ -1283,7 +1276,6 @@
       "downloaded": "Descargado",
       "ariaHtmlInput": "Entrada de HTML",
       "ariaHtmlOutput": "Salida de HTML",
-      "ariaCopy": "Copiar",
       "ariaDownload": "Descargar",
       "processingFailed": "El procesamiento falló"
     },
@@ -1314,12 +1306,9 @@
       "lines": "líneas",
       "chars": "caracteres",
       "noReduction": "Sin reducción",
-      "copiedToClipboard": "Copiado al portapapeles",
-      "failedToCopy": "No se pudo copiar",
       "downloaded": "Descargado",
       "ariaCssInput": "Entrada de CSS",
       "ariaCssOutput": "Salida de CSS",
-      "ariaCopy": "Copiar",
       "ariaDownload": "Descargar"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL minificado",
       "formattingFailed": "El formateo falló",
       "minificationFailed": "La minificación falló",
-      "copiedToClipboard": "Copiado al portapapeles",
-      "failedToCopy": "No se pudo copiar",
       "downloaded": "Descargado",
       "dialectStandard": "SQL estándar",
       "ariaSqlInput": "Entrada de SQL",
       "ariaSqlOutput": "Salida de SQL",
-      "ariaCopy": "Copiar",
       "ariaDownload": "Descargar"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "Formatear",
       "minify": "Minificar",
       "validate": "Validar",
-      "copy": "Copiar",
       "loadSample": "Cargar ejemplo",
       "clear": "Borrar",
       "indent": "Sangría:",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Introduce algún dato",
       "conversionSuccessful": "Conversión correcta",
       "fileLoadedSuccessfully": "Archivo cargado correctamente",
-      "noOutputToCopy": "No hay salida para copiar",
       "copiedToClipboard": "Copiado al portapapeles",
       "failedToCopy": "No se pudo copiar al portapapeles",
       "noOutputToDownload": "No hay salida para descargar",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Intercambiar",
-      "copyOutput": "Copiar salida",
       "loadSample": "Cargar ejemplo",
       "clear": "Borrar",
       "yamlInput": "Entrada YAML",
@@ -1765,7 +1748,6 @@
       "valid": "Válido",
       "conversionFailed": "La conversión falló",
       "convertedSuccessfully": "Convertido correctamente",
-      "nothingToCopy": "No hay nada que copiar",
       "copiedToClipboard": "Copiado al portapapeles",
       "failedToCopy": "No se pudo copiar al portapapeles",
       "error": "Error:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Introduce algún dato",
       "encodedSuccessfully": "Codificado correctamente",
       "decodedSuccessfully": "Decodificado correctamente",
-      "nothingToCopy": "No hay nada que copiar",
       "copiedToClipboard": "Copiado al portapapeles",
       "failedToCopy": "No se pudo copiar al portapapeles",
       "encodingFailed": "La codificación falló: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} seleccionados",
       "generateData": "Generar datos",
       "outputTitle": "Salida",
-      "copy": "Copiar",
       "download": "Descargar",
       "outputPlaceholder": "Haz clic en 'Generar datos' para crear registros ficticios...",
       "selectAtLeastOneField": "Selecciona al menos un campo",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Tu texto de relleno Lorem Ipsum",
       "generatedTextPlaceholder": "El texto generado aparecerá aquí...",
       "characters": "caracteres",
-      "copyText": "Copiar texto",
       "quickGenerate": "Generación rápida",
       "quickGenerateDesc": "Genera cantidades habituales con un solo clic",
       "oneParagraph": "1 párrafo",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5 oraciones",
       "aboutLoremTitle": "Acerca de Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum es simplemente texto de relleno de las industrias de la imprenta y la composición tipográfica. Ha sido el texto de relleno estándar del sector desde el siglo XVI, cuando un impresor desconocido tomó una galera de tipos y la mezcló para crear un libro de muestras tipográficas. Se usa habitualmente en diseño web, diseño gráfico y publicación como texto provisional.",
-      "noTextToCopy": "No hay texto para copiar",
       "copiedToClipboard": "Copiado al portapapeles"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "Importes distintos por persona",
       "pays": "paga",
       "enterBillPrompt": "Introduce el importe de la cuenta para empezar",
-      "summaryCopied": "Resumen copiado al portapapeles",
-      "copyFailed": "No se pudo copiar"
+      "summaryCopied": "Resumen copiado al portapapeles"
     },
     "UnitConverter": {
       "converter": "Conversor",
@@ -2409,7 +2386,6 @@
       "enterNumber": "Introduce un número",
       "enterRoman": "Introduce un número romano",
       "result": "Resultado",
-      "copy": "Copiar",
       "stepByStep": "Paso a paso",
       "runningTotal": "Total acumulado",
       "remaining": "Restante",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "Número romano no válido: comprueba el formato del numeral",
       "errorOutOfRange": "Introduce un número entre 1 y 3999",
       "copiedToClipboard": "Copiado al portapapeles",
-      "failedToCopy": "No se pudo copiar",
       "numberPlaceholder": "p. ej., 2024",
       "romanPlaceholder": "p. ej., MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "Componente de botón",
       "previewUI": "Ejemplo de componente de interfaz",
       "presets": "Predefinidos",
-      "ratioCopied": "Relación de contraste copiada",
-      "copyFailed": "No se pudo copiar"
+      "ratioCopied": "Relación de contraste copiada"
     },
     "ColorBlindnessSimulator": {
       "title": "Simulador de daltonismo",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "La fecha de nacimiento no puede estar en el futuro",
       "errorMissingBirthDates": "Selecciona ambas fechas de nacimiento",
       "errorFutureDates": "Las fechas de nacimiento no pueden estar en el futuro",
-      "copiedToClipboard": "Copiado al portapapeles",
-      "copyFailed": "No se pudo copiar"
+      "copiedToClipboard": "Copiado al portapapeles"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. Todos los derechos reservados.",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "Selecciona ambas zonas horarias e introduce la fecha y hora",
       "errorInvalidDate": "Fecha no válida: introduce una fecha y hora válidas",
       "errorConversion": "Error de conversión: no se pudo convertir la hora",
-      "copiedToClipboard": "Copiado al portapapeles",
-      "copyFailed": "No se pudo copiar"
+      "copiedToClipboard": "Copiado al portapapeles"
     },
     "TypingTest": {
       "title": "Prueba de mecanografía",
@@ -4242,7 +4214,6 @@
       "copied": "Transcripción copiada al portapapeles",
       "copyFailed": "No se pudo copiar al portapapeles",
       "downloaded": "Transcripción descargada",
-      "nothingToCopy": "Todavía no hay nada que copiar",
       "nothingToDownload": "Todavía no hay nada que descargar",
       "notSupported": "Tu navegador no es compatible con el reconocimiento de voz. Usa Google Chrome o Microsoft Edge para una mejor experiencia. La compatibilidad con Firefox es limitada.",
       "micDenied": "Se denegó el acceso al micrófono. Concede el permiso del micrófono e inténtalo de nuevo.",
@@ -4534,7 +4505,6 @@
       "captionLabel": "Descripción",
       "altLabel": "Texto alternativo (HTML)",
       "altHint": "Pega esto en tu etiqueta <img> para mejorar la accesibilidad y el SEO. Revísalo y edítalo para que se ajuste al contexto de la imagen.",
-      "copy": "Copiar",
       "copyCaption": "Copiar descripción",
       "copyAlt": "Copiar texto alternativo",
       "copied": "Copiado al portapapeles",
@@ -4565,7 +4535,6 @@
       "copy": "Copiar",
       "copied": "Copiado al portapapeles",
       "copyFailed": "No se pudo copiar al portapapeles",
-      "nothingToCopy": "Todavía no hay nada que copiar",
       "enterText": "Introduce algún texto",
       "noneFound": "No se detectó información personal",
       "detectedToast": "Se detectaron {count} elemento(s) de información personal",

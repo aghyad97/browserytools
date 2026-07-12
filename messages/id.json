@@ -1051,7 +1051,6 @@
       "alternating": "bErGaNtIaN",
       "inverseCase": "hUrUf TeRbAlIk",
       "noTextToConvert": "Tidak ada teks untuk dikonversi",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "Waktu Berbicara",
       "speakingTimeDesc": "155 kata per menit",
       "minSuffix": "mnt",
-      "noTextToCopy": "Tidak ada teks untuk disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "Acak",
       "reverse": "Balik",
       "enterTextFirst": "Silakan masukkan teks terlebih dahulu",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "nothingToDownload": "Tidak ada yang diunduh",
       "downloaded": "Mengunduh sorted-text.txt"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "Masukkan teks di sini...",
       "inputPlaceholderEncoded": "Masukkan nilai terenkode di sini...",
       "charsBytes": "{chars} karakter / {bytes} byte",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "copyFailed": "Gagal menyalin ke papan klip",
       "binaryInput": "Masukan Biner",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "Hasilnya akan melebihi 1.000.000 karakter. Silakan kurangi jumlah pengulangan atau persingkat teks masukan Anda.",
       "chars": "karakter",
       "lines": "baris",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "nothingToDownload": "Tidak ada yang diunduh",
       "downloaded": "Mengunduh repeated-text.txt",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "Tabel karakter A–Z, 0–9",
       "words": "kata",
       "chars": "karakter",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "mnt baca",
       "previewPlaceholder": "Pratinjau akan muncul di sini...",
       "htmlOutputPlaceholder": "Keluaran HTML akan muncul di sini...",
-      "nothingToCopy": "Tidak ada yang disalin",
       "htmlCopied": "HTML tersalin ke papan klip",
       "nothingToDownload": "Tidak ada yang diunduh",
       "downloadedHtml": "Mengunduh document.html"
@@ -1283,7 +1276,6 @@
       "downloaded": "Diunduh",
       "ariaHtmlInput": "Masukan HTML",
       "ariaHtmlOutput": "Keluaran HTML",
-      "ariaCopy": "Salin",
       "ariaDownload": "Unduh",
       "processingFailed": "Pemrosesan gagal"
     },
@@ -1314,12 +1306,9 @@
       "lines": "baris",
       "chars": "karakter",
       "noReduction": "Tanpa pengurangan",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "failedToCopy": "Gagal menyalin",
       "downloaded": "Diunduh",
       "ariaCssInput": "Masukan CSS",
       "ariaCssOutput": "Keluaran CSS",
-      "ariaCopy": "Salin",
       "ariaDownload": "Unduh"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL dimampatkan",
       "formattingFailed": "Pemformatan gagal",
       "minificationFailed": "Pemampatan gagal",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "failedToCopy": "Gagal menyalin",
       "downloaded": "Diunduh",
       "dialectStandard": "SQL Standar",
       "ariaSqlInput": "Masukan SQL",
       "ariaSqlOutput": "Keluaran SQL",
-      "ariaCopy": "Salin",
       "ariaDownload": "Unduh"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "Format",
       "minify": "Mampatkan",
       "validate": "Validasi",
-      "copy": "Salin",
       "loadSample": "Muat Contoh",
       "clear": "Bersihkan",
       "indent": "Indentasi:",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Silakan masukkan input",
       "conversionSuccessful": "Konversi berhasil",
       "fileLoadedSuccessfully": "Berkas berhasil dimuat",
-      "noOutputToCopy": "Tidak ada keluaran untuk disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip",
       "noOutputToDownload": "Tidak ada keluaran untuk diunduh",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Tukar",
-      "copyOutput": "Salin Keluaran",
       "loadSample": "Muat Contoh",
       "clear": "Bersihkan",
       "yamlInput": "Masukan YAML",
@@ -1765,7 +1748,6 @@
       "valid": "Valid",
       "conversionFailed": "Konversi gagal",
       "convertedSuccessfully": "Berhasil dikonversi",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip",
       "error": "Galat:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Silakan masukkan input",
       "encodedSuccessfully": "Berhasil dienkode",
       "decodedSuccessfully": "Berhasil didekode",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip",
       "encodingFailed": "Pengkodean gagal: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} dipilih",
       "generateData": "Hasilkan Data",
       "outputTitle": "Keluaran",
-      "copy": "Salin",
       "download": "Unduh",
       "outputPlaceholder": "Klik 'Hasilkan Data' untuk membuat catatan palsu...",
       "selectAtLeastOneField": "Pilih minimal satu bidang",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Teks pengisi Lorem Ipsum Anda",
       "generatedTextPlaceholder": "Teks yang dihasilkan akan muncul di sini...",
       "characters": "karakter",
-      "copyText": "Salin Teks",
       "quickGenerate": "Buat Cepat",
       "quickGenerateDesc": "Buat jumlah umum dengan satu klik",
       "oneParagraph": "1 Paragraf",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5 Kalimat",
       "aboutLoremTitle": "Tentang Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum hanyalah teks dummy dari industri percetakan dan penataan huruf. Lorem Ipsum telah menjadi teks dummy standar industri sejak tahun 1500-an, ketika seorang pencetak tak dikenal mengambil sekumpulan huruf dan mengacaknya untuk membuat buku spesimen huruf. Teks ini umum digunakan dalam desain web, desain grafis, dan penerbitan sebagai teks pengisi.",
-      "noTextToCopy": "Tidak ada teks untuk disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "Jumlah berbeda per orang",
       "pays": "membayar",
       "enterBillPrompt": "Masukkan jumlah tagihan untuk memulai",
-      "summaryCopied": "Ringkasan tersalin ke papan klip",
-      "copyFailed": "Gagal menyalin"
+      "summaryCopied": "Ringkasan tersalin ke papan klip"
     },
     "UnitConverter": {
       "converter": "Konverter",
@@ -2409,7 +2386,6 @@
       "enterNumber": "Masukkan Angka",
       "enterRoman": "Masukkan Angka Romawi",
       "result": "Hasil",
-      "copy": "Salin",
       "stepByStep": "Langkah demi Langkah",
       "runningTotal": "Total Berjalan",
       "remaining": "Tersisa",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "Angka Romawi tidak valid — periksa format angka",
       "errorOutOfRange": "Masukkan angka antara 1 dan 3999",
       "copiedToClipboard": "Tersalin ke papan klip",
-      "failedToCopy": "Gagal menyalin",
       "numberPlaceholder": "mis. 2024",
       "romanPlaceholder": "mis. MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "Komponen Tombol",
       "previewUI": "Contoh Komponen UI",
       "presets": "Praatur",
-      "ratioCopied": "Rasio kontras tersalin",
-      "copyFailed": "Gagal menyalin"
+      "ratioCopied": "Rasio kontras tersalin"
     },
     "ColorBlindnessSimulator": {
       "title": "Simulator Buta Warna",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "Tanggal lahir tidak boleh di masa depan",
       "errorMissingBirthDates": "Silakan pilih kedua tanggal lahir",
       "errorFutureDates": "Tanggal lahir tidak boleh di masa depan",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "copyFailed": "Gagal menyalin"
+      "copiedToClipboard": "Tersalin ke papan klip"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. Seluruh hak cipta dilindungi.",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "Silakan pilih kedua zona waktu dan masukkan tanggal/waktu",
       "errorInvalidDate": "Tanggal tidak valid — silakan masukkan tanggal dan waktu yang valid",
       "errorConversion": "Galat konversi — tidak dapat mengonversi waktu",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "copyFailed": "Gagal menyalin"
+      "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TypingTest": {
       "title": "Tes Mengetik",
@@ -4242,7 +4214,6 @@
       "copied": "Transkrip tersalin ke papan klip",
       "copyFailed": "Tidak dapat menyalin ke papan klip",
       "downloaded": "Transkrip diunduh",
-      "nothingToCopy": "Belum ada yang disalin",
       "nothingToDownload": "Belum ada yang diunduh",
       "notSupported": "Browser Anda tidak mendukung pengenalan suara. Gunakan Google Chrome atau Microsoft Edge untuk pengalaman terbaik. Dukungan Firefox terbatas.",
       "micDenied": "Akses mikrofon ditolak. Izinkan izin mikrofon dan coba lagi.",
@@ -4534,7 +4505,6 @@
       "captionLabel": "Keterangan",
       "altLabel": "Teks alt (HTML)",
       "altHint": "Tempelkan ini ke tag <img> Anda untuk meningkatkan aksesibilitas dan SEO. Tinjau dan edit agar sesuai dengan konteks gambar.",
-      "copy": "Salin",
       "copyCaption": "Salin keterangan",
       "copyAlt": "Salin teks alt",
       "copied": "Tersalin ke papan klip",
@@ -4565,7 +4535,6 @@
       "copy": "Salin",
       "copied": "Tersalin ke papan klip",
       "copyFailed": "Tidak dapat menyalin ke papan klip",
-      "nothingToCopy": "Belum ada yang disalin",
       "enterText": "Silakan masukkan teks",
       "noneFound": "Tidak ada informasi pribadi terdeteksi",
       "detectedToast": "Terdeteksi {count} item informasi pribadi",

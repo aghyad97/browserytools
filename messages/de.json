@@ -1051,7 +1051,6 @@
       "alternating": "aBwEcHsElNd",
       "inverseCase": "uMgEkEhRtE sChReIbWeIsE",
       "noTextToConvert": "Kein Text zum Konvertieren",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "Sprechzeit",
       "speakingTimeDesc": "155 Wörter pro Minute",
       "minSuffix": "Min.",
-      "noTextToCopy": "Kein Text zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "Mischen",
       "reverse": "Umkehren",
       "enterTextFirst": "Bitte gib zuerst etwas Text ein",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "nothingToDownload": "Nichts zum Herunterladen",
       "downloaded": "sorted-text.txt heruntergeladen"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "Gib hier Text ein …",
       "inputPlaceholderEncoded": "Gib hier den kodierten Wert ein …",
       "charsBytes": "{chars} Zeichen / {bytes} Bytes",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "copyFailed": "Kopieren in die Zwischenablage fehlgeschlagen",
       "binaryInput": "Binär-Eingabe",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "Das Ergebnis würde 1.000.000 Zeichen überschreiten. Bitte reduziere die Wiederholungsanzahl oder kürze deinen Eingabetext.",
       "chars": "Zeichen",
       "lines": "Zeilen",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "nothingToDownload": "Nichts zum Herunterladen",
       "downloaded": "repeated-text.txt heruntergeladen",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "Zeichentabelle A–Z, 0–9",
       "words": "Wörter",
       "chars": "Zeichen",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "Min. Lesezeit",
       "previewPlaceholder": "Die Vorschau erscheint hier …",
       "htmlOutputPlaceholder": "Die HTML-Ausgabe erscheint hier …",
-      "nothingToCopy": "Nichts zum Kopieren",
       "htmlCopied": "HTML in die Zwischenablage kopiert",
       "nothingToDownload": "Nichts zum Herunterladen",
       "downloadedHtml": "document.html heruntergeladen"
@@ -1283,7 +1276,6 @@
       "downloaded": "Heruntergeladen",
       "ariaHtmlInput": "HTML-Eingabe",
       "ariaHtmlOutput": "HTML-Ausgabe",
-      "ariaCopy": "Kopieren",
       "ariaDownload": "Herunterladen",
       "processingFailed": "Verarbeitung fehlgeschlagen"
     },
@@ -1314,12 +1306,9 @@
       "lines": "Zeilen",
       "chars": "Zeichen",
       "noReduction": "Keine Reduzierung",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "failedToCopy": "Kopieren fehlgeschlagen",
       "downloaded": "Heruntergeladen",
       "ariaCssInput": "CSS-Eingabe",
       "ariaCssOutput": "CSS-Ausgabe",
-      "ariaCopy": "Kopieren",
       "ariaDownload": "Herunterladen"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL minimiert",
       "formattingFailed": "Formatierung fehlgeschlagen",
       "minificationFailed": "Minimierung fehlgeschlagen",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "failedToCopy": "Kopieren fehlgeschlagen",
       "downloaded": "Heruntergeladen",
       "dialectStandard": "Standard-SQL",
       "ariaSqlInput": "SQL-Eingabe",
       "ariaSqlOutput": "SQL-Ausgabe",
-      "ariaCopy": "Kopieren",
       "ariaDownload": "Herunterladen"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "Formatieren",
       "minify": "Minimieren",
       "validate": "Validieren",
-      "copy": "Kopieren",
       "loadSample": "Beispiel laden",
       "clear": "Leeren",
       "indent": "Einrückung:",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Bitte gib eine Eingabe ein",
       "conversionSuccessful": "Konvertierung erfolgreich",
       "fileLoadedSuccessfully": "Datei erfolgreich geladen",
-      "noOutputToCopy": "Keine Ausgabe zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen",
       "noOutputToDownload": "Keine Ausgabe zum Herunterladen",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Tauschen",
-      "copyOutput": "Ausgabe kopieren",
       "loadSample": "Beispiel laden",
       "clear": "Leeren",
       "yamlInput": "YAML-Eingabe",
@@ -1765,7 +1748,6 @@
       "valid": "Gültig",
       "conversionFailed": "Konvertierung fehlgeschlagen",
       "convertedSuccessfully": "Erfolgreich konvertiert",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen",
       "error": "Fehler:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Bitte gib eine Eingabe ein",
       "encodedSuccessfully": "Erfolgreich kodiert",
       "decodedSuccessfully": "Erfolgreich dekodiert",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen",
       "encodingFailed": "Kodierung fehlgeschlagen: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} ausgewählt",
       "generateData": "Daten generieren",
       "outputTitle": "Ausgabe",
-      "copy": "Kopieren",
       "download": "Herunterladen",
       "outputPlaceholder": "Klicke auf „Daten generieren“, um Fake-Datensätze zu erstellen …",
       "selectAtLeastOneField": "Wähle mindestens ein Feld aus",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Dein Lorem-Ipsum-Platzhaltertext",
       "generatedTextPlaceholder": "Der generierte Text erscheint hier …",
       "characters": "Zeichen",
-      "copyText": "Text kopieren",
       "quickGenerate": "Schnellgenerierung",
       "quickGenerateDesc": "Erzeuge gängige Mengen mit einem Klick",
       "oneParagraph": "1 Absatz",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5 Sätze",
       "aboutLoremTitle": "Über Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum ist einfach ein Blindtext der Druck- und Satzbranche. Lorem Ipsum ist seit dem 16. Jahrhundert der Standard-Blindtext der Branche, als ein unbekannter Drucker einen Setzkasten nahm und daraus ein Mustersatzbuch fertigte. Es wird häufig im Webdesign, Grafikdesign und Verlagswesen als Platzhaltertext verwendet.",
-      "noTextToCopy": "Kein Text zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "Unterschiedliche Beträge pro Person",
       "pays": "zahlt",
       "enterBillPrompt": "Gib einen Rechnungsbetrag ein, um loszulegen",
-      "summaryCopied": "Zusammenfassung in die Zwischenablage kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "summaryCopied": "Zusammenfassung in die Zwischenablage kopiert"
     },
     "UnitConverter": {
       "converter": "Konverter",
@@ -2409,7 +2386,6 @@
       "enterNumber": "Zahl eingeben",
       "enterRoman": "Römische Zahl eingeben",
       "result": "Ergebnis",
-      "copy": "Kopieren",
       "stepByStep": "Schritt für Schritt",
       "runningTotal": "Laufende Summe",
       "remaining": "Verbleibend",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "Ungültige römische Zahl – prüfe das Zahlenformat",
       "errorOutOfRange": "Gib eine Zahl zwischen 1 und 3999 ein",
       "copiedToClipboard": "In die Zwischenablage kopiert",
-      "failedToCopy": "Kopieren fehlgeschlagen",
       "numberPlaceholder": "z. B. 2024",
       "romanPlaceholder": "z. B. MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "Button-Komponente",
       "previewUI": "Beispiel einer UI-Komponente",
       "presets": "Vorlagen",
-      "ratioCopied": "Kontrastverhältnis kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "ratioCopied": "Kontrastverhältnis kopiert"
     },
     "ColorBlindnessSimulator": {
       "title": "Farbenblindheits-Simulator",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "Das Geburtsdatum darf nicht in der Zukunft liegen",
       "errorMissingBirthDates": "Bitte wähle beide Geburtsdaten",
       "errorFutureDates": "Die Geburtsdaten dürfen nicht in der Zukunft liegen",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. Alle Rechte vorbehalten.",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "Bitte wähle beide Zeitzonen und gib Datum/Uhrzeit ein",
       "errorInvalidDate": "Ungültiges Datum – bitte gib ein gültiges Datum und eine gültige Uhrzeit ein",
       "errorConversion": "Konvertierungsfehler – die Zeit konnte nicht konvertiert werden",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TypingTest": {
       "title": "Tipptest",
@@ -4242,7 +4214,6 @@
       "copied": "Transkript in die Zwischenablage kopiert",
       "copyFailed": "Konnte nicht in die Zwischenablage kopiert werden",
       "downloaded": "Transkript heruntergeladen",
-      "nothingToCopy": "Noch nichts zum Kopieren",
       "nothingToDownload": "Noch nichts zum Herunterladen",
       "notSupported": "Dein Browser unterstützt keine Spracherkennung. Verwende für das beste Erlebnis Google Chrome oder Microsoft Edge. Die Firefox-Unterstützung ist eingeschränkt.",
       "micDenied": "Der Mikrofonzugriff wurde verweigert. Erlaube die Mikrofonberechtigung und versuche es erneut.",
@@ -4534,7 +4505,6 @@
       "captionLabel": "Bildunterschrift",
       "altLabel": "Alt-Text (HTML)",
       "altHint": "Füge dies in dein <img>-Tag ein, um Barrierefreiheit und SEO zu verbessern. Überprüfe und bearbeite es passend zum Kontext des Bildes.",
-      "copy": "Kopieren",
       "copyCaption": "Bildunterschrift kopieren",
       "copyAlt": "Alt-Text kopieren",
       "copied": "In die Zwischenablage kopiert",
@@ -4565,7 +4535,6 @@
       "copy": "Kopieren",
       "copied": "In die Zwischenablage kopiert",
       "copyFailed": "Konnte nicht in die Zwischenablage kopiert werden",
-      "nothingToCopy": "Noch nichts zum Kopieren",
       "enterText": "Bitte gib etwas Text ein",
       "noneFound": "Keine persönlichen Informationen erkannt",
       "detectedToast": "{count} Element(e) mit persönlichen Informationen erkannt",

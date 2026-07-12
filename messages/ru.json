@@ -1051,7 +1051,6 @@
       "alternating": "чЕрЕдУюЩиЙсЯ",
       "inverseCase": "иНвЕрСнЫй РеГиСтР",
       "noTextToConvert": "Нет текста для преобразования",
-      "nothingToCopy": "Нечего копировать",
       "copiedToClipboard": "Скопировано в буфер обмена"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "Время произнесения",
       "speakingTimeDesc": "155 слов в минуту",
       "minSuffix": "мин",
-      "noTextToCopy": "Нет текста для копирования",
       "copiedToClipboard": "Скопировано в буфер обмена"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "Перемешать",
       "reverse": "Обратить",
       "enterTextFirst": "Сначала введите текст",
-      "nothingToCopy": "Нечего копировать",
       "copiedToClipboard": "Скопировано в буфер обмена",
       "nothingToDownload": "Нечего скачивать",
       "downloaded": "Скачан sorted-text.txt"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "Введите текст здесь...",
       "inputPlaceholderEncoded": "Введите закодированное значение здесь...",
       "charsBytes": "{chars} симв. / {bytes} байт",
-      "nothingToCopy": "Нечего копировать",
       "copiedToClipboard": "Скопировано в буфер обмена",
       "copyFailed": "Не удалось скопировать в буфер обмена",
       "binaryInput": "Двоичный ввод",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "Результат превысит 1 000 000 символов. Уменьшите число повторов или сократите исходный текст.",
       "chars": "симв.",
       "lines": "строк",
-      "nothingToCopy": "Нечего копировать",
       "copiedToClipboard": "Скопировано в буфер обмена",
       "nothingToDownload": "Нечего скачивать",
       "downloaded": "Скачан repeated-text.txt",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "Таблица символов A–Z, 0–9",
       "words": "слов",
       "chars": "симв.",
-      "nothingToCopy": "Нечего копировать",
       "copiedToClipboard": "Скопировано в буфер обмена"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "мин чтения",
       "previewPlaceholder": "Предпросмотр появится здесь...",
       "htmlOutputPlaceholder": "Вывод HTML появится здесь...",
-      "nothingToCopy": "Нечего копировать",
       "htmlCopied": "HTML скопирован в буфер обмена",
       "nothingToDownload": "Нечего скачивать",
       "downloadedHtml": "Скачан document.html"
@@ -1283,7 +1276,6 @@
       "downloaded": "Скачано",
       "ariaHtmlInput": "Ввод HTML",
       "ariaHtmlOutput": "Вывод HTML",
-      "ariaCopy": "Копировать",
       "ariaDownload": "Скачать",
       "processingFailed": "Обработка не удалась"
     },
@@ -1314,12 +1306,9 @@
       "lines": "строк",
       "chars": "симв.",
       "noReduction": "Без уменьшения",
-      "copiedToClipboard": "Скопировано в буфер обмена",
-      "failedToCopy": "Не удалось скопировать",
       "downloaded": "Скачано",
       "ariaCssInput": "Ввод CSS",
       "ariaCssOutput": "Вывод CSS",
-      "ariaCopy": "Копировать",
       "ariaDownload": "Скачать"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL минифицирован",
       "formattingFailed": "Форматирование не удалось",
       "minificationFailed": "Минификация не удалась",
-      "copiedToClipboard": "Скопировано в буфер обмена",
-      "failedToCopy": "Не удалось скопировать",
       "downloaded": "Скачано",
       "dialectStandard": "Стандартный SQL",
       "ariaSqlInput": "Ввод SQL",
       "ariaSqlOutput": "Вывод SQL",
-      "ariaCopy": "Копировать",
       "ariaDownload": "Скачать"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "Форматировать",
       "minify": "Минифицировать",
       "validate": "Проверить",
-      "copy": "Копировать",
       "loadSample": "Загрузить пример",
       "clear": "Очистить",
       "indent": "Отступ:",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Введите данные",
       "conversionSuccessful": "Конвертация выполнена",
       "fileLoadedSuccessfully": "Файл успешно загружен",
-      "noOutputToCopy": "Нет результата для копирования",
       "copiedToClipboard": "Скопировано в буфер обмена",
       "failedToCopy": "Не удалось скопировать в буфер обмена",
       "noOutputToDownload": "Нет результата для скачивания",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Поменять местами",
-      "copyOutput": "Копировать результат",
       "loadSample": "Загрузить пример",
       "clear": "Очистить",
       "yamlInput": "Ввод YAML",
@@ -1765,7 +1748,6 @@
       "valid": "Корректно",
       "conversionFailed": "Конвертация не удалась",
       "convertedSuccessfully": "Успешно сконвертировано",
-      "nothingToCopy": "Нечего копировать",
       "copiedToClipboard": "Скопировано в буфер обмена",
       "failedToCopy": "Не удалось скопировать в буфер обмена",
       "error": "Ошибка:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Введите данные",
       "encodedSuccessfully": "Успешно закодировано",
       "decodedSuccessfully": "Успешно декодировано",
-      "nothingToCopy": "Нечего копировать",
       "copiedToClipboard": "Скопировано в буфер обмена",
       "failedToCopy": "Не удалось скопировать в буфер обмена",
       "encodingFailed": "Кодирование не удалось: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "Выбрано: {count}",
       "generateData": "Сгенерировать данные",
       "outputTitle": "Результат",
-      "copy": "Копировать",
       "download": "Скачать",
       "outputPlaceholder": "Нажмите «Сгенерировать данные», чтобы создать тестовые записи...",
       "selectAtLeastOneField": "Выберите хотя бы одно поле",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Ваш текст-заполнитель Lorem Ipsum",
       "generatedTextPlaceholder": "Сгенерированный текст появится здесь...",
       "characters": "символов",
-      "copyText": "Копировать текст",
       "quickGenerate": "Быстрая генерация",
       "quickGenerateDesc": "Генерируйте распространённые объёмы одним нажатием",
       "oneParagraph": "1 абзац",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5 предложений",
       "aboutLoremTitle": "О Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum — это просто фиктивный текст полиграфической и типографской отрасли. Он является стандартным фиктивным текстом отрасли с 1500-х годов, когда неизвестный печатник взял шрифтовую гранку и перемешал её, чтобы сделать образец шрифта. Он широко используется в веб-дизайне, графическом дизайне и издательском деле как текст-заполнитель.",
-      "noTextToCopy": "Нет текста для копирования",
       "copiedToClipboard": "Скопировано в буфер обмена"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "Разные суммы для каждого",
       "pays": "платит",
       "enterBillPrompt": "Введите сумму счёта, чтобы начать",
-      "summaryCopied": "Сводка скопирована в буфер обмена",
-      "copyFailed": "Не удалось скопировать"
+      "summaryCopied": "Сводка скопирована в буфер обмена"
     },
     "UnitConverter": {
       "converter": "Конвертер",
@@ -2409,7 +2386,6 @@
       "enterNumber": "Введите число",
       "enterRoman": "Введите римскую цифру",
       "result": "Результат",
-      "copy": "Копировать",
       "stepByStep": "Пошагово",
       "runningTotal": "Текущий итог",
       "remaining": "Осталось",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "Некорректная римская цифра — проверьте формат записи",
       "errorOutOfRange": "Введите число от 1 до 3999",
       "copiedToClipboard": "Скопировано в буфер обмена",
-      "failedToCopy": "Не удалось скопировать",
       "numberPlaceholder": "например, 2024",
       "romanPlaceholder": "например, MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "Компонент кнопки",
       "previewUI": "Пример UI-компонента",
       "presets": "Шаблоны",
-      "ratioCopied": "Коэффициент контраста скопирован",
-      "copyFailed": "Не удалось скопировать"
+      "ratioCopied": "Коэффициент контраста скопирован"
     },
     "ColorBlindnessSimulator": {
       "title": "Симулятор дальтонизма",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "Дата рождения не может быть в будущем",
       "errorMissingBirthDates": "Выберите обе даты рождения",
       "errorFutureDates": "Даты рождения не могут быть в будущем",
-      "copiedToClipboard": "Скопировано в буфер обмена",
-      "copyFailed": "Не удалось скопировать"
+      "copiedToClipboard": "Скопировано в буфер обмена"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. Все права защищены.",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "Выберите оба часовых пояса и введите дату/время",
       "errorInvalidDate": "Некорректная дата — введите корректные дату и время",
       "errorConversion": "Ошибка конвертации — не удалось преобразовать время",
-      "copiedToClipboard": "Скопировано в буфер обмена",
-      "copyFailed": "Не удалось скопировать"
+      "copiedToClipboard": "Скопировано в буфер обмена"
     },
     "TypingTest": {
       "title": "Тест печати",
@@ -4242,7 +4214,6 @@
       "copied": "Расшифровка скопирована в буфер обмена",
       "copyFailed": "Не удалось скопировать в буфер обмена",
       "downloaded": "Расшифровка скачана",
-      "nothingToCopy": "Пока нечего копировать",
       "nothingToDownload": "Пока нечего скачивать",
       "notSupported": "Ваш браузер не поддерживает распознавание речи. Для лучшего результата используйте Google Chrome или Microsoft Edge. Поддержка Firefox ограничена.",
       "micDenied": "Доступ к микрофону запрещён. Разрешите доступ к микрофону и попробуйте снова.",
@@ -4534,7 +4505,6 @@
       "captionLabel": "Подпись",
       "altLabel": "Alt-текст (HTML)",
       "altHint": "Вставьте это в ваш тег <img>, чтобы улучшить доступность и SEO. Просмотрите и отредактируйте его в соответствии с контекстом изображения.",
-      "copy": "Копировать",
       "copyCaption": "Копировать подпись",
       "copyAlt": "Копировать alt-текст",
       "copied": "Скопировано в буфер обмена",
@@ -4565,7 +4535,6 @@
       "copy": "Копировать",
       "copied": "Скопировано в буфер обмена",
       "copyFailed": "Не удалось скопировать в буфер обмена",
-      "nothingToCopy": "Пока нечего копировать",
       "enterText": "Введите текст",
       "noneFound": "Персональные данные не обнаружены",
       "detectedToast": "Обнаружено элементов персональных данных: {count}",

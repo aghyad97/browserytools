@@ -23,6 +23,14 @@
   display: none;
 }
 
+/* Frozen while a session/operation runs: dim the whole control and swallow
+   pointer events. onChange is also guarded in JS, so this is purely the
+   visual "not editable now" cue. */
+.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
 /* The sliding active pill. Sized/positioned from measured --x/--w (px),
    falling back to 0 before the first layout effect runs. `left` is
    deliberately physical (not inset-inline-start): offsetLeft — which feeds

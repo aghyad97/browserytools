@@ -1051,7 +1051,6 @@
       "alternating": "aLtErNaDo",
       "inverseCase": "fOrMaTo iNvErSo",
       "noTextToConvert": "Nenhum texto para converter",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência"
     },
     "TextCounter": {
@@ -1078,7 +1077,6 @@
       "speakingTime": "Tempo de Fala",
       "speakingTimeDesc": "155 palavras por minuto",
       "minSuffix": "min",
-      "noTextToCopy": "Nenhum texto para copiar",
       "copiedToClipboard": "Copiado para a área de transferência"
     },
     "TextDiffViewer": {
@@ -1115,7 +1113,6 @@
       "shuffle": "Embaralhar",
       "reverse": "Inverter",
       "enterTextFirst": "Insira algum texto primeiro",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "nothingToDownload": "Nada para baixar",
       "downloaded": "sorted-text.txt baixado"
@@ -1134,7 +1131,6 @@
       "inputPlaceholderText": "Insira o texto aqui...",
       "inputPlaceholderEncoded": "Insira o valor codificado aqui...",
       "charsBytes": "{chars} caracteres / {bytes} bytes",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "copyFailed": "Falha ao copiar para a área de transferência",
       "binaryInput": "Entrada Binária",
@@ -1167,7 +1163,6 @@
       "outputTooLargeDesc": "O resultado ultrapassaria 1.000.000 de caracteres. Reduza o número de repetições ou encurte o texto de entrada.",
       "chars": "caracteres",
       "lines": "linhas",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "nothingToDownload": "Nada para baixar",
       "downloaded": "repeated-text.txt baixado",
@@ -1199,7 +1194,6 @@
       "referenceDesc": "Tabela de caracteres A–Z, 0–9",
       "words": "palavras",
       "chars": "caracteres",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência"
     },
     "MarkdownEditor": {
@@ -1257,7 +1251,6 @@
       "minRead": "min de leitura",
       "previewPlaceholder": "A pré-visualização aparecerá aqui...",
       "htmlOutputPlaceholder": "A saída HTML aparecerá aqui...",
-      "nothingToCopy": "Nada para copiar",
       "htmlCopied": "HTML copiado para a área de transferência",
       "nothingToDownload": "Nada para baixar",
       "downloadedHtml": "document.html baixado"
@@ -1283,7 +1276,6 @@
       "downloaded": "Baixado",
       "ariaHtmlInput": "Entrada HTML",
       "ariaHtmlOutput": "Saída HTML",
-      "ariaCopy": "Copiar",
       "ariaDownload": "Baixar",
       "processingFailed": "Falha no processamento"
     },
@@ -1314,12 +1306,9 @@
       "lines": "linhas",
       "chars": "caracteres",
       "noReduction": "Sem redução",
-      "copiedToClipboard": "Copiado para a área de transferência",
-      "failedToCopy": "Falha ao copiar",
       "downloaded": "Baixado",
       "ariaCssInput": "Entrada CSS",
       "ariaCssOutput": "Saída CSS",
-      "ariaCopy": "Copiar",
       "ariaDownload": "Baixar"
     },
     "SqlFormatter": {
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL minificado",
       "formattingFailed": "Falha na formatação",
       "minificationFailed": "Falha na minificação",
-      "copiedToClipboard": "Copiado para a área de transferência",
-      "failedToCopy": "Falha ao copiar",
       "downloaded": "Baixado",
       "dialectStandard": "SQL Padrão",
       "ariaSqlInput": "Entrada SQL",
       "ariaSqlOutput": "Saída SQL",
-      "ariaCopy": "Copiar",
       "ariaDownload": "Baixar"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "Formatar",
       "minify": "Minificar",
       "validate": "Validar",
-      "copy": "Copiar",
       "loadSample": "Carregar Exemplo",
       "clear": "Limpar",
       "indent": "Indentação:",
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Insira alguma entrada",
       "conversionSuccessful": "Conversão bem-sucedida",
       "fileLoadedSuccessfully": "Arquivo carregado com sucesso",
-      "noOutputToCopy": "Nenhuma saída para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "failedToCopy": "Falha ao copiar para a área de transferência",
       "noOutputToDownload": "Nenhuma saída para baixar",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Inverter",
-      "copyOutput": "Copiar Saída",
       "loadSample": "Carregar Exemplo",
       "clear": "Limpar",
       "yamlInput": "Entrada YAML",
@@ -1765,7 +1748,6 @@
       "valid": "Válido",
       "conversionFailed": "Falha na conversão",
       "convertedSuccessfully": "Convertido com sucesso",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "failedToCopy": "Falha ao copiar para a área de transferência",
       "error": "Erro:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Insira uma entrada",
       "encodedSuccessfully": "Codificado com sucesso",
       "decodedSuccessfully": "Decodificado com sucesso",
-      "nothingToCopy": "Nada para copiar",
       "copiedToClipboard": "Copiado para a área de transferência",
       "failedToCopy": "Falha ao copiar para a área de transferência",
       "encodingFailed": "Falha na codificação: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} selecionado(s)",
       "generateData": "Gerar Dados",
       "outputTitle": "Saída",
-      "copy": "Copiar",
       "download": "Baixar",
       "outputPlaceholder": "Clique em 'Gerar Dados' para criar registros fictícios...",
       "selectAtLeastOneField": "Selecione pelo menos um campo",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Seu texto de preenchimento Lorem Ipsum",
       "generatedTextPlaceholder": "O texto gerado aparecerá aqui...",
       "characters": "caracteres",
-      "copyText": "Copiar Texto",
       "quickGenerate": "Geração Rápida",
       "quickGenerateDesc": "Gere quantidades comuns com um clique",
       "oneParagraph": "1 Parágrafo",
@@ -1838,7 +1817,6 @@
       "fiveSentences": "5 Frases",
       "aboutLoremTitle": "Sobre o Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum é simplesmente um texto fictício da indústria gráfica e de composição tipográfica. Ele é o texto fictício padrão do setor desde os anos 1500, quando um impressor desconhecido pegou uma galé de tipos e os embaralhou para fazer um livro de amostras tipográficas. É comumente usado em web design, design gráfico e publicações como texto de preenchimento.",
-      "noTextToCopy": "Nenhum texto para copiar",
       "copiedToClipboard": "Copiado para a área de transferência"
     },
     "TodoList": {
@@ -2256,8 +2234,7 @@
       "differentAmountsPerPerson": "Valores diferentes por pessoa",
       "pays": "paga",
       "enterBillPrompt": "Insira o valor da conta para começar",
-      "summaryCopied": "Resumo copiado para a área de transferência",
-      "copyFailed": "Falha ao copiar"
+      "summaryCopied": "Resumo copiado para a área de transferência"
     },
     "UnitConverter": {
       "converter": "Conversor",
@@ -2409,7 +2386,6 @@
       "enterNumber": "Insira o Número",
       "enterRoman": "Insira o Número Romano",
       "result": "Resultado",
-      "copy": "Copiar",
       "stepByStep": "Passo a Passo",
       "runningTotal": "Total Acumulado",
       "remaining": "Restante",
@@ -2418,7 +2394,6 @@
       "errorInvalidFormat": "Número romano inválido — verifique o formato do número",
       "errorOutOfRange": "Insira um número entre 1 e 3999",
       "copiedToClipboard": "Copiado para a área de transferência",
-      "failedToCopy": "Falha ao copiar",
       "numberPlaceholder": "ex.: 2024",
       "romanPlaceholder": "ex.: MMXXIV"
     },
@@ -3148,8 +3123,7 @@
       "previewButton": "Componente de Botão",
       "previewUI": "Exemplo de Componente de Interface",
       "presets": "Predefinições",
-      "ratioCopied": "Taxa de contraste copiada",
-      "copyFailed": "Falha ao copiar"
+      "ratioCopied": "Taxa de contraste copiada"
     },
     "ColorBlindnessSimulator": {
       "title": "Simulador de Daltonismo",
@@ -3306,8 +3280,7 @@
       "errorFutureDate": "A data de nascimento não pode estar no futuro",
       "errorMissingBirthDates": "Selecione as duas datas de nascimento",
       "errorFutureDates": "As datas de nascimento não podem estar no futuro",
-      "copiedToClipboard": "Copiado para a área de transferência",
-      "copyFailed": "Falha ao copiar"
+      "copiedToClipboard": "Copiado para a área de transferência"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. Todos os direitos reservados.",
@@ -3344,8 +3317,7 @@
       "errorMissingInfo": "Selecione os dois fusos horários e insira a data/hora",
       "errorInvalidDate": "Data inválida — insira uma data e hora válidas",
       "errorConversion": "Erro de conversão — não foi possível converter o horário",
-      "copiedToClipboard": "Copiado para a área de transferência",
-      "copyFailed": "Falha ao copiar"
+      "copiedToClipboard": "Copiado para a área de transferência"
     },
     "TypingTest": {
       "title": "Teste de Digitação",
@@ -4242,7 +4214,6 @@
       "copied": "Transcrição copiada para a área de transferência",
       "copyFailed": "Não foi possível copiar para a área de transferência",
       "downloaded": "Transcrição baixada",
-      "nothingToCopy": "Nada para copiar ainda",
       "nothingToDownload": "Nada para baixar ainda",
       "notSupported": "Seu navegador não é compatível com reconhecimento de fala. Use o Google Chrome ou o Microsoft Edge para a melhor experiência. O suporte do Firefox é limitado.",
       "micDenied": "O acesso ao microfone foi negado. Permita a permissão do microfone e tente novamente.",
@@ -4534,7 +4505,6 @@
       "captionLabel": "Legenda",
       "altLabel": "Texto alternativo (HTML)",
       "altHint": "Cole isto na sua tag <img> para melhorar a acessibilidade e o SEO. Revise e edite para corresponder ao contexto da imagem.",
-      "copy": "Copiar",
       "copyCaption": "Copiar legenda",
       "copyAlt": "Copiar texto alternativo",
       "copied": "Copiado para a área de transferência",
@@ -4565,7 +4535,6 @@
       "copy": "Copiar",
       "copied": "Copiado para a área de transferência",
       "copyFailed": "Não foi possível copiar para a área de transferência",
-      "nothingToCopy": "Nada para copiar ainda",
       "enterText": "Insira algum texto",
       "noneFound": "Nenhuma informação pessoal detectada",
       "detectedToast": "{count} item(ns) de informação pessoal detectado(s)",
