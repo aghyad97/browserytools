@@ -17,7 +17,7 @@ const options = [
 function stubOffsets(lefts: number[], widths: number[]) {
   const originalLeft = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetLeft");
   const originalWidth = Object.getOwnPropertyDescriptor(HTMLElement.prototype, "offsetWidth");
-  let callIndex = { left: 0, width: 0 };
+  const callIndex = { left: 0, width: 0 };
 
   Object.defineProperty(HTMLElement.prototype, "offsetLeft", {
     configurable: true,
