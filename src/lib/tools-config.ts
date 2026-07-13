@@ -1612,3 +1612,11 @@ export const getDaysSinceCreation = (creationDate: string): number => {
   const diffTime = currentDate.getTime() - toolDate.getTime();
   return Math.ceil(diffTime / (1000 * 60 * 60 * 24));
 };
+
+/** Total tool count, rounded DOWN to the nearest ten — for "N+" marketing
+    copy ("Search 130+ tools"), where an exact count with a plus ("137+")
+    reads wrong. Exact counts without a plus should use the real number. */
+export function roundedToolCount(): number {
+  const exact = tools.reduce((n, c) => n + c.items.length, 0);
+  return Math.floor(exact / 10) * 10;
+}

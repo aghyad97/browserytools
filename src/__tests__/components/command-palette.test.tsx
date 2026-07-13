@@ -8,7 +8,7 @@ import {
 } from "@/components/layout/command-palette";
 import { tools } from "@/lib/tools-config";
 
-const TOOL_COUNT = tools.reduce((n, c) => n + c.items.length, 0);
+const TOOL_COUNT = Math.floor(tools.reduce((n, c) => n + c.items.length, 0) / 10) * 10; // rounded "N+" marketing count
 
 /* Tiny harness so the ⌘K hook can be exercised through real DOM events. */
 function Harness() {
@@ -25,7 +25,7 @@ describe("CommandPalette", () => {
   it("renders the translated placeholder and translated tool names when open", () => {
     render(<CommandPalette open onClose={() => {}} />);
 
-    // Landing.searchPlaceholder with the real tool count interpolated.
+    // Landing.searchPlaceholder with the rounded-down marketing count ("130+").
     expect(
       screen.getByPlaceholderText(`Search ${TOOL_COUNT}+ tools…`),
     ).toBeInTheDocument();

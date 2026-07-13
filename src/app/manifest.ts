@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "Browser Tools - Free Online Tools for Productivity",
     short_name: "Browser Tools",
     description:
-      "Discover 137+ free tools & mini-apps for productivity. No servers, full privacy. Image tools, file converters, text utilities, and more.",
+      "Discover 130+ free tools & mini-apps for productivity. No servers, full privacy. Image tools, file converters, text utilities, and more.",
     start_url: "/",
     display: "standalone",
     background_color: "#FCFCFB",

@@ -22,6 +22,66 @@
   background: color-mix(in srgb, var(--bt-bg) 72%, transparent);
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
+  justify-content: space-between;
+  gap: 16px;
+}
+
+/* End cluster — compact utilities ported from the old rail-bottom row
+   (rail.module.css .railUtilities sizing kept: slim ghost switchers, small
+   coffee pill). */
+.utilities {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.switchers {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+.switchers button {
+  inline-size: auto;
+  min-inline-size: 26px;
+  padding-inline: 4px;
+}
+
+.coffee {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--bt-line-strong);
+  background: var(--bt-surface);
+  color: var(--bt-ink);
+  font-size: 11px;
+  font-weight: 500;
+  padding-block: 5px;
+  padding-inline: 9px;
+  white-space: nowrap;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms var(--bt-ease-out), border-color 140ms ease;
+}
+.coffee:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .coffee:hover {
+    border-color: var(--bt-ink);
+  }
+}
+
+.coffeeIcon {
+  color: var(--bt-coffee);
+  flex-shrink: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coffee {
+    transition: none;
+  }
 }
 
 @media (max-width: 900px) {

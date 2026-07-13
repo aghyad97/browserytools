@@ -26,7 +26,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { tools } from "@/lib/tools-config";
+import { tools, roundedToolCount } from "@/lib/tools-config";
 import { playCue } from "@/lib/ui-sound";
 import s from "./command-palette.module.css";
 
@@ -40,7 +40,7 @@ const TOOL_INDEX = tools.flatMap((c) =>
   })),
 );
 
-const TOOL_COUNT = TOOL_INDEX.length;
+const TOOL_COUNT = roundedToolCount();
 const MAX_RESULTS = 9;
 
 /* Event the landing search button (a sibling tree from the AppShell that owns

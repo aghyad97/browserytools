@@ -176,10 +176,13 @@ export function Rail({
 
       <div className={s.railBottom}>
         <SponsorRotator label={t("sponsorLabel")} />
-        {/* Utility row — the one-per-screen coffee CTA (spec §3) plus the
-            theme/language/sound switchers, below the sponsor slot. Rendered by
-            both variants: the desktop rail owns them >900px; the mobile
-            drawer (sheet) is where small-screen users find them. */}
+        {/* Utility row — coffee CTA + theme/sound/language switchers. Desktop
+            (>900px) carries these in the top bar's end cluster (top-bar.tsx);
+            the mobile drawer (sheet) is where small-screen users find them,
+            so only the sheet variant renders this row. Coffee stays exactly
+            one per screen: the sheet mounts only while the drawer is open,
+            and the top bar is hidden <900px. */}
+        {variant === "sheet" && (
         <div className={s.railUtilities}>
           <a className={s.railCoffee} href="/coffee">
             <CoffeeIcon size={13} className={s.coffeeIcon} />
@@ -195,6 +198,7 @@ export function Rail({
             </span>
           </div>
         </div>
+        )}
       </div>
     </aside>
   );

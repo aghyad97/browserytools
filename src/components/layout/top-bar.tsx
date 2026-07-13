@@ -14,16 +14,20 @@
  * logical properties so the field hugs the start edge under dir="rtl" too.
  */
 
-import { SearchIcon } from "lucide-react";
+import { CoffeeIcon, SearchIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { tools } from "@/lib/tools-config";
+import { roundedToolCount } from "@/lib/tools-config";
+import { LanguageSwitcher } from "@/components/language-switcher";
+import { ThemeSwitcher } from "@/components/theme-switcher";
+import { SoundSwitcher } from "@/components/sound-switcher";
 import { openCommandPalette } from "./command-palette";
 import s from "./top-bar.module.css";
 
-const TOOL_COUNT = tools.reduce((n, c) => n + c.items.length, 0);
+const TOOL_COUNT = roundedToolCount();
 
 export function TopBar() {
   const t = useTranslations("Landing");
+  const tRail = useTranslations("Rail");
   const placeholder = t("searchPlaceholder", { count: TOOL_COUNT });
 
   return (
@@ -38,6 +42,24 @@ export function TopBar() {
         <span className={s.searchText}>{placeholder}</span>
         <span className={s.kbd}>⌘K</span>
       </button>
+      {/* End cluster — the one-per-screen coffee CTA + theme/sound/language
+          switchers, compact (same sizing as the old rail-bottom row). The
+          mobile drawer carries these under 900px (rail.tsx sheet variant). */}
+      <div className={s.utilities}>
+        <a className={s.coffee} href="/coffee">
+          <CoffeeIcon size={13} className={s.coffeeIcon} />
+          {t("coffee")}
+        </a>
+        <div className={s.switchers}>
+          <span title={tRail("theme")}>
+            <ThemeSwitcher />
+          </span>
+          <SoundSwitcher />
+          <span title={tRail("language")}>
+            <LanguageSwitcher />
+          </span>
+        </div>
+      </div>
     </div>
   );
 }
