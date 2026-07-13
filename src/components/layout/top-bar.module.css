@@ -39,7 +39,7 @@
 .switchers {
   display: flex;
   align-items: center;
-  gap: 0;
+  gap: 6px;
 }
 .switchers button {
   inline-size: auto;
