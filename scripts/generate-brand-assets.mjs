@@ -34,6 +34,9 @@ const ICON_DARK_OUT = path.join(ROOT, "public/icon-dark.svg");
 const SAFARI_OUT = path.join(ROOT, "public/safari-pinned-tab.svg");
 const APPLE_TOUCH_OUT = path.join(ROOT, "public/apple-touch-icon.png");
 const FAVICON_OUT = path.join(ROOT, "public/favicon.ico");
+// App Router convention file — served at /favicon.ico with PRIORITY over
+// public/. Both must carry the same mark or browsers show the stale one.
+const FAVICON_APP_OUT = path.join(ROOT, "src/app/favicon.ico");
 
 const TILE_SIZE = 512;
 const TILE_RADIUS_PCT = 0.24;
@@ -209,7 +212,8 @@ async function rasterize(iconSvgPath) {
       pngPaths.push(p);
     }
     execFileSync("magick", [...pngPaths, FAVICON_OUT]);
-    console.log(`  wrote ${path.relative(ROOT, FAVICON_OUT)}`);
+    fs.copyFileSync(FAVICON_OUT, FAVICON_APP_OUT);
+    console.log(`  wrote ${path.relative(ROOT, FAVICON_OUT)} (+ src/app copy)`);
   } finally {
     fs.rmSync(tmpDir, { recursive: true, force: true });
   }
