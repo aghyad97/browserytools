@@ -31,8 +31,9 @@
 }
 
 .railWordmark {
-  font-size: 15px;
-  font-weight: 600;
+  font-family: var(--font-satoshi), var(--font-ibm-plex-arabic), sans-serif;
+  font-size: 16px;
+  font-weight: 700;
   letter-spacing: -0.2px;
   color: var(--bt-ink);
   white-space: nowrap;

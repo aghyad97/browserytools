@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
+import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
@@ -13,6 +14,16 @@ import {
 } from "@/lib/locales";
 
 const inter = Inter({ subsets: ["latin"] });
+
+// Satoshi (Fontshare/ITF free license, self-hosted) — the wordmark face only.
+// Exposed as a variable so exactly one selector opts in (.railWordmark).
+const satoshi = localFont({
+  src: "../fonts/Satoshi-Bold.woff2",
+  weight: "700",
+  variable: "--font-satoshi",
+  display: "swap",
+  preload: false,
+});
 
 // Self-hosted at build via next/font — same weights previously loaded from Google Fonts.
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -161,7 +172,7 @@ export default async function RootLayout({
     <html
       lang={initialLocale}
       dir={getDir(initialLocale)}
-      className={ibmPlexSansArabic.variable}
+      className={`${ibmPlexSansArabic.variable} ${satoshi.variable}`}
       suppressHydrationWarning
     >
       <body className={inter.className}>
