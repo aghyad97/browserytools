@@ -13,7 +13,7 @@
 
 ![BrowseryTools](https://github.com/aghyad97/browserytools/blob/main/public/og-image.png?raw=true)
 
-A comprehensive collection of **137+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
+A comprehensive collection of **130+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
 
 ## 📚 Table of Contents
 
@@ -344,8 +344,8 @@ Open an issue with a clear description, steps to reproduce, and browser/OS info.
 ## 💖 Supporting the Project
 
 - ⭐ **Star the repository** on GitHub
-- **GitHub Sponsors**: [Sponsor us](https://github.com/sponsors/aghyad97)
-- **Ziina**: [One-time donation](https://pay.ziina.com/aghyad)
+- GitHub Sponsors — [Sponsor us](https://github.com/sponsors/aghyad97)
+- Stripe — [One-time donation](https://buy.stripe.com/aFa8wOaohd8f59V2x96Na00)
 
 ## ⭐ Star History
 
