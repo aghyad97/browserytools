@@ -4669,7 +4669,19 @@
     "language": "Bahasa",
     "theme": "Tema",
     "soundOn": "Suara aktif",
-    "soundOff": "Suara nonaktif"
+    "soundOff": "Suara nonaktif",
+    "maker": {
+      "kashfbank": {
+        "tag": "Rekening koran → CSV",
+        "desc": "Ubah rekening koran PDF apa pun menjadi CSV & Excel yang rapi.",
+        "cta": "Coba"
+      },
+      "superbilled": {
+        "tag": "Superbill untuk terapis",
+        "desc": "Superbill siap-asuransi untuk terapis praktik pribadi.",
+        "cta": "Kunjungi"
+      }
+    }
   },
   "Landing": {
     "statementLead": "File Anda tidak pernah keluar dari perangkat.",

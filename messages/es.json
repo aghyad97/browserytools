@@ -4669,7 +4669,19 @@
     "language": "Idioma",
     "theme": "Tema",
     "soundOn": "Sonido activado",
-    "soundOff": "Sonido desactivado"
+    "soundOff": "Sonido desactivado",
+    "maker": {
+      "kashfbank": {
+        "tag": "Extractos bancarios → CSV",
+        "desc": "Convierte cualquier extracto bancario PDF en CSV y Excel limpios.",
+        "cta": "Pruébalo"
+      },
+      "superbilled": {
+        "tag": "Superbills para terapeutas",
+        "desc": "Superbills listos para seguros, para terapeutas de pago privado.",
+        "cta": "Visitar"
+      }
+    }
   },
   "Landing": {
     "statementLead": "Tus archivos nunca salen de tu dispositivo.",

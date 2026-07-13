@@ -4669,7 +4669,19 @@
     "language": "语言",
     "theme": "主题",
     "soundOn": "声音开启",
-    "soundOff": "声音关闭"
+    "soundOff": "声音关闭",
+    "maker": {
+      "kashfbank": {
+        "tag": "银行对账单 → CSV",
+        "desc": "将任意银行对账单 PDF 转换为整洁的 CSV 和 Excel。",
+        "cta": "试一试"
+      },
+      "superbilled": {
+        "tag": "治疗师专用 Superbill",
+        "desc": "为私费治疗师生成可报销的 superbill 账单。",
+        "cta": "查看"
+      }
+    }
   },
   "Landing": {
     "statementLead": "你的文件永不离开设备。",

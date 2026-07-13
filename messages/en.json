@@ -4669,7 +4669,19 @@
     "language": "Language",
     "theme": "Theme",
     "soundOn": "Sound on",
-    "soundOff": "Sound off"
+    "soundOff": "Sound off",
+    "maker": {
+      "kashfbank": {
+        "tag": "Bank statements → CSV",
+        "desc": "Convert any bank statement PDF into clean CSV & Excel.",
+        "cta": "Try it"
+      },
+      "superbilled": {
+        "tag": "Superbills for therapists",
+        "desc": "Insurance-ready superbills for private-pay therapists.",
+        "cta": "Visit"
+      }
+    }
   },
   "Landing": {
     "statementLead": "Your files never leave.",

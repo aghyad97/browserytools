@@ -4669,7 +4669,19 @@
     "language": "Sprache",
     "theme": "Design",
     "soundOn": "Ton an",
-    "soundOff": "Ton aus"
+    "soundOff": "Ton aus",
+    "maker": {
+      "kashfbank": {
+        "tag": "Kontoauszüge → CSV",
+        "desc": "Wandle jeden Kontoauszug (PDF) in saubere CSV- und Excel-Dateien um.",
+        "cta": "Ausprobieren"
+      },
+      "superbilled": {
+        "tag": "Superbills für Therapeuten",
+        "desc": "Versicherungsfertige Superbills für Privattherapeuten.",
+        "cta": "Ansehen"
+      }
+    }
   },
   "Landing": {
     "statementLead": "Deine Dateien verlassen nie dein Gerät.",

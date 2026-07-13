@@ -147,7 +147,9 @@ export function Rail({
         <span className={s.railGlyphBare}>
           <BrandGlyph size={22} />
         </span>
-        <span className={s.railWordmark}>{tCommon("siteName")}</span>
+        {/* Brand wordmark stays English in every locale (user ruling 2026-07-13);
+            the aria-label above remains localized. */}
+        <span className={s.railWordmark}>BrowseryTools</span>
       </Link>
 
       <nav className={s.railNav}>
@@ -200,6 +202,7 @@ export function Rail({
 /* Rotates sponsors every ROTATE_MS with a thin progress line.
    Pauses on hover (like a toast). Renders nothing when no sponsors. */
 function SponsorRotator({ label }: { label: string }) {
+  const t = useTranslations("Rail");
   const [index, setIndex] = useState(0);
   const [paused, setPaused] = useState(false);
   const elapsed = useRef(0);
@@ -239,17 +242,17 @@ function SponsorRotator({ label }: { label: string }) {
           />
           <div>
             <div className={s.railSponsorName}>{sp.name}</div>
-            <div className={s.sponsorTag}>{sp.tag}</div>
+            <div className={s.sponsorTag}>{t(`maker.${sp.id}.tag` as never)}</div>
           </div>
         </div>
-        <div className={s.railSponsorText}>{sp.desc}</div>
+        <div className={s.railSponsorText}>{t(`maker.${sp.id}.desc` as never)}</div>
         {sp.href ? (
           <a className={s.sponsorCta} href={sp.href} target="_blank" rel="noreferrer">
-            {sp.cta} <span aria-hidden>→</span>
+            {t(`maker.${sp.id}.cta` as never)} <span aria-hidden>→</span>
           </a>
         ) : (
           <button className={s.sponsorCta}>
-            {sp.cta} <span aria-hidden>→</span>
+            {t(`maker.${sp.id}.cta` as never)} <span aria-hidden>→</span>
           </button>
         )}
       </div>
