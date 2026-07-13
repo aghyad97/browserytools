@@ -45,6 +45,8 @@ const TOOL_INDEX = tools.flatMap((c) =>
 );
 
 const TOOL_COUNT = TOOL_INDEX.length;
+/* Rounded-down marketing count for "+N" copy (matches top bar / palette). */
+const ROUNDED_COUNT = Math.floor(TOOL_COUNT / 10) * 10;
 const POPULAR_LIMIT = 47;
 
 /* Category list (id + count), ordered — labels come from i18n at render. */
@@ -492,7 +494,9 @@ export default function Landing() {
       <div className={s.topRow}>
         <h1 className={s.statement}>
           {t("statementLead")}{" "}
-          <span className={s.statementMuted}>{t("statementTail")}</span>
+          <span className={s.statementMuted}>
+            {t("statementTail", { count: ROUNDED_COUNT })}
+          </span>
         </h1>
       </div>
 

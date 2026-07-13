@@ -4672,8 +4672,8 @@
     "soundOff": "Son désactivé"
   },
   "Landing": {
-    "statementLead": "Tous les outils dont vous avez besoin.",
-    "statementTail": "Rien ne quitte votre appareil.",
+    "statementLead": "Vos fichiers ne quittent jamais votre appareil.",
+    "statementTail": "Plus de {count} outils gratuits et open source — confidentialité totale, dans votre navigateur.",
     "searchPlaceholder": "Rechercher parmi plus de {count} outils…",
     "demoTitle": "Essayez. Déposez une image ici.",
     "demoTitleBusy": "Compression…",

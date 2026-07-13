@@ -4672,8 +4672,8 @@
     "soundOff": "Ton aus"
   },
   "Landing": {
-    "statementLead": "Alle Tools, die du brauchst.",
-    "statementTail": "Nichts verlässt dein Gerät.",
+    "statementLead": "Deine Dateien verlassen nie dein Gerät.",
+    "statementTail": "Über {count} kostenlose Open-Source-Tools — volle Privatsphäre, direkt im Browser.",
     "searchPlaceholder": "Über {count} Tools durchsuchen …",
     "demoTitle": "Probier's aus. Zieh ein Bild hierher.",
     "demoTitleBusy": "Wird komprimiert …",

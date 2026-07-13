@@ -4672,8 +4672,8 @@
     "soundOff": "声音关闭"
   },
   "Landing": {
-    "statementLead": "你需要的每一个工具。",
-    "statementTail": "一切都不会离开你的设备。",
+    "statementLead": "你的文件永不离开设备。",
+    "statementTail": "{count}+ 款免费开源工具——完全隐私，就在浏览器中。",
     "searchPlaceholder": "搜索 {count}+ 个工具…",
     "demoTitle": "试试看。把图片拖到这里。",
     "demoTitleBusy": "正在压缩…",

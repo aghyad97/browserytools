@@ -37,8 +37,6 @@ const CATEGORIES = tools
   .sort((a, b) => a.order - b.order)
   .map((c) => ({ id: c.id, count: c.items.length }));
 
-const TOOL_COUNT = tools.reduce((n, c) => n + c.items.length, 0);
-
 const GITHUB_REPO = "aghyad97/browserytools";
 const GITHUB_URL = `https://github.com/${GITHUB_REPO}`;
 
@@ -151,11 +149,6 @@ export function Rail({
         </span>
         <span className={s.railWordmark}>{tCommon("siteName")}</span>
       </Link>
-
-      <div className={s.railLive}>
-        <span className={s.liveDot} />
-        {t("toolsOnDevice", { count: TOOL_COUNT })}
-      </div>
 
       <nav className={s.railNav}>
         {catButton(null, t("everything"))}

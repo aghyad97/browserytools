@@ -4672,8 +4672,8 @@
     "soundOff": "Som desativado"
   },
   "Landing": {
-    "statementLead": "Todas as ferramentas que você precisa.",
-    "statementTail": "Nada sai do seu dispositivo.",
+    "statementLead": "Seus arquivos nunca saem do seu dispositivo.",
+    "statementTail": "Mais de {count} ferramentas gratuitas e de código aberto — privacidade total, no seu navegador.",
     "searchPlaceholder": "Pesquisar mais de {count} ferramentas…",
     "demoTitle": "Experimente. Solte uma imagem aqui.",
     "demoTitleBusy": "Comprimindo…",

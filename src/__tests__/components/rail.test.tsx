@@ -41,9 +41,10 @@ describe("Rail", () => {
     expect(screen.queryByText(/^categoriesShort\./)).toBeNull();
   });
 
-  it("resolves the on-device status and nav strings from i18n", () => {
+  it("resolves the nav strings from i18n", () => {
     render(<Rail />);
-    expect(screen.getByText(/tools · on-device/)).toBeInTheDocument();
+    // The "N tools · on-device" status row was removed (user ruling 2026-07-13).
+    expect(screen.queryByText(/tools · on-device/)).toBeNull();
     // Blog intentionally removed from the rail (user ruling 2026-07-12).
     expect(screen.queryByText("Blog")).toBeNull();
     expect(screen.getByText("GitHub")).toBeInTheDocument();

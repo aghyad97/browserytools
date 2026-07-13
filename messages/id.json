@@ -4672,8 +4672,8 @@
     "soundOff": "Suara nonaktif"
   },
   "Landing": {
-    "statementLead": "Semua alat yang Anda butuhkan.",
-    "statementTail": "Tidak ada yang meninggalkan perangkat Anda.",
+    "statementLead": "File Anda tidak pernah keluar dari perangkat.",
+    "statementTail": "{count}+ alat gratis dan open source — privasi penuh, langsung di browser.",
     "searchPlaceholder": "Cari {count}+ alat…",
     "demoTitle": "Coba. Jatuhkan gambar di sini.",
     "demoTitleBusy": "Mengompres…",

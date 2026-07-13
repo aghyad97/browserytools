@@ -4672,8 +4672,8 @@
     "soundOff": "Sound off"
   },
   "Landing": {
-    "statementLead": "Every tool you need.",
-    "statementTail": "Nothing leaves your device.",
+    "statementLead": "Your files never leave.",
+    "statementTail": "{count}+ free, open-source tools — full privacy, right in your browser.",
     "searchPlaceholder": "Search {count}+ tools…",
     "demoTitle": "Try it. Drop an image here.",
     "demoTitleBusy": "Compressing…",

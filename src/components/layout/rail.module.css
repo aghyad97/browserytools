@@ -43,21 +43,6 @@
   color: var(--bt-ink);
 }
 
-.railLive {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-  font-size: 13px;
-  color: var(--bt-ink);
-}
-
-.liveDot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: var(--bt-green);
-}
-
 .railNav {
   display: flex;
   flex-direction: column;

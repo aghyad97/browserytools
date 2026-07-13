@@ -4672,8 +4672,8 @@
     "soundOff": "الصوت متوقف"
   },
   "Landing": {
-    "statementLead": "كل أداة تحتاجها.",
-    "statementTail": "لا شيء يغادر جهازك.",
+    "statementLead": "ملفاتك لا تغادر جهازك أبدًا.",
+    "statementTail": "أكثر من {count} أداة مجانية مفتوحة المصدر — خصوصية كاملة، مباشرة في متصفحك.",
     "searchPlaceholder": "ابحث في أكثر من {count} أداة…",
     "demoTitle": "جرّبها. أفلِت صورة هنا.",
     "demoTitleBusy": "جارٍ الضغط…",
