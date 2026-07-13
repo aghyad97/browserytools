@@ -1,4 +1,9 @@
-# BrowseryTools 🛠️
+<h1 align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://browserytools.com/icon-dark.svg">
+    <img src="https://browserytools.com/icon.svg" alt="" height="30">
+  </picture>&nbsp;BrowseryTools
+</h1>
 
 <p align="center">
   <a href="https://browserytools.com"><img src="https://img.shields.io/website?url=https%3A%2F%2Fbrowserytools.com&label=browserytools.com&style=flat-square" alt="Live site" /></a>
