@@ -109,55 +109,97 @@ function Tile({
 /* ---------- featured app vignette ---------- */
 
 function AppViz({ viz }: { viz: FeaturedApp["viz"] }) {
-  if (viz === "wave")
+  // audio-transcriber: a short waveform strip resolving into two subtitle
+  // lines, each led by a timestamp chip → "audio becomes timed text".
+  if (viz === "transcribe")
     return (
-      <div className={s.appViz}>
-        <div className={s.vizRow} style={{ top: 12, width: "55%" }} />
-        <div className={s.vizRow} style={{ top: 28, width: "70%" }} />
-        <div className={s.vizWave}>
-          {Array.from({ length: 24 }, (_, i) => (
+      <div className={`${s.appViz} ${s.vizTranscribe}`}>
+        <div className={s.vizWaveTop}>
+          {Array.from({ length: 12 }, (_, i) => (
             <span
               key={i}
               className={s.vizBar}
               style={{
-                // Quantize to 2 decimals: Math.sin is transcendental and only
-                // defined to ~1 ULP, so the dev server's V8 and the browser's V8
-                // format the raw float differently → hydration mismatch. Rounding
-                // to a fixed precision makes both sides emit an identical string.
-                height: `${(30 + 60 * Math.abs(Math.sin(i * 1.7))).toFixed(2)}%`,
-                animationDelay: `${i * 55}ms`,
+                // Quantize Math.sin to 2 decimals: it's transcendental (~1 ULP),
+                // so dev-server V8 and browser V8 can format the raw float
+                // differently → hydration mismatch. A fixed precision makes both
+                // sides emit an identical string.
+                height: `${(35 + 55 * Math.abs(Math.sin(i * 1.7))).toFixed(2)}%`,
+                animationDelay: `${i * 90}ms`,
               }}
             />
           ))}
         </div>
+        <div className={s.vizSub}>
+          <span className={s.vizStamp} />
+          <span className={s.vizLine} style={{ inlineSize: "58%" }} />
+        </div>
+        <div className={s.vizSub}>
+          <span className={s.vizStamp} />
+          <span className={s.vizLine} style={{ inlineSize: "44%" }} />
+        </div>
       </div>
     );
-  if (viz === "chat")
+
+  // pdf: two overlapping portrait pages (one dog-eared) merging via a "+"
+  // toward a larger target page → "merge / split pages".
+  if (viz === "pdf")
     return (
-      <div className={s.appViz}>
-        <div
-          className={s.vizChip}
-          style={{ top: 14, insetInlineStart: 10, width: "52%", height: 20, borderRadius: 8 }}
-        />
-        <div
-          className={`${s.vizChip} ${s.vizAccent}`}
-          style={{ top: 40, insetInlineEnd: 10, width: "42%", height: 20, borderRadius: 8 }}
-        />
-        <div
-          className={s.vizChip}
-          style={{ top: 66, insetInlineStart: 10, width: "60%", height: 20, borderRadius: 8 }}
-        />
+      <div className={`${s.appViz} ${s.vizPdf}`}>
+        <span className={s.pdfPageBack} />
+        <span className={`${s.pdfPageFront} ${s.pdfDogEar}`} />
+        <span className={s.pdfPlus} />
+        <span className={s.pdfPageTarget} />
       </div>
     );
+
+  // image-compression: an image frame over a wide "before" pill and a narrower
+  // green "after" pill joined by an arrow → "smaller file".
+  if (viz === "compress")
+    return (
+      <div className={`${s.appViz} ${s.vizCompress}`}>
+        <span className={s.imgFrame}>
+          <svg viewBox="0 0 40 26" className={s.imgGlyph} aria-hidden="true">
+            <circle cx="29" cy="8" r="3.4" className={s.imgSun} />
+            <path d="M2 24 L13 11 L21 20 L27 14 L38 24 Z" className={s.imgHills} />
+          </svg>
+        </span>
+        <div className={s.sizeRow}>
+          <span className={s.sizePillBig} />
+          <svg viewBox="0 0 12 8" className={s.sizeArrow} aria-hidden="true">
+            <path
+              d="M1 4 H10 M7 1 L10 4 L7 7"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.4"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          <span className={s.sizePillSmall} />
+        </div>
+      </div>
+    );
+
+  // screen-recorder: a mini window (title bar + soft screen) with a red REC
+  // chip and a 3-button control bar → "recording a screen".
   return (
-    <div className={s.appViz}>
-      <div className={s.vizRow} style={{ top: 14, width: "40%" }} />
-      <div className={s.vizRow} style={{ top: 34, width: "78%" }} />
-      <div className={s.vizRow} style={{ top: 50, width: "78%" }} />
-      <div
-        className={`${s.vizChip} ${s.vizAccent}`}
-        style={{ bottom: 12, insetInlineEnd: 10, width: 60, height: 14 }}
-      />
+    <div className={`${s.appViz} ${s.vizRecord}`}>
+      <div className={s.recWindow}>
+        <div className={s.recBar}>
+          <span className={s.recDot} />
+        </div>
+        <div className={s.recScreen}>
+          <span className={s.recChip}>
+            <span className={s.recRedDot} />
+          </span>
+        </div>
+        <div className={s.recControls}>
+          <span />
+          <span />
+          <span />
+        </div>
+      </div>
     </div>
   );
 }

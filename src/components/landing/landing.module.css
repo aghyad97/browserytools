@@ -238,6 +238,10 @@
   .appCard:hover .vizBar {
     animation: eq 1.6s var(--bt-ease-in-out) infinite;
   }
+  /* REC dot blinks only while its card is hovered. */
+  .appCard:hover .recRedDot {
+    animation: recPulse 1.2s var(--bt-ease-in-out) infinite;
+  }
 }
 
 .appViz {
@@ -303,43 +307,263 @@
   background: var(--bt-green);
 }
 
-/* mini-UI vignettes inside app cards */
-.vizRow {
-  position: absolute;
-  inset-inline: 10px;
-  height: 8px;
-  border-radius: 3px;
-  background: color-mix(in srgb, var(--bt-ink) 7%, transparent);
-}
-.vizChip {
-  position: absolute;
-  border-radius: 4px;
-  background: color-mix(in srgb, var(--bt-ink) 9%, transparent);
-}
-.vizAccent {
-  background: color-mix(in srgb, var(--bt-accent) 22%, transparent);
-}
-.vizWave {
-  position: absolute;
-  inset-block-end: 14px;
-  inset-inline: 10px;
-  height: 26px;
-  display: flex;
-  align-items: flex-end;
-  gap: 2px;
-}
+/* ---------- app-card vignettes: one faithful miniature per app ---------- */
+/* Shared: each vignette fills the 96×72 .appViz box. Shapes are token-driven
+   and render in both themes; only hover animates (auto-gated by the
+   `.canvas * { animation: none }` reduced-motion rule below). */
+
 .vizBar {
   flex: 1;
   border-radius: 1.5px;
-  background: color-mix(in srgb, var(--bt-ink) 18%, transparent);
+  transform-origin: bottom;
+  background: color-mix(in srgb, var(--bt-ink) 20%, transparent);
 }
 @keyframes eq {
   0%,
   100% {
-    transform: scaleY(0.4);
+    transform: scaleY(0.45);
   }
   50% {
     transform: scaleY(1);
+  }
+}
+
+/* 1 — audio-transcriber: waveform → timed subtitle lines */
+.vizTranscribe {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 10px;
+}
+.vizWaveTop {
+  display: flex;
+  align-items: flex-end;
+  gap: 2px;
+  block-size: 22px;
+}
+.vizSub {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.vizStamp {
+  flex-shrink: 0;
+  inline-size: 17px;
+  block-size: 9px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--bt-accent) 26%, transparent);
+}
+.vizLine {
+  block-size: 6px;
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--bt-ink) 13%, transparent);
+}
+
+/* 2 — pdf: overlapping pages merging toward a larger target page */
+.vizPdf {
+  position: relative;
+}
+.pdfPageBack,
+.pdfPageFront,
+.pdfPageTarget {
+  position: absolute;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 2px;
+  background: var(--bt-surface);
+}
+.pdfPageBack {
+  inset-block-start: 16px;
+  inset-inline-start: 13px;
+  inline-size: 24px;
+  block-size: 32px;
+}
+.pdfPageFront {
+  inset-block-start: 24px;
+  inset-inline-start: 21px;
+  inline-size: 24px;
+  block-size: 32px;
+}
+/* dog-eared corner: a folded gray triangle at the top inline-end of the front
+   page — reads as a turned-down page corner against the white page. */
+.pdfDogEar::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 0;
+  inset-inline-end: 0;
+  inline-size: 0;
+  block-size: 0;
+  border-block-start: 7px solid var(--bt-fill-hover);
+  border-inline-start: 7px solid transparent;
+}
+.pdfPageTarget {
+  inset-block-start: 15px;
+  inset-inline-end: 12px;
+  inline-size: 28px;
+  block-size: 40px;
+}
+.pdfPlus {
+  position: absolute;
+  inset-block-start: 31px;
+  inset-inline-start: 47px;
+  inline-size: 10px;
+  block-size: 10px;
+}
+.pdfPlus::before,
+.pdfPlus::after {
+  content: "";
+  position: absolute;
+  inset-block-start: 50%;
+  inset-inline-start: 50%;
+  background: var(--bt-accent);
+  border-radius: 1px;
+}
+.pdfPlus::before {
+  inline-size: 10px;
+  block-size: 2px;
+  transform: translate(-50%, -50%);
+}
+.pdfPlus::after {
+  inline-size: 2px;
+  block-size: 10px;
+  transform: translate(-50%, -50%);
+}
+
+/* 3 — image-compression: image frame → smaller (green) file */
+.vizCompress {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 9px;
+}
+.imgFrame {
+  inline-size: 42px;
+  block-size: 28px;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 3px;
+  background: color-mix(in srgb, var(--bt-ink) 4%, transparent);
+  overflow: hidden;
+  display: flex;
+}
+.imgGlyph {
+  inline-size: 100%;
+  block-size: 100%;
+}
+.imgSun {
+  fill: var(--bt-star);
+}
+.imgHills {
+  fill: color-mix(in srgb, var(--bt-ink) 32%, transparent);
+}
+.sizeRow {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--bt-muted);
+}
+.sizePillBig {
+  inline-size: 32px;
+  block-size: 10px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--bt-ink) 13%, transparent);
+}
+.sizeArrow {
+  inline-size: 12px;
+  block-size: 8px;
+  flex-shrink: 0;
+}
+/* The row is a flex row, so in RTL "big → small" already reverses to put the
+   big pill on the inline-start; mirror the arrow glyph so it still points from
+   big toward the smaller (green) file. */
+:global(html[dir="rtl"]) .sizeArrow {
+  transform: scaleX(-1);
+}
+.sizePillSmall {
+  inline-size: 19px;
+  block-size: 10px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--bt-green) 20%, transparent);
+  border: 1px solid color-mix(in srgb, var(--bt-green) 45%, transparent);
+}
+
+/* 4 — screen-recorder: mini window with a red REC chip + control bar */
+.vizRecord {
+  position: relative;
+}
+.recWindow {
+  position: absolute;
+  inset: 9px;
+  border: 1px solid var(--bt-line-strong);
+  border-radius: 5px;
+  background: var(--bt-surface);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.recBar {
+  block-size: 12px;
+  flex-shrink: 0;
+  border-block-end: 1px solid var(--bt-line);
+  display: flex;
+  align-items: center;
+  padding-inline-start: 5px;
+}
+.recDot {
+  inline-size: 4px;
+  block-size: 4px;
+  border-radius: 50%;
+  background: var(--bt-faint);
+}
+.recScreen {
+  position: relative;
+  flex: 1;
+  background: color-mix(in srgb, var(--bt-ink) 5%, transparent);
+}
+.recChip {
+  position: absolute;
+  inset-block-start: 5px;
+  inset-inline-end: 5px;
+  display: inline-flex;
+  align-items: center;
+  padding: 2px 4px;
+  border-radius: 4px;
+  background: color-mix(in srgb, var(--bt-ink) 9%, transparent);
+}
+.recRedDot {
+  inline-size: 5px;
+  block-size: 5px;
+  border-radius: 50%;
+  /* No --bt-* red exists; reuse the app's canonical red pair (--destructive,
+     "out of bt palette by design" per design-tokens) — the correct semantic
+     for a live-recording indicator. */
+  background: hsl(var(--destructive));
+}
+.recControls {
+  block-size: 12px;
+  flex-shrink: 0;
+  border-block-start: 1px solid var(--bt-line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+.recControls span {
+  inline-size: 5px;
+  block-size: 5px;
+  border-radius: 1.5px;
+  background: var(--bt-faint);
+}
+/* Decorative pulse — hover-triggered only, so it's allowed here; the global
+   reduced-motion gate (`.canvas * { animation: none }`) still disables it. */
+@keyframes recPulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.3;
   }
 }
 

@@ -22,8 +22,11 @@ export interface FeaturedApp {
   href: string;
   /** Lucide icon component for the card mark. */
   icon: typeof FileIcon;
-  /** Decorative vignette variant (see AppViz in landing.tsx). */
-  viz: "wave" | "chat" | "frames";
+  /**
+   * Decorative vignette variant (see AppViz in landing.tsx). Each value renders
+   * a tiny, faithful miniature of what the app *does* — not an abstract skeleton.
+   */
+  viz: "transcribe" | "pdf" | "compress" | "record";
 }
 
 export const FEATURED_APPS: FeaturedApp[] = [
@@ -31,24 +34,24 @@ export const FEATURED_APPS: FeaturedApp[] = [
     slug: "audio-transcriber",
     href: "/tools/audio-transcriber",
     icon: MicIcon,
-    viz: "wave",
+    viz: "transcribe",
   },
   {
     slug: "pdf",
     href: "/tools/pdf",
     icon: FileIcon,
-    viz: "chat",
+    viz: "pdf",
   },
   {
     slug: "image-compression",
     href: "/tools/image-compression",
     icon: ImagesIcon,
-    viz: "frames",
+    viz: "compress",
   },
   {
     slug: "screen-recorder",
     href: "/tools/screen-recorder",
     icon: VideoIcon,
-    viz: "frames",
+    viz: "record",
   },
 ];
