@@ -6,9 +6,10 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Search, Copy, Globe } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 interface StatusCode {
   code: number;
@@ -72,13 +73,16 @@ const STATUS_CODES: StatusCode[] = [
 
 const CATEGORIES = [
   { id: "all", label: "All" },
-  { id: "1xx", label: "1xx", color: "text-gray-600" },
-  { id: "2xx", label: "2xx", color: "text-green-600" },
-  { id: "3xx", label: "3xx", color: "text-blue-600" },
-  { id: "4xx", label: "4xx", color: "text-orange-600" },
-  { id: "5xx", label: "5xx", color: "text-red-600" },
+  { id: "1xx", label: "1xx" },
+  { id: "2xx", label: "2xx" },
+  { id: "3xx", label: "3xx" },
+  { id: "4xx", label: "4xx" },
+  { id: "5xx", label: "5xx" },
 ];
 
+// status color, no bt token: each HTTP status class (1xx–5xx) is a fixed,
+// widely-recognized categorical color (informational/success/redirect/
+// client-error/server-error) — content, not theme.
 function getCategoryStyle(category: string) {
   switch (category) {
     case "1xx": return { code: "text-gray-700 dark:text-gray-300", badge: "bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300", border: "border-gray-200 dark:border-gray-700" };
@@ -91,6 +95,7 @@ function getCategoryStyle(category: string) {
 }
 export default function HttpStatusCodes() {
   const t = useTranslations("Tools.HttpStatusCodes");
+  const tc = useTranslations("ToolsConfig");
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -127,18 +132,12 @@ export default function HttpStatusCodes() {
     }
   };
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl space-y-6">
-      {/* Header */}
-      <div className="flex items-center gap-3">
-        <Globe className="h-7 w-7 text-primary" />
-        <div>
-          <h1 className="text-2xl font-bold">{t("title")}</h1>
-          <p className="text-sm text-muted-foreground">
-            {t("subtitle")}
-          </p>
-        </div>
-      </div>
-
+    <ToolShell
+      slug="http-status"
+      title={tc("tools.http-status.name")}
+      sub={tc("tools.http-status.description")}
+    >
+      <div className="space-y-6">
       {/* Search */}
       <div className="relative">
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -150,19 +149,23 @@ export default function HttpStatusCodes() {
         />
       </div>
 
-      {/* Category tabs */}
-      <Tabs value={activeCategory} onValueChange={setActiveCategory}>
-        <TabsList className="flex flex-wrap h-auto gap-1">
-          {CATEGORIES.map((cat) => (
-            <TabsTrigger key={cat.id} value={cat.id} className="text-sm">
+      {/* Category filter */}
+      <ModePicker
+        aria-label={t("categoryAll")}
+        value={activeCategory}
+        onChange={setActiveCategory}
+        options={CATEGORIES.map((cat) => ({
+          value: cat.id,
+          label: (
+            <>
               {cat.id === "all" ? t("categoryAll") : cat.label}
               <span className="ms-1 text-xs text-muted-foreground">
                 ({cat.id === "all" ? STATUS_CODES.length : STATUS_CODES.filter((s) => s.category === cat.id).length})
               </span>
-            </TabsTrigger>
-          ))}
-        </TabsList>
-      </Tabs>
+            </>
+          ),
+        }))}
+      />
 
       {/* Results count */}
       <div className="text-sm text-muted-foreground">
@@ -211,6 +214,7 @@ export default function HttpStatusCodes() {
           })}
         </div>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

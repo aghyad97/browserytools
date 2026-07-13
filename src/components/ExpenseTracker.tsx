@@ -2,23 +2,14 @@
 
 import { useState, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  PlusIcon,
-  BarChart3Icon,
-  ReceiptIcon,
-  SettingsIcon,
-} from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import NumberFlow from "@number-flow/react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { StatStrip } from "@/components/shared/StatStrip";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 import ExpenseForm from "./expense-tracker/ExpenseForm";
 import { useExpenseStore } from "@/store/expense-store";
 import ExpenseList from "./expense-tracker/ExpenseList";
@@ -29,6 +20,7 @@ import ImportExport from "./expense-tracker/ImportExport";
 
 export default function ExpenseTracker() {
   const t = useTranslations("Tools.ExpenseTracker");
+  const tc = useTranslations("ToolsConfig");
   const [activeTab, setActiveTab] = useState("overview");
   const [isClient, setIsClient] = useState(false);
   const { getTotalExpenses, getFilteredExpenses } = useExpenseStore();
@@ -40,32 +32,25 @@ export default function ExpenseTracker() {
   // Don't render until client-side hydration is complete
   if (!isClient) {
     return (
-      <div className="container mx-auto p-6 max-w-7xl">
-        <Skeleton className="h-8 w-1/3 mb-4" />
-        <Skeleton className="h-4 w-1/2 mb-8" />
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          {[1, 2, 3].map((i) => (
-            <Card key={i}>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <Skeleton className="h-4 w-24" />
-                <Skeleton className="h-4 w-4" />
-              </CardHeader>
-              <CardContent>
-                <Skeleton className="h-8 w-20 mb-2" />
-                <Skeleton className="h-3 w-16" />
-              </CardContent>
-            </Card>
-          ))}
+      <ToolShell
+        slug="expense-tracker"
+        title={tc("tools.expense-tracker.name")}
+        sub={tc("tools.expense-tracker.description")}
+        width="wide"
+      >
+        <div className="mb-8">
+          <StatStrip
+            items={[1, 2, 3].map((i) => ({
+              value: <Skeleton key={i} className="h-8 w-24" />,
+              label: <Skeleton className="h-3 w-16" />,
+              sub: <Skeleton className="h-3 w-24" />,
+            }))}
+          />
         </div>
-        <Card>
-          <CardHeader>
-            <Skeleton className="h-6 w-32" />
-          </CardHeader>
-          <CardContent>
-            <Skeleton className="h-96 w-full" />
-          </CardContent>
-        </Card>
-      </div>
+        <SettingsCard title={<Skeleton className="h-4 w-32" />}>
+          <Skeleton className="h-96 w-full" />
+        </SettingsCard>
+      </ToolShell>
     );
   }
 
@@ -74,87 +59,69 @@ export default function ExpenseTracker() {
   const expenseCount = filteredExpenses.length;
 
   return (
-    <div className="container mx-auto p-6 max-w-7xl">
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("totalExpenses")}
-            </CardTitle>
-            <ReceiptIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold" dir="ltr">
-              $
-              <NumberFlow
-                value={totalExpenses}
-                format={{
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }}
-              />
-            </div>
-            <p className="text-xs text-muted-foreground">
-              <NumberFlow value={expenseCount} />
-              {" "}{t("transactions")}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">{t("thisMonth")}</CardTitle>
-            <BarChart3Icon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold" dir="ltr">
-              $
-              <NumberFlow
-                value={useExpenseStore
-                  .getState()
-                  .getExpensesByDateRange(
-                    new Date(new Date().getFullYear(), new Date().getMonth(), 1)
-                      .toISOString()
-                      .split("T")[0],
-                    new Date().toISOString().split("T")[0]
-                  )
-                  .reduce((total, expense) => total + expense.amount, 0)}
-                format={{
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }}
-              />
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("currentMonthSpending")}
-            </p>
-          </CardContent>
-        </Card>
-
-        <Card>
-          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-            <CardTitle className="text-sm font-medium">
-              {t("averagePerTransaction")}
-            </CardTitle>
-            <SettingsIcon className="h-4 w-4 text-muted-foreground" />
-          </CardHeader>
-          <CardContent>
-            <div className="text-2xl font-bold" dir="ltr">
-              $
-              <NumberFlow
-                value={expenseCount > 0 ? totalExpenses / expenseCount : 0}
-                format={{
-                  minimumFractionDigits: 2,
-                  maximumFractionDigits: 2,
-                }}
-              />
-            </div>
-            <p className="text-xs text-muted-foreground">
-              {t("basedOnFilteredData")}
-            </p>
-          </CardContent>
-        </Card>
+    <ToolShell
+      slug="expense-tracker"
+      title={tc("tools.expense-tracker.name")}
+      sub={tc("tools.expense-tracker.description")}
+      width="wide"
+    >
+      {/* Summary stats */}
+      <div className="mb-8">
+        <StatStrip
+          items={[
+            {
+              value: (
+                <span dir="ltr">
+                  $
+                  <NumberFlow
+                    value={totalExpenses}
+                    format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+                  />
+                </span>
+              ),
+              label: t("totalExpenses"),
+              sub: (
+                <span dir="ltr">
+                  <NumberFlow value={expenseCount} /> {t("transactions")}
+                </span>
+              ),
+            },
+            {
+              value: (
+                <span dir="ltr">
+                  $
+                  <NumberFlow
+                    value={useExpenseStore
+                      .getState()
+                      .getExpensesByDateRange(
+                        new Date(new Date().getFullYear(), new Date().getMonth(), 1)
+                          .toISOString()
+                          .split("T")[0],
+                        new Date().toISOString().split("T")[0]
+                      )
+                      .reduce((total, expense) => total + expense.amount, 0)}
+                    format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+                  />
+                </span>
+              ),
+              label: t("thisMonth"),
+              sub: t("currentMonthSpending"),
+            },
+            {
+              value: (
+                <span dir="ltr">
+                  $
+                  <NumberFlow
+                    value={expenseCount > 0 ? totalExpenses / expenseCount : 0}
+                    format={{ minimumFractionDigits: 2, maximumFractionDigits: 2 }}
+                  />
+                </span>
+              ),
+              label: t("averagePerTransaction"),
+              sub: t("basedOnFilteredData"),
+            },
+          ]}
+        />
       </div>
 
       {/* Main Content Tabs */}
@@ -174,60 +141,43 @@ export default function ExpenseTracker() {
 
         <TabsContent value="overview" className="space-y-6">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("recentExpenses")}</CardTitle>
-                <CardDescription>{t("latestTransactions")}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ExpenseList limit={5} showActions={false} />
-              </CardContent>
-            </Card>
+            <SettingsCard
+              title={t("recentExpenses")}
+              description={t("latestTransactions")}
+            >
+              <ExpenseList limit={5} showActions={false} />
+            </SettingsCard>
 
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("quickAddExpense")}</CardTitle>
-                <CardDescription>{t("addExpenseQuickly")}</CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ExpenseForm onSuccess={() => setActiveTab("expenses")} />
-              </CardContent>
-            </Card>
+            {/* Quick-add form: SettingsCard shell; ExpenseForm internals stay. */}
+            <SettingsCard
+              title={t("quickAddExpense")}
+              description={t("addExpenseQuickly")}
+            >
+              <ExpenseForm onSuccess={() => setActiveTab("expenses")} />
+            </SettingsCard>
           </div>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("spendingOverview")}</CardTitle>
-              <CardDescription>
-                {t("visualRepresentation")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <ExpenseCharts type="overview" />
-            </CardContent>
-          </Card>
+          <SettingsCard
+            title={t("spendingOverview")}
+            description={t("visualRepresentation")}
+          >
+            <ExpenseCharts type="overview" />
+          </SettingsCard>
         </TabsContent>
 
         <TabsContent value="expenses" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <div className="flex items-center justify-between">
-                <div>
-                  <CardTitle>{t("allExpenses")}</CardTitle>
-                  <CardDescription>
-                    {t("manageExpenses")}
-                  </CardDescription>
-                </div>
-                <Button onClick={() => setActiveTab("overview")}>
-                  <PlusIcon className="h-4 w-4 me-2" />
-                  {t("addExpense")}
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <ExpenseList />
-            </CardContent>
-          </Card>
+          <SettingsCard
+            title={t("allExpenses")}
+            description={t("manageExpenses")}
+            action={
+              <Button onClick={() => setActiveTab("overview")}>
+                <PlusIcon className="h-4 w-4 me-2" />
+                {t("addExpense")}
+              </Button>
+            }
+          >
+            <ExpenseList />
+          </SettingsCard>
         </TabsContent>
 
         <TabsContent value="charts" className="space-y-6">
@@ -246,6 +196,6 @@ export default function ExpenseTracker() {
           <ImportExport />
         </TabsContent>
       </Tabs>
-    </div>
+    </ToolShell>
   );
 }

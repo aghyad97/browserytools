@@ -2,8 +2,10 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadBlob } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Upload, Loader2, Download, Trash2, Eye, EyeOff } from "lucide-react";
@@ -23,6 +25,7 @@ const config: Config = {
 export default function BgRemoval() {
   const t = useTranslations("Tools.BgRemoval");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   type ImageItem = {
     id: string;
@@ -66,14 +69,6 @@ export default function BgRemoval() {
       setItems((prev) => [...prev, ...newItems]);
     });
   }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg"],
-    },
-    multiple: true,
-  });
 
   const processOne = useCallback(
     async (itemId: string) => {
@@ -167,22 +162,13 @@ export default function BgRemoval() {
     }
 
     try {
-      const url = URL.createObjectURL(item.processedBlob);
-      const link = document.createElement("a");
-      link.href = url;
-
       const base = item.name.replace(/\.[^.]+$/, "");
       const safeName = base.replace(/[^\w\s-]/g, "").replace(/\s+/g, "_");
-      link.download = `${safeName}-no-bg.png`;
+      const filename = `${safeName}-no-bg.png`;
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadBlob(item.processedBlob, filename);
 
-      // Clean up
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-      console.log(`Downloaded: ${link.download}`);
+      console.log(`Downloaded: ${filename}`);
     } catch (error) {
       console.error("Error downloading single image:", error);
     }
@@ -245,21 +231,11 @@ export default function BgRemoval() {
       console.log(`Zip generated successfully: ${zipBlob.size} bytes`);
 
       // Download the zip
-      const url = URL.createObjectURL(zipBlob);
-      const link = document.createElement("a");
-      link.href = url;
-
       const timestamp = new Date().toISOString().slice(0, 10);
-      link.download = `browserytools-${timestamp}.zip`;
+      const filename = `browserytools-${timestamp}.zip`;
+      downloadBlob(zipBlob, filename);
 
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-
-      // Clean up
-      setTimeout(() => URL.revokeObjectURL(url), 1000);
-
-      console.log(`Download initiated: ${link.download}`);
+      console.log(`Download initiated: ${filename}`);
     } catch (error) {
       console.error("Failed to create zip:", error);
 
@@ -306,11 +282,15 @@ export default function BgRemoval() {
     };
   }, []);
 
+  const readyCount = items.filter((i) => i.processedBlob).length;
+
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      {/* Header Controls */}
-      <div className="flex justify-between items-center p-6 gap-2 flex-wrap bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div className="flex items-center gap-2">
+    <ToolShell
+      slug="bg-removal"
+      title={tc("tools.bg-removal.name")}
+      sub={tc("tools.bg-removal.description")}
+      controls={
+        <>
           <Button
             variant="ghost"
             onClick={() => setShowAfter((v) => !v)}
@@ -329,28 +309,6 @@ export default function BgRemoval() {
               {t("processing")}
             </div>
           )}
-        </div>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="secondary"
-            onClick={handleDownloadAll}
-            disabled={
-              items.filter((i) => i.processedBlob).length === 0 || isZipping
-            }
-            className="flex items-center gap-2"
-          >
-            {isZipping ? (
-              <>
-                <Loader2 className="w-4 h-4 animate-spin" />
-                {t("preparingZip")}
-              </>
-            ) : (
-              <>
-                <Download className="w-4 h-4" />
-                {t("downloadAll", { count: items.filter((i) => i.processedBlob).length })}
-              </>
-            )}
-          </Button>
           {items.length > 0 && (
             <Button
               variant="ghost"
@@ -361,61 +319,69 @@ export default function BgRemoval() {
               {t("clearAll")}
             </Button>
           )}
-        </div>
-      </div>
-
-      {/* Main Content */}
-      <div className="flex-1 overflow-auto px-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
-          {/* Upload Area */}
-          <Card className="min-h-[16rem] col-span-1 md:col-span-2">
-            <div
-              {...getRootProps()}
-              className={`
-                h-full rounded-lg border-2 border-dashed
-                flex flex-col items-center justify-center space-y-4 p-8
-                cursor-pointer transition-all duration-200
-                ${
-                  isDragActive
-                    ? "border-primary bg-primary/10 scale-[0.99]"
-                    : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                }
-              `}
+        </>
+      }
+      primaryAction={{
+        label: isZipping
+          ? t("preparingZip")
+          : t("downloadAll", { count: readyCount }),
+        onClick: handleDownloadAll,
+        disabled: readyCount === 0 || isZipping,
+      }}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Upload Area */}
+        <Card className="min-h-[16rem] col-span-1 md:col-span-2">
+          <FileDropzone
+            onFiles={onDrop}
+            accept={{
+              "image/*": [".png", ".jpg", ".jpeg"],
+            }}
+            multiple
+            className={({ isDragActive }) => `
+              h-full rounded-lg border-2 border-dashed
+              flex flex-col items-center justify-center space-y-4 p-8
+              cursor-pointer transition-[border-color,background-color] duration-150
+              ${
+                isDragActive
+                  ? "border-primary bg-primary/10 scale-[0.99]"
+                  : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+              }
+            `}
+          >
+            <motion.div
+              key="upload"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -10 }}
+              className="text-center"
             >
-              <input {...getInputProps()} />
-              <motion.div
-                key="upload"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="text-center"
-              >
-                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                  <Upload className="w-10 h-10 text-primary" />
-                </div>
-                <h3 className="text-lg font-semibold mb-2">
-                  {t("dropImagesHere")}
-                </h3>
-                <p className="text-muted-foreground text-sm">
-                  {t("supportedFormats")}
+              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                <Upload className="w-10 h-10 text-primary" />
+              </div>
+              <h3 className="text-lg font-semibold mb-2">
+                {t("dropImagesHere")}
+              </h3>
+              <p className="text-muted-foreground text-sm">
+                {t("supportedFormats")}
+              </p>
+              <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
+                {t("privacyNote")}
+              </p>
+              {items.length > 0 && (
+                <p className="text-xs text-muted-foreground mt-2">
+                  {items.length === 1
+                    ? t("imagesLoaded", { count: items.length })
+                    : t("imagesLoadedPlural", { count: items.length })}
                 </p>
-                <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
-                  {t("privacyNote")}
-                </p>
-                {items.length > 0 && (
-                  <p className="text-xs text-muted-foreground mt-2">
-                    {items.length === 1
-                      ? t("imagesLoaded", { count: items.length })
-                      : t("imagesLoadedPlural", { count: items.length })}
-                  </p>
-                )}
-              </motion.div>
-            </div>
-          </Card>
+              )}
+            </motion.div>
+          </FileDropzone>
+        </Card>
 
-          {/* Image Grid */}
-          <div className="col-span-1 md:col-span-2">
-            {items.length > 0 && (
+        {/* Image Grid */}
+        <div className="col-span-1 md:col-span-2">
+          {items.length > 0 && (
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                 <AnimatePresence>
                   {items.map((it) => (
@@ -508,7 +474,6 @@ export default function BgRemoval() {
             )}
           </div>
         </div>
-      </div>
-    </div>
+      </ToolShell>
   );
 }

@@ -16,19 +16,20 @@ import { ChartExport } from "./ChartExport";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
 import {
   BarChart3,
   Settings,
   Download,
   RotateCcw,
   Eye,
-  Code,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 export function Charts() {
   const t = useTranslations("Tools.Charts");
+  const tc = useTranslations("ToolsConfig");
   const [chartType, setChartType] = useState<ChartType>("bar");
   const [data, setData] = useState<ChartDataPoint[]>(SAMPLE_DATA.bar);
   const [settings, setSettings] = useState<ChartSettings>(
@@ -64,72 +65,72 @@ export function Charts() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
+    <ToolShell
+      slug="charts"
+      title={tc("tools.charts.name")}
+      sub={tc("tools.charts.description")}
+      width="wide"
+    >
       <div className="flex flex-col lg:flex-row gap-4 min-h-screen">
         {/* Left Sidebar - Controls */}
         <div className="w-full lg:w-[40%] overflow-y-auto space-y-4 pe-4 scrollbar-hide max-h-screen">
           {/* Chart Type Selection */}
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <BarChart3 className="h-4 w-4" />
                 {t("chartTypeTitle")}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartTypeSelector
-                selectedType={chartType}
-                onTypeChange={handleChartTypeChange}
-              />
-            </CardContent>
-          </Card>
+              </span>
+            }
+          >
+            <ChartTypeSelector
+              selectedType={chartType}
+              onTypeChange={handleChartTypeChange}
+            />
+          </SettingsCard>
 
           {/* Data Editor */}
-          <Card className="shadow-none">
-            <CardContent>
-              <ChartDataEditor
-                chartType={chartType}
-                data={data}
-                onDataChange={handleDataChange}
-              />
-            </CardContent>
-          </Card>
+          <SettingsCard>
+            <ChartDataEditor
+              chartType={chartType}
+              data={data}
+              onDataChange={handleDataChange}
+            />
+          </SettingsCard>
 
           {/* Customization Panel */}
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Settings className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <Settings className="h-4 w-4" />
                 {t("customizationTitle")}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartCustomizationPanel
-                settings={settings}
-                onSettingsChange={handleSettingsChange}
-                dataKeys={getDataKeys()}
-                chartType={chartType}
-              />
-            </CardContent>
-          </Card>
+              </span>
+            }
+          >
+            <ChartCustomizationPanel
+              settings={settings}
+              onSettingsChange={handleSettingsChange}
+              dataKeys={getDataKeys()}
+              chartType={chartType}
+            />
+          </SettingsCard>
 
           {/* Export Panel */}
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Download className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <Download className="h-4 w-4" />
                 {t("exportTitle")}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ChartExport
-                chartRef={chartRef}
-                data={data}
-                settings={settings}
-                chartType={chartType}
-              />
-            </CardContent>
-          </Card>
+              </span>
+            }
+          >
+            <ChartExport
+              chartRef={chartRef}
+              data={data}
+              settings={settings}
+              chartType={chartType}
+            />
+          </SettingsCard>
         </div>
 
         {/* Right Side - Chart Preview */}
@@ -200,6 +201,6 @@ export function Charts() {
           </div>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

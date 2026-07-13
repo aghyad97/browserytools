@@ -1,14 +1,13 @@
 "use client";
 
-import { useState, useMemo, useCallback } from "react";
+import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Copy, Hash } from "lucide-react";
-import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 // ── Conversion tables ─────────────────────────────────────────────────────────
 
@@ -163,6 +162,7 @@ function romanToNumber(
 
 export default function RomanNumeralConverter() {
   const t = useTranslations("Tools.RomanNumeralConverter");
+  const tc = useTranslations("ToolsConfig");
   const [tab, setTab] = useState<"toRoman" | "toNumber">("toRoman");
 
   // Number → Roman state
@@ -185,44 +185,18 @@ export default function RomanNumeralConverter() {
     return romanToNumber(romanInput);
   }, [romanInput]);
 
-  const handleCopyRoman = useCallback(async () => {
-    const val = toRomanResult && !("errorKey" in toRomanResult) ? toRomanResult.roman : "";
-    if (!val) return;
-    try {
-      await navigator.clipboard.writeText(val);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [toRomanResult, t]);
-
-  const handleCopyNumber = useCallback(async () => {
-    const val = toNumberResult && !toNumberResult.errorKey ? String(toNumberResult.value) : "";
-    if (!val) return;
-    try {
-      await navigator.clipboard.writeText(val);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [toNumberResult, t]);
-
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Hash className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">
-              {t("subtitle")}
-            </p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="roman-numeral"
+      title={tc("tools.roman-numeral.name")}
+      sub={tc("tools.roman-numeral.description")}
+    >
+      <div className="space-y-6">
+        {/* Tabs kept bespoke: the two panels are NOT structurally identical
+            (different input type, different step-breakdown fields — remaining
+            vs. operation/runningTotal), so this doesn't qualify for the
+            ModePicker swap (only trivial, same-shape panels do). The RTL/EN
+            test suite also asserts role="tab" here, which a swap would break. */}
         <Tabs value={tab} onValueChange={(v) => setTab(v as "toRoman" | "toNumber")}>
           <TabsList className="w-full">
             <TabsTrigger value="toRoman" className="flex-1">
@@ -235,189 +209,161 @@ export default function RomanNumeralConverter() {
 
           {/* ── Number to Roman ── */}
           <TabsContent value="toRoman" className="space-y-4">
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">{t("enterNumber")}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Input
-                  type="number"
-                  min="1"
-                  max="3999"
-                  placeholder={t("numberPlaceholder")}
-                  value={numberInput}
-                  onChange={(e) => setNumberInput(e.target.value)}
-                  className="text-lg font-mono"
-                />
-              </CardContent>
-            </Card>
+            <SettingsCard title={t("enterNumber")}>
+              <Input
+                type="number"
+                min="1"
+                max="3999"
+                placeholder={t("numberPlaceholder")}
+                value={numberInput}
+                onChange={(e) => setNumberInput(e.target.value)}
+                className="text-lg font-mono"
+              />
+            </SettingsCard>
 
             {toRomanResult && (
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base flex items-center justify-between">
-                    {t("result")}
-                    {"roman" in toRomanResult && (
-                      <Button size="sm" variant="ghost" onClick={handleCopyRoman}>
-                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
-                      </Button>
-                    )}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {"errorKey" in toRomanResult ? (
-                    <p className="text-destructive text-sm">{t(toRomanResult.errorKey as Parameters<typeof t>[0])}</p>
-                  ) : (
-                    <>
-                      <div className="text-4xl font-bold font-mono tracking-wider text-center py-2">
-                        {toRomanResult.roman}
+              <OutputPanel
+                text={"errorKey" in toRomanResult ? "" : toRomanResult.roman}
+                title={t("result")}
+                copySuccessMessage={t("copiedToClipboard")}
+              >
+                {"errorKey" in toRomanResult ? (
+                  <p className="text-destructive text-sm">{t(toRomanResult.errorKey as Parameters<typeof t>[0])}</p>
+                ) : (
+                  <>
+                    <div className="text-4xl font-bold font-mono tracking-wider text-center py-2">
+                      {toRomanResult.roman}
+                    </div>
+
+                    {/* Step-by-step breakdown — variable length (up to 13
+                        entries for e.g. 3888), a data list, stays bespoke. */}
+                    <div>
+                      <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
+                      <div className="space-y-1.5" dir="ltr">
+                        {toRomanResult.steps.map((step, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-2 text-sm rounded-md bg-muted px-3 py-2"
+                          >
+                            <Badge variant="secondary" className="font-mono min-w-[3rem] justify-center">
+                              {step.symbol}
+                            </Badge>
+                            <span className="text-muted-foreground">=</span>
+                            <span className="font-medium">{step.value.toLocaleString()}</span>
+                            <span className="text-muted-foreground ms-auto text-xs">
+                              {t("remaining")}: {step.remaining.toLocaleString()}
+                            </span>
+                          </div>
+                        ))}
                       </div>
 
-                      {/* Step-by-step breakdown */}
-                      <div>
-                        <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
-                        <div className="space-y-1.5" dir="ltr">
-                          {toRomanResult.steps.map((step, i) => (
-                            <div
-                              key={i}
-                              className="flex items-center gap-2 text-sm rounded-md bg-muted px-3 py-2"
-                            >
-                              <Badge variant="secondary" className="font-mono min-w-[3rem] justify-center">
-                                {step.symbol}
-                              </Badge>
-                              <span className="text-muted-foreground">=</span>
-                              <span className="font-medium">{step.value.toLocaleString()}</span>
-                              <span className="text-muted-foreground ms-auto text-xs">
-                                {t("remaining")}: {step.remaining.toLocaleString()}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Equation */}
-                        <div className="mt-3 text-sm text-muted-foreground text-center">
-                          {numberInput} ={" "}
-                          {toRomanResult.steps
-                            .map((s) => `${s.symbol}(${s.value.toLocaleString()})`)
-                            .join(" + ")}
-                        </div>
+                      {/* Equation */}
+                      <div className="mt-3 text-sm text-muted-foreground text-center">
+                        {numberInput} ={" "}
+                        {toRomanResult.steps
+                          .map((s) => `${s.symbol}(${s.value.toLocaleString()})`)
+                          .join(" + ")}
                       </div>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
+                    </div>
+                  </>
+                )}
+              </OutputPanel>
             )}
           </TabsContent>
 
           {/* ── Roman to Number ── */}
           <TabsContent value="toNumber" className="space-y-4">
-            <Card>
-              <CardHeader className="pb-3">
-                <CardTitle className="text-base">{t("enterRoman")}</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <Input
-                  placeholder={t("romanPlaceholder")}
-                  value={romanInput}
-                  onChange={(e) => setRomanInput(e.target.value.toUpperCase())}
-                  className="text-lg font-mono tracking-wider"
-                  maxLength={20}
-                />
-              </CardContent>
-            </Card>
+            <SettingsCard title={t("enterRoman")}>
+              <Input
+                placeholder={t("romanPlaceholder")}
+                value={romanInput}
+                onChange={(e) => setRomanInput(e.target.value.toUpperCase())}
+                className="text-lg font-mono tracking-wider"
+                maxLength={20}
+              />
+            </SettingsCard>
 
             {toNumberResult && (
-              <Card>
-                <CardHeader className="pb-2">
-                  <CardTitle className="text-base flex items-center justify-between">
-                    {t("result")}
-                    {!toNumberResult.errorKey && (
-                      <Button size="sm" variant="ghost" onClick={handleCopyNumber}>
-                        <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
-                      </Button>
-                    )}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  {toNumberResult.errorKey ? (
-                    <p className="text-destructive text-sm">{t(toNumberResult.errorKey as Parameters<typeof t>[0])}</p>
-                  ) : (
-                    <>
-                      <div className="text-4xl font-bold tabular-nums text-center py-2">
-                        {toNumberResult.value.toLocaleString()}
-                      </div>
+              <OutputPanel
+                text={toNumberResult.errorKey ? "" : String(toNumberResult.value)}
+                title={t("result")}
+                copySuccessMessage={t("copiedToClipboard")}
+              >
+                {toNumberResult.errorKey ? (
+                  <p className="text-destructive text-sm">{t(toNumberResult.errorKey as Parameters<typeof t>[0])}</p>
+                ) : (
+                  <>
+                    <div className="text-4xl font-bold tabular-nums text-center py-2">
+                      {toNumberResult.value.toLocaleString()}
+                    </div>
 
-                      {/* Step-by-step breakdown */}
-                      <div>
-                        <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
-                        <div className="space-y-1.5" dir="ltr">
-                          {toNumberResult.steps.map((step, i) => (
-                            <div
-                              key={i}
-                              className="flex items-center gap-2 text-sm rounded-md bg-muted px-3 py-2"
+                    {/* Step-by-step breakdown — variable length, data list, stays bespoke. */}
+                    <div>
+                      <p className="text-sm font-medium mb-2">{t("stepByStep")}</p>
+                      <div className="space-y-1.5" dir="ltr">
+                        {toNumberResult.steps.map((step, i) => (
+                          <div
+                            key={i}
+                            className="flex items-center gap-2 text-sm rounded-md bg-muted px-3 py-2"
+                          >
+                            <Badge
+                              variant="secondary"
+                              className="font-mono min-w-[3rem] justify-center"
                             >
-                              <Badge
-                                variant="secondary"
-                                className="font-mono min-w-[3rem] justify-center"
-                              >
-                                {step.symbol}
-                              </Badge>
-                              <span
-                                className={
-                                  step.operation === "subtract"
-                                    ? "text-destructive font-medium"
-                                    : "text-green-600 dark:text-green-400 font-medium"
-                                }
-                              >
-                                {step.operation === "subtract" ? "−" : "+"}{step.value}
-                              </span>
-                              <span className="text-muted-foreground ms-auto text-xs">
-                                {t("runningTotal")}: {step.runningTotal}
-                              </span>
-                            </div>
-                          ))}
-                        </div>
-
-                        {/* Equation */}
-                        <div className="mt-3 text-sm text-muted-foreground text-center">
-                          {romanInput.toUpperCase()} ={" "}
-                          {toNumberResult.steps.map((s, i) => (
-                            <span key={i}>
-                              {i > 0 && " + "}
-                              <span className="font-mono">{s.symbol}</span>({s.value})
+                              {step.symbol}
+                            </Badge>
+                            <span
+                              className={
+                                step.operation === "subtract"
+                                  ? "text-destructive font-medium"
+                                  : // status color (additive step), no bt-success token:
+                                    "text-green-600 dark:text-green-400 font-medium"
+                              }
+                            >
+                              {step.operation === "subtract" ? "−" : "+"}{step.value}
                             </span>
-                          ))}{" "}
-                          = {toNumberResult.value}
-                        </div>
+                            <span className="text-muted-foreground ms-auto text-xs">
+                              {t("runningTotal")}: {step.runningTotal}
+                            </span>
+                          </div>
+                        ))}
                       </div>
-                    </>
-                  )}
-                </CardContent>
-              </Card>
+
+                      {/* Equation */}
+                      <div className="mt-3 text-sm text-muted-foreground text-center">
+                        {romanInput.toUpperCase()} ={" "}
+                        {toNumberResult.steps.map((s, i) => (
+                          <span key={i}>
+                            {i > 0 && " + "}
+                            <span className="font-mono">{s.symbol}</span>({s.value})
+                          </span>
+                        ))}{" "}
+                        = {toNumberResult.value}
+                      </div>
+                    </div>
+                  </>
+                )}
+              </OutputPanel>
             )}
           </TabsContent>
         </Tabs>
 
-        {/* Reference table */}
-        <Card>
-          <CardHeader className="pb-2">
-            <CardTitle className="text-base">{t("referenceTable")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
-              {REFERENCE_ROWS.map(({ symbol, value }) => (
-                <div
-                  key={symbol}
-                  className="flex items-center justify-between rounded-md border px-3 py-2 text-sm"
-                >
-                  <span className="font-mono font-bold">{symbol}</span>
-                  <span className="text-muted-foreground">{value.toLocaleString()}</span>
-                </div>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Reference table — static data grid, stays bespoke; SettingsCard
+            swap is padding normalization only. */}
+        <SettingsCard title={t("referenceTable")}>
+          <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
+            {REFERENCE_ROWS.map(({ symbol, value }) => (
+              <div
+                key={symbol}
+                className="flex items-center justify-between rounded-md border px-3 py-2 text-sm"
+              >
+                <span className="font-mono font-bold">{symbol}</span>
+                <span className="text-muted-foreground">{value.toLocaleString()}</span>
+              </div>
+            ))}
+          </div>
+        </SettingsCard>
       </div>
-    </div>
+    </ToolShell>
   );
 }

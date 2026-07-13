@@ -2,11 +2,11 @@
 
 import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 const SAMPLES: Record<string, string> = {
   flowchart: `flowchart TD
@@ -42,6 +42,7 @@ async function loadMermaid(): Promise<MermaidApi> {
 
 export default function MermaidViewer() {
   const t = useTranslations("Tools.MermaidViewer");
+  const tc = useTranslations("ToolsConfig");
   const [code, setCode] = useState(SAMPLES.flowchart);
   const [svg, setSvg] = useState("");
   const [error, setError] = useState("");
@@ -67,39 +68,36 @@ export default function MermaidViewer() {
   }, [code, t]);
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>{t("inputLabel")}</Label>
-            <Textarea dir="ltr" value={code} onChange={(e) => setCode(e.target.value)} placeholder={t("inputPlaceholder")} className="min-h-[200px] font-mono text-sm resize-y" />
-            {error && <p className="text-sm text-destructive">{error}</p>}
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            {Object.keys(SAMPLES).map((key) => (
-              <Button key={key} variant="outline" size="sm" onClick={() => setCode(SAMPLES[key])}>{key}</Button>
-            ))}
-            <Button variant="outline" size="sm" onClick={() => setCode("")}>{t("clearAll")}</Button>
-            {code && <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(code); toast.success(t("copied")); }}>{t("copyCode")}</Button>}
-          </div>
-        </CardContent>
-      </Card>
+    <ToolShell
+      slug="mermaid"
+      title={tc("tools.mermaid.name")}
+      sub={tc("tools.mermaid.description")}
+      width="wide"
+    >
+      <div className="space-y-4">
+      <SettingsCard>
+        <OptionRow label={t("inputLabel")} htmlFor="mermaid-input">
+          <Textarea id="mermaid-input" dir="ltr" value={code} onChange={(e) => setCode(e.target.value)} placeholder={t("inputPlaceholder")} className="min-h-[200px] font-mono text-sm resize-y" />
+          {error && <p className="text-sm text-destructive">{error}</p>}
+        </OptionRow>
+        <div className="flex gap-2 flex-wrap">
+          {Object.keys(SAMPLES).map((key) => (
+            <Button key={key} variant="outline" size="sm" onClick={() => setCode(SAMPLES[key])}>{key}</Button>
+          ))}
+          <Button variant="outline" size="sm" onClick={() => setCode("")}>{t("clearAll")}</Button>
+          {code && <CopyButton text={code} label={t("copyCode")} successMessage={t("copied")} />}
+        </div>
+      </SettingsCard>
 
       {svg && (
-        <Card>
-          <CardHeader><CardTitle className="text-base">{t("previewLabel")}</CardTitle></CardHeader>
-          <CardContent>
-            <div
-              className="overflow-x-auto flex justify-center"
-              dangerouslySetInnerHTML={{ __html: svg }}
-            />
-          </CardContent>
-        </Card>
+        <SettingsCard title={t("previewLabel")}>
+          <div
+            className="overflow-x-auto flex justify-center"
+            dangerouslySetInnerHTML={{ __html: svg }}
+          />
+        </SettingsCard>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

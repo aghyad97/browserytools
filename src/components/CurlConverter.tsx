@@ -12,8 +12,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Copy, Terminal, Wand2 } from "lucide-react";
+import { Terminal, Wand2 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 type TargetLang =
   | "fetch"
@@ -520,6 +524,7 @@ function generate(p: ParsedCurl, lang: TargetLang): string {
 
 export default function CurlConverter() {
   const t = useTranslations("Tools.CurlConverter");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [lang, setLang] = useState<TargetLang>("fetch");
 
@@ -541,97 +546,78 @@ export default function CurlConverter() {
     }
   }, [parsed, lang]);
 
-  const copyToClipboard = async () => {
-    if (!output) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(output);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  };
-
   const loadSample = () => {
     setInput(SAMPLE);
     toast.success(t("sampleLoaded"));
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
+    <ToolShell
+      slug="curl-converter"
+      title={tc("tools.curl-converter.name")}
+      sub={tc("tools.curl-converter.description")}
+      controls={
+        <>
+          <Select value={lang} onValueChange={(v) => setLang(v as TargetLang)}>
+            <SelectTrigger className="w-[260px]">
+              <SelectValue placeholder={t("selectLanguage")} />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="fetch">{t("langFetch")}</SelectItem>
+              <SelectItem value="node-fetch">{t("langNodeFetch")}</SelectItem>
+              <SelectItem value="node-axios">{t("langAxios")}</SelectItem>
+              <SelectItem value="python">{t("langPython")}</SelectItem>
+              <SelectItem value="go">{t("langGo")}</SelectItem>
+              <SelectItem value="php">{t("langPhp")}</SelectItem>
+            </SelectContent>
+          </Select>
 
-      <div className="flex-1 overflow-auto px-6 pb-6">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div className="flex flex-wrap items-center justify-between gap-2">
-            <Select value={lang} onValueChange={(v) => setLang(v as TargetLang)}>
-              <SelectTrigger className="w-[260px]">
-                <SelectValue placeholder={t("selectLanguage")} />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="fetch">{t("langFetch")}</SelectItem>
-                <SelectItem value="node-fetch">{t("langNodeFetch")}</SelectItem>
-                <SelectItem value="node-axios">{t("langAxios")}</SelectItem>
-                <SelectItem value="python">{t("langPython")}</SelectItem>
-                <SelectItem value="go">{t("langGo")}</SelectItem>
-                <SelectItem value="php">{t("langPhp")}</SelectItem>
-              </SelectContent>
-            </Select>
-
-            <Button variant="outline" onClick={loadSample}>
-              <Wand2 className="h-4 w-4 me-2" />
-              {t("loadSample")}
-            </Button>
-          </div>
-
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-            <Card className="p-4">
-              <div className="flex items-center mb-2 text-sm font-medium text-muted-foreground">
-                <Terminal className="h-4 w-4 me-2" />
-                {t("inputLabel")}
-              </div>
-              <Textarea
-                placeholder={t("inputPlaceholder")}
-                className="min-h-[300px] font-mono text-left"
-                dir="ltr"
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                aria-label={t("inputLabel")}
-              />
-            </Card>
-
-            <Card className="p-4">
-              <div className="flex items-center justify-between mb-2">
-                <span className="text-sm font-medium text-muted-foreground">
-                  {t("outputLabel")}
-                </span>
-                {output && (
-                  <Button
-                    size="icon"
-                    variant="outline"
-                    onClick={copyToClipboard}
-                    aria-label="Copy"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
-                )}
-              </div>
-              <Textarea
-                placeholder={t("outputPlaceholder")}
-                className="min-h-[300px] font-mono text-left"
-                dir="ltr"
-                value={output}
-                readOnly
-                aria-label={t("outputLabel")}
-              />
-            </Card>
-          </div>
+          <Button variant="outline" onClick={loadSample}>
+            <Wand2 className="h-4 w-4 me-2" />
+            {t("loadSample")}
+          </Button>
+        </>
+      }
+    >
+      <div className="max-w-7xl mx-auto space-y-4">
+          <TwoPane
+            start={
+              <Card className="p-4">
+                <div className="flex items-center mb-2 text-sm font-medium text-muted-foreground">
+                  <Terminal className="h-4 w-4 me-2" />
+                  {t("inputLabel")}
+                </div>
+                <Textarea
+                  placeholder={t("inputPlaceholder")}
+                  className="min-h-[300px] font-mono text-left"
+                  dir="ltr"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  aria-label={t("inputLabel")}
+                />
+              </Card>
+            }
+            end={
+              <OutputPanel
+                title={t("outputLabel")}
+                text={output}
+                copySuccessMessage={t("copiedToClipboard")}
+                copyErrorMessage={t("failedToCopy")}
+              >
+                <Textarea
+                  placeholder={t("outputPlaceholder")}
+                  className="min-h-[300px] font-mono text-left border-0 rounded-none"
+                  dir="ltr"
+                  value={output}
+                  readOnly
+                  aria-label={t("outputLabel")}
+                />
+              </OutputPanel>
+            }
+          />
 
           {parsed && (
-            <Card className="p-4">
-              <div className="text-sm font-medium mb-3">{t("breakdown")}</div>
+            <SettingsCard title={t("breakdown")}>
               <div className="space-y-3 text-sm">
                 <div className="flex flex-wrap items-start gap-2">
                   <span className="font-medium min-w-[80px] text-muted-foreground">
@@ -691,10 +677,9 @@ export default function CurlConverter() {
                   </div>
                 )}
               </div>
-            </Card>
+            </SettingsCard>
           )}
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

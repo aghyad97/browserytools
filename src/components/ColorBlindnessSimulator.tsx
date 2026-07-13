@@ -2,12 +2,16 @@
 
 import { useState, useRef, useCallback, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadDataUrl } from "@/lib/download";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Download, Eye, ImageIcon } from "lucide-react";
+import { Upload, ImageIcon } from "lucide-react";
 import { toast } from "sonner";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 type SimType = "deuteranopia" | "protanopia" | "tritanopia" | "achromatopsia";
 
@@ -78,6 +82,7 @@ function applySimulation(imageData: ImageData, type: SimType): ImageData {
 
 export default function ColorBlindnessSimulator() {
   const t = useTranslations("Tools.ColorBlindnessSimulator");
+  const tc = useTranslations("ToolsConfig");
   const [originalSrc, setOriginalSrc] = useState<string | null>(null);
   const [simSrc, setSimSrc] = useState<string | null>(null);
   const [activeTab, setActiveTab] = useState<SimType>("deuteranopia");
@@ -138,15 +143,6 @@ export default function ColorBlindnessSimulator() {
     [activeTab, processImage]
   );
 
-  const handleDrop = useCallback(
-    (e: React.DragEvent) => {
-      e.preventDefault();
-      const file = e.dataTransfer.files[0];
-      if (file) handleFile(file);
-    },
-    [handleFile]
-  );
-
   useEffect(() => {
     if (originalSrc) {
       processImage(originalSrc, activeTab);
@@ -156,53 +152,44 @@ export default function ColorBlindnessSimulator() {
 
   const downloadSim = () => {
     if (!simSrc) return;
-    const a = document.createElement("a");
-    a.href = simSrc;
-    a.download = `${activeTab}-simulation.png`;
-    a.click();
+    downloadDataUrl(simSrc, `${activeTab}-simulation.png`);
     toast.success(t("downloaded"));
   };
 
   const info = SIM_INFO[activeTab];
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Eye className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="color-blindness"
+      title={tc("tools.color-blindness.name")}
+      sub={tc("tools.color-blindness.description")}
+      primaryAction={{
+        label: t("download"),
+        onClick: downloadSim,
+        disabled: !simSrc,
+      }}
+    >
+      <div className="space-y-6">
         {/* Upload Area */}
         {!originalSrc && (
-          <Card
-            className="border-dashed border-2 cursor-pointer hover:border-primary transition-colors"
-            onDrop={handleDrop}
-            onDragOver={(e) => e.preventDefault()}
-            onClick={() => fileInputRef.current?.click()}
+          <FileDropzone
+            onFiles={(files) => { const f = files[0]; if (f) handleFile(f); }}
+            accept={{ "image/jpeg": [], "image/png": [], "image/webp": [] }}
+            multiple={false}
+            className={({ isDragActive }) =>
+              `rounded-lg border-2 border-dashed cursor-pointer transition-colors pt-12 pb-12 px-4 flex flex-col items-center gap-4 text-center ${
+                isDragActive ? "border-primary bg-primary/5" : "hover:border-primary"
+              }`
+            }
           >
-            <CardContent className="pt-12 pb-12 flex flex-col items-center gap-4 text-center">
-              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-                <Upload className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <div>
-                <p className="font-medium">{t("dropImage")}</p>
-                <p className="text-sm text-muted-foreground mt-1">{t("supportedFormats")}</p>
-              </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/jpeg,image/png,image/webp"
-                className="hidden"
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
-              />
-            </CardContent>
-          </Card>
+            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+              <Upload className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="font-medium">{t("dropImage")}</p>
+              <p className="text-sm text-muted-foreground mt-1">{t("supportedFormats")}</p>
+            </div>
+          </FileDropzone>
         )}
 
         {originalSrc && (
@@ -221,10 +208,6 @@ export default function ColorBlindnessSimulator() {
                   <ImageIcon className="w-4 h-4 me-2" />
                   {t("changeImage")}
                 </Button>
-                <Button variant="outline" onClick={downloadSim} disabled={!simSrc}>
-                  <Download className="w-4 h-4 me-2" />
-                  {t("download")}
-                </Button>
               </div>
               <input
                 ref={fileInputRef}
@@ -235,58 +218,58 @@ export default function ColorBlindnessSimulator() {
               />
             </div>
 
-            <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as SimType)}>
-              <TabsList className="grid grid-cols-4 w-full">
-                <TabsTrigger value="deuteranopia">{t("tabGreenBlind")}</TabsTrigger>
-                <TabsTrigger value="protanopia">{t("tabRedBlind")}</TabsTrigger>
-                <TabsTrigger value="tritanopia">{t("tabBlueBlind")}</TabsTrigger>
-                <TabsTrigger value="achromatopsia">{t("tabNoColor")}</TabsTrigger>
-              </TabsList>
+            {/* Mode switch: all 4 panels are structurally identical (info
+                card + before/after comparison), differing only by
+                translated content — ratified ModePicker criterion. */}
+            <ModePicker
+              aria-label={t("simulation")}
+              value={activeTab}
+              onChange={setActiveTab}
+              options={[
+                { value: "deuteranopia", label: t("tabGreenBlind") },
+                { value: "protanopia", label: t("tabRedBlind") },
+                { value: "tritanopia", label: t("tabBlueBlind") },
+                { value: "achromatopsia", label: t("tabNoColor") },
+              ]}
+            />
 
-              {(["deuteranopia", "protanopia", "tritanopia", "achromatopsia"] as SimType[]).map((type) => (
-                <TabsContent key={type} value={type} className="space-y-4">
-                  <Card>
-                    <CardHeader className="pb-2">
-                      <CardTitle className="text-base flex items-center gap-2">
-                        {t(`${type}Label` as any)}
-                        <Badge variant="secondary">{t(`${type}Desc` as any)}</Badge>
-                      </CardTitle>
-                      <CardDescription className="text-sm">{t(`${type}Detail` as any)}</CardDescription>
-                    </CardHeader>
-                  </Card>
+            <div className="space-y-4">
+              <SettingsCard
+                title={t(`${activeTab}Label` as any)}
+                description={t(`${activeTab}Detail` as any)}
+                action={<Badge variant="secondary">{t(`${activeTab}Desc` as any)}</Badge>}
+              />
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-sm text-muted-foreground">{t("original")}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-3 pt-0">
-                        {/* eslint-disable-next-line @next/next/no-img-element */}
-                        <img src={originalSrc} alt="Original" className="w-full rounded-md object-contain max-h-64" />
-                      </CardContent>
-                    </Card>
-                    <Card>
-                      <CardHeader className="pb-2">
-                        <CardTitle className="text-sm text-muted-foreground">{SIM_INFO[type].label} {t("simulation")}</CardTitle>
-                      </CardHeader>
-                      <CardContent className="p-3 pt-0">
-                        {simSrc && !processing ? (
-                          // eslint-disable-next-line @next/next/no-img-element
-                          <img src={simSrc} alt={`${type} simulation`} className="w-full rounded-md object-contain max-h-64" />
-                        ) : (
-                          <div className="w-full h-40 bg-muted rounded-md flex items-center justify-center">
-                            <p className="text-sm text-muted-foreground">{processing ? t("processing") : t("simulationAppears")}</p>
-                          </div>
-                        )}
-                      </CardContent>
-                    </Card>
-                  </div>
-                </TabsContent>
-              ))}
-            </Tabs>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">{t("original")}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={originalSrc} alt="Original" className="w-full rounded-md object-contain max-h-64" />
+                  </CardContent>
+                </Card>
+                <Card>
+                  <CardHeader className="pb-2">
+                    <CardTitle className="text-sm text-muted-foreground">{SIM_INFO[activeTab].label} {t("simulation")}</CardTitle>
+                  </CardHeader>
+                  <CardContent className="p-3 pt-0">
+                    {simSrc && !processing ? (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img src={simSrc} alt={`${activeTab} simulation`} className="w-full rounded-md object-contain max-h-64" />
+                    ) : (
+                      <div className="w-full h-40 bg-muted rounded-md flex items-center justify-center">
+                        <p className="text-sm text-muted-foreground">{processing ? t("processing") : t("simulationAppears")}</p>
+                      </div>
+                    )}
+                  </CardContent>
+                </Card>
+              </div>
+            </div>
           </>
         )}
       </div>
-    </div>
+    </ToolShell>
   );
 }

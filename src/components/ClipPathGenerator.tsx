@@ -2,26 +2,16 @@
 
 import { useState, useCallback, useRef, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { toast } from "sonner";
-import { Copy, Plus, Trash2, RotateCcw } from "lucide-react";
+import { Plus, Trash2, RotateCcw } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type ShapeType = "polygon" | "circle" | "ellipse" | "inset";
 
@@ -94,6 +84,7 @@ function buildClipPath(
 
 export default function ClipPathGenerator() {
   const t = useTranslations("Tools.ClipPathGenerator");
+  const tc = useTranslations("ToolsConfig");
   // next-intl requires literal keys — map preset keys to translations explicitly.
   const presetLabel = (key: string): string => {
     switch (key) {
@@ -185,24 +176,14 @@ export default function ClipPathGenerator() {
     toast.success(t("resetDone"));
   }, [t]);
 
-  const copyCSS = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(cssOutput);
-      toast.success(t("cssCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  }, [cssOutput, t]);
-
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+    <ToolShell
+      slug="clip-path-generator"
+      title={tc("tools.clip-path-generator.name")}
+      sub={tc("tools.clip-path-generator.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-6">
+        <SettingsCard>
             <Tabs value={shape} onValueChange={(v) => setShape(v as ShapeType)}>
               <TabsList className="w-full">
                 <TabsTrigger value="polygon" className="flex-1">{t("polygon")}</TabsTrigger>
@@ -217,10 +198,12 @@ export default function ClipPathGenerator() {
                   <Label>{t("preview")}</Label>
                   <div
                     ref={stageRef}
-                    className="relative w-full rounded-lg border bg-[linear-gradient(45deg,#e5e7eb_25%,transparent_25%,transparent_75%,#e5e7eb_75%),linear-gradient(45deg,#e5e7eb_25%,transparent_25%,transparent_75%,#e5e7eb_75%)] bg-[length:20px_20px] bg-[position:0_0,10px_10px] select-none touch-none"
+                    // Transparency-indicator checkerboard, theme-independent — bt-token backed.
+                    className="relative w-full rounded-lg border bg-[linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%,transparent_75%,hsl(var(--muted))_75%),linear-gradient(45deg,hsl(var(--muted))_25%,transparent_25%,transparent_75%,hsl(var(--muted))_75%)] bg-[length:20px_20px] bg-[position:0_0,10px_10px] select-none touch-none"
                     style={{ aspectRatio: "1 / 1" }}
                   >
                     <div
+                      // Demo shape fill — fixed brand gradient, content value independent of app theme.
                       className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-pink-500"
                       style={{ clipPath: clipValue, WebkitClipPath: clipValue }}
                     />
@@ -232,6 +215,7 @@ export default function ClipPathGenerator() {
                           aria-label={`${t("vertex")} ${i + 1}`}
                           data-testid={`vertex-${i}`}
                           onPointerDown={onPointerDown(p.id)}
+                          // Vertex marker — fixed content color, matches demo shape above.
                           className="absolute h-4 w-4 -ms-2 -mt-2 rounded-full border-2 border-white bg-indigo-600 shadow-md ring-1 ring-black/20 cursor-grab active:cursor-grabbing"
                           style={{ left: `${p.x}%`, top: `${p.y}%` }}
                         />
@@ -248,6 +232,9 @@ export default function ClipPathGenerator() {
                         <Plus className="w-4 h-4 me-1" />{t("addVertex")}
                       </Button>
                     </div>
+                    {/* Per-vertex repeater row: compact inline X/Y controls, bespoke
+                        per SvgEditor/RB1 precedent — SliderRow's stacked head would
+                        break the 4-column compact grid. */}
                     <div className="space-y-2 max-h-64 overflow-auto pe-1">
                       {points.map((p, i) => (
                         <div key={p.id} className="grid grid-cols-[auto_1fr_1fr_auto] gap-2 items-center p-2 border rounded-lg bg-muted/30">
@@ -267,50 +254,23 @@ export default function ClipPathGenerator() {
                   </TabsContent>
 
                   <TabsContent value="circle" className="space-y-4 mt-0">
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("radius")}</Label><span className="text-sm font-mono text-muted-foreground">{circle.radius}%</span></div>
-                      <Slider min={0} max={100} step={1} value={[circle.radius]} onValueChange={([v]) => setCircle((c) => ({ ...c, radius: v }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("centerX")}</Label><span className="text-sm font-mono text-muted-foreground">{circle.cx}%</span></div>
-                      <Slider min={0} max={100} step={1} value={[circle.cx]} onValueChange={([v]) => setCircle((c) => ({ ...c, cx: v }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("centerY")}</Label><span className="text-sm font-mono text-muted-foreground">{circle.cy}%</span></div>
-                      <Slider min={0} max={100} step={1} value={[circle.cy]} onValueChange={([v]) => setCircle((c) => ({ ...c, cy: v }))} />
-                    </div>
+                    <SliderRow label={t("radius")} value={circle.radius} display={<>{circle.radius}%</>} min={0} max={100} onChange={(v) => setCircle((c) => ({ ...c, radius: v }))} />
+                    <SliderRow label={t("centerX")} value={circle.cx} display={<>{circle.cx}%</>} min={0} max={100} onChange={(v) => setCircle((c) => ({ ...c, cx: v }))} />
+                    <SliderRow label={t("centerY")} value={circle.cy} display={<>{circle.cy}%</>} min={0} max={100} onChange={(v) => setCircle((c) => ({ ...c, cy: v }))} />
                   </TabsContent>
 
                   <TabsContent value="ellipse" className="space-y-4 mt-0">
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("radiusX")}</Label><span className="text-sm font-mono text-muted-foreground">{ellipse.rx}%</span></div>
-                      <Slider min={0} max={100} step={1} value={[ellipse.rx]} onValueChange={([v]) => setEllipse((c) => ({ ...c, rx: v }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("radiusY")}</Label><span className="text-sm font-mono text-muted-foreground">{ellipse.ry}%</span></div>
-                      <Slider min={0} max={100} step={1} value={[ellipse.ry]} onValueChange={([v]) => setEllipse((c) => ({ ...c, ry: v }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("centerX")}</Label><span className="text-sm font-mono text-muted-foreground">{ellipse.cx}%</span></div>
-                      <Slider min={0} max={100} step={1} value={[ellipse.cx]} onValueChange={([v]) => setEllipse((c) => ({ ...c, cx: v }))} />
-                    </div>
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("centerY")}</Label><span className="text-sm font-mono text-muted-foreground">{ellipse.cy}%</span></div>
-                      <Slider min={0} max={100} step={1} value={[ellipse.cy]} onValueChange={([v]) => setEllipse((c) => ({ ...c, cy: v }))} />
-                    </div>
+                    <SliderRow label={t("radiusX")} value={ellipse.rx} display={<>{ellipse.rx}%</>} min={0} max={100} onChange={(v) => setEllipse((c) => ({ ...c, rx: v }))} />
+                    <SliderRow label={t("radiusY")} value={ellipse.ry} display={<>{ellipse.ry}%</>} min={0} max={100} onChange={(v) => setEllipse((c) => ({ ...c, ry: v }))} />
+                    <SliderRow label={t("centerX")} value={ellipse.cx} display={<>{ellipse.cx}%</>} min={0} max={100} onChange={(v) => setEllipse((c) => ({ ...c, cx: v }))} />
+                    <SliderRow label={t("centerY")} value={ellipse.cy} display={<>{ellipse.cy}%</>} min={0} max={100} onChange={(v) => setEllipse((c) => ({ ...c, cy: v }))} />
                   </TabsContent>
 
                   <TabsContent value="inset" className="space-y-4 mt-0">
                     {(["top", "right", "bottom", "left"] as const).map((side) => (
-                      <div key={side} className="space-y-2">
-                        <div className="flex justify-between"><Label>{t(side)}</Label><span className="text-sm font-mono text-muted-foreground">{inset[side]}%</span></div>
-                        <Slider min={0} max={50} step={1} value={[inset[side]]} onValueChange={([v]) => setInset((c) => ({ ...c, [side]: v }))} />
-                      </div>
+                      <SliderRow key={side} label={t(side)} value={inset[side]} display={<>{inset[side]}%</>} min={0} max={50} onChange={(v) => setInset((c) => ({ ...c, [side]: v }))} />
                     ))}
-                    <div className="space-y-2">
-                      <div className="flex justify-between"><Label>{t("cornerRadius")}</Label><span className="text-sm font-mono text-muted-foreground">{inset.round}%</span></div>
-                      <Slider min={0} max={50} step={1} value={[inset.round]} onValueChange={([v]) => setInset((c) => ({ ...c, round: v }))} />
-                    </div>
+                    <SliderRow label={t("cornerRadius")} value={inset.round} display={<>{inset.round}%</>} min={0} max={50} onChange={(v) => setInset((c) => ({ ...c, round: v }))} />
                   </TabsContent>
 
                   <Button variant="outline" size="sm" onClick={resetShape} className="w-full">
@@ -320,24 +280,19 @@ export default function ClipPathGenerator() {
               </div>
             </Tabs>
 
-            <div className="space-y-2">
-              <Label>{t("generatedCSS")}</Label>
-              <div className="flex gap-2 items-start">
-                <pre dir="ltr" className="flex-1 text-xs bg-muted p-3 rounded-lg border overflow-x-auto whitespace-pre-wrap break-all font-mono text-left">{cssOutput}</pre>
-                <Button variant="outline" size="icon" onClick={copyCSS} className="shrink-0"><Copy className="w-4 h-4" /></Button>
-              </div>
-            </div>
+            <OutputPanel
+              className="mt-6"
+              title={t("generatedCSS")}
+              text={cssOutput}
+              copyLabel={t("copyCSS")}
+              copySuccessMessage={t("cssCopied")}
+              copyErrorMessage={t("copyFailed")}
+            >
+              <pre dir="ltr" className="text-xs whitespace-pre-wrap break-all text-left">{cssOutput}</pre>
+            </OutputPanel>
+        </SettingsCard>
 
-            <Button onClick={copyCSS} className="w-full"><Copy className="w-4 h-4 me-2" />{t("copyCSS")}</Button>
-          </CardContent>
-        </Card>
-
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle className="text-base">{t("presetShapes")}</CardTitle>
-            <CardDescription>{t("presetDescription")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+        <SettingsCard title={t("presetShapes")} description={t("presetDescription")}>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
               {POLYGON_PRESETS.map((preset) => {
                 const cp = `polygon(${preset.points.map((p) => `${p.x}% ${p.y}%`).join(", ")})`;
@@ -346,7 +301,7 @@ export default function ClipPathGenerator() {
                     key={preset.key}
                     type="button"
                     onClick={() => loadPreset(preset)}
-                    className="group flex flex-col items-center gap-2 rounded-lg border p-3 hover:ring-2 hover:ring-primary transition-all"
+                    className="group flex flex-col items-center gap-2 rounded-lg border p-3 hover:ring-2 hover:ring-primary transition-shadow"
                     title={presetLabel(preset.key)}
                   >
                     <div className="h-16 w-16 bg-gradient-to-br from-indigo-500 to-pink-500" style={{ clipPath: cp, WebkitClipPath: cp }} />
@@ -355,9 +310,8 @@ export default function ClipPathGenerator() {
                 );
               })}
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
-    </div>
+    </ToolShell>
   );
 }

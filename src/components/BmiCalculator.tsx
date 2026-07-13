@@ -4,12 +4,18 @@ import { useState, useMemo, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { RotateCcw, Scale } from "lucide-react";
+import { RotateCcw } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
+import { ModePicker } from "@/components/shared/ModePicker";
 
 // ── BMI Categories ─────────────────────────────────────────────────────────────
+// status color, no bt token: BMI severity needs 6 distinct categorical hues
+// (underweight → normal → overweight → obese I/II/III); --bt-success/error only
+// cover a 2-3-level semantic scale, so the raw hex + Tailwind palette classes
+// below are genuine content (the category's identity), not decoration.
 
 interface BmiCategory {
   labelKey: string;
@@ -105,6 +111,7 @@ type UnitSystem = "metric" | "imperial";
 
 export default function BmiCalculator() {
   const t = useTranslations("Tools.BmiCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [unit, setUnit] = useState<UnitSystem>("metric");
 
   // Metric
@@ -160,126 +167,109 @@ export default function BmiCalculator() {
   }, [unit, weightKg, heightCm, weightLbs, heightFt, heightIn]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Scale className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
-        {/* Unit toggle */}
-        <div className="flex gap-2">
-          <Button
-            variant={unit === "metric" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setUnit("metric")}
-          >
-            {t("metric")}
-          </Button>
-          <Button
-            variant={unit === "imperial" ? "default" : "outline"}
-            size="sm"
-            onClick={() => setUnit("imperial")}
-          >
-            {t("imperial")}
-          </Button>
-          <Button variant="ghost" size="sm" className="ms-auto" onClick={handleClear}>
-            <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
-          </Button>
-        </div>
+    <ToolShell
+      slug="bmi-calculator"
+      title={tc("tools.bmi-calculator.name")}
+      sub={tc("tools.bmi-calculator.description")}
+      controls={
+        <Button variant="outline" size="sm" onClick={handleClear}>
+          <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
+        </Button>
+      }
+    >
+      <div className="space-y-6">
+        {/* Unit toggle — a trivial two-option mode switch. */}
+        <ModePicker
+          aria-label={tc("tools.bmi-calculator.name")}
+          value={unit}
+          onChange={setUnit}
+          options={[
+            { value: "metric", label: t("metric") },
+            { value: "imperial", label: t("imperial") },
+          ]}
+        />
 
         {/* Inputs */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("enterMeasurements")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {unit === "metric" ? (
-              <>
-                <div className="space-y-1.5">
-                  <Label>{t("weightKg")}</Label>
+        <SettingsCard title={t("enterMeasurements")}>
+          {unit === "metric" ? (
+            <>
+              <OptionRow label={t("weightKg")} htmlFor="weight-kg">
+                <Input
+                  id="weight-kg"
+                  type="number"
+                  min="1"
+                  max="500"
+                  step="0.1"
+                  placeholder="e.g. 70"
+                  value={weightKg}
+                  onChange={(e) => setWeightKg(e.target.value)}
+                  dir="ltr"
+                />
+              </OptionRow>
+              <OptionRow label={t("heightCm")} htmlFor="height-cm">
+                <Input
+                  id="height-cm"
+                  type="number"
+                  min="50"
+                  max="300"
+                  step="0.1"
+                  placeholder="e.g. 175"
+                  value={heightCm}
+                  onChange={(e) => setHeightCm(e.target.value)}
+                  dir="ltr"
+                />
+              </OptionRow>
+            </>
+          ) : (
+            <>
+              <OptionRow label={t("weightLbs")} htmlFor="weight-lbs">
+                <Input
+                  id="weight-lbs"
+                  type="number"
+                  min="1"
+                  max="1000"
+                  step="0.1"
+                  placeholder="e.g. 154"
+                  value={weightLbs}
+                  onChange={(e) => setWeightLbs(e.target.value)}
+                  dir="ltr"
+                />
+              </OptionRow>
+              {/* Feet+inches stay paired in one row — splitting into two
+                  OptionRows would break the inline "ft / in" affordance. */}
+              <OptionRow label={t("height")}>
+                <div className="flex gap-2">
                   <Input
                     type="number"
-                    min="1"
-                    max="500"
-                    step="0.1"
-                    placeholder="e.g. 70"
-                    value={weightKg}
-                    onChange={(e) => setWeightKg(e.target.value)}
+                    min="0"
+                    max="10"
+                    placeholder={t("feet")}
+                    value={heightFt}
+                    onChange={(e) => setHeightFt(e.target.value)}
+                    dir="ltr"
+                  />
+                  <Input
+                    type="number"
+                    min="0"
+                    max="11"
+                    placeholder={t("inches")}
+                    value={heightIn}
+                    onChange={(e) => setHeightIn(e.target.value)}
                     dir="ltr"
                   />
                 </div>
-                <div className="space-y-1.5">
-                  <Label>{t("heightCm")}</Label>
-                  <Input
-                    type="number"
-                    min="50"
-                    max="300"
-                    step="0.1"
-                    placeholder="e.g. 175"
-                    value={heightCm}
-                    onChange={(e) => setHeightCm(e.target.value)}
-                    dir="ltr"
-                  />
-                </div>
-              </>
-            ) : (
-              <>
-                <div className="space-y-1.5">
-                  <Label>{t("weightLbs")}</Label>
-                  <Input
-                    type="number"
-                    min="1"
-                    max="1000"
-                    step="0.1"
-                    placeholder="e.g. 154"
-                    value={weightLbs}
-                    onChange={(e) => setWeightLbs(e.target.value)}
-                    dir="ltr"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <Label>{t("height")}</Label>
-                  <div className="flex gap-2">
-                    <Input
-                      type="number"
-                      min="0"
-                      max="10"
-                      placeholder={t("feet")}
-                      value={heightFt}
-                      onChange={(e) => setHeightFt(e.target.value)}
-                      dir="ltr"
-                    />
-                    <Input
-                      type="number"
-                      min="0"
-                      max="11"
-                      placeholder={t("inches")}
-                      value={heightIn}
-                      onChange={(e) => setHeightIn(e.target.value)}
-                      dir="ltr"
-                    />
-                  </div>
-                </div>
-              </>
-            )}
-          </CardContent>
-        </Card>
+              </OptionRow>
+            </>
+          )}
+        </SettingsCard>
 
         {/* Result */}
-        {result ? (
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-base">{t("yourBmiResult")}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-5">
-              {/* BMI number + category */}
+        <SettingsCard title={t("yourBmiResult")}>
+          {result ? (
+            <>
+              {/* BMI number + category badge stays bespoke — a hero readout
+                  paired inline with the categorical status badge, not a
+                  generic stat tile. */}
               <div className="flex items-center gap-4">
                 <div className="text-5xl font-bold tabular-nums">{result.bmi.toFixed(1)}</div>
                 <div>
@@ -289,7 +279,8 @@ export default function BmiCalculator() {
                 </div>
               </div>
 
-              {/* Gauge bar */}
+              {/* Gauge bar: embedded data visualization, stays bespoke —
+                  no molecule fits a segmented gauge + position marker. */}
               <div className="space-y-1">
                 <div className="relative h-5 rounded-full overflow-hidden flex">
                   {SEGMENTS.map((seg, idx) => (
@@ -301,10 +292,10 @@ export default function BmiCalculator() {
                   ))}
                   {/* Marker */}
                   <div
-                    className="absolute top-0 bottom-0 w-0.5 bg-white shadow-md transition-all duration-500"
+                    className="absolute top-0 bottom-0 w-0.5 bg-white shadow-md transition-[left] duration-500"
                     style={{ left: `${result.gaugePos}%` }}
                   >
-                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rounded-full border-2 border-gray-700 shadow" />
+                    <div className="absolute -top-1 left-1/2 -translate-x-1/2 w-3 h-3 bg-white rounded-full border-2 border-border shadow" />
                   </div>
                 </div>
                 {/* Gauge labels */}
@@ -319,7 +310,8 @@ export default function BmiCalculator() {
                 </div>
               </div>
 
-              {/* Category legend */}
+              {/* Category legend: color-coded, stays bespoke alongside the
+                  gauge above. */}
               <div className="grid grid-cols-2 gap-1.5 sm:grid-cols-3">
                 {CATEGORIES.map((cat) => (
                   <div
@@ -341,29 +333,29 @@ export default function BmiCalculator() {
                 ))}
               </div>
 
-              {/* Healthy weight range */}
-              <div className="rounded-lg bg-muted px-4 py-3 space-y-1">
-                <p className="text-sm font-medium">{t("healthyWeightRange")}</p>
-                <p className="text-sm text-muted-foreground" dir="ltr">
-                  {result.healthyMin} &ndash; {result.healthyMax}
-                  <span className="ml-2 text-xs">(BMI 18.5 &ndash; 24.9)</span>
-                </p>
-              </div>
+              {/* Healthy weight range — a single computed result. */}
+              <StatStrip
+                items={[
+                  {
+                    label: t("healthyWeightRange"),
+                    value: <span dir="ltr">{result.healthyMin} &ndash; {result.healthyMax}</span>,
+                    sub: "(BMI 18.5 – 24.9)",
+                  },
+                ]}
+              />
 
               {/* Disclaimer */}
               <p className="text-xs text-muted-foreground border-t pt-3">
                 {t("disclaimer")}
               </p>
-            </CardContent>
-          </Card>
-        ) : (
-          <Card>
-            <CardContent className="py-8 text-center text-muted-foreground">
+            </>
+          ) : (
+            <div className="py-4 text-center text-muted-foreground">
               {t("enterWeightHeight")}
-            </CardContent>
-          </Card>
-        )}
+            </div>
+          )}
+        </SettingsCard>
       </div>
-    </div>
+    </ToolShell>
   );
 }

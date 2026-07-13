@@ -2,6 +2,7 @@
   "Common": {
     "copy": "Copy",
     "copied": "Copied!",
+    "copyFailed": "Failed to copy",
     "download": "Download",
     "upload": "Upload",
     "reset": "Reset",
@@ -55,9 +56,7 @@
     "twitter": "Follow us on X (Twitter)"
   },
   "LanguageSwitcher": {
-    "label": "Language",
-    "en": "English",
-    "ar": "العربية"
+    "label": "Language"
   },
   "Sidebar": {
     "searchPlaceholder": "Search tools...",
@@ -102,7 +101,10 @@
       "devTools": "Developer Tools",
       "securityTools": "Security Tools",
       "designTools": "Design & Visual",
-      "aiTools": "AI Tools"
+      "aiTools": "AI Tools",
+      "testsGames": "Tests & Games",
+      "schoolLearning": "School & Learning",
+      "business": "Business"
     },
     "tools": {
       "bg-removal": {
@@ -578,7 +580,7 @@
         "description": "Draw or type your signature and download it as a transparent PNG or SVG. Adjustable pen color and thickness, handwriting fonts, fully client-side."
       },
       "speech-to-text": {
-        "name": "Speech to Text",
+        "name": "Live Dictation (mic)",
         "description": "Convert speech to text online free with voice typing and dictation in your browser. Multiple languages, copy, and download."
       },
       "ascii-art": {
@@ -653,6 +655,22 @@
         "name": "GIF Maker",
         "description": "Turn a series of images into an animated GIF. Reorder frames, set speed, loop, and resize."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Image",
+      "fileTools": "File",
+      "mediaTools": "Media",
+      "textLanguage": "Text",
+      "dataTools": "Data",
+      "mathFinance": "Math",
+      "productivity": "Productivity",
+      "devTools": "Dev",
+      "designTools": "Design",
+      "securityTools": "Security",
+      "aiTools": "AI",
+      "testsGames": "Games",
+      "schoolLearning": "School",
+      "business": "Business"
     }
   },
   "Tools": {
@@ -991,26 +1009,13 @@
       "subtitle": "Edit and process audio files in your browser",
       "dropHere": "Drop audio file here or click to upload",
       "currentTime": "Current Time: {current}s / {total}s",
-      "tabPlayback": "Playback",
-      "tabEffects": "Effects",
-      "tabTrim": "Trim",
-      "fadeIn": "Fade In",
-      "fadeOut": "Fade Out",
-      "addEcho": "Add Echo",
       "resetSpeed": "Reset Speed",
-      "appliedEffects": "Applied Effects",
-      "selection": "Selection: {start}s - {end}s",
       "seconds": "{count} seconds",
       "invalidAudioFile": "Please select a valid audio file",
       "fileLoadedSuccess": "Audio file loaded successfully",
       "errorLoadingFile": "Error loading audio file",
       "errorProcessingFile": "Error processing audio file",
-      "fadeInApplied": "Fade in applied",
-      "fadeOutApplied": "Fade out applied",
-      "echoApplied": "Echo effect applied",
       "speedSet": "Playback speed set to {speed}x",
-      "processingDownload": "Processing audio for download...",
-      "errorProcessingDownload": "Error processing audio for download",
       "downloadOriginal": "Download original"
     },
     "MicCameraTester": {
@@ -1046,7 +1051,6 @@
       "alternating": "aLtErNaTiNg",
       "inverseCase": "InVeRsE cAsE",
       "noTextToConvert": "No text to convert",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "TextCounter": {
@@ -1073,7 +1077,6 @@
       "speakingTime": "Speaking Time",
       "speakingTimeDesc": "155 words per minute",
       "minSuffix": "min",
-      "noTextToCopy": "No text to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "TextDiffViewer": {
@@ -1110,7 +1113,6 @@
       "shuffle": "Shuffle",
       "reverse": "Reverse",
       "enterTextFirst": "Please enter some text first",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "nothingToDownload": "Nothing to download",
       "downloaded": "Downloaded sorted-text.txt"
@@ -1129,7 +1131,6 @@
       "inputPlaceholderText": "Enter text here...",
       "inputPlaceholderEncoded": "Enter encoded value here...",
       "charsBytes": "{chars} chars / {bytes} bytes",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "copyFailed": "Failed to copy to clipboard",
       "binaryInput": "Binary Input",
@@ -1162,7 +1163,6 @@
       "outputTooLargeDesc": "The result would exceed 1,000,000 characters. Please reduce the repeat count or shorten your input text.",
       "chars": "chars",
       "lines": "lines",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "nothingToDownload": "Nothing to download",
       "downloaded": "Downloaded repeated-text.txt",
@@ -1194,7 +1194,6 @@
       "referenceDesc": "A–Z, 0–9 character table",
       "words": "words",
       "chars": "chars",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "MarkdownEditor": {
@@ -1252,7 +1251,6 @@
       "minRead": "min read",
       "previewPlaceholder": "Preview will appear here...",
       "htmlOutputPlaceholder": "HTML output will appear here...",
-      "nothingToCopy": "Nothing to copy",
       "htmlCopied": "HTML copied to clipboard",
       "nothingToDownload": "Nothing to download",
       "downloadedHtml": "Downloaded document.html"
@@ -1278,7 +1276,6 @@
       "downloaded": "Downloaded",
       "ariaHtmlInput": "HTML input",
       "ariaHtmlOutput": "HTML output",
-      "ariaCopy": "Copy",
       "ariaDownload": "Download",
       "processingFailed": "Processing failed"
     },
@@ -1293,8 +1290,6 @@
       "resetToSample": "Reset to sample code"
     },
     "CssMinifier": {
-      "title": "CSS Minifier / Beautifier",
-      "description": "Minify or format your CSS code instantly",
       "tabMinify": "Minify",
       "tabBeautify": "Beautify",
       "sampleCss": "Sample CSS",
@@ -1311,17 +1306,12 @@
       "lines": "lines",
       "chars": "chars",
       "noReduction": "No reduction",
-      "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy",
       "downloaded": "Downloaded",
       "ariaCssInput": "CSS input",
       "ariaCssOutput": "CSS output",
-      "ariaCopy": "Copy",
       "ariaDownload": "Download"
     },
     "SqlFormatter": {
-      "title": "SQL Formatter",
-      "description": "Format, beautify, and minify SQL queries",
       "dialect": "Dialect",
       "commaStyle": "Comma style",
       "trailing": "Trailing",
@@ -1342,13 +1332,10 @@
       "sqlMinified": "SQL minified",
       "formattingFailed": "Formatting failed",
       "minificationFailed": "Minification failed",
-      "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy",
       "downloaded": "Downloaded",
       "dialectStandard": "Standard SQL",
       "ariaSqlInput": "SQL input",
       "ariaSqlOutput": "SQL output",
-      "ariaCopy": "Copy",
       "ariaDownload": "Download"
     },
     "WordFrequency": {
@@ -1395,7 +1382,6 @@
       "format": "Format",
       "minify": "Minify",
       "validate": "Validate",
-      "copy": "Copy",
       "loadSample": "Load Sample",
       "clear": "Clear",
       "indent": "Indent:",
@@ -1415,7 +1401,6 @@
       "minifiedSuccess": "JSON minified",
       "isValid": "JSON is valid",
       "invalidJson": "Invalid JSON",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard"
     },
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Please enter some input",
       "conversionSuccessful": "Conversion successful",
       "fileLoadedSuccessfully": "File loaded successfully",
-      "noOutputToCopy": "No output to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard",
       "noOutputToDownload": "No output to download",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Swap",
-      "copyOutput": "Copy Output",
       "loadSample": "Load Sample",
       "clear": "Clear",
       "yamlInput": "YAML Input",
@@ -1765,7 +1748,6 @@
       "valid": "Valid",
       "conversionFailed": "Conversion failed",
       "convertedSuccessfully": "Converted successfully",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard",
       "error": "Error:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Please enter input",
       "encodedSuccessfully": "Encoded successfully",
       "decodedSuccessfully": "Decoded successfully",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard",
       "encodingFailed": "Encoding failed: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} selected",
       "generateData": "Generate Data",
       "outputTitle": "Output",
-      "copy": "Copy",
       "download": "Download",
       "outputPlaceholder": "Click 'Generate Data' to create fake records...",
       "selectAtLeastOneField": "Select at least one field",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Your Lorem Ipsum placeholder text",
       "generatedTextPlaceholder": "Generated text will appear here...",
       "characters": "characters",
-      "copyText": "Copy Text",
       "quickGenerate": "Quick Generate",
       "quickGenerateDesc": "Generate common amounts with one click",
       "oneParagraph": "1 Paragraph",
@@ -1838,11 +1817,9 @@
       "fiveSentences": "5 Sentences",
       "aboutLoremTitle": "About Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. It has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. It is commonly used in web design, graphic design, and publishing as placeholder text.",
-      "noTextToCopy": "No text to copy",
       "copiedToClipboard": "Copied to clipboard"
     },
     "TodoList": {
-      "title": "Todo List",
       "addNewTodo": "Add New Todo",
       "placeholder": "What needs to be done?",
       "addButton": "Add",
@@ -1882,7 +1859,6 @@
     },
     "KeepAwake": {
       "title": "Keep Awake",
-      "subtitle": "Stop your screen from sleeping",
       "status": "Status",
       "inactive": "Inactive",
       "active": "Awake",
@@ -1922,8 +1898,6 @@
       "activatedInfinity": "Keep-awake activated — infinity mode"
     },
     "PomodoroTimer": {
-      "title": "Pomodoro Timer",
-      "subtitle": "Stay focused, take breaks",
       "settings": "Settings",
       "workDuration": "Work Duration (min)",
       "shortBreak": "Short Break (min)",
@@ -1950,7 +1924,6 @@
       "min": "min"
     },
     "WorldClock": {
-      "title": "World Clock",
       "citiesCount": "Current time across {count} cities",
       "addCity": "Add city...",
       "sortByUTC": "Sort by UTC",
@@ -2018,8 +1991,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Stopwatch",
-      "subtitle": "Precise lap tracking with keyboard shortcuts",
       "start": "Start",
       "pause": "Pause",
       "lap": "Lap",
@@ -2039,8 +2010,6 @@
       "resetKey": "reset"
     },
     "HabitTracker": {
-      "title": "Habit Tracker",
-      "subtitle": "Build streaks, track progress",
       "addHabit": "Add Habit",
       "cancel": "Cancel",
       "totalHabits": "Total Habits",
@@ -2265,8 +2234,7 @@
       "differentAmountsPerPerson": "Different amounts per person",
       "pays": "pays",
       "enterBillPrompt": "Enter a bill amount to get started",
-      "summaryCopied": "Summary copied to clipboard",
-      "copyFailed": "Failed to copy"
+      "summaryCopied": "Summary copied to clipboard"
     },
     "UnitConverter": {
       "converter": "Converter",
@@ -2418,7 +2386,6 @@
       "enterNumber": "Enter Number",
       "enterRoman": "Enter Roman Numeral",
       "result": "Result",
-      "copy": "Copy",
       "stepByStep": "Step by Step",
       "runningTotal": "Running Total",
       "remaining": "Remaining",
@@ -2427,7 +2394,6 @@
       "errorInvalidFormat": "Invalid Roman numeral — check the numeral format",
       "errorOutOfRange": "Enter a number between 1 and 3999",
       "copiedToClipboard": "Copied to clipboard",
-      "failedToCopy": "Failed to copy",
       "numberPlaceholder": "e.g. 2024",
       "romanPlaceholder": "e.g. MMXXIV"
     },
@@ -3157,8 +3123,7 @@
       "previewButton": "Button Component",
       "previewUI": "UI Component Example",
       "presets": "Presets",
-      "ratioCopied": "Contrast ratio copied",
-      "copyFailed": "Copy failed"
+      "ratioCopied": "Contrast ratio copied"
     },
     "ColorBlindnessSimulator": {
       "title": "Color Blindness Simulator",
@@ -3315,8 +3280,7 @@
       "errorFutureDate": "Birth date cannot be in the future",
       "errorMissingBirthDates": "Please select both birth dates",
       "errorFutureDates": "Birth dates cannot be in the future",
-      "copiedToClipboard": "Copied to clipboard",
-      "copyFailed": "Copy failed"
+      "copiedToClipboard": "Copied to clipboard"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. All rights reserved.",
@@ -3353,8 +3317,7 @@
       "errorMissingInfo": "Please select both timezones and enter date/time",
       "errorInvalidDate": "Invalid date — please enter a valid date and time",
       "errorConversion": "Conversion error — unable to convert the time",
-      "copiedToClipboard": "Copied to clipboard",
-      "copyFailed": "Copy failed"
+      "copiedToClipboard": "Copied to clipboard"
     },
     "TypingTest": {
       "title": "Typing Test",
@@ -3861,7 +3824,6 @@
       "headers": "Headers",
       "query": "Query",
       "body": "Body",
-      "nothingToCopy": "Nothing to copy",
       "copiedToClipboard": "Copied to clipboard",
       "failedToCopy": "Failed to copy to clipboard"
     },
@@ -3976,7 +3938,6 @@
       "outputPlaceholder": "Your favicons will appear here",
       "zipContents": "ZIP includes all PNG sizes, favicon.ico (16+32), site.webmanifest, and the HTML snippet.",
       "htmlSnippet": "HTML snippet",
-      "copySnippet": "Copy HTML snippet",
       "snippetCopied": "HTML snippet copied",
       "copyFailed": "Could not copy to clipboard",
       "imageTooLarge": "Image is too large. Maximum size is 15MB.",
@@ -4253,7 +4214,6 @@
       "copied": "Transcript copied to clipboard",
       "copyFailed": "Could not copy to clipboard",
       "downloaded": "Transcript downloaded",
-      "nothingToCopy": "Nothing to copy yet",
       "nothingToDownload": "Nothing to download yet",
       "notSupported": "Your browser does not support speech recognition. Use Google Chrome or Microsoft Edge for the best experience. Firefox support is limited.",
       "micDenied": "Microphone access was denied. Allow microphone permission and try again.",
@@ -4545,7 +4505,6 @@
       "captionLabel": "Caption",
       "altLabel": "Alt text (HTML)",
       "altHint": "Paste this into your <img> tag to improve accessibility and SEO. Review and edit it to match the image's context.",
-      "copy": "Copy",
       "copyCaption": "Copy caption",
       "copyAlt": "Copy alt text",
       "copied": "Copied to clipboard",
@@ -4576,7 +4535,6 @@
       "copy": "Copy",
       "copied": "Copied to clipboard",
       "copyFailed": "Could not copy to clipboard",
-      "nothingToCopy": "Nothing to copy yet",
       "enterText": "Please enter some text",
       "noneFound": "No personal information detected",
       "detectedToast": "Detected {count} item(s) of personal information",
@@ -4699,5 +4657,105 @@
     "howToTitle": "How to use {tool}",
     "faqTitle": "Frequently asked questions",
     "relatedTitle": "Related tools"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} tools · on-device",
+    "everything": "Everything",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Search",
+    "sponsorLabel": "From the maker",
+    "new": "new",
+    "language": "Language",
+    "theme": "Theme",
+    "soundOn": "Sound on",
+    "soundOff": "Sound off",
+    "maker": {
+      "kashfbank": {
+        "tag": "Bank statements → CSV",
+        "desc": "Convert any bank statement PDF into clean CSV & Excel.",
+        "cta": "Try it"
+      },
+      "superbilled": {
+        "tag": "Superbills for therapists",
+        "desc": "Insurance-ready superbills for private-pay therapists.",
+        "cta": "Visit"
+      }
+    }
+  },
+  "Landing": {
+    "statementLead": "Your files never leave.",
+    "statementTail": "{count}+ free, open-source tools — full privacy, right in your browser.",
+    "searchPlaceholder": "Search {count}+ tools…",
+    "demoTitle": "Try it. Drop an image here.",
+    "demoTitleBusy": "Compressing…",
+    "demoSub": "It compresses right here, on your device. No upload — watch the network tab.",
+    "demoSmaller": "{pct}% smaller",
+    "apps": "Apps",
+    "popular": "Popular",
+    "all": "All",
+    "allTools": "All {count} tools",
+    "viewAll": "View all tools",
+    "onDevice": "on-device",
+    "sponsorTile": "Your dev tool, native here",
+    "coffee": "Buy me a coffee",
+    "favorites": "Your favorites",
+    "recent": "Recently used",
+    "dropAnyFile": "Drop any file here",
+    "dropSuggest": "We'll match it to the right tool — images compress on-device."
+  },
+  "Template": {
+    "onDevicePromise": "Runs on your device — nothing is uploaded, nothing is stored.",
+    "networkNote": "Runs in your browser — live data comes from a public API.",
+    "related": "Related",
+    "startOver": "Start over",
+    "download": "Download",
+    "dropTitle": "Drop a file, or click to choose",
+    "staysOnDevice": "stays on your device"
+  },
+  "Legal": {
+    "nav": {
+      "license": "License",
+      "privacy": "Privacy",
+      "terms": "Terms"
+    },
+    "common": {
+      "contactLinkText": "Open an issue on GitHub",
+      "licenseLinkText": "Read the AGPL-3.0 license"
+    },
+    "privacy": {
+      "title": "Privacy Policy",
+      "intro": "BrowseryTools is built so your files never have a reason to leave your device. This page explains, in plain terms, what that means and what little data we do collect.",
+      "noAccountsHeading": "No accounts, no sign-in",
+      "noAccountsBody": "There's nothing to register for. We don't ask for your name, email, or payment details, and we don't create a profile for you anywhere.",
+      "onDeviceHeading": "Your files never leave your device",
+      "onDeviceBody": "Every tool runs entirely in your browser. Images, documents, and text you process are read, transformed, and downloaded locally — nothing is uploaded to a server, ever. You can confirm this yourself: open your browser's network tab while using any tool.",
+      "analyticsHeading": "Aggregate usage analytics",
+      "analyticsBody": "We use Vercel Analytics to see which pages and tools are popular. It reports anonymized, aggregate numbers — page views and rough usage counts — never the content of what you process, and never anything tied to you individually.",
+      "localStorageHeading": "Local preferences",
+      "localStorageBody": "Some tools remember your settings — like a theme or a recent list — using your browser's local storage. That data is saved on your device only and is never transmitted anywhere.",
+      "openSourceHeading": "Open source, start to finish",
+      "openSourceBody": "The entire codebase is public on GitHub. If you want to know exactly what a tool does with your data, you can read the source yourself instead of taking our word for it.",
+      "contactHeading": "Questions",
+      "contactBody": "If anything here is unclear, the fastest way to reach us is GitHub.",
+      "changesHeading": "Changes to this policy",
+      "changesBody": "If this policy ever changes, we'll update this page. Since we don't collect emails, we have no way to notify you directly — check back if you're curious."
+    },
+    "terms": {
+      "title": "Terms of Use",
+      "intro": "BrowseryTools is free software. By using it, here's what you're agreeing to — and it's shorter than most.",
+      "licenseHeading": "Open source license",
+      "licenseBody": "The code is licensed under the GNU Affero General Public License v3.0 (AGPL-3.0). You're free to read it, fork it, and run your own copy, under the terms of that license.",
+      "freeHeading": "Free for everyone",
+      "freeBody": "Every tool is free to use, for personal and commercial projects alike. No paywalls, no usage limits, no premium tier hiding the good parts.",
+      "warrantyHeading": "No warranty",
+      "warrantyBody": "BrowseryTools is provided as-is, with no warranty of any kind. We work to keep every tool accurate and reliable, but you're responsible for verifying results before relying on them for anything important.",
+      "acceptableUseHeading": "Acceptable use",
+      "acceptableUseBody": "Use the tools for lawful purposes. You're responsible for the content you process and for complying with any laws that apply to it.",
+      "changesHeading": "Changes to these terms",
+      "changesBody": "We may update these terms as the project evolves. Continuing to use BrowseryTools after a change means you accept the new terms.",
+      "contactHeading": "Questions",
+      "contactBody": "Questions about these terms are welcome — reach us on GitHub."
+    }
   }
 }

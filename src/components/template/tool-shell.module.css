@@ -1,0 +1,171 @@
+/* Five-zone tool template — ported from the /preview prototype
+   (preview.module.css, "tool page" section) with the production deltas: all
+   colours via var(--bt-*) tokens (light+dark), logical properties throughout
+   (RTL mirrors for free), and existing i18n strings. Motion follows
+   animations.dev rules: ease-out entrances, <300ms UI, transform/opacity only,
+   never a single-edge accent bar on any card (spec §3). */
+
+.shell {
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+  /* Start-aligned canvas: the shell begins at the content column's
+     inline-start — the same edge the top bar's search field starts from —
+     and the layout's SEO zone is start-aligned to match (user ruling
+     2026-07-12, supersedes the centred-seam reconciliation). */
+  max-inline-size: 880px;
+  margin-inline: 0;
+  padding-block: 26px 90px;
+  padding-inline: 48px;
+  color: var(--bt-ink);
+  font-feature-settings: "ss01";
+}
+
+/* width="wide" (spec §F2): tools whose primary surface needs more room
+   (spreadsheets, charts, canvases) get 1180px instead of 880, still centred.
+   The layout's SEO zone widens to match via [data-width="wide"] :has() (see
+   app-shell.module.css .toolSeoZone). */
+.shellWide {
+  max-inline-size: min(100%, 1180px);
+}
+
+/* ---------- zone 1 · crumb ---------- */
+.crumb {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+}
+.crumbCat {
+  /* category name painted in its chip foreground token (spec §3). */
+  color: var(--crumb-fg, var(--bt-muted));
+}
+
+/* ---------- zone 2 · title + sub ---------- */
+.title {
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.03em;
+  line-height: 1.15;
+  margin-block-start: 10px;
+}
+.sub {
+  font-size: 14px;
+  color: var(--bt-muted);
+  margin-block-start: 6px;
+  max-inline-size: 52ch;
+  line-height: 1.55;
+}
+
+/* ---------- zone 3 · stage ---------- */
+.stage {
+  margin-block-start: 28px;
+}
+
+/* ---------- zone 4 · controls bar ---------- */
+/* One bordered card: mono labels, inputs at the start, live stats at the end
+   with tabular nums, single dark-pill primary action rightmost. Never a
+   single-edge accent bar. */
+.controls {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  flex-wrap: wrap;
+  margin-block-start: 20px;
+  border: 1px solid var(--bt-line);
+  border-radius: 14px;
+  background: var(--bt-surface);
+  padding-block: 16px;
+  padding-inline: 20px;
+}
+.controlLabel {
+  display: block;
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+  margin-block-end: 7px;
+}
+.controlStat {
+  margin-inline-start: auto;
+  text-align: end;
+  font-variant-numeric: tabular-nums;
+}
+.pillDark {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  flex-shrink: 0;
+  border-radius: 999px;
+  border: 1px solid var(--bt-ink);
+  background: var(--bt-ink);
+  color: var(--bt-bg);
+  font-size: 12.5px;
+  font-weight: 500;
+  padding-block: 7px;
+  padding-inline: 14px;
+  cursor: pointer;
+  transition: transform 160ms var(--bt-ease-out), background 140ms ease,
+    opacity 140ms ease;
+}
+/* end-aligned: the primary is always the last, rightmost control. */
+.pillPrimary {
+  composes: pillDark;
+  margin-inline-start: auto;
+}
+.pillDark:active {
+  transform: scale(0.97);
+}
+.pillDark:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+@media (hover: hover) and (pointer: fine) {
+  .pillDark:not(:disabled):hover {
+    background: color-mix(in srgb, var(--bt-ink) 88%, #000);
+  }
+}
+
+/* ---------- zone 5 · related (3 same-category tiles) ---------- */
+.sectionLabel {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+  margin-block: 40px 12px;
+}
+.sectionRule {
+  flex: 1;
+  height: 1px;
+  background: var(--bt-line);
+}
+
+.grid {
+  /* auto-fill already caps at 4-up under width="wide": stage content area is
+     1180 - 2*48 = 1084px; 5 tracks would need 5*210 + 4*12 = 1098px (doesn't
+     fit), 4 tracks need 4*210 + 3*12 = 876px (fits, stretches via 1fr) —
+     verified arithmetically, no explicit column cap needed. */
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  gap: 12px;
+}
+
+/* tile — the shared landing tile visual (spec §3: reuse the landing tile),
+   now in src/components/shared/ToolTile.module.css (shared with the
+   landing grid). */
+
+@media (prefers-reduced-motion: reduce) {
+  .pillDark {
+    transition: none;
+  }
+}
+
+@media (max-width: 900px) {
+  .shell {
+    padding-inline: 18px;
+  }
+}

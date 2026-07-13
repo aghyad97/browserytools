@@ -22,7 +22,6 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import {
-  Copy,
   Camera,
   Upload,
   Download,
@@ -40,9 +39,13 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { downloadText } from "@/lib/download";
 
 export default function BarcodeScanner() {
   const t = useTranslations("Tools.BarcodeScanner");
+  const tc = useTranslations("ToolsConfig");
   const [scannedData, setScannedData] = useState<string>("");
   const [barcodeType, setBarcodeType] = useState<string>("");
   const [isScanning, setIsScanning] = useState(false);
@@ -56,6 +59,18 @@ export default function BarcodeScanner() {
   const [scanningDuration, setScanningDuration] = useState(0);
   const [showNoBarcodeAlert, setShowNoBarcodeAlert] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  // Detected after mount: reading navigator.userAgent during render makes the
+  // SSR text ("Other") differ from the client's ("Chrome"...) — React #418.
+  const [browserName, setBrowserName] = useState("…");
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    setBrowserName(
+      ua.includes("Chrome") ? "Chrome"
+      : ua.includes("Firefox") ? "Firefox"
+      : ua.includes("Safari") ? "Safari"
+      : "Other"
+    );
+  }, []);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -301,32 +316,17 @@ export default function BarcodeScanner() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const downloadResult = () => {
     const result = {
       barcode: scannedData,
       type: barcodeType,
       timestamp: new Date().toISOString(),
     };
-    const blob = new Blob([JSON.stringify(result, null, 2)], {
-      type: "application/json",
-    });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "barcode-scan-result.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadText(
+      JSON.stringify(result, null, 2),
+      "barcode-scan-result.json",
+      "application/json"
+    );
   };
 
   const clearResults = () => {
@@ -455,7 +455,13 @@ export default function BarcodeScanner() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="barcode-scanner"
+      title={tc("tools.barcode-scanner.name")}
+      sub={tc("tools.barcode-scanner.description")}
+      width="wide"
+    >
+      <div className="w-full">
       <Tabs defaultValue="camera" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="camera">{t("cameraScan")}</TabsTrigger>
@@ -669,13 +675,7 @@ export default function BarcodeScanner() {
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Permission Status: {permissionStatus} | Browser:{" "}
-                        {typeof navigator !== "undefined" && navigator.userAgent.includes("Chrome")
-                          ? "Chrome"
-                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Firefox")
-                          ? "Firefox"
-                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Safari")
-                          ? "Safari"
-                          : "Other"}
+                        {browserName}
                       </p>
                     </div>
                   </AlertDescription>
@@ -773,24 +773,34 @@ export default function BarcodeScanner() {
       </Tabs>
 
       {scannedData && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+        /* Copy+body adopt OutputPanel; download stays bespoke — it writes a
+           STRUCTURED JSON ({barcode,type,timestamp}), not the raw scannedData,
+           so OutputPanel's text-only download cannot reproduce it. */
+        <OutputPanel
+          className="mt-6"
+          text={scannedData}
+          title={
+            <span className="inline-flex items-center gap-2">
+              {/* status color, no bt token: */}
+              <CheckCircle className="h-4 w-4 text-green-500" />
               {t("scanResult")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </span>
+          }
+          copyLabel={t("copyData")}
+          copySuccessMessage={t("copiedToClipboard")}
+          copyErrorMessage={t("copyFailed")}
+        >
+          <div className="space-y-4 p-3">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div className="space-y-2">
                 <Label>{t("barcodeData")}</Label>
-                <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all" dir="ltr">
+                <div className="bg-muted rounded-lg p-3 font-mono text-sm break-all" dir="ltr">
                   {scannedData}
                 </div>
               </div>
               <div className="space-y-2">
                 <Label>{t("barcodeType")}</Label>
-                <div className="p-3 bg-muted rounded-lg">{barcodeType}</div>
+                <div className="bg-muted rounded-lg p-3">{barcodeType}</div>
               </div>
             </div>
 
@@ -798,6 +808,7 @@ export default function BarcodeScanner() {
               <Badge variant="secondary">{barcodeType}</Badge>
               <Badge variant="outline">{scannedData.length} characters</Badge>
               {validateBarcode(scannedData, barcodeType) ? (
+                // status color, no bt token:
                 <Badge variant="default" className="bg-green-500">
                   {t("valid")}
                 </Badge>
@@ -807,14 +818,6 @@ export default function BarcodeScanner() {
             </div>
 
             <div className="flex gap-2">
-              <Button
-                onClick={() => copyToClipboard(scannedData)}
-                variant="outline"
-                size="sm"
-              >
-                <Copy className="h-4 w-4 me-2" />
-                {t("copyData")}
-              </Button>
               <Button onClick={downloadResult} variant="outline" size="sm">
                 <Download className="h-4 w-4 me-2" />
                 {t("downloadResult")}
@@ -823,8 +826,8 @@ export default function BarcodeScanner() {
                 {t("clear")}
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </OutputPanel>
       )}
 
       <Card className="mt-6">
@@ -841,6 +844,7 @@ export default function BarcodeScanner() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

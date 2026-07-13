@@ -1,0 +1,136 @@
+/* Shared tool tile — extracted from the landing grid and ToolShell's Related
+   section (previously two byte-identical ~90-line blocks). All colours via
+   var(--bt-*) tokens (light+dark), logical properties throughout (RTL mirrors
+   for free). --mono is inherited from the call site's own root (.canvas /
+   .shell both define it). Motion follows animations.dev rules: ease-out
+   entrances, <300ms UI, transform/opacity only, hover shadow via the shared
+   --bt-shadow-pop token (light+dark aware). */
+
+.tile {
+  position: relative;
+  z-index: 0; /* stacking context so ::before shadow layer sits behind content */
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  height: 64px; /* uniform — long names truncate, heights never drift */
+  border: 1px solid var(--bt-line);
+  border-radius: 11px;
+  background: var(--bt-surface);
+  padding-inline: 14px;
+  cursor: pointer;
+  text-align: start;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 180ms var(--bt-ease-out), border-color 150ms ease;
+}
+/* Hover shadow as an opacity-faded pseudo layer instead of an animated
+   box-shadow — box-shadow transitions repaint every frame; opacity is a
+   compositor-only property. */
+.tile::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: var(--bt-shadow-pop);
+  opacity: 0;
+  z-index: -1;
+  pointer-events: none;
+  transition: opacity 200ms var(--bt-ease-out);
+}
+.tile:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .tile:hover {
+    border-color: var(--bt-line-strong);
+    transform: translateY(-1px);
+  }
+  .tile:hover::before {
+    opacity: 1;
+  }
+  .tile:hover .tileChip {
+    transform: scale(1.07);
+  }
+  /* Icon → arrow swap: the glyph slides out toward the block-start corner
+     while the arrow slides in from the inline-start side. */
+  .tile:hover .chipIcon {
+    opacity: 0;
+    transform: translate(6px, -6px);
+  }
+  .tile:hover .chipArrow {
+    opacity: 1;
+    transform: translate(0, 0);
+  }
+  :global([dir="rtl"]) .tile:hover .chipIcon {
+    transform: translate(-6px, -6px);
+  }
+}
+
+.tileChip {
+  inline-size: 32px;
+  block-size: 32px;
+  border-radius: 8px;
+  background: var(--chip-bg, var(--bt-fill));
+  color: var(--chip-fg, var(--bt-muted));
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  flex-shrink: 0;
+  transition: transform 200ms var(--bt-ease-out);
+}
+.tileChip svg {
+  width: 16px;
+  height: 16px;
+}
+/* Both chip layers stack in the same 32px box; only transform/opacity animate. */
+.chipIcon,
+.chipArrow {
+  grid-area: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: opacity 160ms ease, transform 200ms var(--bt-ease-out);
+}
+.chipArrow {
+  font-size: 14px;
+  font-weight: 500;
+  opacity: 0;
+  transform: translate(-8px, 8px);
+}
+:global([dir="rtl"]) .chipArrow {
+  transform: translate(8px, 8px);
+}
+.tileText {
+  min-width: 0;
+  flex: 1;
+}
+.tileName {
+  display: block;
+  font-size: 13px;
+  font-weight: 500;
+  letter-spacing: -0.005em;
+  line-height: 1.3;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.tileCat {
+  display: block;
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--chip-fg, var(--bt-faint));
+  opacity: 0.75;
+  margin-block-start: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .tile,
+  .tile::before,
+  .tileChip,
+  .chipIcon,
+  .chipArrow {
+    transition: none;
+  }
+}

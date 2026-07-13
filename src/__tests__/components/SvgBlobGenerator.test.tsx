@@ -40,13 +40,16 @@ describe("SvgBlobGenerator", () => {
   });
 
   it("copies SVG markup to the clipboard", async () => {
+    // Copy now lives in the shared OutputPanel header (contract: OutputPanel
+    // owns copy+download, local duplicate buttons deduped) — queried by its
+    // accessible name ("Copy SVG") instead of the removed copy-svg testid.
     const user = userEvent.setup();
     const spy = vi
       .spyOn(navigator.clipboard, "writeText")
       .mockResolvedValue(undefined);
 
     render(<SvgBlobGenerator />);
-    await user.click(screen.getByTestId("copy-svg"));
+    await user.click(screen.getByRole("button", { name: /copy svg/i }));
 
     expect(spy).toHaveBeenCalledTimes(1);
     expect(spy.mock.calls[0][0]).toContain("<svg");
@@ -54,6 +57,8 @@ describe("SvgBlobGenerator", () => {
   });
 
   it("downloads an .svg file", async () => {
+    // Download now lives in the shared OutputPanel header, queried by its
+    // accessible name ("Download") instead of the removed download-svg testid.
     const user = userEvent.setup();
     const clickSpy = vi
       .spyOn(HTMLAnchorElement.prototype, "click")
@@ -61,7 +66,7 @@ describe("SvgBlobGenerator", () => {
     const createUrl = vi.spyOn(URL, "createObjectURL");
 
     render(<SvgBlobGenerator />);
-    await user.click(screen.getByTestId("download-svg"));
+    await user.click(screen.getByRole("button", { name: /download/i }));
 
     expect(createUrl).toHaveBeenCalled();
     expect(clickSpy).toHaveBeenCalledTimes(1);

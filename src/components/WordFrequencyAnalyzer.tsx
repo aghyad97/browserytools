@@ -12,10 +12,14 @@ import {
 } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Badge } from "@/components/ui/badge";
-import { Copy, Download, RotateCcw } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
+import { formatPercent } from "@/lib/format";
+import { downloadBlob } from "@/lib/download";
 
 const STOP_WORDS = new Set([
   "the", "a", "an", "is", "it", "in", "on", "at", "to", "for", "of", "and",
@@ -37,6 +41,7 @@ type WordEntry = {
 export default function WordFrequencyAnalyzer() {
   const t = useTranslations("Tools.WordFrequency");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [caseInsensitive, setCaseInsensitive] = useState(true);
   const [removeStopWords, setRemoveStopWords] = useState(true);
@@ -98,16 +103,10 @@ export default function WordFrequencyAnalyzer() {
     const rows = analysis.entries
       .map(
         (e, i) =>
-          `${i + 1},"${e.word}",${e.count},${e.percent.toFixed(2)}%`
+          `${i + 1},"${e.word}",${e.count},${formatPercent(e.percent / 100, 2)}`
       )
       .join("\n");
-    const blob = new Blob([header + rows], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "word-frequency.csv";
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([header + rows], { type: "text/csv" }), "word-frequency.csv");
     toast.success(t("exportedCsv"));
   }, [analysis.entries, t]);
 
@@ -150,7 +149,16 @@ export default function WordFrequencyAnalyzer() {
   );
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
+    <ToolShell
+      slug="word-frequency"
+      title={tc("tools.word-frequency.name")}
+      sub={tc("tools.word-frequency.description")}
+      primaryAction={{
+        label: t("exportCsv"),
+        onClick: handleExportCsv,
+        disabled: analysis.entries.length === 0,
+      }}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Input + Options */}
         <div className="lg:col-span-1 space-y-6">
@@ -179,68 +187,60 @@ export default function WordFrequencyAnalyzer() {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("optionsTitle")}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <ToggleOption
-                id="case-insensitive"
-                label={t("caseInsensitive")}
-                checked={caseInsensitive}
-                onChange={setCaseInsensitive}
+          <SettingsCard title={t("optionsTitle")}>
+            <ToggleOption
+              id="case-insensitive"
+              label={t("caseInsensitive")}
+              checked={caseInsensitive}
+              onChange={setCaseInsensitive}
+            />
+            <ToggleOption
+              id="stop-words"
+              label={t("removeStopWords")}
+              checked={removeStopWords}
+              onChange={setRemoveStopWords}
+            />
+            <div className="space-y-1">
+              <Label htmlFor="min-length" className="text-sm">
+                {t("minWordLength")}
+              </Label>
+              <Input
+                id="min-length"
+                type="number"
+                min={1}
+                max={20}
+                value={minLength}
+                onChange={(e) =>
+                  setMinLength(Math.max(1, parseInt(e.target.value) || 1))
+                }
+                className="w-full"
               />
-              <ToggleOption
-                id="stop-words"
-                label={t("removeStopWords")}
-                checked={removeStopWords}
-                onChange={setRemoveStopWords}
-              />
-              <div className="space-y-1">
-                <Label htmlFor="min-length" className="text-sm">
-                  {t("minWordLength")}
-                </Label>
-                <Input
-                  id="min-length"
-                  type="number"
-                  min={1}
-                  max={20}
-                  value={minLength}
-                  onChange={(e) =>
-                    setMinLength(Math.max(1, parseInt(e.target.value) || 1))
-                  }
-                  className="w-full"
-                />
-              </div>
-            </CardContent>
-          </Card>
+            </div>
+          </SettingsCard>
 
           {/* Summary Stats */}
           {analysis.totalWords > 0 && (
-            <Card>
-              <CardHeader>
-                <CardTitle>{t("summaryTitle")}</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">{t("totalWords")}</span>
-                  <Badge variant="secondary">{analysis.totalWords}</Badge>
-                </div>
-                <div className="flex justify-between text-sm">
-                  <span className="text-muted-foreground">{t("uniqueWords")}</span>
-                  <Badge variant="secondary">{analysis.uniqueWords}</Badge>
-                </div>
-                {analysis.entries[0] && (
-                  <div className="flex justify-between text-sm">
-                    <span className="text-muted-foreground">{t("mostCommon")}</span>
-                    <Badge>
-                      &ldquo;{analysis.entries[0].word}&rdquo; &times;{" "}
-                      {analysis.entries[0].count}
-                    </Badge>
-                  </div>
-                )}
-              </CardContent>
-            </Card>
+            <SettingsCard title={t("summaryTitle")}>
+              <StatStrip
+                items={[
+                  { label: t("totalWords"), value: analysis.totalWords },
+                  { label: t("uniqueWords"), value: analysis.uniqueWords },
+                  ...(analysis.entries[0]
+                    ? [
+                        {
+                          label: t("mostCommon"),
+                          value: (
+                            <>
+                              &ldquo;{analysis.entries[0].word}&rdquo; &times;{" "}
+                              {analysis.entries[0].count}
+                            </>
+                          ),
+                        },
+                      ]
+                    : []),
+                ]}
+              />
+            </SettingsCard>
           )}
         </div>
 
@@ -248,26 +248,12 @@ export default function WordFrequencyAnalyzer() {
         <div className="lg:col-span-2">
           <Card>
             <CardHeader>
-              <div className="flex items-center justify-between flex-wrap gap-2">
-                <div>
-                  <CardTitle>{t("resultsTitle")}</CardTitle>
-                  <CardDescription>
-                    {analysis.entries.length > 0
-                      ? t("uniqueWordsFound", { count: analysis.entries.length })
-                      : t("enterTextToAnalyze")}
-                  </CardDescription>
-                </div>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={handleExportCsv}
-                  disabled={analysis.entries.length === 0}
-                  className="flex items-center gap-2"
-                >
-                  <Download className="w-4 h-4" />
-                  {t("exportCsv")}
-                </Button>
-              </div>
+              <CardTitle>{t("resultsTitle")}</CardTitle>
+              <CardDescription>
+                {analysis.entries.length > 0
+                  ? t("uniqueWordsFound", { count: analysis.entries.length })
+                  : t("enterTextToAnalyze")}
+              </CardDescription>
             </CardHeader>
             <CardContent>
               {analysis.entries.length === 0 ? (
@@ -320,7 +306,7 @@ export default function WordFrequencyAnalyzer() {
                               {entry.count}
                             </td>
                             <td className="py-2 text-right text-muted-foreground font-mono">
-                              {entry.percent.toFixed(1)}%
+                              {formatPercent(entry.percent / 100, 1)}
                             </td>
                           </tr>
                         ))}
@@ -347,6 +333,6 @@ export default function WordFrequencyAnalyzer() {
           </Card>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

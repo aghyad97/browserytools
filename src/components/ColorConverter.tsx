@@ -2,17 +2,14 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 function clamp(n: number, min = 0, max = 1) {
   return Math.min(max, Math.max(min, n));
@@ -94,6 +91,8 @@ function hslToRgb(h: number, s: number, l: number) {
   return { r: rgb[0], g: rgb[1], b: rgb[2] };
 }
 
+// content value: WCAG-contrast-computed b&w overlay text color for a given
+// swatch fill, independent of app theme.
 function getReadableTextColor(hex: string): string {
   const rgb = hexToRgb(hex);
   if (!rgb) return "#000000";
@@ -108,6 +107,7 @@ function getReadableTextColor(hex: string): string {
 
 export default function ColorConverter() {
   const t = useTranslations("Tools.ColorConverter");
+  const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
 
   const [hex, setHex] = useState<string>("");
@@ -154,6 +154,7 @@ export default function ColorConverter() {
     setHex(rgbToHex(c.r, c.g, c.b));
   };
 
+  // content value: empty-state preview fallback, independent of app theme.
   const preview = useMemo(() => ({ backgroundColor: hex || "#ffffff" }), [hex]);
 
   const rgbValid = useMemo(() => {
@@ -228,33 +229,29 @@ export default function ColorConverter() {
   };
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6">
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("subtitle")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="hex">HEX</Label>
+    <ToolShell
+      slug="color-converter"
+      title={tc("tools.color-converter.name")}
+      sub={tc("tools.color-converter.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
+        <SettingsCard>
+            <OptionRow label="HEX" htmlFor="hex">
               <div className="flex gap-2">
                 <Input
                   id="hex"
-                  placeholder="#3366FF or 36F"
+                  placeholder="#3366FF or 36F" // content value: format-hint example, not styling
                   value={hex}
                   onChange={(e) => updateFromHex(e.target.value)}
                 />
-                <Button
-                  type="button"
-                  variant="outline"
-                  onClick={() => copy(hex, "HEX")}
+                <CopyButton
+                  text={hex}
+                  label={t("copyHex")}
+                  successMessage={t("copiedLabel", { label: "HEX" })}
                   disabled={!hex}
-                >
-                  {t("copyHex")}
-                </Button>
+                />
               </div>
-            </div>
+            </OptionRow>
             <div className="grid grid-cols-1 md:grid-cols-4 gap-3 items-end">
               <div className="space-y-2">
                 <Label>R</Label>
@@ -323,24 +320,15 @@ export default function ColorConverter() {
                 </Button>
               </div>
             </div>
-            <p className="text-sm text-gray-500">{t("previewColor")}</p>
+            <p className="text-sm text-muted-foreground">{t("previewColor")}</p>
             <div className="h-16 rounded border" style={preview} />
             {cssVars && (
-              <div className="space-y-2">
-                <Label>{t("cssVariables")}</Label>
-                <div className="flex items-center gap-2">
-                  <pre className="flex-1 whitespace-pre-wrap text-xs p-2 border rounded bg-muted overflow-auto">
-                    {cssVars}
-                  </pre>
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => copy(cssVars, "CSS variables")}
-                  >
-                    {t("copyCss")}
-                  </Button>
-                </div>
-              </div>
+              <OutputPanel
+                title={t("cssVariables")}
+                text={cssVars}
+                copyLabel={t("copyCss")}
+                copySuccessMessage={t("copiedLabel", { label: "CSS variables" })}
+              />
             )}
             {palette.length > 0 && (
               <div className="space-y-2">
@@ -379,22 +367,19 @@ export default function ColorConverter() {
                   />
                 </div>
                 <div className="flex justify-end">
-                  <Button
-                    type="button"
-                    variant="outline"
-                    onClick={() => copy(complementary, "Complementary HEX")}
-                  >
-                    {t("copyComplementary")}
-                  </Button>
+                  <CopyButton
+                    text={complementary}
+                    label={t("copyComplementary")}
+                    successMessage={t("copiedLabel", { label: "Complementary HEX" })}
+                  />
                 </div>
               </div>
             )}
             <Button variant="outline" className="w-full" onClick={clearAll}>
               {tCommon("clear")}
             </Button>
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
-    </div>
+    </ToolShell>
   );
 }

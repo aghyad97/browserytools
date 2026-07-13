@@ -2,13 +2,13 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 function sanitizeName(s: string): string {
   return s.replace(/[^a-zA-Z0-9_]/g, "_").replace(/^[0-9]/, "_$&");
@@ -68,6 +68,7 @@ const SAMPLE = JSON.stringify({
 
 export default function JsonToTs() {
   const t = useTranslations("Tools.JsonToTs");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [rootName, setRootName] = useState("");
   const [optionalNulls, setOptionalNulls] = useState(false);
@@ -84,53 +85,50 @@ export default function JsonToTs() {
   }
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label>{t("rootName")}</Label>
-              <Input value={rootName} onChange={(e) => setRootName(e.target.value)} placeholder={t("rootNamePlaceholder")} />
-            </div>
-            <div className="flex items-end gap-2">
-              <label className="flex items-center gap-2 text-sm cursor-pointer">
-                <input type="checkbox" checked={optionalNulls} onChange={(e) => setOptionalNulls(e.target.checked)} className="rounded" />
-                {t("optionalFields")}
-              </label>
-            </div>
+    <ToolShell
+      slug="json-to-ts"
+      title={tc("tools.json-to-ts.name")}
+      sub={tc("tools.json-to-ts.description")}
+    >
+      <div className="space-y-4">
+      <SettingsCard>
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <OptionRow label={t("rootName")} htmlFor="jsonToTs-rootName">
+            <Input id="jsonToTs-rootName" value={rootName} onChange={(e) => setRootName(e.target.value)} placeholder={t("rootNamePlaceholder")} />
+          </OptionRow>
+          <div className="flex items-end gap-2">
+            <label className="flex items-center gap-2 text-sm cursor-pointer">
+              <input type="checkbox" checked={optionalNulls} onChange={(e) => setOptionalNulls(e.target.checked)} className="rounded" />
+              {t("optionalFields")}
+            </label>
           </div>
-          <div className="space-y-2">
-            <Label>{t("inputLabel")}</Label>
-            <Textarea dir="auto" value={input} onChange={(e) => setInput(e.target.value)} placeholder={t("inputPlaceholder")} className="min-h-[220px] font-mono text-sm resize-y" />
-            {error && <p className="text-sm text-destructive">{error}</p>}
-          </div>
-          <div className="flex gap-2 flex-wrap">
-            <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE)}>{t("loadSample")}</Button>
-            <Button variant="outline" size="sm" onClick={() => { setInput(""); setRootName(""); }}>{t("clearAll")}</Button>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+        <OptionRow label={t("inputLabel")} htmlFor="jsonToTs-input">
+          <Textarea id="jsonToTs-input" dir="auto" value={input} onChange={(e) => setInput(e.target.value)} placeholder={t("inputPlaceholder")} className="min-h-[220px] font-mono text-sm resize-y" />
+          {error && <p className="text-sm text-destructive">{error}</p>}
+        </OptionRow>
+        <div className="flex gap-2 flex-wrap">
+          <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE)}>{t("loadSample")}</Button>
+          <Button variant="outline" size="sm" onClick={() => { setInput(""); setRootName(""); }}>{t("clearAll")}</Button>
+        </div>
+      </SettingsCard>
 
       {output && (
-        <Card>
-          <CardHeader>
-            <div className="flex items-center justify-between flex-wrap gap-2">
-              <CardTitle className="text-base">{t("outputLabel")}</CardTitle>
+        <OutputPanel
+          text={output}
+          title={
+            <span className="inline-flex items-center gap-2">
+              {t("outputLabel")}
               <Badge variant="secondary">TypeScript</Badge>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <pre className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap">{output}</pre>
-            <Button variant="outline" size="sm" onClick={() => { navigator.clipboard.writeText(output); toast.success(t("copied")); }}>
-              {t("copyOutput")}
-            </Button>
-          </CardContent>
-        </Card>
+            </span>
+          }
+          copyLabel={t("copyOutput")}
+          copySuccessMessage={t("copied")}
+        >
+          <pre className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap">{output}</pre>
+        </OutputPanel>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

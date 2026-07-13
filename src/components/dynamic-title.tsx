@@ -13,11 +13,17 @@ export function DynamicTitle() {
 
   useEffect(() => {
     const applyLocale = () => {
-      if (locale === "ar") {
-        document.title = document.title.replace(/BrowseryTools/g, "أدواتك");
-      } else {
-        document.title = document.title.replace(/أدواتك/g, "BrowseryTools");
-      }
+      const current = document.title;
+      const next =
+        locale === "ar"
+          ? current.replace(/BrowseryTools/g, "أدواتك")
+          : current.replace(/أدواتك/g, "BrowseryTools");
+      // Only write when the substitution changes something. Assigning
+      // document.title always replaces the <title> text node — even for an
+      // identical string — which re-fires this very observer. On pages that
+      // set the title after mount (Keep Awake, Pomodoro), the unconditional
+      // write turned that into an infinite microtask loop that froze the tab.
+      if (next !== current) document.title = next;
     };
 
     // Apply immediately on locale change

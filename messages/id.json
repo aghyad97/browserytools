@@ -2,6 +2,7 @@
   "Common": {
     "copy": "Salin",
     "copied": "Tersalin!",
+    "copyFailed": "Gagal menyalin",
     "download": "Unduh",
     "upload": "Unggah",
     "reset": "Atur Ulang",
@@ -55,9 +56,7 @@
     "twitter": "Ikuti kami di X (Twitter)"
   },
   "LanguageSwitcher": {
-    "label": "Bahasa",
-    "en": "English",
-    "ar": "العربية"
+    "label": "Bahasa"
   },
   "Sidebar": {
     "searchPlaceholder": "Cari alat...",
@@ -102,7 +101,10 @@
       "devTools": "Alat Pengembang",
       "securityTools": "Alat Keamanan",
       "designTools": "Desain & Visual",
-      "aiTools": "Alat AI"
+      "aiTools": "Alat AI",
+      "testsGames": "Tes & Permainan",
+      "schoolLearning": "Sekolah & Belajar",
+      "business": "Bisnis"
     },
     "tools": {
       "bg-removal": {
@@ -578,7 +580,7 @@
         "description": "Gambar atau ketik tanda tangan Anda dan unduh sebagai PNG atau SVG transparan. Warna dan ketebalan pena yang dapat disesuaikan, font tulisan tangan, sepenuhnya di sisi klien."
       },
       "speech-to-text": {
-        "name": "Suara ke Teks",
+        "name": "Dikte Langsung (mikrofon)",
         "description": "Konversi suara ke teks online secara gratis dengan pengetikan suara dan dikte di browser Anda. Berbagai bahasa, salin, dan unduh."
       },
       "ascii-art": {
@@ -653,6 +655,22 @@
         "name": "Pembuat GIF",
         "description": "Ubah serangkaian gambar menjadi GIF animasi. Atur ulang bingkai, atur kecepatan, ulang, dan ubah ukuran."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Gambar",
+      "fileTools": "Berkas",
+      "mediaTools": "Media",
+      "textLanguage": "Teks",
+      "dataTools": "Data",
+      "mathFinance": "Matematika",
+      "productivity": "Produktivitas",
+      "devTools": "Dev",
+      "designTools": "Desain",
+      "securityTools": "Keamanan",
+      "aiTools": "AI",
+      "testsGames": "Permainan",
+      "schoolLearning": "Sekolah",
+      "business": "Bisnis"
     }
   },
   "Tools": {
@@ -991,26 +1009,13 @@
       "subtitle": "Edit dan proses berkas audio di browser Anda",
       "dropHere": "Letakkan berkas audio di sini atau klik untuk mengunggah",
       "currentTime": "Waktu Saat Ini: {current}d / {total}d",
-      "tabPlayback": "Pemutaran",
-      "tabEffects": "Efek",
-      "tabTrim": "Potong",
-      "fadeIn": "Fade In",
-      "fadeOut": "Fade Out",
-      "addEcho": "Tambah Gema",
       "resetSpeed": "Atur Ulang Kecepatan",
-      "appliedEffects": "Efek yang Diterapkan",
-      "selection": "Pilihan: {start}d - {end}d",
       "seconds": "{count} detik",
       "invalidAudioFile": "Silakan pilih berkas audio yang valid",
       "fileLoadedSuccess": "Berkas audio berhasil dimuat",
       "errorLoadingFile": "Galat memuat berkas audio",
       "errorProcessingFile": "Galat memproses berkas audio",
-      "fadeInApplied": "Fade in diterapkan",
-      "fadeOutApplied": "Fade out diterapkan",
-      "echoApplied": "Efek gema diterapkan",
       "speedSet": "Kecepatan pemutaran disetel ke {speed}x",
-      "processingDownload": "Memproses audio untuk diunduh...",
-      "errorProcessingDownload": "Galat memproses audio untuk diunduh",
       "downloadOriginal": "Unduh file asli"
     },
     "MicCameraTester": {
@@ -1046,7 +1051,6 @@
       "alternating": "bErGaNtIaN",
       "inverseCase": "hUrUf TeRbAlIk",
       "noTextToConvert": "Tidak ada teks untuk dikonversi",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TextCounter": {
@@ -1073,7 +1077,6 @@
       "speakingTime": "Waktu Berbicara",
       "speakingTimeDesc": "155 kata per menit",
       "minSuffix": "mnt",
-      "noTextToCopy": "Tidak ada teks untuk disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TextDiffViewer": {
@@ -1110,7 +1113,6 @@
       "shuffle": "Acak",
       "reverse": "Balik",
       "enterTextFirst": "Silakan masukkan teks terlebih dahulu",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "nothingToDownload": "Tidak ada yang diunduh",
       "downloaded": "Mengunduh sorted-text.txt"
@@ -1129,7 +1131,6 @@
       "inputPlaceholderText": "Masukkan teks di sini...",
       "inputPlaceholderEncoded": "Masukkan nilai terenkode di sini...",
       "charsBytes": "{chars} karakter / {bytes} byte",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "copyFailed": "Gagal menyalin ke papan klip",
       "binaryInput": "Masukan Biner",
@@ -1162,7 +1163,6 @@
       "outputTooLargeDesc": "Hasilnya akan melebihi 1.000.000 karakter. Silakan kurangi jumlah pengulangan atau persingkat teks masukan Anda.",
       "chars": "karakter",
       "lines": "baris",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "nothingToDownload": "Tidak ada yang diunduh",
       "downloaded": "Mengunduh repeated-text.txt",
@@ -1194,7 +1194,6 @@
       "referenceDesc": "Tabel karakter A–Z, 0–9",
       "words": "kata",
       "chars": "karakter",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "MarkdownEditor": {
@@ -1252,7 +1251,6 @@
       "minRead": "mnt baca",
       "previewPlaceholder": "Pratinjau akan muncul di sini...",
       "htmlOutputPlaceholder": "Keluaran HTML akan muncul di sini...",
-      "nothingToCopy": "Tidak ada yang disalin",
       "htmlCopied": "HTML tersalin ke papan klip",
       "nothingToDownload": "Tidak ada yang diunduh",
       "downloadedHtml": "Mengunduh document.html"
@@ -1278,7 +1276,6 @@
       "downloaded": "Diunduh",
       "ariaHtmlInput": "Masukan HTML",
       "ariaHtmlOutput": "Keluaran HTML",
-      "ariaCopy": "Salin",
       "ariaDownload": "Unduh",
       "processingFailed": "Pemrosesan gagal"
     },
@@ -1293,8 +1290,6 @@
       "resetToSample": "Atur ulang ke kode contoh"
     },
     "CssMinifier": {
-      "title": "Pemampat / Pempercantik CSS",
-      "description": "Mampatkan atau format kode CSS Anda secara instan",
       "tabMinify": "Mampatkan",
       "tabBeautify": "Percantik",
       "sampleCss": "CSS Contoh",
@@ -1311,17 +1306,12 @@
       "lines": "baris",
       "chars": "karakter",
       "noReduction": "Tanpa pengurangan",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "failedToCopy": "Gagal menyalin",
       "downloaded": "Diunduh",
       "ariaCssInput": "Masukan CSS",
       "ariaCssOutput": "Keluaran CSS",
-      "ariaCopy": "Salin",
       "ariaDownload": "Unduh"
     },
     "SqlFormatter": {
-      "title": "Pemformat SQL",
-      "description": "Format, percantik, dan mampatkan kueri SQL",
       "dialect": "Dialek",
       "commaStyle": "Gaya koma",
       "trailing": "Di akhir",
@@ -1342,13 +1332,10 @@
       "sqlMinified": "SQL dimampatkan",
       "formattingFailed": "Pemformatan gagal",
       "minificationFailed": "Pemampatan gagal",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "failedToCopy": "Gagal menyalin",
       "downloaded": "Diunduh",
       "dialectStandard": "SQL Standar",
       "ariaSqlInput": "Masukan SQL",
       "ariaSqlOutput": "Keluaran SQL",
-      "ariaCopy": "Salin",
       "ariaDownload": "Unduh"
     },
     "WordFrequency": {
@@ -1395,7 +1382,6 @@
       "format": "Format",
       "minify": "Mampatkan",
       "validate": "Validasi",
-      "copy": "Salin",
       "loadSample": "Muat Contoh",
       "clear": "Bersihkan",
       "indent": "Indentasi:",
@@ -1415,7 +1401,6 @@
       "minifiedSuccess": "JSON dimampatkan",
       "isValid": "JSON valid",
       "invalidJson": "JSON tidak valid",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip"
     },
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Silakan masukkan input",
       "conversionSuccessful": "Konversi berhasil",
       "fileLoadedSuccessfully": "Berkas berhasil dimuat",
-      "noOutputToCopy": "Tidak ada keluaran untuk disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip",
       "noOutputToDownload": "Tidak ada keluaran untuk diunduh",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Tukar",
-      "copyOutput": "Salin Keluaran",
       "loadSample": "Muat Contoh",
       "clear": "Bersihkan",
       "yamlInput": "Masukan YAML",
@@ -1765,7 +1748,6 @@
       "valid": "Valid",
       "conversionFailed": "Konversi gagal",
       "convertedSuccessfully": "Berhasil dikonversi",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip",
       "error": "Galat:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Silakan masukkan input",
       "encodedSuccessfully": "Berhasil dienkode",
       "decodedSuccessfully": "Berhasil didekode",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip",
       "encodingFailed": "Pengkodean gagal: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} dipilih",
       "generateData": "Hasilkan Data",
       "outputTitle": "Keluaran",
-      "copy": "Salin",
       "download": "Unduh",
       "outputPlaceholder": "Klik 'Hasilkan Data' untuk membuat catatan palsu...",
       "selectAtLeastOneField": "Pilih minimal satu bidang",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Teks pengisi Lorem Ipsum Anda",
       "generatedTextPlaceholder": "Teks yang dihasilkan akan muncul di sini...",
       "characters": "karakter",
-      "copyText": "Salin Teks",
       "quickGenerate": "Buat Cepat",
       "quickGenerateDesc": "Buat jumlah umum dengan satu klik",
       "oneParagraph": "1 Paragraf",
@@ -1838,11 +1817,9 @@
       "fiveSentences": "5 Kalimat",
       "aboutLoremTitle": "Tentang Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum hanyalah teks dummy dari industri percetakan dan penataan huruf. Lorem Ipsum telah menjadi teks dummy standar industri sejak tahun 1500-an, ketika seorang pencetak tak dikenal mengambil sekumpulan huruf dan mengacaknya untuk membuat buku spesimen huruf. Teks ini umum digunakan dalam desain web, desain grafis, dan penerbitan sebagai teks pengisi.",
-      "noTextToCopy": "Tidak ada teks untuk disalin",
       "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TodoList": {
-      "title": "Daftar Tugas",
       "addNewTodo": "Tambah Tugas Baru",
       "placeholder": "Apa yang perlu dikerjakan?",
       "addButton": "Tambah",
@@ -1882,7 +1859,6 @@
     },
     "KeepAwake": {
       "title": "Tetap Terjaga",
-      "subtitle": "Cegah layar Anda tertidur",
       "status": "Status",
       "inactive": "Tidak Aktif",
       "active": "Terjaga",
@@ -1922,8 +1898,6 @@
       "activatedInfinity": "Tetap terjaga diaktifkan — mode tak terbatas"
     },
     "PomodoroTimer": {
-      "title": "Pengatur Waktu Pomodoro",
-      "subtitle": "Tetap fokus, ambil jeda",
       "settings": "Pengaturan",
       "workDuration": "Durasi Kerja (mnt)",
       "shortBreak": "Istirahat Pendek (mnt)",
@@ -1950,7 +1924,6 @@
       "min": "mnt"
     },
     "WorldClock": {
-      "title": "Jam Dunia",
       "citiesCount": "Waktu saat ini di {count} kota",
       "addCity": "Tambah kota...",
       "sortByUTC": "Urutkan berdasarkan UTC",
@@ -2018,8 +1991,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Stopwatch",
-      "subtitle": "Pelacakan lap presisi dengan pintasan keyboard",
       "start": "Mulai",
       "pause": "Jeda",
       "lap": "Lap",
@@ -2039,8 +2010,6 @@
       "resetKey": "atur ulang"
     },
     "HabitTracker": {
-      "title": "Pelacak Kebiasaan",
-      "subtitle": "Bangun rentetan, lacak kemajuan",
       "addHabit": "Tambah Kebiasaan",
       "cancel": "Batal",
       "totalHabits": "Total Kebiasaan",
@@ -2265,8 +2234,7 @@
       "differentAmountsPerPerson": "Jumlah berbeda per orang",
       "pays": "membayar",
       "enterBillPrompt": "Masukkan jumlah tagihan untuk memulai",
-      "summaryCopied": "Ringkasan tersalin ke papan klip",
-      "copyFailed": "Gagal menyalin"
+      "summaryCopied": "Ringkasan tersalin ke papan klip"
     },
     "UnitConverter": {
       "converter": "Konverter",
@@ -2418,7 +2386,6 @@
       "enterNumber": "Masukkan Angka",
       "enterRoman": "Masukkan Angka Romawi",
       "result": "Hasil",
-      "copy": "Salin",
       "stepByStep": "Langkah demi Langkah",
       "runningTotal": "Total Berjalan",
       "remaining": "Tersisa",
@@ -2427,7 +2394,6 @@
       "errorInvalidFormat": "Angka Romawi tidak valid — periksa format angka",
       "errorOutOfRange": "Masukkan angka antara 1 dan 3999",
       "copiedToClipboard": "Tersalin ke papan klip",
-      "failedToCopy": "Gagal menyalin",
       "numberPlaceholder": "mis. 2024",
       "romanPlaceholder": "mis. MMXXIV"
     },
@@ -3157,8 +3123,7 @@
       "previewButton": "Komponen Tombol",
       "previewUI": "Contoh Komponen UI",
       "presets": "Praatur",
-      "ratioCopied": "Rasio kontras tersalin",
-      "copyFailed": "Gagal menyalin"
+      "ratioCopied": "Rasio kontras tersalin"
     },
     "ColorBlindnessSimulator": {
       "title": "Simulator Buta Warna",
@@ -3315,8 +3280,7 @@
       "errorFutureDate": "Tanggal lahir tidak boleh di masa depan",
       "errorMissingBirthDates": "Silakan pilih kedua tanggal lahir",
       "errorFutureDates": "Tanggal lahir tidak boleh di masa depan",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "copyFailed": "Gagal menyalin"
+      "copiedToClipboard": "Tersalin ke papan klip"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. Seluruh hak cipta dilindungi.",
@@ -3353,8 +3317,7 @@
       "errorMissingInfo": "Silakan pilih kedua zona waktu dan masukkan tanggal/waktu",
       "errorInvalidDate": "Tanggal tidak valid — silakan masukkan tanggal dan waktu yang valid",
       "errorConversion": "Galat konversi — tidak dapat mengonversi waktu",
-      "copiedToClipboard": "Tersalin ke papan klip",
-      "copyFailed": "Gagal menyalin"
+      "copiedToClipboard": "Tersalin ke papan klip"
     },
     "TypingTest": {
       "title": "Tes Mengetik",
@@ -3861,7 +3824,6 @@
       "headers": "Header",
       "query": "Kueri",
       "body": "Body",
-      "nothingToCopy": "Tidak ada yang disalin",
       "copiedToClipboard": "Tersalin ke papan klip",
       "failedToCopy": "Gagal menyalin ke papan klip"
     },
@@ -3976,7 +3938,6 @@
       "outputPlaceholder": "Favicon Anda akan muncul di sini",
       "zipContents": "ZIP mencakup semua ukuran PNG, favicon.ico (16+32), site.webmanifest, dan cuplikan HTML.",
       "htmlSnippet": "Cuplikan HTML",
-      "copySnippet": "Salin cuplikan HTML",
       "snippetCopied": "Cuplikan HTML tersalin",
       "copyFailed": "Tidak dapat menyalin ke papan klip",
       "imageTooLarge": "Gambar terlalu besar. Ukuran maksimal adalah 15MB.",
@@ -4253,7 +4214,6 @@
       "copied": "Transkrip tersalin ke papan klip",
       "copyFailed": "Tidak dapat menyalin ke papan klip",
       "downloaded": "Transkrip diunduh",
-      "nothingToCopy": "Belum ada yang disalin",
       "nothingToDownload": "Belum ada yang diunduh",
       "notSupported": "Browser Anda tidak mendukung pengenalan suara. Gunakan Google Chrome atau Microsoft Edge untuk pengalaman terbaik. Dukungan Firefox terbatas.",
       "micDenied": "Akses mikrofon ditolak. Izinkan izin mikrofon dan coba lagi.",
@@ -4545,7 +4505,6 @@
       "captionLabel": "Keterangan",
       "altLabel": "Teks alt (HTML)",
       "altHint": "Tempelkan ini ke tag <img> Anda untuk meningkatkan aksesibilitas dan SEO. Tinjau dan edit agar sesuai dengan konteks gambar.",
-      "copy": "Salin",
       "copyCaption": "Salin keterangan",
       "copyAlt": "Salin teks alt",
       "copied": "Tersalin ke papan klip",
@@ -4576,7 +4535,6 @@
       "copy": "Salin",
       "copied": "Tersalin ke papan klip",
       "copyFailed": "Tidak dapat menyalin ke papan klip",
-      "nothingToCopy": "Belum ada yang disalin",
       "enterText": "Silakan masukkan teks",
       "noneFound": "Tidak ada informasi pribadi terdeteksi",
       "detectedToast": "Terdeteksi {count} item informasi pribadi",
@@ -4699,5 +4657,105 @@
     "howToTitle": "Cara menggunakan {tool}",
     "faqTitle": "Pertanyaan yang sering diajukan",
     "relatedTitle": "Alat terkait"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} alat · di perangkat",
+    "everything": "Semua",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Cari",
+    "sponsorLabel": "Dari pembuatnya",
+    "new": "baru",
+    "language": "Bahasa",
+    "theme": "Tema",
+    "soundOn": "Suara aktif",
+    "soundOff": "Suara nonaktif",
+    "maker": {
+      "kashfbank": {
+        "tag": "Rekening koran → CSV",
+        "desc": "Ubah rekening koran PDF apa pun menjadi CSV & Excel yang rapi.",
+        "cta": "Coba"
+      },
+      "superbilled": {
+        "tag": "Superbill untuk terapis",
+        "desc": "Superbill siap-asuransi untuk terapis praktik pribadi.",
+        "cta": "Kunjungi"
+      }
+    }
+  },
+  "Landing": {
+    "statementLead": "File Anda tidak pernah keluar dari perangkat.",
+    "statementTail": "{count}+ alat gratis dan open source — privasi penuh, langsung di browser.",
+    "searchPlaceholder": "Cari {count}+ alat…",
+    "demoTitle": "Coba. Jatuhkan gambar di sini.",
+    "demoTitleBusy": "Mengompres…",
+    "demoSub": "Kompresi terjadi di sini, di perangkat Anda. Tanpa unggahan — lihat tab jaringan.",
+    "demoSmaller": "{pct}% lebih kecil",
+    "apps": "Aplikasi",
+    "popular": "Populer",
+    "all": "Semua",
+    "allTools": "Semua {count} alat",
+    "viewAll": "Lihat semua alat",
+    "onDevice": "di perangkat",
+    "sponsorTile": "Alat dev Anda, seperti di rumah di sini",
+    "coffee": "Belikan saya kopi",
+    "favorites": "Favorit Anda",
+    "recent": "Baru digunakan",
+    "dropAnyFile": "Letakkan file apa pun di sini",
+    "dropSuggest": "Kami arahkan ke alat yang tepat — gambar dikompresi langsung di perangkat Anda."
+  },
+  "Template": {
+    "onDevicePromise": "Berjalan di perangkat Anda — tidak ada yang diunggah, tidak ada yang disimpan.",
+    "networkNote": "Berjalan di browser Anda — data langsung berasal dari API publik.",
+    "related": "Terkait",
+    "startOver": "Mulai lagi",
+    "download": "Unduh",
+    "dropTitle": "Jatuhkan berkas, atau klik untuk memilih",
+    "staysOnDevice": "tetap di perangkat Anda"
+  },
+  "Legal": {
+    "nav": {
+      "license": "Lisensi",
+      "privacy": "Privasi",
+      "terms": "Ketentuan"
+    },
+    "common": {
+      "contactLinkText": "Buka issue di GitHub",
+      "licenseLinkText": "Baca lisensi AGPL-3.0"
+    },
+    "privacy": {
+      "title": "Kebijakan Privasi",
+      "intro": "BrowseryTools dibuat agar berkas Anda tidak pernah perlu meninggalkan perangkat Anda. Halaman ini menjelaskan, dengan bahasa sederhana, apa artinya itu dan sedikit data yang benar-benar kami kumpulkan.",
+      "noAccountsHeading": "Tanpa akun, tanpa masuk",
+      "noAccountsBody": "Tidak ada yang perlu didaftarkan. Kami tidak meminta nama, email, atau data pembayaran Anda, dan kami tidak membuat profil Anda di mana pun.",
+      "onDeviceHeading": "Berkas Anda tidak pernah meninggalkan perangkat",
+      "onDeviceBody": "Setiap alat berjalan sepenuhnya di peramban Anda. Gambar, dokumen, dan teks yang Anda proses dibaca, diubah, dan diunduh secara lokal — tidak ada yang diunggah ke server, tidak pernah. Anda bisa memeriksanya sendiri: buka tab jaringan peramban saat menggunakan alat apa pun.",
+      "analyticsHeading": "Analitik penggunaan agregat",
+      "analyticsBody": "Kami menggunakan Vercel Analytics untuk melihat halaman dan alat mana yang populer. Yang dilaporkan hanya angka anonim dan agregat — jumlah kunjungan halaman dan perkiraan penggunaan — tidak pernah konten yang Anda proses, dan tidak pernah sesuatu yang terkait dengan Anda secara pribadi.",
+      "localStorageHeading": "Preferensi lokal",
+      "localStorageBody": "Beberapa alat mengingat pengaturan Anda — seperti tema atau daftar terbaru — menggunakan penyimpanan lokal peramban Anda. Data itu hanya tersimpan di perangkat Anda dan tidak pernah dikirim ke mana pun.",
+      "openSourceHeading": "Sumber terbuka sepenuhnya",
+      "openSourceBody": "Seluruh kode tersedia untuk umum di GitHub. Jika ingin tahu persis apa yang dilakukan sebuah alat terhadap data Anda, Anda bisa membaca sendiri kode sumbernya, bukan hanya percaya pada kata-kata kami.",
+      "contactHeading": "Pertanyaan",
+      "contactBody": "Jika ada yang kurang jelas di sini, cara tercepat menghubungi kami adalah lewat GitHub.",
+      "changesHeading": "Perubahan pada kebijakan ini",
+      "changesBody": "Jika kebijakan ini berubah suatu saat, kami akan memperbarui halaman ini. Karena kami tidak mengumpulkan email, kami tidak punya cara memberi tahu Anda langsung — kunjungi lagi halaman ini kalau penasaran."
+    },
+    "terms": {
+      "title": "Ketentuan Penggunaan",
+      "intro": "BrowseryTools adalah perangkat lunak bebas. Dengan menggunakannya, inilah yang Anda setujui — dan lebih singkat dari dugaan Anda.",
+      "licenseHeading": "Lisensi sumber terbuka",
+      "licenseBody": "Kode ini dilisensikan di bawah GNU Affero General Public License v3.0 (AGPL-3.0). Anda bebas membacanya, melakukan fork, dan menjalankan salinan Anda sendiri, sesuai ketentuan lisensi tersebut.",
+      "freeHeading": "Gratis untuk semua orang",
+      "freeBody": "Setiap alat gratis digunakan, baik untuk proyek pribadi maupun komersial. Tanpa paywall, tanpa batas penggunaan, tanpa tingkatan premium yang menyembunyikan fitur terbaik.",
+      "warrantyHeading": "Tanpa jaminan",
+      "warrantyBody": "BrowseryTools disediakan apa adanya, tanpa jaminan dalam bentuk apa pun. Kami berupaya menjaga setiap alat tetap akurat dan andal, tetapi Anda bertanggung jawab memverifikasi hasilnya sebelum mengandalkannya untuk hal yang penting.",
+      "acceptableUseHeading": "Penggunaan yang wajar",
+      "acceptableUseBody": "Gunakan alat-alat ini untuk tujuan yang sah. Anda bertanggung jawab atas konten yang Anda proses dan atas kepatuhan terhadap hukum yang berlaku untuknya.",
+      "changesHeading": "Perubahan pada ketentuan ini",
+      "changesBody": "Kami dapat memperbarui ketentuan ini seiring perkembangan proyek. Terus menggunakan BrowseryTools setelah ada perubahan berarti Anda menerima ketentuan yang baru.",
+      "contactHeading": "Pertanyaan",
+      "contactBody": "Pertanyaan seputar ketentuan ini sangat kami sambut — hubungi kami di GitHub."
+    }
   }
 }

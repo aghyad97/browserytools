@@ -15,10 +15,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Badge } from "@/components/ui/badge";
 import {
-  Copy,
   Camera,
   Upload,
-  Download,
   AlertCircle,
   CheckCircle,
   Settings,
@@ -32,9 +30,12 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 export default function QRScanner() {
   const t = useTranslations("Tools.QRScanner");
+  const tc = useTranslations("ToolsConfig");
   const [scannedData, setScannedData] = useState<string>("");
   const [isScanning, setIsScanning] = useState(false);
   const [error, setError] = useState<string>("");
@@ -47,6 +48,18 @@ export default function QRScanner() {
   const [scanningDuration, setScanningDuration] = useState(0);
   const [showNoQRAlert, setShowNoQRAlert] = useState(false);
   const [isFlipped, setIsFlipped] = useState(false);
+  // Detected after mount: reading navigator.userAgent during render makes the
+  // SSR text ("Other") differ from the client's ("Chrome"...) — React #418.
+  const [browserName, setBrowserName] = useState("…");
+  useEffect(() => {
+    const ua = navigator.userAgent;
+    setBrowserName(
+      ua.includes("Chrome") ? "Chrome"
+      : ua.includes("Firefox") ? "Firefox"
+      : ua.includes("Safari") ? "Safari"
+      : "Other"
+    );
+  }, []);
   const videoRef = useRef<HTMLVideoElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -265,27 +278,6 @@ export default function QRScanner() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
-  const downloadResult = () => {
-    const blob = new Blob([scannedData], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "qr-code-data.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
   const clearResults = () => {
     setScannedData("");
     setUploadedImage("");
@@ -394,7 +386,12 @@ export default function QRScanner() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="qr-scanner"
+      title={tc("tools.qr-scanner.name")}
+      sub={tc("tools.qr-scanner.description")}
+    >
+      <div className="w-full">
       <Tabs defaultValue="camera" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="camera">{t("cameraScan")}</TabsTrigger>
@@ -604,13 +601,7 @@ export default function QRScanner() {
                       </p>
                       <p className="text-xs text-muted-foreground">
                         Permission Status: {permissionStatus} | Browser:{" "}
-                        {typeof navigator !== "undefined" && navigator.userAgent.includes("Chrome")
-                          ? "Chrome"
-                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Firefox")
-                          ? "Firefox"
-                          : typeof navigator !== "undefined" && navigator.userAgent.includes("Safari")
-                          ? "Safari"
-                          : "Other"}
+                        {browserName}
                       </p>
                     </div>
                   </AlertDescription>
@@ -701,17 +692,25 @@ export default function QRScanner() {
       </Tabs>
 
       {scannedData && (
-        <Card className="mt-6">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <CheckCircle className="h-5 w-5 text-green-500" />
+        <OutputPanel
+          className="mt-6"
+          text={scannedData}
+          filename="qr-code-data.txt"
+          title={
+            <span className="inline-flex items-center gap-2">
+              {/* status color, no bt token: */}
+              <CheckCircle className="h-4 w-4 text-green-500" />
               {t("scanResult")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+            </span>
+          }
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copiedToClipboard")}
+          copyErrorMessage={t("copyFailed")}
+        >
+          <div className="space-y-4 p-3">
             <div className="space-y-2">
               <Label>{t("detectedData")}</Label>
-              <div className="p-3 bg-muted rounded-lg font-mono text-sm break-all">
+              <div className="bg-muted rounded-lg p-3 font-mono text-sm break-all">
                 {scannedData}
               </div>
             </div>
@@ -722,18 +721,6 @@ export default function QRScanner() {
             </div>
 
             <div className="flex gap-2">
-              <Button
-                onClick={() => copyToClipboard(scannedData)}
-                variant="outline"
-                size="sm"
-              >
-                <Copy className="h-4 w-4 me-2" />
-                {t("copy")}
-              </Button>
-              <Button onClick={downloadResult} variant="outline" size="sm">
-                <Download className="h-4 w-4 me-2" />
-                {t("download")}
-              </Button>
               {isUrl(scannedData) && (
                 <Button
                   onClick={() => window.open(scannedData, "_blank")}
@@ -747,9 +734,10 @@ export default function QRScanner() {
                 {t("clear")}
               </Button>
             </div>
-          </CardContent>
-        </Card>
+          </div>
+        </OutputPanel>
       )}
-    </div>
+      </div>
+    </ToolShell>
   );
 }

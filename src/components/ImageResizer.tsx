@@ -2,17 +2,13 @@
 
 import React, { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
 import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
 import {
   Select,
@@ -37,6 +33,7 @@ import {
 // File-based `loadImage` callback defined inside this component.
 import { canvasToBlob, loadImage as loadHtmlImage } from "@/lib/image/canvas";
 import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 
 interface ImageInfo {
   url: string;
@@ -107,18 +104,13 @@ const ANCHORS: Anchor[] = [
   "bottom-right",
 ];
 
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return bytes + " B";
-  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + " KB";
-  return (bytes / (1024 * 1024)).toFixed(2) + " MB";
-}
-
 function clamp(v: number, min: number, max: number): number {
   return Math.min(max, Math.max(min, v));
 }
 
 export default function ImageResizer() {
   const t = useTranslations("Tools.ImageResizer");
+  const tc = useTranslations("ToolsConfig");
   const [original, setOriginal] = useState<ImageInfo | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
   const [resultUrl, setResultUrl] = useState<string | null>(null);
@@ -151,6 +143,7 @@ export default function ImageResizer() {
   const [wmKind, setWmKind] = useState<WatermarkKind>("text");
   const [wmText, setWmText] = useState("© BrowseryTools");
   const [wmFontSize, setWmFontSize] = useState(48);
+  // content value: default watermark draw color
   const [wmColor, setWmColor] = useState("#ffffff");
   const [wmOpacity, setWmOpacity] = useState(70);
   const [wmAnchor, setWmAnchor] = useState<Anchor>("bottom-right");
@@ -163,7 +156,6 @@ export default function ImageResizer() {
   // Shared output
   const [outputFormat, setOutputFormat] = useState("jpeg");
   const [quality, setQuality] = useState(85);
-  const [isDragOver, setIsDragOver] = useState(false);
   const [processing, setProcessing] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -199,16 +191,6 @@ export default function ImageResizer() {
       reader.readAsDataURL(file);
     },
     [t]
-  );
-
-  const handleDrop = useCallback(
-    (e: React.DragEvent<HTMLButtonElement>) => {
-      e.preventDefault();
-      setIsDragOver(false);
-      const file = e.dataTransfer.files[0];
-      if (file) loadImage(file);
-    },
-    [loadImage]
   );
 
   const handleWidthChange = useCallback(
@@ -563,29 +545,29 @@ export default function ImageResizer() {
   const { w: targetW, h: targetH } = computeTargetDimensions();
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
+    <ToolShell
+      slug="image-resizer"
+      title={tc("tools.image-resizer.name")}
+      sub={tc("tools.image-resizer.description")}
+    >
         <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+          <CardContent className="space-y-6 pt-6">
             {!original ? (
-              <button
-                className={`flex flex-col items-center justify-center w-full rounded-xl border-2 border-dashed p-12 transition-colors cursor-pointer ${isDragOver ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary hover:bg-primary/5"}`}
-                onClick={() => fileInputRef.current?.click()}
-                onDragOver={(e) => {
-                  e.preventDefault();
-                  setIsDragOver(true);
+              <FileDropzone
+                onFiles={(files) => {
+                  const file = files[0];
+                  if (file) loadImage(file);
                 }}
-                onDragLeave={() => setIsDragOver(false)}
-                onDrop={handleDrop}
+                accept={{ "image/*": [] }}
+                multiple={false}
+                className={({ isDragActive }) =>
+                  `flex flex-col items-center justify-center w-full rounded-xl border-2 border-dashed p-12 transition-colors cursor-pointer ${isDragActive ? "border-primary bg-primary/5" : "border-muted-foreground/25 hover:border-primary hover:bg-primary/5"}`
+                }
               >
                 <ImageIcon className="w-12 h-12 text-muted-foreground mb-4" />
                 <p className="text-lg font-medium">{t("dropImage")}</p>
                 <p className="text-sm text-muted-foreground mt-1">{t("browseHint")}</p>
-              </button>
+              </FileDropzone>
             ) : (
               <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
                 <ImageIcon className="w-8 h-8 text-primary shrink-0" />
@@ -718,21 +700,15 @@ export default function ImageResizer() {
                             </Button>
                           ))}
                         </div>
-                        <div className="space-y-1">
-                          <div className="flex justify-between">
-                            <Label>{t("customPercentage")}</Label>
-                            <span className="text-sm font-mono" dir="ltr">
-                              {percentage}%
-                            </span>
-                          </div>
-                          <Slider
-                            min={1}
-                            max={400}
-                            step={1}
-                            value={[percentage]}
-                            onValueChange={([v]) => setPercentage(v)}
-                          />
-                        </div>
+                        <SliderRow
+                          label={t("customPercentage")}
+                          value={percentage}
+                          min={1}
+                          max={400}
+                          step={1}
+                          onChange={setPercentage}
+                          display={<span dir="ltr">{percentage}%</span>}
+                        />
                         <p className="text-sm text-muted-foreground" dir="ltr">
                           {t("outputInfo")}:{" "}
                           {Math.round((original.width * percentage) / 100)}x
@@ -904,21 +880,15 @@ export default function ImageResizer() {
                           />
                         </div>
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                          <div className="space-y-1">
-                            <div className="flex justify-between">
-                              <Label>{t("watermarkFontSize")}</Label>
-                              <span className="text-sm font-mono" dir="ltr">
-                                {wmFontSize}px
-                              </span>
-                            </div>
-                            <Slider
-                              min={8}
-                              max={200}
-                              step={1}
-                              value={[wmFontSize]}
-                              onValueChange={([v]) => setWmFontSize(v)}
-                            />
-                          </div>
+                          <SliderRow
+                            label={t("watermarkFontSize")}
+                            value={wmFontSize}
+                            min={8}
+                            max={200}
+                            step={1}
+                            onChange={setWmFontSize}
+                            display={<span dir="ltr">{wmFontSize}px</span>}
+                          />
                           <div className="space-y-1">
                             <Label>{t("watermarkColor")}</Label>
                             <Input
@@ -988,51 +958,33 @@ export default function ImageResizer() {
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <Label>{t("watermarkOpacity")}</Label>
-                          <span className="text-sm font-mono" dir="ltr">
-                            {wmOpacity}%
-                          </span>
-                        </div>
-                        <Slider
-                          min={0}
-                          max={100}
-                          step={1}
-                          value={[wmOpacity]}
-                          onValueChange={([v]) => setWmOpacity(v)}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <Label>{t("watermarkScale")}</Label>
-                          <span className="text-sm font-mono" dir="ltr">
-                            {wmScale}%
-                          </span>
-                        </div>
-                        <Slider
-                          min={10}
-                          max={300}
-                          step={1}
-                          value={[wmScale]}
-                          onValueChange={([v]) => setWmScale(v)}
-                        />
-                      </div>
-                      <div className="space-y-1">
-                        <div className="flex justify-between">
-                          <Label>{t("watermarkRotation")}</Label>
-                          <span className="text-sm font-mono" dir="ltr">
-                            {wmRotation}°
-                          </span>
-                        </div>
-                        <Slider
-                          min={-180}
-                          max={180}
-                          step={1}
-                          value={[wmRotation]}
-                          onValueChange={([v]) => setWmRotation(v)}
-                        />
-                      </div>
+                      <SliderRow
+                        label={t("watermarkOpacity")}
+                        value={wmOpacity}
+                        min={0}
+                        max={100}
+                        step={1}
+                        onChange={setWmOpacity}
+                        display={<span dir="ltr">{wmOpacity}%</span>}
+                      />
+                      <SliderRow
+                        label={t("watermarkScale")}
+                        value={wmScale}
+                        min={10}
+                        max={300}
+                        step={1}
+                        onChange={setWmScale}
+                        display={<span dir="ltr">{wmScale}%</span>}
+                      />
+                      <SliderRow
+                        label={t("watermarkRotation")}
+                        value={wmRotation}
+                        min={-180}
+                        max={180}
+                        step={1}
+                        onChange={setWmRotation}
+                        display={<span dir="ltr">{wmRotation}°</span>}
+                      />
                       <div className="flex items-end">
                         <Button
                           type="button"
@@ -1065,21 +1017,15 @@ export default function ImageResizer() {
                     </Select>
                   </div>
                   {outputFormat !== "png" && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <Label>{t("quality")}</Label>
-                        <span className="text-sm font-mono" dir="ltr">
-                          {quality}%
-                        </span>
-                      </div>
-                      <Slider
-                        min={10}
-                        max={100}
-                        step={1}
-                        value={[quality]}
-                        onValueChange={([v]) => setQuality(v)}
-                      />
-                    </div>
+                    <SliderRow
+                      label={t("quality")}
+                      value={quality}
+                      min={10}
+                      max={100}
+                      step={1}
+                      onChange={setQuality}
+                      display={<span dir="ltr">{quality}%</span>}
+                    />
                   )}
                 </div>
 
@@ -1140,7 +1086,6 @@ export default function ImageResizer() {
             )}
           </CardContent>
         </Card>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

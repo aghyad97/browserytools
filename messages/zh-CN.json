@@ -2,6 +2,7 @@
   "Common": {
     "copy": "复制",
     "copied": "已复制！",
+    "copyFailed": "复制失败",
     "download": "下载",
     "upload": "上传",
     "reset": "重置",
@@ -55,10 +56,7 @@
     "twitter": "在 X（Twitter）上关注我们"
   },
   "LanguageSwitcher": {
-    "label": "语言",
-    "en": "English",
-    "ar": "العربية",
-    "zh-CN": "简体中文"
+    "label": "语言"
   },
   "Sidebar": {
     "searchPlaceholder": "搜索工具",
@@ -103,7 +101,10 @@
       "devTools": "开发者工具",
       "securityTools": "安全工具",
       "designTools": "设计与视觉",
-      "aiTools": "人工智能工具"
+      "aiTools": "人工智能工具",
+      "testsGames": "测试与游戏",
+      "schoolLearning": "学校与学习",
+      "business": "商业"
     },
     "tools": {
       "bg-removal": {
@@ -579,7 +580,7 @@
         "description": "绘制或输入签名并下载为透明 PNG 或 SVG。可调节笔颜色和粗细，支持手写字体，完全在客户端处理。"
       },
       "speech-to-text": {
-        "name": "语音转文字",
+        "name": "实时听写（麦克风）",
         "description": "在浏览器中免费进行语音打字和听写，将语音转换为文字。支持多语言，可复制和下载。"
       },
       "ascii-art": {
@@ -654,6 +655,22 @@
         "name": "GIF 制作器",
         "description": "将一系列图片转换为动态 GIF。重新排序帧、设置速度、循环并调整大小。"
       }
+    },
+    "categoriesShort": {
+      "imageTools": "图像",
+      "fileTools": "文件",
+      "mediaTools": "媒体",
+      "textLanguage": "文本",
+      "dataTools": "数据",
+      "mathFinance": "数学",
+      "productivity": "效率",
+      "devTools": "开发",
+      "designTools": "设计",
+      "securityTools": "安全",
+      "aiTools": "AI",
+      "testsGames": "游戏",
+      "schoolLearning": "学校",
+      "business": "商业"
     }
   },
   "Tools": {
@@ -992,26 +1009,13 @@
       "subtitle": "在浏览器中编辑和处理音频文件",
       "dropHere": "将音频文件拖放到此处或点击上传",
       "currentTime": "当前时间：{current}秒 / {total}秒",
-      "tabPlayback": "播放",
-      "tabEffects": "效果",
-      "tabTrim": "裁剪",
-      "fadeIn": "淡入",
-      "fadeOut": "淡出",
-      "addEcho": "添加回声",
       "resetSpeed": "重设速度",
-      "appliedEffects": "已应用的效果",
-      "selection": "选择：{start}秒 - {end}秒",
       "seconds": "{count} 秒",
       "invalidAudioFile": "请选取有效的音频文件",
       "fileLoadedSuccess": "音频文件加载成功",
       "errorLoadingFile": "加载音频文件失败",
       "errorProcessingFile": "处理音频文件时出错",
-      "fadeInApplied": "淡入已应用",
-      "fadeOutApplied": "淡出已应用",
-      "echoApplied": "回声效果已应用",
       "speedSet": "播放速度设置为 {speed}x",
-      "processingDownload": "正在处理音频以供下载...",
-      "errorProcessingDownload": "处理音频下载时出错",
       "downloadOriginal": "下载原始文件"
     },
     "MicCameraTester": {
@@ -1047,7 +1051,6 @@
       "alternating": "大小写交替",
       "inverseCase": "反转大小写",
       "noTextToConvert": "没有要转换的文本",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "TextCounter": {
@@ -1074,7 +1077,6 @@
       "speakingTime": "朗读时间",
       "speakingTimeDesc": "每分钟 155 词",
       "minSuffix": "分钟",
-      "noTextToCopy": "没有可复制的文本",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "TextDiffViewer": {
@@ -1111,7 +1113,6 @@
       "shuffle": "随机排列",
       "reverse": "反转",
       "enterTextFirst": "请先输入一些文字",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "nothingToDownload": "暂无可供下载的内容。",
       "downloaded": "已下载 sorted-text.txt"
@@ -1130,7 +1131,6 @@
       "inputPlaceholderText": "在此处输入文本...",
       "inputPlaceholderEncoded": "在此处输入编码值...",
       "charsBytes": "{chars} 字符 / {bytes} 字节",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "copyFailed": "复制到剪贴板失败",
       "binaryInput": "二进制输入",
@@ -1163,7 +1163,6 @@
       "outputTooLargeDesc": "结果将超过 1,000,000 个字符。请减少重复次数或缩短输入文本。",
       "chars": "字符",
       "lines": "行",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "nothingToDownload": "暂无可供下载的内容。",
       "downloaded": "已下载 重复文本.txt",
@@ -1195,7 +1194,6 @@
       "referenceDesc": "A–Z、0–9 字符表",
       "words": "单词",
       "chars": "字符",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "MarkdownEditor": {
@@ -1253,7 +1251,6 @@
       "minRead": "分钟阅读",
       "previewPlaceholder": "预览将显示在此处...",
       "htmlOutputPlaceholder": "HTML 输出将显示在此处...",
-      "nothingToCopy": "没有可复制的内容",
       "htmlCopied": "已将 HTML 复制到剪贴板。",
       "nothingToDownload": "暂无可供下载的内容。",
       "downloadedHtml": "已下载 document.html"
@@ -1279,7 +1276,6 @@
       "downloaded": "已下载",
       "ariaHtmlInput": "HTML 输入",
       "ariaHtmlOutput": "HTML 输出",
-      "ariaCopy": "复制",
       "ariaDownload": "下载",
       "processingFailed": "处理失败"
     },
@@ -1294,8 +1290,6 @@
       "resetToSample": "重置为示例代码"
     },
     "CssMinifier": {
-      "title": "CSS 压缩/美化工具",
-      "description": "即时压缩或格式化您的 CSS 代码",
       "tabMinify": "压缩",
       "tabBeautify": "格式化",
       "sampleCss": "CSS 示例",
@@ -1312,17 +1306,12 @@
       "lines": "行",
       "chars": "字符",
       "noReduction": "无缩减",
-      "copiedToClipboard": "已复制到剪贴板",
-      "failedToCopy": "复制失败",
       "downloaded": "已下载",
       "ariaCssInput": "CSS 输入",
       "ariaCssOutput": "CSS 输出",
-      "ariaCopy": "复制",
       "ariaDownload": "下载"
     },
     "SqlFormatter": {
-      "title": "SQL 格式化工具",
-      "description": "格式化、美化和压缩 SQL 查询",
       "dialect": "类别",
       "commaStyle": "逗号样式",
       "trailing": "尾随",
@@ -1343,13 +1332,10 @@
       "sqlMinified": "SQL 已压缩",
       "formattingFailed": "格式化失败",
       "minificationFailed": "压缩未成功",
-      "copiedToClipboard": "已复制到剪贴板",
-      "failedToCopy": "复制失败",
       "downloaded": "已下载",
       "dialectStandard": "标准 SQL",
       "ariaSqlInput": "SQL 输入",
       "ariaSqlOutput": "SQL 输出",
-      "ariaCopy": "复制",
       "ariaDownload": "下载"
     },
     "WordFrequency": {
@@ -1396,7 +1382,6 @@
       "format": "格式",
       "minify": "压缩",
       "validate": "验证",
-      "copy": "复制",
       "loadSample": "加载样本",
       "clear": "清除",
       "indent": "缩进：",
@@ -1416,7 +1401,6 @@
       "minifiedSuccess": "JSON 压缩",
       "isValid": "JSON 是有效的",
       "invalidJson": "无效的JSON",
-      "nothingToCopy": "无内容可复制",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败"
     },
@@ -1451,7 +1435,6 @@
       "enterSomeInput": "请输入",
       "conversionSuccessful": "转换成功",
       "fileLoadedSuccessfully": "文件加载成功",
-      "noOutputToCopy": "没有可复制的内容。",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败",
       "noOutputToDownload": "没有输出可下载。",
@@ -1754,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "交换",
-      "copyOutput": "复制输出",
       "loadSample": "加载样本",
       "clear": "清除",
       "yamlInput": "YAML 输入",
@@ -1766,7 +1748,6 @@
       "valid": "有效",
       "conversionFailed": "转换失败",
       "convertedSuccessfully": "转换成功",
-      "nothingToCopy": "无内容可复制",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败",
       "error": "错误："
@@ -1790,7 +1771,6 @@
       "pleaseEnterInput": "请输入",
       "encodedSuccessfully": "编码成功",
       "decodedSuccessfully": "解码成功",
-      "nothingToCopy": "无内容可复制",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败",
       "encodingFailed": "编码失败：{msg}",
@@ -1806,7 +1786,6 @@
       "selectedCount": "{count} 已选择",
       "generateData": "生成数据",
       "outputTitle": "输出",
-      "copy": "复制",
       "download": "下载",
       "outputPlaceholder": "点击“生成数据”来创建虚假记录……",
       "selectAtLeastOneField": "至少选择一个字段",
@@ -1830,7 +1809,6 @@
       "generatedTextDesc": "您的Lorem Ipsum占位文本",
       "generatedTextPlaceholder": "生成的文本将出现在这里...",
       "characters": "字符",
-      "copyText": "复制文本",
       "quickGenerate": "快速生成",
       "quickGenerateDesc": "一键生成常用数量",
       "oneParagraph": "1 段落",
@@ -1839,11 +1817,9 @@
       "fiveSentences": "5个句子",
       "aboutLoremTitle": "关于Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum 是印刷和排版行业的简单虚拟文本。自16世纪以来，它一直是行业的标准占位文本，当时一位不知名的印刷商将一版铅字打乱，制作了一本样本书。它常用于网页设计、平面设计和出版领域作为占位文字。",
-      "noTextToCopy": "没有文本可供复制",
       "copiedToClipboard": "已复制到剪贴板"
     },
     "TodoList": {
-      "title": "待办列表",
       "addNewTodo": "添加新待办事项",
       "placeholder": "需要做什么？",
       "addButton": "添加",
@@ -1883,7 +1859,6 @@
     },
     "KeepAwake": {
       "title": "屏幕常亮",
-      "subtitle": "阻止屏幕休眠",
       "status": "状态",
       "inactive": "关闭",
       "active": "常亮",
@@ -1923,8 +1898,6 @@
       "activatedInfinity": "保持唤醒已激活—无限模式"
     },
     "PomodoroTimer": {
-      "title": "番茄计时器",
-      "subtitle": "保持专注，适当休息",
       "settings": "设置",
       "workDuration": "专注时长（分钟）",
       "shortBreak": "短暂休息（分钟）",
@@ -1951,7 +1924,6 @@
       "min": "min"
     },
     "WorldClock": {
-      "title": "世界时钟",
       "citiesCount": "跨{count}个城市的当前时间",
       "addCity": "添加城市...",
       "sortByUTC": "按UTC排序",
@@ -2019,8 +1991,6 @@
       }
     },
     "Stopwatch": {
-      "title": "秒表",
-      "subtitle": "使用键盘快捷键的精确圈数跟踪",
       "start": "开始",
       "pause": "暂停",
       "lap": "圈",
@@ -2040,8 +2010,6 @@
       "resetKey": "重置"
     },
     "HabitTracker": {
-      "title": "习惯追踪器",
-      "subtitle": "建立连续记录，追踪进展",
       "addHabit": "添加习惯",
       "cancel": "取消",
       "totalHabits": "总体习惯",
@@ -2266,8 +2234,7 @@
       "differentAmountsPerPerson": "每人不同金额",
       "pays": "支付",
       "enterBillPrompt": "输入账单金额以开始",
-      "summaryCopied": "摘要已复制到剪贴板",
-      "copyFailed": "复制失败"
+      "summaryCopied": "摘要已复制到剪贴板"
     },
     "UnitConverter": {
       "converter": "转换器",
@@ -2419,7 +2386,6 @@
       "enterNumber": "输入阿拉伯数字",
       "enterRoman": "输入罗马数字",
       "result": "结果",
-      "copy": "复制",
       "stepByStep": "拆分步骤",
       "runningTotal": "累计总数",
       "remaining": "剩余",
@@ -2428,7 +2394,6 @@
       "errorInvalidFormat": "无效的罗马数字 — 检查数字格式",
       "errorOutOfRange": "输入一个介于1到3999之间的数字",
       "copiedToClipboard": "已复制到剪贴板",
-      "failedToCopy": "复制失败",
       "numberPlaceholder": "例如 2024",
       "romanPlaceholder": "例如 MMXXIV"
     },
@@ -3158,8 +3123,7 @@
       "previewButton": "按钮组件",
       "previewUI": "UI组件示例",
       "presets": "预设",
-      "ratioCopied": "对比度已复制",
-      "copyFailed": "复制失败"
+      "ratioCopied": "对比度已复制"
     },
     "ColorBlindnessSimulator": {
       "title": "色盲模拟器",
@@ -3316,8 +3280,7 @@
       "errorFutureDate": "出生日期不能在未来",
       "errorMissingBirthDates": "请选择两个出生日期",
       "errorFutureDates": "出生日期不能在未来",
-      "copiedToClipboard": "已复制到剪贴板",
-      "copyFailed": "复制失败"
+      "copiedToClipboard": "已复制到剪贴板"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools。保留所有权利。",
@@ -3354,8 +3317,7 @@
       "errorMissingInfo": "请选择两个时区并输入日期/时间",
       "errorInvalidDate": "无效日期 — 请输入有效的日期和时间",
       "errorConversion": "转换错误 — 无法转换时间",
-      "copiedToClipboard": "已复制到剪贴板",
-      "copyFailed": "复制失败"
+      "copiedToClipboard": "已复制到剪贴板"
     },
     "TypingTest": {
       "title": "打字测试",
@@ -3862,7 +3824,6 @@
       "headers": "请求头",
       "query": "查询",
       "body": "主体",
-      "nothingToCopy": "没有可复制的内容",
       "copiedToClipboard": "已复制到剪贴板",
       "failedToCopy": "复制到剪贴板失败"
     },
@@ -3977,7 +3938,6 @@
       "outputPlaceholder": "您的 Favicon 将显示在此处",
       "zipContents": "ZIP 包含所有 PNG 尺寸、favicon.ico (16+32)、site.webmanifest 和 HTML 代码片段。",
       "htmlSnippet": "HTML 代码片段",
-      "copySnippet": "复制 HTML 代码片段",
       "snippetCopied": "HTML 代码片段已复制",
       "copyFailed": "无法复制到剪贴板",
       "imageTooLarge": "图片过大。最大 15MB。",
@@ -4254,7 +4214,6 @@
       "copied": "转录文本已复制到剪贴板",
       "copyFailed": "无法复制到剪贴板",
       "downloaded": "转录文本已下载",
-      "nothingToCopy": "还没有可复制的内容",
       "nothingToDownload": "还没有可下载的内容",
       "notSupported": "您的浏览器不支持语音识别。请使用 Google Chrome 或 Microsoft Edge 以获得最佳体验。Firefox 的支持有限。",
       "micDenied": "麦克风访问被拒绝。请允许麦克风权限后重试。",
@@ -4546,7 +4505,6 @@
       "captionLabel": "标题",
       "altLabel": "替代文本 (HTML)",
       "altHint": "将其粘贴到您的 <img> 标签中以改善无障碍和 SEO。请查看并编辑以匹配图片的上下文。",
-      "copy": "复制",
       "copyCaption": "复制标题",
       "copyAlt": "复制替代文本",
       "copied": "已复制到剪贴板",
@@ -4577,7 +4535,6 @@
       "copy": "复制",
       "copied": "已复制到剪贴板",
       "copyFailed": "无法复制到剪贴板",
-      "nothingToCopy": "还没有可复制的内容",
       "enterText": "请输入一些文本",
       "noneFound": "未检测到个人信息",
       "detectedToast": "检测到 {count} 条个人信息",
@@ -4700,5 +4657,105 @@
     "howToTitle": "如何使用 {tool}",
     "faqTitle": "常见问题",
     "relatedTitle": "相关工具"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} 个工具 · 在设备本地",
+    "everything": "全部",
+    "blog": "博客",
+    "github": "GitHub",
+    "search": "搜索",
+    "sponsorLabel": "开发者作品",
+    "new": "新",
+    "language": "语言",
+    "theme": "主题",
+    "soundOn": "声音开启",
+    "soundOff": "声音关闭",
+    "maker": {
+      "kashfbank": {
+        "tag": "银行对账单 → CSV",
+        "desc": "将任意银行对账单 PDF 转换为整洁的 CSV 和 Excel。",
+        "cta": "试一试"
+      },
+      "superbilled": {
+        "tag": "治疗师专用 Superbill",
+        "desc": "为私费治疗师生成可报销的 superbill 账单。",
+        "cta": "查看"
+      }
+    }
+  },
+  "Landing": {
+    "statementLead": "你的文件永不离开设备。",
+    "statementTail": "{count}+ 款免费开源工具——完全隐私，就在浏览器中。",
+    "searchPlaceholder": "搜索 {count}+ 个工具…",
+    "demoTitle": "试试看。把图片拖到这里。",
+    "demoTitleBusy": "正在压缩…",
+    "demoSub": "压缩就在本地、在你的设备上完成。无需上传——看看网络面板。",
+    "demoSmaller": "缩小 {pct}%",
+    "apps": "应用",
+    "popular": "热门",
+    "all": "全部",
+    "allTools": "全部 {count} 个工具",
+    "viewAll": "查看所有工具",
+    "onDevice": "在设备本地",
+    "sponsorTile": "你的开发工具，在这里如鱼得水",
+    "coffee": "请我喝杯咖啡",
+    "favorites": "你的收藏",
+    "recent": "最近使用",
+    "dropAnyFile": "拖放任意文件到这里",
+    "dropSuggest": "我们会为你匹配合适的工具——图片直接在设备上压缩。"
+  },
+  "Template": {
+    "onDevicePromise": "在你的设备上运行——不上传、不存储任何内容。",
+    "networkNote": "在你的浏览器中运行——实时数据来自公开 API。",
+    "related": "相关工具",
+    "startOver": "重新开始",
+    "download": "下载",
+    "dropTitle": "拖入文件，或点击选择",
+    "staysOnDevice": "留在你的设备上"
+  },
+  "Legal": {
+    "nav": {
+      "license": "许可协议",
+      "privacy": "隐私",
+      "terms": "条款"
+    },
+    "common": {
+      "contactLinkText": "在 GitHub 上提交 issue",
+      "licenseLinkText": "阅读 AGPL-3.0 许可协议"
+    },
+    "privacy": {
+      "title": "隐私政策",
+      "intro": "BrowseryTools 的设计让你的文件根本没有理由离开你的设备。这个页面用简单的话说明这意味着什么，以及我们究竟收集了哪些少量数据。",
+      "noAccountsHeading": "无需账号，无需登录",
+      "noAccountsBody": "没有任何东西需要注册。我们不会要求你的姓名、邮箱或支付信息，也不会在任何地方为你建立档案。",
+      "onDeviceHeading": "你的文件从不离开你的设备",
+      "onDeviceBody": "每个工具都完全在你的浏览器中运行。你处理的图片、文档和文本都在本地读取、转换和下载——没有任何内容会上传到服务器，一次都没有。你可以自己验证：使用任意工具时打开浏览器的网络面板看看。",
+      "analyticsHeading": "聚合使用统计",
+      "analyticsBody": "我们使用 Vercel Analytics 来了解哪些页面和工具更受欢迎。它只报告匿名的聚合数字——页面浏览量和大致使用量——绝不包含你处理的内容，也绝不包含任何能与你个人对应起来的信息。",
+      "localStorageHeading": "本地偏好设置",
+      "localStorageBody": "部分工具会通过浏览器的本地存储记住你的设置，比如主题或最近使用的列表。这些数据只保存在你的设备上，从不会被传输到任何地方。",
+      "openSourceHeading": "从头到尾开源",
+      "openSourceBody": "全部代码都公开在 GitHub 上。如果你想确切知道某个工具如何处理你的数据，可以自己阅读源代码，而不必只相信我们说的话。",
+      "contactHeading": "有疑问",
+      "contactBody": "如果这里有任何不清楚的地方，联系我们最快的方式是 GitHub。",
+      "changesHeading": "本政策的变更",
+      "changesBody": "如果这份政策以后有变化，我们会更新这个页面。由于我们不收集邮箱地址，没有办法直接通知你——有兴趣的话欢迎回来看看。"
+    },
+    "terms": {
+      "title": "使用条款",
+      "intro": "BrowseryTools 是自由软件。使用它，即表示你同意以下内容——比你想象的要短。",
+      "licenseHeading": "开源许可协议",
+      "licenseBody": "代码采用 GNU Affero 通用公共许可证 v3.0（AGPL-3.0）授权。你可以自由阅读、fork 并运行自己的副本，只需遵守该许可协议的条款。",
+      "freeHeading": "对所有人免费",
+      "freeBody": "每个工具都免费使用，个人项目和商业项目一视同仁。没有付费墙，没有使用次数限制，也没有把好功能藏起来的高级版本。",
+      "warrantyHeading": "不提供任何担保",
+      "warrantyBody": "BrowseryTools 按“原样”提供，不附带任何形式的担保。我们努力让每个工具都准确可靠，但在把结果用于任何重要事情之前，验证结果是你自己的责任。",
+      "acceptableUseHeading": "可接受的使用方式",
+      "acceptableUseBody": "请将这些工具用于合法目的。你要对自己处理的内容负责，并遵守适用于该内容的相关法律。",
+      "changesHeading": "本条款的变更",
+      "changesBody": "随着项目的发展，我们可能会更新这些条款。变更后继续使用 BrowseryTools，即表示你接受新的条款。",
+      "contactHeading": "有疑问",
+      "contactBody": "欢迎就这些条款提出问题——在 GitHub 上联系我们。"
+    }
   }
 }

@@ -6,6 +6,8 @@ import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadBlob } from "@/lib/download";
 import { useAudioStore } from "@/store/audio-store";
 import {
   Play,
@@ -21,6 +23,7 @@ import {
 
 export default function AudioEditor() {
   const t = useTranslations("Tools.AudioEditor");
+  const tc = useTranslations("ToolsConfig");
   const {
     audioFile,
     audioBuffer,
@@ -141,6 +144,7 @@ export default function AudioEditor() {
       ctx.lineTo(i, (1 + max) * amp);
     }
 
+    // content value: waveform stroke drawn onto a <canvas> (no CSS var access in 2D context)
     ctx.strokeStyle = "#0ea5e9";
     ctx.stroke();
   };
@@ -176,28 +180,16 @@ export default function AudioEditor() {
 
   const downloadOriginal = () => {
     if (!audioFile) return;
-
-    const url = URL.createObjectURL(audioFile);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = audioFile.name;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadBlob(audioFile, audioFile.name);
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-between items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        <div>
-          <h1 className="text-3xl font-bold">{t("title")}</h1>
-          <p className="text-muted-foreground mt-1">
-            {t("subtitle")}
-          </p>
-        </div>
-      </div>
-
-      <div className="flex-1 overflow-hidden p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="audio"
+      title={tc("tools.audio.name")}
+      sub={tc("tools.audio.description")}
+    >
+      <div className="space-y-4">
           <Card className="p-6">
             <div
               className={`
@@ -309,8 +301,7 @@ export default function AudioEditor() {
               </div>
             </Card>
           )}
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

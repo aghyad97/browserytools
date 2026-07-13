@@ -1,17 +1,11 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Textarea } from "@/components/ui/textarea";
-import { Button } from "@/components/ui/button";
-import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 // Minimal diff using diff-match-patch algorithm port
 // To avoid heavy deps, implement a simple line-based diff for MVP
@@ -45,56 +39,59 @@ function diffLines(a: string, b: string): DiffPart[] {
 
 export default function TextDiffViewer() {
   const t = useTranslations("Tools.TextDiffViewer");
+  const tc = useTranslations("ToolsConfig");
 
   const [left, setLeft] = useState<string>("");
   const [right, setRight] = useState<string>("");
 
   const diff = useMemo(() => diffLines(left, right), [left, right]);
 
-  const copyPatch = async () => {
-    const lines: string[] = [];
-    diff.forEach((p) => {
-      const prefix = p.type === "add" ? "+" : p.type === "remove" ? "-" : " ";
-      lines.push(`${prefix}${p.text}`);
-    });
-    try {
-      await navigator.clipboard.writeText(lines.join("\n"));
-      toast.success(t("patchCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  };
+  const patchText = useMemo(
+    () =>
+      diff
+        .map((p) => {
+          const prefix = p.type === "add" ? "+" : p.type === "remove" ? "-" : " ";
+          return `${prefix}${p.text}`;
+        })
+        .join("\n"),
+    [diff],
+  );
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <Card className="shadow-none">
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("desc")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <ToolShell
+      slug="text-diff"
+      title={tc("tools.text-diff.name")}
+      sub={tc("tools.text-diff.description")}
+    >
+      <div className="space-y-4">
+        <TwoPane
+          start={
             <Textarea
               value={left}
               onChange={(e) => setLeft(e.target.value)}
               className="min-h-[260px] font-mono text-sm"
               placeholder={t("originalPlaceholder")}
             />
+          }
+          end={
             <Textarea
               value={right}
               onChange={(e) => setRight(e.target.value)}
               className="min-h-[260px] font-mono text-sm"
               placeholder={t("modifiedPlaceholder")}
             />
-          </div>
-          <div className="flex justify-end">
-            <Button variant="outline" onClick={copyPatch}>
-              {t("copyPatch")}
-            </Button>
-          </div>
-          <div className="border rounded overflow-hidden">
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              <div className="p-3 border-r rtl:border-r-0 rtl:border-l bg-muted/30">
+          }
+        />
+
+        <OutputPanel
+          text={patchText}
+          copyLabel={t("copyPatch")}
+          copySuccessMessage={t("patchCopied")}
+          copyErrorMessage={t("copyFailed")}
+        >
+          <TwoPane
+            start={
+              <div className="p-3">
                 {left.split(/\r?\n/).map((line, i) => (
                   <div
                     key={i}
@@ -104,6 +101,8 @@ export default function TextDiffViewer() {
                   </div>
                 ))}
               </div>
+            }
+            end={
               <div className="p-3">
                 {diff.map((p, i) => (
                   <div
@@ -125,10 +124,10 @@ export default function TextDiffViewer() {
                   </div>
                 ))}
               </div>
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+            }
+          />
+        </OutputPanel>
+      </div>
+    </ToolShell>
   );
 }

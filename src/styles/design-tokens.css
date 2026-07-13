@@ -1,0 +1,85 @@
+/* BrowseryTools design tokens — spec §2. Light is default; dark-mode class overrides. */
+:root {
+  --bt-bg: #fcfcfb;
+  --bt-surface: #ffffff;
+  --bt-ink: #161615;
+  --bt-muted: #757570; /* darkened from #8a8a85 for 4.5:1 AA on surface (R3 foundation review I-1) */
+  --bt-faint: #b6b6b0;
+  --bt-line: rgba(22, 22, 21, 0.09);
+  --bt-line-strong: rgba(22, 22, 21, 0.16);
+  --bt-accent: #2e5cff;
+  --bt-green: #1a9e57;
+  --bt-nav-idle: #767676;
+  --bt-nav-active: #000000;
+  --bt-fill: #efefef;
+  --bt-fill-hover: #e4e4e4;
+  --bt-pill-active-bg: #202020;
+  --bt-pill-active-fg: #fcfcfc;
+  --bt-pill-idle-fg: rgba(0, 0, 0, 0.49);
+  --bt-divider: rgba(0, 0, 0, 0.09);
+  --bt-new-pink: #d6409f;
+  --bt-star: #f5b301;
+  --bt-coffee: #a26b3c;
+  --bt-hover: rgba(22, 22, 21, 0.05);
+  --bt-overlay: rgba(22, 22, 21, 0.16);
+  --bt-shadow-pop: 0 24px 70px -24px rgba(22, 22, 21, 0.35);
+
+  --bt-cat-image-bg: #f1eefd;  --bt-cat-image-fg: #6e56cf;
+  --bt-cat-file-bg: #e7f3fa;   --bt-cat-file-fg: #0e7db8;
+  --bt-cat-media-bg: #fcf1e4;  --bt-cat-media-fg: #c46b1b;
+  --bt-cat-text-bg: #ecf0fc;   --bt-cat-text-fg: #3a5ccc;
+  --bt-cat-data-bg: #e5f5f1;   --bt-cat-data-fg: #0d8a72;
+  --bt-cat-math-bg: #eaf6eb;   --bt-cat-math-fg: #2e9939;
+  --bt-cat-prod-bg: #f2f6e2;   --bt-cat-prod-fg: #5c7c0f;
+  --bt-cat-dev-bg: #eef2f5;    --bt-cat-dev-fg: #52697a;
+  --bt-cat-design-bg: #fdedf7; --bt-cat-design-fg: #d6409f;
+  --bt-cat-sec-bg: #fdecec;    --bt-cat-sec-fg: #ce2c31;
+  --bt-cat-ai-bg: #eaefff;     --bt-cat-ai-fg: #2e5cff;
+  --bt-cat-games-bg: #fff0e8;  --bt-cat-games-fg: #d4570e;
+  --bt-cat-school-bg: #e9f4fb; --bt-cat-school-fg: #1d74a6;
+  --bt-cat-biz-bg: #f0f1e4;    --bt-cat-biz-fg: #77731c;
+
+  --bt-ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+  --bt-ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+.dark {
+  --bt-bg: #0e0e0d;
+  --bt-surface: #161615;
+  --bt-ink: #f1f1ef;
+  --bt-muted: #8f8f89;
+  --bt-faint: #5c5c57;
+  --bt-line: rgba(241, 241, 239, 0.09);
+  --bt-line-strong: rgba(241, 241, 239, 0.17);
+  --bt-accent: #5d80ff;
+  --bt-green: #2fbf75;
+  --bt-nav-idle: #8f8f89;
+  --bt-nav-active: #ffffff;
+  --bt-fill: #232322;
+  --bt-fill-hover: #2c2c2b;
+  --bt-pill-active-bg: #e8e8e6;
+  --bt-pill-active-fg: #111110;
+  --bt-pill-idle-fg: rgba(255, 255, 255, 0.55);
+  --bt-divider: rgba(255, 255, 255, 0.1);
+  --bt-new-pink: #e15bb0;
+  --bt-star: #f5b301;
+  --bt-coffee: #c08654;
+  --bt-hover: rgba(241, 241, 239, 0.07);
+  --bt-overlay: rgba(0, 0, 0, 0.45);
+  --bt-shadow-pop: 0 24px 70px -24px rgba(0, 0, 0, 0.7);
+
+  --bt-cat-image-bg: rgba(110, 86, 207, 0.2);  --bt-cat-image-fg: #a292e6;
+  --bt-cat-file-bg: rgba(14, 125, 184, 0.2);   --bt-cat-file-fg: #63b3dd;
+  --bt-cat-media-bg: rgba(196, 107, 27, 0.2);  --bt-cat-media-fg: #e0a06a;
+  --bt-cat-text-bg: rgba(58, 92, 204, 0.2);    --bt-cat-text-fg: #8fa6ea;
+  --bt-cat-data-bg: rgba(13, 138, 114, 0.2);   --bt-cat-data-fg: #5cc2ab;
+  --bt-cat-math-bg: rgba(46, 153, 57, 0.2);    --bt-cat-math-fg: #7cc884;
+  --bt-cat-prod-bg: rgba(92, 124, 15, 0.22);   --bt-cat-prod-fg: #a9c25e;
+  --bt-cat-dev-bg: rgba(82, 105, 122, 0.25);   --bt-cat-dev-fg: #9fb4c4;
+  --bt-cat-design-bg: rgba(214, 64, 159, 0.2); --bt-cat-design-fg: #e58cc4;
+  --bt-cat-sec-bg: rgba(206, 44, 49, 0.2);     --bt-cat-sec-fg: #e2807f;
+  --bt-cat-ai-bg: rgba(46, 92, 255, 0.22);     --bt-cat-ai-fg: #8fa8ff;
+  --bt-cat-games-bg: rgba(212, 87, 14, 0.2);   --bt-cat-games-fg: #ea9462;
+  --bt-cat-school-bg: rgba(29, 116, 166, 0.2); --bt-cat-school-fg: #6cacd0;
+  --bt-cat-biz-bg: rgba(119, 115, 28, 0.2);    --bt-cat-biz-fg: #b9b56a;
+}

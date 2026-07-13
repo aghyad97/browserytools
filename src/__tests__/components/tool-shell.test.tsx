@@ -1,0 +1,225 @@
+import { describe, it, expect, vi } from "vitest";
+import { render, screen, within } from "@testing-library/react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { ControlStat } from "@/components/template/controls-bar";
+
+// ToolShell resolves category / crumb / related from tools-config and the
+// Template + ToolsConfig i18n namespaces (real English messages via the global
+// next-intl mock in src/test-setup.ts). image-compression lives in the
+// imageTools category (short label "Image", 24 sibling tools).
+
+describe("ToolShell", () => {
+  it("renders a category-only crumb eyebrow in the chip colour", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images. Right here.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+
+    // Category short label resolved from ToolsConfig.categoriesShort.
+    const cat = screen.getByTestId("tool-shell-crumb-cat");
+    expect(cat).toHaveTextContent("Image");
+    // Painted with the category foreground token (spec §3: crumb category name
+    // in var(--bt-cat-<x>-fg)).
+    expect(cat.getAttribute("style") ?? "").toContain("--bt-cat-image-fg");
+
+    // Design ruling: the crumb is category-only — the tool name would exactly
+    // duplicate the h1, so it must NOT appear in the crumb.
+    const crumb = within(screen.getByTestId("tool-shell-crumb"));
+    expect(crumb.queryByText("Image Compression")).not.toBeInTheDocument();
+  });
+
+  it("renders exactly one h1 (the title) — the smoke gate's invariant", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images. Right here.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const h1s = screen.getAllByRole("heading", { level: 1 });
+    expect(h1s).toHaveLength(1);
+    expect(h1s[0]).toHaveTextContent("Compress images. Right here.");
+  });
+
+  it("appends the on-device promise to the sub", () => {
+    render(
+      <ToolShell
+        slug="image-compression"
+        title="Compress images."
+        sub="Drop an image and drag the divider to compare."
+      >
+        <div>stage</div>
+      </ToolShell>,
+    );
+    // Author sub + appended Template.onDevicePromise, in one line.
+    expect(
+      screen.getByText(
+        /Drop an image and drag the divider to compare\..*nothing is uploaded, nothing is stored\./,
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("renders the on-device promise even with no author sub", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(
+      screen.getByText(/nothing is uploaded, nothing is stored\./),
+    ).toBeInTheDocument();
+  });
+
+  // currency-converter fetches live rates from external APIs (tools-config
+  // sets onDevice: false), so it must NOT carry the on-device promise —
+  // it gets Template.networkNote instead (honesty fix, see spec §3).
+  it("renders the network note instead of the on-device promise for a non-on-device tool", () => {
+    render(
+      <ToolShell slug="currency-converter" title="Convert currencies.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(
+      screen.getByText(/live data comes from a public API\./),
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/nothing is uploaded, nothing is stored\./),
+    ).not.toBeInTheDocument();
+  });
+
+  it("still renders the default on-device promise for a tool without onDevice: false", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(
+      screen.queryByText(/live data comes from a public API\./),
+    ).not.toBeInTheDocument();
+  });
+
+  it("renders the stage children", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div data-testid="my-stage">the surface</div>
+      </ToolShell>,
+    );
+    expect(screen.getByTestId("my-stage")).toHaveTextContent("the surface");
+  });
+
+  it("renders 3 same-category related tiles, excluding the current tool", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const tiles = screen.getAllByTestId("tool-shell-related-tile");
+    expect(tiles).toHaveLength(3);
+    // None of them is the current tool.
+    for (const tile of tiles) {
+      expect(tile).not.toHaveTextContent("Image Compression");
+      // Every related tile is a link into the same category's tool space.
+      expect(tile.getAttribute("href") ?? "").toMatch(/^\/tools\//);
+    }
+    // The Related section label resolves from the Template namespace.
+    expect(screen.getByText("Related")).toBeInTheDocument();
+  });
+
+  it("renders the controls bar with children and the end-aligned dark primary", async () => {
+    const onClick = vi.fn();
+    render(
+      <ToolShell
+        slug="image-compression"
+        title="Compress images."
+        controls={<span data-testid="ctrl">quality</span>}
+        primaryAction={{ label: "Download", onClick }}
+      >
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(screen.getByTestId("ctrl")).toBeInTheDocument();
+    const primary = screen.getByTestId("tool-shell-primary");
+    expect(primary).toHaveTextContent("Download");
+    const { default: userEvent } = await import("@testing-library/user-event");
+    await userEvent.setup().click(primary);
+    expect(onClick).toHaveBeenCalledOnce();
+  });
+
+  it("disables the primary action when requested", () => {
+    render(
+      <ToolShell
+        slug="image-compression"
+        title="Compress images."
+        primaryAction={{ label: "Download", onClick: () => {}, disabled: true }}
+      >
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(screen.getByTestId("tool-shell-primary")).toBeDisabled();
+  });
+
+  it("omits the controls bar entirely when there are no controls or action", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    expect(screen.queryByTestId("tool-shell-controls")).toBeNull();
+  });
+
+  it("ControlStat renders a mono caption over the value inside the controls bar", () => {
+    render(
+      <ToolShell
+        slug="image-compression"
+        title="Compress images."
+        controls={<ControlStat label="Size Reduction">42%</ControlStat>}
+        primaryAction={{ label: "Download", onClick: () => {} }}
+      >
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const stat = screen.getByTestId("tool-shell-control-stat");
+    expect(stat).toHaveTextContent("Size Reduction");
+    expect(stat).toHaveTextContent("42%");
+    // Lives inside the controls bar (zone 4).
+    expect(
+      within(screen.getByTestId("tool-shell-controls")).getByTestId(
+        "tool-shell-control-stat",
+      ),
+    ).toBe(stat);
+  });
+
+  it("keeps related tiles within the same category (data tools example)", () => {
+    render(
+      <ToolShell slug="json-formatter" title="Format JSON.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const related = within(screen.getByTestId("tool-shell-related"));
+    const tiles = related.getAllByTestId("tool-shell-related-tile");
+    expect(tiles).toHaveLength(3);
+  });
+
+  // width variant (spec §F2): default stays the 880px canvas; width="wide"
+  // widens the stage to 1180 and stamps data-width="wide" on the shell root
+  // so the layout's SEO zone can pick it up via CSS :has() (no prop path
+  // between the two sibling components).
+  it("defaults to width=\"default\" and stamps data-width accordingly", () => {
+    render(
+      <ToolShell slug="image-compression" title="Compress images.">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const shell = screen.getByTestId("tool-shell-crumb").parentElement;
+    expect(shell).toHaveAttribute("data-width", "default");
+  });
+
+  it('stamps data-width="wide" when width="wide" is passed', () => {
+    render(
+      <ToolShell slug="expense-tracker" title="Track expenses." width="wide">
+        <div>stage</div>
+      </ToolShell>,
+    );
+    const shell = screen.getByTestId("tool-shell-crumb").parentElement;
+    expect(shell).toHaveAttribute("data-width", "wide");
+  });
+});

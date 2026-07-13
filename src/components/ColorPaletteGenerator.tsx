@@ -1,20 +1,15 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useId } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
-import { Copy, RefreshCw, Download, Lock, LockOpen, Palette } from "lucide-react";
+import { Copy, RefreshCw, Download, Lock, LockOpen } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 // Color math helpers
 function hexToRgb(hex: string): { r: number; g: number; b: number } {
@@ -70,6 +65,8 @@ function hslToHex(h: number, s: number, l: number): string {
   return rgbToHex(r, g, b);
 }
 
+// content value: WCAG-contrast-computed b&w overlay text color for a given
+// swatch fill, independent of app theme.
 function getReadableTextColor(hex: string): string {
   const { r, g, b } = hexToRgb(hex);
   const srgb = [r, g, b].map((v) => v / 255).map((c) => (c <= 0.03928 ? c / 12.92 : Math.pow((c + 0.055) / 1.055, 2.4)));
@@ -179,6 +176,10 @@ const SCHEME_VALUES = [
 
 export default function ColorPaletteGenerator() {
   const t = useTranslations("Tools.ColorPaletteGenerator");
+  const tc = useTranslations("ToolsConfig");
+  const paletteNameId = useId();
+  const schemeId = useId();
+  // content value: default base-color picker seed, independent of app theme.
   const [baseColor, setBaseColor] = useState("#667eea");
   const [scheme, setScheme] = useState<SchemeType>("complementary");
   const [paletteName, setPaletteName] = useState("My Palette");
@@ -255,7 +256,7 @@ export default function ColorPaletteGenerator() {
     canvas.height = sh + 60;
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.fillStyle = "#ffffff";
+    ctx.fillStyle = "#ffffff"; // content value: fixed PNG-export background, independent of app theme.
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     colors.forEach((color, i) => {
       ctx.fillStyle = color.hex;
@@ -280,30 +281,27 @@ export default function ColorPaletteGenerator() {
   }, [colors, t]);
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+    <ToolShell
+      slug="color-palette"
+      title={tc("tools.color-palette.name")}
+      sub={tc("tools.color-palette.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
+        <SettingsCard>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div className="space-y-2">
-                <Label>{t("paletteName")}</Label>
-                <Input value={paletteName} onChange={(e) => setPaletteName(e.target.value)} placeholder={t("palettePlaceholder")} />
-              </div>
-              <div className="space-y-2">
-                <Label>{t("colorScheme")}</Label>
+              <OptionRow label={t("paletteName")} htmlFor={paletteNameId}>
+                <Input id={paletteNameId} value={paletteName} onChange={(e) => setPaletteName(e.target.value)} placeholder={t("palettePlaceholder")} />
+              </OptionRow>
+              <OptionRow label={t("colorScheme")} htmlFor={schemeId}>
                 <Select value={scheme} onValueChange={handleSchemeChange}>
-                  <SelectTrigger><SelectValue /></SelectTrigger>
+                  <SelectTrigger id={schemeId}><SelectValue /></SelectTrigger>
                   <SelectContent>
                     {SCHEME_VALUES.map((val) => (
                       <SelectItem key={val} value={val}>{t(`scheme${val.replace(/-([a-z])/g, (_: string, c: string) => c.toUpperCase()).replace(/^(.)/, (c: string) => c.toUpperCase())}` as any)}</SelectItem>
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
             </div>
             <div className="flex gap-3 items-center flex-wrap">
               <div className="flex items-center gap-2">
@@ -316,6 +314,8 @@ export default function ColorPaletteGenerator() {
               <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 me-2" />{t("exportPNG")}</Button>
             </div>
 
+            {/* Swatch grid is genuine content (the generated palette itself,
+                per-swatch copy actions) — data list, kept bespoke. */}
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3">
               {colors.map((color, index) => {
                 const textColor = getReadableTextColor(color.hex);
@@ -364,9 +364,8 @@ export default function ColorPaletteGenerator() {
                 );
               })}
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
-    </div>
+    </ToolShell>
   );
 }

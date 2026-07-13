@@ -2,6 +2,7 @@
   "Common": {
     "copy": "Kopieren",
     "copied": "Kopiert!",
+    "copyFailed": "Kopieren fehlgeschlagen",
     "download": "Herunterladen",
     "upload": "Hochladen",
     "reset": "Zurücksetzen",
@@ -55,9 +56,7 @@
     "twitter": "Folge uns auf X (Twitter)"
   },
   "LanguageSwitcher": {
-    "label": "Sprache",
-    "en": "English",
-    "ar": "العربية"
+    "label": "Sprache"
   },
   "Sidebar": {
     "searchPlaceholder": "Tools suchen …",
@@ -102,7 +101,10 @@
       "devTools": "Entwicklertools",
       "securityTools": "Sicherheitstools",
       "designTools": "Design & Visuelles",
-      "aiTools": "KI-Tools"
+      "aiTools": "KI-Tools",
+      "testsGames": "Tests & Spiele",
+      "schoolLearning": "Schule & Lernen",
+      "business": "Business"
     },
     "tools": {
       "bg-removal": {
@@ -578,7 +580,7 @@
         "description": "Zeichne oder tippe deine Unterschrift und lade sie als transparentes PNG oder SVG herunter. Anpassbare Stiftfarbe und -stärke, Handschriftschriften, vollständig clientseitig."
       },
       "speech-to-text": {
-        "name": "Sprache zu Text",
+        "name": "Live-Diktat (Mikrofon)",
         "description": "Wandle Sprache kostenlos online in Text um – mit Spracheingabe und Diktat in deinem Browser. Mehrere Sprachen, Kopieren und Herunterladen."
       },
       "ascii-art": {
@@ -653,6 +655,22 @@
         "name": "GIF-Ersteller",
         "description": "Verwandle eine Bildserie in ein animiertes GIF. Frames neu anordnen, Tempo einstellen, wiederholen und skalieren."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "Bild",
+      "fileTools": "Dateien",
+      "mediaTools": "Medien",
+      "textLanguage": "Text",
+      "dataTools": "Daten",
+      "mathFinance": "Mathe",
+      "productivity": "Produktivität",
+      "devTools": "Dev",
+      "designTools": "Design",
+      "securityTools": "Sicherheit",
+      "aiTools": "KI",
+      "testsGames": "Spiele",
+      "schoolLearning": "Schule",
+      "business": "Business"
     }
   },
   "Tools": {
@@ -991,26 +1009,13 @@
       "subtitle": "Audiodateien in deinem Browser bearbeiten und verarbeiten",
       "dropHere": "Audiodatei hierher ziehen oder klicken zum Hochladen",
       "currentTime": "Aktuelle Zeit: {current}s / {total}s",
-      "tabPlayback": "Wiedergabe",
-      "tabEffects": "Effekte",
-      "tabTrim": "Zuschneiden",
-      "fadeIn": "Einblenden",
-      "fadeOut": "Ausblenden",
-      "addEcho": "Echo hinzufügen",
       "resetSpeed": "Geschwindigkeit zurücksetzen",
-      "appliedEffects": "Angewendete Effekte",
-      "selection": "Auswahl: {start}s – {end}s",
       "seconds": "{count} Sekunden",
       "invalidAudioFile": "Bitte wähle eine gültige Audiodatei",
       "fileLoadedSuccess": "Audiodatei erfolgreich geladen",
       "errorLoadingFile": "Fehler beim Laden der Audiodatei",
       "errorProcessingFile": "Fehler beim Verarbeiten der Audiodatei",
-      "fadeInApplied": "Einblenden angewendet",
-      "fadeOutApplied": "Ausblenden angewendet",
-      "echoApplied": "Echo-Effekt angewendet",
       "speedSet": "Wiedergabegeschwindigkeit auf {speed}x gesetzt",
-      "processingDownload": "Audio wird zum Herunterladen verarbeitet …",
-      "errorProcessingDownload": "Fehler beim Verarbeiten des Audios zum Herunterladen",
       "downloadOriginal": "Original herunterladen"
     },
     "MicCameraTester": {
@@ -1046,7 +1051,6 @@
       "alternating": "aBwEcHsElNd",
       "inverseCase": "uMgEkEhRtE sChReIbWeIsE",
       "noTextToConvert": "Kein Text zum Konvertieren",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TextCounter": {
@@ -1073,7 +1077,6 @@
       "speakingTime": "Sprechzeit",
       "speakingTimeDesc": "155 Wörter pro Minute",
       "minSuffix": "Min.",
-      "noTextToCopy": "Kein Text zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TextDiffViewer": {
@@ -1110,7 +1113,6 @@
       "shuffle": "Mischen",
       "reverse": "Umkehren",
       "enterTextFirst": "Bitte gib zuerst etwas Text ein",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "nothingToDownload": "Nichts zum Herunterladen",
       "downloaded": "sorted-text.txt heruntergeladen"
@@ -1129,7 +1131,6 @@
       "inputPlaceholderText": "Gib hier Text ein …",
       "inputPlaceholderEncoded": "Gib hier den kodierten Wert ein …",
       "charsBytes": "{chars} Zeichen / {bytes} Bytes",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "copyFailed": "Kopieren in die Zwischenablage fehlgeschlagen",
       "binaryInput": "Binär-Eingabe",
@@ -1162,7 +1163,6 @@
       "outputTooLargeDesc": "Das Ergebnis würde 1.000.000 Zeichen überschreiten. Bitte reduziere die Wiederholungsanzahl oder kürze deinen Eingabetext.",
       "chars": "Zeichen",
       "lines": "Zeilen",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "nothingToDownload": "Nichts zum Herunterladen",
       "downloaded": "repeated-text.txt heruntergeladen",
@@ -1194,7 +1194,6 @@
       "referenceDesc": "Zeichentabelle A–Z, 0–9",
       "words": "Wörter",
       "chars": "Zeichen",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "MarkdownEditor": {
@@ -1252,7 +1251,6 @@
       "minRead": "Min. Lesezeit",
       "previewPlaceholder": "Die Vorschau erscheint hier …",
       "htmlOutputPlaceholder": "Die HTML-Ausgabe erscheint hier …",
-      "nothingToCopy": "Nichts zum Kopieren",
       "htmlCopied": "HTML in die Zwischenablage kopiert",
       "nothingToDownload": "Nichts zum Herunterladen",
       "downloadedHtml": "document.html heruntergeladen"
@@ -1278,7 +1276,6 @@
       "downloaded": "Heruntergeladen",
       "ariaHtmlInput": "HTML-Eingabe",
       "ariaHtmlOutput": "HTML-Ausgabe",
-      "ariaCopy": "Kopieren",
       "ariaDownload": "Herunterladen",
       "processingFailed": "Verarbeitung fehlgeschlagen"
     },
@@ -1293,8 +1290,6 @@
       "resetToSample": "Auf Beispielcode zurücksetzen"
     },
     "CssMinifier": {
-      "title": "CSS-Minifizierer / -Verschönerer",
-      "description": "Minimiere oder formatiere deinen CSS-Code sofort",
       "tabMinify": "Minimieren",
       "tabBeautify": "Verschönern",
       "sampleCss": "Beispiel-CSS",
@@ -1311,17 +1306,12 @@
       "lines": "Zeilen",
       "chars": "Zeichen",
       "noReduction": "Keine Reduzierung",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "failedToCopy": "Kopieren fehlgeschlagen",
       "downloaded": "Heruntergeladen",
       "ariaCssInput": "CSS-Eingabe",
       "ariaCssOutput": "CSS-Ausgabe",
-      "ariaCopy": "Kopieren",
       "ariaDownload": "Herunterladen"
     },
     "SqlFormatter": {
-      "title": "SQL-Formatierer",
-      "description": "Formatiere, verschönere und minimiere SQL-Abfragen",
       "dialect": "Dialekt",
       "commaStyle": "Komma-Stil",
       "trailing": "Nachgestellt",
@@ -1342,13 +1332,10 @@
       "sqlMinified": "SQL minimiert",
       "formattingFailed": "Formatierung fehlgeschlagen",
       "minificationFailed": "Minimierung fehlgeschlagen",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "failedToCopy": "Kopieren fehlgeschlagen",
       "downloaded": "Heruntergeladen",
       "dialectStandard": "Standard-SQL",
       "ariaSqlInput": "SQL-Eingabe",
       "ariaSqlOutput": "SQL-Ausgabe",
-      "ariaCopy": "Kopieren",
       "ariaDownload": "Herunterladen"
     },
     "WordFrequency": {
@@ -1395,7 +1382,6 @@
       "format": "Formatieren",
       "minify": "Minimieren",
       "validate": "Validieren",
-      "copy": "Kopieren",
       "loadSample": "Beispiel laden",
       "clear": "Leeren",
       "indent": "Einrückung:",
@@ -1415,7 +1401,6 @@
       "minifiedSuccess": "JSON minimiert",
       "isValid": "JSON ist gültig",
       "invalidJson": "Ungültiges JSON",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen"
     },
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "Bitte gib eine Eingabe ein",
       "conversionSuccessful": "Konvertierung erfolgreich",
       "fileLoadedSuccessfully": "Datei erfolgreich geladen",
-      "noOutputToCopy": "Keine Ausgabe zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen",
       "noOutputToDownload": "Keine Ausgabe zum Herunterladen",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "Tauschen",
-      "copyOutput": "Ausgabe kopieren",
       "loadSample": "Beispiel laden",
       "clear": "Leeren",
       "yamlInput": "YAML-Eingabe",
@@ -1765,7 +1748,6 @@
       "valid": "Gültig",
       "conversionFailed": "Konvertierung fehlgeschlagen",
       "convertedSuccessfully": "Erfolgreich konvertiert",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen",
       "error": "Fehler:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "Bitte gib eine Eingabe ein",
       "encodedSuccessfully": "Erfolgreich kodiert",
       "decodedSuccessfully": "Erfolgreich dekodiert",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen",
       "encodingFailed": "Kodierung fehlgeschlagen: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} ausgewählt",
       "generateData": "Daten generieren",
       "outputTitle": "Ausgabe",
-      "copy": "Kopieren",
       "download": "Herunterladen",
       "outputPlaceholder": "Klicke auf „Daten generieren“, um Fake-Datensätze zu erstellen …",
       "selectAtLeastOneField": "Wähle mindestens ein Feld aus",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "Dein Lorem-Ipsum-Platzhaltertext",
       "generatedTextPlaceholder": "Der generierte Text erscheint hier …",
       "characters": "Zeichen",
-      "copyText": "Text kopieren",
       "quickGenerate": "Schnellgenerierung",
       "quickGenerateDesc": "Erzeuge gängige Mengen mit einem Klick",
       "oneParagraph": "1 Absatz",
@@ -1838,11 +1817,9 @@
       "fiveSentences": "5 Sätze",
       "aboutLoremTitle": "Über Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum ist einfach ein Blindtext der Druck- und Satzbranche. Lorem Ipsum ist seit dem 16. Jahrhundert der Standard-Blindtext der Branche, als ein unbekannter Drucker einen Setzkasten nahm und daraus ein Mustersatzbuch fertigte. Es wird häufig im Webdesign, Grafikdesign und Verlagswesen als Platzhaltertext verwendet.",
-      "noTextToCopy": "Kein Text zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TodoList": {
-      "title": "Aufgabenliste",
       "addNewTodo": "Neue Aufgabe hinzufügen",
       "placeholder": "Was muss erledigt werden?",
       "addButton": "Hinzufügen",
@@ -1882,7 +1859,6 @@
     },
     "KeepAwake": {
       "title": "Wachhalten",
-      "subtitle": "Verhindere, dass dein Bildschirm in den Ruhezustand wechselt",
       "status": "Status",
       "inactive": "Inaktiv",
       "active": "Aktiv",
@@ -1922,8 +1898,6 @@
       "activatedInfinity": "Wachhalten aktiviert – Unbegrenzt-Modus"
     },
     "PomodoroTimer": {
-      "title": "Pomodoro-Timer",
-      "subtitle": "Bleib fokussiert, mach Pausen",
       "settings": "Einstellungen",
       "workDuration": "Arbeitsdauer (Min.)",
       "shortBreak": "Kurze Pause (Min.)",
@@ -1950,7 +1924,6 @@
       "min": "Min."
     },
     "WorldClock": {
-      "title": "Weltzeituhr",
       "citiesCount": "Aktuelle Uhrzeit in {count} Städten",
       "addCity": "Stadt hinzufügen …",
       "sortByUTC": "Nach UTC sortieren",
@@ -2018,8 +1991,6 @@
       }
     },
     "Stopwatch": {
-      "title": "Stoppuhr",
-      "subtitle": "Präzise Rundenzeiterfassung mit Tastenkürzeln",
       "start": "Starten",
       "pause": "Pause",
       "lap": "Runde",
@@ -2039,8 +2010,6 @@
       "resetKey": "Zurücksetzen"
     },
     "HabitTracker": {
-      "title": "Gewohnheits-Tracker",
-      "subtitle": "Baue Serien auf, verfolge Fortschritte",
       "addHabit": "Gewohnheit hinzufügen",
       "cancel": "Abbrechen",
       "totalHabits": "Gewohnheiten gesamt",
@@ -2265,8 +2234,7 @@
       "differentAmountsPerPerson": "Unterschiedliche Beträge pro Person",
       "pays": "zahlt",
       "enterBillPrompt": "Gib einen Rechnungsbetrag ein, um loszulegen",
-      "summaryCopied": "Zusammenfassung in die Zwischenablage kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "summaryCopied": "Zusammenfassung in die Zwischenablage kopiert"
     },
     "UnitConverter": {
       "converter": "Konverter",
@@ -2418,7 +2386,6 @@
       "enterNumber": "Zahl eingeben",
       "enterRoman": "Römische Zahl eingeben",
       "result": "Ergebnis",
-      "copy": "Kopieren",
       "stepByStep": "Schritt für Schritt",
       "runningTotal": "Laufende Summe",
       "remaining": "Verbleibend",
@@ -2427,7 +2394,6 @@
       "errorInvalidFormat": "Ungültige römische Zahl – prüfe das Zahlenformat",
       "errorOutOfRange": "Gib eine Zahl zwischen 1 und 3999 ein",
       "copiedToClipboard": "In die Zwischenablage kopiert",
-      "failedToCopy": "Kopieren fehlgeschlagen",
       "numberPlaceholder": "z. B. 2024",
       "romanPlaceholder": "z. B. MMXXIV"
     },
@@ -3157,8 +3123,7 @@
       "previewButton": "Button-Komponente",
       "previewUI": "Beispiel einer UI-Komponente",
       "presets": "Vorlagen",
-      "ratioCopied": "Kontrastverhältnis kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "ratioCopied": "Kontrastverhältnis kopiert"
     },
     "ColorBlindnessSimulator": {
       "title": "Farbenblindheits-Simulator",
@@ -3315,8 +3280,7 @@
       "errorFutureDate": "Das Geburtsdatum darf nicht in der Zukunft liegen",
       "errorMissingBirthDates": "Bitte wähle beide Geburtsdaten",
       "errorFutureDates": "Die Geburtsdaten dürfen nicht in der Zukunft liegen",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. Alle Rechte vorbehalten.",
@@ -3353,8 +3317,7 @@
       "errorMissingInfo": "Bitte wähle beide Zeitzonen und gib Datum/Uhrzeit ein",
       "errorInvalidDate": "Ungültiges Datum – bitte gib ein gültiges Datum und eine gültige Uhrzeit ein",
       "errorConversion": "Konvertierungsfehler – die Zeit konnte nicht konvertiert werden",
-      "copiedToClipboard": "In die Zwischenablage kopiert",
-      "copyFailed": "Kopieren fehlgeschlagen"
+      "copiedToClipboard": "In die Zwischenablage kopiert"
     },
     "TypingTest": {
       "title": "Tipptest",
@@ -3861,7 +3824,6 @@
       "headers": "Header",
       "query": "Query",
       "body": "Body",
-      "nothingToCopy": "Nichts zum Kopieren",
       "copiedToClipboard": "In die Zwischenablage kopiert",
       "failedToCopy": "Kopieren in die Zwischenablage fehlgeschlagen"
     },
@@ -3976,7 +3938,6 @@
       "outputPlaceholder": "Deine Favicons erscheinen hier",
       "zipContents": "Das ZIP enthält alle PNG-Größen, favicon.ico (16+32), site.webmanifest und das HTML-Snippet.",
       "htmlSnippet": "HTML-Snippet",
-      "copySnippet": "HTML-Snippet kopieren",
       "snippetCopied": "HTML-Snippet kopiert",
       "copyFailed": "Konnte nicht in die Zwischenablage kopiert werden",
       "imageTooLarge": "Das Bild ist zu groß. Die maximale Größe beträgt 15 MB.",
@@ -4253,7 +4214,6 @@
       "copied": "Transkript in die Zwischenablage kopiert",
       "copyFailed": "Konnte nicht in die Zwischenablage kopiert werden",
       "downloaded": "Transkript heruntergeladen",
-      "nothingToCopy": "Noch nichts zum Kopieren",
       "nothingToDownload": "Noch nichts zum Herunterladen",
       "notSupported": "Dein Browser unterstützt keine Spracherkennung. Verwende für das beste Erlebnis Google Chrome oder Microsoft Edge. Die Firefox-Unterstützung ist eingeschränkt.",
       "micDenied": "Der Mikrofonzugriff wurde verweigert. Erlaube die Mikrofonberechtigung und versuche es erneut.",
@@ -4545,7 +4505,6 @@
       "captionLabel": "Bildunterschrift",
       "altLabel": "Alt-Text (HTML)",
       "altHint": "Füge dies in dein <img>-Tag ein, um Barrierefreiheit und SEO zu verbessern. Überprüfe und bearbeite es passend zum Kontext des Bildes.",
-      "copy": "Kopieren",
       "copyCaption": "Bildunterschrift kopieren",
       "copyAlt": "Alt-Text kopieren",
       "copied": "In die Zwischenablage kopiert",
@@ -4576,7 +4535,6 @@
       "copy": "Kopieren",
       "copied": "In die Zwischenablage kopiert",
       "copyFailed": "Konnte nicht in die Zwischenablage kopiert werden",
-      "nothingToCopy": "Noch nichts zum Kopieren",
       "enterText": "Bitte gib etwas Text ein",
       "noneFound": "Keine persönlichen Informationen erkannt",
       "detectedToast": "{count} Element(e) mit persönlichen Informationen erkannt",
@@ -4699,5 +4657,105 @@
     "howToTitle": "So verwendest du {tool}",
     "faqTitle": "Häufig gestellte Fragen",
     "relatedTitle": "Verwandte Tools"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} Tools · auf deinem Gerät",
+    "everything": "Alles",
+    "blog": "Blog",
+    "github": "GitHub",
+    "search": "Suchen",
+    "sponsorLabel": "Vom Entwickler",
+    "new": "neu",
+    "language": "Sprache",
+    "theme": "Design",
+    "soundOn": "Ton an",
+    "soundOff": "Ton aus",
+    "maker": {
+      "kashfbank": {
+        "tag": "Kontoauszüge → CSV",
+        "desc": "Wandle jeden Kontoauszug (PDF) in saubere CSV- und Excel-Dateien um.",
+        "cta": "Ausprobieren"
+      },
+      "superbilled": {
+        "tag": "Superbills für Therapeuten",
+        "desc": "Versicherungsfertige Superbills für Privattherapeuten.",
+        "cta": "Ansehen"
+      }
+    }
+  },
+  "Landing": {
+    "statementLead": "Deine Dateien verlassen nie dein Gerät.",
+    "statementTail": "Über {count} kostenlose Open-Source-Tools — volle Privatsphäre, direkt im Browser.",
+    "searchPlaceholder": "Über {count} Tools durchsuchen …",
+    "demoTitle": "Probier's aus. Zieh ein Bild hierher.",
+    "demoTitleBusy": "Wird komprimiert …",
+    "demoSub": "Die Komprimierung passiert direkt hier, auf deinem Gerät. Kein Upload – schau in den Netzwerk-Tab.",
+    "demoSmaller": "{pct}% kleiner",
+    "apps": "Apps",
+    "popular": "Beliebt",
+    "all": "Alle",
+    "allTools": "Alle {count} Tools",
+    "viewAll": "Alle Tools anzeigen",
+    "onDevice": "auf deinem Gerät",
+    "sponsorTile": "Dein Dev-Tool, hier zu Hause",
+    "coffee": "Spendiere mir einen Kaffee",
+    "favorites": "Deine Favoriten",
+    "recent": "Zuletzt verwendet",
+    "dropAnyFile": "Beliebige Datei hier ablegen",
+    "dropSuggest": "Wir schlagen dir das passende Tool vor — Bilder werden direkt auf deinem Gerät komprimiert."
+  },
+  "Template": {
+    "onDevicePromise": "Läuft auf deinem Gerät – nichts wird hochgeladen, nichts gespeichert.",
+    "networkNote": "Läuft in deinem Browser – Live-Daten stammen von einer öffentlichen API.",
+    "related": "Ähnliche",
+    "startOver": "Von vorn beginnen",
+    "download": "Herunterladen",
+    "dropTitle": "Datei ablegen oder zum Auswählen klicken",
+    "staysOnDevice": "bleibt auf deinem Gerät"
+  },
+  "Legal": {
+    "nav": {
+      "license": "Lizenz",
+      "privacy": "Datenschutz",
+      "terms": "Nutzungsbedingungen"
+    },
+    "common": {
+      "contactLinkText": "Issue auf GitHub öffnen",
+      "licenseLinkText": "AGPL-3.0-Lizenz lesen"
+    },
+    "privacy": {
+      "title": "Datenschutzerklärung",
+      "intro": "BrowseryTools ist so gebaut, dass deine Dateien nie einen Grund haben, dein Gerät zu verlassen. Diese Seite erklärt in einfachen Worten, was das bedeutet und wie wenig wir tatsächlich erheben.",
+      "noAccountsHeading": "Keine Konten, kein Login",
+      "noAccountsBody": "Es gibt nichts zu registrieren. Wir fragen weder nach deinem Namen noch nach E-Mail oder Zahlungsdaten, und wir legen nirgendwo ein Profil von dir an.",
+      "onDeviceHeading": "Deine Dateien verlassen nie dein Gerät",
+      "onDeviceBody": "Jedes Tool läuft vollständig in deinem Browser. Bilder, Dokumente und Texte, die du bearbeitest, werden lokal gelesen, umgewandelt und heruntergeladen — nichts wird jemals auf einen Server hochgeladen. Du kannst das selbst prüfen: Öffne den Netzwerk-Tab deines Browsers, während du ein Tool benutzt.",
+      "analyticsHeading": "Aggregierte Nutzungsstatistik",
+      "analyticsBody": "Wir nutzen Vercel Analytics, um zu sehen, welche Seiten und Tools beliebt sind. Es liefert nur anonyme, aggregierte Zahlen — Seitenaufrufe und grobe Nutzungswerte — nie den Inhalt dessen, was du bearbeitest, und nie etwas, das dir persönlich zugeordnet werden kann.",
+      "localStorageHeading": "Lokale Einstellungen",
+      "localStorageBody": "Manche Tools merken sich deine Einstellungen — etwa ein Theme oder eine zuletzt-verwendet-Liste — über den lokalen Speicher deines Browsers. Diese Daten bleiben nur auf deinem Gerät und werden nie irgendwohin übertragen.",
+      "openSourceHeading": "Durchgehend Open Source",
+      "openSourceBody": "Der gesamte Code ist öffentlich auf GitHub einsehbar. Wenn du genau wissen willst, was ein Tool mit deinen Daten macht, kannst du den Quellcode selbst lesen, statt uns einfach zu glauben.",
+      "contactHeading": "Fragen",
+      "contactBody": "Wenn hier etwas unklar ist, erreichst du uns am schnellsten über GitHub.",
+      "changesHeading": "Änderungen an dieser Richtlinie",
+      "changesBody": "Sollte sich diese Richtlinie einmal ändern, aktualisieren wir diese Seite. Da wir keine E-Mail-Adressen sammeln, können wir dich nicht direkt benachrichtigen — schau bei Interesse einfach wieder vorbei."
+    },
+    "terms": {
+      "title": "Nutzungsbedingungen",
+      "intro": "BrowseryTools ist freie Software. Mit der Nutzung stimmst du Folgendem zu — und es ist kürzer, als du denkst.",
+      "licenseHeading": "Open-Source-Lizenz",
+      "licenseBody": "Der Code steht unter der GNU Affero General Public License v3.0 (AGPL-3.0). Du darfst ihn lesen, forken und eine eigene Kopie betreiben, im Rahmen der Bedingungen dieser Lizenz.",
+      "freeHeading": "Kostenlos für alle",
+      "freeBody": "Jedes Tool ist kostenlos nutzbar, für private wie kommerzielle Projekte gleichermaßen. Keine Paywall, keine Nutzungsgrenzen, keine Premium-Stufe, die die guten Funktionen versteckt.",
+      "warrantyHeading": "Keine Gewährleistung",
+      "warrantyBody": "BrowseryTools wird ohne jegliche Gewährleistung bereitgestellt. Wir achten darauf, dass jedes Tool korrekt und zuverlässig arbeitet, aber du bist selbst dafür verantwortlich, Ergebnisse zu prüfen, bevor du dich bei etwas Wichtigem darauf verlässt.",
+      "acceptableUseHeading": "Zulässige Nutzung",
+      "acceptableUseBody": "Nutze die Tools für legale Zwecke. Du bist verantwortlich für den Inhalt, den du bearbeitest, und für die Einhaltung aller dafür geltenden Gesetze.",
+      "changesHeading": "Änderungen dieser Bedingungen",
+      "changesBody": "Wir aktualisieren diese Bedingungen möglicherweise, während sich das Projekt weiterentwickelt. Nutzt du BrowseryTools nach einer Änderung weiter, akzeptierst du die neuen Bedingungen.",
+      "contactHeading": "Fragen",
+      "contactBody": "Fragen zu diesen Bedingungen sind willkommen — erreiche uns über GitHub."
+    }
   }
 }

@@ -1,14 +1,7 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useId } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
@@ -22,7 +15,6 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import {
-  Copy,
   Plus,
   Trash2,
   Download,
@@ -35,6 +27,10 @@ import {
   ArrowUpRight,
   ArrowUpLeft,
 } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 interface ColorStop {
   id: string;
@@ -68,6 +64,7 @@ function hexToRgba(hex: string, opacity: number): string {
   return `rgba(${r}, ${g}, ${b}, ${opacity.toFixed(2)})`;
 }
 
+// content value: named gradient preset swatches, independent of app theme.
 const PRESETS = [
   { name: "Ocean Breeze", type: "linear" as GradientType, angle: 135, stops: [{ id: "a", color: "#667eea", opacity: 1, position: 0 }, { id: "b", color: "#764ba2", opacity: 1, position: 100 }] },
   { name: "Sunset", type: "linear" as GradientType, angle: 90, stops: [{ id: "a", color: "#f093fb", opacity: 1, position: 0 }, { id: "b", color: "#f5576c", opacity: 1, position: 100 }] },
@@ -121,8 +118,10 @@ function buildGradientCSS(
 
 export default function CssGradientGenerator() {
   const t = useTranslations("Tools.CssGradientGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [gradientType, setGradientType] = useState<GradientType>("linear");
   const [angle, setAngle] = useState(135);
+  // content value: default color-stop seeds, independent of app theme.
   const [stops, setStops] = useState<ColorStop[]>([
     { id: uid(), color: "#667eea", opacity: 1, position: 0 },
     { id: uid(), color: "#764ba2", opacity: 1, position: 100 },
@@ -130,6 +129,9 @@ export default function CssGradientGenerator() {
   const [radial, setRadial] = useState<RadialConfig>({ shape: "circle", position: "center" });
   const [conic, setConic] = useState<ConicConfig>({ startAngle: 0, position: "center" });
   const previewRef = useRef<HTMLDivElement>(null);
+  const radialShapeId = useId();
+  const radialPositionId = useId();
+  const conicPositionId = useId();
 
   const gradientValue = buildGradientCSS(gradientType, stops, angle, radial, conic);
   const cssOutput = `background: ${gradientValue};`;
@@ -141,6 +143,7 @@ export default function CssGradientGenerator() {
       const mid = Math.floor(sorted.length / 2);
       newPos = Math.round((sorted[mid - 1].position + sorted[mid].position) / 2);
     }
+    // content value: new-stop default color, independent of app theme.
     setStops((prev) => [...prev, { id: uid(), color: "#ffffff", opacity: 1, position: newPos }]);
   }, [stops]);
 
@@ -154,15 +157,6 @@ export default function CssGradientGenerator() {
   const updateStop = useCallback((id: string, field: keyof ColorStop, value: string | number) => {
     setStops((prev) => prev.map((s) => (s.id === id ? { ...s, [field]: value } : s)));
   }, []);
-
-  const copyCSS = useCallback(async () => {
-    try {
-      await navigator.clipboard.writeText(cssOutput);
-      toast.success(t("cssCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  }, [cssOutput, t]);
 
   const exportPNG = useCallback(() => {
     const canvas = document.createElement("canvas");
@@ -212,14 +206,14 @@ export default function CssGradientGenerator() {
   }, [t]);
 
   return (
-    <div className="container mx-auto max-w-5xl flex flex-col h-[calc(100vh-theme(spacing.16))] shadow-none">
-      <div className="flex-1 overflow-auto p-6 space-y-6">
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>{t("description")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+    <ToolShell
+      slug="css-gradient"
+      title={tc("tools.css-gradient.name")}
+      sub={tc("tools.css-gradient.description")}
+      width="wide"
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
+        <SettingsCard>
             <Tabs value={gradientType} onValueChange={(v) => setGradientType(v as GradientType)}>
               <TabsList className="w-full">
                 <TabsTrigger value="linear" className="flex-1">{t("linear")}</TabsTrigger>
@@ -228,13 +222,7 @@ export default function CssGradientGenerator() {
               </TabsList>
 
               <TabsContent value="linear" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <Label>{t("angle")}</Label>
-                    <span className="text-sm text-muted-foreground font-mono">{angle}deg</span>
-                  </div>
-                  <Slider min={0} max={360} step={1} value={[angle]} onValueChange={([v]) => setAngle(v)} />
-                </div>
+                <SliderRow label={t("angle")} value={angle} display={<>{angle}deg</>} min={0} max={360} onChange={setAngle} />
                 <div className="space-y-2">
                   <Label>{t("directionPresets")}</Label>
                   <div className="flex flex-wrap gap-2">
@@ -252,41 +240,32 @@ export default function CssGradientGenerator() {
 
               <TabsContent value="radial" className="space-y-4 mt-4">
                 <div className="grid grid-cols-2 gap-4">
-                  <div className="space-y-2">
-                    <Label>{t("shape")}</Label>
+                  <OptionRow label={t("shape")} htmlFor={radialShapeId}>
                     <Select value={radial.shape} onValueChange={(v) => setRadial((r) => ({ ...r, shape: v as "circle" | "ellipse" }))}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectTrigger id={radialShapeId}><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="circle">{t("circle")}</SelectItem>
                         <SelectItem value="ellipse">{t("ellipse")}</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
-                  <div className="space-y-2">
-                    <Label>{t("position")}</Label>
+                  </OptionRow>
+                  <OptionRow label={t("position")} htmlFor={radialPositionId}>
                     <Select value={radial.position} onValueChange={(v) => setRadial((r) => ({ ...r, position: v }))}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectTrigger id={radialPositionId}><SelectValue /></SelectTrigger>
                       <SelectContent>{POSITION_OPTIONS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
                     </Select>
-                  </div>
+                  </OptionRow>
                 </div>
               </TabsContent>
 
               <TabsContent value="conic" className="space-y-4 mt-4">
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <Label>{t("startAngle")}</Label>
-                    <span className="text-sm text-muted-foreground font-mono">{conic.startAngle}deg</span>
-                  </div>
-                  <Slider min={0} max={360} step={1} value={[conic.startAngle]} onValueChange={([v]) => setConic((c) => ({ ...c, startAngle: v }))} />
-                </div>
-                <div className="space-y-2">
-                  <Label>{t("position")}</Label>
+                <SliderRow label={t("startAngle")} value={conic.startAngle} display={<>{conic.startAngle}deg</>} min={0} max={360} onChange={(v) => setConic((c) => ({ ...c, startAngle: v }))} />
+                <OptionRow label={t("position")} htmlFor={conicPositionId}>
                   <Select value={conic.position} onValueChange={(v) => setConic((c) => ({ ...c, position: v }))}>
-                    <SelectTrigger><SelectValue /></SelectTrigger>
+                    <SelectTrigger id={conicPositionId}><SelectValue /></SelectTrigger>
                     <SelectContent>{POSITION_OPTIONS.map((p) => <SelectItem key={p} value={p}>{p}</SelectItem>)}</SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
               </TabsContent>
             </Tabs>
 
@@ -295,6 +274,8 @@ export default function CssGradientGenerator() {
               <div ref={previewRef} className="w-full rounded-lg border" style={{ height: 200, background: gradientValue }} />
             </div>
 
+            {/* Per-stop repeater row: compact inline color/position/opacity
+                controls, bespoke per ClipPathGenerator vertex-row precedent. */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label>{t("colorStops")}</Label>
@@ -318,27 +299,20 @@ export default function CssGradientGenerator() {
               </div>
             </div>
 
-            <div className="space-y-2">
-              <Label>{t("generatedCSS")}</Label>
-              <div className="flex gap-2 items-start">
-                <pre className="flex-1 text-xs bg-muted p-3 rounded-lg border overflow-x-auto whitespace-pre-wrap break-all font-mono">{cssOutput}</pre>
-                <Button variant="outline" size="icon" onClick={copyCSS} className="shrink-0"><Copy className="w-4 h-4" /></Button>
-              </div>
-            </div>
+            <OutputPanel
+              title={t("generatedCSS")}
+              text={cssOutput}
+              copyLabel={t("copyCSS")}
+              copySuccessMessage={t("cssCopied")}
+              copyErrorMessage={t("copyFailed")}
+            />
 
             <div className="flex gap-2">
-              <Button onClick={copyCSS} className="flex-1"><Copy className="w-4 h-4 me-2" />{t("copyCSS")}</Button>
-              <Button variant="outline" onClick={exportPNG}><Download className="w-4 h-4 me-2" />{t("exportPNG")}</Button>
+              <Button variant="outline" onClick={exportPNG} className="flex-1"><Download className="w-4 h-4 me-2" />{t("exportPNG")}</Button>
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
-        <Card className="shadow-none">
-          <CardHeader>
-            <CardTitle className="text-base">{t("presetGradients")}</CardTitle>
-            <CardDescription>{t("presetDescription")}</CardDescription>
-          </CardHeader>
-          <CardContent>
+        <SettingsCard title={t("presetGradients")} description={t("presetDescription")}>
             <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
               {PRESETS.map((preset) => {
                 const sorted = [...preset.stops].sort((a, b) => a.position - b.position);
@@ -349,7 +323,7 @@ export default function CssGradientGenerator() {
                   ? `radial-gradient(circle at center, ${stopStr})`
                   : `conic-gradient(from 0deg at center, ${stopStr})`;
                 return (
-                  <button key={preset.name} onClick={() => loadPreset(preset)} className="group relative h-20 rounded-lg border overflow-hidden hover:ring-2 hover:ring-primary transition-all" style={{ background: bg }} title={preset.name}>
+                  <button key={preset.name} onClick={() => loadPreset(preset)} className="group relative h-20 rounded-lg border overflow-hidden hover:ring-2 hover:ring-primary transition-shadow" style={{ background: bg }} title={preset.name}>
                     <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
                       <span className="text-white text-xs font-medium text-center px-2 leading-tight">{preset.name}</span>
                     </div>
@@ -358,9 +332,8 @@ export default function CssGradientGenerator() {
                 );
               })}
             </div>
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
-    </div>
+    </ToolShell>
   );
 }

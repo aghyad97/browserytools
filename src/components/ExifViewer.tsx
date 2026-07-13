@@ -2,11 +2,14 @@
 
 import { useState, useRef, useCallback } from "react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Upload, FileImage, MapPin, Camera, Settings, Clock, HardDrive } from "lucide-react";
+import { Upload, MapPin, Camera, Settings, Clock, HardDrive } from "lucide-react";
 import { toast } from "sonner";
+import { formatBytes } from "@/lib/format";
 
 interface ExifEntry {
   label: string;
@@ -19,12 +22,6 @@ interface ExifGroups {
   settings: ExifEntry[];
   datetime: ExifEntry[];
   gps: ExifEntry[];
-}
-
-function formatBytes(bytes: number): string {
-  if (bytes < 1024) return `${bytes} B`;
-  if (bytes < 1048576) return `${(bytes / 1024).toFixed(1)} KB`;
-  return `${(bytes / 1048576).toFixed(2)} MB`;
 }
 
 function readUint16(view: DataView, offset: number, le: boolean): number {
@@ -329,6 +326,7 @@ interface FileInfo {
 
 export default function ExifViewer() {
   const t = useTranslations("Tools.ExifViewer");
+  const tc = useTranslations("ToolsConfig");
   const [fileInfo, setFileInfo] = useState<FileInfo | null>(null);
   const [exifGroups, setExifGroups] = useState<Partial<ExifGroups> | null>(null);
   const [previewSrc, setPreviewSrc] = useState<string | null>(null);
@@ -395,12 +393,6 @@ export default function ExifViewer() {
     reader.readAsArrayBuffer(file);
   }, [t]);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    const f = e.dataTransfer.files[0];
-    if (f) handleFile(f);
-  }, [handleFile]);
-
   const mapsUrl = exifGroups ? buildGoogleMapsUrl(exifGroups) : null;
 
   const GroupSection = ({ title, icon, entries }: { title: string; icon: React.ReactNode; entries: ExifEntry[] }) => {
@@ -423,42 +415,31 @@ export default function ExifViewer() {
   };
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <FileImage className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="exif-viewer"
+      title={tc("tools.exif-viewer.name")}
+      sub={tc("tools.exif-viewer.description")}
+    >
+      <div className="space-y-6">
         {!fileInfo && (
-          <Card
-            className="border-dashed border-2 cursor-pointer hover:border-primary transition-colors"
-            onDrop={handleDrop}
-            onDragOver={(e) => e.preventDefault()}
-            onClick={() => fileInputRef.current?.click()}
+          <FileDropzone
+            onFiles={(files) => { const f = files[0]; if (f) handleFile(f); }}
+            accept={{ "image/*": [] }}
+            multiple={false}
+            className={({ isDragActive }) =>
+              `rounded-lg border-2 border-dashed cursor-pointer transition-colors pt-12 pb-12 px-4 flex flex-col items-center gap-4 text-center ${
+                isDragActive ? "border-primary bg-primary/5" : "hover:border-primary"
+              }`
+            }
           >
-            <CardContent className="pt-12 pb-12 flex flex-col items-center gap-4 text-center">
-              <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
-                <Upload className="w-8 h-8 text-muted-foreground" />
-              </div>
-              <div>
-                <p className="font-medium">{t("dropPhoto")}</p>
-                <p className="text-sm text-muted-foreground mt-1">{t("jpegRecommended")}</p>
-              </div>
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                className="hidden"
-                onChange={(e) => { const f = e.target.files?.[0]; if (f) handleFile(f); }}
-              />
-            </CardContent>
-          </Card>
+            <div className="w-16 h-16 rounded-full bg-muted flex items-center justify-center">
+              <Upload className="w-8 h-8 text-muted-foreground" />
+            </div>
+            <div>
+              <p className="font-medium">{t("dropPhoto")}</p>
+              <p className="text-sm text-muted-foreground mt-1">{t("jpegRecommended")}</p>
+            </div>
+          </FileDropzone>
         )}
 
         {loading && (
@@ -475,6 +456,7 @@ export default function ExifViewer() {
               <div className="flex gap-2 items-center flex-wrap">
                 <Badge variant="outline">{fileInfo.width} × {fileInfo.height}px</Badge>
                 <Badge variant="outline">{formatBytes(fileInfo.size)}</Badge>
+                {/* content value: green = "EXIF found" success status; no semantic success token exists in this monochrome design system */}
                 {exifGroups && <Badge className="bg-green-500 text-white">{t("exifDataFound")}</Badge>}
               </div>
               <Button variant="outline" size="sm" onClick={() => fileInputRef.current?.click()}>
@@ -557,6 +539,6 @@ export default function ExifViewer() {
           </>
         )}
       </div>
-    </div>
+    </ToolShell>
   );
 }

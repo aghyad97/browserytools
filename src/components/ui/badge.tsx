@@ -24,12 +24,16 @@ const badgeVariants = cva(
 )
 
 export interface BadgeProps
-  extends React.HTMLAttributes<HTMLDivElement>,
+  extends React.HTMLAttributes<HTMLSpanElement>,
     VariantProps<typeof badgeVariants> {}
 
+// A <span>, not a <div>: badges are inline phrasing content and several call
+// sites nest them inside <p> (e.g. Stopwatch's keyboard hint). A div inside a
+// p is invalid HTML — browsers reparent it and React hydration fails (#418).
+// Layout is unchanged (inline-flex). Matches upstream shadcn/ui.
 function Badge({ className, variant, ...props }: BadgeProps) {
   return (
-    <div className={cn(badgeVariants({ variant }), className)} {...props} />
+    <span className={cn(badgeVariants({ variant }), className)} {...props} />
   )
 }
 

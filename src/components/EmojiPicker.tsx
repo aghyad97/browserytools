@@ -3,12 +3,13 @@
 import { useState, useMemo, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Search, Clock, Smile } from "lucide-react";
+import { Search, Clock } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 
 interface EmojiData {
   emoji: string;
@@ -514,6 +515,7 @@ function saveRecent(emojis: string[]) {
 
 export default function EmojiPicker() {
   const t = useTranslations("Tools.EmojiPicker");
+  const tc = useTranslations("ToolsConfig");
   const [search, setSearch] = useState("");
   const [activeTab, setActiveTab] = useState("Smileys");
   const [recent, setRecent] = useState<string[]>([]);
@@ -597,18 +599,12 @@ export default function EmojiPicker() {
   );
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="emoji-picker"
+      title={tc("tools.emoji-picker.name")}
+      sub={tc("tools.emoji-picker.description")}
+    >
       <div className="max-w-3xl mx-auto space-y-4">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Smile className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
         {/* Search */}
         <div className="relative">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
@@ -627,7 +623,7 @@ export default function EmojiPicker() {
             <button
               key={tone.label}
               onClick={() => setSkinTone(i)}
-              className={`w-7 h-7 rounded-full flex items-center justify-center text-base transition-all border-2 ${
+              className={`w-7 h-7 rounded-full flex items-center justify-center text-base transition-[transform,border-color] border-2 ${
                 skinTone === i ? "border-primary scale-110" : "border-transparent hover:border-border"
               }`}
               title={tone.label}
@@ -652,33 +648,18 @@ export default function EmojiPicker() {
 
         {/* Search Results */}
         {filtered !== null ? (
-          <Card>
-            <CardHeader className="pb-2 pt-4">
-              <CardTitle className="text-sm flex items-center gap-2">
-                {t("searchResults")}
-                <Badge variant="secondary">{filtered.length}</Badge>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="pb-4">
+          <SettingsCard title={t("searchResults")} action={<Badge variant="secondary">{filtered.length}</Badge>}>
               {filtered.length > 0 ? (
                 <EmojiGrid emojis={filtered} />
               ) : (
                 <p className="text-sm text-muted-foreground text-center py-4">{t("noResults")} &quot;{search}&quot;</p>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         ) : (
           <>
             {/* Recently Used */}
             {recent.length > 0 && (
-              <Card>
-                <CardHeader className="pb-2 pt-4">
-                  <CardTitle className="text-sm flex items-center gap-2">
-                    <Clock className="w-4 h-4" />
-                    {t("recentlyUsed")}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="pb-4">
+              <SettingsCard title={<span className="flex items-center gap-2"><Clock className="w-4 h-4" />{t("recentlyUsed")}</span>}>
                   <div className="grid grid-cols-8 sm:grid-cols-10 md:grid-cols-12 gap-0.5">
                     {recent.map((emoji, i) => (
                       <button
@@ -701,11 +682,10 @@ export default function EmojiPicker() {
                       </button>
                     ))}
                   </div>
-                </CardContent>
-              </Card>
+              </SettingsCard>
             )}
 
-            {/* Category Tabs */}
+            {/* Category Tabs — 9 distinct data panels, kept as real tab semantics. */}
             <Tabs value={activeTab} onValueChange={setActiveTab}>
               <TabsList className="grid grid-cols-5 sm:grid-cols-9 w-full h-auto gap-0.5 flex-wrap">
                 {CATEGORIES.map((cat) => (
@@ -717,11 +697,9 @@ export default function EmojiPicker() {
 
               {CATEGORIES.map((cat) => (
                 <TabsContent key={cat} value={cat}>
-                  <Card>
-                    <CardContent className="pt-4 pb-4">
+                  <SettingsCard>
                       <EmojiGrid emojis={byCategory[cat] ?? []} />
-                    </CardContent>
-                  </Card>
+                  </SettingsCard>
                 </TabsContent>
               ))}
             </Tabs>
@@ -732,6 +710,6 @@ export default function EmojiPicker() {
           {t("footer")} {t("footerCount", { emojiCount: ALL_EMOJIS.length, catCount: CATEGORIES.length })}
         </p>
       </div>
-    </div>
+    </ToolShell>
   );
 }

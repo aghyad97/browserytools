@@ -1,0 +1,27 @@
+/* Tool title block — absorbs the retired Header's per-tool <h1> (spec §6.4).
+   Minimal mono eyebrow (category) + tool name, tokens only, logical spacing.
+   A precursor to the five-zone template's Crumb+Title zones. */
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-inline: 20px;
+  padding-block: 4px 10px;
+}
+
+.eyebrow {
+  font-family: var(--mono, ui-monospace, "SF Mono", "Cascadia Mono", monospace);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-faint);
+}
+
+.title {
+  font-size: 17px;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--bt-ink);
+}

@@ -1,18 +1,14 @@
 "use client";
 
 import { useCallback, useRef, useState } from "react";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import {
-  Upload,
-  Image as ImageIcon,
-  CopyIcon,
-  InfoIcon,
-  AccessibilityIcon,
-} from "lucide-react";
+import { Upload, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
@@ -24,6 +20,7 @@ type Captioner = (
 
 export default function ImageCaptioner() {
   const t = useTranslations("Tools.ImageCaptioner");
+  const tc = useTranslations("ToolsConfig");
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -47,12 +44,6 @@ export default function ImageCaptioner() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"] },
-    multiple: false,
-  });
 
   const generate = useCallback(async () => {
     if (!imageUrl) {
@@ -82,34 +73,24 @@ export default function ImageCaptioner() {
 
   const altSnippet = caption ? `alt="${caption}"` : "";
 
-  const copy = useCallback(
-    async (value: string) => {
-      try {
-        await navigator.clipboard.writeText(value);
-        toast.success(t("copied"));
-      } catch {
-        toast.error(t("copyFailed"));
-      }
-    },
-    [t]
-  );
-
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-3xl mx-auto space-y-4">
-          <div>
-            <h1 className="text-xl font-semibold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
-          </div>
-
+    <ToolShell
+      slug="image-captioner"
+      title={tc("tools.image-captioner.name")}
+      sub={tc("tools.image-captioner.description")}
+    >
+      <div className="space-y-4">
           <Card className="p-6 shadow-none">
-            <div
-              {...getRootProps()}
-              className={`
+            <FileDropzone
+              onFiles={onDrop}
+              accept={{
+                "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"],
+              }}
+              multiple={false}
+              className={({ isDragActive }) => `
                 h-64 rounded-lg border-2 border-dashed
                 flex flex-col items-center justify-center space-y-4 p-8
-                cursor-pointer transition-all duration-200
+                cursor-pointer transition-[border-color,background-color] duration-150
                 ${
                   isDragActive
                     ? "border-primary bg-primary/10 scale-[0.99]"
@@ -117,7 +98,6 @@ export default function ImageCaptioner() {
                 }
               `}
             >
-              <input {...getInputProps()} />
               {imageUrl ? (
                 <img
                   src={imageUrl}
@@ -137,7 +117,7 @@ export default function ImageCaptioner() {
                   </p>
                 </div>
               )}
-            </div>
+            </FileDropzone>
           </Card>
 
           <Button onClick={generate} disabled={busy || !imageUrl}>
@@ -154,53 +134,32 @@ export default function ImageCaptioner() {
           )}
 
           {caption && (
-            <Card className="p-4 space-y-4" data-testid="caption-result">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-3">
-                  <label className="text-sm font-medium">{t("captionLabel")}</label>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => copy(caption)}
-                    aria-label={t("copyCaption")}
-                  >
-                    <CopyIcon className="h-4 w-4 me-2" />
-                    {t("copy")}
-                  </Button>
-                </div>
-                <p
-                  dir="auto"
-                  className="rounded-lg border bg-muted/40 p-3 text-sm leading-relaxed"
-                >
+            <div className="space-y-4" data-testid="caption-result">
+              <OutputPanel
+                text={caption}
+                title={t("captionLabel")}
+                copyLabel={t("copyCaption")}
+                copySuccessMessage={t("copied")}
+                copyErrorMessage={t("copyFailed")}
+              >
+                <p dir="auto" className="p-3.5 text-sm leading-relaxed">
                   {caption}
                 </p>
-              </div>
+              </OutputPanel>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between gap-3">
-                  <label className="text-sm font-medium flex items-center gap-2">
-                    <AccessibilityIcon className="h-4 w-4 text-primary" />
-                    {t("altLabel")}
-                  </label>
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => copy(altSnippet)}
-                    aria-label={t("copyAlt")}
-                  >
-                    <CopyIcon className="h-4 w-4 me-2" />
-                    {t("copy")}
-                  </Button>
-                </div>
-                <pre
-                  dir="ltr"
-                  className="overflow-x-auto rounded-lg border bg-muted/40 p-3 text-xs"
-                >
+              <OutputPanel
+                text={altSnippet}
+                title={t("altLabel")}
+                copyLabel={t("copyAlt")}
+                copySuccessMessage={t("copied")}
+                copyErrorMessage={t("copyFailed")}
+              >
+                <pre dir="ltr" className="overflow-x-auto p-3.5 text-xs">
                   <code>{altSnippet}</code>
                 </pre>
-                <p className="text-xs text-muted-foreground">{t("altHint")}</p>
-              </div>
-            </Card>
+              </OutputPanel>
+              <p className="text-xs text-muted-foreground">{t("altHint")}</p>
+            </div>
           )}
 
           <Card className="p-4">
@@ -209,8 +168,7 @@ export default function ImageCaptioner() {
               <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
             </div>
           </Card>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

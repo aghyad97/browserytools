@@ -1,0 +1,99 @@
+/* Shared segmented mode picker (R3 §F3 M6). Track is a flex row so segments
+   size to their content — equal distribution when space allows, natural
+   width + horizontal scroll when it doesn't (unequal-length labels, narrow
+   viewports, 6+ options). The sliding indicator is positioned from measured
+   `--x`/`--w` custom props (set in JS from the active segment's
+   offsetLeft/offsetWidth), not index math, so it tracks real segment
+   geometry. Reduced-motion gated. Colours via var(--bt-*), both themes. */
+
+.picker {
+  position: relative;
+  display: flex;
+  gap: 0;
+  border: 1px solid var(--bt-line);
+  border-radius: 9px;
+  background: var(--bt-fill);
+  padding: 3px;
+  isolation: isolate;
+  overflow-x: auto;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.picker::-webkit-scrollbar {
+  display: none;
+}
+
+/* Frozen while a session/operation runs: dim the whole control and swallow
+   pointer events. onChange is also guarded in JS, so this is purely the
+   visual "not editable now" cue. */
+.disabled {
+  opacity: 0.55;
+  pointer-events: none;
+}
+
+/* The sliding active pill. Sized/positioned from measured --x/--w (px),
+   falling back to 0 before the first layout effect runs. `left` is
+   deliberately physical (not inset-inline-start): offsetLeft — which feeds
+   --x — is always measured from the physical left edge regardless of `dir`,
+   so anchoring the indicator the same way keeps the two in the same
+   coordinate space under RTL without a mirrored transform. */
+.indicator {
+  position: absolute;
+  z-index: 0;
+  inset-block: 3px;
+  left: 0;
+  inline-size: var(--w, 0px);
+  border-radius: 6px;
+  background: var(--bt-surface);
+  border: 1px solid var(--bt-line);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.06);
+  transform: translateX(var(--x, 0px));
+  transition:
+    transform 220ms var(--bt-ease-out),
+    inline-size 220ms var(--bt-ease-out);
+}
+/* Dark: --bt-surface is darker than the --bt-fill track, so the active pill
+   would recede; lift it above the track instead. */
+:global(.dark) .indicator {
+  background: var(--bt-fill-hover);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.35);
+}
+
+.segment {
+  position: relative;
+  z-index: 1;
+  flex: 1 0 max-content;
+  appearance: none;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  padding-inline: 12px;
+  padding-block: 6px;
+  font-size: 12.5px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--bt-muted);
+  border-radius: 6px;
+  transition: color 150ms ease;
+  white-space: nowrap;
+  text-align: center;
+}
+.segment:hover {
+  color: var(--bt-ink);
+}
+.segment[data-active] {
+  color: var(--bt-ink);
+}
+.segment:focus-visible {
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indicator {
+    transition: none;
+  }
+  .segment {
+    transition: none;
+  }
+}

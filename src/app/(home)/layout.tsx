@@ -1,5 +1,7 @@
-import Header from "@/components/header";
-import Footer from "@/components/footer";
+import { AppShell } from "@/components/layout/app-shell";
+import { TopBar } from "@/components/layout/top-bar";
+import Footer from "@/components/layout/footer";
+import s from "@/components/layout/app-shell.module.css";
 
 export default function HomeLayout({
   children,
@@ -7,12 +9,13 @@ export default function HomeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="min-h-screen flex flex-col">
-      <div className="sticky top-0 z-50">
-        <Header />
+    <>
+      <AppShell />
+      <div className={s.content}>
+        <TopBar />
+        <main>{children}</main>
+        <Footer />
       </div>
-      <main className="flex-1">{children}</main>
-      <Footer />
-    </div>
+    </>
   );
 }

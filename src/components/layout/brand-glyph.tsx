@@ -1,0 +1,36 @@
+/* AUTO-GENERATED from src/brand/logo.svg — run: bun run brand */
+/**
+ * BrandGlyph — the current brand mark, inlined from src/brand/logo.svg.
+ *
+ * Black/#000 fill and stroke in the source are rewritten to currentColor so
+ * the mark themes for free (white on the dark rail tile, ink on light
+ * contexts). Do not hand-edit — change src/brand/logo.svg and run
+ * `bun run brand` instead.
+ */
+export function BrandGlyph({
+  size = 16,
+  strokeWidth = 23,
+  className,
+}: {
+  size?: number;
+  strokeWidth?: number;
+  className?: string;
+}) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 750 750"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className={className}
+      aria-hidden="true"
+      focusable="false"
+    >
+      <rect width="250" height="250" fill="currentColor"/>
+      <circle cx="500" cy="500" r="250" fill="currentColor"/>
+      <path d="M250 750C183.696 750 120.107 723.661 73.2233 676.777C26.3392 629.893 7.90407e-06 566.304 0 500C-7.90407e-06 433.696 26.3392 370.107 73.2233 323.223C120.107 276.339 183.696 250 250 250L250 500L250 750Z" fill="currentColor"/>
+      <path d="M750 250C750 217.17 743.534 184.661 730.97 154.329C718.406 123.998 699.991 96.4379 676.777 73.2233C653.562 50.0087 626.002 31.5938 595.671 19.0301C565.339 6.46644 532.83 -1.43507e-06 500 0C467.17 1.43507e-06 434.661 6.46644 404.329 19.0301C373.998 31.5938 346.438 50.0087 323.223 73.2233C300.009 96.438 281.594 123.998 269.03 154.329C256.466 184.661 250 217.17 250 250L500 250H750Z" fill="currentColor"/>
+    </svg>
+  );
+}

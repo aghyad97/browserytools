@@ -2,11 +2,13 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { motion, AnimatePresence } from "framer-motion";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import {
   Select,
   SelectContent,
@@ -14,10 +16,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Upload, Download, Image as ImageIcon } from "lucide-react";
+import { Upload, Image as ImageIcon } from "lucide-react";
 import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 
 interface ImageInfo {
   url: string;
@@ -49,6 +52,7 @@ async function encodeAvif(
 
 export default function ImageConverter() {
   const t = useTranslations("Tools.ImageConverter");
+  const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
 
   const [image, setImage] = useState<ImageInfo | null>(null);
@@ -190,11 +194,17 @@ export default function ImageConverter() {
   const formatOption = formatOptions.find((f) => f.value === targetFormat);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="image-converter"
+      title={tc("tools.image-converter.name")}
+      sub={tc("tools.image-converter.description")}
+      primaryAction={{
+        label: tCommon("download"),
+        onClick: handleDownload,
+        disabled: !convertedImage,
+      }}
+    >
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
               <FileDropzone
@@ -207,7 +217,7 @@ export default function ImageConverter() {
                 className={({ isDragActive }) => `
                   h-64 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
-                  cursor-pointer transition-all duration-200
+                  cursor-pointer transition-[border-color,background-color] duration-150
                   ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
@@ -222,8 +232,9 @@ export default function ImageConverter() {
                       alt={t("altOriginal")}
                       className="w-full h-full object-contain"
                     />
+                    {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                      {t("size")}: {(image.size / 1024).toFixed(2)} KB
+                      {t("size")}: {formatBytes(image.size)}
                     </div>
                   </div>
                 ) : (
@@ -242,11 +253,10 @@ export default function ImageConverter() {
               </FileDropzone>
             </Card>
 
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("targetFormat")}</label>
+            <SettingsCard>
+              <OptionRow label={t("targetFormat")} htmlFor="ic-target-format">
                 <Select value={targetFormat} onValueChange={setTargetFormat}>
-                  <SelectTrigger>
+                  <SelectTrigger id="ic-target-format">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -257,24 +267,18 @@ export default function ImageConverter() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               {formatOption?.quality && (
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">{t("quality")}</label>
-                    <span className="text-sm text-muted-foreground">
-                      {quality}%
-                    </span>
-                  </div>
-                  <Slider
-                    value={[quality]}
-                    onValueChange={([value]) => setQuality(value)}
-                    min={1}
-                    max={100}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("quality")}
+                  value={quality}
+                  min={1}
+                  max={100}
+                  step={1}
+                  onChange={setQuality}
+                  display={`${quality}%`}
+                />
               )}
 
               <Button
@@ -284,7 +288,7 @@ export default function ImageConverter() {
               >
                 {isConverting ? t("converting") : tCommon("convert")}
               </Button>
-            </Card>
+            </SettingsCard>
           </div>
 
           <div className="space-y-4">
@@ -297,8 +301,9 @@ export default function ImageConverter() {
                       alt={t("altConverted")}
                       className="w-full h-full object-contain"
                     />
+                    {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
                     <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                      {t("size")}: {(convertedSize / 1024).toFixed(2)} KB
+                      {t("size")}: {formatBytes(convertedSize)}
                     </div>
                   </div>
                 ) : (
@@ -311,19 +316,8 @@ export default function ImageConverter() {
                 )}
               </div>
             </Card>
-
-            <Button
-              onClick={handleDownload}
-              className="w-full"
-              disabled={!convertedImage}
-              variant="secondary"
-            >
-              <Download className="w-4 h-4 me-2" />
-              {tCommon("download")}
-            </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

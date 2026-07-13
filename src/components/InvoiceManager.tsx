@@ -45,9 +45,9 @@ import {
   DollarSign,
   Trash2,
   Copy,
-  Search,
-  Filter,
 } from "lucide-react";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 import { useInvoiceStore, InvoiceData } from "@/store/invoice-store";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
@@ -137,15 +137,8 @@ export default function InvoiceManager({
       </div>
 
       {/* Search and Filters */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Search className="w-5 h-5" />
-            {t("searchFilter")}
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <SettingsCard title={t("searchFilter")}>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-2">
               <Label htmlFor="search">{t("searchInvoices")}</Label>
               <Input
@@ -188,9 +181,8 @@ export default function InvoiceManager({
                 </SelectContent>
               </Select>
             </div>
-          </div>
-        </CardContent>
-      </Card>
+        </div>
+      </SettingsCard>
 
       {/* Invoice List */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -311,36 +303,24 @@ export default function InvoiceManager({
 
       {/* Stats */}
       {invoices.length > 0 && (
-        <Card>
-          <CardContent className="pt-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-center">
-              <div>
-                <div className="text-2xl font-bold">{invoices.length}</div>
-                <div className="text-sm text-muted-foreground">
-                  {t("totalInvoices")}
-                </div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold">
-                  {formatCurrency(
-                    invoices.reduce((sum, inv) => sum + inv.total, 0),
-                    "USD"
-                  )}
-                </div>
-                <div className="text-sm text-muted-foreground">{t("totalValue")}</div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold">
-                  {
-                    invoices.filter((inv) => new Date(inv.dueDate) < new Date())
-                      .length
-                  }
-                </div>
-                <div className="text-sm text-muted-foreground">{t("overdue")}</div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <StatStrip
+          items={[
+            { label: t("totalInvoices"), value: invoices.length },
+            {
+              label: t("totalValue"),
+              value: formatCurrency(
+                invoices.reduce((sum, inv) => sum + inv.total, 0),
+                "USD"
+              ),
+            },
+            {
+              label: t("overdue"),
+              value: invoices.filter(
+                (inv) => new Date(inv.dueDate) < new Date()
+              ).length,
+            },
+          ]}
+        />
       )}
     </div>
   );

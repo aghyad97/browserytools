@@ -1,13 +1,6 @@
 "use client";
 
 import { useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -18,6 +11,8 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Copy, Dices, Hash, Coins, ListChecks, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 // ── Randomness ────────────────────────────────────────────────────────────────
 // Cryptographically-decent integer in [min, max] inclusive, using rejection
@@ -52,6 +47,7 @@ const DIE_SIZES: DieSize[] = [4, 6, 8, 10, 12, 20];
 
 export default function RandomPicker() {
   const t = useTranslations("Tools.RandomPicker");
+  const tc = useTranslations("ToolsConfig");
 
   // ── Random Number state ───────────────────────────────────────────────────
   const [min, setMin] = useState("1");
@@ -185,7 +181,12 @@ export default function RandomPicker() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl">
+    <ToolShell
+      slug="random-picker"
+      title={tc("tools.random-picker.name")}
+      sub={tc("tools.random-picker.description")}
+    >
+      <div className="max-w-3xl mx-auto">
       <Tabs defaultValue="number" className="w-full">
         <TabsList className="grid w-full grid-cols-4">
           <TabsTrigger value="number">{t("tabNumber")}</TabsTrigger>
@@ -196,18 +197,17 @@ export default function RandomPicker() {
 
         {/* ── Random Number ── */}
         <TabsContent value="number" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Hash className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="flex items-center gap-2">
+                <Hash className="h-4 w-4" />
                 {t("numberTitle")}
-              </CardTitle>
-              <CardDescription>{t("numberDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </span>
+            }
+            description={t("numberDesc")}
+          >
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="rp-min">{t("minLabel")}</Label>
+                <OptionRow label={t("minLabel")} htmlFor="rp-min">
                   <Input
                     id="rp-min"
                     type="number"
@@ -216,9 +216,8 @@ export default function RandomPicker() {
                     value={min}
                     onChange={(e) => setMin(e.target.value)}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="rp-max">{t("maxLabel")}</Label>
+                </OptionRow>
+                <OptionRow label={t("maxLabel")} htmlFor="rp-max">
                   <Input
                     id="rp-max"
                     type="number"
@@ -227,9 +226,8 @@ export default function RandomPicker() {
                     value={max}
                     onChange={(e) => setMax(e.target.value)}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="rp-count">{t("countLabel")}</Label>
+                </OptionRow>
+                <OptionRow label={t("countLabel")} htmlFor="rp-count">
                   <Input
                     id="rp-count"
                     type="number"
@@ -239,7 +237,7 @@ export default function RandomPicker() {
                     value={count}
                     onChange={(e) => setCount(e.target.value)}
                   />
-                </div>
+                </OptionRow>
               </div>
 
               <div className="flex items-center gap-2">
@@ -285,24 +283,22 @@ export default function RandomPicker() {
                   </Button>
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
 
         {/* ── Dice ── */}
         <TabsContent value="dice" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Dices className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="flex items-center gap-2">
+                <Dices className="h-4 w-4" />
                 {t("diceTitle")}
-              </CardTitle>
-              <CardDescription>{t("diceDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </span>
+            }
+            description={t("diceDesc")}
+          >
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-2">
-                  <Label htmlFor="rp-dice-count">{t("diceCountLabel")}</Label>
+                <OptionRow label={t("diceCountLabel")} htmlFor="rp-dice-count">
                   <Input
                     id="rp-dice-count"
                     type="number"
@@ -313,9 +309,8 @@ export default function RandomPicker() {
                     value={diceCount}
                     onChange={(e) => setDiceCount(e.target.value)}
                   />
-                </div>
-                <div className="space-y-2">
-                  <Label>{t("dieSidesLabel")}</Label>
+                </OptionRow>
+                <OptionRow label={t("dieSidesLabel")}>
                   <div className="flex flex-wrap gap-2">
                     {DIE_SIZES.map((s) => (
                       <Button
@@ -329,7 +324,7 @@ export default function RandomPicker() {
                       </Button>
                     ))}
                   </div>
-                </div>
+                </OptionRow>
               </div>
 
               <Button onClick={rollDice} className="w-full">
@@ -377,21 +372,20 @@ export default function RandomPicker() {
                   </Button>
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
 
         {/* ── Coin ── */}
         <TabsContent value="coin" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <Coins className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="flex items-center gap-2">
+                <Coins className="h-4 w-4" />
                 {t("coinTitle")}
-              </CardTitle>
-              <CardDescription>{t("coinDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
+              </span>
+            }
+            description={t("coinDesc")}
+          >
               <div className="flex flex-col items-center gap-4">
                 <div
                   className={`flex items-center justify-center h-32 w-32 rounded-full border-4 border-primary/40 bg-muted text-2xl font-bold transition-transform duration-500 ${
@@ -454,23 +448,21 @@ export default function RandomPicker() {
                   </Button>
                 )}
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
 
         {/* ── List picker ── */}
         <TabsContent value="list" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <ListChecks className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="flex items-center gap-2">
+                <ListChecks className="h-4 w-4" />
                 {t("listTitle")}
-              </CardTitle>
-              <CardDescription>{t("listDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="rp-list">{t("listLabel")}</Label>
+              </span>
+            }
+            description={t("listDesc")}
+          >
+              <OptionRow label={t("listLabel")} htmlFor="rp-list">
                 <Textarea
                   id="rp-list"
                   className="min-h-[160px]"
@@ -478,7 +470,7 @@ export default function RandomPicker() {
                   value={listText}
                   onChange={(e) => setListText(e.target.value)}
                 />
-              </div>
+              </OptionRow>
 
               <div className="flex items-center gap-2">
                 <Checkbox
@@ -527,10 +519,10 @@ export default function RandomPicker() {
                   </Button>
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
       </Tabs>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

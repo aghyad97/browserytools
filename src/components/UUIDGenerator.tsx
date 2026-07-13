@@ -2,21 +2,16 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import { Badge } from "@/components/ui/badge";
-import { Textarea } from "@/components/ui/textarea";
-import { Copy, RefreshCw, Download, Hash, Trash2 } from "lucide-react";
+import { Copy, Hash, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 interface UUIDFormat {
   value: string;
@@ -26,6 +21,7 @@ interface UUIDFormat {
 
 export default function UUIDGenerator() {
   const t = useTranslations("Tools.UUIDGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [count, setCount] = useState<number>(1);
   const [format, setFormat] = useState<string>("v4");
   const [generatedUUIDs, setGeneratedUUIDs] = useState<string[]>([]);
@@ -163,29 +159,6 @@ export default function UUIDGenerator() {
     }
   };
 
-  const copyAllToClipboard = async () => {
-    const allUUIDs = generatedUUIDs.join("\n");
-    try {
-      await navigator.clipboard.writeText(allUUIDs);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
-  const downloadUUIDs = () => {
-    const content = generatedUUIDs.join("\n");
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `uuids-${format}-${count}.txt`;
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
   const clearUUIDs = () => {
     setGeneratedUUIDs([]);
   };
@@ -214,211 +187,180 @@ export default function UUIDGenerator() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="uuid-generator"
+      title={tc("tools.uuid-generator.name")}
+      sub={tc("tools.uuid-generator.description")}
+      primaryAction={{ label: t("generateUUIDs"), onClick: generateUUIDs }}
+    >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Generator Controls */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Hash className="h-5 w-5" />
+        <SettingsCard
+          title={
+            <span className="flex items-center gap-2">
+              <Hash className="h-4 w-4" />
               {t("generatorSettingsTitle")}
-            </CardTitle>
-            <CardDescription>{t("generatorSettingsDesc")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
+            </span>
+          }
+          description={t("generatorSettingsDesc")}
+        >
+          <div className="space-y-2">
+            <Label>{t("uuidVersionLabel")}</Label>
+            <div className="grid grid-cols-1 gap-2">
+              {formats.map((fmt) => (
+                <div
+                  key={fmt.value}
+                  className={`p-3 border rounded-lg cursor-pointer transition-colors ${
+                    format === fmt.value
+                      ? "border-primary bg-primary/5"
+                      : "hover:bg-muted"
+                  }`}
+                  onClick={() => setFormat(fmt.value)}
+                >
+                  <div className="font-medium">{fmt.label}</div>
+                  <div className="text-sm text-muted-foreground">
+                    {fmt.description}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <SliderRow
+            label={t("uuidCountLabel", { count })}
+            value={count}
+            onChange={setCount}
+            min={1}
+            max={100}
+            display=""
+          />
+
+          {(format === "v3" || format === "v5") && (
+            <>
+              <OptionRow label={t("namespaceLabel")} htmlFor="namespace" hint={t("namespaceHint")}>
+                <Input
+                  id="namespace"
+                  value={customNamespace}
+                  onChange={(e) => setCustomNamespace(e.target.value)}
+                  placeholder={t("namespacePlaceholder")}
+                  dir="ltr"
+                />
+              </OptionRow>
+              <OptionRow label={t("nameLabel")} htmlFor="name">
+                <Input
+                  id="name"
+                  value={customName}
+                  onChange={(e) => setCustomName(e.target.value)}
+                  placeholder={t("namePlaceholder")}
+                />
+              </OptionRow>
+            </>
+          )}
+        </SettingsCard>
+
+        {/* Generated UUIDs */}
+        {generatedUUIDs.length > 0 ? (
+          <div className="space-y-4">
+            <OutputPanel
+              title={t("generatedUUIDsTitle")}
+              text={generatedUUIDs.join("\n")}
+              filename={`uuids-${format}-${count}.txt`}
+              copyLabel={t("copyAll")}
+              copySuccessMessage={t("copiedToClipboard")}
+              copyErrorMessage={t("copyFailed")}
+            >
+              <div>
+                <p className="text-xs text-muted-foreground mb-2">
+                  {t("uuidsGenerated", { count: generatedUUIDs.length })}
+                </p>
+                <pre className="font-mono text-sm min-h-[200px] whitespace-pre-wrap break-all" dir="ltr">
+                  {generatedUUIDs.join("\n")}
+                </pre>
+              </div>
+            </OutputPanel>
+
+            <div className="flex flex-wrap gap-2">
+              <Button onClick={clearUUIDs} variant="outline" size="sm">
+                <Trash2 className="h-4 w-4 me-2" />
+                {t("clear")}
+              </Button>
+            </div>
+
             <div className="space-y-2">
-              <Label>{t("uuidVersionLabel")}</Label>
-              <div className="grid grid-cols-1 gap-2">
-                {formats.map((fmt) => (
+              <h4 className="font-semibold">{t("individualUUIDs")}</h4>
+              <div className="space-y-2 max-h-60 overflow-y-auto">
+                {generatedUUIDs.map((uuid, index) => (
                   <div
-                    key={fmt.value}
-                    className={`p-3 border rounded-lg cursor-pointer transition-colors ${
-                      format === fmt.value
-                        ? "border-primary bg-primary/5"
-                        : "hover:bg-muted"
-                    }`}
-                    onClick={() => setFormat(fmt.value)}
+                    key={index}
+                    className="flex items-center justify-between p-2 border rounded"
                   >
-                    <div className="font-medium">{fmt.label}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {fmt.description}
+                    <div className="flex-1">
+                      <div className="font-mono text-sm" dir="ltr">{uuid}</div>
+                      <div className="flex gap-2 mt-1">
+                        <Badge variant="outline" className="text-xs">
+                          {getUUIDVersion(uuid)}
+                        </Badge>
+                        {validateUUID(uuid) ? (
+                          <Badge
+                            variant="default"
+                            className="text-xs bg-green-500"
+                          >
+                            {t("valid")}
+                          </Badge>
+                        ) : (
+                          <Badge variant="destructive" className="text-xs">
+                            {t("invalid")}
+                          </Badge>
+                        )}
+                      </div>
                     </div>
+                    <Button
+                      onClick={() => copyToClipboard(uuid)}
+                      variant="ghost"
+                      size="sm"
+                    >
+                      <Copy className="h-4 w-4" />
+                    </Button>
                   </div>
                 ))}
               </div>
             </div>
-
-            <div className="space-y-2">
-              <Label>{t("uuidCountLabel", { count })}</Label>
-              <Slider
-                value={[count]}
-                onValueChange={(value) => setCount(value[0])}
-                max={100}
-                min={1}
-                step={1}
-                className="w-full"
-              />
-              <div className="flex justify-between text-xs text-muted-foreground">
-                <span>1</span>
-                <span>100</span>
-              </div>
+          </div>
+        ) : (
+          <SettingsCard title={t("generatedUUIDsTitle")} description={t("noUUIDsYet")}>
+            <div className="text-center py-8 text-muted-foreground">
+              <Hash className="h-16 w-16 mx-auto mb-4 opacity-50" />
+              <p>{t("clickToGenerate")}</p>
             </div>
-
-            {(format === "v3" || format === "v5") && (
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="namespace">{t("namespaceLabel")}</Label>
-                  <Input
-                    id="namespace"
-                    value={customNamespace}
-                    onChange={(e) => setCustomNamespace(e.target.value)}
-                    placeholder={t("namespacePlaceholder")}
-                    dir="ltr"
-                  />
-                  <p className="text-xs text-muted-foreground">
-                    {t("namespaceHint")}
-                  </p>
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="name">{t("nameLabel")}</Label>
-                  <Input
-                    id="name"
-                    value={customName}
-                    onChange={(e) => setCustomName(e.target.value)}
-                    placeholder={t("namePlaceholder")}
-                  />
-                </div>
-              </div>
-            )}
-
-            <Button onClick={generateUUIDs} className="w-full" size="lg">
-              <RefreshCw className="h-4 w-4 me-2" />
-              {t("generateUUIDs")}
-            </Button>
-          </CardContent>
-        </Card>
-
-        {/* Generated UUIDs */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("generatedUUIDsTitle")}</CardTitle>
-            <CardDescription>
-              {generatedUUIDs.length > 0
-                ? t("uuidsGenerated", { count: generatedUUIDs.length })
-                : t("noUUIDsYet")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            {generatedUUIDs.length > 0 ? (
-              <>
-                <div className="space-y-2">
-                  <Textarea
-                    value={generatedUUIDs.join("\n")}
-                    readOnly
-                    dir="ltr"
-                    className="min-h-[200px] font-mono text-sm"
-                  />
-                </div>
-
-                <div className="flex flex-wrap gap-2">
-                  <Button
-                    onClick={copyAllToClipboard}
-                    variant="outline"
-                    size="sm"
-                  >
-                    <Copy className="h-4 w-4 me-2" />
-                    {t("copyAll")}
-                  </Button>
-                  <Button onClick={downloadUUIDs} variant="outline" size="sm">
-                    <Download className="h-4 w-4 me-2" />
-                    {t("download")}
-                  </Button>
-                  <Button onClick={clearUUIDs} variant="outline" size="sm">
-                    <Trash2 className="h-4 w-4 me-2" />
-                    {t("clear")}
-                  </Button>
-                </div>
-
-                <div className="space-y-2">
-                  <h4 className="font-semibold">{t("individualUUIDs")}</h4>
-                  <div className="space-y-2 max-h-60 overflow-y-auto">
-                    {generatedUUIDs.map((uuid, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-2 border rounded"
-                      >
-                        <div className="flex-1">
-                          <div className="font-mono text-sm" dir="ltr">{uuid}</div>
-                          <div className="flex gap-2 mt-1">
-                            <Badge variant="outline" className="text-xs">
-                              {getUUIDVersion(uuid)}
-                            </Badge>
-                            {validateUUID(uuid) ? (
-                              <Badge
-                                variant="default"
-                                className="text-xs bg-green-500"
-                              >
-                                {t("valid")}
-                              </Badge>
-                            ) : (
-                              <Badge variant="destructive" className="text-xs">
-                                {t("invalid")}
-                              </Badge>
-                            )}
-                          </div>
-                        </div>
-                        <Button
-                          onClick={() => copyToClipboard(uuid)}
-                          variant="ghost"
-                          size="sm"
-                        >
-                          <Copy className="h-4 w-4" />
-                        </Button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </>
-            ) : (
-              <div className="text-center py-8 text-muted-foreground">
-                <Hash className="h-16 w-16 mx-auto mb-4 opacity-50" />
-                <p>{t("clickToGenerate")}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          </SettingsCard>
+        )}
       </div>
 
       {/* UUID Information */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>{t("uuidInformation")}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <div>
-              <h4 className="font-semibold mb-2">{t("uuidVersionsTitle")}</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li><strong>v1:</strong> {t("versionV1").replace("v1: ", "")}</li>
-                <li><strong>v3:</strong> {t("versionV3").replace("v3: ", "")}</li>
-                <li><strong>v4:</strong> {t("versionV4").replace("v4: ", "")}</li>
-                <li><strong>v5:</strong> {t("versionV5").replace("v5: ", "")}</li>
-                <li><strong>Nil:</strong> {t("versionNil").replace("Nil: ", "")}</li>
-              </ul>
-            </div>
-            <div>
-              <h4 className="font-semibold mb-2">{t("commonUseCasesTitle")}</h4>
-              <ul className="space-y-2 text-sm text-muted-foreground">
-                <li>• {t("useCase1")}</li>
-                <li>• {t("useCase2")}</li>
-                <li>• {t("useCase3")}</li>
-                <li>• {t("useCase4")}</li>
-                <li>• {t("useCase5")}</li>
-              </ul>
-            </div>
+      <SettingsCard title={t("uuidInformation")} className="mt-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div>
+            <h4 className="font-semibold mb-2">{t("uuidVersionsTitle")}</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li><strong>v1:</strong> {t("versionV1").replace("v1: ", "")}</li>
+              <li><strong>v3:</strong> {t("versionV3").replace("v3: ", "")}</li>
+              <li><strong>v4:</strong> {t("versionV4").replace("v4: ", "")}</li>
+              <li><strong>v5:</strong> {t("versionV5").replace("v5: ", "")}</li>
+              <li><strong>Nil:</strong> {t("versionNil").replace("Nil: ", "")}</li>
+            </ul>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+          <div>
+            <h4 className="font-semibold mb-2">{t("commonUseCasesTitle")}</h4>
+            <ul className="space-y-2 text-sm text-muted-foreground">
+              <li>• {t("useCase1")}</li>
+              <li>• {t("useCase2")}</li>
+              <li>• {t("useCase3")}</li>
+              <li>• {t("useCase4")}</li>
+              <li>• {t("useCase5")}</li>
+            </ul>
+          </div>
+        </div>
+      </SettingsCard>
+    </ToolShell>
   );
 }

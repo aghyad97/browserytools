@@ -16,6 +16,17 @@ describe("CopyButton", () => {
     vi.useRealTimers();
   });
 
+  it("renders disabled and does not copy when disabled", async () => {
+    const user = userEvent.setup();
+    render(<CopyButton text="" label="Copy" disabled />);
+    const spy = vi.spyOn(navigator.clipboard, "writeText");
+    const btn = screen.getByRole("button", { name: "Copy" });
+    expect(btn).toBeDisabled();
+    await user.click(btn);
+    expect(spy).not.toHaveBeenCalled();
+    expect(toast.success).not.toHaveBeenCalled();
+  });
+
   it("copies the text and toasts success", async () => {
     const user = userEvent.setup();
     render(<CopyButton text="payload" label="Copy result" />);

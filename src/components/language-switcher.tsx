@@ -12,6 +12,7 @@ import { useLanguageStore } from "@/store/language-store";
 import { LOCALES, getLocaleConfig } from "@/lib/locales";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { playCue } from "@/lib/ui-sound";
 
 interface LanguageSwitcherProps {
   variant?: "outline" | "ghost";
@@ -44,7 +45,10 @@ export function LanguageSwitcher({
         {LOCALES.map(({ code, label }) => (
           <DropdownMenuItem
             key={code}
-            onClick={() => setLocale(code)}
+            onClick={() => {
+              setLocale(code);
+              playCue("toggle");
+            }}
             className={cn(locale === code && "font-semibold")}
           >
             {label}

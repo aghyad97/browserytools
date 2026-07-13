@@ -1,16 +1,16 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Eye, EyeOff, Copy, Lock, Unlock, RefreshCw, Trash2, Shield, Info, KeyRound } from "lucide-react";
+import { Eye, EyeOff, Lock, Unlock, RefreshCw, Trash2, Shield, Info, KeyRound } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 // ---- Crypto helpers ----
 
@@ -70,18 +70,13 @@ function generateRandomKey(length = 24): string {
 }
 export default function TextEncryption() {
   const t = useTranslations("Tools.TextEncryption");
+  const tc = useTranslations("ToolsConfig");
   const [inputText, setInputText] = useState("");
   const [password, setPassword] = useState("");
   const [outputText, setOutputText] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const copyToClipboard = useCallback(async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch { toast.error(t("failedToCopy")); }
-  }, [t]);
   const doEncrypt = async () => {
     if (!inputText.trim()) { toast.error(t("enterTextToEncrypt")); return; }
     if (!password) { toast.error(t("enterEncryptionPassword")); return; }
@@ -117,7 +112,12 @@ export default function TextEncryption() {
     toast.success(t("randomKeyGenerated"));
   };
   return (
-    <div className="container mx-auto px-4 py-8 max-w-3xl space-y-6">
+    <ToolShell
+      slug="text-encryption"
+      title={tc("tools.text-encryption.name")}
+      sub={tc("tools.text-encryption.description")}
+    >
+      <div className="max-w-3xl mx-auto space-y-6">
       {/* Security note */}
       <Alert className="border-green-200 bg-green-50 dark:bg-green-950 dark:border-green-800">
         <Shield className="h-4 w-4 text-green-600" />
@@ -126,19 +126,16 @@ export default function TextEncryption() {
         </AlertDescription>
       </Alert>
       {/* Password input */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <KeyRound className="h-5 w-5" />
+      <SettingsCard
+        title={
+          <span className="flex items-center gap-2">
+            <KeyRound className="h-4 w-4" />
             {t("encryptionKeyTitle")}
-          </CardTitle>
-          <CardDescription>
-            {t("encryptionKeyDesc")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="space-y-1">
-            <Label htmlFor="enc-password">{t("passwordKeyLabel")}</Label>
+          </span>
+        }
+        description={t("encryptionKeyDesc")}
+      >
+          <OptionRow label={t("passwordKeyLabel")} htmlFor="enc-password">
             <div className="relative">
               <Input
                 id="enc-password"
@@ -155,7 +152,7 @@ export default function TextEncryption() {
                 {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
               </Button>
             </div>
-          </div>
+          </OptionRow>
           <Button onClick={doGenerateKey} variant="outline" size="sm" className="gap-2">
             <RefreshCw className="h-4 w-4" />
             {t("generateRandomKey")}
@@ -170,22 +167,18 @@ export default function TextEncryption() {
               <span>{t("kdfInfo")}</span>
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
       {/* Main input/output */}
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <Lock className="h-5 w-5" />
+      <SettingsCard
+        title={
+          <span className="flex items-center gap-2">
+            <Lock className="h-4 w-4" />
             {t("textEncryptionTitle")}
-          </CardTitle>
-          <CardDescription>
-            {t("textEncryptionDesc")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label htmlFor="enc-input">{t("inputTextLabel")}</Label>
+          </span>
+        }
+        description={t("textEncryptionDesc")}
+      >
+          <OptionRow label={t("inputTextLabel")} htmlFor="enc-input">
             <Textarea
               id="enc-input"
               value={inputText}
@@ -194,7 +187,7 @@ export default function TextEncryption() {
               className="min-h-[120px] font-mono text-sm"
               dir="ltr"
             />
-          </div>
+          </OptionRow>
           {error && (
             <Alert variant="destructive">
               <AlertDescription>{error}</AlertDescription>
@@ -215,27 +208,17 @@ export default function TextEncryption() {
             </Button>
           </div>
           {outputText && (
-            <div className="space-y-2">
-              <Label>{t("outputLabel")}</Label>
-              <div className="relative">
-                <Textarea
-                  value={outputText}
-                  readOnly
-                  dir="ltr"
-                  className="min-h-[120px] font-mono text-sm bg-muted pr-12"
-                />
-                <Button
-                  variant="ghost" size="icon"
-                  className="absolute right-2 top-2 h-8 w-8"
-                  onClick={() => copyToClipboard(outputText)}
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </div>
-            </div>
+            <OutputPanel
+              title={t("outputLabel")}
+              text={outputText}
+              copySuccessMessage={t("copiedToClipboard")}
+              copyErrorMessage={t("failedToCopy")}
+            >
+              <pre dir="ltr" className="text-sm whitespace-pre-wrap break-all">{outputText}</pre>
+            </OutputPanel>
           )}
-        </CardContent>
-      </Card>
-    </div>
+      </SettingsCard>
+      </div>
+    </ToolShell>
   );
 }

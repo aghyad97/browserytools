@@ -13,8 +13,10 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Sun, Moon, Copy, X, ArrowUpDown, Globe, Plus } from "lucide-react";
+import { Sun, Moon, Copy, X, ArrowUpDown, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { ControlStat } from "@/components/template/controls-bar";
 
 interface CityConfig {
   id: string;
@@ -136,6 +138,7 @@ function formatDiff(diffMinutes: number): string {
 
 export default function WorldClock() {
   const t = useTranslations("Tools.WorldClock");
+  const tc = useTranslations("ToolsConfig");
   const { locale } = useLanguageStore();
   const [cities, setCities] = useState<CityConfig[]>(DEFAULT_CITIES);
   const [clockDataMap, setClockDataMap] = useState<Record<string, ClockData>>({});
@@ -190,44 +193,39 @@ export default function WorldClock() {
   }, [cities, clockDataMap, sortByOffset]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="world-clock"
+      title={tc("tools.world-clock.name")}
+      sub={tc("tools.world-clock.description")}
+      width="wide"
+      controls={
+        <>
+          <Select value={selectedTz} onValueChange={handleAddCity}>
+            <SelectTrigger className="w-52 h-9">
+              <Plus className="w-4 h-4 me-1 shrink-0" />
+              <SelectValue placeholder={t("addCity")} />
+            </SelectTrigger>
+            <SelectContent className="max-h-72">
+              {availableToAdd.map((tz) => (
+                <SelectItem key={tz.id} value={tz.id}>
+                  {tz.flag} {t(`cities.${tz.id}` as any)}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          <Button
+            variant={sortByOffset ? "default" : "outline"}
+            size="sm"
+            onClick={() => setSortByOffset((s) => !s)}
+            className="h-9 gap-1.5"
+          >
+            <ArrowUpDown className="w-3.5 h-3.5" /> {t("sortByUTC")}
+          </Button>
+          <ControlStat>{t("citiesCount", { count: cities.length })}</ControlStat>
+        </>
+      }
+    >
       <div className="max-w-5xl mx-auto space-y-6">
-        <div className="flex flex-col sm:flex-row sm:items-center gap-4 justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-primary/10">
-              <Globe className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("citiesCount", { count: cities.length })}</p>
-            </div>
-          </div>
-
-          <div className="flex items-center gap-2 flex-wrap">
-            <Select value={selectedTz} onValueChange={handleAddCity}>
-              <SelectTrigger className="w-52 h-9">
-                <Plus className="w-4 h-4 me-1 shrink-0" />
-                <SelectValue placeholder={t("addCity")} />
-              </SelectTrigger>
-              <SelectContent className="max-h-72">
-                {availableToAdd.map((tz) => (
-                  <SelectItem key={tz.id} value={tz.id}>
-                    {tz.flag} {t(`cities.${tz.id}` as any)}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-            <Button
-              variant={sortByOffset ? "default" : "outline"}
-              size="sm"
-              onClick={() => setSortByOffset((s) => !s)}
-              className="h-9 gap-1.5"
-            >
-              <ArrowUpDown className="w-3.5 h-3.5" /> {t("sortByUTC")}
-            </Button>
-          </div>
-        </div>
-
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {displayCities.map((city) => {
             const data = clockDataMap[city.id];
@@ -297,6 +295,6 @@ export default function WorldClock() {
           <span className="flex items-center gap-1.5"><span className="inline-block w-2 h-2 rounded-full bg-emerald-500" /> {t("businessLabel")}</span>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

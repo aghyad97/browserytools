@@ -2,6 +2,7 @@
   "Common": {
     "copy": "نسخ",
     "copied": "تم النسخ!",
+    "copyFailed": "فشل النسخ",
     "download": "تحميل",
     "upload": "رفع",
     "reset": "إعادة تعيين",
@@ -55,9 +56,7 @@
     "twitter": "تابعنا على X (تويتر)"
   },
   "LanguageSwitcher": {
-    "label": "اللغة",
-    "en": "English",
-    "ar": "العربية"
+    "label": "اللغة"
   },
   "Sidebar": {
     "searchPlaceholder": "ابحث عن الأدوات...",
@@ -102,7 +101,10 @@
       "devTools": "أدوات المطورين",
       "securityTools": "أدوات الأمان",
       "designTools": "التصميم والمرئيات",
-      "aiTools": "أدوات الذكاء الاصطناعي"
+      "aiTools": "أدوات الذكاء الاصطناعي",
+      "testsGames": "الاختبارات والألعاب",
+      "schoolLearning": "المدرسة والتعلّم",
+      "business": "الأعمال"
     },
     "tools": {
       "bg-removal": {
@@ -578,7 +580,7 @@
         "description": "ارسم توقيعك أو اكتبه ونزّله كصورة PNG شفافة أو SVG. لون وسماكة قابلان للتعديل وخطوط بأسلوب الكتابة اليدوية، ويعمل بالكامل داخل المتصفح."
       },
       "speech-to-text": {
-        "name": "تحويل الكلام إلى نص",
+        "name": "الإملاء المباشر (ميكروفون)",
         "description": "حوّل صوتك إلى نص مجاناً عبر الكتابة الصوتية والإملاء في المتصفح. يدعم لغات متعددة والنسخ والتنزيل."
       },
       "ascii-art": {
@@ -653,6 +655,22 @@
         "name": "صانع GIF",
         "description": "حوّل سلسلة من الصور إلى صورة GIF متحركة. أعِد ترتيب الإطارات واضبط السرعة والتكرار والحجم."
       }
+    },
+    "categoriesShort": {
+      "imageTools": "الصور",
+      "fileTools": "الملفات",
+      "mediaTools": "الوسائط",
+      "textLanguage": "النصوص",
+      "dataTools": "البيانات",
+      "mathFinance": "الرياضيات",
+      "productivity": "الإنتاجية",
+      "devTools": "البرمجة",
+      "designTools": "التصميم",
+      "securityTools": "الأمان",
+      "aiTools": "الذكاء الاصطناعي",
+      "testsGames": "ألعاب",
+      "schoolLearning": "مدرسة",
+      "business": "أعمال"
     }
   },
   "Tools": {
@@ -991,26 +1009,13 @@
       "subtitle": "حرّر وعالج ملفات الصوت في متصفحك",
       "dropHere": "أفلت ملف الصوت هنا أو انقر للرفع",
       "currentTime": "الوقت الحالي: {current}ث / {total}ث",
-      "tabPlayback": "التشغيل",
-      "tabEffects": "التأثيرات",
-      "tabTrim": "القص",
-      "fadeIn": "تلاشي داخل",
-      "fadeOut": "تلاشي خارج",
-      "addEcho": "إضافة صدى",
       "resetSpeed": "إعادة السرعة",
-      "appliedEffects": "التأثيرات المطبّقة",
-      "selection": "التحديد: {start}ث - {end}ث",
       "seconds": "{count} ثانية",
       "invalidAudioFile": "يرجى اختيار ملف صوتي صالح",
       "fileLoadedSuccess": "تم تحميل ملف الصوت بنجاح",
       "errorLoadingFile": "خطأ في تحميل ملف الصوت",
       "errorProcessingFile": "خطأ في معالجة ملف الصوت",
-      "fadeInApplied": "تم تطبيق التلاشي الداخلي",
-      "fadeOutApplied": "تم تطبيق التلاشي الخارجي",
-      "echoApplied": "تم تطبيق تأثير الصدى",
       "speedSet": "تم ضبط سرعة التشغيل على {speed}×",
-      "processingDownload": "جارٍ معالجة الصوت للتحميل...",
-      "errorProcessingDownload": "خطأ في معالجة الصوت للتحميل",
       "downloadOriginal": "تنزيل الملف الأصلي"
     },
     "MicCameraTester": {
@@ -1046,7 +1051,6 @@
       "alternating": "مُتَنَاوِب",
       "inverseCase": "عكسي",
       "noTextToConvert": "لا يوجد نص للتحويل",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TextCounter": {
@@ -1073,7 +1077,6 @@
       "speakingTime": "وقت التحدث",
       "speakingTimeDesc": "155 كلمة في الدقيقة",
       "minSuffix": "دقيقة",
-      "noTextToCopy": "لا يوجد نص للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TextDiffViewer": {
@@ -1110,7 +1113,6 @@
       "shuffle": "تخليط",
       "reverse": "عكس",
       "enterTextFirst": "الرجاء إدخال نص أولاً",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "nothingToDownload": "لا يوجد شيء للتحميل",
       "downloaded": "تم تحميل sorted-text.txt"
@@ -1129,7 +1131,6 @@
       "inputPlaceholderText": "أدخل النص هنا...",
       "inputPlaceholderEncoded": "أدخل القيمة المشفّرة هنا...",
       "charsBytes": "{chars} حرف / {bytes} بايت",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "copyFailed": "فشل النسخ إلى الحافظة",
       "binaryInput": "إدخال ثنائي",
@@ -1162,7 +1163,6 @@
       "outputTooLargeDesc": "ستتجاوز النتيجة مليون حرف. الرجاء تقليل عدد التكرارات أو تقصير النص.",
       "chars": "أحرف",
       "lines": "أسطر",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "nothingToDownload": "لا يوجد شيء للتحميل",
       "downloaded": "تم تحميل repeated-text.txt",
@@ -1194,7 +1194,6 @@
       "referenceDesc": "جدول الأحرف A–Z والأرقام 0–9",
       "words": "كلمات",
       "chars": "أحرف",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "MarkdownEditor": {
@@ -1252,7 +1251,6 @@
       "minRead": "دقيقة قراءة",
       "previewPlaceholder": "ستظهر المعاينة هنا...",
       "htmlOutputPlaceholder": "ستظهر ناتج HTML هنا...",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "htmlCopied": "تم نسخ HTML إلى الحافظة",
       "nothingToDownload": "لا يوجد شيء للتحميل",
       "downloadedHtml": "تم تحميل document.html"
@@ -1278,7 +1276,6 @@
       "downloaded": "تم التحميل",
       "ariaHtmlInput": "إدخال HTML",
       "ariaHtmlOutput": "ناتج HTML",
-      "ariaCopy": "نسخ",
       "ariaDownload": "تحميل",
       "processingFailed": "فشلت المعالجة"
     },
@@ -1293,8 +1290,6 @@
       "resetToSample": "إعادة تعيين إلى الكود التجريبي"
     },
     "CssMinifier": {
-      "title": "ضاغط/مُجمّل CSS",
-      "description": "اضغط أو نسّق كود CSS فورياً",
       "tabMinify": "ضغط",
       "tabBeautify": "تجميل",
       "sampleCss": "CSS تجريبي",
@@ -1311,17 +1306,12 @@
       "lines": "أسطر",
       "chars": "أحرف",
       "noReduction": "لا تخفيض",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "failedToCopy": "فشل النسخ",
       "downloaded": "تم التحميل",
       "ariaCssInput": "إدخال CSS",
       "ariaCssOutput": "ناتج CSS",
-      "ariaCopy": "نسخ",
       "ariaDownload": "تحميل"
     },
     "SqlFormatter": {
-      "title": "منسّق SQL",
-      "description": "تنسيق وتجميل وضغط استعلامات SQL",
       "dialect": "نوع SQL",
       "commaStyle": "نمط الفاصلة",
       "trailing": "في النهاية",
@@ -1342,13 +1332,10 @@
       "sqlMinified": "تم ضغط SQL",
       "formattingFailed": "فشل التنسيق",
       "minificationFailed": "فشل الضغط",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "failedToCopy": "فشل النسخ",
       "downloaded": "تم التحميل",
       "dialectStandard": "SQL قياسي",
       "ariaSqlInput": "إدخال SQL",
       "ariaSqlOutput": "ناتج SQL",
-      "ariaCopy": "نسخ",
       "ariaDownload": "تحميل"
     },
     "WordFrequency": {
@@ -1395,7 +1382,6 @@
       "format": "تنسيق",
       "minify": "ضغط",
       "validate": "تحقق",
-      "copy": "نسخ",
       "loadSample": "تحميل مثال",
       "clear": "مسح",
       "indent": "المسافة البادئة:",
@@ -1415,7 +1401,6 @@
       "minifiedSuccess": "تم ضغط JSON",
       "isValid": "JSON صالح",
       "invalidJson": "JSON غير صالح",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة"
     },
@@ -1450,7 +1435,6 @@
       "enterSomeInput": "الرجاء إدخال بيانات",
       "conversionSuccessful": "تم التحويل بنجاح",
       "fileLoadedSuccessfully": "تم تحميل الملف بنجاح",
-      "noOutputToCopy": "لا يوجد ناتج للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة",
       "noOutputToDownload": "لا يوجد ناتج للتحميل",
@@ -1753,7 +1737,6 @@
       "yamlToJsonBtn": "YAML→JSON",
       "jsonToYamlBtn": "JSON→YAML",
       "swap": "تبديل",
-      "copyOutput": "نسخ الناتج",
       "loadSample": "تحميل مثال",
       "clear": "مسح",
       "yamlInput": "مدخل YAML",
@@ -1765,7 +1748,6 @@
       "valid": "صالح",
       "conversionFailed": "فشل التحويل",
       "convertedSuccessfully": "تم التحويل بنجاح",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة",
       "error": "خطأ:"
@@ -1789,7 +1771,6 @@
       "pleaseEnterInput": "الرجاء إدخال بيانات",
       "encodedSuccessfully": "تم الترميز بنجاح",
       "decodedSuccessfully": "تم فك الترميز بنجاح",
-      "nothingToCopy": "لا يوجد شيء للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة",
       "encodingFailed": "فشل الترميز: {msg}",
@@ -1805,7 +1786,6 @@
       "selectedCount": "{count} محدد",
       "generateData": "توليد البيانات",
       "outputTitle": "الناتج",
-      "copy": "نسخ",
       "download": "تحميل",
       "outputPlaceholder": "انقر على 'توليد البيانات' لإنشاء سجلات وهمية...",
       "selectAtLeastOneField": "حدد حقلاً واحداً على الأقل",
@@ -1829,7 +1809,6 @@
       "generatedTextDesc": "نص Lorem Ipsum الخاص بك",
       "generatedTextPlaceholder": "سيظهر النص المولّد هنا...",
       "characters": "حرف",
-      "copyText": "نسخ النص",
       "quickGenerate": "توليد سريع",
       "quickGenerateDesc": "أنشئ كميات شائعة بنقرة واحدة",
       "oneParagraph": "فقرة واحدة",
@@ -1838,11 +1817,9 @@
       "fiveSentences": "5 جمل",
       "aboutLoremTitle": "عن Lorem Ipsum",
       "aboutLoremDesc": "Lorem Ipsum هو نص وهمي شائع في صناعة الطباعة والتنضيد. وقد ظل النص الوهمي القياسي في الصناعة منذ القرن الخامس عشر الميلادي، عندما أخذ طابع مجهول مقطعاً من النص وخلّطه لصنع كتاب نماذج. يُستخدم شائعاً في تصميم الويب والتصميم الجرافيكي والنشر كنص بديل.",
-      "noTextToCopy": "لا يوجد نص للنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TodoList": {
-      "title": "قائمة المهام",
       "addNewTodo": "إضافة مهمة جديدة",
       "placeholder": "ما الذي يجب القيام به؟",
       "addButton": "إضافة",
@@ -1882,7 +1859,6 @@
     },
     "KeepAwake": {
       "title": "إبقاء الجهاز مستيقظاً",
-      "subtitle": "امنع شاشتك من الدخول في وضع السكون",
       "status": "الحالة",
       "inactive": "غير نشط",
       "active": "مستيقظ",
@@ -1922,8 +1898,6 @@
       "activatedInfinity": "تم التفعيل — وضع بلا نهاية"
     },
     "PomodoroTimer": {
-      "title": "مؤقت بومودورو",
-      "subtitle": "ابقَ مركزاً وخذ استراحات",
       "settings": "الإعدادات",
       "workDuration": "مدة العمل (دقيقة)",
       "shortBreak": "استراحة قصيرة (دقيقة)",
@@ -1950,7 +1924,6 @@
       "min": "دقيقة"
     },
     "WorldClock": {
-      "title": "ساعة العالم",
       "citiesCount": "التوقيت الحالي في {count} مدن",
       "addCity": "إضافة مدينة...",
       "sortByUTC": "ترتيب حسب UTC",
@@ -2018,8 +1991,6 @@
       }
     },
     "Stopwatch": {
-      "title": "ساعة الإيقاف",
-      "subtitle": "تتبع دقيق للفات مع اختصارات لوحة المفاتيح",
       "start": "ابدأ",
       "pause": "إيقاف مؤقت",
       "lap": "لفة",
@@ -2039,8 +2010,6 @@
       "resetKey": "إعادة"
     },
     "HabitTracker": {
-      "title": "متتبع العادات",
-      "subtitle": "ابنِ الاستمرارية وتتبع تقدمك",
       "addHabit": "إضافة عادة",
       "cancel": "إلغاء",
       "totalHabits": "إجمالي العادات",
@@ -2265,8 +2234,7 @@
       "differentAmountsPerPerson": "مبالغ مختلفة لكل شخص",
       "pays": "يدفع",
       "enterBillPrompt": "أدخل مبلغ الفاتورة للبدء",
-      "summaryCopied": "تم نسخ الملخص",
-      "copyFailed": "فشل النسخ"
+      "summaryCopied": "تم نسخ الملخص"
     },
     "UnitConverter": {
       "converter": "محوّل",
@@ -2418,7 +2386,6 @@
       "enterNumber": "أدخل رقماً",
       "enterRoman": "أدخل رقماً رومانياً",
       "result": "النتيجة",
-      "copy": "نسخ",
       "stepByStep": "خطوة بخطوة",
       "runningTotal": "المجموع الجاري",
       "remaining": "المتبقي",
@@ -2427,7 +2394,6 @@
       "errorInvalidFormat": "أرقام رومانية غير صحيحة — تحقق من تنسيق الأرقام",
       "errorOutOfRange": "أدخل رقماً بين 1 و 3999",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "failedToCopy": "فشل النسخ",
       "numberPlaceholder": "مثال: 2024",
       "romanPlaceholder": "مثال: MMXXIV"
     },
@@ -3157,8 +3123,7 @@
       "previewButton": "مكوّن زر",
       "previewUI": "مثال على مكوّن واجهة",
       "presets": "إعدادات مسبقة",
-      "ratioCopied": "تم نسخ نسبة التباين",
-      "copyFailed": "فشل النسخ"
+      "ratioCopied": "تم نسخ نسبة التباين"
     },
     "ColorBlindnessSimulator": {
       "title": "محاكي عمى الألوان",
@@ -3315,8 +3280,7 @@
       "errorFutureDate": "لا يمكن أن يكون تاريخ الميلاد في المستقبل",
       "errorMissingBirthDates": "الرجاء اختيار تاريخي الميلاد",
       "errorFutureDates": "لا يمكن أن تكون تواريخ الميلاد في المستقبل",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "copyFailed": "فشل النسخ"
+      "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "Footer": {
       "copyright": "© {year} BrowseryTools. جميع الحقوق محفوظة.",
@@ -3353,8 +3317,7 @@
       "errorMissingInfo": "الرجاء اختيار المنطقتين الزمنيتين وإدخال التاريخ والوقت",
       "errorInvalidDate": "تاريخ غير صالح — الرجاء إدخال تاريخ ووقت صحيحين",
       "errorConversion": "خطأ في التحويل — تعذّر تحويل الوقت",
-      "copiedToClipboard": "تم النسخ إلى الحافظة",
-      "copyFailed": "فشل النسخ"
+      "copiedToClipboard": "تم النسخ إلى الحافظة"
     },
     "TypingTest": {
       "title": "اختبار الكتابة",
@@ -3861,7 +3824,6 @@
       "headers": "الترويسات",
       "query": "معاملات الاستعلام",
       "body": "المحتوى",
-      "nothingToCopy": "لا يوجد ما يُنسخ",
       "copiedToClipboard": "تم النسخ إلى الحافظة",
       "failedToCopy": "فشل النسخ إلى الحافظة"
     },
@@ -3976,7 +3938,6 @@
       "outputPlaceholder": "ستظهر أيقوناتك هنا",
       "zipContents": "يضمّ الملف جميع أحجام PNG، وfavicon.ico (16+32)، وsite.webmanifest، ومقطع HTML.",
       "htmlSnippet": "مقطع HTML",
-      "copySnippet": "نسخ مقطع HTML",
       "snippetCopied": "تم نسخ مقطع HTML",
       "copyFailed": "تعذّر النسخ إلى الحافظة",
       "imageTooLarge": "الصورة كبيرة جدًا. الحد الأقصى 15 ميجابايت.",
@@ -4253,7 +4214,6 @@
       "copied": "تم نسخ النص إلى الحافظة",
       "copyFailed": "تعذّر النسخ إلى الحافظة",
       "downloaded": "تم تنزيل النص",
-      "nothingToCopy": "لا يوجد نص لنسخه بعد",
       "nothingToDownload": "لا يوجد نص لتنزيله بعد",
       "notSupported": "متصفحك لا يدعم التعرّف على الكلام. استخدم Google Chrome أو Microsoft Edge للحصول على أفضل تجربة. الدعم في Firefox محدود.",
       "micDenied": "تم رفض الوصول إلى الميكروفون. اسمح بإذن الميكروفون وحاول مرة أخرى.",
@@ -4545,7 +4505,6 @@
       "captionLabel": "الوصف",
       "altLabel": "النص البديل (HTML)",
       "altHint": "الصق هذا داخل وسم <img> لتحسين إمكانية الوصول وتحسين محركات البحث. راجِعه وعدّله ليناسب سياق الصورة.",
-      "copy": "نسخ",
       "copyCaption": "نسخ الوصف",
       "copyAlt": "نسخ النص البديل",
       "copied": "تم النسخ إلى الحافظة",
@@ -4576,7 +4535,6 @@
       "copy": "نسخ",
       "copied": "نُسخ إلى الحافظة",
       "copyFailed": "تعذّر النسخ إلى الحافظة",
-      "nothingToCopy": "لا يوجد ما يُنسخ بعد",
       "enterText": "يرجى إدخال نص",
       "noneFound": "لم يُكتشف أي معلومات شخصية",
       "detectedToast": "اكتُشف {count} عنصراً من المعلومات الشخصية",
@@ -4699,5 +4657,105 @@
     "howToTitle": "كيفية استخدام {tool}",
     "faqTitle": "الأسئلة الشائعة",
     "relatedTitle": "أدوات ذات صلة"
+  },
+  "Rail": {
+    "toolsOnDevice": "{count} أداة · على جهازك",
+    "everything": "الكل",
+    "blog": "المدونة",
+    "github": "GitHub",
+    "search": "بحث",
+    "sponsorLabel": "من صانع الموقع",
+    "new": "جديد",
+    "language": "اللغة",
+    "theme": "المظهر",
+    "soundOn": "الصوت مُفعّل",
+    "soundOff": "الصوت متوقف",
+    "maker": {
+      "kashfbank": {
+        "tag": "كشوف الحسابات إلى CSV",
+        "desc": "حوّل أي كشف حساب بنكي PDF إلى ملفات CSV وExcel نظيفة.",
+        "cta": "جرّبه"
+      },
+      "superbilled": {
+        "tag": "فواتير تأمين للمعالجين",
+        "desc": "فواتير جاهزة للتأمين للمعالجين بالدفع الخاص.",
+        "cta": "زيارة"
+      }
+    }
+  },
+  "Landing": {
+    "statementLead": "ملفاتك لا تغادر جهازك أبدًا.",
+    "statementTail": "أكثر من {count} أداة مجانية مفتوحة المصدر — خصوصية كاملة، مباشرة في متصفحك.",
+    "searchPlaceholder": "ابحث في أكثر من {count} أداة…",
+    "demoTitle": "جرّبها. أفلِت صورة هنا.",
+    "demoTitleBusy": "جارٍ الضغط…",
+    "demoSub": "تُضغط هنا مباشرةً على جهازك. دون أي رفع — راقب تبويب الشبكة.",
+    "demoSmaller": "أصغر بنسبة {pct}%",
+    "apps": "التطبيقات",
+    "popular": "شائعة",
+    "all": "الكل",
+    "allTools": "جميع الأدوات ({count})",
+    "viewAll": "عرض جميع الأدوات",
+    "onDevice": "على جهازك",
+    "sponsorTile": "أداتك البرمجية، بمكانها الطبيعي هنا",
+    "coffee": "اشتر لي قهوة",
+    "favorites": "مفضّلتك",
+    "recent": "المستخدمة مؤخرًا",
+    "dropAnyFile": "أسقط أي ملف هنا",
+    "dropSuggest": "سنرشدك إلى الأداة المناسبة — والصور تُضغط على جهازك مباشرة."
+  },
+  "Template": {
+    "onDevicePromise": "يعمل على جهازك — لا يُرفع شيء ولا يُخزَّن شيء.",
+    "networkNote": "يعمل في متصفحك — تأتي البيانات الحية من واجهة برمجة عامة.",
+    "related": "ذات صلة",
+    "startOver": "ابدأ من جديد",
+    "download": "تنزيل",
+    "dropTitle": "أفلِت ملفًا، أو انقر للاختيار",
+    "staysOnDevice": "يبقى على جهازك"
+  },
+  "Legal": {
+    "nav": {
+      "license": "الترخيص",
+      "privacy": "الخصوصية",
+      "terms": "الشروط"
+    },
+    "common": {
+      "contactLinkText": "افتح تذكرة على GitHub",
+      "licenseLinkText": "اقرأ ترخيص AGPL-3.0"
+    },
+    "privacy": {
+      "title": "سياسة الخصوصية",
+      "intro": "صُممت BrowseryTools بحيث لا تحتاج ملفاتك لمغادرة جهازك أصلًا. توضح هذه الصفحة بعبارات بسيطة ماذا يعني ذلك، وما هي البيانات القليلة التي نجمعها فعلًا.",
+      "noAccountsHeading": "بلا حسابات، بلا تسجيل دخول",
+      "noAccountsBody": "لا شيء تحتاج التسجيل فيه. لا نطلب اسمك أو بريدك الإلكتروني أو بيانات دفعك، ولا ننشئ لك ملفًا شخصيًا في أي مكان.",
+      "onDeviceHeading": "ملفاتك لا تغادر جهازك أبدًا",
+      "onDeviceBody": "كل أداة تعمل بالكامل داخل متصفحك. الصور والمستندات والنصوص التي تعالجها تُقرأ وتُحوَّل وتُنزَّل محليًا — لا شيء يُرفع إلى أي خادم، أبدًا. يمكنك التأكد بنفسك: افتح تبويب الشبكة في متصفحك أثناء استخدام أي أداة.",
+      "analyticsHeading": "إحصاءات استخدام مجمّعة",
+      "analyticsBody": "نستخدم Vercel Analytics لمعرفة أي الصفحات والأدوات أكثر استخدامًا. يُبلغ هذا النظام عن أرقام مجمّعة ومجهولة الهوية — عدد الزيارات وتقديرات الاستخدام — ولا يشمل أبدًا محتوى ما تعالجه، ولا أي شيء يمكن ربطه بك شخصيًا.",
+      "localStorageHeading": "تفضيلات محلية",
+      "localStorageBody": "بعض الأدوات تتذكر إعداداتك — مثل المظهر أو قائمة حديثة — باستخدام التخزين المحلي في متصفحك. تبقى هذه البيانات على جهازك فقط ولا تُرسَل إلى أي مكان.",
+      "openSourceHeading": "مفتوحة المصدر بالكامل",
+      "openSourceBody": "الشيفرة البرمجية بأكملها متاحة للعامة على GitHub. إن أردت معرفة ما تفعله أداة ما ببياناتك بالضبط، يمكنك قراءة الشيفرة المصدرية بنفسك بدلًا من تصديق كلامنا فقط.",
+      "contactHeading": "أسئلة",
+      "contactBody": "إن كان أي شيء هنا غير واضح، فأسرع طريقة للتواصل معنا هي GitHub.",
+      "changesHeading": "تعديلات على هذه السياسة",
+      "changesBody": "إذا تغيّرت هذه السياسة يومًا، سنحدّث هذه الصفحة. وبما أننا لا نجمع عناوين بريد إلكتروني، فليس لدينا طريقة لإخبارك مباشرة — عُد للاطلاع إن أردت."
+    },
+    "terms": {
+      "title": "شروط الاستخدام",
+      "intro": "BrowseryTools برنامج مجاني ومفتوح المصدر. باستخدامه، إليك ما توافق عليه — وهو أقصر مما تتخيل.",
+      "licenseHeading": "ترخيص مفتوح المصدر",
+      "licenseBody": "الشيفرة مرخّصة بموجب GNU Affero General Public License v3.0 (AGPL-3.0). يحق لك قراءتها ونسخها وتشغيل نسختك الخاصة منها، وفق شروط هذا الترخيص.",
+      "freeHeading": "مجانية للجميع",
+      "freeBody": "كل أداة مجانية للاستخدام، للمشاريع الشخصية والتجارية على حد سواء. بلا جدران دفع، وبلا حدود استخدام، وبلا نسخة مدفوعة تُخفي الميزات الجيدة.",
+      "warrantyHeading": "بلا ضمان",
+      "warrantyBody": "تُقدَّم BrowseryTools كما هي، دون أي ضمان من أي نوع. نعمل على إبقاء كل أداة دقيقة وموثوقة، لكن تبقى مسؤوليتك التحقق من النتائج قبل الاعتماد عليها في أي أمر مهم.",
+      "acceptableUseHeading": "الاستخدام المقبول",
+      "acceptableUseBody": "استخدم الأدوات لأغراض مشروعة. أنت المسؤول عن المحتوى الذي تعالجه وعن الامتثال لأي قوانين تنطبق عليه.",
+      "changesHeading": "تعديلات على هذه الشروط",
+      "changesBody": "قد نحدّث هذه الشروط مع تطور المشروع. استمرارك في استخدام BrowseryTools بعد أي تعديل يعني موافقتك على الشروط الجديدة.",
+      "contactHeading": "أسئلة",
+      "contactBody": "أسئلتك حول هذه الشروط مرحّب بها — تواصل معنا عبر GitHub."
+    }
   }
 }

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
-import { Geist, IBM_Plex_Sans_Arabic } from "next/font/google";
+import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
+import localFont from "next/font/local";
 import { cookies } from "next/headers";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
@@ -12,7 +13,17 @@ import {
   ogAlternateLocales,
 } from "@/lib/locales";
 
-const geist = Geist({ subsets: ["latin"] });
+const inter = Inter({ subsets: ["latin"] });
+
+// Satoshi (Fontshare/ITF free license, self-hosted) — the wordmark face only.
+// Exposed as a variable so exactly one selector opts in (.railWordmark).
+const satoshi = localFont({
+  src: "../fonts/Satoshi-Bold.woff2",
+  weight: "700",
+  variable: "--font-satoshi",
+  display: "swap",
+  preload: false,
+});
 
 // Self-hosted at build via next/font — same weights previously loaded from Google Fonts.
 const ibmPlexSansArabic = IBM_Plex_Sans_Arabic({
@@ -109,11 +120,6 @@ export const metadata: Metadata = {
   category: "technology",
   classification: "Productivity Tools",
   referrer: "origin-when-cross-origin",
-  colorScheme: "light dark",
-  themeColor: [
-    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
-    { media: "(prefers-color-scheme: dark)", color: "#000000" },
-  ],
   icons: {
     icon: [
       { url: "/favicon.ico", sizes: "any" },
@@ -124,7 +130,7 @@ export const metadata: Metadata = {
       {
         rel: "mask-icon",
         url: "/safari-pinned-tab.svg",
-        color: "#000000",
+        color: "#161615",
       },
     ],
   },
@@ -135,7 +141,7 @@ export const metadata: Metadata = {
     title: "BrowseryTools",
   },
   other: {
-    "msapplication-TileColor": "#000000",
+    "msapplication-TileColor": "#161615",
     "msapplication-config": "/browserconfig.xml",
     github: "https://github.com/aghyad97",
     x: "https://twitter.com/aghyadev",
@@ -146,6 +152,11 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   maximumScale: 5,
+  colorScheme: "light dark",
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#FCFCFB" },
+    { media: "(prefers-color-scheme: dark)", color: "#0E0E0D" },
+  ],
 };
 
 export default async function RootLayout({
@@ -161,10 +172,10 @@ export default async function RootLayout({
     <html
       lang={initialLocale}
       dir={getDir(initialLocale)}
-      className={ibmPlexSansArabic.variable}
+      className={`${ibmPlexSansArabic.variable} ${satoshi.variable}`}
       suppressHydrationWarning
     >
-      <body className={geist.className}>
+      <body className={inter.className}>
         <Providers initialLocale={initialLocale}>
           {children}
         </Providers>

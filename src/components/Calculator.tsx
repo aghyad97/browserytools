@@ -9,6 +9,9 @@ import { Label } from "./ui/label";
 import { CalculatorIcon, ChartLine, Plus, X as XIcon } from "lucide-react";
 import { Function } from "@phosphor-icons/react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { ModePicker } from "@/components/shared/ModePicker";
 import { create, all, type MathJsInstance } from "mathjs";
 import { toast } from "sonner";
 
@@ -47,6 +50,8 @@ interface PlotFn {
   color: string;
 }
 
+// content value: distinct per-series plot line colors for function-plot's SVG
+// output (a data-viz categorical palette), no bt token equivalent
 const PLOT_COLORS = [
   "#2563eb",
   "#dc2626",
@@ -58,6 +63,7 @@ const PLOT_COLORS = [
 
 const Calculator = () => {
   const t = useTranslations("Tools.Calculator");
+  const tc = useTranslations("ToolsConfig");
   const [mode, setMode] = useState<Mode>("basic");
   const [state, setState] = useState<CalculatorState>({
     display: "0",
@@ -509,7 +515,7 @@ const Calculator = () => {
 
   // ── Button layouts ──────────────────────────────────────────────────────
   const numberBtn =
-    "bg-gray-100 hover:bg-gray-200 text-gray-900 dark:bg-gray-800 dark:hover:bg-gray-700 dark:text-gray-100 cursor-pointer border-2 border-gray-300 dark:border-gray-600";
+    "bg-muted hover:bg-muted/70 text-foreground cursor-pointer border-2 border-border";
   const opBtn = "bg-blue-500 hover:bg-blue-600 text-white cursor-pointer";
 
   const basicButtons = [
@@ -538,9 +544,9 @@ const Calculator = () => {
       { label: "+", onClick: () => handleOperation("+"), className: opBtn },
     ],
     [
-      { label: "±", onClick: handlePlusMinus, className: "bg-slate-500 hover:bg-slate-600 text-white cursor-pointer" },
+      { label: "±", onClick: handlePlusMinus, className: "bg-secondary hover:bg-secondary/80 text-secondary-foreground cursor-pointer" },
       { label: "0", onClick: () => handleNumber("0"), className: numberBtn },
-      { label: ".", onClick: handleDecimal, className: "bg-slate-500 hover:bg-slate-600 text-white cursor-pointer" },
+      { label: ".", onClick: handleDecimal, className: "bg-secondary hover:bg-secondary/80 text-secondary-foreground cursor-pointer" },
       { label: "=", onClick: handleEquals, className: "bg-emerald-500 hover:bg-emerald-600 text-white cursor-pointer" },
     ],
   ];
@@ -606,7 +612,11 @@ const Calculator = () => {
   ];
 
   return (
-    <div className="w-full max-w-2xl mx-auto p-4">
+    <ToolShell
+      slug="calculator"
+      title={tc("tools.calculator.name")}
+      sub={tc("tools.calculator.description")}
+    >
       <Card className="border bg-card/50 backdrop-blur-sm shadow-none">
         <CardContent className="space-y-6 pt-6">
           <Tabs value={mode} onValueChange={(value) => setMode(value as Mode)}>
@@ -658,30 +668,15 @@ const Calculator = () => {
                 <div className="text-sm text-muted-foreground">
                   {t("memoryLabel")}: <span dir="ltr">{sciMemory}</span>
                 </div>
-                <div className="inline-flex rounded-lg border p-1">
-                  <button
-                    type="button"
-                    onClick={() => setAngle("deg")}
-                    className={`px-3 py-1 text-sm rounded-md cursor-pointer transition-colors ${
-                      angle === "deg"
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {t("deg")}
-                  </button>
-                  <button
-                    type="button"
-                    onClick={() => setAngle("rad")}
-                    className={`px-3 py-1 text-sm rounded-md cursor-pointer transition-colors ${
-                      angle === "rad"
-                        ? "bg-primary text-primary-foreground"
-                        : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {t("rad")}
-                  </button>
-                </div>
+                <ModePicker
+                  aria-label={t("scientific")}
+                  value={angle}
+                  onChange={(value) => setAngle(value as Angle)}
+                  options={[
+                    { value: "deg", label: t("deg") },
+                    { value: "rad", label: t("rad") },
+                  ]}
+                />
               </div>
 
               <div
@@ -773,28 +768,28 @@ const Calculator = () => {
                 </Button>
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-1">
-                  <Label htmlFor="x-min">{t("xMin")}</Label>
-                  <Input
-                    id="x-min"
-                    value={xMin}
-                    onChange={(e) => setXMin(e.target.value)}
-                    dir="ltr"
-                    className="font-mono text-start"
-                  />
+              <SettingsCard>
+                <div className="grid grid-cols-2 gap-4">
+                  <OptionRow label={t("xMin")} htmlFor="x-min">
+                    <Input
+                      id="x-min"
+                      value={xMin}
+                      onChange={(e) => setXMin(e.target.value)}
+                      dir="ltr"
+                      className="font-mono text-start"
+                    />
+                  </OptionRow>
+                  <OptionRow label={t("xMax")} htmlFor="x-max">
+                    <Input
+                      id="x-max"
+                      value={xMax}
+                      onChange={(e) => setXMax(e.target.value)}
+                      dir="ltr"
+                      className="font-mono text-start"
+                    />
+                  </OptionRow>
                 </div>
-                <div className="space-y-1">
-                  <Label htmlFor="x-max">{t("xMax")}</Label>
-                  <Input
-                    id="x-max"
-                    value={xMax}
-                    onChange={(e) => setXMax(e.target.value)}
-                    dir="ltr"
-                    className="font-mono text-start"
-                  />
-                </div>
-              </div>
+              </SettingsCard>
 
               <div
                 ref={graphRef}
@@ -809,10 +804,7 @@ const Calculator = () => {
           </Tabs>
 
           {/* Instructions */}
-          <div className="mt-8 p-6 bg-muted/30 rounded-xl border">
-            <h3 className="font-semibold mb-4 text-lg">
-              {t("keyboardShortcuts")}
-            </h3>
+          <SettingsCard title={t("keyboardShortcuts")} className="mt-8">
             <div
               className="grid grid-cols-1 md:grid-cols-2 gap-2 text-sm"
               dir="ltr"
@@ -882,10 +874,10 @@ const Calculator = () => {
                 </p>
               </div>
             </div>
-          </div>
+          </SettingsCard>
         </CardContent>
       </Card>
-    </div>
+    </ToolShell>
   );
 };
 

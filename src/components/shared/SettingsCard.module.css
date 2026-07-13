@@ -1,0 +1,74 @@
+/* Shared settings card + option row (R3 §F3 M3). THE one interior padding
+   rule: 20px inline / 16px block. Colours via var(--bt-*), both themes. */
+
+.card {
+  border: 1px solid var(--bt-line);
+  border-radius: 11px;
+  background: var(--bt-surface);
+  padding-inline: 20px;
+  padding-block: 16px;
+}
+
+.head {
+  margin-block-end: 16px;
+}
+
+.headRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.title {
+  font-family: var(--mono);
+  font-size: 10.5px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+}
+
+.action {
+  flex-shrink: 0;
+}
+
+.description {
+  margin: 0;
+  margin-block-start: 6px;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--bt-muted);
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.rowHead {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--bt-ink);
+}
+
+.hint {
+  font-size: 12px;
+  line-height: 1.3;
+  color: var(--bt-muted);
+  text-align: end;
+}

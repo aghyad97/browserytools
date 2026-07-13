@@ -17,6 +17,7 @@
     "start": "next start",
     "lint": "eslint src",
     "validate": "node scripts/validate-tools.js",
+    "brand": "node scripts/generate-brand-assets.mjs",
     "test-validation": "node scripts/test-validation.js",
     "tool-release": "node scripts/update-tool-release.js",
     "precommit": "bun run validate && bun run lint",

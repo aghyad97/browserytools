@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { PDFDocument } from "pdf-lib";
 import JSZip from "jszip";
 import { Card } from "@/components/ui/card";
@@ -36,6 +35,11 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { downloadBlob } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -69,31 +73,13 @@ const PAGE_DIMENSIONS: Record<string, [number, number]> = {
   letter: [612, 792],
 };
 
-function formatBytes(bytes: number) {
-  if (bytes === 0) return "0 Bytes";
-  const k = 1024;
-  const sizes = ["Bytes", "KB", "MB", "GB"];
-  const i = Math.floor(Math.log(bytes) / Math.log(k));
-  return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + " " + sizes[i];
-}
-
-function triggerDownload(blob: Blob, filename: string) {
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement("a");
-  link.href = url;
-  link.download = filename;
-  document.body.appendChild(link);
-  link.click();
-  document.body.removeChild(link);
-  URL.revokeObjectURL(url);
-}
-
 function downloadPdfBytes(data: Uint8Array, filename: string) {
-  triggerDownload(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
+  downloadBlob(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
 }
 
 export default function PDFTools() {
   const t = useTranslations("Tools.PDFTools");
+  const tc = useTranslations("ToolsConfig");
 
   // ── Shared PDF state (Merge + Split tabs) ──────────────────────────────────
   const [files, setFiles] = useState<PDFFile[]>([]);
@@ -171,11 +157,7 @@ export default function PDFTools() {
     }
   }, []);
 
-  const pdfDropzone = useDropzone({
-    onDrop: onDropPdf,
-    accept: { "application/pdf": [".pdf"] },
-    multiple: true,
-  });
+  const pdfAccept = { "application/pdf": [".pdf"] };
 
   // ── Image upload ──────────────────────────────────────────────────────────────
   const onDropImages = useCallback(async (acceptedFiles: File[]) => {
@@ -197,11 +179,7 @@ export default function PDFTools() {
     }
   }, []);
 
-  const imageDropzone = useDropzone({
-    onDrop: onDropImages,
-    accept: { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] },
-    multiple: true,
-  });
+  const imageAccept = { "image/jpeg": [".jpg", ".jpeg"], "image/png": [".png"] };
 
   // ── Reorder / remove helpers ──────────────────────────────────────────────────
   const moveFile = (index: number, direction: "up" | "down") => {
@@ -288,7 +266,7 @@ export default function PDFTools() {
           const zip = new JSZip();
           outputs.forEach((o) => zip.file(o.name, o.bytes as Uint8Array));
           const blob = await zip.generateAsync({ type: "blob" });
-          triggerDownload(blob, `${baseName}_pages.zip`);
+          downloadBlob(blob, `${baseName}_pages.zip`);
         }
         toast.success(t("splitSuccess", { count: outputs.length }));
         return;
@@ -337,7 +315,7 @@ export default function PDFTools() {
         const zip = new JSZip();
         outputs.forEach((o) => zip.file(o.name, o.bytes as Uint8Array));
         const blob = await zip.generateAsync({ type: "blob" });
-        triggerDownload(blob, `${baseName}_split.zip`);
+        downloadBlob(blob, `${baseName}_split.zip`);
       }
       toast.success(t("splitSuccess", { count: outputs.length }));
     } catch {
@@ -400,9 +378,12 @@ export default function PDFTools() {
   const splitFile = files[splitFileIndex];
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
+    <ToolShell
+      slug="pdf"
+      title={tc("tools.pdf.name")}
+      sub={tc("tools.pdf.description")}
+    >
+      <div className="space-y-6">
           <Tabs defaultValue="images" className="w-full">
             <TabsList className="flex-wrap h-auto">
               <TabsTrigger value="images">
@@ -422,15 +403,17 @@ export default function PDFTools() {
             {/* ── Images → PDF ─────────────────────────────────────────── */}
             <TabsContent value="images" className="space-y-6">
               <Card className="p-6">
-                <div
-                  {...imageDropzone.getRootProps()}
-                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
-                    imageDropzone.isDragActive
+                <FileDropzone
+                  onFiles={onDropImages}
+                  accept={imageAccept}
+                  multiple
+                  inputProps={{ "data-testid": "image-input" }}
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
+                    isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                   }`}
                 >
-                  <input {...imageDropzone.getInputProps()} data-testid="image-input" />
                   <div className="p-4 rounded-full bg-primary/10">
                     <Upload className="w-8 h-8 text-primary" />
                   </div>
@@ -440,19 +423,18 @@ export default function PDFTools() {
                       {t("supportedImageFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {images.length > 0 && (
                 <>
-                  <Card className="p-6 grid grid-cols-1 md:grid-cols-3 gap-4">
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t("pageSize")}</label>
+                  <SettingsCard>
+                    <OptionRow label={t("pageSize")} htmlFor="pdf-page-size">
                       <Select
                         value={pageSize}
                         onValueChange={(v) => setPageSize(v as PageSize)}
                       >
-                        <SelectTrigger aria-label={t("pageSize")}>
+                        <SelectTrigger id="pdf-page-size" aria-label={t("pageSize")}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -461,15 +443,14 @@ export default function PDFTools() {
                           <SelectItem value="fit">{t("sizeFit")}</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t("orientation")}</label>
+                    </OptionRow>
+                    <OptionRow label={t("orientation")} htmlFor="pdf-orientation">
                       <Select
                         value={orientation}
                         onValueChange={(v) => setOrientation(v as Orientation)}
                         disabled={pageSize === "fit"}
                       >
-                        <SelectTrigger aria-label={t("orientation")}>
+                        <SelectTrigger id="pdf-orientation" aria-label={t("orientation")}>
                           <SelectValue />
                         </SelectTrigger>
                         <SelectContent>
@@ -477,12 +458,10 @@ export default function PDFTools() {
                           <SelectItem value="landscape">{t("landscape")}</SelectItem>
                         </SelectContent>
                       </Select>
-                    </div>
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">
-                        {t("marginLabel", { value: margin })}
-                      </label>
+                    </OptionRow>
+                    <OptionRow label={t("marginLabel", { value: margin })} htmlFor="pdf-margin">
                       <Input
+                        id="pdf-margin"
                         type="number"
                         min={0}
                         max={144}
@@ -490,10 +469,9 @@ export default function PDFTools() {
                         onChange={(e) =>
                           setMargin(Math.max(0, Number(e.target.value) || 0))
                         }
-                        aria-label={t("margin")}
                       />
-                    </div>
-                  </Card>
+                    </OptionRow>
+                  </SettingsCard>
 
                   <Card className="p-4 space-y-2">
                     {images.map((img, index) => (
@@ -559,15 +537,17 @@ export default function PDFTools() {
             {/* ── Merge ─────────────────────────────────────────────────── */}
             <TabsContent value="merge" className="space-y-6">
               <Card className="p-6">
-                <div
-                  {...pdfDropzone.getRootProps()}
-                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
-                    pdfDropzone.isDragActive
+                <FileDropzone
+                  onFiles={onDropPdf}
+                  accept={pdfAccept}
+                  multiple
+                  inputProps={{ "data-testid": "pdf-input" }}
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
+                    isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                   }`}
                 >
-                  <input {...pdfDropzone.getInputProps()} data-testid="pdf-input" />
                   <div className="p-4 rounded-full bg-primary/10">
                     <Upload className="w-8 h-8 text-primary" />
                   </div>
@@ -577,7 +557,7 @@ export default function PDFTools() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {files.length > 0 && (
@@ -668,15 +648,17 @@ export default function PDFTools() {
             {/* ── Split / Extract ──────────────────────────────────────── */}
             <TabsContent value="split" className="space-y-6">
               <Card className="p-6">
-                <div
-                  {...pdfDropzone.getRootProps()}
-                  className={`h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-all duration-200 ${
-                    pdfDropzone.isDragActive
+                <FileDropzone
+                  onFiles={onDropPdf}
+                  accept={pdfAccept}
+                  multiple
+                  inputProps={{ "data-testid": "pdf-split-input" }}
+                  className={({ isDragActive }) => `h-48 rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
+                    isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
                       : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                   }`}
                 >
-                  <input {...pdfDropzone.getInputProps()} data-testid="pdf-split-input" />
                   <div className="p-4 rounded-full bg-primary/10">
                     <Upload className="w-8 h-8 text-primary" />
                   </div>
@@ -686,18 +668,17 @@ export default function PDFTools() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               </Card>
 
               {files.length > 0 && splitFile && (
-                <Card className="p-6 space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">{t("selectedFile")}</label>
+                <SettingsCard>
+                  <OptionRow label={t("selectedFile")} htmlFor="pdf-split-file">
                     <Select
                       value={String(splitFileIndex)}
                       onValueChange={(v) => setSplitFileIndex(Number(v))}
                     >
-                      <SelectTrigger aria-label={t("selectedFile")}>
+                      <SelectTrigger id="pdf-split-file" aria-label={t("selectedFile")}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -708,15 +689,14 @@ export default function PDFTools() {
                         ))}
                       </SelectContent>
                     </Select>
-                  </div>
+                  </OptionRow>
 
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">{t("splitModeLabel")}</label>
+                  <OptionRow label={t("splitModeLabel")} htmlFor="pdf-split-mode">
                     <Select
                       value={splitMode}
                       onValueChange={(v) => setSplitMode(v as "range" | "all")}
                     >
-                      <SelectTrigger aria-label={t("splitModeLabel")}>
+                      <SelectTrigger id="pdf-split-mode" aria-label={t("splitModeLabel")}>
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
@@ -724,20 +704,19 @@ export default function PDFTools() {
                         <SelectItem value="all">{t("modeAll")}</SelectItem>
                       </SelectContent>
                     </Select>
-                  </div>
+                  </OptionRow>
 
                   {splitMode === "range" && (
-                    <div className="space-y-2">
-                      <label className="text-sm font-medium">{t("pageRanges")}</label>
+                    <OptionRow label={t("pageRanges")} htmlFor="pdf-page-ranges">
                       <Input
+                        id="pdf-page-ranges"
                         dir="ltr"
                         placeholder={t("pageRangesPlaceholder")}
                         value={pageRanges}
                         onChange={(e) => setPageRanges(e.target.value)}
-                        aria-label={t("pageRanges")}
                       />
                       <p className="text-sm text-muted-foreground">{t("pageRangesHelp")}</p>
-                    </div>
+                    </OptionRow>
                   )}
 
                   <Button
@@ -748,7 +727,7 @@ export default function PDFTools() {
                     <SplitSquareHorizontal className="w-4 h-4 me-2" />
                     {loading ? t("splitting") : t("splitAction")}
                   </Button>
-                </Card>
+                </SettingsCard>
               )}
             </TabsContent>
           </Tabs>
@@ -761,8 +740,7 @@ export default function PDFTools() {
               />
             </Card>
           )}
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

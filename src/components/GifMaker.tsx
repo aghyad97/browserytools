@@ -2,10 +2,14 @@
 
 import { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
   Upload,
@@ -61,6 +65,7 @@ function loadImage(src: string): Promise<HTMLImageElement> {
 export default function GifMaker() {
   const t = useTranslations("Tools.GifMaker");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [frames, setFrames] = useState<Frame[]>([]);
   const [delay, setDelay] = useState(200); // ms per frame
@@ -68,6 +73,7 @@ export default function GifMaker() {
   const [quality, setQuality] = useState(10); // gif.js: 1 best/slow .. 20 fast
   const [loopForever, setLoopForever] = useState(true);
   const [boomerang, setBoomerang] = useState(false);
+  // content value: user-picked GIF background color (color-picker default, not chrome)
   const [background, setBackground] = useState("#ffffff");
 
   const [isGenerating, setIsGenerating] = useState(false);
@@ -111,14 +117,6 @@ export default function GifMaker() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"],
-    },
-    multiple: true,
-  });
 
   const removeFrame = (id: string) => {
     setFrames((prev) => {
@@ -209,29 +207,31 @@ export default function GifMaker() {
 
   const handleDownload = () => {
     if (!result) return;
-    const link = document.createElement("a");
-    link.href = result;
-    link.download = "animation.gif";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(result, "animation.gif");
   };
 
   const fps = (1000 / delay).toFixed(1);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="gif-maker"
+      title={tc("tools.gif-maker.name")}
+      sub={tc("tools.gif-maker.description")}
+    >
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Left: frames + controls */}
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".bmp"],
+                }}
+                multiple={true}
+                className={({ isDragActive }) => `
                   h-40 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-3 p-6
-                  cursor-pointer transition-all duration-200
+                  cursor-pointer transition-[border-color,background-color] duration-150
                   ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
@@ -239,7 +239,6 @@ export default function GifMaker() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="w-14 h-14 rounded-full bg-primary/10 flex items-center justify-center">
                   <Upload className="w-7 h-7 text-primary" />
                 </div>
@@ -247,7 +246,7 @@ export default function GifMaker() {
                   <h3 className="text-base font-semibold">{t("dropHere")}</h3>
                   <p className="text-sm text-muted-foreground">{t("supported")}</p>
                 </div>
-              </div>
+              </FileDropzone>
             </Card>
 
             {frames.length > 0 && (
@@ -320,56 +319,42 @@ export default function GifMaker() {
               </Card>
             )}
 
-            <Card className="p-4 space-y-5">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">{t("frameDelay")}</label>
-                  <span className="text-sm text-muted-foreground">
-                    {delay} ms · {fps} fps
-                  </span>
-                </div>
-                <Slider
-                  value={[delay]}
-                  onValueChange={([v]) => setDelay(v)}
-                  min={20}
-                  max={1000}
-                  step={10}
-                />
-              </div>
+            <SettingsCard>
+              <SliderRow
+                label={t("frameDelay")}
+                value={delay}
+                min={20}
+                max={1000}
+                step={10}
+                onChange={setDelay}
+                display={`${delay} ms · ${fps} fps`}
+              />
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">{t("maxWidth")}</label>
-                  <span className="text-sm text-muted-foreground">{maxWidth}px</span>
-                </div>
-                <Slider
-                  value={[maxWidth]}
-                  onValueChange={([v]) => setMaxWidth(v)}
-                  min={100}
-                  max={1000}
-                  step={20}
-                />
-              </div>
+              <SliderRow
+                label={t("maxWidth")}
+                value={maxWidth}
+                min={100}
+                max={1000}
+                step={20}
+                onChange={setMaxWidth}
+                display={`${maxWidth}px`}
+              />
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">{t("quality")}</label>
-                  <span className="text-sm text-muted-foreground">
-                    {quality <= 5
-                      ? t("betterQuality")
-                      : quality >= 15
-                      ? t("smallerFile")
-                      : "·"}
-                  </span>
-                </div>
-                <Slider
-                  value={[quality]}
-                  onValueChange={([v]) => setQuality(v)}
-                  min={1}
-                  max={20}
-                  step={1}
-                />
-              </div>
+              <SliderRow
+                label={t("quality")}
+                value={quality}
+                min={1}
+                max={20}
+                step={1}
+                onChange={setQuality}
+                display={
+                  quality <= 5
+                    ? t("betterQuality")
+                    : quality >= 15
+                    ? t("smallerFile")
+                    : "·"
+                }
+              />
 
               <div className="flex items-center justify-between gap-4">
                 <div className="flex items-center gap-2">
@@ -424,7 +409,7 @@ export default function GifMaker() {
                   </>
                 )}
               </Button>
-            </Card>
+            </SettingsCard>
           </div>
 
           {/* Right: result */}
@@ -439,7 +424,7 @@ export default function GifMaker() {
                       className="max-w-full max-h-[60vh] mx-auto object-contain"
                     />
                     <p className="text-sm text-muted-foreground">
-                      {t("size")}: {(resultSize / 1024).toFixed(1)} KB
+                      {t("size")}: {formatBytes(resultSize)}
                     </p>
                   </div>
                 ) : (
@@ -462,7 +447,6 @@ export default function GifMaker() {
             </Button>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -7,8 +7,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { ToolShell } from "@/components/template/tool-shell";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { toast } from "sonner";
-import { Copy, Trash2, CheckCircle2, XCircle, AlignLeft, Minimize2, FlaskConical, FileJson } from "lucide-react";
+import { Trash2, CheckCircle2, XCircle, Minimize2, FlaskConical, FileJson } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 type ValidationState = "idle" | "valid" | "invalid";
@@ -52,6 +55,7 @@ function findErrorLine(input: string, msg: string): number | null {
 
 export default function JsonFormatter() {
   const t = useTranslations("Tools.JsonFormatter");
+  const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
   const sampleJson = useMemo(() => JSON.stringify({
     name: tCommon("siteName"),
@@ -119,57 +123,56 @@ export default function JsonFormatter() {
 
   const handleClear = () => { setInput(""); setOutput(""); resetError(); };
 
-  const handleCopy = async () => {
-    const text = output || input;
-    if (!text) { toast.error(t("nothingToCopy")); return; }
-    try { await navigator.clipboard.writeText(text); toast.success(t("copiedToClipboard")); }
-    catch { toast.error(t("failedToCopy")); }
-  };
-
   const handleLoadSample = () => { setInput(sampleJson); setOutput(""); resetError(); };
   const stats = getJsonStats(input);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div className="flex flex-wrap items-center gap-2">
-            <Button onClick={handleFormat}><AlignLeft className="h-4 w-4 me-2" />{t("format")}</Button>
-            <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 me-2" />{t("minify")}</Button>
-            <Button variant="outline" onClick={handleValidate}><FlaskConical className="h-4 w-4 me-2" />{t("validate")}</Button>
-            <Button variant="outline" onClick={handleCopy}><Copy className="h-4 w-4 me-2" />{t("copy")}</Button>
-            <Button variant="outline" onClick={handleLoadSample}><FileJson className="h-4 w-4 me-2" />{t("loadSample")}</Button>
-            <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 me-2" />{t("clear")}</Button>
-            <div className="flex items-center gap-2 ms-auto flex-wrap">
-              <Label htmlFor="indent-select" className="text-sm text-muted-foreground whitespace-nowrap">{t("indent")}</Label>
-              <Select value={indentSize} onValueChange={(v) => setIndentSize(v as IndentSize)}>
-                <SelectTrigger id="indent-select" className="w-[100px]"><SelectValue /></SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="2">2 spaces</SelectItem>
-                  <SelectItem value="4">4 spaces</SelectItem>
-                </SelectContent>
-              </Select>
-              <div className="flex items-center gap-2">
-                <Switch id="sort-keys" checked={sortKeys} onCheckedChange={setSortKeys} />
-                <Label htmlFor="sort-keys" className="text-sm text-muted-foreground whitespace-nowrap">{t("sortKeys")}</Label>
-              </div>
+    <ToolShell
+      slug="json-formatter"
+      title={tc("tools.json-formatter.name")}
+      sub={tc("tools.json-formatter.description")}
+      width="wide"
+      controls={
+        <>
+          <Button variant="outline" onClick={handleMinify}><Minimize2 className="h-4 w-4 me-2" />{t("minify")}</Button>
+          <Button variant="outline" onClick={handleValidate}><FlaskConical className="h-4 w-4 me-2" />{t("validate")}</Button>
+          <Button variant="outline" onClick={handleLoadSample}><FileJson className="h-4 w-4 me-2" />{t("loadSample")}</Button>
+          <Button variant="ghost" onClick={handleClear}><Trash2 className="h-4 w-4 me-2" />{t("clear")}</Button>
+          <div className="flex items-center gap-2 flex-wrap">
+            <Label htmlFor="indent-select" className="text-sm text-muted-foreground whitespace-nowrap">{t("indent")}</Label>
+            <Select value={indentSize} onValueChange={(v) => setIndentSize(v as IndentSize)}>
+              <SelectTrigger id="indent-select" className="w-[100px]"><SelectValue /></SelectTrigger>
+              <SelectContent>
+                <SelectItem value="2">2 spaces</SelectItem>
+                <SelectItem value="4">4 spaces</SelectItem>
+              </SelectContent>
+            </Select>
+            <div className="flex items-center gap-2">
+              <Switch id="sort-keys" checked={sortKeys} onCheckedChange={setSortKeys} />
+              <Label htmlFor="sort-keys" className="text-sm text-muted-foreground whitespace-nowrap">{t("sortKeys")}</Label>
             </div>
           </div>
-          {validationState !== "idle" && (
-            <div className={`flex items-start gap-2 rounded-md px-4 py-3 text-sm ${validationState === "valid" ? "bg-green-50 text-green-800 dark:bg-green-950 dark:text-green-200" : "bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-200"}`}>
-              {validationState === "valid"
-                ? <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
-                : <XCircle className="h-4 w-4 mt-0.5 shrink-0" />}
-              <div>
-                {validationState === "valid" ? t("validJson") : (
-                  <><span className="font-medium">{t("parseError")} </span>{errorMessage}
-                  {errorLine !== null && <span className="ms-1">{t("nearLine", { line: errorLine })}</span>}
-                  </>
-                )}
-              </div>
+        </>
+      }
+      primaryAction={{ label: t("format"), onClick: handleFormat }}
+    >
+      <div className="space-y-4">
+        {validationState !== "idle" && (
+          <div className={`flex items-start gap-2 rounded-md px-4 py-3 text-sm ${validationState === "valid" ? "bg-green-50 text-green-800 dark:bg-green-950 dark:text-green-200" : "bg-red-50 text-red-800 dark:bg-red-950 dark:text-red-200"}`}>
+            {validationState === "valid"
+              ? <CheckCircle2 className="h-4 w-4 mt-0.5 shrink-0" />
+              : <XCircle className="h-4 w-4 mt-0.5 shrink-0" />}
+            <div>
+              {validationState === "valid" ? t("validJson") : (
+                <><span className="font-medium">{t("parseError")} </span>{errorMessage}
+                {errorLine !== null && <span className="ms-1">{t("nearLine", { line: errorLine })}</span>}
+                </>
+              )}
             </div>
-          )}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          </div>
+        )}
+        <TwoPane
+          start={
             <Card className="p-4 flex flex-col gap-2">
               <div className="flex items-center justify-between">
                 <span className="text-sm font-medium">{t("input")}</span>
@@ -186,22 +189,32 @@ export default function JsonFormatter() {
                 onChange={(e) => { setInput(e.target.value); resetError(); }}
               />
             </Card>
-            <Card className="p-4 flex flex-col gap-2">
-              <div className="flex items-center justify-between">
-                <span className="text-sm font-medium">{t("output")}</span>
-                {output && <span className="text-xs text-muted-foreground">{output.length} {t("chars")}</span>}
-              </div>
+          }
+          end={
+            <OutputPanel
+              text={output}
+              filename="formatted.json"
+              mime="application/json"
+              copySuccessMessage={t("copiedToClipboard")}
+              copyErrorMessage={t("failedToCopy")}
+              title={
+                <>
+                  {t("output")}
+                  {output ? ` · ${output.length} ${t("chars")}` : ""}
+                </>
+              }
+            >
               <Textarea
                 placeholder={t("outputPlaceholder")}
-                className="min-h-[420px] font-mono text-sm resize-none text-left"
+                className="min-h-[420px] rounded-none border-0 bg-transparent font-mono text-sm resize-none text-left focus-visible:ring-0"
                 dir="ltr"
                 value={output}
                 readOnly
               />
-            </Card>
-          </div>
-        </div>
+            </OutputPanel>
+          }
+        />
       </div>
-    </div>
+    </ToolShell>
   );
 }

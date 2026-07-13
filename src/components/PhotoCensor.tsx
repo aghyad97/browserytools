@@ -2,10 +2,12 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import {
   Select,
   SelectContent,
@@ -72,6 +74,7 @@ function applyCensor(
 
   ctx.save();
   if (mode === "blackbox") {
+    // content value: solid black censor box drawn onto the image
     ctx.fillStyle = "#000000";
     ctx.fillRect(x, y, w, h);
   } else if (mode === "blur") {
@@ -106,6 +109,7 @@ function applyCensor(
 export default function PhotoCensor() {
   const t = useTranslations("Tools.PhotoCensor");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<ImageInfo | null>(null);
   const [regions, setRegions] = useState<Region[]>([]);
@@ -142,12 +146,6 @@ export default function PhotoCensor() {
     },
     [t]
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
-    multiple: false,
-  });
 
   useEffect(() => {
     return () => {
@@ -199,6 +197,7 @@ export default function PhotoCensor() {
       }
       if (draft) {
         ctx.save();
+        // content value: selection-marquee stroke drawn on the canvas (no CSS-class equivalent for ctx.strokeStyle)
         ctx.strokeStyle = "#6366f1";
         ctx.lineWidth = Math.max(2, canvas.width / 400);
         ctx.setLineDash?.([6, 4]);
@@ -298,11 +297,15 @@ export default function PhotoCensor() {
   const formatOption = formatOptions.find((f) => f.value === targetFormat);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-7xl mx-auto">
-          {/* Canvas / dropzone */}
-          <div className="md:col-span-2 space-y-4">
+    <ToolShell
+      slug="photo-censor"
+      title={tc("tools.photo-censor.name")}
+      sub={tc("tools.photo-censor.description")}
+      width="wide"
+    >
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        {/* Canvas / dropzone */}
+        <div className="md:col-span-2 space-y-4">
             <Card className="p-6 shadow-none">
               {image ? (
                 <div className="space-y-3">
@@ -349,12 +352,14 @@ export default function PhotoCensor() {
                   </div>
                 </div>
               ) : (
-                <div
-                  {...getRootProps()}
-                  className={`
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp"] }}
+                  multiple={false}
+                  className={({ isDragActive }) => `
                     h-80 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
-                    cursor-pointer transition-all duration-200
+                    cursor-pointer transition-[border-color,background-color] duration-150
                     ${
                       isDragActive
                         ? "border-primary bg-primary/10 scale-[0.99]"
@@ -362,7 +367,6 @@ export default function PhotoCensor() {
                     }
                   `}
                 >
-                  <input {...getInputProps()} />
                   <div className="text-center">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-10 h-10 text-primary" />
@@ -374,7 +378,7 @@ export default function PhotoCensor() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                </div>
+                </FileDropzone>
               )}
             </Card>
 
@@ -388,9 +392,8 @@ export default function PhotoCensor() {
 
           {/* Controls */}
           <div className="space-y-4">
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("censorMode")}</label>
+            <SettingsCard>
+              <OptionRow label={t("censorMode")}>
                 <Select
                   value={mode}
                   onValueChange={(v) => setMode(v as CensorMode)}
@@ -410,50 +413,33 @@ export default function PhotoCensor() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               {mode === "blur" && (
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">
-                      {t("blurRadius")}
-                    </label>
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {blurRadius}px
-                    </span>
-                  </div>
-                  <Slider
-                    value={[blurRadius]}
-                    onValueChange={([v]) => setBlurRadius(v)}
-                    min={2}
-                    max={40}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("blurRadius")}
+                  value={blurRadius}
+                  onChange={setBlurRadius}
+                  min={2}
+                  max={40}
+                  step={1}
+                  display={<span dir="ltr">{blurRadius}px</span>}
+                />
               )}
 
               {mode === "pixelate" && (
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">
-                      {t("pixelSize")}
-                    </label>
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {pixelSize}px
-                    </span>
-                  </div>
-                  <Slider
-                    value={[pixelSize]}
-                    onValueChange={([v]) => setPixelSize(v)}
-                    min={4}
-                    max={48}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("pixelSize")}
+                  value={pixelSize}
+                  onChange={setPixelSize}
+                  min={4}
+                  max={48}
+                  step={1}
+                  display={<span dir="ltr">{pixelSize}px</span>}
+                />
               )}
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("targetFormat")}</label>
+              <OptionRow label={t("targetFormat")}>
                 <Select value={targetFormat} onValueChange={setTargetFormat}>
                   <SelectTrigger>
                     <SelectValue />
@@ -466,24 +452,18 @@ export default function PhotoCensor() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
               {formatOption?.quality && (
-                <div className="space-y-2">
-                  <div className="flex justify-between">
-                    <label className="text-sm font-medium">{t("quality")}</label>
-                    <span className="text-sm text-muted-foreground" dir="ltr">
-                      {quality}%
-                    </span>
-                  </div>
-                  <Slider
-                    value={[quality]}
-                    onValueChange={([v]) => setQuality(v)}
-                    min={1}
-                    max={100}
-                    step={1}
-                  />
-                </div>
+                <SliderRow
+                  label={t("quality")}
+                  value={quality}
+                  onChange={setQuality}
+                  min={1}
+                  max={100}
+                  step={1}
+                  display={<span dir="ltr">{quality}%</span>}
+                />
               )}
 
               <Button
@@ -500,10 +480,9 @@ export default function PhotoCensor() {
                   {t("outputSize")}: {(outputSize / 1024).toFixed(2)} KB
                 </p>
               )}
-            </Card>
+            </SettingsCard>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

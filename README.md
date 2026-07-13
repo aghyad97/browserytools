@@ -13,7 +13,7 @@
 
 ![BrowseryTools](https://github.com/aghyad97/browserytools/blob/main/public/og-image.png?raw=true)
 
-A comprehensive collection of **136+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
+A comprehensive collection of **130+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
 
 ## 📚 Table of Contents
 
@@ -48,7 +48,6 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Screenshot Beautifier**: Turn plain screenshots into beautiful images.
 - **Meme Generator**: Make a meme online for free.
 - **Photo Collage**: Combine multiple photos into a collage with grid, strip, and mosaic layouts.
-- **Image Color Picker**: Pick any color from an image.
 - **EXIF Remover**: Strip EXIF metadata - GPS location, camera model, timestamps - from photos before sharing.
 - **ASCII Art Generator**: Convert any image into ASCII art in your browser.
 - **Image Upscaler**: Upscale and enhance images 2x with an on-device AI super-resolution model.
@@ -56,7 +55,6 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Depth Map Generator**: Generate a depth map from any image with an on-device AI model.
 - **Object Cutout**: Cut out any object from an image with one click using the Segment Anything (SAM) AI model in your browser.
 - **Image Resizer**: Resize images to exact dimensions or by percentage.
-- **Color Blindness Simulator**: Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.
 - **EXIF Viewer**: View EXIF metadata from photos: camera model, lens, aperture, shutter speed, ISO, GPS coordinates, and more.
 - **Favicon Generator**: Create a complete favicon set from an image or a letter/emoji.
 
@@ -103,23 +101,19 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 
 - **Text Case Converter**: Convert text between different cases: uppercase, lowercase, title case, camelCase, snake_case, and more.
 - **Text Counter**: Count words, characters, lines, and paragraphs in text.
-- **Code Formatter**: Format and beautify your code with proper indentation and syntax highlighting.
 - **Rich Editor**: Edit and preview rich text documents with formatting options.
 - **Lorem Ipsum Generator**: Generate placeholder text for designs and mockups.
-- **Typing Test**: Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.
 - **Text Diff Viewer**: Compare two texts and copy a simple patch.
 - **Markdown Editor**: Write Markdown with a live split-pane preview.
-- **HTML Formatter**: Format, prettify, or minify HTML code.
 - **Notepad**: A distraction-free scratch pad that saves your notes automatically to the browser.
 - **Text Sorter**: Sort lines of text alphabetically, by length, or numerically.
-- **Morse Code Converter**: Convert text to Morse code and decode Morse code back to text.
 - **Word Frequency Analyzer**: Analyze word frequency in any text.
 - **Markdown to HTML**: Convert Markdown to clean HTML instantly.
 - **Text Repeater**: Repeat any text or character N times with a custom separator.
 - **Markdown Table Generator**: Build tables in a visual grid editor and export as valid Markdown table syntax.
 - **Image to Text (OCR)**: Extract text from images for free with on-device OCR.
 - **Text to Speech**: Read text aloud in your browser for free.
-- **Speech to Text**: Convert speech to text online for free.
+- **Live Dictation (mic)**: Convert speech to text online for free.
 
 ### 📊 Data Tools
 
@@ -130,30 +124,27 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **QR Code Scanner**: Scan QR codes using your camera or upload an image.
 - **Barcode Scanner**: Scan barcodes using your camera or upload an image.
 - **Charts**: Create beautiful, customizable charts with full control over every detail.
-- **JSON Formatter**: Format, validate, and minify JSON.
 - **YAML ↔ JSON**: Convert between YAML and JSON formats instantly.
 - **URL Encoder/Decoder**: Encode or decode URLs and query strings.
 - **Fake Data Generator**: Generate realistic fake data for testing and prototyping.
 - **Text to Binary**: Convert text to binary, hexadecimal, octal, and decimal representations.
 - **JSON → TypeScript**: Paste JSON and instantly get TypeScript interfaces.
 - **Mermaid Diagram Viewer**: Write Mermaid markdown and see your diagram rendered live.
+- **Morse Code Converter**: Convert text to Morse code and decode Morse code back to text.
 
 ### 🧮 Math & Finance Tools
 
-- **Invoice Generator**: Create professional invoices with customizable templates, automatic tax calculations, and PDF export.
 - **Unit Converter**: Convert between different units of measurement including length, weight, temperature, area, volume, and more.
 - **Time Zone Converter**: Convert times between different time zones.
 - **Calculator**: Advanced calculator with basic, scientific, and graphing modes.
 - **Age Calculator**: Calculate your exact age in years, months, and days.
 - **Number Base Converter**: Convert between binary, octal, decimal and hexadecimal with live validation.
-- **Expense Tracker**: Track your expenses with detailed categorization, budget management, and comprehensive reports.
 - **Currency Converter**: Convert between all major currencies in the browser using cached daily rates and animated number display.
 - **Loan Calculator**: Calculate monthly payments, total interest, and amortization schedules for mortgages and loans.
 - **Percentage Calculator**: Calculate percentages, percentage change, percentage of a number, and reverse percentages.
 - **Aspect Ratio Calculator**: Calculate and lock aspect ratios for images and videos.
 - **BMI Calculator**: Calculate Body Mass Index (BMI) in metric or imperial units.
 - **Tip Calculator**: Calculate tips and split bills between multiple people.
-- **Periodic Table**: Interactive periodic table of all 118 elements in the standard layout.
 - **Roman Numeral Converter**: Convert numbers to Roman numerals and Roman numerals back to numbers.
 
 ### ⚡ Productivity Tools
@@ -181,6 +172,9 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **Chmod Calculator**: Calculate Unix file permissions visually.
 - **Meta Tags Generator**: Generate HTML meta tags, Open Graph tags, and Twitter Card tags.
 - **cURL Converter**: Convert a curl command into ready-to-run code for JavaScript fetch, Node.js, Python requests, Go, and PHP.
+- **Code Formatter**: Format and beautify your code with proper indentation and syntax highlighting.
+- **HTML Formatter**: Format, prettify, or minify HTML code.
+- **JSON Formatter**: Format, validate, and minify JSON.
 
 ### 🔐 Security Tools
 
@@ -204,6 +198,21 @@ A comprehensive collection of **136+ browser-based tools** built with Next.js, T
 - **SVG Blob Generator**: Generate random organic blob shapes and smooth SVG wave dividers.
 - **Code Screenshot**: Turn code into beautiful, shareable images.
 - **OG Image Generator**: Generate 1200x630 Open Graph and social-share images on a canvas.
+- **Image Color Picker**: Pick any color from an image.
+- **Color Blindness Simulator**: Simulate how images appear to people with different types of color blindness: deuteranopia, protanopia, tritanopia, and achromatopsia.
+
+### 🎮 Tests & Games
+
+- **Typing Test**: Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.
+
+### 🎓 School & Learning
+
+- **Periodic Table**: Interactive periodic table of all 118 elements in the standard layout.
+
+### 💼 Business
+
+- **Invoice Generator**: Create professional invoices with customizable templates, automatic tax calculations, and PDF export.
+- **Expense Tracker**: Track your expenses with detailed categorization, budget management, and comprehensive reports.
 
 ## 🛠️ Tech Stack
 
@@ -335,8 +344,8 @@ Open an issue with a clear description, steps to reproduce, and browser/OS info.
 ## 💖 Supporting the Project
 
 - ⭐ **Star the repository** on GitHub
-- **GitHub Sponsors**: [Sponsor us](https://github.com/sponsors/aghyad97)
-- **Ziina**: [One-time donation](https://pay.ziina.com/aghyad)
+- GitHub Sponsors — [Sponsor us](https://github.com/sponsors/aghyad97)
+- Stripe — [One-time donation](https://buy.stripe.com/aFa8wOaohd8f59V2x96Na00)
 
 ## ⭐ Star History
 

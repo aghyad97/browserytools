@@ -4,11 +4,11 @@ import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import { AlertTriangle, ImageOff } from "lucide-react";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Select,
@@ -17,6 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 interface MetaFields {
   title: string;
@@ -152,6 +154,7 @@ interface Warning {
 
 export default function MetaTagsGenerator() {
   const t = useTranslations("Tools.MetaTagsGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [fields, setFields] = useState<MetaFields>(EMPTY);
   const [pasted, setPasted] = useState("");
   const [imgError, setImgError] = useState(false);
@@ -210,11 +213,6 @@ export default function MetaTagsGenerator() {
     return w;
   }, [fields, imgError, imgDims]);
 
-  const copy = (text: string) => {
-    navigator.clipboard.writeText(text);
-    toast.success(t("copied"));
-  };
-
   // Shared preview values.
   const host = hostOf(fields.url);
   const title = fields.title || t("previewTitleFallback");
@@ -247,28 +245,27 @@ export default function MetaTagsGenerator() {
     );
 
   return (
-    <div className="container mx-auto p-4 max-w-5xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+    <ToolShell
+      slug="meta-tags"
+      title={tc("tools.meta-tags.name")}
+      sub={tc("tools.meta-tags.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
+      <SettingsCard>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="mt-title">{t("siteTitle")}</Label>
+            <OptionRow
+              label={t("siteTitle")}
+              htmlFor="mt-title"
+              hint={t("charCount", { len: fields.title.length, max: LIMITS.titleMax })}
+            >
               <Input
                 id="mt-title"
                 value={fields.title}
                 onChange={setText("title")}
                 placeholder={t("siteTitlePlaceholder")}
               />
-              <p className="text-xs text-muted-foreground">
-                {t("charCount", { len: fields.title.length, max: LIMITS.titleMax })}
-              </p>
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="mt-url">{t("siteUrl")}</Label>
+            </OptionRow>
+            <OptionRow label={t("siteUrl")} htmlFor="mt-url">
               <Input
                 id="mt-url"
                 value={fields.url}
@@ -276,11 +273,14 @@ export default function MetaTagsGenerator() {
                 placeholder={t("siteUrlPlaceholder")}
                 dir="ltr"
               />
-            </div>
+            </OptionRow>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="mt-desc">{t("siteDescription")}</Label>
+          <OptionRow
+            label={t("siteDescription")}
+            htmlFor="mt-desc"
+            hint={t("charCount", { len: fields.description.length, max: LIMITS.descMax })}
+          >
             <Textarea
               id="mt-desc"
               dir="auto"
@@ -290,14 +290,14 @@ export default function MetaTagsGenerator() {
               className="resize-none"
               rows={3}
             />
-            <p className="text-xs text-muted-foreground">
-              {t("charCount", { len: fields.description.length, max: LIMITS.descMax })}
-            </p>
-          </div>
+          </OptionRow>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="mt-image">{t("ogImage")}</Label>
+            <OptionRow
+              label={t("ogImage")}
+              htmlFor="mt-image"
+              hint={imgDims ? <span dir="ltr">{imgDims.w} × {imgDims.h}</span> : undefined}
+            >
               <Input
                 id="mt-image"
                 value={fields.image}
@@ -305,26 +305,19 @@ export default function MetaTagsGenerator() {
                 placeholder={t("ogImagePlaceholder")}
                 dir="ltr"
               />
-              {imgDims && (
-                <p className="text-xs text-muted-foreground" dir="ltr">
-                  {imgDims.w} × {imgDims.h}
-                </p>
-              )}
-            </div>
-            <div className="space-y-2">
-              <Label htmlFor="mt-sitename">{t("siteNameLabel")}</Label>
+            </OptionRow>
+            <OptionRow label={t("siteNameLabel")} htmlFor="mt-sitename">
               <Input
                 id="mt-sitename"
                 value={fields.siteName}
                 onChange={setText("siteName")}
                 placeholder={t("siteNamePlaceholder")}
               />
-            </div>
+            </OptionRow>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label htmlFor="mt-handle">{t("twitterHandle")}</Label>
+            <OptionRow label={t("twitterHandle")} htmlFor="mt-handle">
               <Input
                 id="mt-handle"
                 value={fields.twitterHandle}
@@ -332,9 +325,8 @@ export default function MetaTagsGenerator() {
                 placeholder={t("twitterHandlePlaceholder")}
                 dir="ltr"
               />
-            </div>
-            <div className="space-y-2">
-              <Label>{t("twitterCardType")}</Label>
+            </OptionRow>
+            <OptionRow label={t("twitterCardType")}>
               <Select
                 value={fields.twitterCard}
                 onValueChange={(v) => setFields((f) => ({ ...f, twitterCard: v }))}
@@ -349,9 +341,8 @@ export default function MetaTagsGenerator() {
                   <SelectItem value="summary">{t("cardSummary")}</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-2">
-              <Label>{t("ogTypeLabel")}</Label>
+            </OptionRow>
+            <OptionRow label={t("ogTypeLabel")}>
               <Select
                 value={fields.type}
                 onValueChange={(v) => setFields((f) => ({ ...f, type: v }))}
@@ -366,71 +357,65 @@ export default function MetaTagsGenerator() {
                   <SelectItem value="profile">profile</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </OptionRow>
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="mt-paste">{t("pasteLabel")}</Label>
-            <Textarea
-              id="mt-paste"
-              dir="ltr"
-              value={pasted}
-              onChange={(e) => setPasted(e.target.value)}
-              placeholder={t("pastePlaceholder")}
-              className="resize-none font-mono text-xs"
-              rows={3}
-            />
-            <Button variant="outline" size="sm" onClick={handleParse} disabled={!pasted.trim()}>
-              {t("parseButton")}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+          <OptionRow label={t("pasteLabel")} htmlFor="mt-paste">
+            <div className="space-y-2">
+              <Textarea
+                id="mt-paste"
+                dir="ltr"
+                value={pasted}
+                onChange={(e) => setPasted(e.target.value)}
+                placeholder={t("pastePlaceholder")}
+                className="resize-none font-mono text-xs"
+                rows={3}
+              />
+              <Button variant="outline" size="sm" onClick={handleParse} disabled={!pasted.trim()}>
+                {t("parseButton")}
+              </Button>
+            </div>
+          </OptionRow>
+      </SettingsCard>
 
       {warnings.length > 0 && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base flex items-center gap-2">
+        <SettingsCard
+          title={
+            <span className="flex items-center gap-2">
               <AlertTriangle className="w-4 h-4 text-amber-500" />
               {t("validationTitle")}
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ul className="space-y-1 text-sm text-muted-foreground list-disc ps-5">
-              {warnings.map((wn) => (
-                <li key={wn.key} data-testid="meta-warning">
-                  {t(
-                    // literal keys for next-intl
-                    wn.key === "warnNoTitle"
-                      ? "warnNoTitle"
-                      : wn.key === "warnTitleLong"
-                        ? "warnTitleLong"
-                        : wn.key === "warnNoDescription"
-                          ? "warnNoDescription"
-                          : wn.key === "warnDescriptionLong"
-                            ? "warnDescriptionLong"
-                            : wn.key === "warnNoImage"
-                              ? "warnNoImage"
-                              : wn.key === "warnImageUnreachable"
-                                ? "warnImageUnreachable"
-                                : wn.key === "warnImageSmall"
-                                  ? "warnImageSmall"
-                                  : "warnNoUrl",
-                    wn.values
-                  )}
-                </li>
-              ))}
-            </ul>
-          </CardContent>
-        </Card>
+            </span>
+          }
+        >
+          <ul className="space-y-1 text-sm text-muted-foreground list-disc ps-5">
+            {warnings.map((wn) => (
+              <li key={wn.key} data-testid="meta-warning">
+                {t(
+                  // literal keys for next-intl
+                  wn.key === "warnNoTitle"
+                    ? "warnNoTitle"
+                    : wn.key === "warnTitleLong"
+                      ? "warnTitleLong"
+                      : wn.key === "warnNoDescription"
+                        ? "warnNoDescription"
+                        : wn.key === "warnDescriptionLong"
+                          ? "warnDescriptionLong"
+                          : wn.key === "warnNoImage"
+                            ? "warnNoImage"
+                            : wn.key === "warnImageUnreachable"
+                              ? "warnImageUnreachable"
+                              : wn.key === "warnImageSmall"
+                                ? "warnImageSmall"
+                                : "warnNoUrl",
+                  wn.values
+                )}
+              </li>
+            ))}
+          </ul>
+        </SettingsCard>
       )}
 
-      <Card>
-        <CardHeader>
-          <CardTitle className="text-base">{t("previewsTitle")}</CardTitle>
-          <CardDescription>{t("previewsSubtitle")}</CardDescription>
-        </CardHeader>
-        <CardContent>
+      <SettingsCard title={t("previewsTitle")} description={t("previewsSubtitle")}>
           <Tabs defaultValue="google">
             <TabsList className="flex-wrap h-auto">
               <TabsTrigger value="google">{t("tabGoogle")}</TabsTrigger>
@@ -441,7 +426,14 @@ export default function MetaTagsGenerator() {
               <TabsTrigger value="slack">{t("tabSlack")}</TabsTrigger>
             </TabsList>
 
-            {/* Previews mimic external platforms and always render LTR. */}
+            {/*
+              content value: these mockups faithfully replicate each external
+              platform's fixed, real-world visual branding (Google SERP blue,
+              Twitter/Facebook/LinkedIn card chrome, Discord/Slack embed
+              colors) — they must render true-to-platform regardless of the
+              app's own theme, same allowlist class as InvoiceGenerator's
+              WYSIWYG PDF preview. Always LTR regardless of locale.
+            */}
             <TabsContent value="google" className="mt-4">
               <div dir="ltr" className="max-w-xl text-left" data-testid="preview-google">
                 <p className="text-xs text-[#202124] truncate">{host}{fields.url ? "" : ""}</p>
@@ -554,19 +546,12 @@ export default function MetaTagsGenerator() {
               </div>
             </TabsContent>
           </Tabs>
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between flex-wrap gap-2">
-            <CardTitle className="text-base">{t("htmlOutput")}</CardTitle>
-            <Button variant="outline" size="sm" onClick={() => copy(allTags)}>
-              {t("copyAll")}
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent>
+      <SettingsCard
+        title={t("htmlOutput")}
+        action={<CopyButton text={allTags} label={t("copyAll")} successMessage={t("copied")} />}
+      >
           <Tabs defaultValue="basic">
             <TabsList>
               <TabsTrigger value="basic">{t("tabBasic")}</TabsTrigger>
@@ -574,26 +559,21 @@ export default function MetaTagsGenerator() {
               <TabsTrigger value="twitter">{t("tabTwitter")}</TabsTrigger>
             </TabsList>
             {(["basic", "og", "twitter"] as const).map((tab) => (
-              <TabsContent key={tab} value={tab} className="mt-3 space-y-2">
-                <pre
-                  dir="ltr"
-                  className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap min-h-[80px] text-left"
+              <TabsContent key={tab} value={tab} className="mt-3">
+                <OutputPanel
+                  text={tags[tab]}
+                  copyLabel={t("copyAll")}
+                  copySuccessMessage={t("copied")}
                 >
-                  {tags[tab] || "—"}
-                </pre>
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => copy(tags[tab])}
-                  disabled={!tags[tab]}
-                >
-                  {t("copyAll")}
-                </Button>
+                  <pre dir="ltr" className="p-3.5 text-sm font-mono whitespace-pre-wrap break-words min-h-[80px] text-left">
+                    {tags[tab] || "—"}
+                  </pre>
+                </OutputPanel>
               </TabsContent>
             ))}
           </Tabs>
-        </CardContent>
-      </Card>
-    </div>
+      </SettingsCard>
+      </div>
+    </ToolShell>
   );
 }

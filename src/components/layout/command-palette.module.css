@@ -1,0 +1,129 @@
+/* Production ⌘K command palette — ported from src/app/preview/preview.module.css
+   (.cmdOverlay/.cmd/.cmdInput/.cmdList/.cmdItem…).
+   Keyboard-initiated: opens with NO animation (animations.dev rule, spec §2.5).
+   Physical properties converted to logical (RTL mirrors via dir="rtl");
+   all colours via var(--bt-*) tokens (light + dark, src/styles/design-tokens.css).
+   The input/list separator is a standalone hairline element, not a
+   single-edge border (spec §3 hard rule). */
+
+.overlay {
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+  background: var(--bt-overlay);
+  display: flex;
+  justify-content: center;
+  padding-block-start: 14vh;
+}
+
+.panel {
+  width: min(560px, calc(100vw - 40px));
+  height: fit-content;
+  background: var(--bt-surface);
+  border: 1px solid var(--bt-line);
+  border-radius: 14px;
+  box-shadow: var(--bt-shadow-pop);
+  overflow: hidden;
+}
+
+.input {
+  width: 100%;
+  border: 0;
+  outline: 0;
+  background: none;
+  padding-block: 16px;
+  padding-inline: 18px;
+  font-size: 15px;
+  color: var(--bt-ink);
+}
+.input::placeholder {
+  color: var(--bt-faint);
+}
+
+/* hairline between input and results — an element, never a one-edge border */
+.divider {
+  height: 1px;
+  background: var(--bt-line);
+}
+
+.list {
+  max-height: 320px;
+  overflow-y: auto;
+  padding: 6px;
+}
+
+.item {
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  width: 100%;
+  border: 0;
+  background: none;
+  text-align: start;
+  padding-block: 10px;
+  padding-inline: 12px;
+  border-radius: 8px;
+  font-size: 13.5px;
+  color: var(--bt-ink);
+  cursor: pointer;
+}
+
+.itemActive {
+  composes: item;
+  background: var(--bt-hover);
+}
+
+.itemCat {
+  margin-inline-start: auto;
+  font-family: var(--mono);
+  font-size: 9.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--bt-faint);
+}
+
+.empty {
+  padding: 22px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--bt-muted);
+}
+
+/* ---------- pointer-open transition (spec §2.5) ----------
+   Only pointer-triggered opens (top-bar / mobile-bar / suggestion button)
+   animate; keyboard opens (⌘K, "/") mount with no class and stay instant.
+   Close (Esc / backdrop) is instant either way — the palette just unmounts. */
+@keyframes cmdOverlayFade {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes cmdPanelPop {
+  from {
+    opacity: 0;
+    transform: scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+.overlayAnim {
+  animation: cmdOverlayFade 120ms var(--bt-ease-out);
+}
+.panelAnim {
+  transform-origin: top center;
+  animation: cmdPanelPop 160ms var(--bt-ease-out);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .overlayAnim,
+  .panelAnim {
+    animation: none;
+  }
+}

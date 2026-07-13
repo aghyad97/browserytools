@@ -2,11 +2,13 @@
 
 import { useCallback, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type Bezier = [number, number, number, number];
 
@@ -43,6 +45,7 @@ const toPx = (x: number, y: number): [number, number] => [x * W, PAD + (1 - y) *
 
 export default function CubicBezier() {
   const t = useTranslations("Tools.CubicBezier");
+  const tc = useTranslations("ToolsConfig");
   const [bezier, setBezier] = useState<Bezier>(DEFAULT);
   const [duration, setDuration] = useState(1);
   const [playKey, setPlayKey] = useState(0);
@@ -108,11 +111,6 @@ export default function CubicBezier() {
     setActivePreset("ease");
   };
 
-  const copy = () => {
-    navigator.clipboard.writeText(cssOutput);
-    toast.success(t("copied"));
-  };
-
   const [h0x, h0y] = toPx(x1, y1);
   const [h1x, h1y] = toPx(x2, y2);
   const [startX, startY] = toPx(0, 0);
@@ -120,13 +118,13 @@ export default function CubicBezier() {
   const curvePath = `M ${startX} ${startY} C ${h0x} ${h0y}, ${h1x} ${h1y}, ${endX} ${endY}`;
 
   return (
-    <div className="container mx-auto p-4 max-w-5xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent>
+    <ToolShell
+      slug="cubic-bezier"
+      title={tc("tools.cubic-bezier.name")}
+      sub={tc("tools.cubic-bezier.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
+      <SettingsCard>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Curve editor — forced LTR so the canvas math is direction-agnostic */}
             <div dir="ltr" className="space-y-3">
@@ -183,6 +181,10 @@ export default function CubicBezier() {
             <div className="space-y-6">
               <div className="space-y-2">
                 <Label>{t("presets")}</Label>
+                {/* Fire-once preset picker with a genuine "none selected" state
+                    (freeform drag deselects) — doesn't fit ModePicker's
+                    always-highlighted-first-option model. Bespoke per
+                    CronParser/HabitTracker preset-grid precedent. */}
                 <div className="flex flex-wrap gap-2">
                   {PRESETS.map((p) => (
                     <button
@@ -221,33 +223,21 @@ export default function CubicBezier() {
                 </div>
               </div>
 
-              <div className="space-y-2">
-                <div className="flex items-center justify-between">
-                  <Label>{t("duration")}</Label>
-                  <span className="text-sm text-muted-foreground tabular-nums">{duration}s</span>
-                </div>
-                <input
-                  type="range"
-                  min={0.2}
-                  max={3}
-                  step={0.1}
-                  value={duration}
-                  onChange={(e) => setDuration(Number.parseFloat(e.target.value))}
-                  className="w-full"
-                  aria-label={t("duration")}
-                />
-              </div>
+              <SliderRow
+                label={t("duration")}
+                value={duration}
+                display={<>{duration}s</>}
+                min={0.2}
+                max={3}
+                step={0.1}
+                onChange={setDuration}
+              />
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("preview")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-4">
+        <SettingsCard title={t("preview")}>
             <div dir="ltr" className="relative h-12 rounded-lg bg-muted/40 overflow-hidden">
               <div
                 key={playKey}
@@ -259,37 +249,32 @@ export default function CubicBezier() {
                 }}
               />
             </div>
-            <Button variant="outline" size="sm" onClick={() => setPlayKey((k) => k + 1)} data-testid="play-preview">
+            <Button variant="outline" size="sm" onClick={() => setPlayKey((k) => k + 1)} data-testid="play-preview" className="mt-4">
               {t("playPreview")}
             </Button>
             <style>{`@keyframes bezier-move { from { left: 8px; } to { left: calc(100% - 40px); } }`}</style>
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("cssOutput")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <pre
-              dir="ltr"
-              data-testid="css-output"
-              className="bg-muted rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap"
-            >
+        <div className="space-y-3">
+          <OutputPanel
+            title={t("cssOutput")}
+            text={cssOutput}
+            copyLabel={t("copyCSS")}
+            copySuccessMessage={t("copied")}
+          >
+            <pre dir="ltr" data-testid="css-output" className="text-sm whitespace-pre-wrap">
               {cssOutput}
             </pre>
-            <div className="flex flex-wrap gap-2">
-              <Button variant="outline" size="sm" onClick={copy}>
-                {t("copyCSS")}
-              </Button>
-              <Button variant="ghost" size="sm" onClick={reset}>
-                {t("reset")}
-              </Button>
-            </div>
-            <p className="text-xs text-muted-foreground">{t("transitionTip")}</p>
-          </CardContent>
-        </Card>
+          </OutputPanel>
+          <div className="flex flex-wrap gap-2">
+            <Button variant="ghost" size="sm" onClick={reset}>
+              {t("reset")}
+            </Button>
+          </div>
+          <p className="text-xs text-muted-foreground">{t("transitionTip")}</p>
+        </div>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

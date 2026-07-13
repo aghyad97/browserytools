@@ -56,7 +56,7 @@ export default function ToolCard({
       >
         <Card
           data-testid="tool-card"
-          className={`h-full transition-all shadow-none duration-200 ${
+          className={`h-full transition-shadow shadow-none duration-200 ${
             tool.available ? "hover:shadow-sm cursor-pointer" : "opacity-50"
           }`}
         >
@@ -123,7 +123,7 @@ export default function ToolCard({
       >
         <Card
           data-testid="tool-card"
-          className={`h-full transition-all rounded-md shadow-none duration-200 relative ${
+          className={`h-full transition-shadow rounded-md shadow-none duration-200 relative ${
             tool.available ? "hover:shadow-lg cursor-pointer" : "opacity-50"
           }`}
         >
@@ -169,7 +169,7 @@ export default function ToolCard({
           >
             <Card
               data-testid="tool-card"
-              className={`h-full transition-all shadow-none duration-200 relative ${
+              className={`h-full transition-shadow shadow-none duration-200 relative ${
                 tool.available ? "hover:shadow-sm cursor-pointer" : "opacity-50"
               }`}
             >

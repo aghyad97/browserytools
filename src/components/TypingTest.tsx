@@ -1,19 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Volume2, VolumeX, RotateCcw, RefreshCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 function generateParagraph(wordCount: number): string[] {
   const corpus =
@@ -36,7 +32,15 @@ function calculateWpm(charactersTyped: number, elapsedMs: number): number {
 
 export default function TypingTest() {
   const t = useTranslations("Tools.TypingTest");
-  const [words, setWords] = useState<string[]>(() => generateParagraph(100));
+  const tc = useTranslations("ToolsConfig");
+  // Generated on the client only: Math.random() in a useState initializer
+  // runs on the server AND the client with different results, so the SSR text
+  // never matched what the client hydrated with (React #418). Start empty and
+  // fill after mount — the word stream is interactive-only content.
+  const [words, setWords] = useState<string[]>([]);
+  useEffect(() => {
+    setWords(generateParagraph(100));
+  }, []);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentInput, setCurrentInput] = useState<string>("");
   const [startedAt, setStartedAt] = useState<number | null>(null);
@@ -210,15 +214,12 @@ export default function TypingTest() {
   };
 
   return (
-    <Card className="container mx-auto max-w-4xl mt-6">
-      <CardHeader>
-        <CardTitle>{t("title")}</CardTitle>
-        <CardDescription>
-          {t("description")}
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-6">
-        <div className="flex items-center justify-between">
+    <ToolShell
+      slug="typing-test"
+      title={tc("tools.typing-test.name")}
+      sub={tc("tools.typing-test.description")}
+      controls={
+        <>
           <div className="flex items-center gap-2">
             <Switch
               id="sound"
@@ -237,16 +238,17 @@ export default function TypingTest() {
               {t("clickSounds")}
             </Label>
           </div>
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={reset} title={t("resetTitle")}>
-              <RotateCcw className="w-4 h-4" />
-            </Button>
-            <Button variant="outline" onClick={newText} title={t("newTextTitle")}>
-              <RefreshCcw className="w-4 h-4" />
-            </Button>
-          </div>
-        </div>
-
+          <Button variant="outline" size="icon" onClick={reset} title={t("resetTitle")}>
+            <RotateCcw className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" size="icon" onClick={newText} title={t("newTextTitle")}>
+            <RefreshCcw className="w-4 h-4" />
+          </Button>
+        </>
+      }
+    >
+      <Card>
+      <CardContent className="space-y-6 pt-6">
         <div className="p-4 rounded-md bg-muted/50 text-base leading-7 font-mono select-none">
           {words.map((w, idx) => {
             const isPast = idx < currentIndex;
@@ -310,26 +312,21 @@ export default function TypingTest() {
           />
         </div>
 
-        <div className="grid grid-cols-3 gap-3">
-          <Stat label={t("wpm")} value={wpm} />
-          <Stat label={t("accuracy")} value={`${accuracy}%`} />
-          <Stat label={t("errors")} value={errorCount} />
-        </div>
+        {/* Results — computed WPM/accuracy/errors summary (R3 §F3 M5). */}
+        <StatStrip
+          items={[
+            { label: t("wpm"), value: wpm },
+            { label: t("accuracy"), value: `${accuracy}%` },
+            { label: t("errors"), value: errorCount },
+          ]}
+        />
 
         <div className="text-sm text-muted-foreground">
           {isRunning ? t("statusTyping") : endedAt ? t("statusCompleted") : t("statusIdle")} ·{" "}
           {Math.floor(elapsedMs / 1000)}s
         </div>
       </CardContent>
-    </Card>
-  );
-}
-
-function Stat({ label, value }: { label: string; value: number | string }) {
-  return (
-    <div className="p-4 rounded-md border bg-card">
-      <div className="text-xs text-muted-foreground">{label}</div>
-      <div className="text-2xl font-semibold">{value}</div>
-    </div>
+      </Card>
+    </ToolShell>
   );
 }

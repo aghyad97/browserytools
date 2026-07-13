@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import {
@@ -12,6 +11,9 @@ import {
 } from "@/components/ui/dialog";
 import { Search, X } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 import {
   elements,
   categoryOrder,
@@ -23,6 +25,7 @@ import {
 
 export default function PeriodicTable() {
   const t = useTranslations("Tools.PeriodicTable");
+  const tc = useTranslations("ToolsConfig");
   const [query, setQuery] = useState("");
   const [activeCategory, setActiveCategory] = useState<ElementCategory | null>(
     null,
@@ -81,31 +84,44 @@ export default function PeriodicTable() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-4 sm:p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
+    <ToolShell
+      slug="periodic-table"
+      title={tc("tools.periodic-table.name")}
+      sub={tc("tools.periodic-table.description")}
+      width="wide"
+    >
+      <div className="space-y-4">
           {/* Controls */}
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="relative w-full sm:max-w-xs">
-              <Search className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-              <Input
-                value={query}
-                onChange={(e) => setQuery(e.target.value)}
-                placeholder={t("searchPlaceholder")}
-                aria-label={t("searchPlaceholder")}
-                className="ps-9"
-              />
+          <SettingsCard>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
+              <OptionRow
+                className="sm:max-w-xs"
+                label={t("searchPlaceholder")}
+                htmlFor="periodic-search"
+              >
+                <div className="relative">
+                  <Search className="absolute start-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                  <Input
+                    id="periodic-search"
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder={t("searchPlaceholder")}
+                    className="ps-9"
+                  />
+                </div>
+              </OptionRow>
+              {(query || activeCategory) && (
+                <Button variant="outline" size="sm" onClick={clearFilters}>
+                  <X className="h-4 w-4 me-2" />
+                  {t("clear")}
+                </Button>
+              )}
             </div>
-            {(query || activeCategory) && (
-              <Button variant="outline" size="sm" onClick={clearFilters}>
-                <X className="h-4 w-4 me-2" />
-                {t("clear")}
-              </Button>
-            )}
-          </div>
 
-          {/* Legend / category filter */}
-          <Card className="p-3">
+            {/* Legend / category filter — swatch colours are genuine content
+                (each swatch IS the element-category colour used in the grid
+                below), not decorative UI chrome; kept bespoke per the F3
+                ruling for PeriodicTable. */}
             <div className="flex flex-wrap gap-2">
               {categoryOrder.map((c) => (
                 <button
@@ -121,6 +137,7 @@ export default function PeriodicTable() {
                       : "border-transparent hover:bg-muted/60"
                   }`}
                 >
+                  {/* content value: category swatch colour, see comment above */}
                   <span
                     className={`inline-block h-3 w-3 rounded-sm ${categorySwatch[c]}`}
                     aria-hidden="true"
@@ -129,9 +146,13 @@ export default function PeriodicTable() {
                 </button>
               ))}
             </div>
-          </Card>
+          </SettingsCard>
 
-          {/* Periodic grid — kept LTR regardless of UI direction */}
+          {/* Periodic grid — kept LTR regardless of UI direction. Cell
+              category colours (categoryStyles) are genuine content: the
+              whole point of the tool is encoding each element's category by
+              colour, so they're allowlisted rather than routed through
+              --bt-* tokens. */}
           <div className="overflow-x-auto">
             <div
               dir="ltr"
@@ -151,7 +172,7 @@ export default function PeriodicTable() {
                   onClick={() => setSelected(el)}
                   title={el.name}
                   style={{ gridColumn: el.xpos, gridRow: el.ypos }}
-                  className={`group aspect-square rounded-sm border border-black/5 dark:border-white/10 p-1 text-start leading-none transition-all hover:scale-[1.08] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
+                  className={`group aspect-square rounded-sm border border-black/5 dark:border-white/10 p-1 text-start leading-none transition-[transform,box-shadow] duration-150 hover:scale-[1.08] hover:shadow-md focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${
                     categoryStyles[el.category]
                   } ${isDimmed(el) ? "opacity-20" : "opacity-100"}`}
                 >
@@ -167,7 +188,6 @@ export default function PeriodicTable() {
           </div>
 
           <p className="text-xs text-muted-foreground">{t("hint")}</p>
-        </div>
       </div>
 
       {/* Detail dialog */}
@@ -189,42 +209,25 @@ export default function PeriodicTable() {
                   <span>{selected.name}</span>
                 </DialogTitle>
               </DialogHeader>
-              <dl className="grid grid-cols-2 gap-x-4 gap-y-3 text-sm">
-                <Detail label={t("detail.number")} value={String(selected.number)} ltr />
-                <Detail label={t("detail.symbol")} value={selected.symbol} ltr />
-                <Detail label={t("detail.mass")} value={selected.mass} ltr />
-                <Detail label={t("detail.category")} value={categoryLabel(selected.category)} />
-                <Detail label={t("detail.group")} value={String(selected.group)} ltr />
-                <Detail label={t("detail.period")} value={String(selected.period)} ltr />
-                <Detail label={t("detail.block")} value={`${selected.block}-block`} ltr />
-                <div className="col-span-2">
-                  <dt className="text-muted-foreground">{t("detail.config")}</dt>
-                  <dd dir="ltr" className="font-mono text-start">{selected.config}</dd>
-                </div>
+              <StatStrip
+                items={[
+                  { label: t("detail.number"), value: <span dir="ltr">{selected.number}</span> },
+                  { label: t("detail.symbol"), value: <span dir="ltr">{selected.symbol}</span> },
+                  { label: t("detail.mass"), value: <span dir="ltr">{selected.mass}</span> },
+                  { label: t("detail.category"), value: categoryLabel(selected.category) },
+                  { label: t("detail.group"), value: <span dir="ltr">{selected.group}</span> },
+                  { label: t("detail.period"), value: <span dir="ltr">{selected.period}</span> },
+                  { label: t("detail.block"), value: <span dir="ltr">{`${selected.block}-block`}</span> },
+                ]}
+              />
+              <dl className="mt-3 text-sm">
+                <dt className="text-muted-foreground">{t("detail.config")}</dt>
+                <dd dir="ltr" className="font-mono text-start">{selected.config}</dd>
               </dl>
             </>
           )}
         </DialogContent>
       </Dialog>
-    </div>
-  );
-}
-
-function Detail({
-  label,
-  value,
-  ltr,
-}: {
-  label: string;
-  value: string;
-  ltr?: boolean;
-}) {
-  return (
-    <div>
-      <dt className="text-muted-foreground">{label}</dt>
-      <dd dir={ltr ? "ltr" : undefined} className="font-medium text-start">
-        {value}
-      </dd>
-    </div>
+    </ToolShell>
   );
 }

@@ -1,0 +1,95 @@
+/* Shared /privacy + /terms prose layout — tokens only, logical properties
+   throughout so it mirrors for free under dir="rtl" (spec §2). */
+
+.wrap {
+  max-width: 640px;
+  margin-inline: auto;
+  padding-block: 40px 96px;
+  padding-inline: 48px;
+}
+
+.crumbs {
+  display: flex;
+  gap: 16px;
+  margin-block-end: 32px;
+  font-family: var(--mono, ui-monospace, "SF Mono", "Cascadia Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.crumb,
+.crumbActive {
+  color: var(--bt-muted);
+  text-decoration: none;
+  transition: color 140ms ease;
+}
+.crumbActive {
+  color: var(--bt-ink);
+}
+@media (hover: hover) and (pointer: fine) {
+  .crumb:hover {
+    color: var(--bt-nav-active);
+  }
+}
+
+.title {
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+  color: var(--bt-ink);
+  margin-block-end: 14px;
+}
+
+.intro {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--bt-muted);
+  margin-block-end: 44px;
+  padding-block-end: 32px;
+  border-block-end: 1px solid var(--bt-divider);
+}
+
+.section {
+  margin-block-end: 30px;
+}
+.section:last-child {
+  margin-block-end: 0;
+}
+
+.heading {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bt-ink);
+  margin-block-end: 6px;
+}
+
+.body {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--bt-muted);
+}
+
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  margin-block-start: 8px;
+  font-size: 13px;
+  color: var(--bt-accent);
+  text-decoration: none;
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover {
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+@media (max-width: 900px) {
+  .wrap {
+    padding-inline: 18px;
+    padding-block-start: 24px;
+  }
+}

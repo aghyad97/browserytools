@@ -2,10 +2,10 @@
 
 import { ThemeProvider as NextThemesProvider } from "next-themes";
 import { ReactNode } from "react";
+import { MotionConfig } from "framer-motion";
 import { Analytics } from "@vercel/analytics/next";
 import { LanguageProvider } from "./language-provider";
 import { DynamicTitle } from "@/components/dynamic-title";
-import { CoffeeBanner } from "@/components/coffee-banner";
 import type { Locale } from "@/store/language-store";
 
 interface ProvidersProps {
@@ -23,8 +23,9 @@ export function Providers({ children, initialLocale }: ProvidersProps) {
     >
       <LanguageProvider initialLocale={initialLocale}>
         <DynamicTitle />
-        {children}
-        <CoffeeBanner />
+        {/* Gate every framer-motion spring/transition (rail active pill, tool
+            AnimatePresence, etc.) on the user's reduced-motion preference. */}
+        <MotionConfig reducedMotion="user">{children}</MotionConfig>
       </LanguageProvider>
       <Analytics />
     </NextThemesProvider>

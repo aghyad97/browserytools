@@ -1,4 +1,4 @@
-import HomePage from "@/components/HomePage";
+import Landing from "@/components/landing/landing";
 import StructuredData from "@/components/StructuredData";
 import { Metadata } from "next";
 import { redirect } from "next/navigation";
@@ -74,22 +74,19 @@ export default async function Home({ searchParams }: HomeProps) {
   // Await the searchParams promise
   const params = await searchParams;
 
-  // Handle search parameter and redirect to first tool found
+  // Legacy ?search= deep links redirect to the best-matching tool; anything
+  // that doesn't match falls through to the landing page.
   if (params.search) {
-    const searchTerm = params.search;
-    const firstTool = findFirstTool(searchTerm);
-
+    const firstTool = findFirstTool(params.search);
     if (firstTool) {
-      // Redirect to the most relevant tool
       redirect(firstTool.href);
     }
-    // If no tool found, continue to show homepage with search results
   }
 
   return (
     <>
       <StructuredData type="website" />
-      <HomePage initialSearchQuery={params.search} />
+      <Landing />
     </>
   );
 }

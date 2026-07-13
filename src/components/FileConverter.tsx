@@ -20,8 +20,12 @@ import {
   CardDescription,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowRight, Copy, Download, RefreshCw, FileIcon, AlertCircle } from "lucide-react";
+import { ArrowRight, RefreshCw, AlertCircle } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type Format = "csv" | "tsv" | "json" | "xml" | "yaml";
 
@@ -39,6 +43,14 @@ const FORMAT_EXTENSIONS: Record<Format, string> = {
   json: "json",
   xml: "xml",
   yaml: "yaml",
+};
+
+const FORMAT_MIME: Record<Format, string> = {
+  csv: "text/csv;charset=utf-8",
+  tsv: "text/tab-separated-values;charset=utf-8",
+  json: "application/json;charset=utf-8",
+  xml: "application/xml;charset=utf-8",
+  yaml: "application/x-yaml;charset=utf-8",
 };
 
 const SAMPLES: Record<Format, string> = {
@@ -276,6 +288,7 @@ function detectFormat(text: string): Format | null {
 export default function FileConverter() {
   const t = useTranslations("Tools.FileConverter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [fromFmt, setFromFmt] = useState<Format>("csv");
@@ -317,24 +330,6 @@ export default function FileConverter() {
     setRowCount(null);
   };
 
-  const copyOutput = async () => {
-    if (!output) return;
-    await navigator.clipboard.writeText(output);
-    toast.success(t("copiedToClipboard"));
-  };
-
-  const downloadOutput = () => {
-    if (!output) return;
-    const blob = new Blob([output], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `converted.${FORMAT_EXTENSIONS[toFmt]}`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success(`Downloaded as .${FORMAT_EXTENSIONS[toFmt]}`);
-  };
-
   const swap = () => {
     setFromFmt(toFmt);
     setToFmt(fromFmt);
@@ -347,73 +342,66 @@ export default function FileConverter() {
   const formats: Format[] = ["csv", "tsv", "json", "xml", "yaml"];
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-6">
-      <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <FileIcon className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">
-              {t("subtitle")}
-            </p>
-          </div>
-        </div>
-
-        {/* Format selectors */}
-        <Card>
-          <CardContent className="pt-5 pb-5">
-            <div className="flex flex-wrap items-center gap-4">
-              <div className="flex items-center gap-2">
-                <Label className="text-sm font-medium whitespace-nowrap">{t("from")}</Label>
-                <Select value={fromFmt} onValueChange={(v) => setFromFmt(v as Format)}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {formats.map((f) => (
-                      <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 rtl:rotate-180" />
-
-              <div className="flex items-center gap-2">
-                <Label className="text-sm font-medium whitespace-nowrap">{t("to")}</Label>
-                <Select value={toFmt} onValueChange={(v) => setToFmt(v as Format)}>
-                  <SelectTrigger className="w-32">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {formats.map((f) => (
-                      <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="flex items-center gap-2 ms-auto flex-wrap">
-                <Button variant="outline" size="sm" onClick={handleAutoDetect}>
-                  {t("autoDetect")}
-                </Button>
-                <Button variant="outline" size="sm" onClick={loadSample}>
-                  {t("loadSample")}
-                </Button>
-                <Button variant="outline" size="sm" onClick={swap} disabled={!output}>
-                  <RefreshCw className="w-4 h-4 me-1.5" />
-                  {t("swap")}
-                </Button>
-                <Button onClick={convert} size="sm">
-                  {tCommon("convert")}
-                </Button>
-              </div>
+    <ToolShell
+      slug="file-converter"
+      title={tc("tools.file-converter.name")}
+      sub={tc("tools.file-converter.description")}
+    >
+      <div className="space-y-6">
+        {/* Format selectors — mixed select+button toolbar, not a stacked
+            settings form; kept bespoke inside the SettingsCard shell (same
+            "inline stage control row" reasoning as SpeechToText/TextSorter's
+            toggle rows — OptionRow's column layout would break this
+            horizontal arrangement for a cosmetic swap only). */}
+        <SettingsCard>
+          <div className="flex flex-wrap items-center gap-4">
+            <div className="flex items-center gap-2">
+              <Label className="text-sm font-medium whitespace-nowrap">{t("from")}</Label>
+              <Select value={fromFmt} onValueChange={(v) => setFromFmt(v as Format)}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {formats.map((f) => (
+                    <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
             </div>
-          </CardContent>
-        </Card>
+
+            <ArrowRight className="w-5 h-5 text-muted-foreground shrink-0 rtl:rotate-180" />
+
+            <div className="flex items-center gap-2">
+              <Label className="text-sm font-medium whitespace-nowrap">{t("to")}</Label>
+              <Select value={toFmt} onValueChange={(v) => setToFmt(v as Format)}>
+                <SelectTrigger className="w-32">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {formats.map((f) => (
+                    <SelectItem key={f} value={f}>{FORMAT_LABELS[f]}</SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+
+            <div className="flex items-center gap-2 ms-auto flex-wrap">
+              <Button variant="outline" size="sm" onClick={handleAutoDetect}>
+                {t("autoDetect")}
+              </Button>
+              <Button variant="outline" size="sm" onClick={loadSample}>
+                {t("loadSample")}
+              </Button>
+              <Button variant="outline" size="sm" onClick={swap} disabled={!output}>
+                <RefreshCw className="w-4 h-4 me-1.5" />
+                {t("swap")}
+              </Button>
+              <Button onClick={convert} size="sm">
+                {tCommon("convert")}
+              </Button>
+            </div>
+          </div>
+        </SettingsCard>
 
         {/* Error */}
         {error && (
@@ -424,77 +412,69 @@ export default function FileConverter() {
         )}
 
         {/* Panels */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Input */}
-          <Card className="flex flex-col">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base flex items-center gap-2">
-                  {t("inputTitle")}
-                  <Badge variant="secondary">{FORMAT_LABELS[fromFmt]}</Badge>
-                </CardTitle>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="text-xs text-muted-foreground"
-                  onClick={() => { setInput(""); setOutput(""); setError(null); setRowCount(null); }}
-                >
-                  {tCommon("clear")}
-                </Button>
-              </div>
-              <CardDescription className="text-xs">
-                {t("inputDesc", { format: FORMAT_LABELS[fromFmt] })}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 pb-4">
-              <Textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={t("inputPlaceholder", { format: FORMAT_LABELS[fromFmt] })}
-                className="font-mono text-xs resize-none h-96"
-                spellCheck={false}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Output */}
-          <Card className="flex flex-col">
-            <CardHeader className="pb-3">
-              <div className="flex items-center justify-between">
-                <CardTitle className="text-base flex items-center gap-2">
-                  {t("outputTitle")}
-                  <Badge variant="secondary">{FORMAT_LABELS[toFmt]}</Badge>
-                  {rowCount !== null && (
-                    <Badge variant="outline" className="text-xs">
-                      {rowCount !== 1 ? t("rowCountPlural", { count: rowCount }) : t("rowCount", { count: rowCount })}
-                    </Badge>
-                  )}
-                </CardTitle>
-                <div className="flex items-center gap-1">
-                  <Button variant="ghost" size="sm" onClick={copyOutput} disabled={!output}>
-                    <Copy className="w-3.5 h-3.5 me-1" />
-                    {tCommon("copy")}
-                  </Button>
-                  <Button variant="ghost" size="sm" onClick={downloadOutput} disabled={!output}>
-                    <Download className="w-3.5 h-3.5 me-1" />
-                    {tCommon("download")}
+        <TwoPane
+          start={
+            <Card className="flex flex-col h-full">
+              <CardHeader className="pb-3">
+                <div className="flex items-center justify-between">
+                  <CardTitle className="text-base flex items-center gap-2">
+                    {t("inputTitle")}
+                    <Badge variant="secondary">{FORMAT_LABELS[fromFmt]}</Badge>
+                  </CardTitle>
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    className="text-xs text-muted-foreground"
+                    onClick={() => { setInput(""); setOutput(""); setError(null); setRowCount(null); }}
+                  >
+                    {tCommon("clear")}
                   </Button>
                 </div>
+                <CardDescription className="text-xs">
+                  {t("inputDesc", { format: FORMAT_LABELS[fromFmt] })}
+                </CardDescription>
+              </CardHeader>
+              <CardContent className="flex-1 pb-4">
+                <Textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={t("inputPlaceholder", { format: FORMAT_LABELS[fromFmt] })}
+                  className="font-mono text-xs resize-none h-96"
+                  spellCheck={false}
+                />
+              </CardContent>
+            </Card>
+          }
+          end={
+            <OutputPanel
+              text={output}
+              title={t("outputTitle")}
+              filename={`converted.${FORMAT_EXTENSIONS[toFmt]}`}
+              mime={FORMAT_MIME[toFmt]}
+              copySuccessMessage={t("copiedToClipboard")}
+              downloadSuccessMessage={`Downloaded as .${FORMAT_EXTENSIONS[toFmt]}`}
+              className="h-full flex flex-col"
+            >
+              <div className="flex items-center gap-2 px-3 pt-3 flex-wrap">
+                <Badge variant="secondary">{FORMAT_LABELS[toFmt]}</Badge>
+                {rowCount !== null && (
+                  <Badge variant="outline" className="text-xs">
+                    {rowCount !== 1 ? t("rowCountPlural", { count: rowCount }) : t("rowCount", { count: rowCount })}
+                  </Badge>
+                )}
+                <span className="text-xs text-muted-foreground">
+                  {t("outputDesc", { format: FORMAT_LABELS[toFmt] })}
+                </span>
               </div>
-              <CardDescription className="text-xs">
-                {t("outputDesc", { format: FORMAT_LABELS[toFmt] })}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="flex-1 pb-4">
               <Textarea
                 value={output}
                 readOnly
                 placeholder={t("outputPlaceholder")}
-                className="font-mono text-xs resize-none h-96 bg-muted/30"
+                className="font-mono text-xs resize-none h-96 border-0 rounded-none bg-transparent focus-visible:ring-0"
               />
-            </CardContent>
-          </Card>
-        </div>
+            </OutputPanel>
+          }
+        />
 
         {/* Supported formats info */}
         <Card className="border-dashed">
@@ -518,6 +498,6 @@ export default function FileConverter() {
           </CardContent>
         </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

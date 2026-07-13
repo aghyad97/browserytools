@@ -4,16 +4,9 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import NumberFlow from "@number-flow/react";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { ToolShell } from "@/components/template/tool-shell";
 import {
   Play,
   Pause,
@@ -23,6 +16,7 @@ import {
   Bell,
 } from "lucide-react";
 import { playBeep } from "@/lib/time-format";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 type Mode = "countdown" | "stopwatch";
 
@@ -44,6 +38,7 @@ function formatTime(totalMs: number): {
 
 export default function Timer() {
   const t = useTranslations("Tools.Timer");
+  const tc = useTranslations("ToolsConfig");
   const [mode, setMode] = useState<Mode>("countdown");
   const [isRunning, setIsRunning] = useState(false);
   const [initialMs, setInitialMs] = useState(5 * 60 * 1000); // default 5 min
@@ -200,60 +195,71 @@ export default function Timer() {
   const [sInput, setSInput] = useState(0);
 
   return (
-    <div
-      ref={containerRef}
-      className={
-        isFullscreen
-          ? "fixed inset-0 bg-background"
-          : "container mx-auto p-6 max-w-4xl"
+    <ToolShell
+      slug="timer"
+      title={tc("tools.timer.name")}
+      sub={tc("tools.timer.description")}
+      controls={
+        <>
+          <Button variant="outline" onClick={handleReset}>
+            <RotateCcw className="w-4 h-4" />
+          </Button>
+          <Button variant="outline" onClick={enterFullscreen}>
+            <Maximize2 className="w-4 h-4" />
+          </Button>
+          <Button variant="ghost" onClick={() => playBeep(880, 600)} title={t("testSound")}>
+            <Bell className="w-4 h-4" />
+          </Button>
+        </>
       }
+      primaryAction={{
+        label: isRunning ? t("pause") : t("start"),
+        onClick: handleStartPause,
+      }}
     >
-      {isFullscreen ? (
-        <div className="h-full w-full flex flex-col">
-          <div className="flex-1 flex items-center justify-center">
-            <div dir="ltr" className="text-7xl md:text-[180px] font-mono flex items-center gap-6 select-none">
-              <NumberFlow value={hh} format={{ minimumIntegerDigits: 2 }} />
-              <span>:</span>
-              <NumberFlow value={mm} format={{ minimumIntegerDigits: 2 }} />
-              <span>:</span>
-              <NumberFlow value={ss} format={{ minimumIntegerDigits: 2 }} />
+      <div
+        ref={containerRef}
+        className={isFullscreen ? "fixed inset-0 z-50 bg-background" : ""}
+      >
+        {isFullscreen ? (
+          <div className="h-full w-full flex flex-col">
+            <div className="flex-1 flex items-center justify-center">
+              <div dir="ltr" className="text-7xl md:text-[180px] font-mono flex items-center gap-6 select-none">
+                <NumberFlow value={hh} format={{ minimumIntegerDigits: 2 }} />
+                <span>:</span>
+                <NumberFlow value={mm} format={{ minimumIntegerDigits: 2 }} />
+                <span>:</span>
+                <NumberFlow value={ss} format={{ minimumIntegerDigits: 2 }} />
+              </div>
+            </div>
+            <div
+              className={`pb-10 flex justify-center transition-opacity duration-300 ${
+                showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+              }`}
+            >
+              <div className="flex items-center gap-4">
+                <Button onClick={handleStartPause} className="min-w-32">
+                  {isRunning ? (
+                    <span className="inline-flex items-center gap-2">
+                      <Pause className="w-5 h-5" /> {t("pause")}
+                    </span>
+                  ) : (
+                    <span className="inline-flex items-center gap-2">
+                      <Play className="w-5 h-5" /> {t("start")}
+                    </span>
+                  )}
+                </Button>
+                <Button variant="outline" onClick={handleReset}>
+                  <RotateCcw className="w-5 h-5" />
+                </Button>
+                <Button variant="outline" onClick={exitFullscreen}>
+                  <Minimize2 className="w-5 h-5" />
+                </Button>
+              </div>
             </div>
           </div>
-          <div
-            className={`pb-10 flex justify-center transition-opacity duration-300 ${
-              showControls ? "opacity-100" : "opacity-0 pointer-events-none"
-            }`}
-          >
-            <div className="flex items-center gap-4">
-              <Button onClick={handleStartPause} className="min-w-32">
-                {isRunning ? (
-                  <span className="inline-flex items-center gap-2">
-                    <Pause className="w-5 h-5" /> {t("pause")}
-                  </span>
-                ) : (
-                  <span className="inline-flex items-center gap-2">
-                    <Play className="w-5 h-5" /> {t("start")}
-                  </span>
-                )}
-              </Button>
-              <Button variant="outline" onClick={handleReset}>
-                <RotateCcw className="w-5 h-5" />
-              </Button>
-              <Button variant="outline" onClick={exitFullscreen}>
-                <Minimize2 className="w-5 h-5" />
-              </Button>
-            </div>
-          </div>
-        </div>
-      ) : (
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("title")}</CardTitle>
-            <CardDescription>
-              {t("description")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
+        ) : (
+          <div>
             <Tabs
               value={mode}
               onValueChange={(v) => {
@@ -266,49 +272,48 @@ export default function Timer() {
                 <TabsTrigger value="stopwatch">{t("stopwatch")}</TabsTrigger>
               </TabsList>
               <TabsContent value="countdown" className="space-y-4">
-                <div className="grid grid-cols-3 gap-3 max-w-md">
-                  <div className="space-y-2">
-                    <Label>{t("hours")}</Label>
-                    <Input
-                      type="number"
-                      min={0}
-                      value={hInput}
-                      onChange={(e) =>
-                        setHInput(Math.max(0, Number(e.target.value)))
-                      }
-                    />
+                <SettingsCard className="max-w-md">
+                  <div className="grid grid-cols-3 gap-3">
+                    <OptionRow label={t("hours")}>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={hInput}
+                        onChange={(e) =>
+                          setHInput(Math.max(0, Number(e.target.value)))
+                        }
+                      />
+                    </OptionRow>
+                    <OptionRow label={t("minutes")}>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={mInput}
+                        onChange={(e) =>
+                          setMInput(Math.max(0, Number(e.target.value)))
+                        }
+                      />
+                    </OptionRow>
+                    <OptionRow label={t("seconds")}>
+                      <Input
+                        type="number"
+                        min={0}
+                        value={sInput}
+                        onChange={(e) =>
+                          setSInput(Math.max(0, Number(e.target.value)))
+                        }
+                      />
+                    </OptionRow>
                   </div>
-                  <div className="space-y-2">
-                    <Label>{t("minutes")}</Label>
-                    <Input
-                      type="number"
-                      min={0}
-                      value={mInput}
-                      onChange={(e) =>
-                        setMInput(Math.max(0, Number(e.target.value)))
-                      }
-                    />
+                  <div>
+                    <Button
+                      variant="outline"
+                      onClick={() => handleApplyCountdown(hInput, mInput, sInput)}
+                    >
+                      {t("apply")}
+                    </Button>
                   </div>
-                  <div className="space-y-2">
-                    <Label>{t("seconds")}</Label>
-                    <Input
-                      type="number"
-                      min={0}
-                      value={sInput}
-                      onChange={(e) =>
-                        setSInput(Math.max(0, Number(e.target.value)))
-                      }
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Button
-                    variant="outline"
-                    onClick={() => handleApplyCountdown(hInput, mInput, sInput)}
-                  >
-                    {t("apply")}
-                  </Button>
-                </div>
+                </SettingsCard>
               </TabsContent>
               <TabsContent value="stopwatch">
                 <p className="text-sm text-muted-foreground">
@@ -325,33 +330,10 @@ export default function Timer() {
                 <span>:</span>
                 <NumberFlow value={ss} format={{ minimumIntegerDigits: 2 }} />
               </div>
-
-              <div className="flex items-center gap-2">
-                <Button onClick={handleStartPause} className="min-w-28">
-                  {isRunning ? (
-                    <span className="inline-flex items-center gap-2">
-                      <Pause className="w-4 h-4" /> {t("pause")}
-                    </span>
-                  ) : (
-                    <span className="inline-flex items-center gap-2">
-                      <Play className="w-4 h-4" /> {t("start")}
-                    </span>
-                  )}
-                </Button>
-                <Button variant="outline" onClick={handleReset}>
-                  <RotateCcw className="w-4 h-4" />
-                </Button>
-                <Button variant="outline" onClick={enterFullscreen}>
-                  <Maximize2 className="w-4 h-4" />
-                </Button>
-                <Button variant="ghost" onClick={() => playBeep(880, 600)} title={t("testSound")}>
-                  <Bell className="w-4 h-4" />
-                </Button>
-              </div>
             </div>
-          </CardContent>
-        </Card>
-      )}
-    </div>
+          </div>
+        )}
+      </div>
+    </ToolShell>
   );
 }

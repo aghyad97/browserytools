@@ -13,8 +13,12 @@ import {
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
 import { toast } from "sonner";
-import { MicIcon, MicOffIcon, Copy, Download, Trash2, Info } from "lucide-react";
+import { MicIcon, MicOffIcon, Download, Trash2, Info } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { downloadBlob } from "@/lib/download";
 
 // ── Minimal Web Speech API typings ──────────────────────────────────────────
 interface SpeechRecognitionResultLike {
@@ -69,6 +73,7 @@ function getRecognitionCtor(): SpeechRecognitionCtor | null {
 
 export default function SpeechToText() {
   const t = useTranslations("Tools.SpeechToText");
+  const tc = useTranslations("ToolsConfig");
 
   const [supported, setSupported] = useState(true);
   const [listening, setListening] = useState(false);
@@ -179,42 +184,44 @@ export default function SpeechToText() {
     toast.success(t("cleared"));
   };
 
-  const copyTranscript = async () => {
-    if (!transcript.trim()) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(transcript);
-      toast.success(t("copied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const downloadTranscript = () => {
     if (!transcript.trim()) {
       toast.error(t("nothingToDownload"));
       return;
     }
-    const blob = new Blob([transcript], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "transcript.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([transcript], { type: "text/plain" }), "transcript.txt");
     toast.success(t("downloaded"));
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-4xl mx-auto space-y-4">
+    <ToolShell
+      slug="speech-to-text"
+      title={tc("tools.speech-to-text.name")}
+      sub={tc("tools.speech-to-text.description")}
+      controls={
+        <>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={downloadTranscript}
+            aria-label={t("download")}
+          >
+            <Download className="h-4 w-4 me-2" />
+            {t("download")}
+          </Button>
+          <Button
+            variant="outline"
+            size="sm"
+            onClick={clearTranscript}
+            aria-label={t("clear")}
+          >
+            <Trash2 className="h-4 w-4 me-2" />
+            {t("clear")}
+          </Button>
+        </>
+      }
+    >
+      <div className="space-y-4">
           {!supported && (
             <Card className="p-4 border-amber-500/50 bg-amber-500/10">
               <div className="flex items-start gap-2 text-sm">
@@ -290,60 +297,29 @@ export default function SpeechToText() {
                 {t("listening")}
               </span>
             )}
-
-            <div className="ms-auto flex items-center gap-2">
-              <Button
-                variant="outline"
-                onClick={copyTranscript}
-                aria-label={t("copy")}
-              >
-                <Copy className="h-4 w-4 me-2" />
-                {t("copy")}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={downloadTranscript}
-                aria-label={t("download")}
-              >
-                <Download className="h-4 w-4 me-2" />
-                {t("download")}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={clearTranscript}
-                aria-label={t("clear")}
-              >
-                <Trash2 className="h-4 w-4 me-2" />
-                {t("clear")}
-              </Button>
-            </div>
           </div>
 
-          <Card className="p-4">
+          <OutputPanel
+            text={interim ? `${transcript} ${interim}`.trim() : transcript}
+            copyLabel={t("copy")}
+            copySuccessMessage={t("copied")}
+            copyErrorMessage={t("copyFailed")}
+          >
             <Textarea
               data-testid="transcript"
               dir="auto"
               placeholder={t("placeholder")}
-              className="min-h-[340px] text-base leading-relaxed"
+              className="min-h-[340px] rounded-none border-0 bg-transparent text-base leading-relaxed focus-visible:ring-0"
               value={interim ? `${transcript} ${interim}`.trim() : transcript}
               onChange={(e) => {
                 setTranscript(e.target.value);
                 setInterim("");
               }}
             />
-          </Card>
+          </OutputPanel>
 
-          <Card className="p-4">
-            <div className="flex items-start gap-2 text-sm text-muted-foreground">
-              <Info className="h-4 w-4 mt-0.5 shrink-0" />
-              <div>
-                <p className="font-medium text-foreground">{t("tipTitle")}</p>
-                <p>{t("tipBody")}</p>
-              </div>
-            </div>
-          </Card>
-        </div>
+          <SettingsCard title={t("tipTitle")} description={t("tipBody")} />
       </div>
-    </div>
+    </ToolShell>
   );
 }

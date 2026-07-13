@@ -41,6 +41,8 @@ import {
 } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadBlob, downloadDataUrl } from "@/lib/download";
 import {
   NODE_COLORS,
   STORAGE_KEY,
@@ -127,6 +129,7 @@ function MindMapNode({ id, data, selected }: NodeProps) {
 // ── Editor ──────────────────────────────────────────────────────────────────
 function MindMapEditor() {
   const t = useTranslations("Tools.MindMap");
+  const tc = useTranslations("ToolsConfig");
   const nodeTypes = useMemo(() => ({ mindMapNode: MindMapNode }), []);
 
   const [nodes, setNodes] = useState<FlowNode[]>([]);
@@ -236,15 +239,7 @@ function MindMapEditor() {
 
   const handleExportJSON = () => {
     const json = exportToJSON(currentState());
-    const blob = new Blob([json], { type: "application/json" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "mind-map.json";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([json], { type: "application/json" }), "mind-map.json");
     toast.success(t("exportedJSON"));
   };
 
@@ -271,15 +266,11 @@ function MindMapEditor() {
     if (!el) return;
     try {
       const dataUrl = await toPng(el, {
+        // content value: exported PNG background fill (always white, independent of app theme)
         backgroundColor: "#ffffff",
         cacheBust: true,
       });
-      const a = document.createElement("a");
-      a.href = dataUrl;
-      a.download = "mind-map.png";
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
+      downloadDataUrl(dataUrl, "mind-map.png");
       toast.success(t("exportedPNG"));
     } catch {
       toast.error(t("pngFailed"));
@@ -294,14 +285,15 @@ function MindMapEditor() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-6xl space-y-4">
+    <ToolShell
+      slug="mind-map"
+      title={tc("tools.mind-map.name")}
+      sub={tc("tools.mind-map.description")}
+      width="wide"
+    >
+      <div className="max-w-6xl mx-auto space-y-4">
       <Card>
         <CardContent className="p-4 space-y-3">
-          <div className="space-y-1">
-            <h1 className="text-xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-
           {/* Toolbar — flips for RTL via flex + logical spacing */}
           <div className="flex flex-wrap items-center gap-2">
             <Button size="sm" onClick={handleAddChild} data-testid="add-child">
@@ -401,7 +393,8 @@ function MindMapEditor() {
           </div>
         </CardContent>
       </Card>
-    </div>
+      </div>
+    </ToolShell>
   );
 }
 

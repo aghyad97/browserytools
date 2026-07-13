@@ -3,13 +3,6 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -20,10 +13,12 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Switch } from "@/components/ui/switch";
-import { Copy, RotateCcw, FileText } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 import NumberFlow from "@number-flow/react";
-import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 const loremWords = [
   "lorem",
@@ -206,6 +201,7 @@ const loremSentences = [
 
 export default function LoremIpsumGenerator() {
   const t = useTranslations("Tools.LoremIpsumGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [generatedText, setGeneratedText] = useState("");
   const [count, setCount] = useState(5);
   const [type, setType] = useState<"words" | "sentences" | "paragraphs">(
@@ -258,16 +254,6 @@ export default function LoremIpsumGenerator() {
     setGeneratedText(text);
   };
 
-  const handleCopy = () => {
-    if (!generatedText) {
-      toast.error(t("noTextToCopy"));
-      return;
-    }
-
-    navigator.clipboard.writeText(generatedText);
-    toast.success(t("copiedToClipboard"));
-  };
-
   const handleClear = () => {
     setGeneratedText("");
   };
@@ -280,176 +266,145 @@ export default function LoremIpsumGenerator() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
+    <ToolShell
+      slug="lorem-ipsum"
+      title={tc("tools.lorem-ipsum.name")}
+      sub={tc("tools.lorem-ipsum.description")}
+      controls={
+        <Button
+          variant="outline"
+          size="sm"
+          onClick={handleClear}
+          className="flex items-center gap-2"
+        >
+          <RotateCcw className="w-4 h-4" />
+          {t("clear")}
+        </Button>
+      }
+      primaryAction={{
+        label: t("generateText"),
+        onClick: generateLoremIpsum,
+      }}
+    >
+      <div className="space-y-6">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Controls */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("generatorOptions")}</CardTitle>
-            <CardDescription>{t("generatorOptionsDesc")}</CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-6">
-            <div className="space-y-2">
-              <Label htmlFor="type">{t("generate")}</Label>
-              <Select
-                value={type}
-                onValueChange={(value: "words" | "sentences" | "paragraphs") =>
-                  setType(value)
-                }
-              >
-                <SelectTrigger>
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="words">{t("words")}</SelectItem>
-                  <SelectItem value="sentences">{t("sentences")}</SelectItem>
-                  <SelectItem value="paragraphs">{t("paragraphs")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
+        <SettingsCard title={t("generatorOptions")} description={t("generatorOptionsDesc")}>
+          <OptionRow label={t("generate")} htmlFor="type">
+            <Select
+              value={type}
+              onValueChange={(value: "words" | "sentences" | "paragraphs") =>
+                setType(value)
+              }
+            >
+              <SelectTrigger id="type">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="words">{t("words")}</SelectItem>
+                <SelectItem value="sentences">{t("sentences")}</SelectItem>
+                <SelectItem value="paragraphs">{t("paragraphs")}</SelectItem>
+              </SelectContent>
+            </Select>
+          </OptionRow>
 
-            <div className="space-y-2">
-              <Label htmlFor="count">{t("count")}</Label>
-              <Input
-                id="count"
-                type="number"
-                min="1"
-                max="1000"
-                value={count}
-                onChange={(e) => handleCountChange(e.target.value)}
-                placeholder={t("count")}
-                dir="ltr"
-              />
-              <p className="text-xs text-muted-foreground">
-                {t("maxCount", { type })}
-              </p>
-            </div>
+          <OptionRow label={t("count")} htmlFor="count" hint={t("maxCount", { type })}>
+            <Input
+              id="count"
+              type="number"
+              min="1"
+              max="1000"
+              value={count}
+              onChange={(e) => handleCountChange(e.target.value)}
+              placeholder={t("count")}
+              dir="ltr"
+            />
+          </OptionRow>
 
-            <div className="flex items-center space-x-2 rtl:space-x-reverse">
-              <Switch
-                id="start-with-lorem"
-                checked={startWithLorem}
-                onCheckedChange={setStartWithLorem}
-                disabled={type === "words"}
-              />
-              <Label htmlFor="start-with-lorem">{t("startWithLorem")}</Label>
-            </div>
-
-            <div className="space-y-2">
-              <Button onClick={generateLoremIpsum} className="w-full">
-                <FileText className="w-4 h-4 me-2" />
-                {t("generateText")}
-              </Button>
-              <Button
-                variant="outline"
-                onClick={handleClear}
-                className="w-full"
-              >
-                <RotateCcw className="w-4 h-4 me-2" />
-                {t("clear")}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
+          <div className="flex items-center space-x-2 rtl:space-x-reverse">
+            <Switch
+              id="start-with-lorem"
+              checked={startWithLorem}
+              onCheckedChange={setStartWithLorem}
+              disabled={type === "words"}
+            />
+            <Label htmlFor="start-with-lorem">{t("startWithLorem")}</Label>
+          </div>
+        </SettingsCard>
 
         {/* Generated Text */}
         <div className="lg:col-span-2">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("generatedTextTitle")}</CardTitle>
-              <CardDescription>
-                {t("generatedTextDesc")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
-              <Textarea
-                placeholder={t("generatedTextPlaceholder")}
-                value={generatedText}
-                readOnly
-                className="min-h-[400px] resize-none bg-muted"
-                dir="ltr"
-              />
-              <div className="flex justify-between items-center mt-4">
-                <span className="text-sm text-muted-foreground">
-                  <NumberFlow value={generatedText.length} /> {t("characters")}
-                </span>
-                <Button
-                  onClick={handleCopy}
-                  disabled={!generatedText}
-                  className="flex items-center gap-2"
-                >
-                  <Copy className="w-4 h-4" />
-                  {t("copyText")}
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+          <OutputPanel
+            text={generatedText}
+            title={t("generatedTextTitle")}
+            copySuccessMessage={t("copiedToClipboard")}
+          >
+            <p className="text-sm text-muted-foreground px-1 pt-1">{t("generatedTextDesc")}</p>
+            <Textarea
+              placeholder={t("generatedTextPlaceholder")}
+              value={generatedText}
+              readOnly
+              className="min-h-[400px] rounded-none border-0 bg-transparent resize-none focus-visible:ring-0"
+              dir="ltr"
+            />
+            <div className="flex justify-between items-center px-1 pb-1">
+              <span className="text-sm text-muted-foreground">
+                <NumberFlow value={generatedText.length} /> {t("characters")}
+              </span>
+            </div>
+          </OutputPanel>
         </div>
       </div>
 
       {/* Quick Generate Buttons */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>{t("quickGenerate")}</CardTitle>
-          <CardDescription>
-            {t("quickGenerateDesc")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-            <Button
-              variant="outline"
-              onClick={() => {
-                setType("paragraphs");
-                setCount(1);
-                generateLoremIpsum();
-              }}
-            >
-              {t("oneParagraph")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setType("paragraphs");
-                setCount(3);
-                generateLoremIpsum();
-              }}
-            >
-              {t("threeParagraphs")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setType("words");
-                setCount(50);
-                generateLoremIpsum();
-              }}
-            >
-              {t("fiftyWords")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={() => {
-                setType("sentences");
-                setCount(5);
-                generateLoremIpsum();
-              }}
-            >
-              {t("fiveSentences")}
-            </Button>
-          </div>
-        </CardContent>
-      </Card>
+      <SettingsCard title={t("quickGenerate")} description={t("quickGenerateDesc")}>
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+          <Button
+            variant="outline"
+            onClick={() => {
+              setType("paragraphs");
+              setCount(1);
+              generateLoremIpsum();
+            }}
+          >
+            {t("oneParagraph")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setType("paragraphs");
+              setCount(3);
+              generateLoremIpsum();
+            }}
+          >
+            {t("threeParagraphs")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setType("words");
+              setCount(50);
+              generateLoremIpsum();
+            }}
+          >
+            {t("fiftyWords")}
+          </Button>
+          <Button
+            variant="outline"
+            onClick={() => {
+              setType("sentences");
+              setCount(5);
+              generateLoremIpsum();
+            }}
+          >
+            {t("fiveSentences")}
+          </Button>
+        </div>
+      </SettingsCard>
 
       {/* Info */}
-      <Card className="mt-6">
-        <CardContent className="p-6">
-          <h3 className="font-semibold mb-2">{t("aboutLoremTitle")}</h3>
-          <p className="text-sm text-muted-foreground">
-            {t("aboutLoremDesc")}
-          </p>
-        </CardContent>
-      </Card>
-    </div>
+      <SettingsCard title={t("aboutLoremTitle")} description={t("aboutLoremDesc")} />
+      </div>
+    </ToolShell>
   );
 }

@@ -2,13 +2,15 @@
 
 import { useCallback, useMemo, useState } from "react";
 import { Card } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Progress } from "@/components/ui/progress";
 import { toast } from "sonner";
-import { EyeOffIcon, InfoIcon, CopyIcon } from "lucide-react";
+import { EyeOffIcon, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 
 const MODEL = "Xenova/bert-base-NER";
@@ -140,6 +142,7 @@ function buildRedacted(
 
 export default function PiiRedactor() {
   const t = useTranslations("Tools.PiiRedactor");
+  const tc = useTranslations("ToolsConfig");
 
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -230,123 +233,104 @@ export default function PiiRedactor() {
     setEnabled((prev) => ({ ...prev, [c]: checked }));
   }, []);
 
-  const copy = useCallback(async () => {
-    if (!redacted) {
-      toast.error(t("nothingToCopy"));
-      return;
-    }
-    try {
-      await navigator.clipboard.writeText(redacted);
-      toast.success(t("copied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  }, [redacted, t]);
-
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-3xl mx-auto space-y-4">
-          <div>
-            <h1 className="text-xl font-semibold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
-          </div>
+    <ToolShell
+      slug="pii-redactor"
+      title={tc("tools.pii-redactor.name")}
+      sub={tc("tools.pii-redactor.description")}
+      primaryAction={{
+        label: busy ? t("detecting") : t("detect"),
+        onClick: detect,
+        disabled: busy,
+      }}
+    >
+      <div className="space-y-4">
+        <Card className="p-4 space-y-3">
+          <label className="text-sm font-medium" htmlFor="pii-input">
+            {t("inputLabel")}
+          </label>
+          <Textarea
+            id="pii-input"
+            dir="auto"
+            className="min-h-[160px]"
+            placeholder={t("inputPlaceholder")}
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+          />
 
-          <Card className="p-4 space-y-3">
-            <label className="text-sm font-medium" htmlFor="pii-input">
-              {t("inputLabel")}
-            </label>
-            <Textarea
-              id="pii-input"
-              dir="auto"
-              className="min-h-[160px]"
-              placeholder={t("inputPlaceholder")}
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-            />
-            <Button onClick={detect} disabled={busy}>
-              {busy ? t("detecting") : t("detect")}
-            </Button>
-
-            {busy && progress && progress.status === "progress" && (
-              <div className="space-y-1">
-                <Progress value={progress.percent} />
-                <p className="text-xs text-muted-foreground">
-                  {t("loadingModel")}{" "}
-                  <span dir="ltr">{progress.percent}%</span>
-                </p>
-              </div>
-            )}
-          </Card>
-
-          {entities && (
-            <>
-              <Card className="p-4 space-y-3">
-                <p className="text-sm font-medium">{t("categoriesLabel")}</p>
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
-                  {CATEGORIES.map((c) => (
-                    <label
-                      key={c}
-                      htmlFor={`pii-cat-${c}`}
-                      className="flex items-center gap-2 text-sm cursor-pointer"
-                    >
-                      <Checkbox
-                        id={`pii-cat-${c}`}
-                        data-testid={`pii-cat-${c}`}
-                        checked={enabled[c]}
-                        onCheckedChange={(v) => toggle(c, Boolean(v))}
-                      />
-                      <span>
-                        {categoryLabel(c)}
-                        {counts[c] > 0 && (
-                          <span
-                            className="ms-1 text-muted-foreground tabular-nums"
-                            dir="ltr"
-                          >
-                            ({counts[c]})
-                          </span>
-                        )}
-                      </span>
-                    </label>
-                  ))}
-                </div>
-              </Card>
-
-              <Card className="p-4 space-y-3">
-                <div className="flex items-center justify-between">
-                  <p className="text-sm font-medium flex items-center gap-2">
-                    <EyeOffIcon className="h-4 w-4" />
-                    {t("redactedLabel")}
-                  </p>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    onClick={copy}
-                    aria-label="Copy"
-                  >
-                    <CopyIcon className="h-4 w-4 me-2" />
-                    {t("copy")}
-                  </Button>
-                </div>
-                <Textarea
-                  dir="auto"
-                  className="min-h-[160px] font-mono text-sm"
-                  value={redacted}
-                  readOnly
-                  data-testid="pii-output"
-                />
-              </Card>
-            </>
-          )}
-
-          <Card className="p-4">
-            <div className="flex items-start gap-3">
-              <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+          {busy && progress && progress.status === "progress" && (
+            <div className="space-y-1">
+              <Progress value={progress.percent} />
+              <p className="text-xs text-muted-foreground">
+                {t("loadingModel")}{" "}
+                <span dir="ltr">{progress.percent}%</span>
+              </p>
             </div>
-          </Card>
-        </div>
+          )}
+        </Card>
+
+        {entities && (
+          <>
+            <SettingsCard title={t("categoriesLabel")}>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {CATEGORIES.map((c) => (
+                  <label
+                    key={c}
+                    htmlFor={`pii-cat-${c}`}
+                    className="flex items-center gap-2 text-sm cursor-pointer"
+                  >
+                    <Checkbox
+                      id={`pii-cat-${c}`}
+                      data-testid={`pii-cat-${c}`}
+                      checked={enabled[c]}
+                      onCheckedChange={(v) => toggle(c, Boolean(v))}
+                    />
+                    <span>
+                      {categoryLabel(c)}
+                      {counts[c] > 0 && (
+                        <span
+                          className="ms-1 text-muted-foreground tabular-nums"
+                          dir="ltr"
+                        >
+                          ({counts[c]})
+                        </span>
+                      )}
+                    </span>
+                  </label>
+                ))}
+              </div>
+            </SettingsCard>
+
+            <OutputPanel
+              text={redacted}
+              title={
+                <span className="inline-flex items-center gap-2">
+                  <EyeOffIcon className="h-4 w-4" />
+                  {t("redactedLabel")}
+                </span>
+              }
+              copyLabel={t("copy")}
+              copySuccessMessage={t("copied")}
+              copyErrorMessage={t("copyFailed")}
+            >
+              <Textarea
+                dir="auto"
+                className="min-h-[160px] rounded-none border-0 bg-transparent font-mono text-sm focus-visible:ring-0"
+                value={redacted}
+                readOnly
+                data-testid="pii-output"
+              />
+            </OutputPanel>
+          </>
+        )}
+
+        <Card className="p-4">
+          <div className="flex items-start gap-3">
+            <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
+            <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+          </div>
+        </Card>
       </div>
-    </div>
+    </ToolShell>
   );
 }

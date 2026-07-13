@@ -2,10 +2,12 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import {
   Select,
   SelectContent,
@@ -163,13 +165,14 @@ function drawImageFitted(
 export default function PhotoCollage() {
   const t = useTranslations("Tools.PhotoCollage");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [images, setImages] = useState<CollageImage[]>([]);
   const [layoutId, setLayoutId] = useState("grid-2x2");
   const [presetId, setPresetId] = useState("square");
   const [gap, setGap] = useState(8);
   const [radius, setRadius] = useState(0);
-  const [bgColor, setBgColor] = useState("#ffffff");
+  const [bgColor, setBgColor] = useState("#ffffff"); // content value: default collage background color
   const [format, setFormat] = useState("image/png");
   const [quality, setQuality] = useState(92);
   const [outputSize, setOutputSize] = useState(0);
@@ -223,12 +226,6 @@ export default function PhotoCollage() {
     [t]
   );
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"] },
-    multiple: true,
-  });
-
   // Clean up all object URLs on unmount.
   useEffect(() => {
     return () => {
@@ -268,7 +265,7 @@ export default function PhotoCollage() {
       } else {
         // Empty-cell placeholder so the layout structure is visible.
         ctx.save();
-        ctx.fillStyle = "rgba(0,0,0,0.06)";
+        ctx.fillStyle = "rgba(0,0,0,0.06)"; // content value: empty-cell placeholder tint on the canvas
         const rr = Math.min(radius, dw / 2, dh / 2);
         ctx.beginPath();
         ctx.moveTo(dx + rr, dy);
@@ -349,20 +346,26 @@ export default function PhotoCollage() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
-          {/* Controls column */}
-          <div className="space-y-4">
-            <Card className="p-6 shadow-none">
-              <div
-                {...getRootProps()}
-                className={`
+    <ToolShell
+      slug="photo-collage"
+      title={tc("tools.photo-collage.name")}
+      sub={tc("tools.photo-collage.description")}
+      width="wide"
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        {/* Controls column */}
+        <div className="space-y-4">
+          <Card className="p-6 shadow-none">
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif", ".avif"],
+                }}
+                multiple
+                className={({ isDragActive }) => `
                   min-h-40 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
-                  cursor-pointer transition-all duration-200
+                  cursor-pointer transition-[border-color,background-color] duration-150
                   ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
@@ -370,7 +373,6 @@ export default function PhotoCollage() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="text-center">
                   <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3">
                     <Upload className="w-8 h-8 text-primary" />
@@ -382,7 +384,7 @@ export default function PhotoCollage() {
                     {t("supportedFormats")}
                   </p>
                 </div>
-              </div>
+              </FileDropzone>
 
               {images.length > 0 && (
                 <div className="mt-4">
@@ -413,6 +415,8 @@ export default function PhotoCollage() {
                           alt={t("photoAlt", { index: index + 1 })}
                           className="w-full h-full object-cover"
                         />
+                        {/* content value: bg-black/60 text-white — overlay controls sit on top of
+                            arbitrary user photos, so they need a fixed dark scrim independent of theme */}
                         <button
                           type="button"
                           onClick={() => removeImage(img.id)}
@@ -440,9 +444,8 @@ export default function PhotoCollage() {
               )}
             </Card>
 
-            <Card className="p-4 space-y-4">
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("layout")}</label>
+            <SettingsCard>
+              <OptionRow label={t("layout")}>
                 <Select value={layoutId} onValueChange={setLayoutId}>
                   <SelectTrigger>
                     <SelectValue />
@@ -463,10 +466,9 @@ export default function PhotoCollage() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">{t("aspect")}</label>
+              <OptionRow label={t("aspect")}>
                 <Select value={presetId} onValueChange={setPresetId}>
                   <SelectTrigger>
                     <SelectValue />
@@ -487,46 +489,27 @@ export default function PhotoCollage() {
                     ))}
                   </SelectContent>
                 </Select>
-              </div>
+              </OptionRow>
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">{t("gap")}</label>
-                  <span className="text-sm text-muted-foreground" dir="ltr">
-                    {gap}px
-                  </span>
-                </div>
-                <Slider
-                  value={[gap]}
-                  onValueChange={([v]) => setGap(v)}
-                  min={0}
-                  max={60}
-                  step={1}
-                />
-              </div>
+              <SliderRow
+                label={t("gap")}
+                value={gap}
+                min={0}
+                max={60}
+                display={`${gap}px`}
+                onChange={setGap}
+              />
 
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <label className="text-sm font-medium">
-                    {t("borderRadius")}
-                  </label>
-                  <span className="text-sm text-muted-foreground" dir="ltr">
-                    {radius}px
-                  </span>
-                </div>
-                <Slider
-                  value={[radius]}
-                  onValueChange={([v]) => setRadius(v)}
-                  min={0}
-                  max={120}
-                  step={1}
-                />
-              </div>
+              <SliderRow
+                label={t("borderRadius")}
+                value={radius}
+                min={0}
+                max={120}
+                display={`${radius}px`}
+                onChange={setRadius}
+              />
 
-              <div className="space-y-2">
-                <label className="text-sm font-medium">
-                  {t("background")}
-                </label>
+              <OptionRow label={t("background")}>
                 <div className="flex items-center gap-3">
                   <input
                     type="color"
@@ -543,11 +526,10 @@ export default function PhotoCollage() {
                     {bgColor}
                   </span>
                 </div>
-              </div>
+              </OptionRow>
 
               <div className="grid grid-cols-2 gap-3">
-                <div className="space-y-2">
-                  <label className="text-sm font-medium">{t("format")}</label>
+                <OptionRow label={t("format")}>
                   <Select value={format} onValueChange={setFormat}>
                     <SelectTrigger>
                       <SelectValue />
@@ -560,29 +542,17 @@ export default function PhotoCollage() {
                       ))}
                     </SelectContent>
                   </Select>
-                </div>
+                </OptionRow>
 
                 {formatOption?.value === "image/jpeg" && (
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <label className="text-sm font-medium">
-                        {t("quality")}
-                      </label>
-                      <span
-                        className="text-sm text-muted-foreground"
-                        dir="ltr"
-                      >
-                        {quality}%
-                      </span>
-                    </div>
-                    <Slider
-                      value={[quality]}
-                      onValueChange={([v]) => setQuality(v)}
-                      min={1}
-                      max={100}
-                      step={1}
-                    />
-                  </div>
+                  <SliderRow
+                    label={t("quality")}
+                    value={quality}
+                    min={1}
+                    max={100}
+                    display={`${quality}%`}
+                    onChange={setQuality}
+                  />
                 )}
               </div>
 
@@ -595,7 +565,7 @@ export default function PhotoCollage() {
                 <Download className="w-4 h-4 me-2" />
                 {isExporting ? t("exporting") : t("export")}
               </Button>
-            </Card>
+            </SettingsCard>
           </div>
 
           {/* Preview column */}
@@ -618,7 +588,6 @@ export default function PhotoCollage() {
             </Card>
           </div>
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -2,15 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -21,6 +13,10 @@ import {
 import { Button } from "@/components/ui/button";
 import { ArrowUpDown } from "lucide-react";
 import NumberFlow from "@number-flow/react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 const CURRENCY_API_BASE = "https://api.frankfurter.app";
 
@@ -178,6 +174,7 @@ function setStored(value: StoredRates) {
 
 export default function CurrencyConverter() {
   const t = useTranslations("Tools.CurrencyConverter");
+  const tc = useTranslations("ToolsConfig");
   const [amount, setAmount] = useState<string>("1");
   const [from, setFrom] = useState<string>("USD");
   const [to, setTo] = useState<string>("EUR");
@@ -254,210 +251,183 @@ export default function CurrencyConverter() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-6xl">
-      <div className="space-y-6"></div>
-      {/* Main Converter Card */}
-      <Card className="overflow-hidden">
-        <CardContent className="p-0">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
-            {/* Input Section */}
-            <div className="p-8 space-y-6 bg-gradient-to-br from-background to-muted/20 border-r border-border">
-              <div className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="amount" className="text-sm font-medium">
-                    {t("amount")}
-                  </Label>
-                  <div className="relative">
-                    <Input
-                      id="amount"
-                      type="number"
-                      inputMode="decimal"
-                      value={amount}
-                      onChange={(e) => setAmount(e.target.value)}
-                      placeholder="1.00"
-                      className="text-lg h-12 pl-4 pr-4"
-                      dir="ltr"
-                    />
-                  </div>
-                </div>
+    <ToolShell
+      slug="currency-converter"
+      title={tc("tools.currency-converter.name")}
+      sub={tc("tools.currency-converter.description")}
+    >
+      {/* Classic input/output split — settings form on the left, live
+          conversion result on the right. */}
+      <TwoPane
+        start={
+          <SettingsCard>
+            <OptionRow label={t("amount")} htmlFor="amount">
+              <Input
+                id="amount"
+                type="number"
+                inputMode="decimal"
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                placeholder="1.00"
+                className="text-lg h-12"
+                dir="ltr"
+              />
+            </OptionRow>
 
-                <div className="space-y-2">
-                  <Label className="text-sm font-medium">{t("fromCurrency")}</Label>
-                  <Select value={from} onValueChange={setFrom}>
-                    <SelectTrigger className="h-12">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {currencyList.map((c) => (
-                        <SelectItem key={c} value={c}>
-                          <div className="flex items-center gap-2">
-                            <span className="font-mono text-sm">{c}</span>
-                            <span className="text-muted-foreground text-xs">
-                              {formatCurrency(1, c)}
-                            </span>
-                          </div>
-                        </SelectItem>
-                      ))}
-                    </SelectContent>
-                  </Select>
-                </div>
-              </div>
+            <OptionRow label={t("fromCurrency")} htmlFor="from-currency">
+              <Select value={from} onValueChange={setFrom}>
+                <SelectTrigger id="from-currency" className="h-12">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {currencyList.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-sm">{c}</span>
+                        <span className="text-muted-foreground text-xs">
+                          {formatCurrency(1, c)}
+                        </span>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </OptionRow>
 
-              {/* Swap Button */}
-              <div className="flex justify-center">
-                <Button
-                  variant="outline"
-                  size="icon"
-                  onClick={handleSwap}
-                  className="rounded-full h-12 w-12 border-2 hover:bg-primary hover:text-primary-foreground transition-all duration-200"
-                >
-                  <ArrowUpDown className="w-5 h-5" />
-                </Button>
-              </div>
-
-              <div className="space-y-2">
-                <Label className="text-sm font-medium">{t("toCurrency")}</Label>
-                <Select value={to} onValueChange={setTo}>
-                  <SelectTrigger className="h-12">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {currencyList.map((c) => (
-                      <SelectItem key={c} value={c}>
-                        <div className="flex items-center gap-2">
-                          <span className="font-mono text-sm">{c}</span>
-                          <span className="text-muted-foreground text-xs">
-                            {formatCurrency(1, c)}
-                          </span>
-                        </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+            {/* Swap Button */}
+            <div className="flex justify-center">
+              <Button
+                variant="outline"
+                size="icon"
+                onClick={handleSwap}
+                className="rounded-full h-12 w-12 border-2 hover:bg-primary hover:text-primary-foreground transition-colors duration-200"
+              >
+                <ArrowUpDown className="w-5 h-5" />
+              </Button>
             </div>
 
-            {/* Result Section */}
-            <div className="p-8 space-y-6 min-h-full">
-              <div className="text-center space-y-2 mb-8">
-                <h3 className="text-lg font-semibold">{t("conversionResult")}</h3>
-                <p className="text-sm text-muted-foreground">
-                  {t("liveExchangeRate")}
-                </p>
-              </div>
-
-              {/* Main Result */}
-              <div className="space-y-6 w-full">
-                {/* Primary Conversion Result */}
-                <div className="relative">
-                  <div className="p-8 bg-gradient-to-br from-primary/10 via-primary/5 to-background rounded-2xl border-2 border-primary/20 shadow-lg">
-                    <div className="text-center space-y-4">
-                      {/* From Amount */}
-                      <div className="space-y-2">
-                        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                          {from}
-                        </p>
-                        <div className="text-4xl font-bold text-foreground">
-                          <NumberFlow value={numericAmount} />
-                        </div>
+            <OptionRow label={t("toCurrency")} htmlFor="to-currency">
+              <Select value={to} onValueChange={setTo}>
+                <SelectTrigger id="to-currency" className="h-12">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {currencyList.map((c) => (
+                    <SelectItem key={c} value={c}>
+                      <div className="flex items-center gap-2">
+                        <span className="font-mono text-sm">{c}</span>
+                        <span className="text-muted-foreground text-xs">
+                          {formatCurrency(1, c)}
+                        </span>
                       </div>
-
-                      {/* Conversion Arrow */}
-                      <div className="flex items-center justify-center">
-                        <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
-                          <ArrowUpDown className="w-6 h-6 text-primary rotate-90" />
-                        </div>
-                      </div>
-
-                      {/* To Amount */}
-                      <div className="space-y-2">
-                        <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
-                          {to}
-                        </p>
-                        <div className="text-5xl font-bold text-primary">
-                          <NumberFlow value={converted} />
-                        </div>
-                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </OptionRow>
+          </SettingsCard>
+        }
+        end={
+          <SettingsCard title={t("conversionResult")} description={t("liveExchangeRate")}>
+            {/* Primary conversion hero — the tool's visual centerpiece
+                (gradient panel + floating rate badge), richer than a stat
+                tile, so it stays bespoke rather than folding into StatStrip. */}
+            <div className="relative">
+              <div className="p-8 bg-gradient-to-br from-primary/10 via-primary/5 to-background rounded-2xl border-2 border-primary/20 shadow-lg">
+                <div className="text-center space-y-4">
+                  {/* From Amount */}
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
+                      {from}
+                    </p>
+                    <div className="text-4xl font-bold text-foreground">
+                      <NumberFlow value={numericAmount} />
                     </div>
                   </div>
 
-                  {/* Floating Rate Badge */}
-                  {rate && (
-                    <div className="absolute -top-3 -right-3 bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
-                      1 {from} ={" "}
-                      {new Intl.NumberFormat(undefined, {
-                        maximumFractionDigits: 4,
-                      }).format(rate)}{" "}
+                  {/* Conversion Arrow */}
+                  <div className="flex items-center justify-center">
+                    <div className="w-12 h-12 rounded-full bg-primary/20 flex items-center justify-center">
+                      <ArrowUpDown className="w-6 h-6 text-primary rotate-90" />
+                    </div>
+                  </div>
+
+                  {/* To Amount */}
+                  <div className="space-y-2">
+                    <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide">
                       {to}
+                    </p>
+                    <div className="text-5xl font-bold text-primary">
+                      <NumberFlow value={converted} />
                     </div>
-                  )}
+                  </div>
                 </div>
-
-                {/* Exchange Rate Details */}
-                {rate && (
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div className="p-6 bg-muted/30 rounded-xl border border-border/50">
-                      <div className="space-y-3">
-                        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                          {t("exchangeRate")}
-                        </p>
-                        <div className="space-y-2">
-                          <p className="text-2xl font-bold">
-                            {new Intl.NumberFormat(undefined, {
-                              maximumFractionDigits: 6,
-                            }).format(rate)}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            1 {from} = {rate} {to}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {t("rawRate")}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-
-                    <div className="p-6 bg-muted/30 rounded-xl border border-border/50">
-                      <div className="space-y-3">
-                        <p className="text-xs font-medium text-muted-foreground uppercase tracking-wide">
-                          {t("formattedCurrency")}
-                        </p>
-                        <div className="space-y-2">
-                          <p className="text-2xl font-bold">
-                            {formatCurrency(rate, to)}
-                          </p>
-                          <p className="text-sm text-muted-foreground">
-                            {formatCurrency(1, from)} ={" "}
-                            {formatCurrency(rate, to)}
-                          </p>
-                          <p className="text-xs text-muted-foreground">
-                            {t("localized")}
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                )}
-
-                {/* Status Messages */}
-                {error && (
-                  <div className="w-full p-6 bg-destructive/10 border border-destructive/20 rounded-xl">
-                    <div className="flex items-center gap-4">
-                      <div className="w-3 h-3 rounded-full bg-destructive flex-shrink-0"></div>
-                      <div className="flex-1">
-                        <p className="text-sm font-medium text-destructive mb-1">
-                          {t("errorLabel")}
-                        </p>
-                        <p className="text-sm text-destructive/80">{error}</p>
-                      </div>
-                    </div>
-                  </div>
-                )}
               </div>
+
+              {/* Floating Rate Badge */}
+              {rate && (
+                <div className="absolute -top-3 -right-3 bg-primary text-primary-foreground px-4 py-2 rounded-full text-sm font-semibold shadow-lg">
+                  1 {from} ={" "}
+                  {new Intl.NumberFormat(undefined, {
+                    maximumFractionDigits: 4,
+                  }).format(rate)}{" "}
+                  {to}
+                </div>
+              )}
             </div>
-          </div>
-        </CardContent>
-      </Card>
-    </div>
+
+            {/* Exchange Rate Details — a fixed 2-item set of computed
+                summary numbers, exactly what StatStrip is for. */}
+            {rate && (
+              <StatStrip
+                items={[
+                  {
+                    label: t("exchangeRate"),
+                    value: new Intl.NumberFormat(undefined, {
+                      maximumFractionDigits: 6,
+                    }).format(rate),
+                    sub: (
+                      <>
+                        <div>
+                          1 {from} = {rate} {to}
+                        </div>
+                        <div>{t("rawRate")}</div>
+                      </>
+                    ),
+                  },
+                  {
+                    label: t("formattedCurrency"),
+                    value: formatCurrency(rate, to),
+                    sub: (
+                      <>
+                        <div>
+                          {formatCurrency(1, from)} = {formatCurrency(rate, to)}
+                        </div>
+                        <div>{t("localized")}</div>
+                      </>
+                    ),
+                  },
+                ]}
+              />
+            )}
+
+            {/* Status Messages */}
+            {error && (
+              <div className="w-full p-6 bg-destructive/10 border border-destructive/20 rounded-xl">
+                <div className="flex items-center gap-4">
+                  <div className="w-3 h-3 rounded-full bg-destructive flex-shrink-0"></div>
+                  <div className="flex-1">
+                    <p className="text-sm font-medium text-destructive mb-1">
+                      {t("errorLabel")}
+                    </p>
+                    <p className="text-sm text-destructive/80">{error}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </SettingsCard>
+        }
+      />
+    </ToolShell>
   );
 }

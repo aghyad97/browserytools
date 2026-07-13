@@ -4,25 +4,20 @@ import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
-import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
-import { Copy, Download, RotateCcw, BarChart3 } from "lucide-react";
+import { Copy, Download, RotateCcw } from "lucide-react";
 import NumberFlow from "@number-flow/react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { downloadDataUrl } from "@/lib/download";
 
 // Barcode types supported by JsBarcode
 const BARCODE_TYPES = [
@@ -70,6 +65,7 @@ const SAMPLE_DATA = {
 
 export default function BarcodeGenerator() {
   const t = useTranslations("Tools.BarcodeGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [inputText, setInputText] = useState("");
   const [barcodeType, setBarcodeType] = useState("CODE128");
   const [width, setWidth] = useState(2);
@@ -100,6 +96,7 @@ export default function BarcodeGenerator() {
         displayValue: displayValue,
         fontSize: fontSize,
         margin: margin,
+        // content value: barcodes must render black-on-white regardless of UI theme (JsBarcode render options, not chrome)
         background: "#ffffff",
         lineColor: "#000000",
       };
@@ -142,12 +139,7 @@ export default function BarcodeGenerator() {
     }
 
     try {
-      const link = document.createElement("a");
-      link.download = `${fileName}.png`;
-      link.href = canvas.toDataURL();
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
+      downloadDataUrl(canvas.toDataURL(), `${fileName}.png`);
 
       toast.success(t("downloadStarted"));
     } catch (error) {
@@ -182,191 +174,120 @@ export default function BarcodeGenerator() {
   }, [inputText, barcodeType, width, height, displayValue, fontSize, margin]);
 
   return (
-    <div className="container mx-auto p-4 max-w-7xl">
+    <ToolShell
+      slug="barcode-generator"
+      title={tc("tools.barcode-generator.name")}
+      sub={tc("tools.barcode-generator.description")}
+    >
       <div className="flex flex-col lg:flex-row gap-4 h-screen lg:h-[calc(100vh-2rem)]">
         {/* Input Section - Sticky Sidebar */}
         <div className="w-full lg:w-1/3 overflow-y-auto space-y-4 pe-4 scrollbar-hide">
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>{t("inputTitle")}</CardTitle>
-              <CardDescription>
-                {t("inputDesc")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="barcode-type">{t("barcodeType")}</Label>
-                <Select value={barcodeType} onValueChange={setBarcodeType}>
-                  <SelectTrigger>
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {BARCODE_TYPES.map((type) => (
-                      <SelectItem key={type.value} value={type.value}>
-                        <div>
-                          <div className="font-medium">{type.label}</div>
-                          <div className="text-xs text-muted-foreground">
-                            {type.description}
-                          </div>
+          <SettingsCard title={t("inputTitle")} description={t("inputDesc")}>
+            <OptionRow label={t("barcodeType")} htmlFor="barcode-type">
+              <Select value={barcodeType} onValueChange={setBarcodeType}>
+                <SelectTrigger id="barcode-type">
+                  <SelectValue />
+                </SelectTrigger>
+                <SelectContent>
+                  {BARCODE_TYPES.map((type) => (
+                    <SelectItem key={type.value} value={type.value}>
+                      <div>
+                        <div className="font-medium">{type.label}</div>
+                        <div className="text-xs text-muted-foreground">
+                          {type.description}
                         </div>
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </div>
+                      </div>
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </OptionRow>
 
-              <div className="space-y-2">
-                <Label htmlFor="input-text">{t("dataToEncode")}</Label>
-                <Input
-                  id="input-text"
-                  placeholder={t("dataPlaceholder")}
-                  value={inputText}
-                  onChange={(e) => setInputText(e.target.value)}
-                  dir="ltr"
-                />
-              </div>
+            <OptionRow label={t("dataToEncode")} htmlFor="input-text">
+              <Input
+                id="input-text"
+                placeholder={t("dataPlaceholder")}
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                dir="ltr"
+              />
+            </OptionRow>
 
-              <div className="space-y-2">
-                <Label>{t("sampleData")}</Label>
-                <div className="grid grid-cols-2 gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleSampleData("CODE128")}
-                  >
-                    CODE128
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleSampleData("EAN13")}
-                  >
-                    EAN-13
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleSampleData("UPC")}
-                  >
-                    UPC-A
-                  </Button>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => handleSampleData("CODE39")}
-                  >
-                    CODE39
-                  </Button>
-                </div>
+            <OptionRow label={t("sampleData")}>
+              <div className="grid grid-cols-2 gap-2">
+                <Button variant="outline" size="sm" onClick={() => handleSampleData("CODE128")}>CODE128</Button>
+                <Button variant="outline" size="sm" onClick={() => handleSampleData("EAN13")}>EAN-13</Button>
+                <Button variant="outline" size="sm" onClick={() => handleSampleData("UPC")}>UPC-A</Button>
+                <Button variant="outline" size="sm" onClick={() => handleSampleData("CODE39")}>CODE39</Button>
               </div>
+            </OptionRow>
 
-              <div className="flex gap-2">
-                <Button
-                  variant="outline"
-                  onClick={handleClear}
-                  className="flex items-center gap-2"
-                >
-                  <RotateCcw className="w-4 h-4" />
-                  Clear
-                </Button>
-              </div>
-            </CardContent>
-          </Card>
+            <div className="flex gap-2">
+              <Button
+                variant="outline"
+                onClick={handleClear}
+                className="flex items-center gap-2"
+              >
+                <RotateCcw className="w-4 h-4" />
+                Clear
+              </Button>
+            </div>
+          </SettingsCard>
 
           {/* Settings */}
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>{t("settingsTitle")}</CardTitle>
-              <CardDescription>
-                {t("settingsDesc")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="width">
-                  {t("barWidth")} <NumberFlow value={width} />
-                </Label>
-                <Slider
-                  id="width"
-                  min={1}
-                  max={5}
-                  step={0.5}
-                  value={[width]}
-                  onValueChange={(value) => setWidth(value[0])}
-                  className="w-full"
-                />
-              </div>
+          <SettingsCard title={t("settingsTitle")} description={t("settingsDesc")}>
+            <SliderRow
+              label={t("barWidth")}
+              value={width}
+              min={1}
+              max={5}
+              step={0.5}
+              onChange={setWidth}
+              display={<NumberFlow value={width} />}
+            />
+            <SliderRow
+              label={t("height")}
+              value={height}
+              min={50}
+              max={200}
+              step={10}
+              onChange={setHeight}
+              display={<><NumberFlow value={height} />px</>}
+            />
+            <SliderRow
+              label={t("fontSize")}
+              value={fontSize}
+              min={10}
+              max={30}
+              step={2}
+              onChange={setFontSize}
+              display={<><NumberFlow value={fontSize} />px</>}
+            />
+            <SliderRow
+              label={t("margin")}
+              value={margin}
+              min={0}
+              max={30}
+              step={2}
+              onChange={setMargin}
+              display={<><NumberFlow value={margin} />px</>}
+            />
 
-              <div className="space-y-2">
-                <Label htmlFor="height">
-                  {t("height")} <NumberFlow value={height} />
-                  px
-                </Label>
-                <Slider
-                  id="height"
-                  min={50}
-                  max={200}
-                  step={10}
-                  value={[height]}
-                  onValueChange={(value) => setHeight(value[0])}
-                  className="w-full"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="font-size">
-                  {t("fontSize")} <NumberFlow value={fontSize} />
-                  px
-                </Label>
-                <Slider
-                  id="font-size"
-                  min={10}
-                  max={30}
-                  step={2}
-                  value={[fontSize]}
-                  onValueChange={(value) => setFontSize(value[0])}
-                  className="w-full"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="margin">
-                  {t("margin")} <NumberFlow value={margin} />
-                  px
-                </Label>
-                <Slider
-                  id="margin"
-                  min={0}
-                  max={30}
-                  step={2}
-                  value={[margin]}
-                  onValueChange={(value) => setMargin(value[0])}
-                  className="w-full"
-                />
-              </div>
-
-              <div className="space-y-2">
-                <Label htmlFor="filename">{t("downloadFilename")}</Label>
-                <Input
-                  id="filename"
-                  value={fileName}
-                  onChange={(e) => setFileName(e.target.value)}
-                  placeholder="barcode"
-                  dir="ltr"
-                />
-              </div>
-            </CardContent>
-          </Card>
+            <OptionRow label={t("downloadFilename")} htmlFor="filename">
+              <Input
+                id="filename"
+                value={fileName}
+                onChange={(e) => setFileName(e.target.value)}
+                placeholder="barcode"
+                dir="ltr"
+              />
+            </OptionRow>
+          </SettingsCard>
         </div>
 
         {/* Output Section - Sticky Content */}
         <div className="w-full lg:w-2/3 lg:sticky lg:top-4 lg:h-fit space-y-4">
-          <Card className="shadow-none">
-            <CardHeader>
-              <CardTitle>{t("barcodeTitle")}</CardTitle>
-              <CardDescription>{t("barcodeDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent>
+          <SettingsCard title={t("barcodeTitle")} description={t("barcodeDesc")}>
               <div className="flex flex-col items-center space-y-4">
                 <div className="p-4 bg-white rounded-lg border">
                   <canvas
@@ -393,25 +314,21 @@ export default function BarcodeGenerator() {
                   </Button>
                 </div>
               </div>
-            </CardContent>
-          </Card>
+          </SettingsCard>
 
           {/* Info */}
-          <Card className="shadow-none">
-            <CardContent className="p-6">
-              <h3 className="font-semibold mb-2">{t("barcodeTypesTitle")}</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-muted-foreground">
-                {BARCODE_TYPES.map((type) => (
-                  <div key={type.value}>
-                    <p className="font-medium mb-1">{type.label}</p>
-                    <p>{type.description}</p>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <SettingsCard title={t("barcodeTypesTitle")}>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 text-sm text-muted-foreground">
+              {BARCODE_TYPES.map((type) => (
+                <div key={type.value}>
+                  <p className="font-medium mb-1">{type.label}</p>
+                  <p>{type.description}</p>
+                </div>
+              ))}
+            </div>
+          </SettingsCard>
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

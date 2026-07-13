@@ -4,11 +4,14 @@ import { useState, useMemo, useCallback } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Copy, RotateCcw, Minus, Plus, Receipt } from "lucide-react";
-import { toast } from "sonner";
+import { RotateCcw, Minus, Plus } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { ModePicker } from "@/components/shared/ModePicker";
+import { StatStrip } from "@/components/shared/StatStrip";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 // ── Constants ─────────────────────────────────────────────────────────────────
 
@@ -35,6 +38,7 @@ function applyRounding(value: number, mode: RoundMode, context: "total" | "perso
 
 export default function TipCalculator() {
   const t = useTranslations("Tools.TipCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [billStr, setBillStr] = useState("");
   const [tipMode, setTipMode] = useState<"quick" | "custom">("quick");
   const [quickTip, setQuickTip] = useState(18);
@@ -85,9 +89,9 @@ export default function TipCalculator() {
     [people]
   );
 
-  const handleCopySummary = useCallback(async () => {
-    if (!calc) return;
-    const lines = [
+  const summaryText = useMemo(() => {
+    if (!calc) return "";
+    return [
       `Bill: $${fmt(bill)}`,
       `Tip (${tipPercent}%): $${fmt(calc.tipAmount)}`,
       `Total: $${fmt(calc.total)}`,
@@ -102,12 +106,6 @@ export default function TipCalculator() {
     ]
       .filter(Boolean)
       .join("\n");
-    try {
-      await navigator.clipboard.writeText(lines);
-      toast.success(t("summaryCopied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
   }, [calc, bill, tipPercent, people]);
 
   const handleReset = useCallback(() => {
@@ -135,179 +133,142 @@ export default function TipCalculator() {
   }, [splitEnabled, personAmounts, calc]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Receipt className="w-6 h-6 text-primary" />
+    <ToolShell
+      slug="tip-calculator"
+      title={tc("tools.tip-calculator.name")}
+      sub={tc("tools.tip-calculator.description")}
+      controls={
+        <Button variant="outline" size="sm" onClick={handleReset}>
+          <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
+        </Button>
+      }
+    >
+      <div className="space-y-6">
+        {/* Bill amount — single-field card; title already serves as the
+            field's label (matches original, which had no <Label> here either). */}
+        <SettingsCard title={t("billAmount")}>
+          <div className="relative">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
+              $
+            </span>
+            <Input
+              type="number"
+              min="0"
+              step="0.01"
+              placeholder="0.00"
+              value={billStr}
+              onChange={(e) => setBillStr(e.target.value)}
+              className="pl-7 text-lg font-medium"
+            />
           </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
+        </SettingsCard>
 
-        {/* Bill amount */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("billAmount")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="relative">
-              <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">
-                $
-              </span>
+        {/* Tip percentage — hand-rolled exclusive button group replaced by
+            ModePicker (quick presets + "custom" as one more segment; the
+            optional custom-% row below is content, not a structurally
+            different per-tab panel). */}
+        <SettingsCard title={t("tipPercentage")}>
+          <ModePicker
+            aria-label={t("tipPercentage")}
+            value={tipMode === "custom" ? "custom" : String(quickTip)}
+            onChange={(v) => {
+              if (v === "custom") {
+                setTipMode("custom");
+              } else {
+                setTipMode("quick");
+                setQuickTip(parseInt(v, 10));
+              }
+            }}
+            options={[
+              ...QUICK_TIP_PERCENTS.map((pct) => ({
+                value: String(pct),
+                label: `${pct}%`,
+              })),
+              { value: "custom", label: t("custom") },
+            ]}
+          />
+          {tipMode === "custom" && (
+            <div className="flex items-center gap-2 mt-2">
               <Input
                 type="number"
                 min="0"
-                step="0.01"
-                placeholder="0.00"
-                value={billStr}
-                onChange={(e) => setBillStr(e.target.value)}
-                className="pl-7 text-lg font-medium"
+                max="100"
+                step="0.5"
+                placeholder="Enter %"
+                value={customTipStr}
+                onChange={(e) => setCustomTipStr(e.target.value)}
+                className="w-32"
               />
+              <span className="text-muted-foreground">%</span>
             </div>
-          </CardContent>
-        </Card>
-
-        {/* Tip percentage */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("tipPercentage")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <div className="flex flex-wrap gap-2">
-              {QUICK_TIP_PERCENTS.map((pct) => (
-                <Button
-                  key={pct}
-                  size="sm"
-                  variant={tipMode === "quick" && quickTip === pct ? "default" : "outline"}
-                  onClick={() => {
-                    setTipMode("quick");
-                    setQuickTip(pct);
-                  }}
-                >
-                  {pct}%
-                </Button>
-              ))}
-              <Button
-                size="sm"
-                variant={tipMode === "custom" ? "default" : "outline"}
-                onClick={() => setTipMode("custom")}
-              >
-                {t("custom")}
-              </Button>
-            </div>
-            {tipMode === "custom" && (
-              <div className="flex items-center gap-2 mt-2">
-                <Input
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="0.5"
-                  placeholder="Enter %"
-                  value={customTipStr}
-                  onChange={(e) => setCustomTipStr(e.target.value)}
-                  className="w-32"
-                />
-                <span className="text-muted-foreground">%</span>
-              </div>
-            )}
-          </CardContent>
-        </Card>
+          )}
+        </SettingsCard>
 
         {/* Number of people */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("numberOfPeople")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex items-center gap-4">
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => changePeople(-1)}
-                disabled={people <= 1}
-              >
-                <Minus className="w-4 h-4" />
-              </Button>
-              <span className="text-2xl font-bold w-8 text-center">{people}</span>
-              <Button
-                size="icon"
-                variant="outline"
-                onClick={() => changePeople(1)}
-                disabled={people >= 20}
-              >
-                <Plus className="w-4 h-4" />
-              </Button>
-              <Input
-                type="number"
-                min="1"
-                max="20"
-                value={people}
-                onChange={(e) =>
-                  setPeople(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))
-                }
-                className="w-20 ms-2"
-              />
-            </div>
-          </CardContent>
-        </Card>
+        <SettingsCard title={t("numberOfPeople")}>
+          <div className="flex items-center gap-4">
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => changePeople(-1)}
+              disabled={people <= 1}
+            >
+              <Minus className="w-4 h-4" />
+            </Button>
+            <span className="text-2xl font-bold w-8 text-center">{people}</span>
+            <Button
+              size="icon"
+              variant="outline"
+              onClick={() => changePeople(1)}
+              disabled={people >= 20}
+            >
+              <Plus className="w-4 h-4" />
+            </Button>
+            <Input
+              type="number"
+              min="1"
+              max="20"
+              value={people}
+              onChange={(e) =>
+                setPeople(Math.max(1, Math.min(20, parseInt(e.target.value) || 1)))
+              }
+              className="w-20 ms-2"
+            />
+          </div>
+        </SettingsCard>
 
-        {/* Rounding */}
-        <Card>
-          <CardHeader className="pb-3">
-            <CardTitle className="text-base">{t("rounding")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="flex flex-wrap gap-2">
-              {(
-                [
-                  ["none", t("roundingNone")],
-                  ["total", t("roundingTotal")],
-                  ["person", t("roundingPerson")],
-                ] as [RoundMode, string][]
-              ).map(([val, label]) => (
-                <Button
-                  key={val}
-                  size="sm"
-                  variant={roundMode === val ? "default" : "outline"}
-                  onClick={() => setRoundMode(val)}
-                >
-                  {label}
-                </Button>
-              ))}
-            </div>
-          </CardContent>
-        </Card>
+        {/* Rounding — another hand-rolled exclusive button group → ModePicker. */}
+        <SettingsCard title={t("rounding")}>
+          <ModePicker
+            aria-label={t("rounding")}
+            value={roundMode}
+            onChange={(v) => setRoundMode(v as RoundMode)}
+            options={[
+              { value: "none", label: t("roundingNone") },
+              { value: "total", label: t("roundingTotal") },
+              { value: "person", label: t("roundingPerson") },
+            ]}
+          />
+        </SettingsCard>
 
-        {/* Results */}
+        {/* Results — OutputPanel owns the copy affordance (dedupes the old
+            header CopyButton via copySuccessMessage, exact string preserved);
+            the two fixed computed-number sets become StatStrip. */}
         {calc ? (
-          <Card className="border-primary/30">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center justify-between">
-                {t("summary")}
-                <Button size="sm" variant="ghost" onClick={handleCopySummary}>
-                  <Copy className="w-4 h-4 me-1.5" /> {t("copy")}
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              {/* Overall totals */}
-              <div className="grid grid-cols-3 gap-3 text-center" dir="ltr">
-                <div className="rounded-lg bg-muted p-3">
-                  <div className="text-xs text-muted-foreground mb-1">{t("tip")} ({tipPercent}%)</div>
-                  <div className="text-xl font-bold">${fmt(calc.tipAmount)}</div>
-                </div>
-                <div className="rounded-lg bg-primary text-primary-foreground p-3">
-                  <div className="text-xs opacity-80 mb-1">{t("total")}</div>
-                  <div className="text-xl font-bold">${fmt(calc.total)}</div>
-                </div>
-                <div className="rounded-lg bg-muted p-3">
-                  <div className="text-xs text-muted-foreground mb-1">{t("bill")}</div>
-                  <div className="text-xl font-bold">${fmt(bill)}</div>
-                </div>
+          <OutputPanel
+            text={summaryText}
+            title={t("summary")}
+            copySuccessMessage={t("summaryCopied")}
+          >
+            <div className="space-y-4">
+              <div dir="ltr">
+                <StatStrip
+                  items={[
+                    { label: `${t("tip")} (${tipPercent}%)`, value: `$${fmt(calc.tipAmount)}` },
+                    { label: t("total"), value: `$${fmt(calc.total)}` },
+                    { label: t("bill"), value: `$${fmt(bill)}` },
+                  ]}
+                />
               </div>
 
               {/* Per person */}
@@ -317,44 +278,35 @@ export default function TipCalculator() {
                     {t("perPerson")}
                     <Badge variant="secondary">{people} {t("people")}</Badge>
                   </div>
-                  <div className="grid grid-cols-3 gap-3 text-center text-sm" dir="ltr">
-                    <div>
-                      <div className="text-muted-foreground text-xs">{t("bill")}</div>
-                      <div className="font-semibold">${fmt(calc.billPerPerson)}</div>
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground text-xs">{t("tip")}</div>
-                      <div className="font-semibold">${fmt(calc.tipPerPerson)}</div>
-                    </div>
-                    <div>
-                      <div className="text-muted-foreground text-xs">{t("total")}</div>
-                      <div className="font-bold text-base">${fmt(calc.totalPerPerson)}</div>
-                    </div>
+                  <div dir="ltr">
+                    <StatStrip
+                      items={[
+                        { label: t("bill"), value: `$${fmt(calc.billPerPerson)}` },
+                        { label: t("tip"), value: `$${fmt(calc.tipPerPerson)}` },
+                        { label: t("total"), value: `$${fmt(calc.totalPerPerson)}` },
+                      ]}
+                    />
                   </div>
                 </div>
               )}
-            </CardContent>
-          </Card>
+            </div>
+          </OutputPanel>
         ) : (
-          <Card>
-            <CardContent className="py-6 text-center text-muted-foreground text-sm">
+          <SettingsCard>
+            <div className="py-2 text-center text-muted-foreground text-sm">
               {t("enterBillPrompt")}
-            </CardContent>
-          </Card>
+            </div>
+          </SettingsCard>
         )}
 
-        {/* Custom split section */}
+        {/* Custom split section — variable-length (up to 20) input list with
+            a per-row computed "pays" amount; stays bespoke as a data-entry
+            list. The enable/disable toggle maps to SettingsCard's action slot. */}
         {people > 1 && calc && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base flex items-center justify-between">
-                {t("customSplit")}
-                <CardDescription className="text-xs mt-0">
-                  {t("differentAmountsPerPerson")}
-                </CardDescription>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
+          <SettingsCard
+            title={t("customSplit")}
+            description={t("differentAmountsPerPerson")}
+            action={
               <Button
                 size="sm"
                 variant={splitEnabled ? "default" : "outline"}
@@ -362,51 +314,44 @@ export default function TipCalculator() {
               >
                 {splitEnabled ? t("disableCustomSplit") : t("enableCustomSplit")}
               </Button>
-
-              {splitEnabled && (
-                <div className="space-y-2">
-                  {personAmounts.map((amt, idx) => (
-                    <div key={idx} className="flex items-center gap-2">
-                      <Label className="w-20 text-sm flex-shrink-0">{t("person")} {idx + 1}</Label>
-                      <div className="relative flex-1">
-                        <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
-                          $
-                        </span>
-                        <Input
-                          type="number"
-                          min="0"
-                          step="0.01"
-                          placeholder="0.00"
-                          value={amt}
-                          onChange={(e) => {
-                            const next = [...personAmounts];
-                            next[idx] = e.target.value;
-                            setPersonAmounts(next);
-                          }}
-                          className="pl-7"
-                        />
-                      </div>
-                      {splitCalc && splitCalc[idx] && (
-                        <div className="text-sm text-end min-w-[80px]">
-                          <span className="text-muted-foreground">{t("pays")} </span>
-                          <span className="font-semibold">${fmt(splitCalc[idx].total)}</span>
-                        </div>
-                      )}
+            }
+          >
+            {splitEnabled && (
+              <div className="space-y-2">
+                {personAmounts.map((amt, idx) => (
+                  <div key={idx} className="flex items-center gap-2">
+                    <Label className="w-20 text-sm flex-shrink-0">{t("person")} {idx + 1}</Label>
+                    <div className="relative flex-1">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground text-sm">
+                        $
+                      </span>
+                      <Input
+                        type="number"
+                        min="0"
+                        step="0.01"
+                        placeholder="0.00"
+                        value={amt}
+                        onChange={(e) => {
+                          const next = [...personAmounts];
+                          next[idx] = e.target.value;
+                          setPersonAmounts(next);
+                        }}
+                        className="pl-7"
+                      />
                     </div>
-                  ))}
-                </div>
-              )}
-            </CardContent>
-          </Card>
+                    {splitCalc && splitCalc[idx] && (
+                      <div className="text-sm text-end min-w-[80px]">
+                        <span className="text-muted-foreground">{t("pays")} </span>
+                        <span className="font-semibold">${fmt(splitCalc[idx].total)}</span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            )}
+          </SettingsCard>
         )}
-
-        {/* Reset */}
-        <div className="flex justify-end">
-          <Button variant="outline" size="sm" onClick={handleReset}>
-            <RotateCcw className="w-4 h-4 me-1.5" /> {t("reset")}
-          </Button>
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

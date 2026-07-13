@@ -1,0 +1,318 @@
+/* Production rail — ported from src/app/preview/preview.module.css.
+   Physical properties converted to logical (RTL mirrors via dir="rtl");
+   all colours mapped to var(--bt-*) tokens (see src/styles/design-tokens.css).
+   Motion follows animations.dev rules: ease-out entrances, <300ms UI,
+   transform/opacity only, keyboard actions never animated. */
+
+/* Local, non-colour helpers. */
+.rail {
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+
+  /* rail — 220px column at 13px start inset, 13px/19.5px links, 32px blocks */
+  position: fixed;
+  inset-block: 0;
+  inset-inline-start: 13px;
+  width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+  padding-block: 16px;
+  z-index: 5;
+  font-size: 13px;
+  line-height: 1.5;
+  font-feature-settings: "ss01";
+}
+
+.railBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+}
+
+.railWordmark {
+  font-family: var(--font-satoshi), var(--font-ibm-plex-arabic), sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  letter-spacing: -0.2px;
+  color: var(--bt-ink);
+  white-space: nowrap;
+}
+
+.railGlyphBare {
+  display: inline-flex;
+  color: var(--bt-ink);
+}
+
+.railNav {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  overflow-y: auto;
+  scrollbar-width: none;
+}
+.railNav::-webkit-scrollbar { display: none; }
+
+.railGroupGap { height: 20px; flex-shrink: 0; }
+
+.railLink {
+  position: relative;
+  display: block;
+  width: fit-content;
+  padding-block: 3px;
+  padding-inline: 10px;
+  font-size: 13px;
+  line-height: 1.5;
+  font-weight: 400;
+  color: var(--bt-nav-idle);
+  border: 0;
+  background: none;
+  cursor: pointer;
+  text-align: start;
+  transition: color 140ms ease;
+  border-radius: 7px;
+}
+@media (hover: hover) and (pointer: fine) {
+  .railLink:hover { color: var(--bt-nav-active); }
+}
+
+.railLinkActive {
+  composes: railLink;
+  color: var(--bt-nav-active);
+  font-weight: 500;
+}
+
+/* active pill — a soft fill that slides between categories (layoutId) */
+.activeDot {
+  position: absolute;
+  inset: 0;
+  border-radius: 7px;
+  background: var(--bt-fill);
+  z-index: -1;
+}
+
+/* hand-drawn "new" marker — 13px/400, pink-9, single 33x7 scribble */
+.newTag {
+  position: relative;
+  display: inline-block;
+  margin-inline-start: 4px;
+  font-size: 13px;
+  font-weight: 400;
+  color: var(--bt-new-pink);
+  line-height: 1;
+}
+.newScribble {
+  pointer-events: none;
+  position: absolute;
+  inset-inline-start: -4px;
+  top: calc(100% - 0.26em);
+  width: 33px;
+  height: 7px;
+  overflow: visible;
+}
+.newScribble path {
+  fill: none;
+  stroke: var(--bt-new-pink);
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-dasharray: 40;
+  stroke-dashoffset: 40;
+  animation: scribble 550ms var(--bt-ease-out) 500ms forwards;
+}
+@keyframes scribble {
+  to { stroke-dashoffset: 0; }
+}
+
+/* github stars badge */
+.githubRow {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.starBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  height: 18px;
+  padding-inline: 7px;
+  border-radius: 999px;
+  background: var(--bt-fill);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--bt-ink);
+  transition: background 140ms ease;
+}
+.railLink:hover .starBadge { background: var(--bt-fill-hover); }
+.starBadge svg { fill: var(--bt-star); color: var(--bt-star); }
+
+/* ---------- rail bottom ---------- */
+
+.railBottom {
+  margin-top: auto;
+  padding-top: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* utility row — coffee CTA + theme/language/sound, below the sponsor slot */
+.railUtilities {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.railSwitchers {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+  margin-inline-end: -6px; /* optically align ghost buttons to the rail edge */
+}
+/* Slim the ghost switcher buttons inside the 220px rail so the coffee label
+   keeps room — icon buttons don't need their default 32px square here. */
+.railSwitchers button {
+  inline-size: auto;
+  min-inline-size: 26px;
+  padding-inline: 4px;
+}
+
+/* coffee CTA — the one-per-screen CTA (spec §3), compact for the 220px rail */
+.railCoffee {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  flex: 1;
+  min-width: 0;
+  border-radius: 999px;
+  border: 1px solid var(--bt-line-strong);
+  background: var(--bt-surface);
+  color: var(--bt-ink);
+  font-size: 11px;
+  font-weight: 500;
+  padding-block: 5px;
+  padding-inline: 9px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms var(--bt-ease-out), border-color 140ms ease;
+}
+.railCoffee:active {
+  transform: scale(0.97);
+}
+@media (hover: hover) and (pointer: fine) {
+  .railCoffee:hover {
+    border-color: var(--bt-ink);
+  }
+  .railCoffee:hover .coffeeIcon {
+    transform: rotate(-8deg) scale(1.12);
+  }
+}
+.coffeeIcon {
+  flex-shrink: 0;
+  color: var(--bt-coffee);
+  transition: transform 200ms var(--bt-ease-out);
+}
+
+/* sponsor rotator — boxless, 32px icon tile, 13px type, gray pill CTA,
+   full-width 1px divider doubling as the rotation progress line.
+   Renders nothing when empty (spec §3). */
+.railSponsor {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.sponsorEyebrow {
+  font-family: var(--mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--bt-faint);
+}
+.sponsorInner {
+  animation: sponsorIn 320ms var(--bt-ease-out);
+}
+@keyframes sponsorIn {
+  from { opacity: 0; transform: translateY(5px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+.sponsorHead { display: flex; align-items: center; gap: 12px; }
+.sponsorLogo {
+  width: 32px;
+  height: 32px;
+  border-radius: 6px;
+  object-fit: contain;
+  background: var(--bt-fill);
+  flex-shrink: 0;
+}
+.railSponsorName { font-size: 13px; font-weight: 400; line-height: 1.4; color: var(--bt-ink); }
+.sponsorTag { font-size: 13px; line-height: 1.4; color: var(--bt-muted); }
+.railSponsorText { font-size: 13px; color: var(--bt-muted); margin-top: 10px; line-height: 1.5; }
+.sponsorCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  height: 28px;
+  margin-top: 10px;
+  border-radius: 999px;
+  background: var(--bt-fill);
+  border: 0;
+  padding-inline: 12px;
+  font-size: 13px;
+  color: var(--bt-ink);
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 140ms ease, transform 160ms var(--bt-ease-out);
+}
+.sponsorCta:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) {
+  .sponsorCta:hover { background: var(--bt-fill-hover); }
+}
+.sponsorTrack {
+  width: 100%;
+  height: 1px;
+  background: var(--bt-divider);
+  overflow: hidden;
+}
+.sponsorFill {
+  height: 100%;
+  width: 100%;
+  background: var(--bt-ink);
+  transform-origin: left;
+  transform: scaleX(0);
+  animation: sponsorTime var(--rotate-ms, 10000ms) linear forwards;
+}
+[dir="rtl"] .sponsorFill { transform-origin: right; }
+@keyframes sponsorTime {
+  to { transform: scaleX(1); }
+}
+.sponsorPaused .sponsorFill { animation-play-state: paused; }
+
+/* reduced motion: keep fades, kill movement */
+@media (prefers-reduced-motion: reduce) {
+  .rail * { animation: none !important; }
+  .sponsorCta, .railCoffee, .coffeeIcon { transition: none; }
+}
+
+/* mobile: rail collapses (chrome-switchover owns the mobile nav pattern) */
+@media (max-width: 900px) {
+  .rail { display: none; }
+}
+
+/* Sheet variant — the same rail content rendered statically inside the mobile
+   drawer (mobile-bar). No fixed positioning, never hidden, fills the drawer. */
+.railSheet {
+  composes: rail;
+  position: static;
+  inset: auto;
+  width: 100%;
+  height: 100%;
+  padding: 4px 0;
+  display: flex;
+}
+@media (max-width: 900px) {
+  .railSheet { display: flex; }
+}

@@ -2,16 +2,18 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Separator } from "@/components/ui/separator";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 import { AI_MODELS } from "@/lib/ai-models";
 
 export default function AICostCalculator() {
   const t = useTranslations("Tools.AICostCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [modelId, setModelId] = useState("gpt-4o");
   const [inputTokens, setInputTokens] = useState<string>("1000");
   const [outputTokens, setOutputTokens] = useState<string>("500");
@@ -42,28 +44,22 @@ export default function AICostCalculator() {
     setModelId("gpt-4o");
   };
 
-  const CostRow = ({ label, value, sub }: { label: string; value: string; sub?: string }) => (
-    <div className="flex justify-between items-center py-2">
-      <div>
-        <p className="text-sm font-medium">{label}</p>
-        {sub && <p className="text-xs text-muted-foreground">{sub}</p>}
-      </div>
-      <p className="font-mono font-semibold text-lg">{value}</p>
-    </div>
-  );
-
   return (
-    <div className="container mx-auto p-4 max-w-2xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="space-y-2">
-            <Label>{t("modelLabel")}</Label>
+    <ToolShell
+      slug="ai-cost-calculator"
+      title={tc("tools.ai-cost-calculator.name")}
+      sub={tc("tools.ai-cost-calculator.description")}
+      controls={
+        <Button variant="outline" size="sm" onClick={handleReset}>
+          {t("resetAll")}
+        </Button>
+      }
+    >
+      <div className="space-y-4">
+        <SettingsCard>
+          <OptionRow label={t("modelLabel")} htmlFor="cost-model">
             <Select value={modelId} onValueChange={setModelId}>
-              <SelectTrigger>
+              <SelectTrigger id="cost-model">
                 <SelectValue />
               </SelectTrigger>
               <SelectContent>
@@ -78,12 +74,12 @@ export default function AICostCalculator() {
               <span>{t("inputPrice")}: ${model.inputPricePer1M} {t("per1MTokens")}</span>
               <span>{t("outputPrice")}: ${model.outputPricePer1M} {t("per1MTokens")}</span>
             </div>
-          </div>
+          </OptionRow>
 
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="space-y-2">
-              <Label>{t("inputTokensLabel")}</Label>
+            <OptionRow label={t("inputTokensLabel")} htmlFor="cost-input-tokens">
               <Input
+                id="cost-input-tokens"
                 dir="auto"
                 type="number"
                 min="0"
@@ -91,10 +87,10 @@ export default function AICostCalculator() {
                 onChange={(e) => setInputTokens(e.target.value)}
                 placeholder="0"
               />
-            </div>
-            <div className="space-y-2">
-              <Label>{t("outputTokensLabel")}</Label>
+            </OptionRow>
+            <OptionRow label={t("outputTokensLabel")} htmlFor="cost-output-tokens">
               <Input
+                id="cost-output-tokens"
                 dir="auto"
                 type="number"
                 min="0"
@@ -102,10 +98,10 @@ export default function AICostCalculator() {
                 onChange={(e) => setOutputTokens(e.target.value)}
                 placeholder="0"
               />
-            </div>
-            <div className="space-y-2">
-              <Label>{t("requestsLabel")}</Label>
+            </OptionRow>
+            <OptionRow label={t("requestsLabel")} htmlFor="cost-requests">
               <Input
+                id="cost-requests"
                 dir="auto"
                 type="number"
                 min="1"
@@ -113,34 +109,27 @@ export default function AICostCalculator() {
                 onChange={(e) => setRequests(e.target.value)}
                 placeholder="1"
               />
-            </div>
+            </OptionRow>
           </div>
+        </SettingsCard>
 
-          <Button variant="outline" size="sm" onClick={handleReset}>
-            {t("resetAll")}
-          </Button>
-        </CardContent>
-      </Card>
-
-      <Card>
-        <CardContent className="pt-6 space-y-1">
-          <CostRow label={t("inputCost")} value={fmt(inputCostPerReq)} sub={t("perRequest")} />
-          <Separator />
-          <CostRow label={t("outputCost")} value={fmt(outputCostPerReq)} sub={t("perRequest")} />
-          <Separator />
-          <CostRow label={t("totalCost")} value={fmt(totalPerReq)} sub={t("perRequest")} />
-          {reqs > 1 && (
-            <>
-              <Separator />
-              <CostRow
-                label={t("totalCost")}
-                value={fmt(totalAll)}
-                sub={`${t("totalForRequests")} (×${reqs.toLocaleString()})`}
-              />
-            </>
-          )}
-        </CardContent>
-      </Card>
-    </div>
+        <StatStrip
+          items={[
+            { label: t("inputCost"), value: fmt(inputCostPerReq), sub: t("perRequest") },
+            { label: t("outputCost"), value: fmt(outputCostPerReq), sub: t("perRequest") },
+            { label: t("totalCost"), value: fmt(totalPerReq), sub: t("perRequest") },
+            ...(reqs > 1
+              ? [
+                  {
+                    label: t("totalCost"),
+                    value: fmt(totalAll),
+                    sub: `${t("totalForRequests")} (×${reqs.toLocaleString()})`,
+                  },
+                ]
+              : []),
+          ]}
+        />
+      </div>
+    </ToolShell>
   );
 }

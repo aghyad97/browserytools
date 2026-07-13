@@ -16,15 +16,19 @@ import {
   ArrowRightLeft,
   Upload,
   Download,
-  Copy,
   FileText,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { downloadBlob } from "@/lib/download";
 
 type ConversionMode = "encode" | "decode";
 
 export default function Base64Converter() {
   const t = useTranslations("Tools.Base64Converter");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [mode, setMode] = useState<ConversionMode>("encode");
@@ -99,33 +103,13 @@ export default function Base64Converter() {
         blob = new Blob([output], { type: "text/plain" });
       }
 
-      const url = URL.createObjectURL(blob);
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = fileInfo
+      const filename = fileInfo
         ? `decoded_${fileInfo.name}`
         : `${mode === "encode" ? "encoded" : "decoded"}_text.txt`;
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      URL.revokeObjectURL(url);
+      downloadBlob(blob, filename);
       toast.success(t("fileDownloadedSuccessfully"));
     } catch (error) {
       toast.error(t("errorDownloadingFile"));
-    }
-  };
-
-  const copyToClipboard = async () => {
-    if (!output) {
-      toast.error(t("noOutputToCopy"));
-      return;
-    }
-
-    try {
-      await navigator.clipboard.writeText(output);
-      toast.success(t("copiedToClipboard"));
-    } catch (error) {
-      toast.error(t("failedToCopy"));
     }
   };
 
@@ -148,12 +132,13 @@ export default function Base64Converter() {
   };
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-hidden p-6">
-        <div className="max-w-7xl mx-auto space-y-4">
-          <div className="flex items-center justify-between">
+    <ToolShell
+      slug="base64"
+      title={tc("tools.base64.name")}
+      sub={tc("tools.base64.description")}
+    >
+      <div className="space-y-4">
+        <div className="flex items-center justify-between">
             <Select
               value={mode}
               onValueChange={(v) => setMode(v as ConversionMode)}
@@ -189,47 +174,55 @@ export default function Base64Converter() {
             </div>
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
-            <Card className="p-4">
-              <Textarea
-                placeholder={mode === "encode" ? t("inputPlaceholderEncode") : t("inputPlaceholderDecode")}
-                className="min-h-[400px] font-mono text-left"
-                dir="ltr"
-                value={input}
-                onChange={handleInputChange}
-              />
-              {fileInfo && (
-                <div className="flex items-center mt-2 text-sm text-muted-foreground">
-                  <FileText className="h-4 w-4 me-2" />
-                  {fileInfo.name}
-                </div>
-              )}
-            </Card>
-
-            <Card className="p-4">
-              <div className="relative">
+          <TwoPane
+            start={
+              <Card className="p-4">
                 <Textarea
-                  placeholder={t("outputPlaceholder")}
+                  placeholder={mode === "encode" ? t("inputPlaceholderEncode") : t("inputPlaceholderDecode")}
                   className="min-h-[400px] font-mono text-left"
                   dir="ltr"
-                  value={output}
-                  readOnly
+                  value={input}
+                  onChange={handleInputChange}
                 />
-                {output && (
-                  <div className="absolute top-2 end-2 flex space-x-2 rtl:space-x-reverse">
-                    <Button size="icon" onClick={copyToClipboard} aria-label="Copy">
-                      <Copy className="h-4 w-4" />
-                    </Button>
-                    <Button size="icon" onClick={handleDownload} aria-label="Download">
-                      <Download className="h-4 w-4" />
-                    </Button>
+                {fileInfo && (
+                  <div className="flex items-center mt-2 text-sm text-muted-foreground">
+                    <FileText className="h-4 w-4 me-2" />
+                    {fileInfo.name}
                   </div>
                 )}
-              </div>
-            </Card>
-          </div>
+              </Card>
+            }
+            end={
+              /* Bespoke output pane kept: the download reconstructs the ORIGINAL
+                 binary file (atob → Uint8Array → Blob w/ fileInfo.type), which
+                 OutputPanel's text-only downloadText cannot reproduce. */
+              <Card className="p-4">
+                <div className="relative">
+                  <Textarea
+                    placeholder={t("outputPlaceholder")}
+                    className="min-h-[400px] font-mono text-left"
+                    dir="ltr"
+                    value={output}
+                    readOnly
+                  />
+                  {output && (
+                    <div className="absolute top-2 end-2 flex space-x-2 rtl:space-x-reverse">
+                      <CopyButton
+                        text={output}
+                        size="icon"
+                        successMessage={t("copiedToClipboard")}
+                        errorMessage={t("failedToCopy")}
+                      />
+                      <Button size="icon" onClick={handleDownload} aria-label="Download">
+                        <Download className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  )}
+                </div>
+              </Card>
+            }
+          />
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

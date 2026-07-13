@@ -1,3 +1,5 @@
+@import "../styles/design-tokens.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,26 +9,29 @@ body {
 }
 
 @layer base {
+  /* shadcn HSL triplets bridged onto the bt palette (src/styles/design-tokens.css).
+     Primitives (Card, Input, Tabs, Select, Button) now inherit the bt system.
+     Triplets computed from actual bt hex/rgba — see .superpowers/sdd/r3-f1-report.md. */
   :root {
-    --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
-    --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
-    --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 240 5.9% 10%;
-    --primary-foreground: 0 0% 98%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
+    --background: 60 14% 99%; /* = --bt-bg #fcfcfb */
+    --foreground: 60 2% 8%; /* = --bt-ink #161615 */
+    --card: 0 0% 100%; /* = --bt-surface #ffffff */
+    --card-foreground: 60 2% 8%; /* = --bt-ink #161615 */
+    --popover: 0 0% 100%; /* = --bt-surface #ffffff */
+    --popover-foreground: 60 2% 8%; /* = --bt-ink #161615 */
+    --primary: 60 2% 8%; /* = --bt-ink #161615 (buttons read as ink, matching pillDark) */
+    --primary-foreground: 60 14% 99%; /* = --bt-bg #fcfcfb */
+    --secondary: 0 0% 94%; /* = --bt-fill #efefef */
+    --secondary-foreground: 60 2% 8%; /* = --bt-ink #161615 */
+    --muted: 0 0% 94%; /* = --bt-fill #efefef */
+    --muted-foreground: 60 2% 45%; /* = --bt-muted #757570 */
+    --accent: 0 0% 89%; /* = --bt-fill-hover #e4e4e4 */
+    --accent-foreground: 60 2% 8%; /* = --bt-ink #161615 */
+    --destructive: 0 84.2% 60.2%; /* keep current red pair — out of bt palette by design */
     --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 240 10% 3.9%;
+    --border: 60 2% 90%; /* = --bt-line rgba(22,22,21,0.09) flattened on --bt-bg */
+    --input: 60 2% 90%; /* = --bt-line rgba(22,22,21,0.09) flattened on --bt-bg */
+    --ring: 227 100% 59%; /* = --bt-accent #2e5cff */
     --chart-1: 12 76% 61%;
     --chart-2: 173 58% 39%;
     --chart-3: 197 37% 24%;
@@ -35,25 +40,25 @@ body {
     --radius: 0.5rem;
   }
   .dark {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 0 0% 98%;
-    --primary-foreground: 240 5.9% 10%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 62.8% 30.6%;
+    --background: 60 4% 5%; /* = --bt-bg #0e0e0d */
+    --foreground: 60 7% 94%; /* = --bt-ink #f1f1ef */
+    --card: 60 2% 8%; /* = --bt-surface #161615 */
+    --card-foreground: 60 7% 94%; /* = --bt-ink #f1f1ef */
+    --popover: 60 2% 8%; /* = --bt-surface #161615 */
+    --popover-foreground: 60 7% 94%; /* = --bt-ink #f1f1ef */
+    --primary: 60 7% 94%; /* = --bt-ink #f1f1ef (buttons read as ink, matching pillDark) */
+    --primary-foreground: 60 4% 5%; /* = --bt-bg #0e0e0d */
+    --secondary: 60 1% 14%; /* = --bt-fill #232322 */
+    --secondary-foreground: 60 7% 94%; /* = --bt-ink #f1f1ef */
+    --muted: 60 1% 14%; /* = --bt-fill #232322 */
+    --muted-foreground: 60 3% 55%; /* = --bt-muted #8f8f89 */
+    --accent: 60 1% 17%; /* = --bt-fill-hover #2c2c2b */
+    --accent-foreground: 60 7% 94%; /* = --bt-ink #f1f1ef */
+    --destructive: 0 62.8% 30.6%; /* keep current red pair — out of bt palette by design */
     --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 240 4.9% 83.9%;
+    --border: 60 1% 13%; /* = --bt-line rgba(241,241,239,0.09) flattened on --bt-bg */
+    --input: 60 1% 13%; /* = --bt-line rgba(241,241,239,0.09) flattened on --bt-bg */
+    --ring: 227 100% 68%; /* = --bt-accent #5d80ff */
     --chart-1: 220 70% 50%;
     --chart-2: 160 60% 45%;
     --chart-3: 30 80% 55%;
@@ -91,4 +96,42 @@ html[lang="ar"] body {
 html[lang="ar"] input[type="number"] {
   direction: ltr;
   text-align: right;
+}
+
+/* Soft theme flip — the ThemeSwitcher wraps the class swap in a View
+   Transition (feature-checked + reduced-motion-gated in JS). Shorten the
+   default root crossfade to a soft ~180ms so light/dark tokens cross-dissolve
+   instead of hard-cutting. Only fires on an explicit toggle, never on load. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 180ms;
+  animation-timing-function: var(--bt-ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none;
+  }
+}
+
+/* Copy → Check swap: a tiny scale-in on the check so the confirmation lands
+   with a little pop rather than a hard glyph switch. Applied to the check
+   wrapper, which mounts fresh each copy so the animation replays. */
+@keyframes bt-check-in {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+.bt-check-in {
+  animation: bt-check-in 150ms var(--bt-ease-out);
+}
+@media (prefers-reduced-motion: reduce) {
+  .bt-check-in {
+    animation: none;
+  }
 }

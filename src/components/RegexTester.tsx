@@ -2,13 +2,7 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+import { ToolShell } from "@/components/template/tool-shell";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -20,9 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { TwoPane } from "@/components/shared/TwoPane";
 
 export default function RegexTester() {
   const t = useTranslations("Tools.RegexTester");
+  const tc = useTranslations("ToolsConfig");
   const [pattern, setPattern] = useState<string>("");
   const [flags, setFlags] = useState<string>("g");
   const [text, setText] = useState<string>("");
@@ -64,6 +61,7 @@ export default function RegexTester() {
       label: "Hex Color",
       pattern: "#(?:[0-9a-fA-F]{3}|[0-9a-fA-F]{6})\\b",
       flags: "g",
+      // content value: sample text for the hex-color regex preset
       sample: "Primary #ff5733, short #0af, invalid #abcdg",
     },
     {
@@ -288,18 +286,15 @@ export default function RegexTester() {
   };
 
   return (
-    <div className="container mx-auto p-6 max-w-5xl">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>
-            {t("description")}
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
-            <div className="space-y-2 md:col-span-3">
-              <label className="text-sm font-medium">{t("presetLabel")}</label>
+    <ToolShell
+      slug="regex-tester"
+      title={tc("tools.regex-tester.name")}
+      sub={tc("tools.regex-tester.description")}
+    >
+      <SettingsCard>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 items-end">
+          <div className="md:col-span-3">
+            <OptionRow label={t("presetLabel")}>
               <Select onValueChange={applyPreset}>
                 <SelectTrigger className="w-full">
                   <SelectValue placeholder={t("presetPlaceholder")} />
@@ -312,18 +307,20 @@ export default function RegexTester() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-            <div className="space-y-2 md:col-span-2">
-              <label className="text-sm font-medium">{t("patternLabel")}</label>
+            </OptionRow>
+          </div>
+          <div className="md:col-span-2">
+            <OptionRow label={t("patternLabel")}>
               <Input
                 value={pattern}
                 onChange={(e) => setPattern(e.target.value)}
                 placeholder="e.g., ^https?://(.*)$"
                 dir="ltr"
               />
-            </div>
+            </OptionRow>
+          </div>
+          <OptionRow label={t("flagsLabel")}>
             <div className="space-y-2">
-              <label className="text-sm font-medium">{t("flagsLabel")}</label>
               <Input
                 value={flags}
                 onChange={(e) => setFlags(e.target.value)}
@@ -344,36 +341,43 @@ export default function RegexTester() {
                 ))}
               </div>
             </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">{t("inputLabel")}</label>
+          </OptionRow>
+        </div>
+
+        <TwoPane
+          start={
+            <OptionRow label={t("inputLabel")}>
               <Textarea
                 value={text}
                 onChange={(e) => setText(e.target.value)}
                 className="min-h-[220px] font-mono text-sm"
                 dir="ltr"
               />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">{t("outputLabel")}</label>
+            </OptionRow>
+          }
+          end={
+            <OptionRow label={t("outputLabel")}>
+              {/* match-highlight is semantic content coloring, bespoke per contract */}
               <div className="min-h-[220px] p-3 border rounded bg-muted font-mono text-sm break-words whitespace-pre-wrap" dir="ltr">
                 {highlighted}
               </div>
-            </div>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 items-end">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">{t("replacementLabel")}</label>
+            </OptionRow>
+          }
+        />
+
+        <TwoPane
+          start={
+            <OptionRow label={t("replacementLabel")}>
               <Input
                 value={replacement}
                 onChange={(e) => setReplacement(e.target.value)}
                 placeholder="Use $1, $<name>, etc."
                 dir="ltr"
               />
-            </div>
-            <div className="space-y-2">
-              <label className="text-sm font-medium">{t("replacedOutputLabel")}</label>
+            </OptionRow>
+          }
+          end={
+            <OptionRow label={t("replacedOutputLabel")}>
               <div className="min-h-[42px] p-3 border rounded bg-muted font-mono text-sm break-words whitespace-pre-wrap" dir="ltr">
                 {replacedOutput !== null ? (
                   replacedOutput
@@ -383,85 +387,86 @@ export default function RegexTester() {
                   </span>
                 )}
               </div>
-            </div>
-          </div>
-          <div className="text-sm text-destructive h-5">{error}</div>
-          <div className="text-sm text-muted-foreground">
-            {t("matchesCount", { count: matches.length })}
-          </div>
-          {matchDetails.length > 0 ? (
-            <div className="space-y-2">
-              <div className="text-sm font-medium">{t("captureGroups")}</div>
-              <div className="space-y-3">
-                {matchDetails.map((m, idx) => (
-                  <div key={`${m.index}-${idx}`} className="text-xs">
-                    <div className="flex items-center gap-2">
-                      <Badge variant="outline">{t("matchLabel", { n: idx + 1 })}</Badge>
-                      <span className="font-mono">"{m.match}"</span>
-                      <span className="text-muted-foreground">@ {m.index}</span>
-                      {m.indices?.span && (
-                        <span className="text-muted-foreground">
-                          [{m.indices.span[0]}, {m.indices.span[1]}]
-                        </span>
-                      )}
-                    </div>
-                    {m.groups.length > 0 ||
-                    (m.namedGroups && Object.keys(m.namedGroups).length > 0) ? (
-                      <div className="mt-1 grid grid-cols-1 md:grid-cols-2 gap-2">
-                        {m.groups.map((g: string | undefined, gi: number) => (
-                          <div key={gi} className="p-2 border rounded">
+            </OptionRow>
+          }
+        />
+
+        <div className="text-sm text-destructive h-5">{error}</div>
+        <div className="text-sm text-muted-foreground">
+          {t("matchesCount", { count: matches.length })}
+        </div>
+        {matchDetails.length > 0 ? (
+          <div className="space-y-2">
+            <div className="text-sm font-medium">{t("captureGroups")}</div>
+            <div className="space-y-3">
+              {matchDetails.map((m, idx) => (
+                <div key={`${m.index}-${idx}`} className="text-xs">
+                  <div className="flex items-center gap-2">
+                    <Badge variant="outline">{t("matchLabel", { n: idx + 1 })}</Badge>
+                    <span className="font-mono">"{m.match}"</span>
+                    <span className="text-muted-foreground">@ {m.index}</span>
+                    {m.indices?.span && (
+                      <span className="text-muted-foreground">
+                        [{m.indices.span[0]}, {m.indices.span[1]}]
+                      </span>
+                    )}
+                  </div>
+                  {m.groups.length > 0 ||
+                  (m.namedGroups && Object.keys(m.namedGroups).length > 0) ? (
+                    <div className="mt-1 grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {m.groups.map((g: string | undefined, gi: number) => (
+                        <div key={gi} className="p-2 border rounded">
+                          <div className="text-muted-foreground">
+                            ${gi + 1}
+                          </div>
+                          <div className="font-mono break-words">
+                            {g === undefined ? (
+                              <em className="text-muted-foreground">
+                                undefined
+                              </em>
+                            ) : (
+                              g
+                            )}
+                          </div>
+                          {m.indices?.groupSpans?.[gi] && (
                             <div className="text-muted-foreground">
-                              ${gi + 1}
+                              [{m.indices.groupSpans[gi]?.[0]},{" "}
+                              {m.indices.groupSpans[gi]?.[1]}]
+                            </div>
+                          )}
+                        </div>
+                      ))}
+                      {m.namedGroups &&
+                        Object.entries(
+                          m.namedGroups as Record<string, string | undefined>
+                        ).map(([name, val]: [string, string | undefined]) => (
+                          <div key={name} className="p-2 border rounded">
+                            <div className="text-muted-foreground">
+                              $&lt;{name}&gt;
                             </div>
                             <div className="font-mono break-words">
-                              {g === undefined ? (
+                              {val !== undefined ? (
+                                <span>{val}</span>
+                              ) : (
                                 <em className="text-muted-foreground">
                                   undefined
                                 </em>
-                              ) : (
-                                g
                               )}
                             </div>
-                            {m.indices?.groupSpans?.[gi] && (
-                              <div className="text-muted-foreground">
-                                [{m.indices.groupSpans[gi]?.[0]},{" "}
-                                {m.indices.groupSpans[gi]?.[1]}]
-                              </div>
-                            )}
                           </div>
                         ))}
-                        {m.namedGroups &&
-                          Object.entries(
-                            m.namedGroups as Record<string, string | undefined>
-                          ).map(([name, val]: [string, string | undefined]) => (
-                            <div key={name} className="p-2 border rounded">
-                              <div className="text-muted-foreground">
-                                $&lt;{name}&gt;
-                              </div>
-                              <div className="font-mono break-words">
-                                {val !== undefined ? (
-                                  <span>{val}</span>
-                                ) : (
-                                  <em className="text-muted-foreground">
-                                    undefined
-                                  </em>
-                                )}
-                              </div>
-                            </div>
-                          ))}
-                      </div>
-                    ) : (
-                      <div className="text-muted-foreground">
-                        {t("noCaptureGroups")}
-                      </div>
-                    )}
-                  </div>
-                ))}
-              </div>
+                    </div>
+                  ) : (
+                    <div className="text-muted-foreground">
+                      {t("noCaptureGroups")}
+                    </div>
+                  )}
+                </div>
+              ))}
             </div>
-          ) : null}
-        </CardContent>
-      </Card>
-    </div>
+          </div>
+        ) : null}
+      </SettingsCard>
+    </ToolShell>
   );
 }

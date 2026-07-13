@@ -2,21 +2,16 @@
 
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Badge } from "@/components/ui/badge";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Copy, Hash, FileText, Download, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { downloadBlob } from "@/lib/download";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 
 interface HashResult {
   algorithm: string;
@@ -26,6 +21,7 @@ interface HashResult {
 
 export default function HashGenerator() {
   const t = useTranslations("Tools.HashGenerator");
+  const tc = useTranslations("ToolsConfig");
   const [inputText, setInputText] = useState<string>("");
   const [hashResults, setHashResults] = useState<HashResult[]>([]);
   const [isGenerating, setIsGenerating] = useState<boolean>(false);
@@ -101,15 +97,6 @@ export default function HashGenerator() {
     toast(t("hashesGeneratedToast"));
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const copyAllHashes = async () => {
     const allHashes = hashResults
       .map((result) => `${result.algorithm}: ${result.hash}`)
@@ -128,15 +115,7 @@ export default function HashGenerator() {
       .map((result) => `${result.algorithm}: ${result.hash}`)
       .join("\n");
 
-    const blob = new Blob([content], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "hashes.txt";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([content], { type: "text/plain" }), "hashes.txt");
   };
 
   const clearAll = () => {
@@ -149,7 +128,12 @@ export default function HashGenerator() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-4xl">
+    <ToolShell
+      slug="hash-generator"
+      title={tc("tools.hash-generator.name")}
+      sub={tc("tools.hash-generator.description")}
+    >
+      <div className="max-w-4xl mx-auto">
       <Tabs defaultValue="text" className="w-full">
         <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="text">{t("textInputTab")}</TabsTrigger>
@@ -157,17 +141,16 @@ export default function HashGenerator() {
         </TabsList>
 
         <TabsContent value="text" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2">
-                <FileText className="h-5 w-5" />
+          <SettingsCard
+            title={
+              <span className="flex items-center gap-2">
+                <FileText className="h-4 w-4" />
                 {t("inputTitle")}
-              </CardTitle>
-              <CardDescription>{t("inputDesc")}</CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-2">
-                <Label htmlFor="input-text">{t("textToHashLabel")}</Label>
+              </span>
+            }
+            description={t("inputDesc")}
+          >
+              <OptionRow label={t("textToHashLabel")} htmlFor="input-text">
                 <Textarea
                   id="input-text"
                   value={inputText}
@@ -175,7 +158,7 @@ export default function HashGenerator() {
                   placeholder={t("textToHashPlaceholder")}
                   className="min-h-[120px]"
                 />
-              </div>
+              </OptionRow>
 
               <div className="flex gap-2">
                 <Button
@@ -218,21 +201,16 @@ export default function HashGenerator() {
                   <div>{t("lines")} {inputText.split("\n").length}</div>
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
 
         <TabsContent value="results" className="space-y-6">
-          <Card>
-            <CardHeader>
-              <CardTitle>{t("generatedHashesTitle")}</CardTitle>
-              <CardDescription>
-                {hashResults.length > 0
+          <SettingsCard
+            title={t("generatedHashesTitle")}
+            description={hashResults.length > 0
                   ? t("hashesGenerated", { count: hashResults.length })
                   : t("noHashesYet")}
-              </CardDescription>
-            </CardHeader>
-            <CardContent>
+          >
               {hashResults.length > 0 ? (
                 <div className="space-y-4">
                   <div className="flex gap-2">
@@ -260,13 +238,12 @@ export default function HashGenerator() {
                               {t("hashLength", { count: result.length })}
                             </span>
                           </div>
-                          <Button
-                            onClick={() => copyToClipboard(result.hash)}
-                            variant="ghost"
-                            size="sm"
-                          >
-                            <Copy className="h-4 w-4" />
-                          </Button>
+                          <CopyButton
+                            text={result.hash}
+                            size="icon"
+                            successMessage={t("copiedToClipboard")}
+                            errorMessage={t("copyFailed")}
+                          />
                         </div>
                         <div className="font-mono text-sm bg-muted p-2 rounded break-all" dir="ltr">
                           {result.hash}
@@ -281,17 +258,12 @@ export default function HashGenerator() {
                   <p>{t("generateToSeeResults")}</p>
                 </div>
               )}
-            </CardContent>
-          </Card>
+          </SettingsCard>
         </TabsContent>
       </Tabs>
 
       {/* Algorithm Information */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>{t("algorithmInfo")}</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <SettingsCard title={t("algorithmInfo")} className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h4 className="font-semibold mb-2">{t("algorithmDetails")}</h4>
@@ -352,8 +324,8 @@ export default function HashGenerator() {
               </ul>
             </div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+      </SettingsCard>
+      </div>
+    </ToolShell>
   );
 }

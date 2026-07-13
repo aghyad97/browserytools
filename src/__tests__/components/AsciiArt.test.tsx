@@ -107,7 +107,7 @@ describe("AsciiArt", () => {
     const spy = vi
       .spyOn(navigator.clipboard, "writeText")
       .mockResolvedValue(undefined);
-    await user.click(screen.getByTestId("ascii-copy"));
+    await user.click(screen.getByRole("button", { name: /copy/i }));
 
     await waitFor(() => expect(spy).toHaveBeenCalled());
     const arg = spy.mock.calls[0][0];

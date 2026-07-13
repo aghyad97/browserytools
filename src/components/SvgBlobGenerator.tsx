@@ -2,17 +2,8 @@
 
 import { useMemo, useState } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { Slider } from "@/components/ui/slider";
 import {
   Select,
   SelectContent,
@@ -20,7 +11,11 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { RefreshCw, Copy, Download } from "lucide-react";
+import { RefreshCw } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 type Mode = "blob" | "wave";
 type Fill = "solid" | "gradient";
@@ -114,12 +109,14 @@ function buildWavePath(
 
 export default function SvgBlobGenerator() {
   const t = useTranslations("Tools.SvgBlobGenerator");
+  const tc = useTranslations("ToolsConfig");
 
   const [mode, setMode] = useState<Mode>("blob");
   const [points, setPoints] = useState(6);
   const [randomness, setRandomness] = useState(40);
   const [size, setSize] = useState(400);
   const [fill, setFill] = useState<Fill>("gradient");
+  // content value: default fill-color picker seeds, independent of app theme.
   const [color1, setColor1] = useState("#6366f1");
   const [color2, setColor2] = useState("#ec4899");
   const [seed, setSeed] = useState(1);
@@ -159,35 +156,18 @@ export default function SvgBlobGenerator() {
     setSeed(Math.floor(Math.random() * 1_000_000) + 1);
   };
 
-  const copySvg = async () => {
-    try {
-      await navigator.clipboard.writeText(svg);
-      toast.success(t("copied"));
-    } catch {
-      toast.error(t("copyFailed"));
-    }
-  };
-
-  const downloadSvg = () => {
-    const blob = new Blob([svg], { type: "image/svg+xml" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = mode === "wave" ? "wave-divider.svg" : "blob.svg";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
-  };
-
   return (
-    <div className="container mx-auto p-4 max-w-5xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+    <ToolShell
+      slug="svg-blob-generator"
+      title={tc("tools.svg-blob-generator.name")}
+      sub={tc("tools.svg-blob-generator.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
+      <SettingsCard>
+          {/* Mode toggle kept bespoke: no pre-existing translation key fits
+              ModePicker's required aria-label without inventing a new i18n
+              key (contract precedent reuses an existing key — none exists
+              here); two-button toggle is already narrow-safe. */}
           <div className="flex flex-wrap gap-2">
             <Button
               variant={mode === "blob" ? "default" : "outline"}
@@ -209,52 +189,9 @@ export default function SvgBlobGenerator() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div className="space-y-4">
-              <div className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <Label>{t("complexity")}</Label>
-                  <span className="text-muted-foreground tabular-nums">
-                    {points}
-                  </span>
-                </div>
-                <Slider
-                  min={3}
-                  max={12}
-                  value={[points]}
-                  onValueChange={([v]) => setPoints(v)}
-                  data-testid="slider-complexity"
-                />
-              </div>
-              <div className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <Label>{t("randomness")}</Label>
-                  <span className="text-muted-foreground tabular-nums">
-                    {randomness}%
-                  </span>
-                </div>
-                <Slider
-                  min={0}
-                  max={100}
-                  value={[randomness]}
-                  onValueChange={([v]) => setRandomness(v)}
-                  data-testid="slider-randomness"
-                />
-              </div>
-              <div className="space-y-1">
-                <div className="flex justify-between text-sm">
-                  <Label>{t("size")}</Label>
-                  <span className="text-muted-foreground tabular-nums">
-                    {size}px
-                  </span>
-                </div>
-                <Slider
-                  min={120}
-                  max={800}
-                  step={20}
-                  value={[size]}
-                  onValueChange={([v]) => setSize(v)}
-                  data-testid="slider-size"
-                />
-              </div>
+              <SliderRow label={t("complexity")} value={points} min={3} max={12} onChange={setPoints} />
+              <SliderRow label={t("randomness")} value={randomness} display={<>{randomness}%</>} min={0} max={100} onChange={setRandomness} />
+              <SliderRow label={t("size")} value={size} display={<>{size}px</>} min={120} max={800} step={20} onChange={setSize} />
             </div>
 
             <div className="space-y-4">
@@ -313,71 +250,59 @@ export default function SvgBlobGenerator() {
               <RefreshCw className="me-2 h-4 w-4" />
               {t("regenerate")}
             </Button>
-            <Button variant="outline" onClick={copySvg} data-testid="copy-svg">
-              <Copy className="me-2 h-4 w-4" />
-              {t("copySvg")}
-            </Button>
-            <Button
-              variant="outline"
-              onClick={downloadSvg}
-              data-testid="download-svg"
-            >
-              <Download className="me-2 h-4 w-4" />
-              {t("downloadSvg")}
-            </Button>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("preview")}</CardTitle>
-          </CardHeader>
-          <CardContent className="flex items-center justify-center py-8 bg-muted/30 rounded-b-lg">
-            <svg
-              viewBox={`0 0 ${viewW} ${viewH}`}
-              className="max-w-full"
-              style={{ width: 320, height: (320 * viewH) / viewW }}
-              data-testid="preview-svg"
-            >
-              {fill === "gradient" && (
-                <defs>
-                  <linearGradient
-                    id="previewGradient"
-                    x1="0%"
-                    y1="0%"
-                    x2={mode === "wave" ? "100%" : "100%"}
-                    y2={mode === "wave" ? "0%" : "100%"}
-                  >
-                    <stop offset="0%" stopColor={color1} />
-                    <stop offset="100%" stopColor={color2} />
-                  </linearGradient>
-                </defs>
-              )}
-              <path
-                d={path}
-                fill={fill === "gradient" ? "url(#previewGradient)" : color1}
-                data-testid="preview-path"
-              />
-            </svg>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("svgOutput")}</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <pre
-              dir="ltr"
-              className="bg-muted rounded-lg p-4 text-xs font-mono overflow-x-auto whitespace-pre-wrap break-all max-h-72"
-              data-testid="svg-output"
-            >
-              {svg}
-            </pre>
-          </CardContent>
-        </Card>
+        <SettingsCard title={t("preview")}>
+            <div className="flex items-center justify-center py-8 bg-muted/30 rounded-lg">
+              <svg
+                viewBox={`0 0 ${viewW} ${viewH}`}
+                className="max-w-full"
+                style={{ width: 320, height: (320 * viewH) / viewW }}
+                data-testid="preview-svg"
+              >
+                {fill === "gradient" && (
+                  <defs>
+                    <linearGradient
+                      id="previewGradient"
+                      x1="0%"
+                      y1="0%"
+                      x2={mode === "wave" ? "100%" : "100%"}
+                      y2={mode === "wave" ? "0%" : "100%"}
+                    >
+                      <stop offset="0%" stopColor={color1} />
+                      <stop offset="100%" stopColor={color2} />
+                    </linearGradient>
+                  </defs>
+                )}
+                <path
+                  d={path}
+                  fill={fill === "gradient" ? "url(#previewGradient)" : color1}
+                  data-testid="preview-path"
+                />
+              </svg>
+            </div>
+        </SettingsCard>
+        <OutputPanel
+          title={t("svgOutput")}
+          text={svg}
+          filename={mode === "wave" ? "wave-divider.svg" : "blob.svg"}
+          mime="image/svg+xml"
+          copyLabel={t("copySvg")}
+          copySuccessMessage={t("copied")}
+          copyErrorMessage={t("copyFailed")}
+        >
+          <pre
+            dir="ltr"
+            className="text-xs whitespace-pre-wrap break-all max-h-72"
+            data-testid="svg-output"
+          >
+            {svg}
+          </pre>
+        </OutputPanel>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

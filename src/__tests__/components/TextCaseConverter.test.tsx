@@ -17,7 +17,7 @@ describe("TextCaseConverter", () => {
     const input = screen.getByPlaceholderText("Enter your text here...");
     await user.type(input, "hello world");
 
-    await user.click(screen.getByRole("tab", { name: "UPPER" }));
+    await user.click(screen.getByRole("button", { name: "UPPER" }));
 
     const output = screen.getByPlaceholderText("Converted text will appear here...");
     expect(output).toHaveValue("HELLO WORLD");
@@ -30,7 +30,7 @@ describe("TextCaseConverter", () => {
     const input = screen.getByPlaceholderText("Enter your text here...");
     await user.type(input, "hello world");
 
-    await user.click(screen.getByRole("tab", { name: "snake_case" }));
+    await user.click(screen.getByRole("button", { name: "snake_case" }));
 
     const output = screen.getByPlaceholderText("Converted text will appear here...");
     expect(output).toHaveValue("hello_world");
@@ -43,7 +43,7 @@ describe("TextCaseConverter", () => {
     const input = screen.getByPlaceholderText("Enter your text here...");
     await user.type(input, "hello world");
 
-    await user.click(screen.getByRole("tab", { name: "camelCase" }));
+    await user.click(screen.getByRole("button", { name: "camelCase" }));
 
     const output = screen.getByPlaceholderText("Converted text will appear here...");
     expect(output).toHaveValue("helloWorld");
@@ -54,7 +54,7 @@ describe("TextCaseConverter", () => {
     render(<TextCaseConverter />);
 
     // First click UPPER to activate it
-    await user.click(screen.getByRole("tab", { name: "UPPER" }));
+    await user.click(screen.getByRole("button", { name: "UPPER" }));
 
     const input = screen.getByPlaceholderText("Enter your text here...");
     await user.type(input, "abc");
@@ -70,7 +70,7 @@ describe("TextCaseConverter", () => {
     const input = screen.getByPlaceholderText("Enter your text here...");
     await user.type(input, "copy me");
 
-    await user.click(screen.getByRole("tab", { name: "UPPER" }));
+    await user.click(screen.getByRole("button", { name: "UPPER" }));
 
     // Spy after userEvent may have replaced clipboard with its own implementation
     const writeSpy = vi.spyOn(navigator.clipboard, "writeText").mockResolvedValue(undefined);
@@ -85,7 +85,7 @@ describe("TextCaseConverter", () => {
 
     const input = screen.getByPlaceholderText("Enter your text here...");
     await user.type(input, "some text");
-    await user.click(screen.getByRole("tab", { name: "UPPER" }));
+    await user.click(screen.getByRole("button", { name: "UPPER" }));
 
     await user.click(screen.getByRole("button", { name: /clear/i }));
 

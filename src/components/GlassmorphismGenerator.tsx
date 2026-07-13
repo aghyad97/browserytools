@@ -2,14 +2,23 @@
 
 import { useState, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
-import { toast } from "sonner";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { Slider } from "@/components/ui/slider";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
+import "@/styles/hljs-theme.css";
 
+// NOTE: this local SliderRow (slider + typeable number input, both wired to
+// the same value) is intentionally NOT the shared molecule of the same name —
+// the shared SliderRow only exposes a read-only `display` readout, not an
+// editable number field, and this tool's tests type directly into the number
+// input per row. Keeping it bespoke per contract (shape differs from the
+// molecule's API, not a trivial swap).
+
+// content value: fixed demo-backdrop gradient presets, independent of app theme.
 const GRADIENTS = [
   "linear-gradient(135deg, #f857a6 0%, #ff5858 100%)",
   "linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)",
@@ -70,6 +79,7 @@ function SliderRow({
 
 export default function GlassmorphismGenerator() {
   const t = useTranslations("Tools.GlassmorphismGenerator");
+  const tc = useTranslations("ToolsConfig");
 
   const [blur, setBlur] = useState(12);
   const [opacity, setOpacity] = useState(20);
@@ -77,6 +87,7 @@ export default function GlassmorphismGenerator() {
   const [radius, setRadius] = useState(16);
   const [borderWidth, setBorderWidth] = useState(1);
   const [borderOpacity, setBorderOpacity] = useState(40);
+  // content value: default tint-color picker seed, independent of app theme.
   const [tint, setTint] = useState("#ffffff");
   const [bgIndex, setBgIndex] = useState(0);
 
@@ -109,11 +120,6 @@ export default function GlassmorphismGenerator() {
     border: `${borderWidth}px solid ${borderColor}`,
   };
 
-  const copyCss = () => {
-    navigator.clipboard.writeText(cssOutput);
-    toast.success(t("copied"));
-  };
-
   // Syntax-highlight the CSS output. The markup is hljs output of our own
   // generated CSS string (never user-supplied HTML); assigned via a computed
   // property key, matching the CodeHighlighter/CodeScreenshot pattern.
@@ -134,17 +140,17 @@ export default function GlassmorphismGenerator() {
     setRadius(16);
     setBorderWidth(1);
     setBorderOpacity(40);
-    setTint("#ffffff");
+    setTint("#ffffff"); // content value: restores the default tint seed above.
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-5xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-6">
+    <ToolShell
+      slug="glassmorphism-generator"
+      title={tc("tools.glassmorphism-generator.name")}
+      sub={tc("tools.glassmorphism-generator.description")}
+    >
+      <div className="max-w-5xl mx-auto space-y-4">
+      <SettingsCard>
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <div className="space-y-4">
               <SliderRow label={t("blur")} value={blur} min={0} max={40} unit="px" onChange={setBlur} testId="blur-input" />
@@ -218,7 +224,7 @@ export default function GlassmorphismGenerator() {
                       aria-label={`${t("background")} ${i + 1}`}
                       onClick={() => setBgIndex(i)}
                       style={{ background: gr }}
-                      className={`h-9 w-9 rounded-md border-2 transition-all ${
+                      className={`h-9 w-9 rounded-md border-2 transition-transform ${
                         i === bgIndex ? "border-foreground scale-110" : "border-transparent"
                       }`}
                     />
@@ -230,15 +236,10 @@ export default function GlassmorphismGenerator() {
               </Button>
             </div>
           </div>
-        </CardContent>
-      </Card>
+      </SettingsCard>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("preview")}</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <SettingsCard title={t("preview")}>
             <div
               className="flex items-center justify-center rounded-lg p-8 min-h-[260px]"
               style={{ background: GRADIENTS[bgIndex] }}
@@ -247,28 +248,25 @@ export default function GlassmorphismGenerator() {
                 <span className="text-white/90 font-medium text-sm px-4 drop-shadow">{t("previewLabel")}</span>
               </div>
             </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-base">{t("cssOutput")}</CardTitle>
-          </CardHeader>
-          <CardContent className="space-y-3">
-            <pre
-              dir="ltr"
-              data-testid="css-output"
-              className="hljs rounded-lg p-4 text-sm font-mono overflow-x-auto whitespace-pre-wrap text-start"
-            >
-              <code ref={cssCodeRef} className="language-css">
-                {cssOutput}
-              </code>
-            </pre>
-            <Button variant="outline" size="sm" onClick={copyCss}>
-              {t("copyCSS")}
-            </Button>
-          </CardContent>
-        </Card>
+        </SettingsCard>
+        <OutputPanel
+          title={t("cssOutput")}
+          text={cssOutput}
+          copyLabel={t("copyCSS")}
+          copySuccessMessage={t("copied")}
+        >
+          <pre
+            dir="ltr"
+            data-testid="css-output"
+            className="hljs text-sm whitespace-pre-wrap text-start"
+          >
+            <code ref={cssCodeRef} className="language-css">
+              {cssOutput}
+            </code>
+          </pre>
+        </OutputPanel>
       </div>
-    </div>
+      </div>
+    </ToolShell>
   );
 }

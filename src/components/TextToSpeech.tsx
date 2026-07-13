@@ -1,7 +1,6 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
-import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import {
@@ -11,20 +10,21 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Slider } from "@/components/ui/slider";
 import { Progress } from "@/components/ui/progress";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
 import { toast } from "sonner";
 import {
-  Volume2Icon,
   PlayIcon,
   PauseIcon,
   SquareIcon,
   RotateCcwIcon,
-  InfoIcon,
   DownloadIcon,
 } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { synthesizeSpeech, prepareVoice } from "@/lib/vits-loader";
+import { ToolShell } from "@/components/template/tool-shell";
+import { downloadUrl } from "@/lib/download";
 
 type PlayState = "idle" | "playing" | "paused";
 
@@ -46,6 +46,7 @@ const AI_VOICES: { id: string; label: string }[] = [
 
 export default function TextToSpeech() {
   const t = useTranslations("Tools.TextToSpeech");
+  const tc = useTranslations("ToolsConfig");
 
   const [text, setText] = useState("");
   const [voiceId, setVoiceId] = useState(AI_VOICES[0].id);
@@ -180,12 +181,7 @@ export default function TextToSpeech() {
     }
     try {
       const url = await ensureAudioUrl();
-      const a = document.createElement("a");
-      a.href = url;
-      a.download = "speech.wav";
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
+      downloadUrl(url, "speech.wav");
       toast.success(t("audioDownloaded"));
     } catch (err) {
       console.error(err);
@@ -199,46 +195,39 @@ export default function TextToSpeech() {
   }, []);
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-4xl mx-auto space-y-4">
-          <div>
-            <h1 className="text-xl font-semibold flex items-center gap-2">
-              <Volume2Icon className="h-5 w-5" />
-              {t("title")}
-            </h1>
-            <p className="text-sm text-muted-foreground mt-1">{t("subtitle")}</p>
-          </div>
+    <ToolShell
+      slug="text-to-speech"
+      title={tc("tools.text-to-speech.name")}
+      sub={tc("tools.text-to-speech.description")}
+    >
+      <div className="space-y-4">
+          <SettingsCard>
+            <OptionRow label={t("inputLabel")} htmlFor="tts-input">
+              <Textarea
+                id="tts-input"
+                dir="auto"
+                placeholder={t("inputPlaceholder")}
+                className="min-h-[180px]"
+                value={text}
+                onChange={(e) => {
+                  setText(e.target.value);
+                  invalidate();
+                }}
+              />
+            </OptionRow>
+          </SettingsCard>
 
-          <Card className="p-4 space-y-2">
-            <label className="text-sm font-medium" htmlFor="tts-input">
-              {t("inputLabel")}
-            </label>
-            <Textarea
-              id="tts-input"
-              dir="auto"
-              placeholder={t("inputPlaceholder")}
-              className="min-h-[180px]"
-              value={text}
-              onChange={(e) => {
-                setText(e.target.value);
-                invalidate();
-              }}
-            />
-          </Card>
-
-          <Card className="p-4 space-y-5">
-            <div className="space-y-2">
-              <div className="flex items-center justify-between">
-                <label className="text-sm font-medium">{t("voice")}</label>
-                <span className="text-xs text-muted-foreground">
-                  {preparing
-                    ? `${t("preparingVoice")} ${progress}%`
-                    : ready
-                      ? t("voiceReady")
-                      : ""}
-                </span>
-              </div>
+          <SettingsCard>
+            <OptionRow
+              label={t("voice")}
+              hint={
+                preparing
+                  ? `${t("preparingVoice")} ${progress}%`
+                  : ready
+                    ? t("voiceReady")
+                    : undefined
+              }
+            >
               <Select
                 value={voiceId}
                 onValueChange={(v) => {
@@ -257,42 +246,27 @@ export default function TextToSpeech() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
+            </OptionRow>
 
             <div className="grid gap-5 sm:grid-cols-2">
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">{t("rate")}</span>
-                  <span className="text-muted-foreground tabular-nums" dir="ltr">
-                    {rate.toFixed(1)}x
-                  </span>
-                </div>
-                <Slider
-                  aria-label={t("rate")}
-                  min={0.5}
-                  max={2}
-                  step={0.1}
-                  value={[rate]}
-                  onValueChange={(v) => setRate(v[0])}
-                />
-              </div>
-
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-sm">
-                  <span className="font-medium">{t("volume")}</span>
-                  <span className="text-muted-foreground tabular-nums" dir="ltr">
-                    {Math.round(volume * 100)}%
-                  </span>
-                </div>
-                <Slider
-                  aria-label={t("volume")}
-                  min={0}
-                  max={1}
-                  step={0.05}
-                  value={[volume]}
-                  onValueChange={(v) => setVolume(v[0])}
-                />
-              </div>
+              <SliderRow
+                label={t("rate")}
+                value={rate}
+                display={`${rate.toFixed(1)}x`}
+                min={0.5}
+                max={2}
+                step={0.1}
+                onChange={setRate}
+              />
+              <SliderRow
+                label={t("volume")}
+                value={volume}
+                display={`${Math.round(volume * 100)}%`}
+                min={0}
+                max={1}
+                step={0.05}
+                onChange={setVolume}
+              />
             </div>
 
             <div className="flex flex-wrap items-center gap-2">
@@ -350,16 +324,10 @@ export default function TextToSpeech() {
                 </p>
               </div>
             )}
-          </Card>
+          </SettingsCard>
 
-          <Card className="p-4">
-            <div className="flex items-start gap-3">
-              <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
-            </div>
-          </Card>
-        </div>
+          <SettingsCard description={t("modelNote")} />
       </div>
-    </div>
+    </ToolShell>
   );
 }

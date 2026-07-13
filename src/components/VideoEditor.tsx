@@ -2,8 +2,13 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { motion, AnimatePresence } from "framer-motion";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { downloadUrl } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -65,6 +70,7 @@ const formatOptions = [
 export default function VideoEditor() {
   const t = useTranslations("Tools.VideoEditor");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [video, setVideo] = useState<VideoInfo | null>(null);
   const [trimRange, setTrimRange] = useState<TrimRange>({ start: 0, end: 0 });
   const [targetFormat, setTargetFormat] = useState("video/mp4");
@@ -132,14 +138,6 @@ export default function VideoEditor() {
       reader.readAsDataURL(file);
     }
   }, []);
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "video/*": [".mp4", ".webm", ".ogg", ".mov", ".avi"],
-    },
-    multiple: false,
-  });
 
   const handlePlayPause = () => {
     if (!videoRef.current) return;
@@ -436,12 +434,7 @@ export default function VideoEditor() {
 
   const handleDownloadGif = () => {
     if (!gifUrl || !video) return;
-    const link = document.createElement("a");
-    link.href = gifUrl;
-    link.download = `${video.name.split(".")[0]}.gif`;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(gifUrl, `${video.name.split(".")[0]}.gif`);
     toast.success(t("downloadedSuccess"));
   };
 
@@ -452,12 +445,7 @@ export default function VideoEditor() {
     const extension = formatOption?.extension || "mp4";
     const filename = `${video.name.split(".")[0]}_processed.${extension}`;
 
-    const link = document.createElement("a");
-    link.href = processedVideo;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadUrl(processedVideo, filename);
     toast.success(t("downloadedSuccess"));
   };
 
@@ -504,19 +492,24 @@ export default function VideoEditor() {
   const showGifWarning = gifFrameEstimate > 300 || gifWidth > 800;
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60"></div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
+    <ToolShell
+      slug="video"
+      title={tc("tools.video.name")}
+      sub={tc("tools.video.description")}
+    >
+        <div className="space-y-6">
           {!video ? (
             <Card className="p-6">
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "video/*": [".mp4", ".webm", ".ogg", ".mov", ".avi"],
+                }}
+                multiple={false}
+                className={({ isDragActive }) => `
                   h-64 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
-                  cursor-pointer transition-all duration-200
+                  cursor-pointer transition-[border-color,background-color] duration-150
                   ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
@@ -524,7 +517,6 @@ export default function VideoEditor() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="text-center">
                   <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                     <Upload className="w-10 h-10 text-primary" />
@@ -536,7 +528,7 @@ export default function VideoEditor() {
                     {t("supportedFormats")}
                   </p>
                 </div>
-              </div>
+              </FileDropzone>
             </Card>
           ) : (
             <div className="space-y-6">
@@ -624,13 +616,14 @@ export default function VideoEditor() {
                   </div>
                 </Card>
 
-                <Card className="p-6">
-                  <div className="space-y-4">
-                    <h3 className="text-lg font-semibold flex items-center gap-2">
-                      <Info className="w-5 h-5" />
+                <SettingsCard
+                  title={
+                    <span className="inline-flex items-center gap-2">
+                      <Info className="w-4 h-4" />
                       {t("videoInfo")}
-                    </h3>
-
+                    </span>
+                  }
+                >
                     <div className="space-y-3">
                       <div className="flex justify-between">
                         <span className="text-sm text-muted-foreground">
@@ -645,7 +638,7 @@ export default function VideoEditor() {
                           {t("infoSize")}
                         </span>
                         <span className="text-sm font-medium">
-                          {(video.size / 1024 / 1024).toFixed(2)} MB
+                          {formatBytes(video.size)}
                         </span>
                       </div>
                       <div className="flex justify-between">
@@ -673,8 +666,7 @@ export default function VideoEditor() {
                         </span>
                       </div>
                     </div>
-                  </div>
-                </Card>
+                </SettingsCard>
               </div>
 
               <Tabs defaultValue="edit" className="space-y-6">
@@ -836,16 +828,16 @@ export default function VideoEditor() {
 
                 <TabsContent value="gif" className="space-y-6">
                   <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-                    <Card className="p-6">
-                      <div className="space-y-5">
-                        <h3 className="text-lg font-semibold flex items-center gap-2">
-                          <ImagePlay className="w-5 h-5" />
+                    <SettingsCard
+                      title={
+                        <span className="inline-flex items-center gap-2">
+                          <ImagePlay className="w-4 h-4" />
                           {t("gifTitle")}
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          {t("gifDescription")}
-                        </p>
-
+                        </span>
+                      }
+                      description={t("gifDescription")}
+                    >
+                        {/* Trim range kept bespoke (dual-slider editing flow shared with the Edit tab). */}
                         <div className="space-y-2">
                           <Label>{t("gifTrimHint")}</Label>
                           <div className="space-y-2">
@@ -885,26 +877,33 @@ export default function VideoEditor() {
                           </div>
                         </div>
 
-                        <div className="space-y-2">
-                          <Label>
-                            {t("gifFps")}{" "}
-                            <span dir="ltr" className="font-mono">
-                              {gifFps}
-                            </span>
-                          </Label>
-                          <Slider
-                            value={[gifFps]}
-                            onValueChange={([value]) => setGifFps(value)}
-                            min={1}
-                            max={30}
-                            step={1}
-                            disabled={isGifProcessing}
-                          />
-                        </div>
+                        <SliderRow
+                          label={t("gifFps")}
+                          value={gifFps}
+                          min={1}
+                          max={30}
+                          step={1}
+                          onChange={setGifFps}
+                          disabled={isGifProcessing}
+                          display={<span className="font-mono">{gifFps}</span>}
+                        />
 
-                        <div className="space-y-2">
-                          <Label>{t("gifWidth")}</Label>
+                        <OptionRow
+                          label={t("gifWidth")}
+                          htmlFor="gif-width"
+                          hint={t("gifHeightAuto", {
+                            height: video.width
+                              ? Math.max(
+                                  2,
+                                  Math.round(
+                                    gifWidth * (video.height / video.width)
+                                  )
+                                )
+                              : 0,
+                          })}
+                        >
                           <Input
+                            id="gif-width"
                             type="number"
                             dir="ltr"
                             value={gifWidth}
@@ -915,22 +914,9 @@ export default function VideoEditor() {
                             }
                             disabled={isGifProcessing}
                           />
-                          <p className="text-xs text-muted-foreground">
-                            {t("gifHeightAuto", {
-                              height: video.width
-                                ? Math.max(
-                                    2,
-                                    Math.round(
-                                      gifWidth * (video.height / video.width)
-                                    )
-                                  )
-                                : 0,
-                            })}
-                          </p>
-                        </div>
+                        </OptionRow>
 
-                        <div className="space-y-2">
-                          <Label>{t("gifQuality")}</Label>
+                        <OptionRow label={t("gifQuality")} htmlFor="gif-quality">
                           <Select
                             value={gifQuality}
                             onValueChange={(v) =>
@@ -938,7 +924,7 @@ export default function VideoEditor() {
                             }
                             disabled={isGifProcessing}
                           >
-                            <SelectTrigger>
+                            <SelectTrigger id="gif-quality">
                               <SelectValue />
                             </SelectTrigger>
                             <SelectContent>
@@ -953,7 +939,7 @@ export default function VideoEditor() {
                               </SelectItem>
                             </SelectContent>
                           </Select>
-                        </div>
+                        </OptionRow>
 
                         <div className="flex items-center justify-between">
                           <Label htmlFor="gif-dither">{t("gifDither")}</Label>
@@ -978,7 +964,7 @@ export default function VideoEditor() {
                           <div className="space-y-3">
                             <div className="h-2 w-full rounded-full bg-muted overflow-hidden">
                               <div
-                                className="h-full bg-primary transition-all"
+                                className="h-full bg-primary transition-[width]"
                                 style={{ width: `${gifProgress}%` }}
                               />
                             </div>
@@ -1006,8 +992,7 @@ export default function VideoEditor() {
                             {t("gifConvertAction")}
                           </Button>
                         )}
-                      </div>
-                    </Card>
+                    </SettingsCard>
 
                     <Card className="p-6">
                       <div className="space-y-4">
@@ -1038,7 +1023,7 @@ export default function VideoEditor() {
                                 {t("gifFileSize")}
                               </span>
                               <span className="text-sm font-medium" dir="ltr">
-                                {(gifSize / 1024 / 1024).toFixed(2)} MB
+                                {formatBytes(gifSize)}
                               </span>
                             </div>
                             <Button
@@ -1062,7 +1047,6 @@ export default function VideoEditor() {
           {/* Hidden canvas for video processing */}
           <canvas ref={canvasRef} className="hidden" />
         </div>
-      </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -4,11 +4,14 @@ import { useState, useEffect, useCallback, useMemo } from "react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
-import { Plus, Trash2, Check, Flame, Trophy, Edit2, X, BarChart3 } from "lucide-react";
+import { Plus, Trash2, Check, Flame, Trophy, Edit2, X } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 interface Habit {
   id: string;
@@ -110,6 +113,7 @@ function getColorObj(name: string) {
 
 export default function HabitTracker() {
   const t = useTranslations("Tools.HabitTracker");
+  const tc = useTranslations("ToolsConfig");
   const [habits, setHabits] = useState<Habit[]>([]);
   const [newName, setNewName] = useState("");
   const [newEmoji, setNewEmoji] = useState(PRESET_EMOJIS[0]);
@@ -196,100 +200,82 @@ export default function HabitTracker() {
   }, [habits, today]);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="habit-tracker"
+      title={tc("tools.habit-tracker.name")}
+      sub={tc("tools.habit-tracker.description")}
+      width="wide"
+      primaryAction={{
+        label: showAdd ? t("cancel") : t("addHabit"),
+        onClick: () => setShowAdd((v) => !v),
+      }}
+    >
       <div className="max-w-2xl mx-auto space-y-6">
-        <div className="flex items-center justify-between">
-          <div className="flex items-center gap-3">
-            <div className="p-2 rounded-xl bg-primary/10">
-              <BarChart3 className="w-6 h-6 text-primary" />
-            </div>
-            <div>
-              <h1 className="text-2xl font-bold">{t("title")}</h1>
-              <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-            </div>
-          </div>
-          <Button onClick={() => setShowAdd((v) => !v)} variant={showAdd ? "outline" : "default"}>
-            {showAdd ? <><X className="w-4 h-4 me-2" />{t("cancel")}</> : <><Plus className="w-4 h-4 me-2" />{t("addHabit")}</>}
-          </Button>
-        </div>
-
         {/* Stats Row */}
-        <div className="grid grid-cols-3 gap-3">
-          <Card>
-            <CardContent className="pt-4 pb-4 text-center">
-              <div className="text-2xl font-bold text-primary">{stats.total}</div>
-              <div className="text-xs text-muted-foreground mt-0.5">{t("totalHabits")}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-4 pb-4 text-center">
-              <div className="text-2xl font-bold text-green-500">{stats.rate}%</div>
-              <div className="text-xs text-muted-foreground mt-0.5">{t("doneToday")}</div>
-            </CardContent>
-          </Card>
-          <Card>
-            <CardContent className="pt-4 pb-4 text-center">
-              <div className="text-2xl font-bold text-orange-500 flex items-center justify-center gap-1">
-                <Flame className="w-5 h-5" />{stats.longestActive}
-              </div>
-              <div className="text-xs text-muted-foreground mt-0.5">{t("bestStreak")}</div>
-            </CardContent>
-          </Card>
-        </div>
+        <StatStrip
+          items={[
+            { label: t("totalHabits"), value: stats.total },
+            { label: t("doneToday"), value: `${stats.rate}%` },
+            {
+              label: t("bestStreak"),
+              value: (
+                <span className="inline-flex items-center gap-1">
+                  <Flame className="w-5 h-5" />
+                  {stats.longestActive}
+                </span>
+              ),
+            },
+          ]}
+        />
 
         {/* Add Habit Form */}
         {showAdd && (
-          <Card>
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base">{t("newHabit")}</CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-1.5">
-                <Label>{t("habitName")}</Label>
-                <Input
-                  placeholder={t("habitNamePlaceholder")}
-                  value={newName}
-                  onChange={(e) => setNewName(e.target.value)}
-                  onKeyDown={(e) => e.key === "Enter" && addHabit()}
-                />
+          <SettingsCard title={t("newHabit")}>
+            <div className="space-y-1.5">
+              <Label>{t("habitName")}</Label>
+              <Input
+                placeholder={t("habitNamePlaceholder")}
+                value={newName}
+                onChange={(e) => setNewName(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && addHabit()}
+              />
+            </div>
+            <div className="space-y-1.5">
+              <Label>{t("emoji")}</Label>
+              <div className="flex gap-2 flex-wrap">
+                {PRESET_EMOJIS.map((em) => (
+                  <button
+                    key={em}
+                    onClick={() => setNewEmoji(em)}
+                    className={`text-2xl w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-[transform,border-color,box-shadow] ${
+                      newEmoji === em ? "border-primary bg-primary/10 scale-110" : "border-transparent hover:border-border"
+                    }`}
+                  >
+                    {em}
+                  </button>
+                ))}
               </div>
-              <div className="space-y-1.5">
-                <Label>{t("emoji")}</Label>
-                <div className="flex gap-2 flex-wrap">
-                  {PRESET_EMOJIS.map((em) => (
-                    <button
-                      key={em}
-                      onClick={() => setNewEmoji(em)}
-                      className={`text-2xl w-10 h-10 rounded-lg border-2 flex items-center justify-center transition-all ${
-                        newEmoji === em ? "border-primary bg-primary/10 scale-110" : "border-transparent hover:border-border"
-                      }`}
-                    >
-                      {em}
-                    </button>
-                  ))}
-                </div>
+            </div>
+            <div className="space-y-1.5">
+              <Label>{t("color")}</Label>
+              <div className="flex gap-2">
+                {COLORS.map((c) => (
+                  <button
+                    key={c.name}
+                    onClick={() => setNewColor(c.name)}
+                    className={`w-8 h-8 rounded-full ${c.tw} transition-[transform,opacity,box-shadow] ${
+                      newColor === c.name ? `ring-2 ring-offset-2 ${c.ring} scale-110` : "opacity-70 hover:opacity-100"
+                    }`}
+                    title={c.label}
+                  />
+                ))}
               </div>
-              <div className="space-y-1.5">
-                <Label>{t("color")}</Label>
-                <div className="flex gap-2">
-                  {COLORS.map((c) => (
-                    <button
-                      key={c.name}
-                      onClick={() => setNewColor(c.name)}
-                      className={`w-8 h-8 rounded-full ${c.tw} transition-all ${
-                        newColor === c.name ? `ring-2 ring-offset-2 ${c.ring} scale-110` : "opacity-70 hover:opacity-100"
-                      }`}
-                      title={c.label}
-                    />
-                  ))}
-                </div>
-              </div>
-              <Button onClick={addHabit} className="w-full">
-                <Plus className="w-4 h-4 me-2" />
-                {t("addHabit")}
-              </Button>
-            </CardContent>
-          </Card>
+            </div>
+            <Button onClick={addHabit} className="w-full">
+              <Plus className="w-4 h-4 me-2" />
+              {t("addHabit")}
+            </Button>
+          </SettingsCard>
         )}
 
         {/* Habits List */}
@@ -311,13 +297,13 @@ export default function HabitTracker() {
             const isEditing = editingId === habit.id;
 
             return (
-              <Card key={habit.id} className={`transition-all ${doneToday ? "ring-1 ring-green-400 dark:ring-green-600" : ""}`}>
+              <Card key={habit.id} className={`transition-shadow ${doneToday ? "ring-1 ring-green-400 dark:ring-green-600" : ""}`}>
                 <CardContent className="pt-4 pb-4">
                   <div className="flex items-start gap-3">
                     {/* Toggle Button */}
                     <button
                       onClick={() => toggleToday(habit.id)}
-                      className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-all border-2 ${
+                      className={`flex-shrink-0 w-12 h-12 rounded-full flex items-center justify-center text-2xl transition-[transform,border-color] border-2 ${
                         doneToday
                           ? `${colorObj.tw} border-transparent text-white shadow-md scale-105`
                           : "border-border hover:border-primary bg-muted/30 hover:bg-muted/60"
@@ -364,7 +350,7 @@ export default function HabitTracker() {
                                 {t(dayKey)}
                               </span>
                               <div
-                                className={`w-5 h-5 rounded-full flex items-center justify-center transition-all ${
+                                className={`w-5 h-5 rounded-full flex items-center justify-center transition-[transform,background-color] ${
                                   done
                                     ? `${colorObj.tw} text-white`
                                     : isToday
@@ -420,6 +406,6 @@ export default function HabitTracker() {
           })}
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

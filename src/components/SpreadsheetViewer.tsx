@@ -2,7 +2,6 @@
 
 import { useState, useCallback } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -29,6 +28,9 @@ import {
   ArrowUpDown,
 } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
+import { downloadBlob } from "@/lib/download";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import {
@@ -53,6 +55,7 @@ interface Column {
 
 export default function SpreadsheetViewer() {
   const t = useTranslations("Tools.SpreadsheetViewer");
+  const tc = useTranslations("ToolsConfig");
   const [data, setData] = useState<DataRow[]>([]);
   const [columns, setColumns] = useState<Column[]>([]);
   const [filteredData, setFilteredData] = useState<DataRow[]>([]);
@@ -106,17 +109,13 @@ export default function SpreadsheetViewer() {
     }
   }, []);
 
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      "text/csv": [".csv"],
-      "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
-        ".xlsx",
-      ],
-      "application/vnd.ms-excel": [".xls"],
-    },
-    multiple: false,
-  });
+  const dropzoneAccept = {
+    "text/csv": [".csv"],
+    "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet": [
+      ".xlsx",
+    ],
+    "application/vnd.ms-excel": [".xls"],
+  };
 
   const handleSearch = (value: string) => {
     setSearch(value);
@@ -158,15 +157,7 @@ export default function SpreadsheetViewer() {
 
   const downloadCSV = () => {
     const csv = Papa.unparse(filteredData);
-    const blob = new Blob([csv], { type: "text/csv" });
-    const url = URL.createObjectURL(blob);
-    const link = document.createElement("a");
-    link.href = url;
-    link.download = "exported_data.csv";
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-    URL.revokeObjectURL(url);
+    downloadBlob(new Blob([csv], { type: "text/csv" }), "exported_data.csv");
   };
 
   const prepareChartData = () => {
@@ -193,32 +184,36 @@ export default function SpreadsheetViewer() {
   const chartData = prepareChartData();
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        {data.length > 0 && (
-          <div className="flex items-center gap-2">
-            <Button variant="outline" onClick={() => setShowChart(!showChart)}>
+    <ToolShell
+      slug="spreadsheet"
+      title={tc("tools.spreadsheet.name")}
+      sub={tc("tools.spreadsheet.description")}
+      width="wide"
+      controls={
+        data.length > 0 ? (
+          <>
+            <Button variant="outline" size="sm" onClick={() => setShowChart(!showChart)}>
               <BarChart3 className="w-4 h-4 me-2" />
               {showChart ? t("hideChart") : t("showChart")}
             </Button>
-            <Button variant="outline" onClick={downloadCSV}>
+            <Button variant="outline" size="sm" onClick={downloadCSV}>
               <Download className="w-4 h-4 me-2" />
               {t("exportCsv")}
             </Button>
-          </div>
-        )}
-      </div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="max-w-7xl mx-auto space-y-6">
+          </>
+        ) : undefined
+      }
+    >
+      <div className="space-y-6">
           {!data.length ? (
             <Card className="p-6">
-              <div
-                {...getRootProps()}
-                className={`
+              <FileDropzone
+                onFiles={onDrop}
+                accept={dropzoneAccept}
+                className={({ isDragActive }) => `
                   h-48 rounded-lg border-2 border-dashed
                   flex flex-col items-center justify-center space-y-4 p-8
-                  cursor-pointer transition-all duration-200
+                  cursor-pointer transition-[border-color,background-color] duration-150
                   ${
                     isDragActive
                       ? "border-primary bg-primary/10 scale-[0.99]"
@@ -226,7 +221,6 @@ export default function SpreadsheetViewer() {
                   }
                 `}
               >
-                <input {...getInputProps()} />
                 <div className="flex flex-col items-center space-y-4">
                   <div className="p-4 rounded-full bg-primary/10">
                     <TableIcon className="w-8 h-8 text-primary" />
@@ -240,7 +234,7 @@ export default function SpreadsheetViewer() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </FileDropzone>
             </Card>
           ) : (
             <>
@@ -284,6 +278,7 @@ export default function SpreadsheetViewer() {
                         <XAxis dataKey="name" />
                         <YAxis />
                         <Tooltip />
+                        {/* content value: chart data-series fill, no --bt-chart token exists */}
                         <Bar dataKey="value" fill="#4f46e5" />
                       </BarChart>
                     </ResponsiveContainer>
@@ -332,8 +327,7 @@ export default function SpreadsheetViewer() {
               </Card>
             </>
           )}
-        </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

@@ -1,0 +1,28 @@
+/* Shared slider row (R3 §F3 M4). Colours via var(--bt-*), both themes. */
+
+.row {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.label {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: var(--bt-ink);
+}
+
+.value {
+  font-family: var(--mono);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  color: var(--bt-muted);
+}

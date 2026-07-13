@@ -2,11 +2,13 @@
 
 import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
-import { useDropzone } from "react-dropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { FileDropzone } from "@/components/shared/FileDropzone";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
 import { Switch } from "@/components/ui/switch";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import {
   Select,
   SelectContent,
@@ -37,6 +39,8 @@ interface BackgroundPreset {
   base?: string;
 }
 
+// content value: user-selectable background gradient/mesh presets — the hex
+// stops ARE the product output, painted onto the export canvas and preview.
 const BACKGROUND_PRESETS: BackgroundPreset[] = [
   { id: "ocean", type: "linear", angle: 135, stops: [{ color: "#4f46e5", pos: 0 }, { color: "#06b6d4", pos: 1 }] },
   { id: "sunset", type: "linear", angle: 135, stops: [{ color: "#f97316", pos: 0 }, { color: "#db2777", pos: 1 }] },
@@ -99,11 +103,12 @@ function roundRect(
 export default function ScreenshotBeautifier() {
   const t = useTranslations("Tools.ScreenshotBeautifier");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<SourceImage | null>(null);
   const [bgMode, setBgMode] = useState<BgMode>("preset");
   const [presetId, setPresetId] = useState("ocean");
-  const [solidColor, setSolidColor] = useState("#6366f1");
+  const [solidColor, setSolidColor] = useState("#6366f1"); // content value: default solid background color
   const [bgImageUrl, setBgImageUrl] = useState<string | null>(null);
 
   const [padding, setPadding] = useState(80);
@@ -147,12 +152,6 @@ export default function ScreenshotBeautifier() {
     },
     [t],
   );
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] },
-    multiple: false,
-  });
 
   const onDropBackground = useCallback((files: File[]) => {
     const file = files[0];
@@ -215,7 +214,7 @@ export default function ScreenshotBeautifier() {
       } else {
         const preset = BACKGROUND_PRESETS.find((p) => p.id === presetId) ?? BACKGROUND_PRESETS[0];
         if (preset.type === "mesh") {
-          ctx.fillStyle = preset.base ?? "#000";
+          ctx.fillStyle = preset.base ?? "#000"; // content value: mesh base fill
           ctx.fillRect(0, 0, canvasW, canvasH);
           for (const blob of preset.mesh ?? []) {
             const grad = ctx.createRadialGradient(
@@ -262,12 +261,12 @@ export default function ScreenshotBeautifier() {
       }
 
       // Drop shadow on the rounded card.
-      ctx.shadowColor = `rgba(0,0,0,${shadowOpacity / 100})`;
+      ctx.shadowColor = `rgba(0,0,0,${shadowOpacity / 100})`; // content value: drop-shadow color
       ctx.shadowBlur = shadowBlur;
       ctx.shadowOffsetY = shadowBlur / 3 + shadowSpread;
 
       roundRect(ctx, boxX, boxY, innerW, innerH, radius);
-      ctx.fillStyle = "#ffffff";
+      ctx.fillStyle = "#ffffff"; // content value: white card behind the screenshot
       ctx.fill();
 
       // Clip subsequent draws to the rounded card; disable shadow inside.
@@ -279,11 +278,11 @@ export default function ScreenshotBeautifier() {
 
       // Window / browser chrome bar.
       if (barHeight > 0) {
-        ctx.fillStyle = "#e5e7eb";
+        ctx.fillStyle = "#e5e7eb"; // content value: window/browser chrome bar
         ctx.fillRect(boxX, boxY, innerW, barHeight);
         // Traffic-light dots.
         const dotY = boxY + barHeight / 2;
-        const colors = ["#ff5f57", "#febc2e", "#28c840"];
+        const colors = ["#ff5f57", "#febc2e", "#28c840"]; // content value: macOS traffic-light dots
         colors.forEach((c, i) => {
           ctx.beginPath();
           ctx.fillStyle = c;
@@ -292,7 +291,7 @@ export default function ScreenshotBeautifier() {
         });
         // Browser URL pill.
         if (browserBar) {
-          ctx.fillStyle = "#ffffff";
+          ctx.fillStyle = "#ffffff"; // content value: browser URL pill
           roundRect(ctx, boxX + 84, boxY + 10, innerW - 104, barHeight - 20, (barHeight - 20) / 2);
           ctx.fill();
         }
@@ -360,22 +359,28 @@ export default function ScreenshotBeautifier() {
   };
 
   return (
-    <div className="flex flex-col min-h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6 max-w-7xl mx-auto">
+    <ToolShell
+      slug="screenshot-beautifier"
+      title={tc("tools.screenshot-beautifier.name")}
+      sub={tc("tools.screenshot-beautifier.description")}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-[1fr_360px] gap-6">
           {/* Preview / canvas */}
           <div className="space-y-4">
             <Card className="p-6 shadow-none">
               {!image ? (
-                <div
-                  {...getRootProps()}
-                  className={`h-80 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-all duration-200 ${
-                    isDragActive
-                      ? "border-primary bg-primary/10 scale-[0.99]"
-                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                  }`}
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp", ".gif"] }}
+                  multiple={false}
+                  className={({ isDragActive }) =>
+                    `h-80 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
+                      isDragActive
+                        ? "border-primary bg-primary/10 scale-[0.99]"
+                        : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                    }`
+                  }
                 >
-                  <input {...getInputProps()} />
                   <div className="text-center">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-10 h-10 text-primary" />
@@ -383,9 +388,10 @@ export default function ScreenshotBeautifier() {
                     <h3 className="text-lg font-semibold mb-1">{t("dropImageHere")}</h3>
                     <p className="text-sm text-muted-foreground">{t("supportedFormats")}</p>
                   </div>
-                </div>
+                </FileDropzone>
               ) : (
                 <div className="space-y-3">
+                  {/* content value: transparency checkerboard behind the preview canvas */}
                   <div className="rounded-lg overflow-hidden bg-[conic-gradient(at_top_left,_#f3f4f6_25%,_#fff_0_50%,_#f3f4f6_0_75%,_#fff_0)] [background-size:20px_20px] flex items-center justify-center p-2">
                     <canvas
                       ref={canvasRef}
@@ -425,9 +431,8 @@ export default function ScreenshotBeautifier() {
           </div>
 
           {/* Controls */}
-          <Card className="p-4 space-y-5 h-fit">
-            <div className="space-y-2">
-              <label className="text-sm font-medium">{t("background")}</label>
+          <SettingsCard className="h-fit">
+            <OptionRow label={t("background")}>
               <Select value={bgMode} onValueChange={(v) => setBgMode(v as BgMode)}>
                 <SelectTrigger>
                   <SelectValue />
@@ -438,7 +443,7 @@ export default function ScreenshotBeautifier() {
                   <SelectItem value="image">{t("bgModeImage")}</SelectItem>
                 </SelectContent>
               </Select>
-            </div>
+            </OptionRow>
 
             {bgMode === "preset" && (
               <div className="grid grid-cols-4 gap-2">
@@ -448,7 +453,7 @@ export default function ScreenshotBeautifier() {
                     type="button"
                     aria-label={t(`preset_${p.id}` as never)}
                     onClick={() => setPresetId(p.id)}
-                    className={`h-12 rounded-md ring-1 ring-border transition-all ${
+                    className={`h-12 rounded-md ring-1 ring-border transition-[transform,box-shadow] ${
                       presetId === p.id ? "ring-2 ring-primary scale-95" : "hover:scale-95"
                     }`}
                     style={{
@@ -481,12 +486,12 @@ export default function ScreenshotBeautifier() {
               <BgImageDrop onDrop={onDropBackground} label={t("uploadBackground")} hasImage={!!bgImageUrl} replaceLabel={t("changeBackground")} />
             )}
 
-            <SliderRow label={t("padding")} value={padding} min={0} max={200} unit="px" onChange={setPadding} />
-            <SliderRow label={t("cornerRadius")} value={radius} min={0} max={48} unit="px" onChange={setRadius} />
-            <SliderRow label={t("shadowBlur")} value={shadowBlur} min={0} max={120} unit="px" onChange={setShadowBlur} />
-            <SliderRow label={t("shadowSpread")} value={shadowSpread} min={0} max={60} unit="px" onChange={setShadowSpread} />
-            <SliderRow label={t("shadowOpacity")} value={shadowOpacity} min={0} max={100} unit="%" onChange={setShadowOpacity} />
-            <SliderRow label={t("tilt")} value={tilt} min={-15} max={15} unit="°" onChange={setTilt} />
+            <SliderRow label={t("padding")} value={padding} min={0} max={200} display={`${padding}px`} onChange={setPadding} />
+            <SliderRow label={t("cornerRadius")} value={radius} min={0} max={48} display={`${radius}px`} onChange={setRadius} />
+            <SliderRow label={t("shadowBlur")} value={shadowBlur} min={0} max={120} display={`${shadowBlur}px`} onChange={setShadowBlur} />
+            <SliderRow label={t("shadowSpread")} value={shadowSpread} min={0} max={60} display={`${shadowSpread}px`} onChange={setShadowSpread} />
+            <SliderRow label={t("shadowOpacity")} value={shadowOpacity} min={0} max={100} display={`${shadowOpacity}%`} onChange={setShadowOpacity} />
+            <SliderRow label={t("tilt")} value={tilt} min={-15} max={15} display={`${tilt}°`} onChange={setTilt} />
 
             <div className="flex items-center justify-between">
               <label className="text-sm font-medium" htmlFor="window-frame">
@@ -501,8 +506,7 @@ export default function ScreenshotBeautifier() {
               <Switch id="browser-bar" checked={browserBar} onCheckedChange={setBrowserBar} />
             </div>
 
-            <div className="space-y-2">
-              <label className="text-sm font-medium">{t("aspectRatio")}</label>
+            <OptionRow label={t("aspectRatio")}>
               <Select value={aspect} onValueChange={setAspect}>
                 <SelectTrigger>
                   <SelectValue />
@@ -515,47 +519,11 @@ export default function ScreenshotBeautifier() {
                   ))}
                 </SelectContent>
               </Select>
-            </div>
-          </Card>
+            </OptionRow>
+          </SettingsCard>
         </div>
-        <p className="sr-only">{tCommon("download")}</p>
-      </div>
-    </div>
-  );
-}
-
-function SliderRow({
-  label,
-  value,
-  min,
-  max,
-  unit,
-  onChange,
-}: {
-  label: string;
-  value: number;
-  min: number;
-  max: number;
-  unit: string;
-  onChange: (v: number) => void;
-}) {
-  return (
-    <div className="space-y-2">
-      <div className="flex justify-between">
-        <label className="text-sm font-medium">{label}</label>
-        <span className="text-sm text-muted-foreground" dir="ltr">
-          {value}
-          {unit}
-        </span>
-      </div>
-      <Slider
-        value={[value]}
-        onValueChange={([v]) => onChange(v)}
-        min={min}
-        max={max}
-        step={1}
-      />
-    </div>
+      <p className="sr-only">{tCommon("download")}</p>
+    </ToolShell>
   );
 }
 
@@ -570,21 +538,19 @@ function BgImageDrop({
   replaceLabel: string;
   hasImage: boolean;
 }) {
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: { "image/*": [".png", ".jpg", ".jpeg", ".webp"] },
-    multiple: false,
-  });
   return (
-    <div
-      {...getRootProps()}
-      className={`rounded-md border-2 border-dashed p-4 text-center cursor-pointer text-sm transition-colors ${
-        isDragActive ? "border-primary bg-primary/10" : "border-muted-foreground/50 hover:border-primary"
-      }`}
+    <FileDropzone
+      onFiles={onDrop}
+      accept={{ "image/*": [".png", ".jpg", ".jpeg", ".webp"] }}
+      multiple={false}
+      className={({ isDragActive }) =>
+        `rounded-md border-2 border-dashed p-4 text-center cursor-pointer text-sm transition-colors ${
+          isDragActive ? "border-primary bg-primary/10" : "border-muted-foreground/50 hover:border-primary"
+        }`
+      }
     >
-      <input {...getInputProps()} />
       <ImageIcon className="w-5 h-5 mx-auto mb-1 text-muted-foreground" />
       {hasImage ? replaceLabel : label}
-    </div>
+    </FileDropzone>
   );
 }

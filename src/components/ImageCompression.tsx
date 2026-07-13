@@ -3,9 +3,14 @@
 import { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { FileDropzone } from "@/components/shared/FileDropzone";
+import { ToolShell } from "@/components/template/tool-shell";
+import { ControlStat } from "@/components/template/controls-bar";
+import { downloadDataUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Slider } from "@/components/ui/slider";
+import { SliderRow } from "@/components/shared/SliderRow";
+import { OptionRow } from "@/components/shared/SettingsCard";
+import { formatBytes, formatPercent } from "@/lib/format";
 import {
   Select,
   SelectContent,
@@ -16,7 +21,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   Upload,
-  Download,
   Image as ImageIcon,
   Maximize2,
   MinusSquare,
@@ -36,6 +40,7 @@ interface ImageInfo {
 
 export default function ImageCompression() {
   const t = useTranslations("Tools.ImageCompression");
+  const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
 
   const compressionModes = [
@@ -163,12 +168,7 @@ export default function ImageCompression() {
         : targetFormat.split("/")[1];
 
     const filename = `${image.name.split(".")[0]}_compressed.${format}`;
-    const link = document.createElement("a");
-    link.href = compressedImage;
-    link.download = filename;
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
+    downloadDataUrl(compressedImage, filename);
     toast.success(t("downloadedSuccess"));
   };
 
@@ -183,252 +183,236 @@ export default function ImageCompression() {
 
   const compressionRatio =
     compressedSize && image
-      ? ((1 - compressedSize / image.size) * 100).toFixed(1)
-      : 0;
+      ? formatPercent(1 - compressedSize / image.size, 1)
+      : "0%";
 
   return (
-    <div className="flex flex-col h-[calc(100vh-theme(spacing.16))]">
-      <div className="flex justify-end items-center p-6 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-        {image && compressedImage && (
-          <div className="flex items-center gap-4">
-            <div className="text-end">
-              <p className="text-sm font-medium">{t("sizeReduction")}</p>
-              <p className="text-2xl font-bold text-green-500">
-                {compressionRatio}%
-              </p>
-            </div>
+    <ToolShell
+      slug="image-compression"
+      title={tc("tools.image-compression.name")}
+      sub={tc("tools.image-compression.description")}
+      controls={
+        image && compressedImage ? (
+          <>
             <Button
               variant="outline"
               size="icon"
               onClick={() => setComparing(!comparing)}
             >
-              {comparing ? <MinusSquare /> : <Maximize2 />}
+              {comparing ? (
+                <MinusSquare className="h-4 w-4" />
+              ) : (
+                <Maximize2 className="h-4 w-4" />
+              )}
             </Button>
-          </div>
-        )}
-      </div>
-
-      <div className="flex-1 overflow-auto p-6">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-7xl mx-auto">
-          <div className="space-y-4">
-            <Card className="p-6">
-              {!image ? (
-                <FileDropzone
-                  onFiles={onDrop}
-                  accept={{
-                    "image/*": [".png", ".jpg", ".jpeg", ".webp"],
-                  }}
-                  multiple={false}
-                  className={({ isDragActive }) => `
+            <ControlStat label={t("sizeReduction")}>
+              <span className="text-2xl font-bold text-green-500">
+                {compressionRatio}
+              </span>
+            </ControlStat>
+          </>
+        ) : undefined
+      }
+      primaryAction={{
+        label: tCommon("download"),
+        onClick: handleDownload,
+        disabled: !compressedImage,
+      }}
+    >
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="space-y-4">
+          <Card className="p-6">
+            {!image ? (
+              <FileDropzone
+                onFiles={onDrop}
+                accept={{
+                  "image/*": [".png", ".jpg", ".jpeg", ".webp"],
+                }}
+                multiple={false}
+                className={({ isDragActive }) => `
                     h-64 rounded-lg border-2 border-dashed
                     flex flex-col items-center justify-center space-y-4 p-8
-                    cursor-pointer transition-all duration-200
+                    cursor-pointer transition-[border-color,background-color] duration-150
                     ${
                       isDragActive
                         ? "border-primary bg-primary/10 scale-[0.99]"
                         : "border-muted-foreground hover:border-primary hover:bg-primary/5"
                     }
                   `}
-                >
-                  <div className="text-center">
-                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                      <Upload className="w-10 h-10 text-primary" />
-                    </div>
-                    <h3 className="text-lg font-semibold mb-1">
-                      {t("dropImageHere")}
-                    </h3>
-                    <p className="text-sm text-muted-foreground">
-                      {t("uploadLimit")}
-                    </p>
+              >
+                <div className="text-center">
+                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                    <Upload className="w-10 h-10 text-primary" />
                   </div>
-                </FileDropzone>
-              ) : comparing ? (
-                <div
-                  ref={compareRef}
-                  className="relative h-64 cursor-col-resize"
-                  onMouseMove={handleCompareMove}
-                  onMouseDown={() => setComparing(true)}
-                  onMouseUp={() => setComparing(false)}
-                  onMouseLeave={() => setComparing(false)}
-                >
-                  <div className="absolute inset-0">
-                    <img
-                      src={compressedImage || image.url}
-                      alt="Compressed"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div
-                    className="absolute inset-0 overflow-hidden"
-                    style={{ width: `${comparePosition}%` }}
-                  >
-                    <img
-                      src={image.url}
-                      alt="Original"
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <div
-                    className="absolute top-0 bottom-0 w-0.5 bg-primary cursor-col-resize"
-                    style={{ left: `${comparePosition}%` }}
+                  <h3 className="text-lg font-semibold mb-1">
+                    {t("dropImageHere")}
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    {t("uploadLimit")}
+                  </p>
+                </div>
+              </FileDropzone>
+            ) : comparing ? (
+              <div
+                ref={compareRef}
+                className="relative h-64 cursor-col-resize"
+                onMouseMove={handleCompareMove}
+                onMouseDown={() => setComparing(true)}
+                onMouseUp={() => setComparing(false)}
+                onMouseLeave={() => setComparing(false)}
+              >
+                <div className="absolute inset-0">
+                  <img
+                    src={compressedImage || image.url}
+                    alt="Compressed"
+                    className="w-full h-full object-contain"
                   />
                 </div>
-              ) : (
-                <div className="h-64 relative">
+                <div
+                  className="absolute inset-0 overflow-hidden"
+                  style={{ width: `${comparePosition}%` }}
+                >
                   <img
                     src={image.url}
                     alt="Original"
                     className="w-full h-full object-contain"
                   />
-                  <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                    {image.width} x {image.height} •{" "}
-                    {(image.size / 1024).toFixed(1)} KB
-                  </div>
                 </div>
-              )}
-            </Card>
-
-            <Card className="p-4">
-              <Tabs defaultValue="basic" className="space-y-4">
-                <TabsList className="grid w-full grid-cols-2">
-                  <TabsTrigger value="basic">{t("tabBasic")}</TabsTrigger>
-                  <TabsTrigger value="advanced">{t("tabAdvanced")}</TabsTrigger>
-                </TabsList>
-
-                <TabsContent value="basic" className="space-y-4">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">
-                      {t("compressionMode")}
-                    </label>
-                    <Select value={mode} onValueChange={setMode}>
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {compressionModes.map((m) => (
-                          <SelectItem key={m.value} value={m.value}>
-                            {m.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">{t("outputFormat")}</label>
-                    <Select
-                      value={targetFormat}
-                      onValueChange={setTargetFormat}
-                    >
-                      <SelectTrigger>
-                        <SelectValue />
-                      </SelectTrigger>
-                      <SelectContent>
-                        {targetFormats.map((f) => (
-                          <SelectItem key={f.value} value={f.value}>
-                            {f.label}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="advanced" className="space-y-4">
-                  {mode === "custom" && (
-                    <div className="space-y-2">
-                      <div className="flex justify-between">
-                        <label className="text-sm font-medium">{t("quality")}</label>
-                        <span className="text-sm text-muted-foreground">
-                          {quality}%
-                        </span>
-                      </div>
-                      <Slider
-                        value={[quality]}
-                        onValueChange={([value]) => setQuality(value)}
-                        min={1}
-                        max={100}
-                        step={1}
-                      />
-                    </div>
-                  )}
-
-                  <div className="space-y-2">
-                    <div className="flex justify-between">
-                      <label className="text-sm font-medium">{t("maxWidth")}</label>
-                      <span className="text-sm text-muted-foreground">
-                        {maxWidth}px
-                      </span>
-                    </div>
-                    <Slider
-                      value={[maxWidth]}
-                      onValueChange={([value]) => setMaxWidth(value)}
-                      min={320}
-                      max={3840}
-                      step={1}
-                    />
-                  </div>
-                </TabsContent>
-              </Tabs>
-
-              <Button
-                onClick={compressImage}
-                className="w-full mt-4"
-                disabled={!image || loading}
-              >
-                {t("compressImage")}
-              </Button>
-            </Card>
-          </div>
-
-          <div className="space-y-4">
-            <Card className="p-6">
-              <div className="h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center">
-                {compressedImage ? (
-                  <div className="w-full h-full relative">
-                    <img
-                      src={compressedImage}
-                      alt="Compressed"
-                      className="w-full h-full object-contain"
-                    />
-                    <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
-                      {(compressedSize / 1024).toFixed(1)} KB
-                    </div>
-                  </div>
-                ) : (
-                  <div className="text-center">
-                    <ImageIcon className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
-                    <p className="text-muted-foreground">
-                      {t("compressedImagePlaceholder")}
-                    </p>
-                  </div>
-                )}
+                <div
+                  className="absolute top-0 bottom-0 w-0.5 bg-primary cursor-col-resize"
+                  style={{ left: `${comparePosition}%` }}
+                />
               </div>
-            </Card>
-
-            {compressedImage && (
-              <div className="grid grid-cols-2 gap-4">
-                <Button
-                  onClick={handleDownload}
-                  className="w-full"
-                  variant="secondary"
-                >
-                  <Download className="w-4 h-4 me-2" />
-                  {tCommon("download")}
-                </Button>
-                <Button
-                  onClick={() => window.open(compressedImage, "_blank")}
-                  className="w-full"
-                  variant="outline"
-                >
-                  <FileDown className="w-4 h-4 me-2" />
-                  {t("previewFull")}
-                </Button>
+            ) : (
+              <div className="h-64 relative">
+                <img
+                  src={image.url}
+                  alt="Original"
+                  className="w-full h-full object-contain"
+                />
+                {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
+                <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
+                  {image.width} x {image.height} • {formatBytes(image.size)}
+                </div>
               </div>
             )}
-          </div>
+          </Card>
+
+          <Card className="p-4">
+            <Tabs defaultValue="basic" className="space-y-4">
+              <TabsList className="grid w-full grid-cols-2">
+                <TabsTrigger value="basic">{t("tabBasic")}</TabsTrigger>
+                <TabsTrigger value="advanced">{t("tabAdvanced")}</TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="basic" className="space-y-4">
+                <OptionRow label={t("compressionMode")} htmlFor="ic-mode">
+                  <Select value={mode} onValueChange={setMode}>
+                    <SelectTrigger id="ic-mode">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {compressionModes.map((m) => (
+                        <SelectItem key={m.value} value={m.value}>
+                          {m.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </OptionRow>
+
+                <OptionRow label={t("outputFormat")} htmlFor="ic-format">
+                  <Select
+                    value={targetFormat}
+                    onValueChange={setTargetFormat}
+                  >
+                    <SelectTrigger id="ic-format">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {targetFormats.map((f) => (
+                        <SelectItem key={f.value} value={f.value}>
+                          {f.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </OptionRow>
+              </TabsContent>
+
+              <TabsContent value="advanced" className="space-y-4">
+                {mode === "custom" && (
+                  <SliderRow
+                    label={t("quality")}
+                    value={quality}
+                    min={1}
+                    max={100}
+                    step={1}
+                    onChange={setQuality}
+                    display={`${quality}%`}
+                  />
+                )}
+
+                <SliderRow
+                  label={t("maxWidth")}
+                  value={maxWidth}
+                  min={320}
+                  max={3840}
+                  step={1}
+                  onChange={setMaxWidth}
+                  display={`${maxWidth}px`}
+                />
+              </TabsContent>
+            </Tabs>
+
+            <Button
+              onClick={compressImage}
+              className="w-full mt-4"
+              disabled={!image || loading}
+            >
+              {t("compressImage")}
+            </Button>
+          </Card>
+        </div>
+
+        <div className="space-y-4">
+          <Card className="p-6">
+            <div className="h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center">
+              {compressedImage ? (
+                <div className="w-full h-full relative">
+                  <img
+                    src={compressedImage}
+                    alt="Compressed"
+                    className="w-full h-full object-contain"
+                  />
+                  {/* content value: fixed dark scrim + white text for legibility over an arbitrary image */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-black/50 text-white p-2 text-sm">
+                    {formatBytes(compressedSize)}
+                  </div>
+                </div>
+              ) : (
+                <div className="text-center">
+                  <ImageIcon className="w-12 h-12 mx-auto mb-4 text-muted-foreground" />
+                  <p className="text-muted-foreground">
+                    {t("compressedImagePlaceholder")}
+                  </p>
+                </div>
+              )}
+            </div>
+          </Card>
+
+          {compressedImage && (
+            <Button
+              onClick={() => window.open(compressedImage, "_blank")}
+              className="w-full"
+              variant="outline"
+            >
+              <FileDown className="w-4 h-4 me-2" />
+              {t("previewFull")}
+            </Button>
+          )}
         </div>
       </div>
-    </div>
+    </ToolShell>
   );
 }

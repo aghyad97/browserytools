@@ -4,7 +4,6 @@ import { useState, useMemo, useCallback } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
 import {
   Select,
   SelectContent,
@@ -12,9 +11,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Copy, Download, RotateCcw, Database, Minimize2, Sparkles } from "lucide-react";
+import { RotateCcw, Minimize2, Sparkles } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { ModePicker } from "@/components/shared/ModePicker";
+import { TwoPane } from "@/components/shared/TwoPane";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 // ── Sample ────────────────────────────────────────────────────────────────────
 
@@ -245,6 +249,7 @@ type Dialect = "standard" | "mysql" | "postgresql" | "sqlite";
 export default function SqlFormatter() {
   const t = useTranslations("Tools.SqlFormatter");
   const tCommon = useTranslations("Common");
+  const tc = useTranslations("ToolsConfig");
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
   const [dialect, setDialect] = useState<Dialect>("standard");
@@ -293,28 +298,6 @@ export default function SqlFormatter() {
     }
   }, [input, t]);
 
-  const handleCopy = useCallback(async () => {
-    if (!output) return;
-    try {
-      await navigator.clipboard.writeText(output);
-      toast.success(t("copiedToClipboard"));
-    } catch {
-      toast.error(t("failedToCopy"));
-    }
-  }, [output, t]);
-
-  const handleDownload = useCallback(() => {
-    if (!output) return;
-    const blob = new Blob([output], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `query-${mode ?? "output"}.sql`;
-    a.click();
-    URL.revokeObjectURL(url);
-    toast.success(t("downloaded"));
-  }, [output, mode, t]);
-
   const handleClear = useCallback(() => {
     setInput("");
     setOutput("");
@@ -322,142 +305,108 @@ export default function SqlFormatter() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
+    <ToolShell
+      slug="sql-formatter"
+      title={tc("tools.sql-formatter.name")}
+      sub={tc("tools.sql-formatter.description")}
+    >
       <div className="max-w-6xl mx-auto space-y-6">
-        {/* Header */}
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <Database className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("description")}</p>
-          </div>
-        </div>
-
         {/* Controls */}
-        <div className="flex flex-wrap items-end gap-3">
-          <div className="space-y-1">
-            <Label className="text-xs">{t("dialect")}</Label>
-            <Select value={dialect} onValueChange={(v) => setDialect(v as Dialect)}>
-              <SelectTrigger className="w-40 h-9">
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="standard">Standard SQL</SelectItem>
-                <SelectItem value="mysql">MySQL</SelectItem>
-                <SelectItem value="postgresql">PostgreSQL</SelectItem>
-                <SelectItem value="sqlite">SQLite</SelectItem>
-              </SelectContent>
-            </Select>
-          </div>
+        <SettingsCard>
+          <div className="flex flex-wrap items-end gap-3">
+            <div className="w-40">
+              <OptionRow label={t("dialect")}>
+                <Select value={dialect} onValueChange={(v) => setDialect(v as Dialect)}>
+                  <SelectTrigger className="h-9">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="standard">Standard SQL</SelectItem>
+                    <SelectItem value="mysql">MySQL</SelectItem>
+                    <SelectItem value="postgresql">PostgreSQL</SelectItem>
+                    <SelectItem value="sqlite">SQLite</SelectItem>
+                  </SelectContent>
+                </Select>
+              </OptionRow>
+            </div>
 
-          <div className="space-y-1">
-            <Label className="text-xs">{t("commaStyle")}</Label>
-            <div className="flex gap-1">
-              <Button
-                size="sm"
-                variant={!commaFirst ? "default" : "outline"}
-                onClick={() => setCommaFirst(false)}
-              >
-                {t("trailing")}
+            <OptionRow label={t("commaStyle")}>
+              <ModePicker
+                aria-label={t("commaStyle")}
+                value={commaFirst ? "leading" : "trailing"}
+                onChange={(v) => setCommaFirst(v === "leading")}
+                options={[
+                  { value: "trailing", label: t("trailing") },
+                  { value: "leading", label: t("leading") },
+                ]}
+              />
+            </OptionRow>
+
+            <div className="flex gap-2 ms-auto flex-wrap">
+              <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_SQL)}>
+                {t("sampleQuery")}
               </Button>
-              <Button
-                size="sm"
-                variant={commaFirst ? "default" : "outline"}
-                onClick={() => setCommaFirst(true)}
-              >
-                {t("leading")}
+              <Button size="sm" onClick={handleFormat} disabled={!input.trim()}>
+                <Sparkles className="w-4 h-4 me-1.5" /> {t("formatButton")}
+              </Button>
+              <Button size="sm" variant="secondary" onClick={handleMinify} disabled={!input.trim()}>
+                <Minimize2 className="w-4 h-4 me-1.5" /> {t("minifyButton")}
+              </Button>
+              <Button variant="outline" size="sm" onClick={handleClear}>
+                <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
               </Button>
             </div>
           </div>
-
-          <div className="flex gap-2 ms-auto flex-wrap">
-            <Button variant="outline" size="sm" onClick={() => setInput(SAMPLE_SQL)}>
-              {t("sampleQuery")}
-            </Button>
-            <Button size="sm" onClick={handleFormat} disabled={!input.trim()}>
-              <Sparkles className="w-4 h-4 me-1.5" /> {t("formatButton")}
-            </Button>
-            <Button size="sm" variant="secondary" onClick={handleMinify} disabled={!input.trim()}>
-              <Minimize2 className="w-4 h-4 me-1.5" /> {t("minifyButton")}
-            </Button>
-            <Button variant="outline" size="sm" onClick={handleClear}>
-              <RotateCcw className="w-4 h-4 me-1.5" /> {tCommon("clear")}
-            </Button>
-          </div>
-        </div>
+        </SettingsCard>
 
         {/* Editor panes */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-          {/* Input */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
-                {t("sqlInput")}
-                <div className="flex gap-2">
-                  <Badge variant="secondary">{inputStats.lines} {t("lines")}</Badge>
-                  <Badge variant="secondary">{inputStats.chars} {t("chars")}</Badge>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <textarea
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={t("sqlInputPlaceholder")}
-                className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5 text-left rtl:text-left"
-                spellCheck={false}
-                aria-label="SQL input"
-              />
-            </CardContent>
-          </Card>
-
-          {/* Output */}
-          <Card>
-            <CardHeader className="pb-2">
-              <CardTitle className="text-sm font-medium flex items-center justify-between">
-                <span>
+        <TwoPane
+          start={
+            <Card>
+              <CardHeader className="pb-2">
+                <CardTitle className="text-sm font-medium flex items-center justify-between">
+                  {t("sqlInput")}
+                  <div className="flex gap-2">
+                    <Badge variant="secondary">{inputStats.lines} {t("lines")}</Badge>
+                    <Badge variant="secondary">{inputStats.chars} {t("chars")}</Badge>
+                  </div>
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <textarea
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={t("sqlInputPlaceholder")}
+                  className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5 text-left rtl:text-left"
+                  spellCheck={false}
+                  aria-label="SQL input"
+                />
+              </CardContent>
+            </Card>
+          }
+          end={
+            <OutputPanel
+              title={
+                <span className="inline-flex items-center gap-2">
                   {t("outputLabel")}
                   {mode && (
-                    <Badge variant="outline" className="ms-2 text-xs">
+                    <Badge variant="outline" className="text-xs">
                       {mode === "format" ? t("formatted") : t("minified")}
                     </Badge>
                   )}
-                </span>
-                <div className="flex items-center gap-2">
                   {output && (
-                    <div className="flex gap-2">
+                    <>
                       <Badge variant="secondary">{outputStats.lines} {t("lines")}</Badge>
                       <Badge variant="secondary">{outputStats.chars} {t("chars")}</Badge>
-                    </div>
+                    </>
                   )}
-                  <div className="flex gap-1">
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-7 w-7"
-                      onClick={handleCopy}
-                      disabled={!output}
-                      aria-label="Copy"
-                    >
-                      <Copy className="w-3.5 h-3.5" />
-                    </Button>
-                    <Button
-                      size="icon"
-                      variant="ghost"
-                      className="h-7 w-7"
-                      onClick={handleDownload}
-                      disabled={!output}
-                      aria-label="Download"
-                    >
-                      <Download className="w-3.5 h-3.5" />
-                    </Button>
-                  </div>
-                </div>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
+                </span>
+              }
+              text={output}
+              filename={`query-${mode ?? "output"}.sql`}
+              mime="text/plain"
+              downloadSuccessMessage={t("downloaded")}
+            >
               <textarea
                 value={output}
                 readOnly
@@ -465,10 +414,10 @@ export default function SqlFormatter() {
                 className="w-full min-h-[50vh] font-mono text-sm resize-none bg-transparent outline-none leading-5 text-left rtl:text-left"
                 aria-label="SQL output"
               />
-            </CardContent>
-          </Card>
-        </div>
+            </OutputPanel>
+          }
+        />
       </div>
-    </div>
+    </ToolShell>
   );
 }

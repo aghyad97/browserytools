@@ -13,8 +13,11 @@ const TabsList = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
+    // R3 primitive alignment: the shared ModePicker segmented look — a
+    // --bt-fill track (bg-muted) with a hairline border and 3px inset,
+    // rounded 9px. Radix keeps role="tablist"/"tab" semantics untouched.
     className={cn(
-      "inline-flex h-9 items-center justify-center rounded-lg bg-muted p-1 text-muted-foreground",
+      "inline-flex items-center justify-center rounded-[9px] border bg-muted p-[3px] text-muted-foreground",
       className
     )}
     {...props}
@@ -28,8 +31,14 @@ const TabsTrigger = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <TabsPrimitive.Trigger
     ref={ref}
+    // R3 primitive alignment: matches ModePicker's segment + active pill.
+    // A transparent border on every trigger reserves the 1px so the active
+    // state (border-border) adds no layout shift. Active pill lifts on a
+    // --bt-surface (light) / --bt-fill-hover (dark, via --accent) fill — the
+    // same "lift above the track in dark" rule ModePicker uses. Focus ring
+    // (= --bt-accent) preserved.
     className={cn(
-      "inline-flex items-center justify-center whitespace-nowrap rounded-md px-3 py-1 text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:bg-background data-[state=active]:text-foreground data-[state=active]:shadow",
+      "inline-flex items-center justify-center whitespace-nowrap rounded-md border border-transparent px-3 py-1.5 text-[12.5px] font-medium text-muted-foreground ring-offset-background transition-colors hover:text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 data-[state=active]:border-border data-[state=active]:bg-card data-[state=active]:text-foreground data-[state=active]:shadow-sm dark:data-[state=active]:bg-accent",
       className
     )}
     {...props}

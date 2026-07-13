@@ -2,11 +2,11 @@
 
 import { useState, useMemo } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Label } from "@/components/ui/label";
+import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Badge } from "@/components/ui/badge";
-import { DollarSign } from "lucide-react";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { StatStrip } from "@/components/shared/StatStrip";
 
 function formatCurrency(value: number, currency = "USD") {
   return new Intl.NumberFormat("en-US", { style: "currency", currency, maximumFractionDigits: 2 }).format(value);
@@ -63,6 +63,7 @@ function calculateLoan(principal: number, annualRate: number, months: number) {
 
 export default function LoanCalculator() {
   const t = useTranslations("Tools.LoanCalculator");
+  const tc = useTranslations("ToolsConfig");
   const [principal, setPrincipal] = useState("10000");
   const [rate, setRate] = useState("5");
   const [years, setYears] = useState("3");
@@ -82,65 +83,59 @@ export default function LoanCalculator() {
     : "0";
 
   return (
-    <div className="min-h-screen bg-background p-4 md:p-8">
-      <div className="max-w-4xl mx-auto space-y-6">
-        <div className="flex items-center gap-3">
-          <div className="p-2 rounded-xl bg-primary/10">
-            <DollarSign className="w-6 h-6 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-2xl font-bold">{t("title")}</h1>
-            <p className="text-sm text-muted-foreground">{t("subtitle")}</p>
-          </div>
-        </div>
-
+    <ToolShell
+      slug="loan-calculator"
+      title={tc("tools.loan-calculator.name")}
+      sub={tc("tools.loan-calculator.description")}
+    >
+      <div className="space-y-6">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Card>
-            <CardHeader><CardTitle className="text-base">{t("loanDetails")}</CardTitle></CardHeader>
-            <CardContent className="space-y-4">
-              <div className="space-y-1.5">
-                <Label>{t("loanAmount")}</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  value={principal}
-                  onChange={(e) => setPrincipal(e.target.value)}
-                  placeholder="10000"
-                  dir="ltr"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>{t("annualInterestRate")}</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  max="100"
-                  step="0.1"
-                  value={rate}
-                  onChange={(e) => setRate(e.target.value)}
-                  placeholder="5"
-                  dir="ltr"
-                />
-              </div>
-              <div className="space-y-1.5">
-                <Label>{t("loanTerm")}</Label>
-                <Input
-                  type="number"
-                  min="0.5"
-                  max="50"
-                  step="0.5"
-                  value={years}
-                  onChange={(e) => setYears(e.target.value)}
-                  placeholder="3"
-                  dir="ltr"
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <SettingsCard title={t("loanDetails")}>
+            <OptionRow label={t("loanAmount")} htmlFor="loan-amount">
+              <Input
+                id="loan-amount"
+                type="number"
+                min="0"
+                value={principal}
+                onChange={(e) => setPrincipal(e.target.value)}
+                placeholder="10000"
+                dir="ltr"
+              />
+            </OptionRow>
+            <OptionRow label={t("annualInterestRate")} htmlFor="loan-rate">
+              <Input
+                id="loan-rate"
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={rate}
+                onChange={(e) => setRate(e.target.value)}
+                placeholder="5"
+                dir="ltr"
+              />
+            </OptionRow>
+            <OptionRow label={t("loanTerm")} htmlFor="loan-years">
+              <Input
+                id="loan-years"
+                type="number"
+                min="0.5"
+                max="50"
+                step="0.5"
+                value={years}
+                onChange={(e) => setYears(e.target.value)}
+                placeholder="3"
+                dir="ltr"
+              />
+            </OptionRow>
+          </SettingsCard>
 
           <div className="space-y-4">
             {result ? (
               <>
+                {/* Hero readout stays a bespoke colored surface (bg-primary) —
+                    it's a deliberate visual emphasis for the single headline
+                    number, not a generic stat tile. */}
                 <Card className="bg-primary text-primary-foreground">
                   <CardContent className="pt-6">
                     <div className="text-sm opacity-80 mb-1">{t("monthlyPayment")}</div>
@@ -148,34 +143,20 @@ export default function LoanCalculator() {
                   </CardContent>
                 </Card>
 
-                <div className="grid grid-cols-2 gap-3">
-                  <Card>
-                    <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">{t("totalPayment")}</div>
-                      <div className="text-xl font-bold" dir="ltr">{formatCurrency(result.totalPayment)}</div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">{t("totalInterest")}</div>
-                      <div className="text-xl font-bold text-orange-500" dir="ltr">{formatCurrency(result.totalInterest)}</div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">{t("principal")}</div>
-                      <div className="text-xl font-bold" dir="ltr">{principalPct}%</div>
-                    </CardContent>
-                  </Card>
-                  <Card>
-                    <CardContent className="pt-4">
-                      <div className="text-xs text-muted-foreground">{t("interestRatio")}</div>
-                      <div className="text-xl font-bold text-orange-500" dir="ltr">{interestPct}%</div>
-                    </CardContent>
-                  </Card>
-                </div>
+                <StatStrip
+                  items={[
+                    { label: t("totalPayment"), value: <span dir="ltr">{formatCurrency(result.totalPayment)}</span> },
+                    // content value: orange highlights the interest-vs-principal
+                    // split; no --bt token distinguishes "interest" from other
+                    // numeric results, so the literal stays.
+                    { label: t("totalInterest"), value: <span className="text-orange-500" dir="ltr">{formatCurrency(result.totalInterest)}</span> },
+                    { label: t("principal"), value: <span dir="ltr">{principalPct}%</span> },
+                    { label: t("interestRatio"), value: <span className="text-orange-500" dir="ltr">{interestPct}%</span> },
+                  ]}
+                />
 
-                {/* Visual breakdown bar */}
+                {/* Visual breakdown bar: embedded proportional visualization,
+                    stays bespoke — no molecule fits a progress/split bar. */}
                 <div className="space-y-1">
                   <div className="flex justify-between text-xs text-muted-foreground" dir="ltr">
                     <span>{t("principal")} {principalPct}%</span>
@@ -183,11 +164,11 @@ export default function LoanCalculator() {
                   </div>
                   <div className="h-3 rounded-full overflow-hidden bg-muted flex">
                     <div
-                      className="bg-primary h-full transition-all"
+                      className="bg-primary h-full transition-[width]"
                       style={{ width: `${principalPct}%` }}
                     />
                     <div
-                      className="bg-orange-400 h-full transition-all"
+                      className="bg-orange-400 h-full transition-[width]"
                       style={{ width: `${interestPct}%` }}
                     />
                   </div>
@@ -212,6 +193,8 @@ export default function LoanCalculator() {
               {showSchedule ? t("hideSchedule") : t("showSchedule")} ({months} {t("payments")})
             </button>
 
+            {/* Amortization table: data table with per-row values, stays
+                bespoke — no molecule fits a scrollable data table. */}
             {showSchedule && (
               <Card className="mt-3 overflow-hidden">
                 <div className="overflow-x-auto max-h-96 overflow-y-auto">
@@ -241,6 +224,6 @@ export default function LoanCalculator() {
           </div>
         )}
       </div>
-    </div>
+    </ToolShell>
   );
 }

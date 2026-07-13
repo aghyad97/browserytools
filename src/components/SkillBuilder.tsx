@@ -1,12 +1,13 @@
 "use client";
 import { useState } from "react";
 import { useTranslations } from "next-intl";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
-import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
+import { downloadText } from "@/lib/download";
 
 type OutputFormat = "markdown" | "yaml" | "json";
 
@@ -63,6 +64,7 @@ function buildSkill(
 
 export default function SkillBuilder() {
   const t = useTranslations("Tools.SkillBuilder");
+  const tc = useTranslations("ToolsConfig");
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [triggers, setTriggers] = useState("");
@@ -72,19 +74,8 @@ export default function SkillBuilder() {
   const output = buildSkill(name, description, triggers, instructions, format);
   const filename = `${name || "skill"}.${format === "markdown" ? "md" : format === "yaml" ? "yaml" : "json"}`;
 
-  const handleCopy = () => {
-    navigator.clipboard.writeText(output);
-    toast.success(t("copied"));
-  };
-
   const handleDownload = () => {
-    const blob = new Blob([output], { type: "text/plain" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = filename;
-    a.click();
-    URL.revokeObjectURL(url);
+    downloadText(output, filename, "text/plain");
   };
 
   const handleClear = () => {
@@ -95,98 +86,91 @@ export default function SkillBuilder() {
   };
 
   return (
-    <div className="container mx-auto p-4 max-w-4xl space-y-4">
-      <Card>
-        <CardHeader>
-          <CardTitle>{t("title")}</CardTitle>
-          <CardDescription>{t("description")}</CardDescription>
-        </CardHeader>
-        <CardContent className="space-y-4">
+    <ToolShell
+      slug="skill-builder"
+      title={tc("tools.skill-builder.name")}
+      sub={tc("tools.skill-builder.description")}
+      controls={
+        <>
+          <select
+            className="border rounded px-2 py-1 text-sm bg-background"
+            value={format}
+            onChange={(e) => setFormat(e.target.value as OutputFormat)}
+          >
+            <option value="markdown">{t("formatMarkdown")}</option>
+            <option value="yaml">{t("formatYaml")}</option>
+            <option value="json">{t("formatJson")}</option>
+          </select>
+          <Button variant="outline" size="sm" onClick={handleClear}>
+            {t("clearAll")}
+          </Button>
+        </>
+      }
+      primaryAction={{ label: t("download"), onClick: handleDownload }}
+    >
+      <div className="space-y-4">
+        <SettingsCard>
           <div className="grid sm:grid-cols-2 gap-4">
-            <div className="space-y-1.5">
-              <Label>{t("nameLabel")}</Label>
+            <OptionRow label={t("nameLabel")} htmlFor="skill-name">
               <Input
+                id="skill-name"
                 dir="auto"
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 placeholder={t("namePlaceholder")}
                 className="font-mono"
               />
-            </div>
-            <div className="space-y-1.5">
-              <Label>{t("triggersLabel")}</Label>
+            </OptionRow>
+            <OptionRow label={t("triggersLabel")} htmlFor="skill-triggers">
               <Input
+                id="skill-triggers"
                 dir="auto"
                 value={triggers}
                 onChange={(e) => setTriggers(e.target.value)}
                 placeholder={t("triggersPlaceholder")}
               />
-            </div>
+            </OptionRow>
           </div>
-          <div className="space-y-1.5">
-            <Label>{t("descriptionLabel")}</Label>
+          <OptionRow label={t("descriptionLabel")} htmlFor="skill-description">
             <Textarea
+              id="skill-description"
               dir="auto"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               placeholder={t("descriptionPlaceholder")}
               rows={2}
             />
-          </div>
-          <div className="space-y-1.5">
-            <Label>{t("instructionsLabel")}</Label>
+          </OptionRow>
+          <OptionRow label={t("instructionsLabel")} htmlFor="skill-instructions">
             <Textarea
+              id="skill-instructions"
               dir="auto"
               value={instructions}
               onChange={(e) => setInstructions(e.target.value)}
               placeholder={t("instructionsPlaceholder")}
               rows={8}
             />
-          </div>
-          <Button variant="outline" size="sm" onClick={handleClear}>
-            {t("clearAll")}
-          </Button>
-        </CardContent>
-      </Card>
+          </OptionRow>
+        </SettingsCard>
 
-      <Card>
-        <CardHeader>
-          <div className="flex items-center justify-between flex-wrap gap-3">
-            <CardTitle className="text-base">
+        <OutputPanel
+          text={output}
+          title={
+            <>
               {t("preview")} —{" "}
               <code className="text-xs bg-muted px-1 rounded">{filename}</code>
-            </CardTitle>
-            <div className="flex gap-2 items-center">
-              <select
-                className="border rounded px-2 py-1 text-sm bg-background"
-                value={format}
-                onChange={(e) => setFormat(e.target.value as OutputFormat)}
-              >
-                <option value="markdown">{t("formatMarkdown")}</option>
-                <option value="yaml">{t("formatYaml")}</option>
-                <option value="json">{t("formatJson")}</option>
-              </select>
-              <Button size="sm" variant="outline" onClick={handleCopy}>
-                {t("copy")}
-              </Button>
-              <Button size="sm" onClick={handleDownload}>
-                {t("download")}
-              </Button>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent>
-          {name || description || instructions ? (
-            <pre className="bg-muted rounded-md p-4 text-sm font-mono whitespace-pre-wrap break-words max-h-[500px] overflow-y-auto">
-              {output}
-            </pre>
-          ) : (
+            </>
+          }
+          copyLabel={t("copy")}
+          copySuccessMessage={t("copied")}
+        >
+          {name || description || instructions ? undefined : (
             <p className="text-muted-foreground text-sm py-4 text-center">
               {t("emptyPreview")}
             </p>
           )}
-        </CardContent>
-      </Card>
-    </div>
+        </OutputPanel>
+      </div>
+    </ToolShell>
   );
 }

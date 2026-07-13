@@ -87,7 +87,7 @@ export function ChartTypeSelector({
             <Card
               key={chart.type}
               className={cn(
-                "cursor-pointer transition-all duration-200 hover:shadow-md",
+                "cursor-pointer transition-shadow duration-200 hover:shadow-md",
                 isSelected && "ring-2 ring-primary shadow-md"
               )}
               onClick={() => onTypeChange(chart.type)}

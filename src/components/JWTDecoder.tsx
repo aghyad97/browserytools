@@ -5,17 +5,14 @@ import { useTranslations } from "next-intl";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import {
-  Copy,
   Shield,
   AlertCircle,
   CheckCircle,
@@ -23,6 +20,10 @@ import {
   EyeOff,
 } from "lucide-react";
 import { toast } from "sonner";
+import { ToolShell } from "@/components/template/tool-shell";
+import { CopyButton } from "@/components/shared/CopyButton";
+import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { OutputPanel } from "@/components/shared/OutputPanel";
 
 interface JWTPayload {
   header: any;
@@ -37,6 +38,7 @@ interface JWTPayload {
 
 export default function JWTDecoder() {
   const t = useTranslations("Tools.JWTDecoder");
+  const tc = useTranslations("ToolsConfig");
   const [jwtToken, setJwtToken] = useState<string>("");
   const [decodedJWT, setDecodedJWT] = useState<JWTPayload | null>(null);
   const [showSignature, setShowSignature] = useState<boolean>(false);
@@ -167,15 +169,6 @@ export default function JWTDecoder() {
     }
   };
 
-  const copyToClipboard = async (text: string) => {
-    try {
-      await navigator.clipboard.writeText(text);
-      toast.success(t("copiedToClipboard"));
-    } catch (err) {
-      toast.error(t("copyFailed"));
-    }
-  };
-
   const clearAll = () => {
     setJwtToken("");
     setDecodedJWT(null);
@@ -189,22 +182,24 @@ export default function JWTDecoder() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
+    <ToolShell
+      slug="jwt-decoder"
+      title={tc("tools.jwt-decoder.name")}
+      sub={tc("tools.jwt-decoder.description")}
+    >
+      <div className="max-w-6xl mx-auto">
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Input Section */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <Shield className="h-5 w-5" />
+        <SettingsCard
+          title={
+            <span className="flex items-center gap-2">
+              <Shield className="h-4 w-4" />
               {t("inputTitle")}
-            </CardTitle>
-            <CardDescription>
-              {t("inputDesc")}
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <div className="space-y-2">
-              <Label htmlFor="jwt-input">{t("jwtTokenLabel")}</Label>
+            </span>
+          }
+          description={t("inputDesc")}
+        >
+            <OptionRow label={t("jwtTokenLabel")} htmlFor="jwt-input">
               <Textarea
                 id="jwt-input"
                 value={jwtToken}
@@ -213,7 +208,7 @@ export default function JWTDecoder() {
                 dir="ltr"
                 className="min-h-[120px] font-mono text-sm"
               />
-            </div>
+            </OptionRow>
 
             <div className="flex gap-2">
               <Button onClick={handleDecode} className="flex-1">
@@ -232,15 +227,10 @@ export default function JWTDecoder() {
                 {t("tokenLength", { count: jwtToken.length })}
               </div>
             )}
-          </CardContent>
-        </Card>
+        </SettingsCard>
 
         {/* Validation Status */}
-        <Card>
-          <CardHeader>
-            <CardTitle>{t("validationStatus")}</CardTitle>
-          </CardHeader>
-          <CardContent>
+        <SettingsCard title={t("validationStatus")}>
             {decodedJWT ? (
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
@@ -325,34 +315,24 @@ export default function JWTDecoder() {
                 <p>{t("enterTokenPrompt")}</p>
               </div>
             )}
-          </CardContent>
-        </Card>
+        </SettingsCard>
       </div>
 
       {/* Decoded Content */}
       {decodedJWT && (
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-6">
           {/* Header */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                {t("header")}
-                <Button
-                  onClick={() =>
-                    copyToClipboard(JSON.stringify(decodedJWT.header, null, 2))
-                  }
-                  variant="ghost"
-                  size="sm"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-60" dir="ltr">
+          <OutputPanel
+            title={t("header")}
+            text={JSON.stringify(decodedJWT.header, null, 2)}
+            copySuccessMessage={t("copiedToClipboard")}
+            copyErrorMessage={t("copyFailed")}
+          >
+            <>
+              <pre className="text-xs p-3 max-h-60" dir="ltr">
                 {JSON.stringify(decodedJWT.header, null, 2)}
               </pre>
-              <div className="mt-2 flex flex-wrap gap-1">
+              <div className="px-3 pb-3 flex flex-wrap gap-1">
                 {decodedJWT.header.alg && (
                   <Badge variant="outline">
                     {t("algorithm")} {decodedJWT.header.alg}
@@ -362,30 +342,21 @@ export default function JWTDecoder() {
                   <Badge variant="outline">{t("type")} {decodedJWT.header.typ}</Badge>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </>
+          </OutputPanel>
 
           {/* Payload */}
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center justify-between">
-                {t("payload")}
-                <Button
-                  onClick={() =>
-                    copyToClipboard(JSON.stringify(decodedJWT.payload, null, 2))
-                  }
-                  variant="ghost"
-                  size="sm"
-                >
-                  <Copy className="h-4 w-4" />
-                </Button>
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <pre className="text-xs bg-muted p-3 rounded overflow-auto max-h-60" dir="ltr">
+          <OutputPanel
+            title={t("payload")}
+            text={JSON.stringify(decodedJWT.payload, null, 2)}
+            copySuccessMessage={t("copiedToClipboard")}
+            copyErrorMessage={t("copyFailed")}
+          >
+            <>
+              <pre className="text-xs p-3 max-h-60" dir="ltr">
                 {JSON.stringify(decodedJWT.payload, null, 2)}
               </pre>
-              <div className="mt-2 flex flex-wrap gap-1">
+              <div className="px-3 pb-3 flex flex-wrap gap-1">
                 {decodedJWT.payload.sub && (
                   <Badge variant="outline">
                     {t("subject")} {decodedJWT.payload.sub}
@@ -402,10 +373,12 @@ export default function JWTDecoder() {
                   </Badge>
                 )}
               </div>
-            </CardContent>
-          </Card>
+            </>
+          </OutputPanel>
 
-          {/* Signature */}
+          {/* Signature — kept bespoke: needs an extra show/hide toggle button
+              in the header alongside copy, which OutputPanel's API has no
+              slot for. */}
           <Card>
             <CardHeader>
               <CardTitle className="flex items-center justify-between">
@@ -422,13 +395,12 @@ export default function JWTDecoder() {
                       <Eye className="h-4 w-4" />
                     )}
                   </Button>
-                  <Button
-                    onClick={() => copyToClipboard(decodedJWT.signature)}
-                    variant="ghost"
-                    size="sm"
-                  >
-                    <Copy className="h-4 w-4" />
-                  </Button>
+                  <CopyButton
+                    text={decodedJWT.signature}
+                    size="icon"
+                    successMessage={t("copiedToClipboard")}
+                    errorMessage={t("copyFailed")}
+                  />
                 </div>
               </CardTitle>
             </CardHeader>
@@ -447,11 +419,7 @@ export default function JWTDecoder() {
       )}
 
       {/* JWT Information */}
-      <Card className="mt-6">
-        <CardHeader>
-          <CardTitle>{t("jwtInformation")}</CardTitle>
-        </CardHeader>
-        <CardContent>
+      <SettingsCard title={t("jwtInformation")} className="mt-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <h4 className="font-semibold mb-2">{t("standardClaims")}</h4>
@@ -490,8 +458,8 @@ export default function JWTDecoder() {
               </ul>
             </div>
           </div>
-        </CardContent>
-      </Card>
-    </div>
+      </SettingsCard>
+      </div>
+    </ToolShell>
   );
 }
