@@ -32,6 +32,7 @@ import { useCategoryFilterStore } from "@/store/category-filter-store";
 import HomeFAQ from "@/components/HomeFAQ";
 import { ToolTile } from "@/components/shared/ToolTile";
 import { CHIP } from "@/lib/category-chips";
+import { popularityRank } from "@/lib/tool-popularity";
 import s from "./landing.module.css";
 
 /* Locale-independent flat index — names/labels resolve via i18n at render. */
@@ -506,7 +507,11 @@ export default function Landing() {
         name: tc(`tools.${tool.slug}.name` as never) as string,
         catLabel: tc(`categoriesShort.${tool.categoryId}` as never) as string,
         description: tc(`tools.${tool.slug}.description` as never) as string,
-      })).sort((a, b) => a.name.localeCompare(b.name)),
+      })).sort(
+        (a, b) =>
+          popularityRank(a.slug) - popularityRank(b.slug) ||
+          a.name.localeCompare(b.name),
+      ),
     [tc],
   );
 
