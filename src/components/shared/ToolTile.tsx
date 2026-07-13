@@ -71,16 +71,18 @@ export function ToolTile({
       style={{ "--chip-bg": chipBg, "--chip-fg": chipFg, ...style } as React.CSSProperties}
     >
       <span className={s.tileChip}>
-        <Icon strokeWidth={1.8} />
+        <span className={s.chipIcon}>
+          <Icon strokeWidth={1.8} />
+        </span>
+        <span className={s.chipArrow} aria-hidden>
+          ↗
+        </span>
       </span>
       <span className={s.tileText}>
         <span className={s.tileName} title={name}>
           {name}
         </span>
         <span className={s.tileCat}>{catLabel}</span>
-      </span>
-      <span className={s.tileArrow} aria-hidden>
-        ↗
       </span>
     </Link>
   );
