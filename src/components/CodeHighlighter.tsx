@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/select";
 import { toast } from "sonner";
 import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
+import "@/styles/hljs-theme.css";
 import { RotateCcw } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
@@ -169,10 +169,10 @@ export default function CodeHighlighter() {
                 <div className="p-2 bg-muted font-medium text-sm border-b">
                   {t("outputLabel")}
                 </div>
-                {/* content value: highlight.js "github-dark" theme is a fixed
-                    code-syntax palette, always dark regardless of app theme —
-                    same allowlist class as InvoiceGenerator's WYSIWYG preview. */}
-                <div className="flex-1 p-4 bg-[#0d1117] overflow-auto max-h-[500px]">
+                {/* Theme-aware highlight.js palette (src/styles/hljs-theme.css)
+                    follows next-themes' .dark class; bg-muted rides the same
+                    --bt-fill token so the panel matches the app's theme. */}
+                <div className="flex-1 p-4 bg-muted overflow-auto max-h-[500px]">
                   <pre className="whitespace-pre-wrap">
                     <code
                       className={`language-${language} hljs`}

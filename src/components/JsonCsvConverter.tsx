@@ -16,7 +16,7 @@ import { Upload, ArrowRightLeft } from "lucide-react";
 import { useEffect, useRef } from "react";
 import hljs from "highlight.js/lib/core";
 import json from "highlight.js/lib/languages/json";
-import "highlight.js/styles/github-dark.css";
+import "@/styles/hljs-theme.css";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { TwoPane } from "@/components/shared/TwoPane";

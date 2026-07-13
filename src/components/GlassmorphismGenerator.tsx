@@ -9,7 +9,7 @@ import { ToolShell } from "@/components/template/tool-shell";
 import { SettingsCard } from "@/components/shared/SettingsCard";
 import { OutputPanel } from "@/components/shared/OutputPanel";
 import hljs from "highlight.js";
-import "highlight.js/styles/github-dark.css";
+import "@/styles/hljs-theme.css";
 
 // NOTE: this local SliderRow (slider + typeable number input, both wired to
 // the same value) is intentionally NOT the shared molecule of the same name —
