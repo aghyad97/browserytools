@@ -32,7 +32,7 @@
 .utilities {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 10px; /* switcher group | coffee CTA — one clear step in the rhythm */
   flex-shrink: 0;
 }
 

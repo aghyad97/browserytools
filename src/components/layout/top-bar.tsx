@@ -46,10 +46,6 @@ export function TopBar() {
           switchers, compact (same sizing as the old rail-bottom row). The
           mobile drawer carries these under 900px (rail.tsx sheet variant). */}
       <div className={s.utilities}>
-        <a className={s.coffee} href="/coffee">
-          <CoffeeIcon size={13} className={s.coffeeIcon} />
-          {t("coffee")}
-        </a>
         <div className={s.switchers}>
           <span title={tRail("theme")}>
             <ThemeSwitcher />
@@ -59,6 +55,10 @@ export function TopBar() {
             <LanguageSwitcher />
           </span>
         </div>
+        <a className={s.coffee} href="/coffee">
+          <CoffeeIcon size={13} className={s.coffeeIcon} />
+          {t("coffee")}
+        </a>
       </div>
     </div>
   );
