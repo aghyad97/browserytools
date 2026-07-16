@@ -4778,6 +4778,16 @@
       "tooFewFrames": "Добавьте хотя бы 2 изображения, чтобы создать GIF",
       "generated": "GIF создан!",
       "generateFailed": "Не удалось создать GIF. Попробуйте ещё раз."
+    },
+    "KeyboardTester": {
+      "title": "Keyboard Tester",
+      "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check.",
+      "pressAnyKey": "Press any key — held keys light up, and every key you press stays marked as tested.",
+      "keysTested": "Keys tested",
+      "rollover": "Rollover",
+      "maxRollover": "Max rollover",
+      "history": "History",
+      "reset": "Reset"
     }
   },
   "Blog": {

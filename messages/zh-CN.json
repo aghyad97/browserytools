@@ -4778,6 +4778,16 @@
       "tooFewFrames": "至少添加 2 张图片才能生成 GIF",
       "generated": "GIF 生成成功！",
       "generateFailed": "无法生成 GIF，请重试。"
+    },
+    "KeyboardTester": {
+      "title": "Keyboard Tester",
+      "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check.",
+      "pressAnyKey": "Press any key — held keys light up, and every key you press stays marked as tested.",
+      "keysTested": "Keys tested",
+      "rollover": "Rollover",
+      "maxRollover": "Max rollover",
+      "history": "History",
+      "reset": "Reset"
     }
   },
   "Blog": {

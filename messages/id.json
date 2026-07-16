@@ -4778,6 +4778,16 @@
       "tooFewFrames": "Tambahkan minimal 2 gambar untuk membuat GIF",
       "generated": "GIF dibuat!",
       "generateFailed": "Tidak dapat membuat GIF. Silakan coba lagi."
+    },
+    "KeyboardTester": {
+      "title": "Keyboard Tester",
+      "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check.",
+      "pressAnyKey": "Press any key — held keys light up, and every key you press stays marked as tested.",
+      "keysTested": "Keys tested",
+      "rollover": "Rollover",
+      "maxRollover": "Max rollover",
+      "history": "History",
+      "reset": "Reset"
     }
   },
   "Blog": {
