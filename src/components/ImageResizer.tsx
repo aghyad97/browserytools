@@ -32,6 +32,21 @@ import {
 // `loadImage` is aliased to `loadHtmlImage` to avoid colliding with the
 // File-based `loadImage` callback defined inside this component.
 import { canvasToBlob, loadImage as loadHtmlImage } from "@/lib/image/canvas";
+import {
+  ASPECT_PRESETS,
+  clamp,
+  fitRectToAspect,
+  moveRect,
+  rectToSourcePixels,
+  resizeRect,
+  type CropRect,
+} from "@/lib/image/crop-rect";
+import {
+  ANCHORS,
+  drawWatermark,
+  type Anchor,
+  type WatermarkKind,
+} from "@/lib/image/watermark-draw";
 import { downloadUrl } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
 
@@ -45,27 +60,6 @@ interface ImageInfo {
 }
 
 type ResizeMode = "dimensions" | "percentage" | "longest-side" | "preset";
-
-// Normalized crop rectangle (0..1 fractions of the source image).
-interface CropRect {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
-
-type WatermarkKind = "text" | "image";
-// 3x3 anchor grid.
-type Anchor =
-  | "top-left"
-  | "top-center"
-  | "top-right"
-  | "center-left"
-  | "center"
-  | "center-right"
-  | "bottom-left"
-  | "bottom-center"
-  | "bottom-right";
 
 const PRESET_SIZES = [
   { label: "HD (1920x1080)", width: 1920, height: 1080 },
@@ -81,32 +75,6 @@ const PRESET_SIZES = [
 ];
 
 const PERCENTAGE_PRESETS = [25, 50, 75, 100, 125, 150, 200];
-
-// Aspect-ratio presets for cropping. `null` = free.
-const ASPECT_PRESETS: { key: string; ratio: number | null }[] = [
-  { key: "free", ratio: null },
-  { key: "square", ratio: 1 },
-  { key: "4:3", ratio: 4 / 3 },
-  { key: "3:4", ratio: 3 / 4 },
-  { key: "16:9", ratio: 16 / 9 },
-  { key: "9:16", ratio: 9 / 16 },
-];
-
-const ANCHORS: Anchor[] = [
-  "top-left",
-  "top-center",
-  "top-right",
-  "center-left",
-  "center",
-  "center-right",
-  "bottom-left",
-  "bottom-center",
-  "bottom-right",
-];
-
-function clamp(v: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, v));
-}
 
 export default function ImageResizer() {
   const t = useTranslations("Tools.ImageResizer");
@@ -281,24 +249,12 @@ export default function ImageResizer() {
 
   // ── CROP ────────────────────────────────────────────────────────────────
   const applyAspect = useCallback(
-    (key: string) => {
-      setCropAspect(key);
-      const preset = ASPECT_PRESETS.find((a) => a.key === key);
+    (id: string) => {
+      setCropAspect(id);
+      const preset = ASPECT_PRESETS.find((a) => a.id === id);
       if (!preset || preset.ratio === null || !original) return;
       // Re-fit the crop rect to the chosen pixel aspect ratio, centered.
-      const ratio = preset.ratio; // width/height in pixels
-      const imgRatio = original.width / original.height;
-      // ratio in normalized coords = ratio * (imgH/imgW)
-      const normRatio = ratio / imgRatio;
-      let w = crop.w;
-      let h = w / normRatio;
-      if (h > 1) {
-        h = 1;
-        w = h * normRatio;
-      }
-      const x = clamp(crop.x, 0, 1 - w);
-      const y = clamp(crop.y, 0, 1 - h);
-      setCrop({ x, y, w, h });
+      setCrop(fitRectToAspect(crop, preset.ratio, original.width, original.height));
     },
     [crop, original]
   );
@@ -327,24 +283,21 @@ export default function ImageResizer() {
       const dx = (e.clientX - ds.startX) / rect.width;
       const dy = (e.clientY - ds.startY) / rect.height;
       if (ds.kind === "move") {
-        setCrop({
-          ...ds.orig,
-          x: clamp(ds.orig.x + dx, 0, 1 - ds.orig.w),
-          y: clamp(ds.orig.y + dy, 0, 1 - ds.orig.h),
-        });
+        setCrop(moveRect(ds.orig, dx, dy));
       } else {
-        const preset = ASPECT_PRESETS.find((a) => a.key === cropAspect);
-        let newW = clamp(ds.orig.w + dx, 0.05, 1 - ds.orig.x);
-        let newH = clamp(ds.orig.h + dy, 0.05, 1 - ds.orig.y);
-        if (preset && preset.ratio !== null && original) {
-          const normRatio = preset.ratio / (original.width / original.height);
-          newH = newW / normRatio;
-          if (ds.orig.y + newH > 1) {
-            newH = 1 - ds.orig.y;
-            newW = newH * normRatio;
-          }
-        }
-        setCrop({ ...ds.orig, w: newW, h: newH });
+        const preset = ASPECT_PRESETS.find((a) => a.id === cropAspect);
+        const aspect =
+          preset && preset.ratio !== null && original ? preset.ratio : null;
+        setCrop(
+          resizeRect(
+            ds.orig,
+            dx,
+            dy,
+            aspect,
+            original?.width ?? 1,
+            original?.height ?? 1
+          )
+        );
       }
     },
     [cropAspect, original]
@@ -359,10 +312,11 @@ export default function ImageResizer() {
       toast.error(t("uploadFirst"));
       return;
     }
-    const sx = Math.round(crop.x * original.width);
-    const sy = Math.round(crop.y * original.height);
-    const sw = Math.max(1, Math.round(crop.w * original.width));
-    const sh = Math.max(1, Math.round(crop.h * original.height));
+    const { sx, sy, sw, sh } = rectToSourcePixels(
+      crop,
+      original.width,
+      original.height
+    );
     setProcessing(true);
     try {
       const img = await loadHtmlImage(previewUrl);
@@ -397,24 +351,6 @@ export default function ImageResizer() {
     [t]
   );
 
-  function anchorPosition(
-    anchor: Anchor,
-    canvasW: number,
-    canvasH: number,
-    itemW: number,
-    itemH: number
-  ): { x: number; y: number } {
-    const [v, h] = anchor.split("-") as [string, string];
-    const pad = Math.round(Math.min(canvasW, canvasH) * 0.03);
-    let x = pad;
-    let y = pad;
-    if (h === "center") x = (canvasW - itemW) / 2;
-    else if (h === "right") x = canvasW - itemW - pad;
-    if (v === "center") y = (canvasH - itemH) / 2;
-    else if (v === "bottom") y = canvasH - itemH - pad;
-    return { x, y };
-  }
-
   const runWatermark = useCallback(async () => {
     if (!original || !previewUrl) {
       toast.error(t("uploadFirst"));
@@ -437,74 +373,21 @@ export default function ImageResizer() {
       const ctx = canvas.getContext("2d");
       if (!ctx) throw new Error("Canvas not supported");
       ctx.drawImage(base, 0, 0, original.width, original.height);
-      ctx.globalAlpha = wmOpacity / 100;
 
-      if (wmKind === "text") {
-        const fontPx = Math.max(1, Math.round(wmFontSize * (wmScale / 100)));
-        ctx.font = `${fontPx}px sans-serif`;
-        ctx.fillStyle = wmColor;
-        ctx.textBaseline = "top";
-        const metrics = ctx.measureText(wmText);
-        const itemW = metrics.width || fontPx * wmText.length;
-        const itemH = fontPx;
-        const drawOne = (x: number, y: number) => {
-          ctx.save();
-          ctx.translate(x + itemW / 2, y + itemH / 2);
-          ctx.rotate((wmRotation * Math.PI) / 180);
-          ctx.fillText(wmText, -itemW / 2, -itemH / 2);
-          ctx.restore();
-        };
-        if (wmTile) {
-          const stepX = itemW + fontPx;
-          const stepY = itemH + fontPx;
-          for (let y = 0; y < canvas.height; y += stepY) {
-            for (let x = 0; x < canvas.width; x += stepX) {
-              drawOne(x, y);
-            }
-          }
-        } else {
-          const { x, y } = anchorPosition(
-            wmAnchor,
-            canvas.width,
-            canvas.height,
-            itemW,
-            itemH
-          );
-          drawOne(x, y);
-        }
-      } else {
-        const wmImg = await loadHtmlImage(wmImageUrl as string);
-        const baseW = canvas.width * 0.25 * (wmScale / 100);
-        const ratio = wmImg.height / (wmImg.width || 1);
-        const itemW = baseW;
-        const itemH = baseW * ratio;
-        const drawOne = (x: number, y: number) => {
-          ctx.save();
-          ctx.translate(x + itemW / 2, y + itemH / 2);
-          ctx.rotate((wmRotation * Math.PI) / 180);
-          ctx.drawImage(wmImg, -itemW / 2, -itemH / 2, itemW, itemH);
-          ctx.restore();
-        };
-        if (wmTile) {
-          const stepX = itemW + itemW * 0.5;
-          const stepY = itemH + itemH * 0.5;
-          for (let y = 0; y < canvas.height; y += stepY) {
-            for (let x = 0; x < canvas.width; x += stepX) {
-              drawOne(x, y);
-            }
-          }
-        } else {
-          const { x, y } = anchorPosition(
-            wmAnchor,
-            canvas.width,
-            canvas.height,
-            itemW,
-            itemH
-          );
-          drawOne(x, y);
-        }
-      }
-      ctx.globalAlpha = 1;
+      const wmImg =
+        wmKind === "image" ? await loadHtmlImage(wmImageUrl as string) : null;
+      drawWatermark(ctx, canvas.width, canvas.height, {
+        kind: wmKind,
+        text: wmText,
+        fontSize: wmFontSize,
+        color: wmColor,
+        opacity: wmOpacity,
+        anchor: wmAnchor,
+        scale: wmScale,
+        rotation: wmRotation,
+        tile: wmTile,
+        image: wmImg,
+      });
       await finishExport(canvas, canvas.width, canvas.height);
     } catch (e) {
       toast.error(`Error: ${String(e)}`);
@@ -775,17 +658,17 @@ export default function ImageResizer() {
                       <div className="flex flex-wrap gap-2">
                         {ASPECT_PRESETS.map((a) => (
                           <Button
-                            key={a.key}
-                            variant={cropAspect === a.key ? "default" : "outline"}
+                            key={a.id}
+                            variant={cropAspect === a.id ? "default" : "outline"}
                             size="sm"
-                            onClick={() => applyAspect(a.key)}
+                            onClick={() => applyAspect(a.id)}
                           >
-                            {a.key === "free" ? (
+                            {a.id === "free" ? (
                               t("aspectFree")
-                            ) : a.key === "square" ? (
+                            ) : a.id === "square" ? (
                               "1:1"
                             ) : (
-                              <span dir="ltr">{a.key}</span>
+                              <span dir="ltr">{a.id}</span>
                             )}
                           </Button>
                         ))}

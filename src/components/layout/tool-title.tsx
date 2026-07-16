@@ -197,6 +197,27 @@ const HAS_OWN_H1 = new Set([
   // and random-picker previously relied on ToolTitle for the page h1.
   "mind-map",
   "random-picker",
+  // Wave 1 (W1) Task 3: registry seed for the 5 new grid tools + 14 SEO
+  // landing variants — components/routes arrive in later W1 tasks, all on
+  // the five-zone ToolShell (the shell owns the h1).
+  "crop-image",
+  "watermark-image",
+  "compress-image-to-20kb",
+  "compress-image-to-50kb",
+  "compress-image-to-100kb",
+  "compress-image-to-200kb",
+  "compress-image-to-500kb",
+  "compress-image-to-1mb",
+  "compress-jpeg-to-50kb",
+  "compress-jpeg-to-100kb",
+  "compress-jpeg-to-200kb",
+  "compress-signature-20kb",
+  "heic-to-jpg",
+  "heic-to-png",
+  "mic-test",
+  "webcam-test",
+  "keyboard-tester",
+  "gamepad-tester",
 ]);
 
 export function ToolTitle() {

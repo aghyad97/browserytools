@@ -33,7 +33,7 @@
  */
 
 import { useTranslations } from "next-intl";
-import { tools } from "@/lib/tools-config";
+import { tools, getRelatedTools } from "@/lib/tools-config";
 import { ToolTile } from "@/components/shared/ToolTile";
 import { CHIP } from "@/lib/category-chips";
 import { ControlsBar } from "./controls-bar";
@@ -63,28 +63,17 @@ export interface ToolShellProps {
   width?: "default" | "wide";
 }
 
-interface RelatedEntry {
-  slug: string;
-  href: string;
-  icon: (typeof tools)[number]["items"][number]["icon"];
-}
-
-/* slug -> category id, and category id -> its (available) tools. Built once from
-   the shared config; never mutated. */
+/* slug -> category id, and slug -> on-device flag. Built once from the shared
+   config; never mutated. Related tiles are resolved by getRelatedTools (which
+   is landing-variant aware — see tools-config.ts). */
 const SLUG_CATEGORY = new Map<string, string>();
 const SLUG_ON_DEVICE = new Map<string, boolean>();
-const CATEGORY_TOOLS = new Map<string, RelatedEntry[]>();
 for (const category of tools) {
-  const entries: RelatedEntry[] = [];
   for (const tool of category.items) {
     const slug = tool.href.split("/").pop() as string;
     SLUG_CATEGORY.set(slug, category.id);
     SLUG_ON_DEVICE.set(slug, tool.onDevice !== false);
-    if (tool.available) {
-      entries.push({ slug, href: tool.href, icon: tool.icon });
-    }
   }
-  CATEGORY_TOOLS.set(category.id, entries);
 }
 
 export function ToolShell({
@@ -105,11 +94,10 @@ export function ToolShell({
     ? (tc(`categoriesShort.${categoryId}` as never) as string)
     : "";
 
-  // 3 same-category siblings (excluding the current tool). Reuses the landing
-  // tile visual (spec §3).
-  const related = (categoryId ? CATEGORY_TOOLS.get(categoryId) ?? [] : [])
-    .filter((t) => t.slug !== slug)
-    .slice(0, 3);
+  // 3 related tiles (spec §3). For a normal tool: same-category siblings,
+  // excluding itself and any SEO landing variant. For a landing tool: its
+  // canonical tool first, then sibling variants sharing the same landingFor.
+  const related = getRelatedTools(slug, 3);
 
   const isOnDevice = SLUG_ON_DEVICE.get(slug) ?? true;
   const promise = isOnDevice ? tt("onDevicePromise") : tt("networkNote");

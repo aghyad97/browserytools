@@ -1,0 +1,137 @@
+/* KeyboardTester board (R3 §F2). Physical ANSI-104 layout: colours via
+   var(--bt-*), both themes; logical properties for the surrounding flow. The
+   board is pinned dir="ltr" in the component, so left/right key ordering here
+   mirrors a real keyboard rather than the reading direction. */
+
+.board {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  overflow-x: auto;
+  padding-block: 4px;
+}
+
+.functionRow,
+.row,
+.navRow {
+  display: flex;
+  gap: 6px;
+}
+
+.lower {
+  display: flex;
+  gap: 18px;
+  align-items: flex-start;
+}
+
+.mainBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.navCluster {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+.navRow {
+  justify-content: center;
+}
+
+.numpad {
+  display: grid;
+  grid-template-columns: repeat(4, 40px);
+  grid-auto-rows: 40px;
+  gap: 6px;
+  flex: 0 0 auto;
+}
+
+/* A single key cap. Main-block keys stretch by their unit width via --u; nav
+   and numpad keys sit in fixed cells. */
+.key {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex: var(--u, 1) 1 0;
+  min-inline-size: 34px;
+  block-size: 40px;
+  padding-inline: 4px;
+  border: 1px solid var(--bt-line);
+  border-radius: 8px;
+  background: var(--bt-surface);
+  color: var(--bt-ink);
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1;
+  user-select: none;
+  overflow: hidden;
+  transition:
+    background-color 90ms ease,
+    border-color 90ms ease,
+    color 90ms ease,
+    transform 90ms ease;
+}
+
+.navRow .key,
+.numpad .key {
+  flex: 0 0 40px;
+  inline-size: 40px;
+}
+
+/* Tall numpad keys (+ and Enter) fill their grid area vertically. */
+.numpad .key[data-tall="true"] {
+  block-size: 100%;
+}
+
+.keyLabel {
+  display: block;
+  max-inline-size: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Ever-pressed → tested tint (neutral fill). */
+.key[data-tested="true"] {
+  background: var(--bt-fill-hover);
+  border-color: var(--bt-line-strong);
+  color: var(--bt-ink);
+}
+
+/* Currently held → accent. Wins over the tested tint. Token-only: an accent
+   wash over the surface with an accent border + accent ink reads as "active"
+   in both themes without a bespoke on-accent foreground token. */
+.key[data-pressed="true"] {
+  background: color-mix(in srgb, var(--bt-accent) 18%, var(--bt-surface));
+  border-color: var(--bt-accent);
+  color: var(--bt-accent);
+  font-weight: 700;
+  transform: translateY(1px);
+}
+
+.historyWrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 8px;
+}
+
+.historyLabel {
+  font-family: var(--mono);
+  font-size: 10px;
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+}
+
+.history {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--bt-ink);
+  word-break: break-word;
+}

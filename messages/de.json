@@ -119,9 +119,57 @@
         "name": "Bildkomprimierung",
         "description": "Komprimiere Bilder, um die Dateigröße bei gleichbleibender Qualität zu reduzieren. Unterstützt JPG, PNG, WebP."
       },
+      "compress-image-to-20kb": {
+        "name": "Bild auf 20 KB komprimieren",
+        "description": "Verkleinere jedes Foto auf 20 Kilobyte oder weniger — für Bewerbungsformulare und Portale mit strengen Größenlimits."
+      },
+      "compress-image-to-50kb": {
+        "name": "Bild auf 50 KB komprimieren",
+        "description": "Reduziere die Dateigröße eines Bildes auf 50 KB — für Prüfungsportale, Bewerbungen und E-Mail-Anhänge."
+      },
+      "compress-image-to-100kb": {
+        "name": "Bild auf 100 KB komprimieren",
+        "description": "Bringe jedes Bild unter 100 KB, ohne an Schärfe zu verlieren — ideal für Upload-Limits."
+      },
+      "compress-image-to-200kb": {
+        "name": "Bild auf 200 KB komprimieren",
+        "description": "Komprimiere Fotos auf 200 KB oder weniger — für CMS-Uploads, Anzeigen und Dokumentenportale."
+      },
+      "compress-image-to-500kb": {
+        "name": "Bild auf 500 KB komprimieren",
+        "description": "Bringe große Fotos ohne sichtbaren Qualitätsverlust unter 500 KB."
+      },
+      "compress-image-to-1mb": {
+        "name": "Bild auf 1 MB komprimieren",
+        "description": "Komprimiere hochauflösende Fotos auf unter 1 MB — für E-Mail, Formulare und schnelleres Teilen."
+      },
+      "compress-jpeg-to-50kb": {
+        "name": "JPEG auf 50 KB komprimieren",
+        "description": "Reduziere die Dateigröße eines JPEGs mit intelligenter Qualitätssuche auf 50 KB — direkt in deinem Browser."
+      },
+      "compress-jpeg-to-100kb": {
+        "name": "JPEG auf 100 KB komprimieren",
+        "description": "Komprimiere JPG-Fotos auf 100 KB — für Portale und Websites mit Upload-Limit."
+      },
+      "compress-jpeg-to-200kb": {
+        "name": "JPEG auf 200 KB komprimieren",
+        "description": "Verkleinere JPG-Bilder auf 200 KB und behalte dabei die Details."
+      },
+      "compress-signature-20kb": {
+        "name": "Unterschrift auf 20 KB komprimieren",
+        "description": "Skaliere und komprimiere dein Unterschriftsbild für Online-Formulare auf 10–20 KB."
+      },
       "image-converter": {
         "name": "Format-Konverter",
         "description": "Konvertiere Bilder zwischen JPG, PNG, WebP, GIF, BMP, TIFF und SVG. Stapelkonvertierung möglich."
+      },
+      "heic-to-jpg": {
+        "name": "HEIC zu JPG",
+        "description": "Konvertiere iPhone-HEIC-Fotos direkt in deinem Browser in JPG — kein Upload, sofortiger Download."
+      },
+      "heic-to-png": {
+        "name": "HEIC zu PNG",
+        "description": "Konvertiere HEIC-Bilder lokal in deinem Browser verlustfrei in PNG."
       },
       "color-correction": {
         "name": "Farbkorrektur",
@@ -162,6 +210,14 @@
       "mic-camera": {
         "name": "Mikrofon- & Kameratest",
         "description": "Teste dein Mikrofon und deine Kamera ohne App-Installation."
+      },
+      "mic-test": {
+        "name": "Mikrofontest",
+        "description": "Prüfe dein Mikrofon in Sekunden mit einer Live-Pegelanzeige — vor dem Anruf, nicht währenddessen."
+      },
+      "webcam-test": {
+        "name": "Webcam-Test",
+        "description": "Sieh dir deine Kamera vorab an und prüfe die Qualität vor einem Meeting. Nichts wird aufgezeichnet oder hochgeladen."
       },
       "compress-video": {
         "name": "Video-Kompressor",
@@ -399,6 +455,14 @@
         "name": "Bildgrößen-Anpassung",
         "description": "Ändere die Größe von Bildern auf bestimmte Maße bei gleichbleibender Qualität."
       },
+      "crop-image": {
+        "name": "Bild zuschneiden",
+        "description": "Schneide Bilder online zu — mit Seitenverhältnis-Voreinstellungen und präzisen Ziehpunkten. Exportiere als JPG, PNG oder WebP."
+      },
+      "watermark-image": {
+        "name": "Wasserzeichen einfügen",
+        "description": "Füge Text- oder Logo-Wasserzeichen zu Fotos hinzu — Position, Deckkraft, Drehung und Kachelung. Alles direkt in deinem Browser."
+      },
       "contrast-checker": {
         "name": "Kontrast-Prüfer",
         "description": "Prüfe Farbkontrastverhältnisse auf WCAG-Barrierefreiheit."
@@ -426,6 +490,14 @@
       "typing-test": {
         "name": "Tipptest",
         "description": "Teste und verbessere deine Tippgeschwindigkeit und Genauigkeit."
+      },
+      "keyboard-tester": {
+        "name": "Tastatur-Tester",
+        "description": "Teste jede Taste deiner Tastatur mit einer visuellen Live-Belegung, Tastenverlauf und Rollover-Check."
+      },
+      "gamepad-tester": {
+        "name": "Gamepad-Tester",
+        "description": "Teste Tasten, Sticks, Trigger und Vibration für jeden USB- oder Bluetooth-Controller."
       },
       "timezone-converter": {
         "name": "Zeitzonen-Konverter",
@@ -747,17 +819,25 @@
       "imageTooLarge": "Die Bildgröße sollte unter 25 MB liegen",
       "compressedSuccess": "Bild erfolgreich komprimiert!",
       "compressFailed": "Bild konnte nicht komprimiert werden. Bitte versuche es erneut.",
-      "downloadedSuccess": "Bild heruntergeladen!"
+      "downloadedSuccess": "Bild heruntergeladen!",
+      "modeTarget": "Zielgröße",
+      "targetSize": "Zielgröße (KB)",
+      "targetSizeHint": "Wir passen Qualität und Abmessungen an, um deine Zielgröße zu erreichen.",
+      "targetReached": "Ziel erreicht",
+      "targetMissed": "Die genaue Zielgröße konnte nicht erreicht werden — das ist die kleinste erreichbare Größe bei akzeptabler Qualität.",
+      "pngNotSupportedInTarget": "PNG kann nicht zielgrößenbasiert komprimiert werden — auf JPEG umgestellt.",
+      "presetChipAria": "Zielgröße auf {label} setzen"
     },
     "ImageConverter": {
       "dropImageHere": "Lege dein Bild hier ab",
       "supportedFormats": "Unterstützt PNG-, JPG-, WebP- oder AVIF-Dateien",
+      "heicDropHint": "Lege iPhone-HEIC-Fotos hier ab — werden lokal konvertiert, nie hochgeladen.",
       "size": "Größe",
       "targetFormat": "Zielformat",
       "quality": "Qualität",
       "convertedImagePlaceholder": "Das konvertierte Bild erscheint hier",
       "imageTooLarge": "Die Bildgröße sollte unter 15 MB liegen",
-      "heicConverted": "HEIC für die Vorschau in JPEG konvertiert",
+      "heicConverted": "HEIC-Foto lokal für die Vorschau konvertiert",
       "heicFailed": "HEIC konnte nicht gelesen werden. Bitte versuche eine andere Datei.",
       "convertedSuccess": "Bild erfolgreich konvertiert!",
       "convertFailed": "Bild konnte nicht konvertiert werden. Bitte versuche es erneut.",
@@ -3035,6 +3115,60 @@
       "schemeMonochromatic": "Monochrom (10 Variationen)",
       "colorCopied": "{label} kopiert"
     },
+    "WatermarkImage": {
+      "dropImage": "Lege ein Bild hier ab",
+      "browseHint": "oder klicke, um eine Datei auszuwählen (JPEG, PNG, WebP, GIF)",
+      "change": "Ändern",
+      "outputFormat": "Ausgabeformat",
+      "quality": "Qualität",
+      "processing": "Wird verarbeitet …",
+      "download": "Herunterladen",
+      "uploadError": "Bitte lade eine Bilddatei hoch",
+      "uploadFirst": "Bitte lade zuerst ein Bild hoch",
+      "imageLoaded": "Bild geladen",
+      "processFailed": "Verarbeitung fehlgeschlagen",
+      "downloaded": "Bild heruntergeladen",
+      "watermarkType": "Wasserzeichentyp",
+      "watermarkText": "Text",
+      "watermarkImage": "Bild",
+      "watermarkContent": "Textinhalt",
+      "watermarkContentPlaceholder": "Wasserzeichentext eingeben",
+      "watermarkFontSize": "Schriftgröße",
+      "watermarkColor": "Farbe",
+      "watermarkChoose": "Bild auswählen",
+      "watermarkPreviewAlt": "Wasserzeichen-Vorschau",
+      "watermarkPosition": "Position",
+      "watermarkOpacity": "Deckkraft",
+      "watermarkScale": "Skalierung",
+      "watermarkRotation": "Drehung",
+      "watermarkTile": "Kacheln / Wiederholen",
+      "applyWatermark": "Wasserzeichen anwenden",
+      "watermarkLoaded": "Wasserzeichenbild geladen",
+      "watermarkTextRequired": "Bitte gib einen Wasserzeichentext ein",
+      "watermarkImageRequired": "Bitte wähle ein Wasserzeichenbild aus",
+      "resultAlt": "Bild mit Wasserzeichen"
+    },
+    "CropImage": {
+      "dropImage": "Lege ein Bild hier ab",
+      "browseHint": "oder klicke, um eine Datei auszuwählen (JPEG, PNG, WebP, GIF)",
+      "change": "Ändern",
+      "aspectRatio": "Seitenverhältnis",
+      "aspectFree": "Frei",
+      "cropPreviewAlt": "Zuschnitt-Vorschau",
+      "outputFormat": "Ausgabeformat",
+      "quality": "Qualität",
+      "cropImage": "Bild zuschneiden",
+      "processing": "Wird verarbeitet …",
+      "download": "Herunterladen",
+      "statOriginal": "Original",
+      "statCropped": "Zugeschnitten",
+      "statOutputSize": "Ausgabegröße",
+      "uploadError": "Bitte lade eine Bilddatei hoch",
+      "uploadFirst": "Bitte lade zuerst ein Bild hoch",
+      "imageLoaded": "Bild geladen",
+      "processFailed": "Verarbeitung fehlgeschlagen",
+      "downloaded": "Bild heruntergeladen"
+    },
     "ImageResizer": {
       "title": "Bildgrößen-Anpassung",
       "description": "Ändere die Bildgröße nach Abmessungen, Prozentsatz oder voreingestellten Größen",
@@ -4634,6 +4768,22 @@
       "tooFewFrames": "Füge mindestens 2 Bilder hinzu, um ein GIF zu erstellen",
       "generated": "GIF erstellt!",
       "generateFailed": "GIF konnte nicht erstellt werden. Bitte versuche es erneut."
+    },
+    "GamepadTester": {
+      "connectPrompt": "Verbinde einen Controller und drücke eine beliebige Taste",
+      "buttons": "Tasten",
+      "axes": "Achsen",
+      "vibrationTest": "Vibration testen",
+      "mapping": "Zuordnung",
+      "connected": "Verbunden"
+    },
+    "KeyboardTester": {
+      "pressAnyKey": "Drücke eine beliebige Taste — gehaltene Tasten leuchten auf, und jede gedrückte Taste bleibt als getestet markiert.",
+      "keysTested": "Getestete Tasten",
+      "rollover": "Rollover",
+      "maxRollover": "Max. Rollover",
+      "history": "Verlauf",
+      "reset": "Zurücksetzen"
     }
   },
   "Blog": {

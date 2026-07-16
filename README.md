@@ -62,6 +62,8 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Image Resizer**: Resize images to exact dimensions or by percentage.
 - **EXIF Viewer**: View EXIF metadata from photos: camera model, lens, aperture, shutter speed, ISO, GPS coordinates, and more.
 - **Favicon Generator**: Create a complete favicon set from an image or a letter/emoji.
+- **Crop Image**: Crop images online with aspect-ratio presets and precise drag handles.
+- **Watermark Image**: Add text or logo watermarks to photos — position, opacity, rotation, and tiling.
 
 ### 🤖 AI Tools
 
@@ -209,6 +211,8 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 ### 🎮 Tests & Games
 
 - **Typing Test**: Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.
+- **Keyboard Tester**: Test every key on your keyboard with a live visual layout, key history, and rollover check.
+- **Gamepad Tester**: Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad.
 
 ### 🎓 School & Learning
 

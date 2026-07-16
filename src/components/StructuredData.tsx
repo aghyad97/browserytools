@@ -1,4 +1,4 @@
-import { getAllTools } from "@/lib/tools-config";
+import { getCatalogTools } from "@/lib/tools-config";
 
 interface StructuredDataProps {
   type: "website" | "tool" | "organization";
@@ -16,7 +16,7 @@ export default function StructuredData({
   toolUrl,
 }: StructuredDataProps) {
   const baseUrl = "https://browserytools.com";
-  const allTools = getAllTools().filter((tool) => tool.available);
+  const allTools = getCatalogTools().filter((tool) => tool.available);
 
   const getWebsiteStructuredData = () => ({
     "@context": "https://schema.org",

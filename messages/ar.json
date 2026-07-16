@@ -119,9 +119,57 @@
         "name": "ضغط الصور",
         "description": "اضغط الصور لتقليل حجم الملف مع الحفاظ على الجودة. يدعم JPG وPNG وWebP."
       },
+      "compress-image-to-20kb": {
+        "name": "ضغط الصورة إلى 20 كيلوبايت",
+        "description": "قلّص أي صورة إلى 20 كيلوبايت أو أقل لاستمارات التقديم والبوابات ذات حدود الحجم الصارمة."
+      },
+      "compress-image-to-50kb": {
+        "name": "ضغط الصورة إلى 50 كيلوبايت",
+        "description": "قلّل حجم ملف الصورة إلى 50 كيلوبايت لبوابات الامتحانات وطلبات التوظيف ومرفقات البريد الإلكتروني."
+      },
+      "compress-image-to-100kb": {
+        "name": "ضغط الصورة إلى 100 كيلوبايت",
+        "description": "اجعل أي صورة أقل من 100 كيلوبايت مع الحفاظ على وضوحها — مصمم لحدود الرفع."
+      },
+      "compress-image-to-200kb": {
+        "name": "ضغط الصورة إلى 200 كيلوبايت",
+        "description": "اضغط الصور إلى 200 كيلوبايت أو أقل لأنظمة إدارة المحتوى وقوائم العروض وبوابات المستندات."
+      },
+      "compress-image-to-500kb": {
+        "name": "ضغط الصورة إلى 500 كيلوبايت",
+        "description": "اجعل الصور الكبيرة أقل من 500 كيلوبايت دون فقدان ملحوظ في الجودة."
+      },
+      "compress-image-to-1mb": {
+        "name": "ضغط الصورة إلى 1 ميغابايت",
+        "description": "اضغط الصور عالية الدقة إلى أقل من 1 ميغابايت للبريد الإلكتروني والاستمارات والمشاركة الأسرع."
+      },
+      "compress-jpeg-to-50kb": {
+        "name": "ضغط JPEG إلى 50 كيلوبايت",
+        "description": "قلّل حجم ملف JPEG إلى 50 كيلوبايت ببحث ذكي عن أفضل جودة، مباشرةً في متصفحك."
+      },
+      "compress-jpeg-to-100kb": {
+        "name": "ضغط JPEG إلى 100 كيلوبايت",
+        "description": "اضغط صور JPG إلى 100 كيلوبايت للبوابات والمواقع التي تفرض حداً أقصى لحجم الرفع."
+      },
+      "compress-jpeg-to-200kb": {
+        "name": "ضغط JPEG إلى 200 كيلوبايت",
+        "description": "قلّص صور JPG إلى 200 كيلوبايت مع الحفاظ على التفاصيل."
+      },
+      "compress-signature-20kb": {
+        "name": "ضغط التوقيع إلى 20 كيلوبايت",
+        "description": "غيّر حجم صورة توقيعك واضغطها إلى 10–20 كيلوبايت لاستمارات التقديم الإلكترونية."
+      },
       "image-converter": {
         "name": "محوّل الصيغ",
         "description": "حوّل الصور بين JPG وPNG وWebP وGIF وBMP وTIFF وSVG."
+      },
+      "heic-to-jpg": {
+        "name": "HEIC إلى JPG",
+        "description": "حوّل صور HEIC من الآيفون إلى JPG مباشرةً في متصفحك — بلا رفع وتنزيل فوري."
+      },
+      "heic-to-png": {
+        "name": "HEIC إلى PNG",
+        "description": "حوّل صور HEIC إلى PNG عالي الجودة دون فقدان، محلياً في متصفحك."
       },
       "color-correction": {
         "name": "تصحيح الألوان",
@@ -162,6 +210,14 @@
       "mic-camera": {
         "name": "اختبار الميكروفون والكاميرا",
         "description": "اختبر ميكروفونك وكاميرتك بدون أي تطبيق."
+      },
+      "mic-test": {
+        "name": "اختبار الميكروفون",
+        "description": "تحقق من ميكروفونك خلال ثوانٍ بمقياس مستوى صوت مباشر — قبل المكالمة، لا أثناءها."
+      },
+      "webcam-test": {
+        "name": "اختبار كاميرا الويب",
+        "description": "عاين كاميرتك وتحقق من جودتها قبل الاجتماع. لا يُسجَّل ولا يُرفع أي شيء."
       },
       "compress-video": {
         "name": "ضاغط الفيديو",
@@ -399,6 +455,14 @@
         "name": "تغيير حجم الصور",
         "description": "غيّر حجم الصور إلى أبعاد محددة مع الحفاظ على الجودة."
       },
+      "crop-image": {
+        "name": "اقتصاص الصورة",
+        "description": "اقتصّ الصور أونلاين بنسب أبعاد جاهزة ومقابض سحب دقيقة. صدّر إلى JPG أو PNG أو WebP."
+      },
+      "watermark-image": {
+        "name": "علامة مائية على الصورة",
+        "description": "أضف علامة مائية نصية أو شعاراً إلى الصور — تحكّم بالموضع والشفافية والتدوير والتكرار. كل ذلك في متصفحك."
+      },
       "contrast-checker": {
         "name": "فاحص التباين",
         "description": "افحص نسب تباين الألوان لامتثال إمكانية الوصول WCAG."
@@ -426,6 +490,14 @@
       "typing-test": {
         "name": "اختبار الكتابة",
         "description": "اختبر وحسّن سرعة كتابتك ودقتها."
+      },
+      "keyboard-tester": {
+        "name": "اختبار لوحة المفاتيح",
+        "description": "اختبر كل مفتاح في لوحة مفاتيحك بمخطط بصري مباشر وسجل للمفاتيح وفحص للتعدد."
+      },
+      "gamepad-tester": {
+        "name": "اختبار يد التحكم",
+        "description": "اختبر أزرار يد التحكم وعصي التوجيه والزناد والاهتزاز لأي يد تحكم USB أو بلوتوث."
       },
       "timezone-converter": {
         "name": "محوّل المناطق الزمنية",
@@ -747,17 +819,25 @@
       "imageTooLarge": "حجم الصورة يجب أن يكون أقل من 25 ميغابايت",
       "compressedSuccess": "تم ضغط الصورة بنجاح!",
       "compressFailed": "فشل ضغط الصورة. يرجى المحاولة مجدداً.",
-      "downloadedSuccess": "تم تحميل الصورة!"
+      "downloadedSuccess": "تم تحميل الصورة!",
+      "modeTarget": "حجم مستهدف",
+      "targetSize": "الحجم المستهدف (كيلوبايت)",
+      "targetSizeHint": "نبحث في الجودة والأبعاد للوصول إلى الحجم المستهدف.",
+      "targetReached": "تم بلوغ الحجم المستهدف",
+      "targetMissed": "تعذّر بلوغ الحجم المستهدف بدقة — هذا أصغر حجم ممكن بجودة مقبولة.",
+      "pngNotSupportedInTarget": "لا يمكن استهداف حجم محدد لصيغة PNG — تم التحويل إلى JPEG.",
+      "presetChipAria": "تعيين الحجم المستهدف إلى {label}"
     },
     "ImageConverter": {
       "dropImageHere": "أفلت صورتك هنا",
       "supportedFormats": "يدعم PNG وJPG وWebP وAVIF",
+      "heicDropHint": "أفلت صور HEIC من الآيفون هنا — تُحوَّل محلياً ولا تُرفع أبداً.",
       "size": "الحجم",
       "targetFormat": "الصيغة المستهدفة",
       "quality": "الجودة",
       "convertedImagePlaceholder": "ستظهر الصورة المحولة هنا",
       "imageTooLarge": "حجم الصورة يجب أن يكون أقل من 15 ميغابايت",
-      "heicConverted": "تم تحويل HEIC إلى JPEG للمعاينة",
+      "heicConverted": "تم تحويل صورة HEIC محلياً للمعاينة",
       "heicFailed": "فشل قراءة HEIC. يرجى تجربة ملف آخر.",
       "convertedSuccess": "تم تحويل الصورة بنجاح!",
       "convertFailed": "فشل تحويل الصورة. يرجى المحاولة مجدداً.",
@@ -3035,6 +3115,60 @@
       "schemeMonochromatic": "أحادي اللون (10 تنويعات)",
       "colorCopied": "تم نسخ {label}"
     },
+    "WatermarkImage": {
+      "dropImage": "أسقط صورة هنا",
+      "browseHint": "أو انقر للتصفح (JPEG، PNG، WebP، GIF)",
+      "change": "تغيير",
+      "outputFormat": "صيغة الناتج",
+      "quality": "الجودة",
+      "processing": "جارٍ المعالجة...",
+      "download": "تحميل",
+      "uploadError": "يرجى رفع ملف صورة",
+      "uploadFirst": "يرجى رفع صورة أولاً",
+      "imageLoaded": "تم تحميل الصورة",
+      "processFailed": "فشلت المعالجة",
+      "downloaded": "تم تحميل الصورة",
+      "watermarkType": "نوع العلامة المائية",
+      "watermarkText": "نص",
+      "watermarkImage": "صورة",
+      "watermarkContent": "محتوى النص",
+      "watermarkContentPlaceholder": "أدخل نص العلامة المائية",
+      "watermarkFontSize": "حجم الخط",
+      "watermarkColor": "اللون",
+      "watermarkChoose": "اختر صورة",
+      "watermarkPreviewAlt": "معاينة العلامة المائية",
+      "watermarkPosition": "الموضع",
+      "watermarkOpacity": "الشفافية",
+      "watermarkScale": "المقياس",
+      "watermarkRotation": "التدوير",
+      "watermarkTile": "تكرار / تبليط",
+      "applyWatermark": "تطبيق العلامة المائية",
+      "watermarkLoaded": "تم تحميل صورة العلامة المائية",
+      "watermarkTextRequired": "يرجى إدخال نص العلامة المائية",
+      "watermarkImageRequired": "يرجى اختيار صورة العلامة المائية",
+      "resultAlt": "الصورة بالعلامة المائية"
+    },
+    "CropImage": {
+      "dropImage": "أسقط صورة هنا",
+      "browseHint": "أو انقر للتصفح (JPEG، PNG، WebP، GIF)",
+      "change": "تغيير",
+      "aspectRatio": "نسبة الأبعاد",
+      "aspectFree": "حر",
+      "cropPreviewAlt": "معاينة الاقتصاص",
+      "outputFormat": "صيغة الناتج",
+      "quality": "الجودة",
+      "cropImage": "اقتصاص الصورة",
+      "processing": "جارٍ المعالجة...",
+      "download": "تحميل",
+      "statOriginal": "الأصلية",
+      "statCropped": "المقصوصة",
+      "statOutputSize": "حجم الناتج",
+      "uploadError": "يرجى رفع ملف صورة",
+      "uploadFirst": "يرجى رفع صورة أولاً",
+      "imageLoaded": "تم تحميل الصورة",
+      "processFailed": "فشلت المعالجة",
+      "downloaded": "تم تحميل الصورة"
+    },
     "ImageResizer": {
       "title": "تغيير حجم الصور",
       "description": "غيّر حجم الصور بالأبعاد أو النسبة المئوية أو الأحجام المحددة مسبقاً",
@@ -4634,6 +4768,22 @@
       "tooFewFrames": "أضِف صورتين على الأقل لإنشاء GIF",
       "generated": "تم إنشاء GIF!",
       "generateFailed": "تعذّر إنشاء GIF. حاول مرة أخرى."
+    },
+    "GamepadTester": {
+      "connectPrompt": "وصّل يد تحكم واضغط أي زر",
+      "buttons": "الأزرار",
+      "axes": "المحاور",
+      "vibrationTest": "اختبار الاهتزاز",
+      "mapping": "المخطط",
+      "connected": "متصلة"
+    },
+    "KeyboardTester": {
+      "pressAnyKey": "اضغط أي مفتاح — تُضاء المفاتيح المضغوطة، ويبقى كل مفتاح تضغطه مُعلَّماً كمُختبَر.",
+      "keysTested": "المفاتيح المُختبَرة",
+      "rollover": "التعدد (Rollover)",
+      "maxRollover": "أقصى تعدد",
+      "history": "السجل",
+      "reset": "إعادة تعيين"
     }
   },
   "Blog": {

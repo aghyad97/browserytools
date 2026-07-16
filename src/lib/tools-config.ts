@@ -88,6 +88,10 @@ import {
   TextQuoteIcon,
   LanguagesIcon,
   ListChecksIcon,
+  CropIcon,
+  StampIcon,
+  Gamepad2Icon,
+  KeyboardIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -102,6 +106,15 @@ export interface Tool {
    * APIs) and can't honestly claim to run fully on-device. Absent/true means
    * the default on-device promise applies. */
   onDevice?: boolean;
+  /** Present ONLY on SEO landing-page variants (e.g. `compress-image-to-20kb`)
+   * whose value is the canonical tool's slug. Landing variants are real
+   * tools-config entries (so they inherit sitemap/metadata/route/e2e plumbing
+   * via getAllTools) but are hidden from the homepage grid, the marketing tool
+   * count (getCatalogTools / roundedToolCount), and other tools' related tiles.
+   * Field-order note: `landingFor` is an optional and MUST follow `onDevice`
+   * (after `creationDate`) — scripts/generate-tool-routes.mjs regexes the
+   * name → href → … available prefix, so keep required fields ahead of it. */
+  landingFor?: string;
 }
 
 export interface ToolCategory {
@@ -317,6 +330,161 @@ export const tools: ToolCategory[] = [
         description:
           "Create a complete favicon set from an image or a letter/emoji. Generates 16, 32, 48, 180, 192, and 512 PNGs plus a multi-size favicon.ico, a site.webmanifest, and the HTML link snippet — bundled in a ZIP. Runs fully in your browser.",
       },
+      {
+        name: "Crop Image",
+        href: "/tools/crop-image",
+        icon: CropIcon,
+        available: true,
+        order: 21,
+        creationDate: "2026-07-16",
+        description:
+          "Crop images online with aspect-ratio presets and precise drag handles. Export to JPG, PNG, or WebP.",
+      },
+      {
+        name: "Watermark Image",
+        href: "/tools/watermark-image",
+        icon: StampIcon,
+        available: true,
+        order: 22,
+        creationDate: "2026-07-16",
+        description:
+          "Add text or logo watermarks to photos — position, opacity, rotation, and tiling. All in your browser.",
+      },
+      // SEO landing variants of Image Compression — hidden from grid/count/
+      // related pools via `landingFor` (Task 2 infra).
+      {
+        name: "Compress Image to 20KB",
+        href: "/tools/compress-image-to-20kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 60,
+        creationDate: "2026-07-16",
+        description:
+          "Shrink any photo to 20 kilobytes or less for application forms and portals with strict size limits.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress Image to 50KB",
+        href: "/tools/compress-image-to-50kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 61,
+        creationDate: "2026-07-16",
+        description:
+          "Reduce image file size to 50KB for exam portals, job applications, and email attachments.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress Image to 100KB",
+        href: "/tools/compress-image-to-100kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 62,
+        creationDate: "2026-07-16",
+        description:
+          "Get any picture under 100KB while keeping it sharp — made for upload limits.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress Image to 200KB",
+        href: "/tools/compress-image-to-200kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 63,
+        creationDate: "2026-07-16",
+        description:
+          "Compress photos to 200KB or less for CMS uploads, listings, and document portals.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress Image to 500KB",
+        href: "/tools/compress-image-to-500kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 64,
+        creationDate: "2026-07-16",
+        description:
+          "Bring large photos under 500KB without visible quality loss.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress Image to 1MB",
+        href: "/tools/compress-image-to-1mb",
+        icon: FileDownIcon,
+        available: true,
+        order: 65,
+        creationDate: "2026-07-16",
+        description:
+          "Compress high-resolution photos to under 1MB for email, forms, and faster sharing.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress JPEG to 50KB",
+        href: "/tools/compress-jpeg-to-50kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 66,
+        creationDate: "2026-07-16",
+        description:
+          "Reduce JPEG file size to 50KB with smart quality search, right in your browser.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress JPEG to 100KB",
+        href: "/tools/compress-jpeg-to-100kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 67,
+        creationDate: "2026-07-16",
+        description:
+          "Compress JPG photos to 100KB for portals and websites that cap upload size.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress JPEG to 200KB",
+        href: "/tools/compress-jpeg-to-200kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 68,
+        creationDate: "2026-07-16",
+        description: "Shrink JPG images to 200KB while preserving detail.",
+        landingFor: "image-compression",
+      },
+      {
+        name: "Compress Signature to 20KB",
+        href: "/tools/compress-signature-20kb",
+        icon: FileDownIcon,
+        available: true,
+        order: 69,
+        creationDate: "2026-07-16",
+        description:
+          "Resize and compress your signature image to 10–20KB for online application forms.",
+        landingFor: "image-compression",
+      },
+      // SEO landing variants of Format Converter — hidden from grid/count/
+      // related pools via `landingFor` (Task 2 infra).
+      {
+        name: "HEIC to JPG",
+        href: "/tools/heic-to-jpg",
+        icon: ImageIcon,
+        available: true,
+        order: 70,
+        creationDate: "2026-07-16",
+        description:
+          "Convert iPhone HEIC photos to JPG right in your browser — no upload, instant download.",
+        landingFor: "image-converter",
+      },
+      {
+        name: "HEIC to PNG",
+        href: "/tools/heic-to-png",
+        icon: ImageIcon,
+        available: true,
+        order: 71,
+        creationDate: "2026-07-16",
+        description:
+          "Convert HEIC images to lossless PNG locally in your browser.",
+        landingFor: "image-converter",
+      },
     ],
   },
   {
@@ -431,6 +599,30 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-06-28",
         description:
           "Turn a series of images into an animated GIF right in your browser. Reorder frames, set the frame delay, loop or boomerang, resize, and pick quality. No uploads — runs entirely on-device.",
+      },
+      // SEO landing variants of Mic & Camera Tester — hidden from grid/count/
+      // related pools via `landingFor` (Task 2 infra).
+      {
+        name: "Mic Test",
+        href: "/tools/mic-test",
+        icon: MicIcon,
+        available: true,
+        order: 60,
+        creationDate: "2026-07-16",
+        description:
+          "Check your microphone in seconds with a live level meter — before the call, not during it.",
+        landingFor: "mic-camera",
+      },
+      {
+        name: "Webcam Test",
+        href: "/tools/webcam-test",
+        icon: VideoIcon,
+        available: true,
+        order: 61,
+        creationDate: "2026-07-16",
+        description:
+          "Preview your camera and check quality before a meeting. Nothing is recorded or uploaded.",
+        landingFor: "mic-camera",
       },
     ],
   },
@@ -1533,6 +1725,26 @@ export const tools: ToolCategory[] = [
         description:
           "Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.",
       },
+      {
+        name: "Keyboard Tester",
+        href: "/tools/keyboard-tester",
+        icon: KeyboardIcon,
+        available: true,
+        order: 2,
+        creationDate: "2026-07-16",
+        description:
+          "Test every key on your keyboard with a live visual layout, key history, and rollover check.",
+      },
+      {
+        name: "Gamepad Tester",
+        href: "/tools/gamepad-tester",
+        icon: Gamepad2Icon,
+        available: true,
+        order: 3,
+        creationDate: "2026-07-16",
+        description:
+          "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad.",
+      },
     ],
   },
   {
@@ -1588,6 +1800,55 @@ export const getAllTools = (): (Tool & { category: string })[] => {
   );
 };
 
+// Catalog tools — the public, user-facing set: every tool EXCEPT SEO landing
+// variants (entries carrying `landingFor`). This is what the homepage grid and
+// the marketing "N+ tools" count show. `getAllTools()` stays the full set so
+// sitemap / metadata / route + e2e generation keep landing variants visible.
+export const getCatalogTools = (): (Tool & { category: string })[] =>
+  getAllTools().filter((tool) => !tool.landingFor);
+
+// Related-tile resolution shared by the ToolShell (spec §3, zone 5). Pure so it
+// can be unit-tested against a synthetic pool; defaults to the live catalog.
+//   - NORMAL tool: up to `limit` same-category siblings, excluding itself AND
+//     any landing variant (they never surface as a normal tool's related tile).
+//   - LANDING tool (its own slug carries `landingFor`): the canonical tool
+//     first, then sibling variants sharing the same `landingFor`, with the TOTAL
+//     capped at `limit` so the tile count matches a normal tool's.
+export const getRelatedTools = (
+  slug: string,
+  limit = 3,
+  pool: (Tool & { category: string })[] = getAllTools(),
+): { slug: string; href: string; icon: Tool["icon"] }[] => {
+  const slugOf = (t: { href: string }) => t.href.split("/").pop() as string;
+  const toEntry = (t: Tool) => ({ slug: slugOf(t), href: t.href, icon: t.icon });
+  const self = pool.find((t) => slugOf(t) === slug);
+  if (!self) return [];
+
+  if (self.landingFor) {
+    const result: (Tool & { category: string })[] = [];
+    const canonical = pool.find((t) => slugOf(t) === self.landingFor);
+    if (canonical) result.push(canonical);
+    for (const t of pool) {
+      if (result.length >= limit) break;
+      if (t.landingFor === self.landingFor && slugOf(t) !== slug && t.available) {
+        result.push(t);
+      }
+    }
+    return result.slice(0, limit).map(toEntry);
+  }
+
+  return pool
+    .filter(
+      (t) =>
+        t.category === self.category &&
+        t.available &&
+        !t.landingFor &&
+        slugOf(t) !== slug,
+    )
+    .slice(0, limit)
+    .map(toEntry);
+};
+
 // Helper function to find a tool by href
 export const findToolByHref = (
   href: string,
@@ -1617,6 +1878,6 @@ export const getDaysSinceCreation = (creationDate: string): number => {
     copy ("Search 130+ tools"), where an exact count with a plus ("137+")
     reads wrong. Exact counts without a plus should use the real number. */
 export function roundedToolCount(): number {
-  const exact = tools.reduce((n, c) => n + c.items.length, 0);
+  const exact = getCatalogTools().length;
   return Math.floor(exact / 10) * 10;
 }

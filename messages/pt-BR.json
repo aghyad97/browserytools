@@ -119,9 +119,57 @@
         "name": "Compressão de Imagem",
         "description": "Comprima imagens para reduzir o tamanho do arquivo mantendo a qualidade. Compatível com JPG, PNG e WebP."
       },
+      "compress-image-to-20kb": {
+        "name": "Comprimir Imagem para 20KB",
+        "description": "Reduza qualquer foto para 20 kilobytes ou menos para formulários de inscrição e portais com limites rígidos de tamanho."
+      },
+      "compress-image-to-50kb": {
+        "name": "Comprimir Imagem para 50KB",
+        "description": "Reduza o tamanho do arquivo de imagem para 50KB para portais de provas, candidaturas a emprego e anexos de e-mail."
+      },
+      "compress-image-to-100kb": {
+        "name": "Comprimir Imagem para 100KB",
+        "description": "Deixe qualquer foto abaixo de 100KB mantendo a nitidez — feito para limites de upload."
+      },
+      "compress-image-to-200kb": {
+        "name": "Comprimir Imagem para 200KB",
+        "description": "Comprima fotos para 200KB ou menos para uploads em CMS, anúncios e portais de documentos."
+      },
+      "compress-image-to-500kb": {
+        "name": "Comprimir Imagem para 500KB",
+        "description": "Deixe fotos grandes abaixo de 500KB sem perda visível de qualidade."
+      },
+      "compress-image-to-1mb": {
+        "name": "Comprimir Imagem para 1MB",
+        "description": "Comprima fotos de alta resolução para menos de 1MB para e-mail, formulários e compartilhamento mais rápido."
+      },
+      "compress-jpeg-to-50kb": {
+        "name": "Comprimir JPEG para 50KB",
+        "description": "Reduza o tamanho do arquivo JPEG para 50KB com busca inteligente de qualidade, direto no seu navegador."
+      },
+      "compress-jpeg-to-100kb": {
+        "name": "Comprimir JPEG para 100KB",
+        "description": "Comprima fotos JPG para 100KB para portais e sites que limitam o tamanho de upload."
+      },
+      "compress-jpeg-to-200kb": {
+        "name": "Comprimir JPEG para 200KB",
+        "description": "Reduza imagens JPG para 200KB preservando os detalhes."
+      },
+      "compress-signature-20kb": {
+        "name": "Comprimir Assinatura para 20KB",
+        "description": "Redimensione e comprima a imagem da sua assinatura para 10–20KB para formulários de inscrição on-line."
+      },
       "image-converter": {
         "name": "Conversor de Formato",
         "description": "Converta imagens entre JPG, PNG, WebP, GIF, BMP, TIFF e SVG. Conversão em lote disponível."
+      },
+      "heic-to-jpg": {
+        "name": "HEIC para JPG",
+        "description": "Converta fotos HEIC do iPhone para JPG direto no seu navegador — sem upload, download instantâneo."
+      },
+      "heic-to-png": {
+        "name": "HEIC para PNG",
+        "description": "Converta imagens HEIC para PNG sem perdas, localmente no seu navegador."
       },
       "color-correction": {
         "name": "Correção de Cor",
@@ -162,6 +210,14 @@
       "mic-camera": {
         "name": "Testador de Microfone e Câmera",
         "description": "Teste seu microfone e câmera sem instalar nenhum aplicativo."
+      },
+      "mic-test": {
+        "name": "Teste de Microfone",
+        "description": "Verifique seu microfone em segundos com um medidor de nível ao vivo — antes da chamada, não durante."
+      },
+      "webcam-test": {
+        "name": "Teste de Webcam",
+        "description": "Pré-visualize sua câmera e verifique a qualidade antes de uma reunião. Nada é gravado ou enviado."
       },
       "compress-video": {
         "name": "Compressor de Vídeo",
@@ -399,6 +455,14 @@
         "name": "Redimensionador de Imagem",
         "description": "Redimensione imagens para dimensões específicas preservando a qualidade."
       },
+      "crop-image": {
+        "name": "Cortar Imagem",
+        "description": "Corte imagens on-line com predefinições de proporção e alças de arraste precisas. Exporte para JPG, PNG ou WebP."
+      },
+      "watermark-image": {
+        "name": "Marca d’Água em Imagem",
+        "description": "Adicione marcas d’água de texto ou logotipo em fotos — posição, opacidade, rotação e mosaico. Tudo no seu navegador."
+      },
       "contrast-checker": {
         "name": "Verificador de Contraste",
         "description": "Verifique as taxas de contraste de cor para conformidade de acessibilidade WCAG."
@@ -426,6 +490,14 @@
       "typing-test": {
         "name": "Teste de Digitação",
         "description": "Teste e melhore sua velocidade e precisão de digitação."
+      },
+      "keyboard-tester": {
+        "name": "Testador de Teclado",
+        "description": "Teste cada tecla do seu teclado com um layout visual ao vivo, histórico de teclas e verificação de rollover."
+      },
+      "gamepad-tester": {
+        "name": "Testador de Controle",
+        "description": "Teste botões, analógicos, gatilhos e vibração de qualquer controle USB ou Bluetooth."
       },
       "timezone-converter": {
         "name": "Conversor de Fuso Horário",
@@ -747,17 +819,25 @@
       "imageTooLarge": "O tamanho da imagem deve ser menor que 25 MB",
       "compressedSuccess": "Imagem comprimida com sucesso!",
       "compressFailed": "Falha ao comprimir a imagem. Tente novamente.",
-      "downloadedSuccess": "Imagem baixada!"
+      "downloadedSuccess": "Imagem baixada!",
+      "modeTarget": "Tamanho alvo",
+      "targetSize": "Tamanho alvo (KB)",
+      "targetSizeHint": "Buscamos a qualidade e as dimensões para atingir o seu alvo.",
+      "targetReached": "Alvo atingido",
+      "targetMissed": "Não foi possível atingir o alvo exato — este é o menor tamanho possível com qualidade aceitável.",
+      "pngNotSupportedInTarget": "PNG não pode ter tamanho alvo — mudamos para JPEG.",
+      "presetChipAria": "Definir alvo para {label}"
     },
     "ImageConverter": {
       "dropImageHere": "Solte sua imagem aqui",
       "supportedFormats": "Compatível com arquivos PNG, JPG, WebP ou AVIF",
+      "heicDropHint": "Solte fotos HEIC do iPhone aqui — convertidas localmente, nunca enviadas.",
       "size": "Tamanho",
       "targetFormat": "Formato de Destino",
       "quality": "Qualidade",
       "convertedImagePlaceholder": "A imagem convertida aparecerá aqui",
       "imageTooLarge": "O tamanho da imagem deve ser menor que 15 MB",
-      "heicConverted": "HEIC convertido para JPEG para pré-visualização",
+      "heicConverted": "Foto HEIC convertida localmente para pré-visualização",
       "heicFailed": "Falha ao ler o HEIC. Tente outro arquivo.",
       "convertedSuccess": "Imagem convertida com sucesso!",
       "convertFailed": "Falha ao converter a imagem. Tente novamente.",
@@ -3035,6 +3115,60 @@
       "schemeMonochromatic": "Monocromática (10 variações)",
       "colorCopied": "{label} copiado"
     },
+    "WatermarkImage": {
+      "dropImage": "Solte uma imagem aqui",
+      "browseHint": "ou clique para procurar (JPEG, PNG, WebP, GIF)",
+      "change": "Alterar",
+      "outputFormat": "Formato de Saída",
+      "quality": "Qualidade",
+      "processing": "Processando...",
+      "download": "Baixar",
+      "uploadError": "Envie um arquivo de imagem",
+      "uploadFirst": "Envie uma imagem primeiro",
+      "imageLoaded": "Imagem carregada",
+      "processFailed": "Falha no processamento",
+      "downloaded": "Imagem baixada",
+      "watermarkType": "Tipo de Marca d’Água",
+      "watermarkText": "Texto",
+      "watermarkImage": "Imagem",
+      "watermarkContent": "Conteúdo do Texto",
+      "watermarkContentPlaceholder": "Digite o texto da marca d’água",
+      "watermarkFontSize": "Tamanho da Fonte",
+      "watermarkColor": "Cor",
+      "watermarkChoose": "Escolher Imagem",
+      "watermarkPreviewAlt": "Pré-visualização da marca d’água",
+      "watermarkPosition": "Posição",
+      "watermarkOpacity": "Opacidade",
+      "watermarkScale": "Escala",
+      "watermarkRotation": "Rotação",
+      "watermarkTile": "Mosaico / Repetir",
+      "applyWatermark": "Aplicar Marca d’Água",
+      "watermarkLoaded": "Imagem de marca d’água carregada",
+      "watermarkTextRequired": "Digite o texto da marca d’água",
+      "watermarkImageRequired": "Escolha uma imagem de marca d’água",
+      "resultAlt": "Imagem com marca d’água"
+    },
+    "CropImage": {
+      "dropImage": "Solte uma imagem aqui",
+      "browseHint": "ou clique para procurar (JPEG, PNG, WebP, GIF)",
+      "change": "Alterar",
+      "aspectRatio": "Proporção",
+      "aspectFree": "Livre",
+      "cropPreviewAlt": "Pré-visualização do corte",
+      "outputFormat": "Formato de Saída",
+      "quality": "Qualidade",
+      "cropImage": "Cortar Imagem",
+      "processing": "Processando...",
+      "download": "Baixar",
+      "statOriginal": "Original",
+      "statCropped": "Cortada",
+      "statOutputSize": "Tamanho de Saída",
+      "uploadError": "Envie um arquivo de imagem",
+      "uploadFirst": "Envie uma imagem primeiro",
+      "imageLoaded": "Imagem carregada",
+      "processFailed": "Falha no processamento",
+      "downloaded": "Imagem baixada"
+    },
     "ImageResizer": {
       "title": "Redimensionador de Imagem",
       "description": "Redimensione imagens por dimensões, porcentagem ou tamanhos predefinidos",
@@ -4634,6 +4768,22 @@
       "tooFewFrames": "Adicione pelo menos 2 imagens para criar um GIF",
       "generated": "GIF criado!",
       "generateFailed": "Não foi possível criar o GIF. Tente novamente."
+    },
+    "GamepadTester": {
+      "connectPrompt": "Conecte um controle e pressione qualquer botão",
+      "buttons": "Botões",
+      "axes": "Eixos",
+      "vibrationTest": "Testar vibração",
+      "mapping": "Mapeamento",
+      "connected": "Conectado"
+    },
+    "KeyboardTester": {
+      "pressAnyKey": "Pressione qualquer tecla — as teclas mantidas pressionadas acendem, e cada tecla pressionada permanece marcada como testada.",
+      "keysTested": "Teclas testadas",
+      "rollover": "Rollover",
+      "maxRollover": "Rollover máximo",
+      "history": "Histórico",
+      "reset": "Redefinir"
     }
   },
   "Blog": {

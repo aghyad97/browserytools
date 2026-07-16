@@ -29,6 +29,17 @@ interface ImageInfo {
   name: string;
 }
 
+/**
+ * Optional initial configuration supplied by SEO landing-page variants
+ * (e.g. `heic-to-jpg`, `heic-to-png`). All fields are optional and only seed the
+ * initial UI state / copy; the tool remains fully interactive afterwards.
+ */
+export interface ImageConverterPreset {
+  targetFormat?: string; // "image/jpeg" | "image/png" | "image/webp" | "image/avif"
+  lockFormat?: boolean;
+  heicEmphasis?: boolean; // dropzone copy leads with .heic
+}
+
 const formatOptions = [
   { value: "image/png", label: "PNG", quality: false },
   { value: "image/jpeg", label: "JPEG", quality: true },
@@ -50,13 +61,21 @@ async function encodeAvif(
   return new Blob([buffer], { type: "image/avif" });
 }
 
-export default function ImageConverter() {
+export default function ImageConverter({
+  slug = "image-converter",
+  preset,
+}: { slug?: string; preset?: ImageConverterPreset } = {}) {
   const t = useTranslations("Tools.ImageConverter");
   const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
 
+  const lockFormat = preset?.lockFormat ?? false;
+  const heicEmphasis = preset?.heicEmphasis ?? false;
+
   const [image, setImage] = useState<ImageInfo | null>(null);
-  const [targetFormat, setTargetFormat] = useState("image/png");
+  const [targetFormat, setTargetFormat] = useState(
+    preset?.targetFormat ?? "image/png",
+  );
   const [quality, setQuality] = useState(85);
   const [convertedImage, setConvertedImage] = useState<string | null>(null);
   const [convertedSize, setConvertedSize] = useState<number>(0);
@@ -71,21 +90,26 @@ export default function ImageConverter() {
         return;
       }
 
-      const isHeic = /\.heic$/i.test(file.name) || file.type === "image/heic";
+      const isHeic =
+        /\.hei[cf]$/i.test(file.name) ||
+        file.type === "image/heic" ||
+        file.type === "image/heif";
       if (isHeic) {
         try {
           const { default: heic2any } = await import("heic2any");
+          // Decode to PNG (lossless) so the subsequent re-encode to the chosen
+          // target format doesn't stack a lossy JPEG intermediate underneath.
           const blob = (await heic2any({
             blob: file,
-            toType: "image/jpeg",
+            toType: "image/png",
           })) as Blob;
           const reader = new FileReader();
           reader.onloadend = () => {
             setImage({
               url: reader.result as string,
               size: blob.size,
-              type: "image/jpeg",
-              name: file.name.replace(/\.heic$/i, ".jpg"),
+              type: "image/png",
+              name: file.name.replace(/\.hei[cf]$/i, ".png"),
             });
             setConvertedImage(null);
             toast.success(t("heicConverted"));
@@ -195,9 +219,9 @@ export default function ImageConverter() {
 
   return (
     <ToolShell
-      slug="image-converter"
-      title={tc("tools.image-converter.name")}
-      sub={tc("tools.image-converter.description")}
+      slug={slug}
+      title={tc(`tools.${slug}.name` as never)}
+      sub={tc(`tools.${slug}.description` as never)}
       primaryAction={{
         label: tCommon("download"),
         onClick: handleDownload,
@@ -209,10 +233,33 @@ export default function ImageConverter() {
             <Card className="p-6 shadow-none">
               <FileDropzone
                 onFiles={onDrop}
-                accept={{
-                  "image/*": [".png", ".jpg", ".jpeg", ".webp", ".avif", ".heic"],
-                  "image/heic": [".heic"],
-                }}
+                accept={
+                  heicEmphasis
+                    ? {
+                        "image/heic": [".heic", ".heif"],
+                        "image/heif": [".heif"],
+                        "image/*": [
+                          ".heic",
+                          ".heif",
+                          ".png",
+                          ".jpg",
+                          ".jpeg",
+                          ".webp",
+                          ".avif",
+                        ],
+                      }
+                    : {
+                        "image/*": [
+                          ".png",
+                          ".jpg",
+                          ".jpeg",
+                          ".webp",
+                          ".avif",
+                          ".heic",
+                        ],
+                        "image/heic": [".heic"],
+                      }
+                }
                 multiple={false}
                 className={({ isDragActive }) => `
                   h-64 rounded-lg border-2 border-dashed
@@ -246,7 +293,7 @@ export default function ImageConverter() {
                       {t("dropImageHere")}
                     </h3>
                     <p className="text-sm text-muted-foreground">
-                      {t("supportedFormats")}
+                      {heicEmphasis ? t("heicDropHint") : t("supportedFormats")}
                     </p>
                   </div>
                 )}
@@ -254,20 +301,22 @@ export default function ImageConverter() {
             </Card>
 
             <SettingsCard>
-              <OptionRow label={t("targetFormat")} htmlFor="ic-target-format">
-                <Select value={targetFormat} onValueChange={setTargetFormat}>
-                  <SelectTrigger id="ic-target-format">
-                    <SelectValue />
-                  </SelectTrigger>
-                  <SelectContent>
-                    {formatOptions.map((format) => (
-                      <SelectItem key={format.value} value={format.value}>
-                        {format.label}
-                      </SelectItem>
-                    ))}
-                  </SelectContent>
-                </Select>
-              </OptionRow>
+              {!lockFormat && (
+                <OptionRow label={t("targetFormat")} htmlFor="ic-target-format">
+                  <Select value={targetFormat} onValueChange={setTargetFormat}>
+                    <SelectTrigger id="ic-target-format">
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {formatOptions.map((format) => (
+                        <SelectItem key={format.value} value={format.value}>
+                          {format.label}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </OptionRow>
+              )}
 
               {formatOption?.quality && (
                 <SliderRow

@@ -119,9 +119,57 @@
         "name": "Kompresi Gambar",
         "description": "Kompres gambar untuk mengurangi ukuran berkas sambil menjaga kualitas. Mendukung JPG, PNG, WebP."
       },
+      "compress-image-to-20kb": {
+        "name": "Kompres Gambar ke 20KB",
+        "description": "Perkecil ukuran foto apa pun menjadi 20 kilobita atau kurang untuk formulir aplikasi dan portal dengan batas ukuran ketat."
+      },
+      "compress-image-to-50kb": {
+        "name": "Kompres Gambar ke 50KB",
+        "description": "Kurangi ukuran berkas gambar menjadi 50KB untuk portal ujian, lamaran kerja, dan lampiran email."
+      },
+      "compress-image-to-100kb": {
+        "name": "Kompres Gambar ke 100KB",
+        "description": "Buat gambar apa pun berukuran di bawah 100KB tanpa mengorbankan ketajaman — dibuat untuk batas unggahan."
+      },
+      "compress-image-to-200kb": {
+        "name": "Kompres Gambar ke 200KB",
+        "description": "Kompres foto menjadi 200KB atau kurang untuk unggahan CMS, listing, dan portal dokumen."
+      },
+      "compress-image-to-500kb": {
+        "name": "Kompres Gambar ke 500KB",
+        "description": "Perkecil foto berukuran besar menjadi di bawah 500KB tanpa penurunan kualitas yang terlihat."
+      },
+      "compress-image-to-1mb": {
+        "name": "Kompres Gambar ke 1MB",
+        "description": "Kompres foto beresolusi tinggi menjadi di bawah 1MB untuk email, formulir, dan berbagi yang lebih cepat."
+      },
+      "compress-jpeg-to-50kb": {
+        "name": "Kompres JPEG ke 50KB",
+        "description": "Kurangi ukuran berkas JPEG menjadi 50KB dengan pencarian kualitas cerdas, langsung di browser Anda."
+      },
+      "compress-jpeg-to-100kb": {
+        "name": "Kompres JPEG ke 100KB",
+        "description": "Kompres foto JPG menjadi 100KB untuk portal dan situs web dengan batas ukuran unggahan."
+      },
+      "compress-jpeg-to-200kb": {
+        "name": "Kompres JPEG ke 200KB",
+        "description": "Perkecil gambar JPG menjadi 200KB sambil menjaga detail."
+      },
+      "compress-signature-20kb": {
+        "name": "Kompres Tanda Tangan ke 20KB",
+        "description": "Ubah ukuran dan kompres gambar tanda tangan Anda menjadi 10–20KB untuk formulir aplikasi online."
+      },
       "image-converter": {
         "name": "Konverter Format",
         "description": "Konversi gambar antara JPG, PNG, WebP, GIF, BMP, TIFF, dan SVG. Mendukung konversi massal."
+      },
+      "heic-to-jpg": {
+        "name": "HEIC ke JPG",
+        "description": "Konversi foto HEIC iPhone ke JPG langsung di browser Anda — tanpa unggah, unduh instan."
+      },
+      "heic-to-png": {
+        "name": "HEIC ke PNG",
+        "description": "Konversi gambar HEIC ke PNG lossless secara lokal di browser Anda."
       },
       "color-correction": {
         "name": "Koreksi Warna",
@@ -162,6 +210,14 @@
       "mic-camera": {
         "name": "Penguji Mikrofon & Kamera",
         "description": "Uji mikrofon dan kamera Anda tanpa instalasi aplikasi apa pun."
+      },
+      "mic-test": {
+        "name": "Uji Mikrofon",
+        "description": "Periksa mikrofon Anda dalam hitungan detik dengan pengukur level langsung — sebelum panggilan dimulai, bukan saat panggilan berlangsung."
+      },
+      "webcam-test": {
+        "name": "Uji Webcam",
+        "description": "Pratinjau kamera Anda dan periksa kualitasnya sebelum rapat. Tidak ada yang direkam atau diunggah."
       },
       "compress-video": {
         "name": "Kompresor Video",
@@ -399,6 +455,14 @@
         "name": "Pengubah Ukuran Gambar",
         "description": "Ubah ukuran gambar ke dimensi tertentu sambil menjaga kualitas."
       },
+      "crop-image": {
+        "name": "Potong Gambar",
+        "description": "Potong gambar online dengan preset rasio aspek dan pegangan seret yang presisi. Ekspor ke JPG, PNG, atau WebP."
+      },
+      "watermark-image": {
+        "name": "Watermark Gambar",
+        "description": "Tambahkan watermark teks atau logo ke foto — posisi, opasitas, rotasi, dan pengubinan. Semuanya di browser Anda."
+      },
       "contrast-checker": {
         "name": "Pemeriksa Kontras",
         "description": "Periksa rasio kontras warna untuk kepatuhan aksesibilitas WCAG."
@@ -426,6 +490,14 @@
       "typing-test": {
         "name": "Tes Mengetik",
         "description": "Uji dan tingkatkan kecepatan serta akurasi mengetik Anda."
+      },
+      "keyboard-tester": {
+        "name": "Uji Keyboard",
+        "description": "Uji setiap tombol pada keyboard Anda dengan tata letak visual langsung, riwayat tombol, dan pemeriksaan rollover."
+      },
+      "gamepad-tester": {
+        "name": "Uji Gamepad",
+        "description": "Uji tombol, stik analog, pemicu, dan getaran kontroler untuk gamepad USB atau Bluetooth apa pun."
       },
       "timezone-converter": {
         "name": "Konverter Zona Waktu",
@@ -747,17 +819,25 @@
       "imageTooLarge": "Ukuran gambar harus kurang dari 25MB",
       "compressedSuccess": "Gambar berhasil dikompres!",
       "compressFailed": "Gagal mengompres gambar. Silakan coba lagi.",
-      "downloadedSuccess": "Gambar diunduh!"
+      "downloadedSuccess": "Gambar diunduh!",
+      "modeTarget": "Ukuran target",
+      "targetSize": "Ukuran target (KB)",
+      "targetSizeHint": "Kami mencari kombinasi kualitas dan dimensi untuk mencapai target Anda.",
+      "targetReached": "Target tercapai",
+      "targetMissed": "Tidak dapat mencapai target yang tepat — ini adalah ukuran terkecil yang bisa dicapai dengan kualitas yang masih layak.",
+      "pngNotSupportedInTarget": "PNG tidak dapat ditarget ukurannya — beralih ke JPEG.",
+      "presetChipAria": "Atur target ke {label}"
     },
     "ImageConverter": {
       "dropImageHere": "Letakkan gambar Anda di sini",
       "supportedFormats": "Mendukung berkas PNG, JPG, WebP, atau AVIF",
+      "heicDropHint": "Letakkan foto HEIC iPhone Anda di sini — dikonversi secara lokal, tidak pernah diunggah.",
       "size": "Ukuran",
       "targetFormat": "Format Target",
       "quality": "Kualitas",
       "convertedImagePlaceholder": "Gambar terkonversi akan muncul di sini",
       "imageTooLarge": "Ukuran gambar harus kurang dari 15MB",
-      "heicConverted": "Mengonversi HEIC ke JPEG untuk pratinjau",
+      "heicConverted": "Foto HEIC dikonversi secara lokal untuk pratinjau",
       "heicFailed": "Gagal membaca HEIC. Silakan coba berkas lain.",
       "convertedSuccess": "Gambar berhasil dikonversi!",
       "convertFailed": "Gagal mengonversi gambar. Silakan coba lagi.",
@@ -3035,6 +3115,60 @@
       "schemeMonochromatic": "Monokromatik (10 variasi)",
       "colorCopied": "{label} tersalin"
     },
+    "WatermarkImage": {
+      "dropImage": "Letakkan gambar di sini",
+      "browseHint": "atau klik untuk menelusuri (JPEG, PNG, WebP, GIF)",
+      "change": "Ubah",
+      "outputFormat": "Format Keluaran",
+      "quality": "Kualitas",
+      "processing": "Memproses...",
+      "download": "Unduh",
+      "uploadError": "Silakan unggah berkas gambar",
+      "uploadFirst": "Silakan unggah gambar terlebih dahulu",
+      "imageLoaded": "Gambar dimuat",
+      "processFailed": "Pemrosesan gagal",
+      "downloaded": "Gambar diunduh",
+      "watermarkType": "Jenis Watermark",
+      "watermarkText": "Teks",
+      "watermarkImage": "Gambar",
+      "watermarkContent": "Isi Teks",
+      "watermarkContentPlaceholder": "Masukkan teks watermark",
+      "watermarkFontSize": "Ukuran Font",
+      "watermarkColor": "Warna",
+      "watermarkChoose": "Pilih Gambar",
+      "watermarkPreviewAlt": "Pratinjau watermark",
+      "watermarkPosition": "Posisi",
+      "watermarkOpacity": "Opasitas",
+      "watermarkScale": "Skala",
+      "watermarkRotation": "Rotasi",
+      "watermarkTile": "Ubin / Ulangi",
+      "applyWatermark": "Terapkan Watermark",
+      "watermarkLoaded": "Gambar watermark dimuat",
+      "watermarkTextRequired": "Silakan masukkan teks watermark",
+      "watermarkImageRequired": "Silakan pilih gambar watermark",
+      "resultAlt": "Gambar berwatermark"
+    },
+    "CropImage": {
+      "dropImage": "Letakkan gambar di sini",
+      "browseHint": "atau klik untuk menelusuri (JPEG, PNG, WebP, GIF)",
+      "change": "Ubah",
+      "aspectRatio": "Rasio Aspek",
+      "aspectFree": "Bebas",
+      "cropPreviewAlt": "Pratinjau potongan",
+      "outputFormat": "Format Keluaran",
+      "quality": "Kualitas",
+      "cropImage": "Potong Gambar",
+      "processing": "Memproses...",
+      "download": "Unduh",
+      "statOriginal": "Asli",
+      "statCropped": "Terpotong",
+      "statOutputSize": "Ukuran Keluaran",
+      "uploadError": "Silakan unggah berkas gambar",
+      "uploadFirst": "Silakan unggah gambar terlebih dahulu",
+      "imageLoaded": "Gambar dimuat",
+      "processFailed": "Pemrosesan gagal",
+      "downloaded": "Gambar diunduh"
+    },
     "ImageResizer": {
       "title": "Pengubah Ukuran Gambar",
       "description": "Ubah ukuran gambar berdasarkan dimensi, persentase, atau ukuran praatur",
@@ -4634,6 +4768,22 @@
       "tooFewFrames": "Tambahkan minimal 2 gambar untuk membuat GIF",
       "generated": "GIF dibuat!",
       "generateFailed": "Tidak dapat membuat GIF. Silakan coba lagi."
+    },
+    "GamepadTester": {
+      "connectPrompt": "Hubungkan kontroler dan tekan tombol apa saja",
+      "buttons": "Tombol",
+      "axes": "Sumbu",
+      "vibrationTest": "Uji getaran",
+      "mapping": "Pemetaan",
+      "connected": "Terhubung"
+    },
+    "KeyboardTester": {
+      "pressAnyKey": "Tekan tombol apa saja — tombol yang ditahan akan menyala, dan setiap tombol yang ditekan akan tetap ditandai sebagai teruji.",
+      "keysTested": "Tombol teruji",
+      "rollover": "Rollover",
+      "maxRollover": "Rollover maksimum",
+      "history": "Riwayat",
+      "reset": "Atur Ulang"
     }
   },
   "Blog": {

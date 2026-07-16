@@ -119,9 +119,57 @@
         "name": "图片压缩",
         "description": "压缩图片以减小文件大小，同时保持质量。支持 JPG、PNG、WebP。"
       },
+      "compress-image-to-20kb": {
+        "name": "压缩图片至 20KB",
+        "description": "将任意照片压缩至 20KB 以内，适用于对文件大小有严格限制的申请表格和门户网站。"
+      },
+      "compress-image-to-50kb": {
+        "name": "压缩图片至 50KB",
+        "description": "将图片文件压缩至 50KB，适用于考试报名系统、求职申请和邮件附件。"
+      },
+      "compress-image-to-100kb": {
+        "name": "压缩图片至 100KB",
+        "description": "在保持清晰度的同时，将任意图片压缩至 100KB 以下——专为上传大小限制而设计。"
+      },
+      "compress-image-to-200kb": {
+        "name": "压缩图片至 200KB",
+        "description": "将照片压缩至 200KB 以内，适用于 CMS 上传、商品列表和文件门户网站。"
+      },
+      "compress-image-to-500kb": {
+        "name": "压缩图片至 500KB",
+        "description": "在不产生明显画质损失的情况下，将大尺寸照片压缩至 500KB 以下。"
+      },
+      "compress-image-to-1mb": {
+        "name": "压缩图片至 1MB",
+        "description": "将高分辨率照片压缩至 1MB 以下，方便发送邮件、填写表格和快速分享。"
+      },
+      "compress-jpeg-to-50kb": {
+        "name": "压缩 JPEG 至 50KB",
+        "description": "通过智能画质搜索，直接在浏览器中将 JPEG 文件压缩至 50KB。"
+      },
+      "compress-jpeg-to-100kb": {
+        "name": "压缩 JPEG 至 100KB",
+        "description": "将 JPG 照片压缩至 100KB，适用于限制上传大小的门户网站和网页。"
+      },
+      "compress-jpeg-to-200kb": {
+        "name": "压缩 JPEG 至 200KB",
+        "description": "在保留细节的同时，将 JPG 图片压缩至 200KB。"
+      },
+      "compress-signature-20kb": {
+        "name": "压缩签名图片至 20KB",
+        "description": "将您的签名图片调整大小并压缩至 10–20KB，适用于在线申请表格。"
+      },
       "image-converter": {
         "name": "格式转换器",
         "description": "在 JPG、PNG、WebP、GIF、BMP、TIFF 和 SVG 之间转换图片。支持批量转换。"
+      },
+      "heic-to-jpg": {
+        "name": "HEIC 转 JPG",
+        "description": "直接在浏览器中将 iPhone 拍摄的 HEIC 照片转换为 JPG——无需上传，即转即下载。"
+      },
+      "heic-to-png": {
+        "name": "HEIC 转 PNG",
+        "description": "在浏览器本地将 HEIC 图片转换为无损 PNG 格式。"
       },
       "color-correction": {
         "name": "色彩校正",
@@ -162,6 +210,14 @@
       "mic-camera": {
         "name": "麦克风与摄像头测试",
         "description": "无需安装任何应用即可测试您的麦克风和摄像头。"
+      },
+      "mic-test": {
+        "name": "麦克风测试",
+        "description": "通过实时电平表，几秒钟内检查您的麦克风——通话前就发现问题，而不是通话中。"
+      },
+      "webcam-test": {
+        "name": "摄像头测试",
+        "description": "在会议前预览摄像头并检查画质，不会录制或上传任何内容。"
       },
       "compress-video": {
         "name": "视频压缩器",
@@ -399,6 +455,14 @@
         "name": "调整图片大小",
         "description": "调整图片至指定尺寸，同时保持画质不变。"
       },
+      "crop-image": {
+        "name": "裁剪图片",
+        "description": "在线裁剪图片，支持宽高比预设和精确拖动手柄，可导出为 JPG、PNG 或 WebP。"
+      },
+      "watermark-image": {
+        "name": "图片水印",
+        "description": "为照片添加文字或图片水印——可调整位置、不透明度、旋转角度和平铺方式，全部在浏览器中完成。"
+      },
       "contrast-checker": {
         "name": "对比度检查器",
         "description": "检查颜色对比度比率是否符合 WCAG 无障碍标准。"
@@ -426,6 +490,14 @@
       "typing-test": {
         "name": "打字测试",
         "description": "测试并提高您的打字速度和准确率。"
+      },
+      "keyboard-tester": {
+        "name": "键盘测试",
+        "description": "通过实时可视化布局、按键历史和多键触发检测测试键盘上的每一个按键。"
+      },
+      "gamepad-tester": {
+        "name": "手柄测试",
+        "description": "测试任意 USB 或蓝牙手柄的按键、摇杆、扳机键和震动功能。"
       },
       "timezone-converter": {
         "name": "时区转换器",
@@ -747,17 +819,25 @@
       "imageTooLarge": "图片大小应小于 25MB",
       "compressedSuccess": "图片压缩成功！",
       "compressFailed": "图片压缩失败，请重试。",
-      "downloadedSuccess": "图片已下载！"
+      "downloadedSuccess": "图片已下载！",
+      "modeTarget": "目标大小",
+      "targetSize": "目标大小（KB）",
+      "targetSizeHint": "我们会自动搜索合适的画质和尺寸，以达到您的目标大小。",
+      "targetReached": "已达到目标大小",
+      "targetMissed": "未能精确达到目标大小——这是在可接受画质下能达到的最小值。",
+      "pngNotSupportedInTarget": "PNG 格式不支持目标大小压缩，已切换为 JPEG。",
+      "presetChipAria": "将目标大小设为 {label}"
     },
     "ImageConverter": {
       "dropImageHere": "将图片拖放到此处",
       "supportedFormats": "支持 PNG、JPG、WebP 或 AVIF 文件",
+      "heicDropHint": "将 iPhone 拍摄的 HEIC 照片拖放到此处——本地转换，无需上传。",
       "size": "尺寸",
       "targetFormat": "目标格式",
       "quality": "质量",
       "convertedImagePlaceholder": "转换后的图片将显示在此处",
       "imageTooLarge": "图片大小应小于 15MB",
-      "heicConverted": "已将 HEIC 转换为 JPEG 以进行预览",
+      "heicConverted": "HEIC 照片已在本地转换以供预览",
       "heicFailed": "无法读取 HEIC，请尝试其他文件。",
       "convertedSuccess": "图片转换成功！",
       "convertFailed": "图片转换失败，请重试。",
@@ -3035,6 +3115,60 @@
       "schemeMonochromatic": "单色 (10 种变化)",
       "colorCopied": "{label} 已复制"
     },
+    "WatermarkImage": {
+      "dropImage": "将图片拖放到此处",
+      "browseHint": "或点击浏览（JPEG、PNG、WebP、GIF）",
+      "change": "更换",
+      "outputFormat": "输出格式",
+      "quality": "质量",
+      "processing": "处理中...",
+      "download": "下载",
+      "uploadError": "请上传图片文件",
+      "uploadFirst": "请先上传图片",
+      "imageLoaded": "图片已加载",
+      "processFailed": "处理失败",
+      "downloaded": "图片已下载",
+      "watermarkType": "水印类型",
+      "watermarkText": "文字",
+      "watermarkImage": "图片",
+      "watermarkContent": "文字内容",
+      "watermarkContentPlaceholder": "输入水印文字",
+      "watermarkFontSize": "字体大小",
+      "watermarkColor": "颜色",
+      "watermarkChoose": "选择图片",
+      "watermarkPreviewAlt": "水印预览",
+      "watermarkPosition": "位置",
+      "watermarkOpacity": "不透明度",
+      "watermarkScale": "缩放",
+      "watermarkRotation": "旋转",
+      "watermarkTile": "平铺/重复",
+      "applyWatermark": "应用水印",
+      "watermarkLoaded": "水印图片已加载",
+      "watermarkTextRequired": "请输入水印文字",
+      "watermarkImageRequired": "请选择水印图片",
+      "resultAlt": "水印后的图片"
+    },
+    "CropImage": {
+      "dropImage": "将图片拖放到此处",
+      "browseHint": "或点击浏览（JPEG、PNG、WebP、GIF）",
+      "change": "更换",
+      "aspectRatio": "宽高比",
+      "aspectFree": "自由",
+      "cropPreviewAlt": "裁剪预览",
+      "outputFormat": "输出格式",
+      "quality": "质量",
+      "cropImage": "裁剪图片",
+      "processing": "处理中...",
+      "download": "下载",
+      "statOriginal": "原图",
+      "statCropped": "已裁剪",
+      "statOutputSize": "输出大小",
+      "uploadError": "请上传图片文件",
+      "uploadFirst": "请先上传图片",
+      "imageLoaded": "图片已加载",
+      "processFailed": "处理失败",
+      "downloaded": "图片已下载"
+    },
     "ImageResizer": {
       "title": "图片调整大小",
       "description": "按尺寸、百分比或预设大小调整图片",
@@ -4634,6 +4768,22 @@
       "tooFewFrames": "至少添加 2 张图片才能生成 GIF",
       "generated": "GIF 生成成功！",
       "generateFailed": "无法生成 GIF，请重试。"
+    },
+    "GamepadTester": {
+      "connectPrompt": "连接手柄并按下任意按键",
+      "buttons": "按键",
+      "axes": "摇杆轴",
+      "vibrationTest": "测试震动",
+      "mapping": "按键映射",
+      "connected": "已连接"
+    },
+    "KeyboardTester": {
+      "pressAnyKey": "按下任意键——长按的按键会亮起，每个按下过的键都会被标记为已测试。",
+      "keysTested": "已测试按键数",
+      "rollover": "同时按键数",
+      "maxRollover": "最大同时按键数",
+      "history": "历史记录",
+      "reset": "重置"
     }
   },
   "Blog": {
