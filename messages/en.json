@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "PDF Tools",
-        "description": "Merge PDFs, split or extract pages, and turn images into a PDF — all in your browser with no file size limits."
+        "description": "The full PDF workbench: merge, split, compress, rotate, reorder, watermark, sign, extract text, and turn images into PDFs — all in your browser."
+      },
+      "merge-pdf": {
+        "name": "Merge PDF",
+        "description": "Combine multiple PDF files into one document, in order, right in your browser."
+      },
+      "split-pdf": {
+        "name": "Split PDF",
+        "description": "Extract pages or page ranges from a PDF into separate files — no upload."
+      },
+      "compress-pdf": {
+        "name": "Compress PDF",
+        "description": "Shrink PDF file size in your browser with three quality presets."
+      },
+      "rotate-pdf": {
+        "name": "Rotate PDF",
+        "description": "Rotate PDF pages permanently — single pages or the whole document."
+      },
+      "watermark-pdf": {
+        "name": "Watermark PDF",
+        "description": "Stamp DRAFT, CONFIDENTIAL, or any text across every page of a PDF."
+      },
+      "sign-pdf": {
+        "name": "Sign PDF",
+        "description": "Draw or upload your signature and place it on any page — files never leave your device."
+      },
+      "extract-text-from-pdf": {
+        "name": "Extract Text from PDF",
+        "description": "Pull selectable text out of a PDF and copy or download it as .txt."
+      },
+      "reorder-pdf-pages": {
+        "name": "Reorder PDF Pages",
+        "description": "Drag and drop to rearrange or delete PDF pages, then save."
+      },
+      "jpg-to-pdf": {
+        "name": "JPG to PDF",
+        "description": "Turn JPG and PNG images into a single PDF with page size and margin controls."
       },
       "zip": {
         "name": "Zip Tools",

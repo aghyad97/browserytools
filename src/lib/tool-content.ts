@@ -618,58 +618,74 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["file-converter", "zip", "image-converter", "image-compression"],
     en: {
       intro:
-        "PDF Tools let you merge, split, compress, and rearrange PDF files directly in your browser. Combine several PDFs into one document, extract specific pages, rotate pages, or reduce file size — without installing software or uploading sensitive documents.\n\nAll processing happens locally on your device, so confidential contracts, invoices, and forms never leave your computer. There are no file size limits imposed by a server.",
+        "The PDF workbench is a full toolkit for working with PDF files directly in your browser: merge multiple documents into one, split or reorder pages, compress file size, rotate pages, stamp a watermark, sign a document, extract selectable text, or turn a batch of JPGs and PNGs into a single PDF.\n\nAll processing happens locally on your device, so confidential contracts, invoices, and signed forms never leave your computer. There are no file size limits imposed by a server.",
       faq: [
         {
           q: "Are my PDFs uploaded to a server?",
-          a: "No. All operations run locally in your browser, so your documents stay private on your device.",
+          a: "No. Every operation — merge, split, compress, rotate, reorder, watermark, sign, and text extraction — runs locally in your browser, so your documents stay private on your device.",
         },
         {
           q: "Can I merge multiple PDFs into one?",
           a: "Yes. Add several PDF files, arrange their order, and combine them into a single document.",
         },
         {
-          q: "How do I reduce a PDF's file size?",
-          a: "Use the compress option, which optimizes the document to lower its size while keeping it readable.",
+          q: "How do I reduce a PDF's file size, and does it lose quality?",
+          a: "The compress option rasterizes each page to a JPEG at one of three quality presets and re-embeds it. That shrinks file size significantly, but it's a re-encode — pages become images, so very fine text or line art can look softer at the smallest preset. Selectable text on those pages is no longer selectable after compressing.",
         },
         {
-          q: "Can I split a PDF or extract pages?",
-          a: "Yes. You can split a PDF into separate files or extract a specific range of pages.",
+          q: "Can I split a PDF, reorder pages, or extract pages?",
+          a: "Yes. Split a PDF into separate files, drag pages into a new order (or delete some) and save, or extract a specific range of pages.",
+        },
+        {
+          q: "Can I sign a PDF or add a watermark?",
+          a: "Yes. Draw or upload a signature and place it on any page, or stamp text like DRAFT or CONFIDENTIAL across every page — both stay editable until you download.",
+        },
+        {
+          q: "Can I turn images into a PDF?",
+          a: "Yes. Upload JPG or PNG images and combine them into a single PDF, with control over page size and margins.",
         },
       ],
       steps: [
-        "Upload one or more PDF files.",
-        "Choose an action: merge, split, compress, or rotate.",
+        "Upload one or more PDF files (or images, for the images-to-PDF option).",
+        "Choose an action: merge, split, compress, rotate, reorder, watermark, sign, or extract text.",
         "Arrange pages or set options as needed.",
-        "Download the resulting PDF.",
+        "Download the resulting PDF (or text file, for extraction).",
       ],
     },
     ar: {
       intro:
-        "تتيح أدوات PDF دمج ملفات PDF وتقسيمها وضغطها وإعادة ترتيبها مباشرة في متصفحك. ادمج عدة ملفات في مستند واحد، أو استخرج صفحات محددة، أو دوّر الصفحات، أو قلّص حجم الملف — دون تثبيت برامج أو رفع مستندات حساسة.\n\nتتم كل المعالجة محليًا على جهازك، فلا تغادر العقود والفواتير والنماذج السرية حاسوبك. ولا توجد حدود لحجم الملف يفرضها خادم.",
+        "أدوات PDF مجموعة أدوات كاملة للتعامل مع ملفات PDF مباشرة في متصفحك: ادمج عدة مستندات في ملف واحد، أو قسّم الصفحات أو أعد ترتيبها، أو قلّص حجم الملف، أو دوّر الصفحات، أو أضف علامة مائية، أو وقّع المستند، أو استخرج النص القابل للتحديد، أو حوّل مجموعة من صور JPG وPNG إلى ملف PDF واحد.\n\nتتم كل المعالجة محليًا على جهازك، فلا تغادر العقود والفواتير والنماذج الموقّعة السرية حاسوبك. ولا توجد حدود لحجم الملف يفرضها خادم.",
       faq: [
         {
           q: "هل تُرفع ملفات PDF إلى خادم؟",
-          a: "لا. تعمل كل العمليات محليًا في متصفحك، فتبقى مستنداتك خاصة على جهازك.",
+          a: "لا. كل عملية — الدمج والتقسيم والضغط والتدوير وإعادة الترتيب والعلامة المائية والتوقيع واستخراج النص — تعمل محليًا في متصفحك، فتبقى مستنداتك خاصة على جهازك.",
         },
         {
           q: "هل يمكنني دمج عدة ملفات PDF في ملف واحد؟",
           a: "نعم. أضف عدة ملفات PDF، ورتّبها، ثم ادمجها في مستند واحد.",
         },
         {
-          q: "كيف أقلّل حجم ملف PDF؟",
-          a: "استخدم خيار الضغط الذي يحسّن المستند لتقليل حجمه مع إبقائه قابلًا للقراءة.",
+          q: "كيف أقلّل حجم ملف PDF، وهل تتأثر الجودة؟",
+          a: "يحوّل خيار الضغط كل صفحة إلى صورة JPEG بأحد ثلاثة مستويات جودة ثم يعيد تضمينها. هذا يقلّص الحجم بشكل كبير، لكنه إعادة ترميز — تتحول الصفحات إلى صور، فقد يبدو النص الدقيق جدًا أو الرسوم الخطية أقل وضوحًا عند أدنى مستوى جودة. كما يفقد النص القابل للتحديد في تلك الصفحات قابليته للتحديد بعد الضغط.",
         },
         {
-          q: "هل يمكنني تقسيم ملف PDF أو استخراج صفحات؟",
-          a: "نعم. يمكنك تقسيم الملف إلى ملفات منفصلة أو استخراج نطاق صفحات محدد.",
+          q: "هل يمكنني تقسيم ملف PDF أو إعادة ترتيب صفحاته أو استخراج صفحات منه؟",
+          a: "نعم. قسّم الملف إلى ملفات منفصلة، أو اسحب الصفحات لإعادة ترتيبها (أو احذف بعضها) واحفظ، أو استخرج نطاق صفحات محددًا.",
+        },
+        {
+          q: "هل يمكنني توقيع ملف PDF أو إضافة علامة مائية؟",
+          a: "نعم. ارسم توقيعك أو ارفعه وضعه على أي صفحة، أو اطبع نصًا مثل \"مسودة\" أو \"سري\" عبر كل صفحة — ويبقى كلاهما قابلًا للتعديل حتى التنزيل.",
+        },
+        {
+          q: "هل يمكنني تحويل الصور إلى ملف PDF؟",
+          a: "نعم. ارفع صور JPG أو PNG وادمجها في ملف PDF واحد، مع التحكم في حجم الصفحة والهوامش.",
         },
       ],
       steps: [
-        "ارفع ملف PDF واحدًا أو أكثر.",
-        "اختر إجراءً: دمج أو تقسيم أو ضغط أو تدوير.",
+        "ارفع ملف PDF واحدًا أو أكثر (أو صورًا، لخيار تحويل الصور إلى PDF).",
+        "اختر إجراءً: دمج أو تقسيم أو ضغط أو تدوير أو إعادة ترتيب أو علامة مائية أو توقيع أو استخراج نص.",
         "رتّب الصفحات أو اضبط الخيارات حسب الحاجة.",
-        "نزّل ملف PDF الناتج.",
+        "نزّل ملف PDF الناتج (أو ملف النص، لخيار الاستخراج).",
       ],
     },
   },

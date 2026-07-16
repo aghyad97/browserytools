@@ -218,6 +218,18 @@ const HAS_OWN_H1 = new Set([
   "webcam-test",
   "keyboard-tester",
   "gamepad-tester",
+  // Wave 2 (W2) Task 9: registry seed for 9 SEO landing variants of PDF
+  // Tools — components/routes arrive in later W2 tasks, all on the
+  // five-zone ToolShell (the shell owns the h1).
+  "merge-pdf",
+  "split-pdf",
+  "compress-pdf",
+  "rotate-pdf",
+  "watermark-pdf",
+  "sign-pdf",
+  "extract-text-from-pdf",
+  "reorder-pdf-pages",
+  "jpg-to-pdf",
 ]);
 
 export function ToolTitle() {
