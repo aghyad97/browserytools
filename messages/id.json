@@ -835,6 +835,7 @@
     "ImageConverter": {
       "dropImageHere": "Letakkan gambar Anda di sini",
       "supportedFormats": "Mendukung berkas PNG, JPG, WebP, atau AVIF",
+      "heicDropHint": "Drop iPhone HEIC photos here — converted locally, never uploaded.",
       "size": "Ukuran",
       "targetFormat": "Format Target",
       "quality": "Kualitas",

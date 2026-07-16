@@ -835,6 +835,7 @@
     "ImageConverter": {
       "dropImageHere": "Solte sua imagem aqui",
       "supportedFormats": "Compatível com arquivos PNG, JPG, WebP ou AVIF",
+      "heicDropHint": "Drop iPhone HEIC photos here — converted locally, never uploaded.",
       "size": "Tamanho",
       "targetFormat": "Formato de Destino",
       "quality": "Qualidade",

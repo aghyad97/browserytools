@@ -835,6 +835,7 @@
     "ImageConverter": {
       "dropImageHere": "将图片拖放到此处",
       "supportedFormats": "支持 PNG、JPG、WebP 或 AVIF 文件",
+      "heicDropHint": "Drop iPhone HEIC photos here — converted locally, never uploaded.",
       "size": "尺寸",
       "targetFormat": "目标格式",
       "quality": "质量",
