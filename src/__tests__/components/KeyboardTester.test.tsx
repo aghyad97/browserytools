@@ -53,11 +53,14 @@ describe("KeyboardTester", () => {
     expect(screen.getByTestId("stat-max")).toHaveTextContent("2");
   });
 
-  it("counts an unknown event.code as tested without crashing", () => {
+  it("records unknown event.code in history but doesn't count it as tested", () => {
     render(<KeyboardTester />);
     fireEvent.keyDown(window, { code: "LaunchMail" });
     fireEvent.keyUp(window, { code: "LaunchMail" });
-    expect(screen.getByTestId("stat-tested")).toHaveTextContent(/^1\//);
+    // Unknown code appears in history.
+    expect(screen.getByTestId("keyboard-history")).toHaveTextContent("LaunchMail");
+    // But doesn't increment the tested numerator (only counts layout codes).
+    expect(screen.getByTestId("stat-tested")).toHaveTextContent(/^0\//);
   });
 
   it("reset clears pressed, tested, history and rollover", () => {

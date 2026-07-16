@@ -257,13 +257,14 @@ export default function KeyboardTester() {
     };
   }, []);
 
-  const testedCount = tested.size;
+  const testedCount = [...tested].filter((c) => LAYOUT_CODES.has(c)).length;
   const rollover = pressed.size;
 
   const renderKey = useCallback(
     (key: KeyDef) => {
       const isPressed = pressed.has(key.code);
       const isTested = tested.has(key.code);
+      const isTall = key.gridRow && key.gridRow.includes(" / ");
       return (
         <div
           key={key.code}
@@ -272,6 +273,7 @@ export default function KeyboardTester() {
           data-code={key.code}
           data-pressed={isPressed ? "true" : undefined}
           data-tested={isTested ? "true" : undefined}
+          data-tall={isTall ? "true" : undefined}
           style={
             {
               "--u": key.u ?? 1,

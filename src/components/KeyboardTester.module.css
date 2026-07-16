@@ -83,6 +83,11 @@
   inline-size: 40px;
 }
 
+/* Tall numpad keys (+ and Enter) fill their grid area vertically. */
+.numpad .key[data-tall="true"] {
+  block-size: 100%;
+}
+
 .keyLabel {
   display: block;
   max-inline-size: 100%;
