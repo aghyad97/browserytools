@@ -24,10 +24,6 @@
     "href": "/tools/photo-collage"
   },
   {
-    "name": "Image Color Picker",
-    "href": "/tools/image-color-picker"
-  },
-  {
     "name": "EXIF Remover",
     "href": "/tools/exif-remover"
   },
@@ -76,16 +72,68 @@
     "href": "/tools/image-resizer"
   },
   {
-    "name": "Color Blindness Simulator",
-    "href": "/tools/color-blindness"
-  },
-  {
     "name": "EXIF Viewer",
     "href": "/tools/exif-viewer"
   },
   {
     "name": "Favicon Generator",
     "href": "/tools/favicon-generator"
+  },
+  {
+    "name": "Crop Image",
+    "href": "/tools/crop-image"
+  },
+  {
+    "name": "Watermark Image",
+    "href": "/tools/watermark-image"
+  },
+  {
+    "name": "Compress Image to 20KB",
+    "href": "/tools/compress-image-to-20kb"
+  },
+  {
+    "name": "Compress Image to 50KB",
+    "href": "/tools/compress-image-to-50kb"
+  },
+  {
+    "name": "Compress Image to 100KB",
+    "href": "/tools/compress-image-to-100kb"
+  },
+  {
+    "name": "Compress Image to 200KB",
+    "href": "/tools/compress-image-to-200kb"
+  },
+  {
+    "name": "Compress Image to 500KB",
+    "href": "/tools/compress-image-to-500kb"
+  },
+  {
+    "name": "Compress Image to 1MB",
+    "href": "/tools/compress-image-to-1mb"
+  },
+  {
+    "name": "Compress JPEG to 50KB",
+    "href": "/tools/compress-jpeg-to-50kb"
+  },
+  {
+    "name": "Compress JPEG to 100KB",
+    "href": "/tools/compress-jpeg-to-100kb"
+  },
+  {
+    "name": "Compress JPEG to 200KB",
+    "href": "/tools/compress-jpeg-to-200kb"
+  },
+  {
+    "name": "Compress Signature to 20KB",
+    "href": "/tools/compress-signature-20kb"
+  },
+  {
+    "name": "HEIC to JPG",
+    "href": "/tools/heic-to-jpg"
+  },
+  {
+    "name": "HEIC to PNG",
+    "href": "/tools/heic-to-png"
   },
   {
     "name": "PDF Tools",
@@ -128,7 +176,15 @@
     "href": "/tools/gif-maker"
   },
   {
-    "name": "Speech to Text",
+    "name": "Mic Test",
+    "href": "/tools/mic-test"
+  },
+  {
+    "name": "Webcam Test",
+    "href": "/tools/webcam-test"
+  },
+  {
+    "name": "Live Dictation (mic)",
     "href": "/tools/speech-to-text"
   },
   {
@@ -148,20 +204,12 @@
     "href": "/tools/text-counter"
   },
   {
-    "name": "Code Formatter",
-    "href": "/tools/code-format"
-  },
-  {
     "name": "Rich Editor",
     "href": "/tools/rich-editor"
   },
   {
     "name": "Lorem Ipsum Generator",
     "href": "/tools/lorem-ipsum"
-  },
-  {
-    "name": "Typing Test",
-    "href": "/tools/typing-test"
   },
   {
     "name": "Text Diff Viewer",
@@ -172,20 +220,12 @@
     "href": "/tools/markdown-editor"
   },
   {
-    "name": "HTML Formatter",
-    "href": "/tools/html-formatter"
-  },
-  {
     "name": "Notepad",
     "href": "/tools/notepad"
   },
   {
     "name": "Text Sorter",
     "href": "/tools/text-sorter"
-  },
-  {
-    "name": "Morse Code Converter",
-    "href": "/tools/morse-code"
   },
   {
     "name": "Word Frequency Analyzer",
@@ -232,10 +272,6 @@
     "href": "/tools/charts"
   },
   {
-    "name": "JSON Formatter",
-    "href": "/tools/json-formatter"
-  },
-  {
     "name": "YAML ↔ JSON",
     "href": "/tools/yaml-json"
   },
@@ -260,12 +296,8 @@
     "href": "/tools/mermaid"
   },
   {
-    "name": "Periodic Table",
-    "href": "/tools/periodic-table"
-  },
-  {
-    "name": "Invoice Generator",
-    "href": "/tools/invoice"
+    "name": "Morse Code Converter",
+    "href": "/tools/morse-code"
   },
   {
     "name": "Unit Converter",
@@ -286,10 +318,6 @@
   {
     "name": "Number Base Converter",
     "href": "/tools/number-base-converter"
-  },
-  {
-    "name": "Expense Tracker",
-    "href": "/tools/expense-tracker"
   },
   {
     "name": "Currency Converter",
@@ -400,6 +428,18 @@
     "href": "/tools/curl-converter"
   },
   {
+    "name": "Code Formatter",
+    "href": "/tools/code-format"
+  },
+  {
+    "name": "HTML Formatter",
+    "href": "/tools/html-formatter"
+  },
+  {
+    "name": "JSON Formatter",
+    "href": "/tools/json-formatter"
+  },
+  {
     "name": "JWT Decoder",
     "href": "/tools/jwt-decoder"
   },
@@ -466,6 +506,14 @@
   {
     "name": "CSS Box Shadow Generator",
     "href": "/tools/css-shadow"
+  },
+  {
+    "name": "Image Color Picker",
+    "href": "/tools/image-color-picker"
+  },
+  {
+    "name": "Color Blindness Simulator",
+    "href": "/tools/color-blindness"
   },
   {
     "name": "Audio/Video Transcriber",
@@ -546,5 +594,33 @@
   {
     "name": "Text Similarity",
     "href": "/tools/text-similarity"
+  },
+  {
+    "name": "Typing Test",
+    "href": "/tools/typing-test"
+  },
+  {
+    "name": "Keyboard Tester",
+    "href": "/tools/keyboard-tester"
+  },
+  {
+    "name": "Gamepad Tester",
+    "href": "/tools/gamepad-tester"
+  },
+  {
+    "name": "Dead Pixel Test",
+    "href": "/tools/dead-pixel-test"
+  },
+  {
+    "name": "Periodic Table",
+    "href": "/tools/periodic-table"
+  },
+  {
+    "name": "Invoice Generator",
+    "href": "/tools/invoice"
+  },
+  {
+    "name": "Expense Tracker",
+    "href": "/tools/expense-tracker"
   }
 ]
