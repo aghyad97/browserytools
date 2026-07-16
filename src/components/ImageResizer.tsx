@@ -32,6 +32,15 @@ import {
 // `loadImage` is aliased to `loadHtmlImage` to avoid colliding with the
 // File-based `loadImage` callback defined inside this component.
 import { canvasToBlob, loadImage as loadHtmlImage } from "@/lib/image/canvas";
+import {
+  ASPECT_PRESETS,
+  clamp,
+  fitRectToAspect,
+  moveRect,
+  rectToSourcePixels,
+  resizeRect,
+  type CropRect,
+} from "@/lib/image/crop-rect";
 import { downloadUrl } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
 
@@ -45,14 +54,6 @@ interface ImageInfo {
 }
 
 type ResizeMode = "dimensions" | "percentage" | "longest-side" | "preset";
-
-// Normalized crop rectangle (0..1 fractions of the source image).
-interface CropRect {
-  x: number;
-  y: number;
-  w: number;
-  h: number;
-}
 
 type WatermarkKind = "text" | "image";
 // 3x3 anchor grid.
@@ -82,16 +83,6 @@ const PRESET_SIZES = [
 
 const PERCENTAGE_PRESETS = [25, 50, 75, 100, 125, 150, 200];
 
-// Aspect-ratio presets for cropping. `null` = free.
-const ASPECT_PRESETS: { key: string; ratio: number | null }[] = [
-  { key: "free", ratio: null },
-  { key: "square", ratio: 1 },
-  { key: "4:3", ratio: 4 / 3 },
-  { key: "3:4", ratio: 3 / 4 },
-  { key: "16:9", ratio: 16 / 9 },
-  { key: "9:16", ratio: 9 / 16 },
-];
-
 const ANCHORS: Anchor[] = [
   "top-left",
   "top-center",
@@ -103,10 +94,6 @@ const ANCHORS: Anchor[] = [
   "bottom-center",
   "bottom-right",
 ];
-
-function clamp(v: number, min: number, max: number): number {
-  return Math.min(max, Math.max(min, v));
-}
 
 export default function ImageResizer() {
   const t = useTranslations("Tools.ImageResizer");
@@ -281,24 +268,12 @@ export default function ImageResizer() {
 
   // ── CROP ────────────────────────────────────────────────────────────────
   const applyAspect = useCallback(
-    (key: string) => {
-      setCropAspect(key);
-      const preset = ASPECT_PRESETS.find((a) => a.key === key);
+    (id: string) => {
+      setCropAspect(id);
+      const preset = ASPECT_PRESETS.find((a) => a.id === id);
       if (!preset || preset.ratio === null || !original) return;
       // Re-fit the crop rect to the chosen pixel aspect ratio, centered.
-      const ratio = preset.ratio; // width/height in pixels
-      const imgRatio = original.width / original.height;
-      // ratio in normalized coords = ratio * (imgH/imgW)
-      const normRatio = ratio / imgRatio;
-      let w = crop.w;
-      let h = w / normRatio;
-      if (h > 1) {
-        h = 1;
-        w = h * normRatio;
-      }
-      const x = clamp(crop.x, 0, 1 - w);
-      const y = clamp(crop.y, 0, 1 - h);
-      setCrop({ x, y, w, h });
+      setCrop(fitRectToAspect(crop, preset.ratio, original.width, original.height));
     },
     [crop, original]
   );
@@ -327,24 +302,21 @@ export default function ImageResizer() {
       const dx = (e.clientX - ds.startX) / rect.width;
       const dy = (e.clientY - ds.startY) / rect.height;
       if (ds.kind === "move") {
-        setCrop({
-          ...ds.orig,
-          x: clamp(ds.orig.x + dx, 0, 1 - ds.orig.w),
-          y: clamp(ds.orig.y + dy, 0, 1 - ds.orig.h),
-        });
+        setCrop(moveRect(ds.orig, dx, dy));
       } else {
-        const preset = ASPECT_PRESETS.find((a) => a.key === cropAspect);
-        let newW = clamp(ds.orig.w + dx, 0.05, 1 - ds.orig.x);
-        let newH = clamp(ds.orig.h + dy, 0.05, 1 - ds.orig.y);
-        if (preset && preset.ratio !== null && original) {
-          const normRatio = preset.ratio / (original.width / original.height);
-          newH = newW / normRatio;
-          if (ds.orig.y + newH > 1) {
-            newH = 1 - ds.orig.y;
-            newW = newH * normRatio;
-          }
-        }
-        setCrop({ ...ds.orig, w: newW, h: newH });
+        const preset = ASPECT_PRESETS.find((a) => a.id === cropAspect);
+        const aspect =
+          preset && preset.ratio !== null && original ? preset.ratio : null;
+        setCrop(
+          resizeRect(
+            ds.orig,
+            dx,
+            dy,
+            aspect,
+            original?.width ?? 1,
+            original?.height ?? 1
+          )
+        );
       }
     },
     [cropAspect, original]
@@ -359,10 +331,11 @@ export default function ImageResizer() {
       toast.error(t("uploadFirst"));
       return;
     }
-    const sx = Math.round(crop.x * original.width);
-    const sy = Math.round(crop.y * original.height);
-    const sw = Math.max(1, Math.round(crop.w * original.width));
-    const sh = Math.max(1, Math.round(crop.h * original.height));
+    const { sx, sy, sw, sh } = rectToSourcePixels(
+      crop,
+      original.width,
+      original.height
+    );
     setProcessing(true);
     try {
       const img = await loadHtmlImage(previewUrl);
@@ -775,17 +748,17 @@ export default function ImageResizer() {
                       <div className="flex flex-wrap gap-2">
                         {ASPECT_PRESETS.map((a) => (
                           <Button
-                            key={a.key}
-                            variant={cropAspect === a.key ? "default" : "outline"}
+                            key={a.id}
+                            variant={cropAspect === a.id ? "default" : "outline"}
                             size="sm"
-                            onClick={() => applyAspect(a.key)}
+                            onClick={() => applyAspect(a.id)}
                           >
-                            {a.key === "free" ? (
+                            {a.id === "free" ? (
                               t("aspectFree")
-                            ) : a.key === "square" ? (
+                            ) : a.id === "square" ? (
                               "1:1"
                             ) : (
-                              <span dir="ltr">{a.key}</span>
+                              <span dir="ltr">{a.id}</span>
                             )}
                           </Button>
                         ))}
