@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "PDF Tools",
-        "description": "Merge PDFs, split or extract pages, and turn images into a PDF — all in your browser with no file size limits."
+        "description": "The full PDF workbench: merge, split, compress, rotate, reorder, watermark, sign, extract text, and turn images into PDFs — all in your browser."
+      },
+      "merge-pdf": {
+        "name": "Merge PDF",
+        "description": "Combine multiple PDF files into one document, in order, right in your browser."
+      },
+      "split-pdf": {
+        "name": "Split PDF",
+        "description": "Extract pages or page ranges from a PDF into separate files — no upload."
+      },
+      "compress-pdf": {
+        "name": "Compress PDF",
+        "description": "Shrink PDF file size in your browser with three quality presets."
+      },
+      "rotate-pdf": {
+        "name": "Rotate PDF",
+        "description": "Rotate PDF pages permanently — single pages or the whole document."
+      },
+      "watermark-pdf": {
+        "name": "Watermark PDF",
+        "description": "Stamp DRAFT, CONFIDENTIAL, or any text across every page of a PDF."
+      },
+      "sign-pdf": {
+        "name": "Sign PDF",
+        "description": "Draw or upload your signature and place it on any page — files never leave your device."
+      },
+      "extract-text-from-pdf": {
+        "name": "Extract Text from PDF",
+        "description": "Pull selectable text out of a PDF and copy or download it as .txt."
+      },
+      "reorder-pdf-pages": {
+        "name": "Reorder PDF Pages",
+        "description": "Drag and drop to rearrange or delete PDF pages, then save."
+      },
+      "jpg-to-pdf": {
+        "name": "JPG to PDF",
+        "description": "Turn JPG and PNG images into a single PDF with page size and margin controls."
       },
       "zip": {
         "name": "Zip Tools",
@@ -940,6 +976,12 @@
       "tabImagesToPdf": "Images to PDF",
       "tabMerge": "Merge",
       "tabSplit": "Split / Extract",
+      "tabCompress": "Compress",
+      "tabRotate": "Rotate",
+      "tabReorder": "Reorder",
+      "tabWatermark": "Watermark",
+      "tabExtract": "Extract text",
+      "tabSign": "Sign",
       "dropImagesHere": "Drop images here or click to select",
       "supportedImageFormats": "JPG and PNG • Multiple files, reorderable",
       "pageSize": "Page size",
@@ -964,7 +1006,69 @@
       "moveUp": "Move up",
       "moveDown": "Move down",
       "remove": "Remove",
-      "preview": "Preview"
+      "preview": "Preview",
+      "compressLevel": "Compression level",
+      "compressHigh": "High quality",
+      "compressHighHint": "Larger file, best fidelity",
+      "compressBalanced": "Balanced",
+      "compressBalancedHint": "Good size and quality",
+      "compressSmall": "Small file",
+      "compressSmallHint": "Smallest size, lower fidelity",
+      "compressRasterNote": "Compression rasterizes each page into an image, so selectable text and crisp vectors are lost. Best for scanned or image-heavy PDFs.",
+      "applyCompress": "Compress PDF",
+      "compressing": "Compressing…",
+      "compressBefore": "Before",
+      "compressAfter": "After",
+      "compressReduction": "Reduction",
+      "rotateHint": "Click a page to rotate it 90° clockwise. Use the buttons to rotate every page at once.",
+      "rotateAllCw": "Rotate all right",
+      "rotateAllCcw": "Rotate all left",
+      "applyRotate": "Apply rotation",
+      "rotating": "Rotating…",
+      "rotatedBadge": "{degrees}°",
+      "rotatePage": "Page {number}",
+      "renderingPages": "Rendering pages…",
+      "rotateApplied": "Rotation applied to {count} page(s)!",
+      "noChangesToApply": "No changes to apply",
+      "dragToReorderPages": "Drag pages to change their order. Use the ✕ button to remove a page.",
+      "deletePage": "Delete page {number}",
+      "applyReorder": "Apply order",
+      "reordering": "Applying…",
+      "reorderApplied": "Pages reordered! Saved {count} page(s).",
+      "errorReordering": "Error reordering pages",
+      "watermarkTextLabel": "Watermark text",
+      "watermarkTextPlaceholder": "Enter watermark text",
+      "watermarkFontSize": "Font size",
+      "watermarkOpacity": "Opacity",
+      "watermarkPlacement": "Placement",
+      "watermarkColor": "Color",
+      "anchorDiagonal": "Diagonal",
+      "anchorCenter": "Center",
+      "anchorTopLeft": "Top left",
+      "anchorTopRight": "Top right",
+      "anchorBottomLeft": "Bottom left",
+      "anchorBottomRight": "Bottom right",
+      "watermarkAppliedOnExport": "The watermark is stamped onto every page when you apply — there is no live preview in this step.",
+      "applyWatermark": "Add watermark",
+      "watermarking": "Adding watermark…",
+      "watermarkApplied": "Watermark added!",
+      "errorWatermarking": "Error adding watermark",
+      "extractAction": "Extract text",
+      "extracting": "Extracting…",
+      "extractResultTitle": "Extracted text",
+      "extractEmptyNotice": "No text layer found — this looks like a scanned or image-only PDF.",
+      "extractEmptyLink": "Try Image to Text",
+      "errorExtracting": "Could not extract text from this PDF.",
+      "signSourceLabel": "Signature source",
+      "signSourceDraw": "Draw",
+      "signSourceUpload": "Upload PNG",
+      "signUploadHint": "Drop a PNG signature, or click to choose",
+      "signPageLabel": "Page",
+      "signBoxLabel": "Signature placement",
+      "applySign": "Sign PDF",
+      "signing": "Signing…",
+      "signApplied": "Signed PDF ready to download.",
+      "errorSigning": "Could not sign this PDF."
     },
     "ZipTools": {
       "createZip": "Create ZIP",
@@ -2446,7 +2550,16 @@
       "clientAddressPlaceholder": "123 Client St",
       "itemDescriptionPlaceholder": "Product or service description",
       "notesPlaceholder": "Additional notes or comments...",
-      "termsPlaceholder": "Payment terms and conditions..."
+      "termsPlaceholder": "Payment terms and conditions...",
+      "templatesTitle": "Template",
+      "templateClassic": "Classic",
+      "templateModern": "Modern",
+      "templateCompact": "Compact",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro templates are coming soon.",
+      "proUnlockCta": "Unlock Pro",
+      "proUnlockedToast": "Pro templates unlocked!",
+      "apiWaitlist": "Need an invoice API? Join the waitlist"
     },
     "NumberBaseConverter": {
       "title": "Number Base Converter",

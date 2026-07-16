@@ -47,6 +47,7 @@ const TOOL_INDEX = tools.flatMap((c) =>
       href: t.href,
       icon: t.icon,
       categoryId: c.id,
+      creationDate: t.creationDate,
     })),
 );
 
@@ -79,6 +80,7 @@ const GROUPED = tools
         slug: t.href.split("/").pop() as string,
         href: t.href,
         icon: t.icon,
+        creationDate: t.creationDate,
       })),
   }));
 
@@ -92,6 +94,7 @@ function Tile({
   name,
   catLabel,
   description,
+  creationDate,
 }: {
   href: string;
   slug: string;
@@ -100,6 +103,7 @@ function Tile({
   name: string;
   catLabel: string;
   description?: string;
+  creationDate?: string;
 }) {
   const c = CHIP[categoryId];
   return (
@@ -112,6 +116,7 @@ function Tile({
       chipBg={c?.bg}
       chipFg={c?.fg}
       description={description}
+      creationDate={creationDate}
     />
   );
 }
@@ -436,6 +441,7 @@ function LiveDemo() {
                 catLabel={tc(`categoriesShort.${tool.categoryId}` as never)}
                 chipBg={CHIP[tool.categoryId]?.bg}
                 chipFg={CHIP[tool.categoryId]?.fg}
+                creationDate={tool.creationDate}
               />
             ))}
           </div>
@@ -463,7 +469,7 @@ function ToolRow({
   items,
 }: {
   label: string;
-  items: { href: string; slug: string; icon: FeaturedApp["icon"]; categoryId: string; name: string; catLabel: string; description?: string }[];
+  items: { href: string; slug: string; icon: FeaturedApp["icon"]; categoryId: string; name: string; catLabel: string; description?: string; creationDate?: string }[];
 }) {
   if (items.length === 0) return null;
   return (
@@ -638,6 +644,7 @@ export default function Landing() {
             name={tool.name}
             catLabel={tool.catLabel}
             description={tool.description}
+            creationDate={tool.creationDate}
           />
         ))}
       </div>
@@ -661,6 +668,7 @@ export default function Landing() {
                   catLabel={tc(`categoriesShort.${cat.id}` as never)}
                   chipBg={CHIP[cat.id]?.bg}
                   chipFg={CHIP[cat.id]?.fg}
+                  creationDate={item.creationDate}
                 />
               ))}
             </div>

@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "Инструменты PDF",
-        "description": "Объединяйте PDF, разделяйте или извлекайте страницы и превращайте изображения в PDF — прямо в браузере и без ограничений по размеру."
+        "description": "Полный набор инструментов для PDF: объединение, разделение, сжатие, поворот, изменение порядка страниц, водяные знаки, подпись, извлечение текста и создание PDF из изображений — всё прямо в браузере."
+      },
+      "merge-pdf": {
+        "name": "Объединить PDF",
+        "description": "Объедините несколько файлов PDF в один документ по порядку — прямо в браузере."
+      },
+      "split-pdf": {
+        "name": "Разделить PDF",
+        "description": "Извлеките страницы или диапазоны страниц из PDF в отдельные файлы — без загрузки на сервер."
+      },
+      "compress-pdf": {
+        "name": "Сжать PDF",
+        "description": "Уменьшите размер файла PDF прямо в браузере с помощью трёх пресетов качества."
+      },
+      "rotate-pdf": {
+        "name": "Повернуть PDF",
+        "description": "Поверните страницы PDF навсегда — отдельные страницы или весь документ."
+      },
+      "watermark-pdf": {
+        "name": "Водяной знак на PDF",
+        "description": "Проставьте штамп «ЧЕРНОВИК», «КОНФИДЕНЦИАЛЬНО» или любой другой текст на каждой странице PDF."
+      },
+      "sign-pdf": {
+        "name": "Подписать PDF",
+        "description": "Нарисуйте или загрузите подпись и разместите её на любой странице — файлы не покидают ваше устройство."
+      },
+      "extract-text-from-pdf": {
+        "name": "Извлечь текст из PDF",
+        "description": "Извлеките выделяемый текст из PDF и скопируйте его или скачайте в виде .txt."
+      },
+      "reorder-pdf-pages": {
+        "name": "Изменить порядок страниц PDF",
+        "description": "Перетаскивайте, чтобы изменить порядок страниц PDF или удалить их, затем сохраните."
+      },
+      "jpg-to-pdf": {
+        "name": "JPG в PDF",
+        "description": "Превратите изображения JPG и PNG в единый PDF с настройкой размера страницы и полей."
       },
       "zip": {
         "name": "Инструменты ZIP",
@@ -940,6 +976,12 @@
       "tabImagesToPdf": "Изображения в PDF",
       "tabMerge": "Объединить",
       "tabSplit": "Разделить / Извлечь",
+      "tabCompress": "Сжать",
+      "tabRotate": "Повернуть",
+      "tabReorder": "Порядок страниц",
+      "tabWatermark": "Водяной знак",
+      "tabExtract": "Извлечь текст",
+      "tabSign": "Подпись",
       "dropImagesHere": "Перетащите изображения сюда или нажмите для выбора",
       "supportedImageFormats": "JPG и PNG • Несколько файлов, можно менять порядок",
       "pageSize": "Размер страницы",
@@ -964,7 +1006,69 @@
       "moveUp": "Переместить вверх",
       "moveDown": "Переместить вниз",
       "remove": "Убрать",
-      "preview": "Предпросмотр"
+      "preview": "Предпросмотр",
+      "compressLevel": "Уровень сжатия",
+      "compressHigh": "Высокое качество",
+      "compressHighHint": "Больший размер, максимальное качество",
+      "compressBalanced": "Сбалансированный",
+      "compressBalancedHint": "Хороший баланс размера и качества",
+      "compressSmall": "Маленький файл",
+      "compressSmallHint": "Минимальный размер, ниже качество",
+      "compressRasterNote": "Сжатие растеризует каждую страницу в изображение, из-за чего теряются выделяемый текст и чёткая векторная графика. Лучше всего подходит для сканов или PDF с большим количеством изображений.",
+      "applyCompress": "Сжать PDF",
+      "compressing": "Сжатие…",
+      "compressBefore": "До",
+      "compressAfter": "После",
+      "compressReduction": "Уменьшение",
+      "rotateHint": "Нажмите на страницу, чтобы повернуть её на 90° по часовой стрелке. Используйте кнопки, чтобы повернуть все страницы сразу.",
+      "rotateAllCw": "Повернуть все вправо",
+      "rotateAllCcw": "Повернуть все влево",
+      "applyRotate": "Применить поворот",
+      "rotating": "Поворот…",
+      "rotatedBadge": "{degrees}°",
+      "rotatePage": "Страница {number}",
+      "renderingPages": "Отрисовка страниц…",
+      "rotateApplied": "Поворот применён к {count} страницам!",
+      "noChangesToApply": "Нет изменений для применения",
+      "dragToReorderPages": "Перетаскивайте страницы, чтобы изменить их порядок. Используйте кнопку ✕, чтобы удалить страницу.",
+      "deletePage": "Удалить страницу {number}",
+      "applyReorder": "Применить порядок",
+      "reordering": "Применение…",
+      "reorderApplied": "Порядок страниц изменён! Сохранено страниц: {count}.",
+      "errorReordering": "Ошибка при изменении порядка страниц",
+      "watermarkTextLabel": "Текст водяного знака",
+      "watermarkTextPlaceholder": "Введите текст водяного знака",
+      "watermarkFontSize": "Размер шрифта",
+      "watermarkOpacity": "Прозрачность",
+      "watermarkPlacement": "Расположение",
+      "watermarkColor": "Цвет",
+      "anchorDiagonal": "По диагонали",
+      "anchorCenter": "По центру",
+      "anchorTopLeft": "Сверху слева",
+      "anchorTopRight": "Сверху справа",
+      "anchorBottomLeft": "Снизу слева",
+      "anchorBottomRight": "Снизу справа",
+      "watermarkAppliedOnExport": "Водяной знак наносится на все страницы при применении — на этом этапе нет предпросмотра в реальном времени.",
+      "applyWatermark": "Добавить водяной знак",
+      "watermarking": "Добавление водяного знака…",
+      "watermarkApplied": "Водяной знак добавлен!",
+      "errorWatermarking": "Ошибка при добавлении водяного знака",
+      "extractAction": "Извлечь текст",
+      "extracting": "Извлечение…",
+      "extractResultTitle": "Извлечённый текст",
+      "extractEmptyNotice": "Текстовый слой не найден — похоже, это скан или PDF, состоящий только из изображений.",
+      "extractEmptyLink": "Попробуйте «Изображение в текст»",
+      "errorExtracting": "Не удалось извлечь текст из этого PDF.",
+      "signSourceLabel": "Источник подписи",
+      "signSourceDraw": "Нарисовать",
+      "signSourceUpload": "Загрузить PNG",
+      "signUploadHint": "Перетащите PNG с подписью сюда или нажмите, чтобы выбрать файл",
+      "signPageLabel": "Страница",
+      "signBoxLabel": "Расположение подписи",
+      "applySign": "Подписать PDF",
+      "signing": "Подписание…",
+      "signApplied": "Подписанный PDF готов к скачиванию.",
+      "errorSigning": "Не удалось подписать этот PDF."
     },
     "ZipTools": {
       "createZip": "Создать ZIP",
@@ -2446,7 +2550,16 @@
       "clientAddressPlaceholder": "ул. Клиентская, 123",
       "itemDescriptionPlaceholder": "Описание товара или услуги",
       "notesPlaceholder": "Дополнительные заметки или комментарии...",
-      "termsPlaceholder": "Условия и порядок оплаты..."
+      "termsPlaceholder": "Условия и порядок оплаты...",
+      "templatesTitle": "Шаблон",
+      "templateClassic": "Классический",
+      "templateModern": "Современный",
+      "templateCompact": "Компактный",
+      "proBadge": "Pro",
+      "proComingSoon": "Шаблоны Pro скоро появятся.",
+      "proUnlockCta": "Открыть Pro",
+      "proUnlockedToast": "Шаблоны Pro разблокированы!",
+      "apiWaitlist": "Нужен API для счетов? Запишитесь в лист ожидания"
     },
     "NumberBaseConverter": {
       "title": "Конвертер систем счисления",

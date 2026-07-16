@@ -618,58 +618,686 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["file-converter", "zip", "image-converter", "image-compression"],
     en: {
       intro:
-        "PDF Tools let you merge, split, compress, and rearrange PDF files directly in your browser. Combine several PDFs into one document, extract specific pages, rotate pages, or reduce file size — without installing software or uploading sensitive documents.\n\nAll processing happens locally on your device, so confidential contracts, invoices, and forms never leave your computer. There are no file size limits imposed by a server.",
+        "The PDF workbench is a full toolkit for working with PDF files directly in your browser: merge multiple documents into one, split or reorder pages, compress file size, rotate pages, stamp a watermark, sign a document, extract selectable text, or turn a batch of JPGs and PNGs into a single PDF.\n\nAll processing happens locally on your device, so confidential contracts, invoices, and signed forms never leave your computer. There are no file size limits imposed by a server.",
       faq: [
         {
           q: "Are my PDFs uploaded to a server?",
-          a: "No. All operations run locally in your browser, so your documents stay private on your device.",
+          a: "No. Every operation — merge, split, compress, rotate, reorder, watermark, sign, and text extraction — runs locally in your browser, so your documents stay private on your device.",
         },
         {
           q: "Can I merge multiple PDFs into one?",
           a: "Yes. Add several PDF files, arrange their order, and combine them into a single document.",
         },
         {
-          q: "How do I reduce a PDF's file size?",
-          a: "Use the compress option, which optimizes the document to lower its size while keeping it readable.",
+          q: "How do I reduce a PDF's file size, and does it lose quality?",
+          a: "The compress option rasterizes each page to a JPEG at one of three quality presets and re-embeds it. That shrinks file size significantly, but it's a re-encode — pages become images, so very fine text or line art can look softer at the smallest preset. Selectable text on those pages is no longer selectable after compressing.",
         },
         {
-          q: "Can I split a PDF or extract pages?",
-          a: "Yes. You can split a PDF into separate files or extract a specific range of pages.",
+          q: "Can I split a PDF, reorder pages, or extract pages?",
+          a: "Yes. Split a PDF into separate files, drag pages into a new order (or delete some) and save, or extract a specific range of pages.",
+        },
+        {
+          q: "Can I sign a PDF or add a watermark?",
+          a: "Yes. Draw or upload a signature and place it on any page, or stamp text like DRAFT or CONFIDENTIAL across every page — both stay editable until you download.",
+        },
+        {
+          q: "Can I turn images into a PDF?",
+          a: "Yes. Upload JPG or PNG images and combine them into a single PDF, with control over page size and margins.",
         },
       ],
       steps: [
-        "Upload one or more PDF files.",
-        "Choose an action: merge, split, compress, or rotate.",
+        "Upload one or more PDF files (or images, for the images-to-PDF option).",
+        "Choose an action: merge, split, compress, rotate, reorder, watermark, sign, or extract text.",
         "Arrange pages or set options as needed.",
-        "Download the resulting PDF.",
+        "Download the resulting PDF (or text file, for extraction).",
       ],
     },
     ar: {
       intro:
-        "تتيح أدوات PDF دمج ملفات PDF وتقسيمها وضغطها وإعادة ترتيبها مباشرة في متصفحك. ادمج عدة ملفات في مستند واحد، أو استخرج صفحات محددة، أو دوّر الصفحات، أو قلّص حجم الملف — دون تثبيت برامج أو رفع مستندات حساسة.\n\nتتم كل المعالجة محليًا على جهازك، فلا تغادر العقود والفواتير والنماذج السرية حاسوبك. ولا توجد حدود لحجم الملف يفرضها خادم.",
+        "أدوات PDF مجموعة أدوات كاملة للتعامل مع ملفات PDF مباشرة في متصفحك: ادمج عدة مستندات في ملف واحد، أو قسّم الصفحات أو أعد ترتيبها، أو قلّص حجم الملف، أو دوّر الصفحات، أو أضف علامة مائية، أو وقّع المستند، أو استخرج النص القابل للتحديد، أو حوّل مجموعة من صور JPG وPNG إلى ملف PDF واحد.\n\nتتم كل المعالجة محليًا على جهازك، فلا تغادر العقود والفواتير والنماذج الموقّعة السرية حاسوبك. ولا توجد حدود لحجم الملف يفرضها خادم.",
       faq: [
         {
           q: "هل تُرفع ملفات PDF إلى خادم؟",
-          a: "لا. تعمل كل العمليات محليًا في متصفحك، فتبقى مستنداتك خاصة على جهازك.",
+          a: "لا. كل عملية — الدمج والتقسيم والضغط والتدوير وإعادة الترتيب والعلامة المائية والتوقيع واستخراج النص — تعمل محليًا في متصفحك، فتبقى مستنداتك خاصة على جهازك.",
         },
         {
           q: "هل يمكنني دمج عدة ملفات PDF في ملف واحد؟",
           a: "نعم. أضف عدة ملفات PDF، ورتّبها، ثم ادمجها في مستند واحد.",
         },
         {
-          q: "كيف أقلّل حجم ملف PDF؟",
-          a: "استخدم خيار الضغط الذي يحسّن المستند لتقليل حجمه مع إبقائه قابلًا للقراءة.",
+          q: "كيف أقلّل حجم ملف PDF، وهل تتأثر الجودة؟",
+          a: "يحوّل خيار الضغط كل صفحة إلى صورة JPEG بأحد ثلاثة مستويات جودة ثم يعيد تضمينها. هذا يقلّص الحجم بشكل كبير، لكنه إعادة ترميز — تتحول الصفحات إلى صور، فقد يبدو النص الدقيق جدًا أو الرسوم الخطية أقل وضوحًا عند أدنى مستوى جودة. كما يفقد النص القابل للتحديد في تلك الصفحات قابليته للتحديد بعد الضغط.",
         },
         {
-          q: "هل يمكنني تقسيم ملف PDF أو استخراج صفحات؟",
-          a: "نعم. يمكنك تقسيم الملف إلى ملفات منفصلة أو استخراج نطاق صفحات محدد.",
+          q: "هل يمكنني تقسيم ملف PDF أو إعادة ترتيب صفحاته أو استخراج صفحات منه؟",
+          a: "نعم. قسّم الملف إلى ملفات منفصلة، أو اسحب الصفحات لإعادة ترتيبها (أو احذف بعضها) واحفظ، أو استخرج نطاق صفحات محددًا.",
+        },
+        {
+          q: "هل يمكنني توقيع ملف PDF أو إضافة علامة مائية؟",
+          a: "نعم. ارسم توقيعك أو ارفعه وضعه على أي صفحة، أو اطبع نصًا مثل \"مسودة\" أو \"سري\" عبر كل صفحة — ويبقى كلاهما قابلًا للتعديل حتى التنزيل.",
+        },
+        {
+          q: "هل يمكنني تحويل الصور إلى ملف PDF؟",
+          a: "نعم. ارفع صور JPG أو PNG وادمجها في ملف PDF واحد، مع التحكم في حجم الصفحة والهوامش.",
         },
       ],
       steps: [
-        "ارفع ملف PDF واحدًا أو أكثر.",
-        "اختر إجراءً: دمج أو تقسيم أو ضغط أو تدوير.",
+        "ارفع ملف PDF واحدًا أو أكثر (أو صورًا، لخيار تحويل الصور إلى PDF).",
+        "اختر إجراءً: دمج أو تقسيم أو ضغط أو تدوير أو إعادة ترتيب أو علامة مائية أو توقيع أو استخراج نص.",
         "رتّب الصفحات أو اضبط الخيارات حسب الحاجة.",
-        "نزّل ملف PDF الناتج.",
+        "نزّل ملف PDF الناتج (أو ملف النص، لخيار الاستخراج).",
+      ],
+    },
+  },
+
+  "merge-pdf": {
+    related: ["split-pdf", "reorder-pdf-pages", "compress-pdf", "pdf"],
+    en: {
+      intro:
+        "Merge PDF combines several PDF files into a single document, in the order you arrange them. It's the fix for the everyday mess of a report that arrived as three separate exports, a contract whose signature page came back as its own file, or a stack of scanned receipts you need to submit as one attachment.\n\nYou add the files, drag them into the sequence you want, and the tool stitches them end to end into one PDF — the pages keep their original content and quality. Because everything is assembled in your browser, the documents you're combining never leave your device.\n\nThere's no page or file-count ceiling imposed by a server; the practical limit is your device's memory. Combine two files or twenty into one tidy PDF you can email, print, or upload in a single go.",
+      faq: [
+        {
+          q: "Can I choose the order of the files?",
+          a: "Yes. Add every PDF, then drag them into the sequence you want before merging; the pages appear in exactly that order.",
+        },
+        {
+          q: "Does merging reduce the quality of the pages?",
+          a: "No. Merging copies each page as-is into the new file, so text stays selectable and images keep their original resolution. If the combined file is large, compress it afterward.",
+        },
+        {
+          q: "Is there a limit on how many PDFs I can combine?",
+          a: "No server-imposed limit. You can merge many files at once; very large batches are only bounded by your device's available memory.",
+        },
+        {
+          q: "Are my documents uploaded to combine them?",
+          a: "No. Merging happens entirely in your browser, so confidential reports and contracts stay on your device.",
+        },
+        {
+          q: "Can I merge only some pages from each file?",
+          a: "Merge joins whole files. To pull specific pages first, split or extract them, then merge the pieces you want.",
+        },
+      ],
+      steps: [
+        "Add the PDF files you want to combine.",
+        "Drag them into the order the pages should appear.",
+        "Merge them into a single document.",
+        "Download the combined PDF.",
+      ],
+    },
+    ar: {
+      intro:
+        "يدمج «دمج PDF» عدة ملفات PDF في مستند واحد بالترتيب الذي ترتّبه أنت. إنه الحل للفوضى اليومية: تقرير وصلك في ثلاث تصديرات منفصلة، أو عقد عادت صفحة توقيعه كملف مستقل، أو مجموعة إيصالات ممسوحة تحتاج تقديمها كمرفق واحد.\n\nتضيف الملفات، وتسحبها إلى التسلسل الذي تريده، فتخيّطها الأداة طرفًا لطرف في ملف PDF واحد — تحتفظ الصفحات بمحتواها وجودتها الأصلية. ولأن كل شيء يُجمَّع في متصفحك، لا تغادر المستندات التي تدمجها جهازك.\n\nلا يوجد حد للصفحات أو لعدد الملفات يفرضه خادم؛ الحد العملي هو ذاكرة جهازك. ادمج ملفين أو عشرين في ملف PDF واحد مرتّب ترسله أو تطبعه أو ترفعه دفعة واحدة.",
+      faq: [
+        {
+          q: "هل يمكنني اختيار ترتيب الملفات؟",
+          a: "نعم. أضف كل ملفات PDF ثم اسحبها إلى التسلسل الذي تريده قبل الدمج؛ فتظهر الصفحات بهذا الترتيب تمامًا.",
+        },
+        {
+          q: "هل يقلّل الدمج جودة الصفحات؟",
+          a: "لا. ينسخ الدمج كل صفحة كما هي إلى الملف الجديد، فيبقى النص قابلًا للتحديد وتحتفظ الصور بدقتها الأصلية. وإن كان الملف المدموج كبيرًا، اضغطه بعد ذلك.",
+        },
+        {
+          q: "هل هناك حد لعدد ملفات PDF التي أدمجها؟",
+          a: "لا حد يفرضه خادم. يمكنك دمج ملفات كثيرة دفعة واحدة؛ الدفعات الكبيرة جدًا محدودة فقط بذاكرة جهازك المتاحة.",
+        },
+        {
+          q: "هل تُرفع مستنداتي لدمجها؟",
+          a: "لا. يتم الدمج بالكامل في متصفحك، فتبقى التقارير والعقود السرية على جهازك.",
+        },
+        {
+          q: "هل يمكنني دمج بعض الصفحات فقط من كل ملف؟",
+          a: "الدمج يضم الملفات كاملة. لسحب صفحات محددة أولًا، قسّمها أو استخرجها ثم ادمج القطع التي تريدها.",
+        },
+      ],
+      steps: [
+        "أضف ملفات PDF التي تريد دمجها.",
+        "اسحبها إلى الترتيب الذي يجب أن تظهر به الصفحات.",
+        "ادمجها في مستند واحد.",
+        "نزّل ملف PDF المدموج.",
+      ],
+    },
+  },
+
+  "split-pdf": {
+    related: ["merge-pdf", "reorder-pdf-pages", "compress-pdf", "pdf"],
+    en: {
+      intro:
+        "Split PDF breaks one document into smaller files — a single page, a range, or each page on its own. It's what you reach for when a 90-page handbook only needs its onboarding chapter shared, when a court bundle has to be broken into individual exhibits, or when one signed page has to go to someone who shouldn't see the rest.\n\nYou open the PDF, mark the pages or ranges you want, and the tool writes out separate PDFs — the extracted pages keep their original text, images, and quality untouched. All of it runs in your browser, so a confidential bundle is never uploaded to a server to be cut apart.\n\nSplitting locally also means no page or size cap from an upload form: a large scanned file can be divided into manageable pieces you can send one at a time.",
+      faq: [
+        {
+          q: "Can I extract just one page or a specific range?",
+          a: "Yes. Choose a single page, a continuous range, or split every page into its own file.",
+        },
+        {
+          q: "Do the split pages lose quality?",
+          a: "No. Each page is copied out exactly as it was, so text stays selectable and images keep their resolution.",
+        },
+        {
+          q: "Can I share one chapter without exposing the rest?",
+          a: "Yes — that's a common use. Extract only the pages you want to share; the pages you leave out are not part of the new file.",
+        },
+        {
+          q: "Are my files uploaded to split them?",
+          a: "No. Splitting runs entirely in your browser, so sensitive bundles and exhibits stay on your device.",
+        },
+        {
+          q: "What's the difference between split and extract?",
+          a: "Split writes out one or more separate PDF files; if you instead need the words as text, use the extract-text tool.",
+        },
+      ],
+      steps: [
+        "Open the PDF you want to split.",
+        "Mark the page, range, or every-page option.",
+        "Split it into separate files.",
+        "Download the resulting PDFs.",
+      ],
+    },
+    ar: {
+      intro:
+        "يقسّم «تقسيم PDF» مستندًا واحدًا إلى ملفات أصغر — صفحة مفردة أو نطاقًا أو كل صفحة على حدة. إنه ما تلجأ إليه حين يحتاج دليل من 90 صفحة إلى مشاركة فصل التعريف منه فقط، أو حين يجب تفكيك حزمة مستندات قضائية إلى مرفقات منفصلة، أو حين يجب إرسال صفحة موقّعة واحدة إلى شخص لا ينبغي أن يرى الباقي.\n\nتفتح ملف PDF، وتحدّد الصفحات أو النطاقات التي تريدها، فتُخرِج الأداة ملفات PDF منفصلة — تبقى الصفحات المستخرجة بنصها وصورها وجودتها كما هي. ويجري كل ذلك في متصفحك، فلا تُرفع حزمة سرية إلى خادم لتقطيعها.\n\nالتقسيم محليًا يعني أيضًا غياب أي حد للصفحات أو الحجم من نموذج رفع: يمكن تقسيم ملف ممسوح كبير إلى أجزاء يسهل إرسالها واحدًا تلو الآخر.",
+      faq: [
+        {
+          q: "هل يمكنني استخراج صفحة واحدة أو نطاق محدد؟",
+          a: "نعم. اختر صفحة مفردة أو نطاقًا متصلًا أو قسّم كل صفحة إلى ملف مستقل.",
+        },
+        {
+          q: "هل تفقد الصفحات المقسّمة جودتها؟",
+          a: "لا. تُنسخ كل صفحة كما كانت تمامًا، فيبقى النص قابلًا للتحديد وتحتفظ الصور بدقتها.",
+        },
+        {
+          q: "هل يمكنني مشاركة فصل واحد دون كشف الباقي؟",
+          a: "نعم، وهو استخدام شائع. استخرج الصفحات التي تريد مشاركتها فقط؛ أما الصفحات التي تتركها فليست جزءًا من الملف الجديد.",
+        },
+        {
+          q: "هل تُرفع ملفاتي لتقسيمها؟",
+          a: "لا. يجري التقسيم بالكامل في متصفحك، فتبقى الحزم والمرفقات الحساسة على جهازك.",
+        },
+        {
+          q: "ما الفرق بين التقسيم والاستخراج؟",
+          a: "التقسيم يُخرِج ملف PDF منفصلًا أو أكثر؛ أما إن احتجت الكلمات نصًا، فاستخدم أداة استخراج النص.",
+        },
+      ],
+      steps: [
+        "افتح ملف PDF الذي تريد تقسيمه.",
+        "حدّد الصفحة أو النطاق أو خيار كل صفحة.",
+        "قسّمه إلى ملفات منفصلة.",
+        "نزّل ملفات PDF الناتجة.",
+      ],
+    },
+  },
+
+  "compress-pdf": {
+    related: ["split-pdf", "merge-pdf", "reorder-pdf-pages", "pdf"],
+    en: {
+      intro:
+        "Compress PDF reduces a document's file size so it clears the limits that keep bouncing it back — the attachment ceiling on an email, the upload cap on a job-application or government portal, the size a messaging app will accept. Instead of re-exporting from the original app, you shrink the finished PDF directly.\n\nTo reach a smaller size this tool re-encodes the pages as images at a lower quality. That's the tradeoff to understand plainly: the compressed pages become pictures, so the text on them is no longer selectable or searchable, and very fine detail softens. For a scanned document that's already an image you lose almost nothing; for a crisp text PDF, weigh whether you still need the text layer.\n\nThe whole process runs in your browser, so a confidential invoice or contract is never uploaded to a compression server. Try a setting, check the result, and re-compress until it fits.",
+      faq: [
+        {
+          q: "How does the compression actually work?",
+          a: "The pages are re-encoded as images at a reduced quality, which is what brings the size down. Heavier compression means a smaller file and softer detail.",
+        },
+        {
+          q: "Will the text still be selectable after compressing?",
+          a: "No. Because the pages are rasterized into images, the text layer is lost — the words stay visible but can't be selected, copied, or searched. Keep an original if you need that.",
+        },
+        {
+          q: "What size can I get down to?",
+          a: "It depends on the content; stronger settings shrink more at the cost of clarity. Aim for the smallest setting that still looks legible for your purpose.",
+        },
+        {
+          q: "Are my PDFs uploaded to compress them?",
+          a: "No. Compression happens locally in your browser, so sensitive documents never leave your device.",
+        },
+        {
+          q: "My file needs to fit an email or portal limit — will this help?",
+          a: "Yes. Compressing is the usual way to bring a PDF under an attachment or upload cap. Re-compress harder if the first result is still over the limit.",
+        },
+      ],
+      steps: [
+        "Upload the PDF you need to shrink.",
+        "Choose how hard to compress it.",
+        "Let the tool re-encode the pages.",
+        "Check it's legible, then download the smaller file.",
+      ],
+    },
+    ar: {
+      intro:
+        "يقلّل «ضغط PDF» حجم المستند ليتجاوز الحدود التي تعيده مرارًا — سقف المرفقات في البريد، وحد الرفع في بوابة توظيف أو بوابة حكومية، والحجم الذي يقبله تطبيق مراسلة. فبدل إعادة التصدير من التطبيق الأصلي، تصغّر ملف PDF النهائي مباشرة.\n\nللوصول إلى حجم أصغر تعيد هذه الأداة ترميز الصفحات كصور بجودة أقل. وهذا هو التنازل الذي يجب فهمه بوضوح: تصبح الصفحات المضغوطة صورًا، فلا يعود النص فيها قابلًا للتحديد أو البحث، وتنعم التفاصيل الدقيقة. بالنسبة لمستند ممسوح هو أصلًا صورة، لا تخسر شيئًا يُذكر؛ أما ملف نصي واضح فوازن بين حاجتك إلى طبقة النص وبين حجم الملف الأصغر.\n\nتجري العملية كلها في متصفحك، فلا تُرفع فاتورة أو عقد سري إلى خادم ضغط. جرّب إعدادًا، وتحقق من النتيجة، وأعد الضغط حتى يناسب.",
+      faq: [
+        {
+          q: "كيف يعمل الضغط فعليًا؟",
+          a: "يُعاد ترميز الصفحات كصور بجودة أقل، وهذا ما يخفض الحجم. الضغط الأقوى يعني ملفًا أصغر وتفاصيل أنعم.",
+        },
+        {
+          q: "هل يبقى النص قابلًا للتحديد بعد الضغط؟",
+          a: "لا. لأن الصفحات تُحوَّل إلى صور، تُفقد طبقة النص — تبقى الكلمات مرئية لكن لا يمكن تحديدها أو نسخها أو البحث فيها. احتفظ بنسخة أصلية إن احتجت ذلك.",
+        },
+        {
+          q: "إلى أي حجم يمكنني الوصول؟",
+          a: "يعتمد على المحتوى؛ الإعدادات الأقوى تصغّر أكثر على حساب الوضوح. استهدف أصغر إعداد يبقى واضحًا لغرضك.",
+        },
+        {
+          q: "هل تُرفع ملفات PDF لضغطها؟",
+          a: "لا. يجري الضغط محليًا في متصفحك، فلا تغادر المستندات الحساسة جهازك.",
+        },
+        {
+          q: "ملفي يجب أن يناسب حد بريد أو بوابة — هل يساعد هذا؟",
+          a: "نعم. الضغط هو الطريقة المعتادة لإنزال ملف PDF تحت سقف المرفقات أو الرفع. أعد الضغط بقوة أكبر إن بقيت النتيجة الأولى فوق الحد.",
+        },
+      ],
+      steps: [
+        "ارفع ملف PDF الذي تريد تصغيره.",
+        "اختر مدى قوة الضغط.",
+        "دع الأداة تعيد ترميز الصفحات.",
+        "تحقق من الوضوح ثم نزّل الملف الأصغر.",
+      ],
+    },
+  },
+
+  "rotate-pdf": {
+    related: ["reorder-pdf-pages", "split-pdf", "merge-pdf", "pdf"],
+    en: {
+      intro:
+        "Rotate PDF turns pages to the right orientation and saves the change into the file. It fixes the classic scanner problem: a batch that came out sideways because the page went through the feeder the wrong way, or a document that opens upside down because it was photographed rotated.\n\nYou can spin a single page, a selection, or the whole document by 90, 180, or 270 degrees, then save. The rotation is written into the PDF, so the page stays the right way up wherever it's opened — not just tilted in your own viewer. Nothing about the page content changes; only its orientation.\n\nBecause the rotation is applied in your browser, the document is never uploaded. Correct a stack of scans and download a file that reads properly on any device.",
+      faq: [
+        {
+          q: "Does the rotation stick when someone else opens the file?",
+          a: "Yes. The new orientation is saved into the PDF itself, so it displays correctly in any viewer, not just yours.",
+        },
+        {
+          q: "Can I rotate only some pages?",
+          a: "Yes. Rotate a single page, a selection, or every page — useful when just a few scans came out sideways.",
+        },
+        {
+          q: "What rotation angles are available?",
+          a: "90, 180, and 270 degrees, which covers sideways and upside-down pages in either direction.",
+        },
+        {
+          q: "Does rotating change the page content or quality?",
+          a: "No. Only the orientation changes; the text and images stay exactly as they were.",
+        },
+        {
+          q: "Are my files uploaded to rotate them?",
+          a: "No. Rotation runs entirely in your browser, so your scans stay on your device.",
+        },
+      ],
+      steps: [
+        "Upload the PDF with pages to rotate.",
+        "Select the pages and the rotation angle.",
+        "Apply the rotation.",
+        "Download the corrected PDF.",
+      ],
+    },
+    ar: {
+      intro:
+        "يدير «تدوير PDF» الصفحات إلى الاتجاه الصحيح ويحفظ التغيير في الملف. إنه يصلح مشكلة الماسح الكلاسيكية: دفعة خرجت جانبية لأن الورقة مرّت في المُلقِّم بالاتجاه الخطأ، أو مستند يُفتح مقلوبًا لأنه صُوِّر مُدارًا.\n\nيمكنك تدوير صفحة واحدة أو تحديد أو المستند كله بمقدار 90 أو 180 أو 270 درجة ثم الحفظ. يُكتَب التدوير داخل ملف PDF، فتبقى الصفحة قائمة الاتجاه أينما فُتحت — لا مائلة في عارضك أنت فقط. ولا يتغيّر شيء في محتوى الصفحة؛ اتجاهها فقط.\n\nولأن التدوير يُطبَّق في متصفحك، لا يُرفع المستند أبدًا. صحّح كومة مسوحات ونزّل ملفًا يُقرأ بشكل سليم على أي جهاز.",
+      faq: [
+        {
+          q: "هل يبقى التدوير حين يفتح غيري الملف؟",
+          a: "نعم. يُحفظ الاتجاه الجديد داخل ملف PDF نفسه، فيظهر بشكل صحيح في أي عارض، لا عارضك وحده.",
+        },
+        {
+          q: "هل يمكنني تدوير بعض الصفحات فقط؟",
+          a: "نعم. دوّر صفحة واحدة أو تحديدًا أو كل الصفحات — مفيد حين تخرج بضعة مسوحات جانبية فقط.",
+        },
+        {
+          q: "ما زوايا التدوير المتاحة؟",
+          a: "90 و180 و270 درجة، وهي تغطي الصفحات الجانبية والمقلوبة في أي اتجاه.",
+        },
+        {
+          q: "هل يغيّر التدوير محتوى الصفحة أو جودتها؟",
+          a: "لا. يتغيّر الاتجاه فقط؛ ويبقى النص والصور كما كانت تمامًا.",
+        },
+        {
+          q: "هل تُرفع ملفاتي لتدويرها؟",
+          a: "لا. يجري التدوير بالكامل في متصفحك، فتبقى مسوحاتك على جهازك.",
+        },
+      ],
+      steps: [
+        "ارفع ملف PDF ذا الصفحات المطلوب تدويرها.",
+        "اختر الصفحات وزاوية التدوير.",
+        "طبّق التدوير.",
+        "نزّل ملف PDF المصحَّح.",
+      ],
+    },
+  },
+
+  "watermark-pdf": {
+    related: ["sign-pdf", "merge-pdf", "split-pdf", "pdf"],
+    en: {
+      intro:
+        "Watermark PDF stamps text across your pages — DRAFT, CONFIDENTIAL, a company name, or a review-copy label — so the document's status travels with it. It's how you make sure a draft circulating for comment can't be mistaken for the final version, or that a sensitive file is clearly marked before it's shared.\n\nYou type the watermark text and place it over the pages, typically at an angle and semi-transparent so it's unmistakable without hiding the content underneath. The stamp is applied to every page (or the ones you choose) and saved into the file, so it shows up for everyone who opens it.\n\nThe watermark is added in your browser, so the document you're marking is never uploaded. Note that a text watermark is a visual overlay, not a security lock — it labels a document, it doesn't encrypt it or stop it being edited.",
+      faq: [
+        {
+          q: "What can I use as the watermark text?",
+          a: "Any short label — DRAFT, CONFIDENTIAL, a name, a date, or a review-copy note. It's placed across the pages so the status is obvious at a glance.",
+        },
+        {
+          q: "Does the watermark cover every page?",
+          a: "It's applied across the document, and you can target specific pages if you only need to mark part of it.",
+        },
+        {
+          q: "Will the watermark hide the text underneath?",
+          a: "No. It's usually drawn semi-transparent and angled, so the content stays readable while the label stays visible.",
+        },
+        {
+          q: "Is a watermark a form of security?",
+          a: "No — be clear on this. A watermark is a visual label, not encryption or edit protection. It signals status; it doesn't lock the file.",
+        },
+        {
+          q: "Are my files uploaded to watermark them?",
+          a: "No. The watermark is added locally in your browser, so the document stays on your device.",
+        },
+      ],
+      steps: [
+        "Upload the PDF to mark.",
+        "Type your watermark text and set its placement.",
+        "Apply it to the pages you want.",
+        "Download the watermarked PDF.",
+      ],
+    },
+    ar: {
+      intro:
+        "يختم «العلامة المائية على PDF» نصًا عبر صفحاتك — DRAFT أو CONFIDENTIAL أو اسم شركة أو وسم «نسخة للمراجعة» — فتنتقل حالة المستند معه. هكذا تضمن ألا تُخلَط مسوّدة متداولة للتعليق بالنسخة النهائية، وأن يُوسَم ملف حساس بوضوح قبل مشاركته.\n\nتكتب نص العلامة وتضعه فوق الصفحات، غالبًا بزاوية وشبه شفاف ليكون واضحًا دون أن يحجب المحتوى تحته. تُطبَّق العلامة على كل صفحة (أو التي تختارها) وتُحفظ في الملف، فتظهر لكل من يفتحه.\n\nتُضاف العلامة في متصفحك، فلا يُرفع المستند الذي توسمه أبدًا. لاحظ أن العلامة المائية النصية طبقة بصرية لا قفل أمان — فهي توسم المستند، ولا تشفّره ولا تمنع تعديله.",
+      faq: [
+        {
+          q: "ما النص الذي أستخدمه للعلامة المائية؟",
+          a: "أي وسم قصير — DRAFT أو CONFIDENTIAL أو اسم أو تاريخ أو ملاحظة «نسخة للمراجعة». يُوضَع عبر الصفحات لتكون الحالة بيّنة من النظرة الأولى.",
+        },
+        {
+          q: "هل تغطي العلامة كل صفحة؟",
+          a: "تُطبَّق على المستند كله، ويمكنك استهداف صفحات محددة إن أردت وسم جزء منه فقط.",
+        },
+        {
+          q: "هل تحجب العلامة النص تحتها؟",
+          a: "لا. تُرسَم عادةً شبه شفافة ومائلة فيبقى المحتوى مقروءًا والوسم ظاهرًا.",
+        },
+        {
+          q: "هل العلامة المائية شكل من الأمان؟",
+          a: "لا — كن واضحًا في هذا. العلامة المائية وسم بصري لا تشفير ولا حماية من التعديل. تشير إلى الحالة، ولا تقفل الملف.",
+        },
+        {
+          q: "هل تُرفع ملفاتي لوضع العلامة؟",
+          a: "لا. تُضاف العلامة محليًا في متصفحك، فيبقى المستند على جهازك.",
+        },
+      ],
+      steps: [
+        "ارفع ملف PDF المراد وسمه.",
+        "اكتب نص العلامة واضبط موضعها.",
+        "طبّقها على الصفحات التي تريدها.",
+        "نزّل ملف PDF الموسوم.",
+      ],
+    },
+  },
+
+  "sign-pdf": {
+    related: ["signature-maker", "watermark-pdf", "merge-pdf", "pdf"],
+    en: {
+      intro:
+        "Sign PDF lets you place your signature onto a document and save it back as a PDF — a lease you need to return, a contract, a school or medical consent form that has to come back signed today. Instead of printing, signing, and scanning, you drop your signature straight onto the page.\n\nYou add your signature — drawn, or uploaded as an image — position it on the signature line, size it, and place it wherever the form needs it, including a date or initials. The result is a flattened PDF you can email or upload.\n\nEverything happens in your browser, so a document with personal terms is never uploaded to a signing service. One honesty note, covered in the FAQ below: this places a picture of your signature on the page, which is what most everyday forms ask for — it is not a cryptographic e-signature.",
+      faq: [
+        {
+          q: "Is this a legally binding electronic signature?",
+          a: "Be clear on what it is: it places an image of your signature onto the page, the same as signing a printout. It is not a cryptographic e-signature that embeds a verified, tamper-evident identity certificate. For everyday leases, consent forms, and contracts that ask for a signature it's usually what's needed; where a certified digital signature is specifically required, use a dedicated e-signature service.",
+        },
+        {
+          q: "How do I create the signature?",
+          a: "Draw it with your mouse or finger, or upload an image of your handwritten signature. Want a typed signature font? Create it in the signature maker and upload it here.",
+        },
+        {
+          q: "Can I place the signature exactly on the line?",
+          a: "Yes. Move and resize it to sit on the signature line, and add a date or initials where the form needs them.",
+        },
+        {
+          q: "Are my documents uploaded to sign them?",
+          a: "No. Signing happens entirely in your browser, so the contract or form never leaves your device.",
+        },
+        {
+          q: "Can I reuse my signature or make a clean one first?",
+          a: "Yes. Create and download a transparent signature image with the signature maker, then upload it here to place on any document.",
+        },
+      ],
+      steps: [
+        "Upload the PDF you need to sign.",
+        "Add your signature by drawing or uploading it.",
+        "Position and size it on the signature line.",
+        "Download the signed PDF.",
+      ],
+    },
+    ar: {
+      intro:
+        "يتيح «توقيع PDF» وضع توقيعك على مستند وحفظه ملف PDF — عقد إيجار عليك إعادته، أو عقد، أو نموذج موافقة مدرسي أو طبي يجب أن يعود موقّعًا اليوم. فبدل الطباعة والتوقيع والمسح، تسقط توقيعك مباشرة على الصفحة.\n\nتضيف توقيعك — مرسومًا أو مرفوعًا كصورة — وتضعه على سطر التوقيع، وتضبط حجمه، وتضعه حيث يحتاج النموذج، بما في ذلك تاريخ أو أحرف أولى. والنتيجة ملف PDF مسطّح ترسله أو ترفعه.\n\nيجري كل شيء في متصفحك، فلا يُرفع مستند ببنود شخصية إلى خدمة توقيع. وملاحظة صدق واحدة موضّحة في الأسئلة أدناه: هذا يضع صورة لتوقيعك على الصفحة، وهو ما تطلبه أغلب النماذج اليومية — وليس توقيعًا إلكترونيًا تشفيريًا.",
+      faq: [
+        {
+          q: "هل هذا توقيع إلكتروني مُلزِم قانونيًا؟",
+          a: "كن واضحًا بما هو: يضع صورة لتوقيعك على الصفحة، تمامًا كالتوقيع على نسخة مطبوعة. وليس توقيعًا تشفيريًا يضمّن شهادة هوية موثّقة ومقاومة للعبث. بالنسبة لعقود الإيجار ونماذج الموافقة والعقود اليومية التي تطلب توقيعًا، هو عادةً ما يلزم؛ وحيث يُطلب توقيع رقمي معتمد تحديدًا، استخدم خدمة توقيع إلكتروني مخصصة.",
+        },
+        {
+          q: "كيف أنشئ التوقيع؟",
+          a: "ارسمه بالفأرة أو إصبعك، أو ارفع صورة لتوقيعك اليدوي. تريد خط توقيع مكتوبًا؟ أنشئه في صانع التوقيع ثم ارفعه هنا.",
+        },
+        {
+          q: "هل يمكنني وضع التوقيع على السطر بدقة؟",
+          a: "نعم. حرّكه وغيّر حجمه ليستقر على سطر التوقيع، وأضف تاريخًا أو أحرفًا أولى حيث يحتاج النموذج.",
+        },
+        {
+          q: "هل تُرفع مستنداتي لتوقيعها؟",
+          a: "لا. يجري التوقيع بالكامل في متصفحك، فلا يغادر العقد أو النموذج جهازك.",
+        },
+        {
+          q: "هل يمكنني إعادة استخدام توقيعي أو إنشاء واحد نظيف أولًا؟",
+          a: "نعم. أنشئ ونزّل صورة توقيع شفافة بأداة صانع التوقيع، ثم ارفعها هنا لوضعها على أي مستند.",
+        },
+      ],
+      steps: [
+        "ارفع ملف PDF الذي تريد توقيعه.",
+        "أضف توقيعك رسمًا أو رفعًا.",
+        "ضعه واضبط حجمه على سطر التوقيع.",
+        "نزّل ملف PDF الموقّع.",
+      ],
+    },
+  },
+
+  "extract-text-from-pdf": {
+    related: ["image-to-text", "split-pdf", "merge-pdf", "pdf"],
+    en: {
+      intro:
+        "Extract Text from PDF pulls the words out of a document as plain text you can copy, edit, or paste elsewhere — quoting a clause from a contract, repurposing a report's paragraphs into a new document, or feeding the content into another tool without retyping it.\n\nIt reads the PDF's text layer — the actual characters stored in the file — and hands them back as text, so a digitally created PDF (exported from a word processor, browser, or design app) extracts cleanly. Everything runs in your browser; the document isn't uploaded to pull its text.\n\nOne limitation to know up front: a scanned or photographed PDF is really an image of a page, with no text layer to read. Extraction returns little or nothing for those. To get words out of a scan, run it through OCR first with the image-to-text tool, which recognizes characters in a picture.",
+      faq: [
+        {
+          q: "Why did extraction return nothing from my PDF?",
+          a: "Your PDF is almost certainly a scan or photo — an image of the page with no underlying text layer, so there are no characters to read. Use an OCR tool to recognize the text in the image first.",
+        },
+        {
+          q: "What's the difference between this and OCR?",
+          a: "This reads text that's already stored in the file. OCR looks at a picture of text and recognizes the letters. For scanned pages you need OCR, such as the image-to-text tool.",
+        },
+        {
+          q: "Does it keep the original formatting?",
+          a: "It focuses on the words as plain text. Layout, fonts, and columns aren't preserved — you get clean, editable text to reuse.",
+        },
+        {
+          q: "Are my documents uploaded to extract the text?",
+          a: "No. Extraction runs entirely in your browser, so the document stays on your device.",
+        },
+        {
+          q: "Can I extract from just some pages?",
+          a: "You can extract the document's text and take the portion you need; for a specific chapter, split those pages out first.",
+        },
+      ],
+      steps: [
+        "Upload the PDF you want text from.",
+        "Let the tool read its text layer.",
+        "Review the extracted text.",
+        "Copy or download it.",
+      ],
+    },
+    ar: {
+      intro:
+        "يستخرج «استخراج النص من PDF» كلمات المستند نصًا عاديًا تنسخه أو تحرّره أو تلصقه في مكان آخر — اقتباس بند من عقد، أو إعادة توظيف فقرات تقرير في مستند جديد، أو تمرير المحتوى إلى أداة أخرى دون إعادة كتابته.\n\nتقرأ الأداة طبقة النص في ملف PDF — الأحرف الفعلية المخزّنة في الملف — وتعيدها نصًا، فيُستخرَج ملف PDF المُنشأ رقميًا (المُصدَّر من معالج نصوص أو متصفح أو برنامج تصميم) بنظافة. ويجري كل شيء في متصفحك؛ فلا يُرفع المستند لاستخراج نصه.\n\nقيد واحد ينبغي معرفته سلفًا: ملف PDF الممسوح أو المصوَّر هو في الحقيقة صورة لصفحة، بلا طبقة نص تُقرأ. ويعيد الاستخراج القليل أو لا شيء لتلك الملفات. لإخراج كلمات من مسح، مرّره أولًا عبر التعرّف الضوئي على الحروف بأداة «الصورة إلى نص» التي تتعرّف على الأحرف في الصورة.",
+      faq: [
+        {
+          q: "لماذا أعاد الاستخراج لا شيء من ملفي؟",
+          a: "ملفك على الأرجح مسح أو صورة — صورة للصفحة بلا طبقة نص تحتها، فلا توجد أحرف تُقرأ. استخدم أداة تعرّف ضوئي للتعرّف على النص في الصورة أولًا.",
+        },
+        {
+          q: "ما الفرق بين هذا والتعرّف الضوئي؟",
+          a: "هذا يقرأ نصًا مخزّنًا أصلًا في الملف. أما التعرّف الضوئي فينظر إلى صورة نص ويتعرّف على الحروف. للصفحات الممسوحة تحتاج التعرّف الضوئي، كأداة «الصورة إلى نص».",
+        },
+        {
+          q: "هل يحفظ التنسيق الأصلي؟",
+          a: "يركّز على الكلمات نصًا عاديًا. لا يُحفظ التخطيط ولا الخطوط ولا الأعمدة — تحصل على نص نظيف قابل للتحرير لإعادة استخدامه.",
+        },
+        {
+          q: "هل تُرفع مستنداتي لاستخراج النص؟",
+          a: "لا. يجري الاستخراج بالكامل في متصفحك، فيبقى المستند على جهازك.",
+        },
+        {
+          q: "هل يمكنني الاستخراج من بعض الصفحات فقط؟",
+          a: "يمكنك استخراج نص المستند وأخذ الجزء الذي تحتاجه؛ ولفصل محدد، قسّم تلك الصفحات أولًا.",
+        },
+      ],
+      steps: [
+        "ارفع ملف PDF الذي تريد نصه.",
+        "دع الأداة تقرأ طبقة نصه.",
+        "راجع النص المستخرَج.",
+        "انسخه أو نزّله.",
+      ],
+    },
+  },
+
+  "reorder-pdf-pages": {
+    related: ["rotate-pdf", "split-pdf", "merge-pdf", "pdf"],
+    en: {
+      intro:
+        "Reorder PDF Pages lets you rearrange, and remove, the pages inside a document. It's the cleanup step after scanning: pages that fed in out of sequence get dragged back into order, the blank back-sides the scanner captured get deleted, and a duplicated page gets dropped.\n\nYou see the pages as thumbnails, drag them into the right sequence, and remove the ones you don't want, then save a tidy PDF. The pages themselves are untouched — same text, same quality — only their order and which ones are included change.\n\nIt all runs in your browser, so a scanned document full of personal information is never uploaded just to be tidied. Fix the order once and download a clean file.",
+      faq: [
+        {
+          q: "Can I delete pages as well as reorder them?",
+          a: "Yes. Remove blank sides, duplicates, or any page you don't need, and drag the rest into the order you want.",
+        },
+        {
+          q: "Do I see the pages while arranging them?",
+          a: "Yes. Pages appear as thumbnails, so you can drag them into sequence and see exactly what you're removing.",
+        },
+        {
+          q: "Does reordering change the page content?",
+          a: "No. Only the sequence and inclusion change; each page keeps its original text and quality.",
+        },
+        {
+          q: "Is this different from merging or splitting?",
+          a: "Yes. Reorder works within one file — rearranging and removing its pages. Merge joins files; split writes pages out to separate files.",
+        },
+        {
+          q: "Are my files uploaded to reorder them?",
+          a: "No. Everything happens in your browser, so the document stays on your device.",
+        },
+      ],
+      steps: [
+        "Upload the PDF to tidy.",
+        "Drag the page thumbnails into the order you want.",
+        "Remove any blank or unwanted pages.",
+        "Download the reordered PDF.",
+      ],
+    },
+    ar: {
+      intro:
+        "يتيح «إعادة ترتيب صفحات PDF» إعادة ترتيب الصفحات داخل المستند وحذفها. إنه خطوة التنظيف بعد المسح: الصفحات التي دخلت خارج التسلسل تُسحَب إلى مكانها، والأوجه الخلفية الفارغة التي التقطها الماسح تُحذَف، والصفحة المكررة تُسقَط.\n\nترى الصفحات مصغّرات، فتسحبها إلى التسلسل الصحيح، وتزيل ما لا تريده، ثم تحفظ ملف PDF مرتّبًا. الصفحات نفسها لا تُمَس — النص نفسه والجودة نفسها — يتغيّر فقط ترتيبها وأيّها مُضمَّن.\n\nيجري كل ذلك في متصفحك، فلا يُرفع مستند ممسوح مليء بمعلومات شخصية لمجرد ترتيبه. صحّح الترتيب مرة ونزّل ملفًا نظيفًا.",
+      faq: [
+        {
+          q: "هل يمكنني حذف الصفحات كما أعيد ترتيبها؟",
+          a: "نعم. أزِل الأوجه الفارغة أو المكررة أو أي صفحة لا تحتاجها، واسحب البقية إلى الترتيب الذي تريده.",
+        },
+        {
+          q: "هل أرى الصفحات أثناء ترتيبها؟",
+          a: "نعم. تظهر الصفحات مصغّرات فتسحبها إلى التسلسل وترى بالضبط ما تزيله.",
+        },
+        {
+          q: "هل تغيّر إعادة الترتيب محتوى الصفحة؟",
+          a: "لا. يتغيّر التسلسل والتضمين فقط؛ وتحتفظ كل صفحة بنصها وجودتها الأصلية.",
+        },
+        {
+          q: "هل يختلف هذا عن الدمج أو التقسيم؟",
+          a: "نعم. إعادة الترتيب تعمل داخل ملف واحد — ترتّب صفحاته وتزيلها. الدمج يضم الملفات؛ والتقسيم يُخرِج الصفحات إلى ملفات منفصلة.",
+        },
+        {
+          q: "هل تُرفع ملفاتي لإعادة ترتيبها؟",
+          a: "لا. يجري كل شيء في متصفحك، فيبقى المستند على جهازك.",
+        },
+      ],
+      steps: [
+        "ارفع ملف PDF المراد ترتيبه.",
+        "اسحب مصغّرات الصفحات إلى الترتيب الذي تريده.",
+        "أزِل أي صفحة فارغة أو غير مرغوبة.",
+        "نزّل ملف PDF المُعاد ترتيبه.",
+      ],
+    },
+  },
+
+  "jpg-to-pdf": {
+    related: ["merge-pdf", "compress-pdf", "image-converter", "pdf"],
+    en: {
+      intro:
+        "JPG to PDF turns your images into a PDF — one photo per page, combined into a single document in the order you set. It's built for the everyday task of submitting photographed paperwork: you snap each page of a form, an ID, or a set of receipts with your phone, and need them delivered as one tidy PDF instead of a pile of loose image files.\n\nYou add the JPGs (PNG works too), arrange them, and the tool lays each one onto its own page and bundles them into a single PDF ready to email or upload. A portal that only accepts PDF, or a person who doesn't want ten separate attachments, gets exactly one file.\n\nThe conversion happens in your browser, so photos of personal documents are never uploaded to a server. There's no watermark and no account, so the finished PDF is clean and yours.",
+      faq: [
+        {
+          q: "Can I put several photos into one PDF?",
+          a: "Yes. Add all the images, arrange their order, and each becomes a page in a single combined PDF.",
+        },
+        {
+          q: "Can I control the page order?",
+          a: "Yes. Arrange the images before converting; they become pages in exactly that sequence.",
+        },
+        {
+          q: "Which image formats can I convert?",
+          a: "JPG is the common case, and PNG works too. To change a format first, the image converter handles that.",
+        },
+        {
+          q: "Are my photos uploaded to convert them?",
+          a: "No. The conversion runs entirely in your browser, so pictures of your documents stay on your device.",
+        },
+        {
+          q: "Will there be a watermark on the PDF?",
+          a: "No. The output is a clean PDF with no watermark and no account required.",
+        },
+      ],
+      steps: [
+        "Add the JPG or image files.",
+        "Arrange them into the page order you want.",
+        "Convert them into a single PDF.",
+        "Download the PDF.",
+      ],
+    },
+    ar: {
+      intro:
+        "يحوّل «JPG إلى PDF» صورك إلى ملف PDF — صورة واحدة لكل صفحة، مجمّعة في مستند واحد بالترتيب الذي تحدّده. صُمِّم للمهمة اليومية: تقديم أوراق مصوَّرة، فتلتقط كل صفحة من نموذج أو هوية أو مجموعة إيصالات بهاتفك، وتحتاج تسليمها ملف PDF واحدًا مرتّبًا بدل كومة ملفات صور متفرقة.\n\nتضيف صور JPG (وتعمل PNG أيضًا)، وترتّبها، فتضع الأداة كلًّا منها على صفحتها وتجمعها في ملف PDF واحد جاهز للإرسال أو الرفع. فبوابة لا تقبل إلا PDF، أو شخص لا يريد عشرة مرفقات منفصلة، يحصل على ملف واحد بالضبط.\n\nيجري التحويل في متصفحك، فلا تُرفع صور المستندات الشخصية إلى خادم. ولا علامة مائية ولا حساب، فيكون ملف PDF النهائي نظيفًا وملكك.",
+      faq: [
+        {
+          q: "هل يمكنني وضع عدة صور في ملف PDF واحد؟",
+          a: "نعم. أضف كل الصور، ورتّبها، فتصبح كل واحدة صفحة في ملف PDF واحد مجمّع.",
+        },
+        {
+          q: "هل يمكنني التحكم في ترتيب الصفحات؟",
+          a: "نعم. رتّب الصور قبل التحويل؛ فتصبح صفحات بهذا التسلسل تمامًا.",
+        },
+        {
+          q: "أي صيغ الصور يمكنني تحويلها؟",
+          a: "JPG هي الحالة الشائعة، وتعمل PNG أيضًا. ولتغيير الصيغة أولًا، يتولى محوّل الصور ذلك.",
+        },
+        {
+          q: "هل تُرفع صوري لتحويلها؟",
+          a: "لا. يجري التحويل بالكامل في متصفحك، فتبقى صور مستنداتك على جهازك.",
+        },
+        {
+          q: "هل ستكون هناك علامة مائية على ملف PDF؟",
+          a: "لا. الناتج ملف PDF نظيف بلا علامة مائية ودون حساب.",
+        },
+      ],
+      steps: [
+        "أضف ملفات JPG أو الصور.",
+        "رتّبها إلى ترتيب الصفحات الذي تريده.",
+        "حوّلها إلى ملف PDF واحد.",
+        "نزّل ملف PDF.",
       ],
     },
   },

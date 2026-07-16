@@ -500,7 +500,108 @@ export const tools: ToolCategory[] = [
         order: 1,
         creationDate: "2025-08-20",
         description:
-          "Merge PDFs, split or extract pages, and turn images into a PDF — all in your browser with no file size limits.",
+          "The full PDF workbench: merge, split, compress, rotate, reorder, watermark, sign, extract text, and turn images into PDFs — all in your browser.",
+      },
+      // SEO landing variants of PDF Tools — hidden from grid/count/related
+      // pools via `landingFor` (Task 2 infra).
+      {
+        name: "Merge PDF",
+        href: "/tools/merge-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 60,
+        creationDate: "2026-07-16",
+        description:
+          "Combine multiple PDF files into one document, in order, right in your browser.",
+        landingFor: "pdf",
+      },
+      {
+        name: "Split PDF",
+        href: "/tools/split-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 61,
+        creationDate: "2026-07-16",
+        description:
+          "Extract pages or page ranges from a PDF into separate files — no upload.",
+        landingFor: "pdf",
+      },
+      {
+        name: "Compress PDF",
+        href: "/tools/compress-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 62,
+        creationDate: "2026-07-16",
+        description:
+          "Shrink PDF file size in your browser with three quality presets.",
+        landingFor: "pdf",
+      },
+      {
+        name: "Rotate PDF",
+        href: "/tools/rotate-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 63,
+        creationDate: "2026-07-16",
+        description:
+          "Rotate PDF pages permanently — single pages or the whole document.",
+        landingFor: "pdf",
+      },
+      {
+        name: "Watermark PDF",
+        href: "/tools/watermark-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 64,
+        creationDate: "2026-07-16",
+        description:
+          "Stamp DRAFT, CONFIDENTIAL, or any text across every page of a PDF.",
+        landingFor: "pdf",
+      },
+      {
+        name: "Sign PDF",
+        href: "/tools/sign-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 65,
+        creationDate: "2026-07-16",
+        description:
+          "Draw or upload your signature and place it on any page — files never leave your device.",
+        landingFor: "pdf",
+      },
+      {
+        name: "Extract Text from PDF",
+        href: "/tools/extract-text-from-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 66,
+        creationDate: "2026-07-16",
+        description:
+          "Pull selectable text out of a PDF and copy or download it as .txt.",
+        landingFor: "pdf",
+      },
+      {
+        name: "Reorder PDF Pages",
+        href: "/tools/reorder-pdf-pages",
+        icon: FileTextIcon,
+        available: true,
+        order: 67,
+        creationDate: "2026-07-16",
+        description:
+          "Drag and drop to rearrange or delete PDF pages, then save.",
+        landingFor: "pdf",
+      },
+      {
+        name: "JPG to PDF",
+        href: "/tools/jpg-to-pdf",
+        icon: FileTextIcon,
+        available: true,
+        order: 68,
+        creationDate: "2026-07-16",
+        description:
+          "Turn JPG and PNG images into a single PDF with page size and margin controls.",
+        landingFor: "pdf",
       },
       {
         name: "Zip Tools",
@@ -1818,9 +1919,14 @@ export const getRelatedTools = (
   slug: string,
   limit = 3,
   pool: (Tool & { category: string })[] = getAllTools(),
-): { slug: string; href: string; icon: Tool["icon"] }[] => {
+): { slug: string; href: string; icon: Tool["icon"]; creationDate: string }[] => {
   const slugOf = (t: { href: string }) => t.href.split("/").pop() as string;
-  const toEntry = (t: Tool) => ({ slug: slugOf(t), href: t.href, icon: t.icon });
+  const toEntry = (t: Tool) => ({
+    slug: slugOf(t),
+    href: t.href,
+    icon: t.icon,
+    creationDate: t.creationDate,
+  });
   const self = pool.find((t) => slugOf(t) === slug);
   if (!self) return [];
 

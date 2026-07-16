@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "أدوات PDF",
-        "description": "ادمج ملفات PDF، وقسّم الصفحات أو استخرجها، وحوّل الصور إلى PDF — كل ذلك في متصفحك دون حدود لحجم الملف."
+        "description": "ورشة عمل PDF الكاملة: دمج، تقسيم، ضغط، تدوير، إعادة ترتيب، وضع علامة مائية، توقيع، استخراج النص، وتحويل الصور إلى PDF — كل ذلك في متصفحك."
+      },
+      "merge-pdf": {
+        "name": "دمج PDF",
+        "description": "ادمج عدة ملفات PDF في مستند واحد، بالترتيب الذي تريده، مباشرة في متصفحك."
+      },
+      "split-pdf": {
+        "name": "تقسيم PDF",
+        "description": "استخرج صفحات أو نطاقات صفحات من ملف PDF إلى ملفات منفصلة — بلا رفع."
+      },
+      "compress-pdf": {
+        "name": "ضغط PDF",
+        "description": "قلّل حجم ملف PDF في متصفحك باستخدام ثلاثة مستويات جودة."
+      },
+      "rotate-pdf": {
+        "name": "تدوير PDF",
+        "description": "دوّر صفحات PDF بشكل دائم — صفحة واحدة أو المستند كاملاً."
+      },
+      "watermark-pdf": {
+        "name": "علامة مائية على PDF",
+        "description": "اطبع DRAFT أو CONFIDENTIAL أو أي نص عبر كل صفحات ملف PDF."
+      },
+      "sign-pdf": {
+        "name": "توقيع PDF",
+        "description": "ارسم توقيعك أو حمّله وضعه في أي صفحة — الملفات لا تغادر جهازك أبداً."
+      },
+      "extract-text-from-pdf": {
+        "name": "استخراج النص من PDF",
+        "description": "استخرج النص القابل للتحديد من ملف PDF، وانسخه أو نزّله بصيغة TXT."
+      },
+      "reorder-pdf-pages": {
+        "name": "إعادة ترتيب صفحات PDF",
+        "description": "اسحب وأفلت لإعادة ترتيب صفحات PDF أو حذفها، ثم احفظ."
+      },
+      "jpg-to-pdf": {
+        "name": "JPG إلى PDF",
+        "description": "حوّل صور JPG وPNG إلى ملف PDF واحد مع التحكم في حجم الصفحة والهوامش."
       },
       "zip": {
         "name": "أدوات ZIP",
@@ -940,6 +976,12 @@
       "tabImagesToPdf": "الصور إلى PDF",
       "tabMerge": "دمج",
       "tabSplit": "تقسيم / استخراج",
+      "tabCompress": "ضغط",
+      "tabRotate": "تدوير",
+      "tabReorder": "إعادة ترتيب",
+      "tabWatermark": "علامة مائية",
+      "tabExtract": "استخراج النص",
+      "tabSign": "توقيع",
       "dropImagesHere": "أفلت الصور هنا أو انقر للاختيار",
       "supportedImageFormats": "JPG و PNG • ملفات متعددة قابلة لإعادة الترتيب",
       "pageSize": "حجم الصفحة",
@@ -964,7 +1006,69 @@
       "moveUp": "تحريك لأعلى",
       "moveDown": "تحريك لأسفل",
       "remove": "إزالة",
-      "preview": "معاينة"
+      "preview": "معاينة",
+      "compressLevel": "مستوى الضغط",
+      "compressHigh": "جودة عالية",
+      "compressHighHint": "حجم أكبر، أفضل دقة",
+      "compressBalanced": "متوازن",
+      "compressBalancedHint": "حجم وجودة جيدان",
+      "compressSmall": "حجم صغير",
+      "compressSmallHint": "أصغر حجم، دقة أقل",
+      "compressRasterNote": "الضغط يحوّل كل صفحة إلى صورة، لذلك يُفقد النص القابل للتحديد والرسومات المتجهة الحادة. هذا الخيار الأنسب للملفات الممسوحة ضوئياً أو الغنية بالصور.",
+      "applyCompress": "ضغط PDF",
+      "compressing": "جارٍ الضغط...",
+      "compressBefore": "قبل",
+      "compressAfter": "بعد",
+      "compressReduction": "التخفيض",
+      "rotateHint": "انقر على صفحة لتدويرها 90° باتجاه عقارب الساعة. استخدم الأزرار لتدوير جميع الصفحات دفعة واحدة.",
+      "rotateAllCw": "تدوير الكل يميناً",
+      "rotateAllCcw": "تدوير الكل يساراً",
+      "applyRotate": "تطبيق التدوير",
+      "rotating": "جارٍ التدوير...",
+      "rotatedBadge": "{degrees}°",
+      "rotatePage": "الصفحة {number}",
+      "renderingPages": "جارٍ عرض الصفحات...",
+      "rotateApplied": "تم تطبيق التدوير على {count} صفحة/صفحات!",
+      "noChangesToApply": "لا توجد تغييرات لتطبيقها",
+      "dragToReorderPages": "اسحب الصفحات لتغيير ترتيبها. استخدم زر ✕ لإزالة صفحة.",
+      "deletePage": "حذف الصفحة {number}",
+      "applyReorder": "تطبيق الترتيب",
+      "reordering": "جارٍ التطبيق...",
+      "reorderApplied": "تمت إعادة ترتيب الصفحات! تم حفظ {count} صفحة/صفحات.",
+      "errorReordering": "خطأ في إعادة ترتيب الصفحات",
+      "watermarkTextLabel": "نص العلامة المائية",
+      "watermarkTextPlaceholder": "أدخل نص العلامة المائية",
+      "watermarkFontSize": "حجم الخط",
+      "watermarkOpacity": "الشفافية",
+      "watermarkPlacement": "الموضع",
+      "watermarkColor": "اللون",
+      "anchorDiagonal": "قطري",
+      "anchorCenter": "الوسط",
+      "anchorTopLeft": "أعلى اليسار",
+      "anchorTopRight": "أعلى اليمين",
+      "anchorBottomLeft": "أسفل اليسار",
+      "anchorBottomRight": "أسفل اليمين",
+      "watermarkAppliedOnExport": "توضع العلامة المائية على كل صفحة عند التطبيق — لا توجد معاينة مباشرة في هذه الخطوة.",
+      "applyWatermark": "إضافة علامة مائية",
+      "watermarking": "جارٍ إضافة العلامة المائية...",
+      "watermarkApplied": "تمت إضافة العلامة المائية!",
+      "errorWatermarking": "خطأ في إضافة العلامة المائية",
+      "extractAction": "استخراج النص",
+      "extracting": "جارٍ الاستخراج...",
+      "extractResultTitle": "النص المستخرج",
+      "extractEmptyNotice": "لم يتم العثور على طبقة نص — يبدو أن هذا ملف ممسوح ضوئياً أو يحتوي على صور فقط.",
+      "extractEmptyLink": "جرّب أداة تحويل الصورة إلى نص",
+      "errorExtracting": "تعذّر استخراج النص من هذا الملف.",
+      "signSourceLabel": "مصدر التوقيع",
+      "signSourceDraw": "رسم",
+      "signSourceUpload": "تحميل PNG",
+      "signUploadHint": "أفلت توقيع PNG هنا، أو انقر للاختيار",
+      "signPageLabel": "الصفحة",
+      "signBoxLabel": "موضع التوقيع",
+      "applySign": "توقيع PDF",
+      "signing": "جارٍ التوقيع...",
+      "signApplied": "الملف الموقّع جاهز للتنزيل.",
+      "errorSigning": "تعذّر توقيع هذا الملف."
     },
     "ZipTools": {
       "createZip": "إنشاء ZIP",
@@ -2446,7 +2550,16 @@
       "clientAddressPlaceholder": "عنوان العميل",
       "itemDescriptionPlaceholder": "وصف المنتج أو الخدمة",
       "notesPlaceholder": "ملاحظات إضافية...",
-      "termsPlaceholder": "شروط وأحكام الدفع..."
+      "termsPlaceholder": "شروط وأحكام الدفع...",
+      "templatesTitle": "القالب",
+      "templateClassic": "كلاسيكي",
+      "templateModern": "عصري",
+      "templateCompact": "مضغوط",
+      "proBadge": "Pro",
+      "proComingSoon": "قوالب Pro قادمة قريباً.",
+      "proUnlockCta": "فتح Pro",
+      "proUnlockedToast": "تم فتح قوالب Pro!",
+      "apiWaitlist": "بحاجة إلى واجهة برمجة تطبيقات للفواتير؟ انضم إلى قائمة الانتظار"
     },
     "NumberBaseConverter": {
       "title": "محوّل قاعدة الأعداد",

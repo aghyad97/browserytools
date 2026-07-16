@@ -35,6 +35,8 @@ export interface ClientDetails {
   phone: string;
 }
 
+export type InvoiceTemplateId = "classic" | "modern" | "compact";
+
 export interface InvoiceData {
   id: string;
   invoiceNumber: string;
@@ -52,6 +54,7 @@ export interface InvoiceData {
   terms: string;
   currency: string;
   pageSize: "a4" | "letter";
+  templateId: InvoiceTemplateId;
   createdAt: string;
   updatedAt: string;
 }
@@ -124,6 +127,7 @@ const createDefaultInvoice = (): InvoiceData => ({
   terms: "Payment is due within 30 days of invoice date.",
   currency: getCurrency(),
   pageSize: "a4",
+  templateId: "classic",
   createdAt: new Date().toISOString(),
   updatedAt: new Date().toISOString(),
 });
@@ -133,8 +137,12 @@ const createIndexedDBStorage = () => {
   const dbName = "InvoiceDB";
   const storeName = "invoices";
 
+  const hasIndexedDB = () =>
+    typeof indexedDB !== "undefined" && indexedDB !== null;
+
   return {
     getItem: async (name: string): Promise<string | null> => {
+      if (!hasIndexedDB()) return null;
       return new Promise((resolve, reject) => {
         const request = indexedDB.open(dbName, 1);
 
@@ -163,6 +171,7 @@ const createIndexedDBStorage = () => {
     },
 
     setItem: async (name: string, value: string): Promise<void> => {
+      if (!hasIndexedDB()) return;
       return new Promise((resolve, reject) => {
         const request = indexedDB.open(dbName, 1);
 
@@ -187,6 +196,7 @@ const createIndexedDBStorage = () => {
     },
 
     removeItem: async (name: string): Promise<void> => {
+      if (!hasIndexedDB()) return;
       return new Promise((resolve, reject) => {
         const request = indexedDB.open(dbName, 1);
 

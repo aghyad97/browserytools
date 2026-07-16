@@ -32,6 +32,12 @@ import {
   Image as ImageIcon,
   Download,
   X,
+  Minimize2,
+  RotateCw,
+  ListOrdered,
+  Stamp,
+  FileText,
+  PenLine,
 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
@@ -40,6 +46,13 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
+import { type WorkbenchOp } from "@/components/pdf-workbench/ops";
+import { CompressPanel } from "@/components/pdf-workbench/CompressPanel";
+import { RotatePanel } from "@/components/pdf-workbench/RotatePanel";
+import { ReorderPanel } from "@/components/pdf-workbench/ReorderPanel";
+import { WatermarkPanel } from "@/components/pdf-workbench/WatermarkPanel";
+import { ExtractPanel } from "@/components/pdf-workbench/ExtractPanel";
+import { SignPanel } from "@/components/pdf-workbench/SignPanel";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -77,7 +90,10 @@ function downloadPdfBytes(data: Uint8Array, filename: string) {
   downloadBlob(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
 }
 
-export default function PDFTools() {
+export default function PDFTools({
+  slug = "pdf",
+  preset,
+}: { slug?: string; preset?: { op?: WorkbenchOp } } = {}) {
   const t = useTranslations("Tools.PDFTools");
   const tc = useTranslations("ToolsConfig");
 
@@ -379,12 +395,12 @@ export default function PDFTools() {
 
   return (
     <ToolShell
-      slug="pdf"
-      title={tc("tools.pdf.name")}
-      sub={tc("tools.pdf.description")}
+      slug={slug}
+      title={tc(`tools.${slug}.name` as never)}
+      sub={tc(`tools.${slug}.description` as never)}
     >
       <div className="space-y-6">
-          <Tabs defaultValue="images" className="w-full">
+          <Tabs defaultValue={preset?.op ?? "images"} className="w-full">
             <TabsList className="flex-wrap h-auto">
               <TabsTrigger value="images">
                 <ImageIcon className="w-4 h-4 me-2" />
@@ -397,6 +413,30 @@ export default function PDFTools() {
               <TabsTrigger value="split">
                 <SplitSquareHorizontal className="w-4 h-4 me-2" />
                 {t("tabSplit")}
+              </TabsTrigger>
+              <TabsTrigger value="compress">
+                <Minimize2 className="w-4 h-4 me-2" />
+                {t("tabCompress")}
+              </TabsTrigger>
+              <TabsTrigger value="rotate">
+                <RotateCw className="w-4 h-4 me-2" />
+                {t("tabRotate")}
+              </TabsTrigger>
+              <TabsTrigger value="reorder">
+                <ListOrdered className="w-4 h-4 me-2" />
+                {t("tabReorder")}
+              </TabsTrigger>
+              <TabsTrigger value="watermark">
+                <Stamp className="w-4 h-4 me-2" />
+                {t("tabWatermark")}
+              </TabsTrigger>
+              <TabsTrigger value="extract">
+                <FileText className="w-4 h-4 me-2" />
+                {t("tabExtract")}
+              </TabsTrigger>
+              <TabsTrigger value="sign">
+                <PenLine className="w-4 h-4 me-2" />
+                {t("tabSign")}
               </TabsTrigger>
             </TabsList>
 
@@ -729,6 +769,36 @@ export default function PDFTools() {
                   </Button>
                 </SettingsCard>
               )}
+            </TabsContent>
+
+            {/* ── Compress ─────────────────────────────────────────────── */}
+            <TabsContent value="compress" className="space-y-6">
+              <CompressPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Rotate ───────────────────────────────────────────────── */}
+            <TabsContent value="rotate" className="space-y-6">
+              <RotatePanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Reorder ──────────────────────────────────────────────── */}
+            <TabsContent value="reorder" className="space-y-6">
+              <ReorderPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Watermark ────────────────────────────────────────────── */}
+            <TabsContent value="watermark" className="space-y-6">
+              <WatermarkPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Extract text ─────────────────────────────────────────── */}
+            <TabsContent value="extract" className="space-y-6">
+              <ExtractPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Sign ─────────────────────────────────────────────────── */}
+            <TabsContent value="sign" className="space-y-6">
+              <SignPanel files={files} onDropPdf={onDropPdf} />
             </TabsContent>
           </Tabs>
 

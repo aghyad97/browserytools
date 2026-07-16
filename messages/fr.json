@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "Outils PDF",
-        "description": "Fusionnez des PDF, divisez ou extrayez des pages et transformez des images en PDF — le tout dans votre navigateur, sans limite de taille."
+        "description": "L'atelier PDF complet : fusionnez, divisez, compressez, faites pivoter, réorganisez, filigranez, signez, extrayez le texte et transformez des images en PDF — tout dans votre navigateur."
+      },
+      "merge-pdf": {
+        "name": "Fusionner des PDF",
+        "description": "Combinez plusieurs fichiers PDF en un seul document, dans l'ordre, directement dans votre navigateur."
+      },
+      "split-pdf": {
+        "name": "Diviser un PDF",
+        "description": "Extrayez des pages ou des plages de pages d'un PDF vers des fichiers séparés — sans envoi en ligne."
+      },
+      "compress-pdf": {
+        "name": "Compresser un PDF",
+        "description": "Réduisez la taille d'un fichier PDF dans votre navigateur grâce à trois préréglages de qualité."
+      },
+      "rotate-pdf": {
+        "name": "Faire pivoter un PDF",
+        "description": "Faites pivoter les pages d'un PDF de façon permanente — une seule page ou tout le document."
+      },
+      "watermark-pdf": {
+        "name": "Filigraner un PDF",
+        "description": "Apposez BROUILLON, CONFIDENTIEL ou tout autre texte sur chaque page d'un PDF."
+      },
+      "sign-pdf": {
+        "name": "Signer un PDF",
+        "description": "Dessinez ou importez votre signature et placez-la sur n'importe quelle page — vos fichiers ne quittent jamais votre appareil."
+      },
+      "extract-text-from-pdf": {
+        "name": "Extraire le texte d'un PDF",
+        "description": "Récupérez le texte sélectionnable d'un PDF et copiez-le ou téléchargez-le au format .txt."
+      },
+      "reorder-pdf-pages": {
+        "name": "Réorganiser les pages d'un PDF",
+        "description": "Glissez-déposez pour réorganiser ou supprimer des pages de PDF, puis enregistrez."
+      },
+      "jpg-to-pdf": {
+        "name": "JPG vers PDF",
+        "description": "Transformez des images JPG et PNG en un seul PDF avec des réglages de taille de page et de marge."
       },
       "zip": {
         "name": "Outils Zip",
@@ -940,6 +976,12 @@
       "tabImagesToPdf": "Images vers PDF",
       "tabMerge": "Fusionner",
       "tabSplit": "Diviser / Extraire",
+      "tabCompress": "Compresser",
+      "tabRotate": "Pivoter",
+      "tabReorder": "Réorganiser",
+      "tabWatermark": "Filigrane",
+      "tabExtract": "Extraire le texte",
+      "tabSign": "Signer",
       "dropImagesHere": "Déposez des images ici ou cliquez pour sélectionner",
       "supportedImageFormats": "JPG et PNG • Plusieurs fichiers, réordonnables",
       "pageSize": "Taille de page",
@@ -964,7 +1006,69 @@
       "moveUp": "Monter",
       "moveDown": "Descendre",
       "remove": "Retirer",
-      "preview": "Aperçu"
+      "preview": "Aperçu",
+      "compressLevel": "Niveau de compression",
+      "compressHigh": "Haute qualité",
+      "compressHighHint": "Fichier plus volumineux, meilleure fidélité",
+      "compressBalanced": "Équilibré",
+      "compressBalancedHint": "Bon compromis taille/qualité",
+      "compressSmall": "Fichier léger",
+      "compressSmallHint": "Taille minimale, fidélité réduite",
+      "compressRasterNote": "La compression transforme chaque page en image, ce qui fait perdre le texte sélectionnable et la netteté des vecteurs. Idéal pour les PDF scannés ou riches en images.",
+      "applyCompress": "Compresser le PDF",
+      "compressing": "Compression…",
+      "compressBefore": "Avant",
+      "compressAfter": "Après",
+      "compressReduction": "Réduction",
+      "rotateHint": "Cliquez sur une page pour la faire pivoter de 90° dans le sens horaire. Utilisez les boutons pour faire pivoter toutes les pages à la fois.",
+      "rotateAllCw": "Tout pivoter à droite",
+      "rotateAllCcw": "Tout pivoter à gauche",
+      "applyRotate": "Appliquer la rotation",
+      "rotating": "Rotation…",
+      "rotatedBadge": "{degrees}°",
+      "rotatePage": "Page {number}",
+      "renderingPages": "Rendu des pages…",
+      "rotateApplied": "Rotation appliquée à {count} page(s) !",
+      "noChangesToApply": "Aucune modification à appliquer",
+      "dragToReorderPages": "Faites glisser les pages pour changer leur ordre. Utilisez le bouton ✕ pour supprimer une page.",
+      "deletePage": "Supprimer la page {number}",
+      "applyReorder": "Appliquer l'ordre",
+      "reordering": "Application…",
+      "reorderApplied": "Pages réorganisées ! {count} page(s) enregistrée(s).",
+      "errorReordering": "Erreur lors de la réorganisation des pages",
+      "watermarkTextLabel": "Texte du filigrane",
+      "watermarkTextPlaceholder": "Saisissez le texte du filigrane",
+      "watermarkFontSize": "Taille de police",
+      "watermarkOpacity": "Opacité",
+      "watermarkPlacement": "Emplacement",
+      "watermarkColor": "Couleur",
+      "anchorDiagonal": "Diagonale",
+      "anchorCenter": "Centre",
+      "anchorTopLeft": "En haut à gauche",
+      "anchorTopRight": "En haut à droite",
+      "anchorBottomLeft": "En bas à gauche",
+      "anchorBottomRight": "En bas à droite",
+      "watermarkAppliedOnExport": "Le filigrane est apposé sur chaque page au moment de l'application — il n'y a pas d'aperçu en direct à cette étape.",
+      "applyWatermark": "Ajouter le filigrane",
+      "watermarking": "Ajout du filigrane…",
+      "watermarkApplied": "Filigrane ajouté !",
+      "errorWatermarking": "Erreur lors de l'ajout du filigrane",
+      "extractAction": "Extraire le texte",
+      "extracting": "Extraction…",
+      "extractResultTitle": "Texte extrait",
+      "extractEmptyNotice": "Aucune couche de texte trouvée — ce PDF semble être scanné ou composé uniquement d'images.",
+      "extractEmptyLink": "Essayer Image vers texte",
+      "errorExtracting": "Impossible d'extraire le texte de ce PDF.",
+      "signSourceLabel": "Source de la signature",
+      "signSourceDraw": "Dessiner",
+      "signSourceUpload": "Importer un PNG",
+      "signUploadHint": "Déposez une signature PNG, ou cliquez pour en choisir une",
+      "signPageLabel": "Page",
+      "signBoxLabel": "Emplacement de la signature",
+      "applySign": "Signer le PDF",
+      "signing": "Signature…",
+      "signApplied": "PDF signé prêt à télécharger.",
+      "errorSigning": "Impossible de signer ce PDF."
     },
     "ZipTools": {
       "createZip": "Créer un ZIP",
@@ -2446,7 +2550,16 @@
       "clientAddressPlaceholder": "123 rue du Client",
       "itemDescriptionPlaceholder": "Description du produit ou du service",
       "notesPlaceholder": "Notes ou commentaires supplémentaires…",
-      "termsPlaceholder": "Conditions de paiement…"
+      "termsPlaceholder": "Conditions de paiement…",
+      "templatesTitle": "Modèle",
+      "templateClassic": "Classique",
+      "templateModern": "Moderne",
+      "templateCompact": "Compact",
+      "proBadge": "Pro",
+      "proComingSoon": "Les modèles Pro arrivent bientôt.",
+      "proUnlockCta": "Débloquer Pro",
+      "proUnlockedToast": "Modèles Pro débloqués !",
+      "apiWaitlist": "Besoin d'une API de facturation ? Rejoignez la liste d'attente"
     },
     "NumberBaseConverter": {
       "title": "Convertisseur de base numérique",

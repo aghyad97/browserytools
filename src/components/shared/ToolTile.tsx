@@ -13,14 +13,17 @@
  * grid never animates while the landing's does.
  */
 
+import { useEffect, useState } from "react";
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   Tooltip,
   TooltipContent,
   TooltipProvider,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
+import { isToolNew } from "@/lib/tools-config";
 import s from "./ToolTile.module.css";
 
 export interface ToolTileProps {
@@ -47,6 +50,11 @@ export interface ToolTileProps {
   /** Localized tool description — shown in a hover tooltip when provided
       (parity with the pre-redesign ToolCard behavior). */
   description?: string;
+  /** ISO creation date (YYYY-MM-DD). Inside the isToolNew window the tile shows
+      the "NEW" pill (parity with the pre-redesign ToolCard badge). Passed as a
+      raw date rather than a precomputed boolean on purpose — see the mount gate
+      in the component body. */
+  creationDate?: string;
 }
 
 export function ToolTile({
@@ -61,7 +69,20 @@ export function ToolTile({
   style,
   testId,
   description,
+  creationDate,
 }: ToolTileProps) {
+  const tCommon = useTranslations("Common");
+
+  /* isToolNew() reads the clock, so it can disagree between the build that
+     prerendered this page and the browser rendering it — a page built inside a
+     tool's 15-day window but visited after it lapses would ship "new" in its
+     static HTML and then drop it on hydration (mismatch + a visible flicker).
+     Gating on mount keeps the mark out of the server HTML entirely: it is
+     decorative, so paying one frame for it is cheaper than being wrong. */
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
+  const showNew = mounted && !!creationDate && isToolNew(creationDate);
+
   const tile = (
     <Link
       href={href}
@@ -84,6 +105,11 @@ export function ToolTile({
         </span>
         <span className={s.tileCat}>{catLabel}</span>
       </span>
+      {showNew && (
+        <span className={s.newBadge} data-testid="tool-tile-new">
+          {tCommon("new")}
+        </span>
+      )}
     </Link>
   );
 

@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "Alat PDF",
-        "description": "Gabungkan PDF, pisah atau ekstrak halaman, dan ubah gambar menjadi PDF — semuanya di browser tanpa batas ukuran file."
+        "description": "Ruang kerja PDF lengkap: gabungkan, pisahkan, kompres, putar, atur ulang, watermark, tanda tangani, ekstrak teks, dan ubah gambar menjadi PDF — semuanya di browser Anda."
+      },
+      "merge-pdf": {
+        "name": "Gabungkan PDF",
+        "description": "Gabungkan beberapa berkas PDF menjadi satu dokumen, sesuai urutan, langsung di browser Anda."
+      },
+      "split-pdf": {
+        "name": "Pisahkan PDF",
+        "description": "Ekstrak halaman atau rentang halaman dari PDF menjadi berkas terpisah — tanpa unggah."
+      },
+      "compress-pdf": {
+        "name": "Kompres PDF",
+        "description": "Perkecil ukuran berkas PDF di browser Anda dengan tiga preset kualitas."
+      },
+      "rotate-pdf": {
+        "name": "Putar PDF",
+        "description": "Putar halaman PDF secara permanen — satu halaman atau seluruh dokumen."
+      },
+      "watermark-pdf": {
+        "name": "Watermark PDF",
+        "description": "Cap teks DRAFT, CONFIDENTIAL, atau teks apa pun di setiap halaman PDF."
+      },
+      "sign-pdf": {
+        "name": "Tanda Tangani PDF",
+        "description": "Gambar atau unggah tanda tangan Anda dan tempatkan di halaman mana pun — berkas tidak pernah meninggalkan perangkat Anda."
+      },
+      "extract-text-from-pdf": {
+        "name": "Ekstrak Teks dari PDF",
+        "description": "Ambil teks yang dapat dipilih dari PDF dan salin atau unduh sebagai .txt."
+      },
+      "reorder-pdf-pages": {
+        "name": "Atur Ulang Halaman PDF",
+        "description": "Seret dan lepas untuk menyusun ulang atau menghapus halaman PDF, lalu simpan."
+      },
+      "jpg-to-pdf": {
+        "name": "JPG ke PDF",
+        "description": "Ubah gambar JPG dan PNG menjadi satu PDF dengan kontrol ukuran halaman dan margin."
       },
       "zip": {
         "name": "Alat Zip",
@@ -940,6 +976,12 @@
       "tabImagesToPdf": "Gambar ke PDF",
       "tabMerge": "Gabungkan",
       "tabSplit": "Pisahkan / Ekstrak",
+      "tabCompress": "Kompres",
+      "tabRotate": "Putar",
+      "tabReorder": "Atur Ulang",
+      "tabWatermark": "Watermark",
+      "tabExtract": "Ekstrak teks",
+      "tabSign": "Tanda Tangan",
       "dropImagesHere": "Letakkan gambar di sini atau klik untuk memilih",
       "supportedImageFormats": "JPG dan PNG • Beberapa berkas, dapat diurutkan ulang",
       "pageSize": "Ukuran halaman",
@@ -964,7 +1006,69 @@
       "moveUp": "Pindah ke atas",
       "moveDown": "Pindah ke bawah",
       "remove": "Hapus",
-      "preview": "Pratinjau"
+      "preview": "Pratinjau",
+      "compressLevel": "Tingkat kompresi",
+      "compressHigh": "Kualitas tinggi",
+      "compressHighHint": "Berkas lebih besar, fidelitas terbaik",
+      "compressBalanced": "Seimbang",
+      "compressBalancedHint": "Ukuran dan kualitas yang baik",
+      "compressSmall": "Berkas kecil",
+      "compressSmallHint": "Ukuran terkecil, fidelitas lebih rendah",
+      "compressRasterNote": "Kompresi mengubah setiap halaman menjadi gambar (rasterisasi), sehingga teks yang dapat dipilih dan vektor tajam akan hilang. Paling cocok untuk PDF hasil pindai atau yang didominasi gambar.",
+      "applyCompress": "Kompres PDF",
+      "compressing": "Mengompres…",
+      "compressBefore": "Sebelum",
+      "compressAfter": "Sesudah",
+      "compressReduction": "Pengurangan",
+      "rotateHint": "Klik halaman untuk memutarnya 90° searah jarum jam. Gunakan tombol untuk memutar semua halaman sekaligus.",
+      "rotateAllCw": "Putar semua ke kanan",
+      "rotateAllCcw": "Putar semua ke kiri",
+      "applyRotate": "Terapkan rotasi",
+      "rotating": "Memutar…",
+      "rotatedBadge": "{degrees}°",
+      "rotatePage": "Halaman {number}",
+      "renderingPages": "Merender halaman…",
+      "rotateApplied": "Rotasi diterapkan ke {count} halaman!",
+      "noChangesToApply": "Tidak ada perubahan untuk diterapkan",
+      "dragToReorderPages": "Seret halaman untuk mengubah urutannya. Gunakan tombol ✕ untuk menghapus halaman.",
+      "deletePage": "Hapus halaman {number}",
+      "applyReorder": "Terapkan urutan",
+      "reordering": "Menerapkan…",
+      "reorderApplied": "Halaman diatur ulang! Menyimpan {count} halaman.",
+      "errorReordering": "Galat mengatur ulang halaman",
+      "watermarkTextLabel": "Teks watermark",
+      "watermarkTextPlaceholder": "Masukkan teks watermark",
+      "watermarkFontSize": "Ukuran font",
+      "watermarkOpacity": "Opasitas",
+      "watermarkPlacement": "Penempatan",
+      "watermarkColor": "Warna",
+      "anchorDiagonal": "Diagonal",
+      "anchorCenter": "Tengah",
+      "anchorTopLeft": "Kiri atas",
+      "anchorTopRight": "Kanan atas",
+      "anchorBottomLeft": "Kiri bawah",
+      "anchorBottomRight": "Kanan bawah",
+      "watermarkAppliedOnExport": "Watermark akan dicap ke setiap halaman saat Anda menerapkannya — tidak ada pratinjau langsung pada tahap ini.",
+      "applyWatermark": "Tambahkan watermark",
+      "watermarking": "Menambahkan watermark…",
+      "watermarkApplied": "Watermark ditambahkan!",
+      "errorWatermarking": "Galat menambahkan watermark",
+      "extractAction": "Ekstrak teks",
+      "extracting": "Mengekstrak…",
+      "extractResultTitle": "Teks hasil ekstraksi",
+      "extractEmptyNotice": "Tidak ditemukan lapisan teks — ini tampaknya PDF hasil pindai atau hanya berisi gambar.",
+      "extractEmptyLink": "Coba Gambar ke Teks",
+      "errorExtracting": "Tidak dapat mengekstrak teks dari PDF ini.",
+      "signSourceLabel": "Sumber tanda tangan",
+      "signSourceDraw": "Gambar",
+      "signSourceUpload": "Unggah PNG",
+      "signUploadHint": "Letakkan tanda tangan PNG di sini, atau klik untuk memilih",
+      "signPageLabel": "Halaman",
+      "signBoxLabel": "Penempatan tanda tangan",
+      "applySign": "Tanda Tangani PDF",
+      "signing": "Menandatangani…",
+      "signApplied": "PDF yang ditandatangani siap diunduh.",
+      "errorSigning": "Tidak dapat menandatangani PDF ini."
     },
     "ZipTools": {
       "createZip": "Buat ZIP",
@@ -2446,7 +2550,16 @@
       "clientAddressPlaceholder": "Jl. Klien 123",
       "itemDescriptionPlaceholder": "Deskripsi produk atau layanan",
       "notesPlaceholder": "Catatan atau komentar tambahan...",
-      "termsPlaceholder": "Syarat dan ketentuan pembayaran..."
+      "termsPlaceholder": "Syarat dan ketentuan pembayaran...",
+      "templatesTitle": "Template",
+      "templateClassic": "Klasik",
+      "templateModern": "Modern",
+      "templateCompact": "Ringkas",
+      "proBadge": "Pro",
+      "proComingSoon": "Template Pro akan segera hadir.",
+      "proUnlockCta": "Buka Pro",
+      "proUnlockedToast": "Template Pro terbuka!",
+      "apiWaitlist": "Butuh API faktur? Gabung daftar tunggu"
     },
     "NumberBaseConverter": {
       "title": "Konverter Basis Angka",

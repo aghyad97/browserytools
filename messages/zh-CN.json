@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "PDF 工具",
-        "description": "合并 PDF、拆分或提取页面，并将图片转换为 PDF——全部在浏览器中完成，且无文件大小限制。"
+        "description": "PDF 全能工具箱：合并、拆分、压缩、旋转、重新排序、添加水印、签名、提取文字，还能把图片转换成 PDF——全部在浏览器中完成。"
+      },
+      "merge-pdf": {
+        "name": "合并 PDF",
+        "description": "按顺序将多个 PDF 文件合并为一个文档，全部在浏览器中完成。"
+      },
+      "split-pdf": {
+        "name": "拆分 PDF",
+        "description": "从 PDF 中提取页面或页面范围，生成独立文件——无需上传。"
+      },
+      "compress-pdf": {
+        "name": "压缩 PDF",
+        "description": "在浏览器中压缩 PDF 文件大小，提供三种质量预设。"
+      },
+      "rotate-pdf": {
+        "name": "旋转 PDF",
+        "description": "永久旋转 PDF 页面——支持单页或整个文档。"
+      },
+      "watermark-pdf": {
+        "name": "PDF 水印",
+        "description": "在 PDF 的每一页盖上“草稿”“机密”或任意文字水印。"
+      },
+      "sign-pdf": {
+        "name": "PDF 签名",
+        "description": "手写或上传签名，放置到任意页面——文件永远不会离开您的设备。"
+      },
+      "extract-text-from-pdf": {
+        "name": "PDF 文字提取",
+        "description": "从 PDF 中提取可选中的文字，复制或下载为 .txt 文件。"
+      },
+      "reorder-pdf-pages": {
+        "name": "PDF 页面重新排序",
+        "description": "拖放即可重新排列或删除 PDF 页面，然后保存。"
+      },
+      "jpg-to-pdf": {
+        "name": "JPG 转 PDF",
+        "description": "将 JPG 和 PNG 图片合并为一个 PDF，可控制页面大小和边距。"
       },
       "zip": {
         "name": "Zip 工具",
@@ -940,6 +976,12 @@
       "tabImagesToPdf": "图片转 PDF",
       "tabMerge": "合并",
       "tabSplit": "拆分/提取",
+      "tabCompress": "压缩",
+      "tabRotate": "旋转",
+      "tabReorder": "重新排序",
+      "tabWatermark": "水印",
+      "tabExtract": "提取文字",
+      "tabSign": "签名",
       "dropImagesHere": "将图片拖放到此处或点击选择",
       "supportedImageFormats": "JPG 和 PNG • 支持多个文件，可重新排序",
       "pageSize": "页面大小",
@@ -964,7 +1006,69 @@
       "moveUp": "上移",
       "moveDown": "下移",
       "remove": "移除",
-      "preview": "预览"
+      "preview": "预览",
+      "compressLevel": "压缩级别",
+      "compressHigh": "高质量",
+      "compressHighHint": "文件较大，保真度最佳",
+      "compressBalanced": "均衡",
+      "compressBalancedHint": "体积与质量兼顾",
+      "compressSmall": "小文件",
+      "compressSmallHint": "体积最小，保真度较低",
+      "compressRasterNote": "压缩会将每一页转换为图片（栅格化），因此可选中的文字和清晰的矢量图形将会丢失。最适合扫描件或图片较多的 PDF。",
+      "applyCompress": "压缩 PDF",
+      "compressing": "压缩中…",
+      "compressBefore": "压缩前",
+      "compressAfter": "压缩后",
+      "compressReduction": "缩减比例",
+      "rotateHint": "点击页面即可顺时针旋转 90°。使用按钮可一次性旋转所有页面。",
+      "rotateAllCw": "全部向右旋转",
+      "rotateAllCcw": "全部向左旋转",
+      "applyRotate": "应用旋转",
+      "rotating": "旋转中…",
+      "rotatedBadge": "{degrees}°",
+      "rotatePage": "第 {number} 页",
+      "renderingPages": "渲染页面中…",
+      "rotateApplied": "已对 {count} 个页面应用旋转！",
+      "noChangesToApply": "没有可应用的更改",
+      "dragToReorderPages": "拖动页面即可调整顺序。点击 ✕ 按钮可删除页面。",
+      "deletePage": "删除第 {number} 页",
+      "applyReorder": "应用排序",
+      "reordering": "应用中…",
+      "reorderApplied": "页面已重新排序！已保存 {count} 个页面。",
+      "errorReordering": "重新排序页面时出错",
+      "watermarkTextLabel": "水印文字",
+      "watermarkTextPlaceholder": "输入水印文字",
+      "watermarkFontSize": "字体大小",
+      "watermarkOpacity": "不透明度",
+      "watermarkPlacement": "位置",
+      "watermarkColor": "颜色",
+      "anchorDiagonal": "对角线",
+      "anchorCenter": "居中",
+      "anchorTopLeft": "左上",
+      "anchorTopRight": "右上",
+      "anchorBottomLeft": "左下",
+      "anchorBottomRight": "右下",
+      "watermarkAppliedOnExport": "应用时水印会盖印到每一页——此步骤没有实时预览。",
+      "applyWatermark": "添加水印",
+      "watermarking": "添加水印中…",
+      "watermarkApplied": "水印已添加！",
+      "errorWatermarking": "添加水印时出错",
+      "extractAction": "提取文字",
+      "extracting": "提取中…",
+      "extractResultTitle": "提取的文字",
+      "extractEmptyNotice": "未找到文字层——这看起来是扫描件或纯图片 PDF。",
+      "extractEmptyLink": "试试图片转文字",
+      "errorExtracting": "无法从此 PDF 中提取文字。",
+      "signSourceLabel": "签名来源",
+      "signSourceDraw": "手写",
+      "signSourceUpload": "上传 PNG",
+      "signUploadHint": "拖放 PNG 签名文件，或点击选择",
+      "signPageLabel": "页面",
+      "signBoxLabel": "签名位置",
+      "applySign": "签名 PDF",
+      "signing": "签名中…",
+      "signApplied": "已签名的 PDF 可以下载了。",
+      "errorSigning": "无法为此 PDF 签名。"
     },
     "ZipTools": {
       "createZip": "创建 ZIP",
@@ -2446,7 +2550,16 @@
       "clientAddressPlaceholder": "客户街 123 号",
       "itemDescriptionPlaceholder": "产品或服务描述",
       "notesPlaceholder": "附加备注或评论...",
-      "termsPlaceholder": "付款条款与条件..."
+      "termsPlaceholder": "付款条款与条件...",
+      "templatesTitle": "模板",
+      "templateClassic": "经典",
+      "templateModern": "现代",
+      "templateCompact": "紧凑",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro 模板即将推出。",
+      "proUnlockCta": "解锁 Pro",
+      "proUnlockedToast": "Pro 模板已解锁！",
+      "apiWaitlist": "需要发票 API？加入等候名单"
     },
     "NumberBaseConverter": {
       "title": "数字进制转换器",

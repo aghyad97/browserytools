@@ -185,7 +185,43 @@
       },
       "pdf": {
         "name": "PDF-Tools",
-        "description": "PDFs zusammenführen, Seiten teilen oder extrahieren und Bilder in ein PDF umwandeln – alles im Browser, ohne Größenbeschränkung."
+        "description": "Das komplette PDF-Werkzeug: zusammenführen, teilen, komprimieren, drehen, neu anordnen, mit Wasserzeichen versehen, signieren, Text extrahieren und Bilder in PDFs umwandeln — alles direkt in deinem Browser."
+      },
+      "merge-pdf": {
+        "name": "PDF zusammenführen",
+        "description": "Kombiniere mehrere PDF-Dateien in der richtigen Reihenfolge zu einem Dokument — direkt in deinem Browser."
+      },
+      "split-pdf": {
+        "name": "PDF teilen",
+        "description": "Extrahiere Seiten oder Seitenbereiche aus einer PDF in separate Dateien — kein Upload nötig."
+      },
+      "compress-pdf": {
+        "name": "PDF komprimieren",
+        "description": "Verkleinere die Dateigröße einer PDF direkt in deinem Browser — mit drei Qualitätsstufen."
+      },
+      "rotate-pdf": {
+        "name": "PDF drehen",
+        "description": "Drehe PDF-Seiten dauerhaft — einzelne Seiten oder das gesamte Dokument."
+      },
+      "watermark-pdf": {
+        "name": "PDF mit Wasserzeichen versehen",
+        "description": "Stemple ENTWURF, VERTRAULICH oder einen beliebigen Text auf jede Seite einer PDF."
+      },
+      "sign-pdf": {
+        "name": "PDF signieren",
+        "description": "Zeichne deine Unterschrift oder lade sie hoch und platziere sie auf einer beliebigen Seite — die Dateien verlassen niemals dein Gerät."
+      },
+      "extract-text-from-pdf": {
+        "name": "Text aus PDF extrahieren",
+        "description": "Extrahiere auswählbaren Text aus einer PDF und kopiere oder lade ihn als .txt herunter."
+      },
+      "reorder-pdf-pages": {
+        "name": "PDF-Seiten neu anordnen",
+        "description": "Ordne PDF-Seiten per Drag & Drop neu an oder lösche sie, und speichere anschließend."
+      },
+      "jpg-to-pdf": {
+        "name": "JPG zu PDF",
+        "description": "Wandle JPG- und PNG-Bilder in eine einzige PDF um — mit Einstellungen für Seitengröße und Rand."
       },
       "zip": {
         "name": "Zip-Tools",
@@ -940,6 +976,12 @@
       "tabImagesToPdf": "Bilder zu PDF",
       "tabMerge": "Zusammenführen",
       "tabSplit": "Teilen / Extrahieren",
+      "tabCompress": "Komprimieren",
+      "tabRotate": "Drehen",
+      "tabReorder": "Neu anordnen",
+      "tabWatermark": "Wasserzeichen",
+      "tabExtract": "Text extrahieren",
+      "tabSign": "Signieren",
       "dropImagesHere": "Bilder hierher ziehen oder klicken zum Auswählen",
       "supportedImageFormats": "JPG und PNG • Mehrere Dateien, neu sortierbar",
       "pageSize": "Seitengröße",
@@ -964,7 +1006,69 @@
       "moveUp": "Nach oben",
       "moveDown": "Nach unten",
       "remove": "Entfernen",
-      "preview": "Vorschau"
+      "preview": "Vorschau",
+      "compressLevel": "Komprimierungsstufe",
+      "compressHigh": "Hohe Qualität",
+      "compressHighHint": "Größere Datei, beste Qualität",
+      "compressBalanced": "Ausgewogen",
+      "compressBalancedHint": "Gute Größe und Qualität",
+      "compressSmall": "Kleine Datei",
+      "compressSmallHint": "Kleinste Größe, geringere Qualität",
+      "compressRasterNote": "Die Komprimierung rastert jede Seite in ein Bild um, wodurch auswählbarer Text und scharfe Vektorgrafiken verloren gehen. Am besten geeignet für gescannte oder bildlastige PDFs.",
+      "applyCompress": "PDF komprimieren",
+      "compressing": "Wird komprimiert …",
+      "compressBefore": "Vorher",
+      "compressAfter": "Nachher",
+      "compressReduction": "Reduzierung",
+      "rotateHint": "Klicke auf eine Seite, um sie um 90° im Uhrzeigersinn zu drehen. Nutze die Schaltflächen, um alle Seiten auf einmal zu drehen.",
+      "rotateAllCw": "Alle nach rechts drehen",
+      "rotateAllCcw": "Alle nach links drehen",
+      "applyRotate": "Drehung anwenden",
+      "rotating": "Wird gedreht …",
+      "rotatedBadge": "{degrees}°",
+      "rotatePage": "Seite {number}",
+      "renderingPages": "Seiten werden gerendert …",
+      "rotateApplied": "Drehung auf {count} Seite(n) angewendet!",
+      "noChangesToApply": "Keine Änderungen anzuwenden",
+      "dragToReorderPages": "Ziehe Seiten, um ihre Reihenfolge zu ändern. Nutze die ✕-Schaltfläche, um eine Seite zu entfernen.",
+      "deletePage": "Seite {number} löschen",
+      "applyReorder": "Reihenfolge anwenden",
+      "reordering": "Wird angewendet …",
+      "reorderApplied": "Seiten neu angeordnet! {count} Seite(n) gespeichert.",
+      "errorReordering": "Fehler beim Neuanordnen der Seiten",
+      "watermarkTextLabel": "Wasserzeichentext",
+      "watermarkTextPlaceholder": "Wasserzeichentext eingeben",
+      "watermarkFontSize": "Schriftgröße",
+      "watermarkOpacity": "Deckkraft",
+      "watermarkPlacement": "Platzierung",
+      "watermarkColor": "Farbe",
+      "anchorDiagonal": "Diagonal",
+      "anchorCenter": "Mitte",
+      "anchorTopLeft": "Oben links",
+      "anchorTopRight": "Oben rechts",
+      "anchorBottomLeft": "Unten links",
+      "anchorBottomRight": "Unten rechts",
+      "watermarkAppliedOnExport": "Das Wasserzeichen wird beim Anwenden auf jede Seite gestempelt — in diesem Schritt gibt es keine Live-Vorschau.",
+      "applyWatermark": "Wasserzeichen hinzufügen",
+      "watermarking": "Wasserzeichen wird hinzugefügt …",
+      "watermarkApplied": "Wasserzeichen hinzugefügt!",
+      "errorWatermarking": "Fehler beim Hinzufügen des Wasserzeichens",
+      "extractAction": "Text extrahieren",
+      "extracting": "Wird extrahiert …",
+      "extractResultTitle": "Extrahierter Text",
+      "extractEmptyNotice": "Keine Textebene gefunden — dies scheint eine gescannte oder reine Bild-PDF zu sein.",
+      "extractEmptyLink": "Bild zu Text ausprobieren",
+      "errorExtracting": "Text konnte nicht aus dieser PDF extrahiert werden.",
+      "signSourceLabel": "Quelle der Unterschrift",
+      "signSourceDraw": "Zeichnen",
+      "signSourceUpload": "PNG hochladen",
+      "signUploadHint": "PNG-Unterschrift hierher ziehen oder klicken zum Auswählen",
+      "signPageLabel": "Seite",
+      "signBoxLabel": "Platzierung der Unterschrift",
+      "applySign": "PDF signieren",
+      "signing": "Wird signiert …",
+      "signApplied": "Signierte PDF bereit zum Download.",
+      "errorSigning": "Diese PDF konnte nicht signiert werden."
     },
     "ZipTools": {
       "createZip": "ZIP erstellen",
@@ -2446,7 +2550,16 @@
       "clientAddressPlaceholder": "Kundenstraße 123",
       "itemDescriptionPlaceholder": "Beschreibung des Produkts oder der Dienstleistung",
       "notesPlaceholder": "Zusätzliche Notizen oder Kommentare …",
-      "termsPlaceholder": "Zahlungsbedingungen und Konditionen …"
+      "termsPlaceholder": "Zahlungsbedingungen und Konditionen …",
+      "templatesTitle": "Vorlage",
+      "templateClassic": "Klassisch",
+      "templateModern": "Modern",
+      "templateCompact": "Kompakt",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro-Vorlagen sind bald verfügbar.",
+      "proUnlockCta": "Pro freischalten",
+      "proUnlockedToast": "Pro-Vorlagen freigeschaltet!",
+      "apiWaitlist": "Brauchst du eine Rechnungs-API? Trage dich auf die Warteliste ein"
     },
     "NumberBaseConverter": {
       "title": "Zahlensystem-Konverter",

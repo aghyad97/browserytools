@@ -125,6 +125,33 @@
   margin-block-start: 2px;
 }
 
+/* "NEW" pill — a soft green chip straddling the tile's block-start edge at the
+   inline-end corner (mirrors to the start side under RTL via logical insets).
+   Bordered on all four edges — never a single-edge accent. Colour is
+   var(--bt-green) alone, softened through color-mix so it reads in both
+   themes; precedent is the green pill in landing.module.css. The -6px offset
+   paints outside the tile, which is safe: .tile sets no overflow (the
+   overflow: hidden above belongs to .tileChip, the 32px icon box). */
+.newBadge {
+  position: absolute;
+  inset-block-start: -6px;
+  inset-inline-end: 10px;
+  z-index: 1;
+  font-family: var(--mono);
+  font-size: 8px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  line-height: 1;
+  padding-block: 3px;
+  padding-inline: 5px;
+  border-radius: 5px;
+  color: var(--bt-green);
+  background: color-mix(in srgb, var(--bt-green) 16%, var(--bt-surface));
+  border: 1px solid color-mix(in srgb, var(--bt-green) 42%, transparent);
+  pointer-events: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .tile,
   .tile::before,
