@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { describe, it, expect, vi, beforeEach, afterEach } from "vitest";
 import { render, screen, act, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 
@@ -133,6 +133,23 @@ describe("InvoiceGenerator — templates + Pro gating", () => {
     localStorage.clear();
     useInvoiceStore.setState({ invoices: [], currentInvoice: null });
     jspdf.calls.length = 0;
+
+    // The classic template formats dates with `toLocaleDateString()` and no
+    // locale, so its output — and therefore this file's draw-sequence snapshot
+    // — otherwise varies by the runner: day-first locally, month-first on US
+    // CI. Pin en-GB/UTC here so the snapshot guards the DRAW SEQUENCE, not the
+    // runner's locale. Production is unchanged: real users still see their own
+    // locale's format.
+    vi.spyOn(Date.prototype, "toLocaleDateString").mockImplementation(
+      function (this: Date) {
+        return new Intl.DateTimeFormat("en-GB", { timeZone: "UTC" }).format(this);
+      },
+    );
+  });
+
+  afterEach(() => {
+    // Restore only this spy — leave the hoisted jsPDF mock intact.
+    vi.mocked(Date.prototype.toLocaleDateString).mockRestore?.();
   });
 
   it("renders three template tiles on the preview tab", async () => {
