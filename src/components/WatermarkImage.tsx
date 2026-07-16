@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
@@ -64,6 +64,98 @@ export default function WatermarkImage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const wmFileInputRef = useRef<HTMLInputElement>(null);
+  const previewRef = useRef<HTMLCanvasElement>(null);
+
+  /* Decoded bitmaps behind the live preview. They are state rather than refs
+     because the preview has to redraw once a decode lands, not just when a
+     control moves. */
+  const [baseImg, setBaseImg] = useState<HTMLImageElement | null>(null);
+  const [wmImg, setWmImg] = useState<HTMLImageElement | null>(null);
+
+  useEffect(() => {
+    if (!original) {
+      setBaseImg(null);
+      return;
+    }
+    let cancelled = false;
+    loadHtmlImage(original.url)
+      .then((img) => {
+        if (!cancelled) setBaseImg(img);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [original]);
+
+  useEffect(() => {
+    if (!wmImageUrl) {
+      setWmImg(null);
+      return;
+    }
+    let cancelled = false;
+    loadHtmlImage(wmImageUrl)
+      .then((img) => {
+        if (!cancelled) setWmImg(img);
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [wmImageUrl]);
+
+  /* Live preview — the whole point being that the mark can be judged before it
+     is committed, so this must not merely approximate the export.
+     drawWatermark works purely through canvas transforms, so scaling the
+     context and handing it the FULL-RESOLUTION dimensions renders the mark at
+     exactly the geometry the export will use, shrunk as one piece. Feeding it
+     the preview's own dimensions instead would resize the canvas but not the
+     font, and every anchor pad (3% of the smaller side) would drift. */
+  useEffect(() => {
+    const canvas = previewRef.current;
+    if (!canvas || !original || !baseImg) return;
+
+    const MAX_PREVIEW_W = 880;
+    const factor = Math.min(1, MAX_PREVIEW_W / original.width);
+    const w = Math.max(1, Math.round(original.width * factor));
+    const h = Math.max(1, Math.round(original.height * factor));
+    canvas.width = w;
+    canvas.height = h;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.clearRect(0, 0, w, h);
+    ctx.drawImage(baseImg, 0, 0, w, h);
+
+    ctx.save();
+    ctx.scale(factor, factor);
+    drawWatermark(ctx, original.width, original.height, {
+      kind: wmKind,
+      text: wmText,
+      fontSize: wmFontSize,
+      color: wmColor,
+      opacity: wmOpacity,
+      anchor: wmAnchor,
+      scale: wmScale,
+      rotation: wmRotation,
+      tile: wmTile,
+      image: wmImg,
+    });
+    ctx.restore();
+  }, [
+    original,
+    baseImg,
+    wmImg,
+    wmKind,
+    wmText,
+    wmFontSize,
+    wmColor,
+    wmOpacity,
+    wmAnchor,
+    wmScale,
+    wmRotation,
+    wmTile,
+  ]);
 
   const loadImage = useCallback(
     (file: File) => {
@@ -247,6 +339,18 @@ export default function WatermarkImage() {
               if (file) loadImage(file);
             }}
           />
+
+          {/* Live preview — every control below writes straight to this canvas,
+              so the mark can be judged before it is committed. */}
+          {original && (
+            <canvas
+              ref={previewRef}
+              data-testid="watermark-preview"
+              role="img"
+              aria-label={t("resultAlt")}
+              className="w-full max-h-[420px] object-contain rounded-lg border bg-muted/20"
+            />
+          )}
 
           {original && (
             <>
@@ -432,17 +536,12 @@ export default function WatermarkImage() {
             </>
           )}
 
+          {/* The preview above already shows the composite, so the export only
+              needs to report what it weighs. */}
           {resultUrl && (
-            <div className="space-y-2">
-              <img
-                src={resultUrl}
-                alt={t("resultAlt")}
-                className="w-full max-h-[420px] object-contain rounded-lg border bg-muted/20"
-              />
-              <p className="text-sm text-muted-foreground text-center" dir="ltr">
-                {formatBytes(resultSize)}
-              </p>
-            </div>
+            <p className="text-sm text-muted-foreground text-center" dir="ltr">
+              {formatBytes(resultSize)}
+            </p>
           )}
         </CardContent>
       </Card>

@@ -12,6 +12,15 @@ vi.mock("@/lib/download", () => ({
   downloadText: vi.fn(),
 }));
 
+// Spy on the draw call while keeping the real geometry, so the preview tests
+// can assert what it was handed (ANCHORS et al. must stay real — the component
+// renders its anchor grid from them).
+vi.mock("@/lib/image/watermark-draw", async (importOriginal) => {
+  const actual =
+    await importOriginal<typeof import("@/lib/image/watermark-draw")>();
+  return { ...actual, drawWatermark: vi.fn(actual.drawWatermark) };
+});
+
 // happy-dom does not fire <img> load events; resolve onload so the canvas
 // watermark pipeline can proceed.
 class MockImage {
@@ -103,6 +112,41 @@ describe("WatermarkImage", () => {
       expect.any(String),
       "photo_watermarked.png"
     );
+  });
+
+  // The preview exists so the mark can be judged before it is committed, which
+  // only holds if it matches the export. drawWatermark is handed the FULL-RES
+  // dimensions under a scaled context — passing the preview's own size would
+  // shrink the canvas but not the font, drifting from what downloads.
+  it("previews the composite at export geometry as soon as an image loads", async () => {
+    const user = userEvent.setup();
+    const { drawWatermark } = await import("@/lib/image/watermark-draw");
+    render(<WatermarkImage />);
+    await uploadImage(user);
+
+    const preview = await screen.findByTestId("watermark-preview");
+    expect(preview).toBeInTheDocument();
+
+    // Drawn without anyone pressing "apply".
+    await waitFor(() => expect(drawWatermark).toHaveBeenCalled());
+    const [, canvasW, canvasH] = vi.mocked(drawWatermark).mock.calls.at(-1)!;
+    expect({ canvasW, canvasH }).toEqual({ canvasW: 200, canvasH: 100 });
+  });
+
+  it("redraws the preview when a control changes, before any apply", async () => {
+    const user = userEvent.setup();
+    const { drawWatermark } = await import("@/lib/image/watermark-draw");
+    render(<WatermarkImage />);
+    await uploadImage(user);
+    await waitFor(() => expect(drawWatermark).toHaveBeenCalled());
+
+    vi.mocked(drawWatermark).mockClear();
+    await user.click(screen.getByTestId("anchor-top-left"));
+
+    await waitFor(() => expect(drawWatermark).toHaveBeenCalled());
+    expect(vi.mocked(drawWatermark).mock.calls.at(-1)![3]).toMatchObject({
+      anchor: "top-left",
+    });
   });
 
   it("switches to image watermark mode and exposes a file input", async () => {
