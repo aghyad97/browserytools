@@ -34,6 +34,8 @@ import {
   X,
   Minimize2,
   RotateCw,
+  ListOrdered,
+  Stamp,
 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
@@ -45,6 +47,8 @@ import { formatBytes } from "@/lib/format";
 import { PLACEHOLDER_OPS, type WorkbenchOp } from "@/components/pdf-workbench/ops";
 import { CompressPanel } from "@/components/pdf-workbench/CompressPanel";
 import { RotatePanel } from "@/components/pdf-workbench/RotatePanel";
+import { ReorderPanel } from "@/components/pdf-workbench/ReorderPanel";
+import { WatermarkPanel } from "@/components/pdf-workbench/WatermarkPanel";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -414,6 +418,14 @@ export default function PDFTools({
                 <RotateCw className="w-4 h-4 me-2" />
                 {t("tabRotate")}
               </TabsTrigger>
+              <TabsTrigger value="reorder">
+                <ListOrdered className="w-4 h-4 me-2" />
+                {t("tabReorder")}
+              </TabsTrigger>
+              <TabsTrigger value="watermark">
+                <Stamp className="w-4 h-4 me-2" />
+                {t("tabWatermark")}
+              </TabsTrigger>
               {PLACEHOLDER_OPS.map(({ value, labelKey, Icon }) => (
                 <TabsTrigger key={value} value={value}>
                   <Icon className="w-4 h-4 me-2" />
@@ -761,6 +773,16 @@ export default function PDFTools({
             {/* ── Rotate ───────────────────────────────────────────────── */}
             <TabsContent value="rotate" className="space-y-6">
               <RotatePanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Reorder ──────────────────────────────────────────────── */}
+            <TabsContent value="reorder" className="space-y-6">
+              <ReorderPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Watermark ────────────────────────────────────────────── */}
+            <TabsContent value="watermark" className="space-y-6">
+              <WatermarkPanel files={files} onDropPdf={onDropPdf} />
             </TabsContent>
 
             {/* ── Placeholder panels (wired in later tasks) ────────────── */}

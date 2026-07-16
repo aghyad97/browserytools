@@ -63,8 +63,8 @@ export const WORKBENCH_OPS: readonly WorkbenchOpDef[] = [
   { value: "split", labelKey: "tabSplit", Icon: SplitSquareHorizontal, placeholder: false },
   { value: "compress", labelKey: "tabCompress", Icon: Minimize2, placeholder: false },
   { value: "rotate", labelKey: "tabRotate", Icon: RotateCw, placeholder: false },
-  { value: "reorder", labelKey: "tabReorder", Icon: ListOrdered, placeholder: true },
-  { value: "watermark", labelKey: "tabWatermark", Icon: Stamp, placeholder: true },
+  { value: "reorder", labelKey: "tabReorder", Icon: ListOrdered, placeholder: false },
+  { value: "watermark", labelKey: "tabWatermark", Icon: Stamp, placeholder: false },
   { value: "extract", labelKey: "tabExtract", Icon: FileText, placeholder: true },
   { value: "sign", labelKey: "tabSign", Icon: PenLine, placeholder: true },
 ];
