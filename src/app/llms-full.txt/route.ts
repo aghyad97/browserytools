@@ -1,4 +1,4 @@
-import { tools, getAllTools } from "@/lib/tools-config";
+import { tools, getCatalogTools } from "@/lib/tools-config";
 import { blogPosts } from "@/lib/blog-data";
 
 // /llms-full.txt — expanded LLM/AI crawler index following the
@@ -11,7 +11,7 @@ const BASE_URL = "https://browserytools.com";
 
 function buildLlmsFullTxt(): string {
   const lines: string[] = [];
-  const availableCount = getAllTools().filter((t) => t.available).length;
+  const availableCount = getCatalogTools().filter((t) => t.available).length;
 
   lines.push("# BrowseryTools — Full Index");
   lines.push("");
@@ -29,7 +29,7 @@ function buildLlmsFullTxt(): string {
   const sortedCategories = [...tools].sort((a, b) => a.order - b.order);
   for (const category of sortedCategories) {
     const available = category.items
-      .filter((t) => t.available)
+      .filter((t) => t.available && !t.landingFor)
       .sort((a, b) => a.order - b.order);
     if (available.length === 0) continue;
 
