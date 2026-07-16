@@ -27,14 +27,15 @@ describe("Landing — category filter store", () => {
   });
 
   it("filters the Popular grid to the store's active category", () => {
-    // testsGames has exactly one tool (Typing Test) — a distinctive,
-    // easy-to-assert singleton category.
+    // testsGames held exactly one tool (Typing Test) pre-Wave-1; Task 3 added
+    // Keyboard Tester, Gamepad Tester, and Dead Pixel Test to the category,
+    // so it now resolves to 4 — still a small, easy-to-assert category.
     useCategoryFilterStore.setState({ category: "testsGames" });
     render(<Landing />);
 
     const grid = getPopularGrid();
     const links = within(grid).getAllByRole("link");
-    expect(links).toHaveLength(1);
+    expect(links).toHaveLength(4);
     expect(within(grid).getByText("Typing Test")).toBeInTheDocument();
   });
 
@@ -45,6 +46,6 @@ describe("Landing — category filter store", () => {
     useCategoryFilterStore.setState({ category: "testsGames" });
     rerender(<Landing />);
 
-    expect(within(getPopularGrid()).getAllByRole("link")).toHaveLength(1);
+    expect(within(getPopularGrid()).getAllByRole("link")).toHaveLength(4);
   });
 });

@@ -22,6 +22,8 @@ export const TOOL_POPULARITY: string[] = [
   "photo-censor",
   "phone-mockups",
   "image-resizer",
+  "crop-image",
+  "watermark-image",
   "image-captioner",
   "screenshot-beautifier",
   "image-compression",
@@ -32,6 +34,7 @@ export const TOOL_POPULARITY: string[] = [
   "qr-generator",        // "qr code generator" — one of the largest utility queries
   "password-generator",
   "image-converter",     // heic→jpg / webp→png conversions
+  "heic-to-jpg",
   "unit-converter",
   "text-counter",        // "word counter"
   "json-formatter",
@@ -64,6 +67,7 @@ export const TOOL_POPULARITY: string[] = [
   "fake-data",
   "text-case",
   "text-diff",
+  "keyboard-tester",
 ];
 
 const RANK = new Map(TOOL_POPULARITY.map((slug, i) => [slug, i]));

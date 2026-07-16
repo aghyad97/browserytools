@@ -30,14 +30,18 @@ import { tools, roundedToolCount } from "@/lib/tools-config";
 import { playCue } from "@/lib/ui-sound";
 import s from "./command-palette.module.css";
 
-/* Locale-independent flat index — names/labels resolve via i18n at render. */
+/* Locale-independent flat index — names/labels resolve via i18n at render.
+   Excludes SEO landing variants (`landingFor`) so the palette stays
+   consistent with the homepage grid, tool count, and related-tile pools. */
 const TOOL_INDEX = tools.flatMap((c) =>
-  c.items.map((t) => ({
-    slug: t.href.split("/").pop() as string,
-    href: t.href,
-    icon: t.icon,
-    categoryId: c.id,
-  })),
+  c.items
+    .filter((t) => !t.landingFor)
+    .map((t) => ({
+      slug: t.href.split("/").pop() as string,
+      href: t.href,
+      icon: t.icon,
+      categoryId: c.id,
+    })),
 );
 
 const TOOL_COUNT = roundedToolCount();

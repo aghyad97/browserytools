@@ -6,9 +6,13 @@ import {
   CommandPalette,
   useCommandPalette,
 } from "@/components/layout/command-palette";
-import { tools } from "@/lib/tools-config";
+import { roundedToolCount } from "@/lib/tools-config";
 
-const TOOL_COUNT = Math.floor(tools.reduce((n, c) => n + c.items.length, 0) / 10) * 10; // rounded "N+" marketing count
+// Mirrors the component's own count exactly (roundedToolCount() excludes SEO
+// landing variants, same as the "N+ tools" marketing count everywhere else) —
+// previously duplicated the raw sum here, which silently drifted from
+// production once landing variants existed (Wave 1 Task 3).
+const TOOL_COUNT = roundedToolCount();
 
 /* Tiny harness so the ⌘K hook can be exercised through real DOM events. */
 function Harness() {

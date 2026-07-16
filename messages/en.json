@@ -119,9 +119,57 @@
         "name": "Image Compression",
         "description": "Compress images to reduce file size while maintaining quality. Supports JPG, PNG, WebP."
       },
+      "compress-image-to-20kb": {
+        "name": "Compress Image to 20KB",
+        "description": "Shrink any photo to 20 kilobytes or less for application forms and portals with strict size limits."
+      },
+      "compress-image-to-50kb": {
+        "name": "Compress Image to 50KB",
+        "description": "Reduce image file size to 50KB for exam portals, job applications, and email attachments."
+      },
+      "compress-image-to-100kb": {
+        "name": "Compress Image to 100KB",
+        "description": "Get any picture under 100KB while keeping it sharp — made for upload limits."
+      },
+      "compress-image-to-200kb": {
+        "name": "Compress Image to 200KB",
+        "description": "Compress photos to 200KB or less for CMS uploads, listings, and document portals."
+      },
+      "compress-image-to-500kb": {
+        "name": "Compress Image to 500KB",
+        "description": "Bring large photos under 500KB without visible quality loss."
+      },
+      "compress-image-to-1mb": {
+        "name": "Compress Image to 1MB",
+        "description": "Compress high-resolution photos to under 1MB for email, forms, and faster sharing."
+      },
+      "compress-jpeg-to-50kb": {
+        "name": "Compress JPEG to 50KB",
+        "description": "Reduce JPEG file size to 50KB with smart quality search, right in your browser."
+      },
+      "compress-jpeg-to-100kb": {
+        "name": "Compress JPEG to 100KB",
+        "description": "Compress JPG photos to 100KB for portals and websites that cap upload size."
+      },
+      "compress-jpeg-to-200kb": {
+        "name": "Compress JPEG to 200KB",
+        "description": "Shrink JPG images to 200KB while preserving detail."
+      },
+      "compress-signature-20kb": {
+        "name": "Compress Signature to 20KB",
+        "description": "Resize and compress your signature image to 10–20KB for online application forms."
+      },
       "image-converter": {
         "name": "Format Converter",
         "description": "Convert images between JPG, PNG, WebP, GIF, BMP, TIFF, and SVG. Batch conversion supported."
+      },
+      "heic-to-jpg": {
+        "name": "HEIC to JPG",
+        "description": "Convert iPhone HEIC photos to JPG right in your browser — no upload, instant download."
+      },
+      "heic-to-png": {
+        "name": "HEIC to PNG",
+        "description": "Convert HEIC images to lossless PNG locally in your browser."
       },
       "color-correction": {
         "name": "Color Correction",
@@ -162,6 +210,14 @@
       "mic-camera": {
         "name": "Mic & Camera Tester",
         "description": "Test your microphone and camera without any app installation."
+      },
+      "mic-test": {
+        "name": "Mic Test",
+        "description": "Check your microphone in seconds with a live level meter — before the call, not during it."
+      },
+      "webcam-test": {
+        "name": "Webcam Test",
+        "description": "Preview your camera and check quality before a meeting. Nothing is recorded or uploaded."
       },
       "compress-video": {
         "name": "Video Compressor",
@@ -399,6 +455,14 @@
         "name": "Image Resizer",
         "description": "Resize images to specific dimensions while preserving quality."
       },
+      "crop-image": {
+        "name": "Crop Image",
+        "description": "Crop images online with aspect-ratio presets and precise drag handles. Export to JPG, PNG, or WebP."
+      },
+      "watermark-image": {
+        "name": "Watermark Image",
+        "description": "Add text or logo watermarks to photos — position, opacity, rotation, and tiling. All in your browser."
+      },
       "contrast-checker": {
         "name": "Contrast Checker",
         "description": "Check color contrast ratios for WCAG accessibility compliance."
@@ -426,6 +490,18 @@
       "typing-test": {
         "name": "Typing Test",
         "description": "Test and improve your typing speed and accuracy."
+      },
+      "keyboard-tester": {
+        "name": "Keyboard Tester",
+        "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check."
+      },
+      "gamepad-tester": {
+        "name": "Gamepad Tester",
+        "description": "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad."
+      },
+      "dead-pixel-test": {
+        "name": "Dead Pixel Test",
+        "description": "Find dead or stuck pixels with fullscreen solid-color checks for any monitor or phone."
       },
       "timezone-converter": {
         "name": "Timezone Converter",
