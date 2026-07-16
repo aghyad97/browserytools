@@ -1919,7 +1919,7 @@ export const toolContent: Record<string, ToolContent> = {
   },
 
   "keyboard-tester": {
-    related: ["gamepad-tester", "dead-pixel-test"],
+    related: ["gamepad-tester"],
     en: {
       intro:
         "A keyboard tester shows, key by key, exactly what your keyboard sends to the computer — invaluable when QA-testing a new mechanical board, diagnosing a key that \"sometimes doesn't work,\" or checking a used keyboard before you rely on it. Press any key and this tool lights up the matching key on an on-screen layout.\n\nIt reads each key by its physical position (the browser's event.code), so it identifies the exact key regardless of your layout or language. A rollover counter shows how many keys register at once — the quick way to test n-key rollover (NKRO) and find out whether your board drops inputs during the fast, multi-key combinations that gaming and touch-typing demand.\n\nIt also surfaces flaky switches: if a single press registers twice (chatter, a debounce failure) or a key won't light at all, you've found the fault. Everything runs locally in the browser — no install, nothing sent anywhere.",
@@ -1987,7 +1987,7 @@ export const toolContent: Record<string, ToolContent> = {
   },
 
   "gamepad-tester": {
-    related: ["keyboard-tester", "dead-pixel-test"],
+    related: ["keyboard-tester"],
     en: {
       intro:
         "A gamepad tester reads your controller live so you can see exactly what it's reporting — the fastest way to diagnose the most common controller complaint: analog stick drift. This tool detects a connected gamepad through the browser and displays every button and both sticks in real time.\n\nStick drift shows up as movement the tool registers when you aren't touching the stick. Each axis is displayed to four decimal places, so even a tiny non-zero reading at rest — say 0.0100 when it should be 0.0000 — is obvious. Watch the numbers with your hands off the controller: values that won't settle to zero confirm drift; clean zeros mean the sticks are healthy.\n\nBeyond sticks, every face button, bumper, trigger, and D-pad direction lights up as you press it, so you can confirm nothing is stuck or unresponsive. It works with standard controllers over USB or Bluetooth, entirely in the browser, with nothing uploaded.",
@@ -2054,73 +2054,6 @@ export const toolContent: Record<string, ToolContent> = {
     },
   },
 
-  "dead-pixel-test": {
-    related: ["keyboard-tester", "gamepad-tester"],
-    en: {
-      intro:
-        "A dead-pixel test fills your whole screen with solid colours, one at a time, so a faulty pixel has nowhere to hide — the standard check when you unbox a new monitor, laptop, or phone, or buy a used one. This tool cycles fullscreen through solid red, green, blue, white, and black so you can inspect the panel against each background.\n\nThe colours help you tell two faults apart. A dead pixel stays black on every colour because it receives no power. A stuck pixel is frozen on one colour — a persistent red, green, or blue dot — because its sub-pixels are locked on. Against a black screen a stuck pixel glows; against white, a dead pixel shows as a dark speck.\n\nOne honest caveat: this tool finds and identifies problem pixels, it can't repair them. Stuck pixels sometimes recover on their own or with gentle massage or pixel-flashing utilities, but there's no guarantee, and a truly dead pixel generally can't be fixed in software. It runs in the browser with nothing uploaded.",
-      faq: [
-        {
-          q: "What's the difference between a dead and a stuck pixel?",
-          a: "A dead pixel stays black on all colours (no power); a stuck pixel is frozen on one colour. Cycling solid colours makes each type stand out.",
-        },
-        {
-          q: "How do I test a new monitor for dead pixels?",
-          a: "Run the fullscreen test and look carefully at each solid colour — red, green, blue, white, and black — for any dot that doesn't match.",
-        },
-        {
-          q: "Can this tool fix a stuck pixel?",
-          a: "No — it only detects and identifies them. Stuck pixels sometimes recover with massage or flashing tools, but that isn't guaranteed; dead pixels usually can't be fixed.",
-        },
-        {
-          q: "Why cycle through several colours?",
-          a: "A pixel fault may be invisible on one colour but obvious on another — a stuck sub-pixel glows on black, a dead one shows on white.",
-        },
-        {
-          q: "Is anything uploaded?",
-          a: "No. The test runs entirely in your browser.",
-        },
-      ],
-      steps: [
-        "Enter fullscreen mode.",
-        "Cycle through each solid colour: red, green, blue, white, black.",
-        "Scan the panel for any pixel that doesn't match.",
-        "Note whether faults are dead (black) or stuck (a fixed colour).",
-      ],
-    },
-    ar: {
-      intro:
-        "يملأ اختبار البكسل الميت شاشتك كلها بألوان صلبة، لونًا تلو الآخر، فلا يجد البكسل المعطوب مكانًا يختبئ فيه — وهو الفحص المعياري عند فتح شاشة أو حاسوب محمول أو هاتف جديد، أو شراء مستعمل. تنتقل هذه الأداة بملء الشاشة عبر الأحمر والأخضر والأزرق والأبيض والأسود الصلبة لتفحص اللوحة على كل خلفية.\n\nتساعدك الألوان على التمييز بين عطلين. فالبكسل الميت يبقى أسود على كل لون لأنه لا يتلقّى طاقة. أما البكسل العالق فمتجمّد على لون واحد — نقطة حمراء أو خضراء أو زرقاء ثابتة — لأن بكسلاته الفرعية عالقة في وضع التشغيل. وعلى شاشة سوداء يتوهّج البكسل العالق؛ وعلى بيضاء يظهر البكسل الميت كنقطة داكنة.\n\nتنبيه صريح: تكشف هذه الأداة البكسلات المعطوبة وتحدّدها، لكنها لا تصلحها. فالبكسلات العالقة تتعافى أحيانًا وحدها أو بتدليك لطيف أو بأدوات وميض البكسل، لكن دون ضمان، والبكسل الميت فعلًا لا يمكن إصلاحه برمجيًا عادةً. تعمل في المتصفح دون رفع أي شيء.",
-      faq: [
-        {
-          q: "ما الفرق بين البكسل الميت والعالق؟",
-          a: "البكسل الميت يبقى أسود على كل الألوان (بلا طاقة)؛ أما العالق فمتجمّد على لون واحد. والتنقّل بين الألوان الصلبة يُبرز كل نوع.",
-        },
-        {
-          q: "كيف أفحص شاشة جديدة بحثًا عن بكسلات ميتة؟",
-          a: "شغّل الاختبار بملء الشاشة وانظر بدقة إلى كل لون صلب — أحمر وأخضر وأزرق وأبيض وأسود — بحثًا عن أي نقطة لا تطابقه.",
-        },
-        {
-          q: "هل تصلح هذه الأداة بكسلًا عالقًا؟",
-          a: "لا — تكشفها وتحدّدها فقط. تتعافى البكسلات العالقة أحيانًا بالتدليك أو أدوات الوميض، لكن دون ضمان؛ والبكسلات الميتة لا يمكن إصلاحها عادةً.",
-        },
-        {
-          q: "لماذا التنقّل بين عدة ألوان؟",
-          a: "قد يكون عطل البكسل غير مرئي على لون وواضحًا على آخر — فالبكسل الفرعي العالق يتوهّج على الأسود، والميت يظهر على الأبيض.",
-        },
-        {
-          q: "هل يُرفع أي شيء؟",
-          a: "لا. يجري الاختبار بالكامل في متصفحك.",
-        },
-      ],
-      steps: [
-        "ادخل وضع ملء الشاشة.",
-        "تنقّل بين كل لون صلب: أحمر وأخضر وأزرق وأبيض وأسود.",
-        "افحص اللوحة بحثًا عن أي بكسل لا يطابق اللون.",
-        "لاحظ إن كانت الأعطال ميتة (سوداء) أم عالقة (لون ثابت).",
-      ],
-    },
-  },
 };
 
 // ──────────────────────────────────────────────────────────────────────────────

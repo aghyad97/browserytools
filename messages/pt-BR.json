@@ -499,10 +499,6 @@
         "name": "Testador de Controle",
         "description": "Teste botões, analógicos, gatilhos e vibração de qualquer controle USB ou Bluetooth."
       },
-      "dead-pixel-test": {
-        "name": "Teste de Pixel Morto",
-        "description": "Encontre pixels mortos ou travados com testes de cor sólida em tela cheia para qualquer monitor ou celular."
-      },
       "timezone-converter": {
         "name": "Conversor de Fuso Horário",
         "description": "Converta horários entre diferentes fusos horários."
@@ -4780,15 +4776,6 @@
       "vibrationTest": "Testar vibração",
       "mapping": "Mapeamento",
       "connected": "Conectado"
-    },
-    "DeadPixelTest": {
-      "start": "Iniciar teste",
-      "instructionsTitle": "Como testar",
-      "instructionsDead": "Um pixel morto permanece preto em todas as cores — ele nunca acende.",
-      "instructionsStuck": "Um pixel travado fica preso em uma única cor (geralmente vermelho, verde ou azul) mesmo quando a tela muda.",
-      "instructionsHowTo": "Inicie o teste e clique ou pressione as setas do teclado para percorrer as cores sólidas. Observe com atenção qualquer ponto que destoe. Pressione Esc para sair.",
-      "hintOverlay": "Clique ou pressione → para mudar de cor · Esc para sair",
-      "customColor": "Personalizado"
     },
     "KeyboardTester": {
       "pressAnyKey": "Pressione qualquer tecla — as teclas mantidas pressionadas acendem, e cada tecla pressionada permanece marcada como testada.",

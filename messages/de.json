@@ -499,10 +499,6 @@
         "name": "Gamepad-Tester",
         "description": "Teste Tasten, Sticks, Trigger und Vibration für jeden USB- oder Bluetooth-Controller."
       },
-      "dead-pixel-test": {
-        "name": "Pixelfehler-Test",
-        "description": "Finde tote oder hängende Pixel mit Vollbild-Farbtests für jeden Monitor oder jedes Smartphone."
-      },
       "timezone-converter": {
         "name": "Zeitzonen-Konverter",
         "description": "Konvertiere Uhrzeiten zwischen verschiedenen Zeitzonen."
@@ -4780,15 +4776,6 @@
       "vibrationTest": "Vibration testen",
       "mapping": "Zuordnung",
       "connected": "Verbunden"
-    },
-    "DeadPixelTest": {
-      "start": "Test starten",
-      "instructionsTitle": "So testest du",
-      "instructionsDead": "Ein toter Pixel bleibt bei jeder Farbe schwarz — er leuchtet nie auf.",
-      "instructionsStuck": "Ein hängender Pixel ist auf eine Farbe eingefroren (oft Rot, Grün oder Blau), auch wenn sich der Bildschirm ändert.",
-      "instructionsHowTo": "Starte den Test und klicke oder nutze die Pfeiltasten, um durch Vollfarben zu wechseln. Achte genau auf Punkte, die nicht passen. Drücke Esc zum Beenden.",
-      "hintOverlay": "Klicken oder → drücken, um die Farbe zu wechseln · Esc zum Beenden",
-      "customColor": "Benutzerdefiniert"
     },
     "KeyboardTester": {
       "pressAnyKey": "Drücke eine beliebige Taste — gehaltene Tasten leuchten auf, und jede gedrückte Taste bleibt als getestet markiert.",

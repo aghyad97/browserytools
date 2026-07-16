@@ -499,10 +499,6 @@
         "name": "手柄测试",
         "description": "测试任意 USB 或蓝牙手柄的按键、摇杆、扳机键和震动功能。"
       },
-      "dead-pixel-test": {
-        "name": "坏点检测",
-        "description": "通过全屏纯色测试，检测显示器或手机屏幕上的坏点和亮点。"
-      },
       "timezone-converter": {
         "name": "时区转换器",
         "description": "在不同时区之间转换时间。"
@@ -4780,15 +4776,6 @@
       "vibrationTest": "测试震动",
       "mapping": "按键映射",
       "connected": "已连接"
-    },
-    "DeadPixelTest": {
-      "start": "开始测试",
-      "instructionsTitle": "测试方法",
-      "instructionsDead": "坏点在任何颜色下都会保持黑色——它永远不会亮起。",
-      "instructionsStuck": "亮点会固定显示某一种颜色（通常是红色、绿色或蓝色），即使屏幕画面发生变化也不会改变。",
-      "instructionsHowTo": "开始测试后，点击或按方向键切换纯色画面，仔细观察是否有与背景颜色不一致的点。按 Esc 键退出。",
-      "hintOverlay": "点击或按 → 切换颜色 · 按 Esc 退出",
-      "customColor": "自定义"
     },
     "KeyboardTester": {
       "pressAnyKey": "按下任意键——长按的按键会亮起，每个按下过的键都会被标记为已测试。",

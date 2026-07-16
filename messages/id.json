@@ -499,10 +499,6 @@
         "name": "Uji Gamepad",
         "description": "Uji tombol, stik analog, pemicu, dan getaran kontroler untuk gamepad USB atau Bluetooth apa pun."
       },
-      "dead-pixel-test": {
-        "name": "Uji Dead Pixel",
-        "description": "Temukan piksel mati atau macet dengan pemeriksaan warna solid layar penuh untuk monitor atau ponsel apa pun."
-      },
       "timezone-converter": {
         "name": "Konverter Zona Waktu",
         "description": "Konversi waktu antar zona waktu yang berbeda."
@@ -4780,15 +4776,6 @@
       "vibrationTest": "Uji getaran",
       "mapping": "Pemetaan",
       "connected": "Terhubung"
-    },
-    "DeadPixelTest": {
-      "start": "Mulai uji",
-      "instructionsTitle": "Cara menguji",
-      "instructionsDead": "Piksel mati tetap hitam pada setiap warna — tidak pernah menyala.",
-      "instructionsStuck": "Piksel macet terpaku pada satu warna (biasanya merah, hijau, atau biru) meskipun warna layar berubah.",
-      "instructionsHowTo": "Mulai pengujian, lalu klik atau tekan tombol panah untuk berpindah warna solid. Perhatikan baik-baik jika ada titik yang tidak sesuai. Tekan Esc untuk keluar.",
-      "hintOverlay": "Klik atau tekan → untuk mengubah warna · Esc untuk keluar",
-      "customColor": "Kustom"
     },
     "KeyboardTester": {
       "pressAnyKey": "Tekan tombol apa saja — tombol yang ditahan akan menyala, dan setiap tombol yang ditekan akan tetap ditandai sebagai teruji.",

@@ -499,10 +499,6 @@
         "name": "Probador de mando",
         "description": "Prueba botones, joysticks, gatillos y vibración de cualquier mando USB o Bluetooth."
       },
-      "dead-pixel-test": {
-        "name": "Prueba de píxeles muertos",
-        "description": "Encuentra píxeles muertos o atascados con pruebas de color sólido a pantalla completa para cualquier monitor o teléfono."
-      },
       "timezone-converter": {
         "name": "Conversor de zonas horarias",
         "description": "Convierte horas entre distintas zonas horarias."
@@ -4780,15 +4776,6 @@
       "vibrationTest": "Probar vibración",
       "mapping": "Asignación",
       "connected": "Conectado"
-    },
-    "DeadPixelTest": {
-      "start": "Iniciar prueba",
-      "instructionsTitle": "Cómo hacer la prueba",
-      "instructionsDead": "Un píxel muerto permanece negro en todos los colores — nunca se ilumina.",
-      "instructionsStuck": "Un píxel atascado queda fijo en un color (a menudo rojo, verde o azul) aunque la pantalla cambie.",
-      "instructionsHowTo": "Inicia la prueba y luego haz clic o presiona las flechas para recorrer colores sólidos. Fíjate bien en cualquier punto que no coincida. Presiona Esc para salir.",
-      "hintOverlay": "Haz clic o presiona → para cambiar de color · Esc para salir",
-      "customColor": "Personalizado"
     },
     "KeyboardTester": {
       "pressAnyKey": "Presiona cualquier tecla — las teclas mantenidas se iluminan, y cada tecla que presiones queda marcada como probada.",

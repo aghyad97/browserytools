@@ -218,7 +218,6 @@ const HAS_OWN_H1 = new Set([
   "webcam-test",
   "keyboard-tester",
   "gamepad-tester",
-  "dead-pixel-test",
 ]);
 
 export function ToolTitle() {

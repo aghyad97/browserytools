@@ -499,10 +499,6 @@
         "name": "Testeur de manette",
         "description": "Testez les boutons, joysticks, gâchettes et la vibration de n'importe quelle manette USB ou Bluetooth."
       },
-      "dead-pixel-test": {
-        "name": "Test de pixels morts",
-        "description": "Détectez les pixels morts ou bloqués grâce à des tests plein écran en couleurs unies, pour tout moniteur ou téléphone."
-      },
       "timezone-converter": {
         "name": "Convertisseur de fuseaux horaires",
         "description": "Convertissez l'heure entre différents fuseaux horaires."
@@ -4780,15 +4776,6 @@
       "vibrationTest": "Tester la vibration",
       "mapping": "Mappage",
       "connected": "Connectée"
-    },
-    "DeadPixelTest": {
-      "start": "Démarrer le test",
-      "instructionsTitle": "Comment tester",
-      "instructionsDead": "Un pixel mort reste noir sur toutes les couleurs — il ne s'allume jamais.",
-      "instructionsStuck": "Un pixel bloqué reste figé sur une couleur (souvent rouge, vert ou bleu), même quand l'écran change.",
-      "instructionsHowTo": "Lancez le test, puis cliquez ou utilisez les flèches du clavier pour faire défiler les couleurs unies. Observez attentivement tout point qui détonne. Appuyez sur Échap pour quitter.",
-      "hintOverlay": "Cliquez ou appuyez sur → pour changer de couleur · Échap pour quitter",
-      "customColor": "Personnalisé"
     },
     "KeyboardTester": {
       "pressAnyKey": "Appuyez sur une touche — les touches maintenues s'allument, et chaque touche pressée reste marquée comme testée.",

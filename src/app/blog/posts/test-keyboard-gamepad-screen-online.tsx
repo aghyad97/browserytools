@@ -3,8 +3,8 @@ export default function Content() {
     <div>
       <p>
         A key stops registering mid-sentence. A game controller&apos;s stick seems to nudge your
-        character even when you are not touching it. A new monitor has a single pixel that never lights
-        up. A video call starts and you cannot tell if your microphone is actually working until
+        character even when you are not touching it. A video call starts and you cannot tell if your
+        microphone is actually working until
         someone tells you they cannot hear you. In every one of these cases, the honest first question
         is the same: is this the hardware, or is it something else? You do not need to install anything
         to find out — a handful of focused browser tools will give you a clear answer in under a
@@ -53,25 +53,6 @@ export default function Content() {
         diagnosing an intermittent connection issue.
       </p>
 
-      <h2>Screen: Dead Pixels vs. Stuck Pixels</h2>
-      <p>
-        These two terms get used interchangeably, but they describe different problems and the
-        distinction matters if you are deciding whether to return a monitor or phone. The{" "}
-        <a href="/tools/dead-pixel-test">Dead Pixel Test</a> cycles your screen through solid full-screen
-        colors — pure black, pure white, red, green, blue — so any misbehaving pixel stands out against
-        a completely uniform background.
-      </p>
-      <p>
-        A <strong>dead pixel</strong> is one that never lights up — it stays black no matter what color
-        the rest of the screen is showing, because that subpixel has lost power entirely. A{" "}
-        <strong>stuck pixel</strong> is different: it is stuck showing one specific color (often red,
-        green, or blue) regardless of what the screen around it is displaying, because one subpixel is
-        stuck fully on. Dead pixels show up clearest against the white or bright-color screens; stuck
-        pixels show up clearest against black. Run through all the color swatches slowly and look
-        closely, ideally on a large display or after zooming in — a single stray pixel is easy to miss
-        at a glance.
-      </p>
-
       <h2>Mic and Webcam: The Pre-Call Check</h2>
       <p>
         &quot;Can you hear me?&quot; is a bad way to start a meeting. Before you join the call, open{" "}
@@ -103,8 +84,7 @@ export default function Content() {
         Bookmark the set and run through them whenever something feels off, or before you commit to
         returning a piece of hardware: <a href="/tools/keyboard-tester">Keyboard Tester</a>,{" "}
         <a href="/tools/gamepad-tester">Gamepad Tester</a>,{" "}
-        <a href="/tools/dead-pixel-test">Dead Pixel Test</a>, <a href="/tools/mic-test">Mic Test</a>,
-        and <a href="/tools/webcam-test">Webcam Test</a>. Each one takes under a minute and tells you,
+        <a href="/tools/mic-test">Mic Test</a>, and <a href="/tools/webcam-test">Webcam Test</a>. Each one takes under a minute and tells you,
         with real data instead of guesswork, whether the problem is your hardware or something else.
       </p>
     </div>

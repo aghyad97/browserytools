@@ -1745,16 +1745,6 @@ export const tools: ToolCategory[] = [
         description:
           "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad.",
       },
-      {
-        name: "Dead Pixel Test",
-        href: "/tools/dead-pixel-test",
-        icon: MonitorIcon,
-        available: true,
-        order: 4,
-        creationDate: "2026-07-16",
-        description:
-          "Find dead or stuck pixels with fullscreen solid-color checks for any monitor or phone.",
-      },
     ],
   },
   {
