@@ -28,9 +28,13 @@ vi.mock("@/lib/pdf/rotate", () => ({
 }));
 
 // pdfjs-doc.openPdf drives the per-page thumbnail grid in RotatePanel.
+// `pageRotate` lets a test simulate a source PDF whose pages carry an existing
+// /Rotate (pdf.js exposes it as `page.rotate`).
+let pageRotate = 0;
 const openPdf = vi.fn(async () => ({
   numPages: 3,
   getPage: vi.fn(async () => ({
+    rotate: pageRotate,
     getViewport: () => ({ width: 40, height: 56 }),
     render: () => ({ promise: Promise.resolve() }),
     getTextContent: async () => ({ items: [] }),
@@ -57,6 +61,7 @@ beforeEach(() => {
   rotatePdf.mockClear();
   openPdf.mockClear();
   noop.mockClear();
+  pageRotate = 0;
 });
 
 describe("CompressPanel", () => {
@@ -144,6 +149,23 @@ describe("RotatePanel", () => {
     await waitFor(() => expect(rotatePdf).toHaveBeenCalled());
     expect(rotatePdf).toHaveBeenCalledWith(file.data, { 0: 90 });
     expect(URL.createObjectURL).toHaveBeenCalled();
+  });
+
+  it("adds the click delta on top of an existing page /Rotate", async () => {
+    pageRotate = 90; // source page already rotated 90°
+    const user = userEvent.setup();
+    const file = makeFile();
+    render(<RotatePanel files={[file]} onDropPdf={noop} />);
+    await waitFor(() => expect(screen.getByTestId("rotate-thumb-0")).toBeInTheDocument());
+
+    // One click = +90° delta shown in the badge (the baseline is already baked
+    // into the thumbnail), but the saved absolute rotation is 90 + 90 = 180.
+    await user.click(screen.getByTestId("rotate-thumb-0"));
+    expect(screen.getByTestId("rotate-thumb-0")).toHaveTextContent("90°");
+    await user.click(screen.getByRole("button", { name: /apply rotation/i }));
+
+    await waitFor(() => expect(rotatePdf).toHaveBeenCalled());
+    expect(rotatePdf).toHaveBeenCalledWith(file.data, { 0: 180 });
   });
 
   it("rotate-all turns every page 90°", async () => {

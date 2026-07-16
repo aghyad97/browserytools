@@ -16,6 +16,10 @@ if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
 export interface PdfJsDocument {
   numPages: number;
   getPage(n: number): Promise<{
+    /** The page's own /Rotate (degrees, normally 0/90/180/270). Optional so
+     *  existing hand-rolled fakes that don't need it stay valid; real pdf.js
+     *  pages always expose it. */
+    rotate?: number;
     getViewport(o: { scale: number }): { width: number; height: number };
     render(o: {
       canvasContext: CanvasRenderingContext2D;

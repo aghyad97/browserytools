@@ -32,22 +32,31 @@ interface RotatePanelProps {
 
 /**
  * Persisted per-page rotation. Renders every page as a thumbnail (pdf.js at
- * scale 0.3, cached per file+page across selections), clicking a page adds 90°
- * cumulatively, and the preview shows the absolute angle via CSS transform.
- * Apply hands `rotatePdf` an ABSOLUTE map that includes only the pages the user
- * actually turned. When multiple PDFs are loaded a file selector keeps the
- * single-PDF operation coherent; it defaults to the first file.
+ * scale 0.3, cached per file-identity+page across selections). pdf.js bakes the
+ * page's own /Rotate into the thumbnail, so that value is captured as the
+ * per-page BASELINE. Clicking a page adds 90° cumulatively as a DELTA on top of
+ * the baseline; the badge and CSS-transform preview show only that delta (the
+ * baseline is already visible in the rendered thumbnail). Apply hands
+ * `rotatePdf` an ABSOLUTE map of `(baseline + delta) % 360` for the pages the
+ * user actually turned — so a page that already had /Rotate 90 and is turned
+ * once is saved as 180, matching the preview. When multiple PDFs are loaded a
+ * file selector keeps the single-PDF operation coherent; it defaults to the
+ * first file.
  */
 export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
   const t = useTranslations("Tools.PDFTools");
 
   const [selectedIndex, setSelectedIndex] = useState(0);
-  // Absolute target angle (0/90/180/270) per 0-based page index.
-  const [rotations, setRotations] = useState<Record<number, number>>({});
+  // User-applied delta (0/90/180/270) per 0-based page index, on top of the
+  // page's baseline /Rotate.
+  const [deltas, setDeltas] = useState<Record<number, number>>({});
+  // The page's existing /Rotate (as pdf.js reports it), per 0-based page index.
+  const [baselines, setBaselines] = useState<Record<number, number>>({});
   const [pageCount, setPageCount] = useState(0);
   const [rendering, setRendering] = useState(false);
   const [busy, setBusy] = useState(false);
-  // Thumbnail cache keyed `${name}#${pageIndex}` — persists across file switches.
+  // Thumbnail cache keyed by file identity — `${selectedIndex}:${size}:${name}#${page}`
+  // so same-named files at different slots never collide. Persists across switches.
   const cacheRef = useRef<Record<string, string>>({});
   const [, forceTick] = useState(0);
 
@@ -57,35 +66,50 @@ export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
 
   const active = files[selectedIndex] ?? null;
 
-  // Render (or reuse cached) thumbnails whenever the active file changes.
+  // Thumbnail cache key tied to file identity (slot + size + name), not the name
+  // alone — two uploads named "doc.pdf" must not share cached thumbnails.
+  const thumbKey = (page: number) =>
+    active ? `${selectedIndex}:${active.size}:${active.name}#${page}` : `#${page}`;
+
+  // Render (or reuse cached) thumbnails whenever the active file changes, and
+  // capture each page's existing /Rotate as the per-page baseline.
   useEffect(() => {
     if (!active) {
       setPageCount(0);
       return;
     }
     let cancelled = false;
-    setRotations({});
+    setDeltas({});
+    setBaselines({});
     setRendering(true);
     (async () => {
       try {
         const doc = await openPdf(active.data);
         if (cancelled) return;
         setPageCount(doc.numPages);
+        const nextBaselines: Record<number, number> = {};
         for (let i = 0; i < doc.numPages; i++) {
-          const key = `${active.name}#${i}`;
-          if (cacheRef.current[key]) continue;
+          // getPage is cheap relative to render; always call it so we read the
+          // baseline even for pages whose thumbnail is already cached.
           const page = await doc.getPage(i + 1);
-          const viewport = page.getViewport({ scale: THUMB_SCALE });
-          const canvas = document.createElement("canvas");
-          const ctx = canvas.getContext("2d");
-          if (!ctx) continue;
-          canvas.width = Math.max(1, Math.round(viewport.width));
-          canvas.height = Math.max(1, Math.round(viewport.height));
-          await page.render({ canvasContext: ctx, viewport }).promise;
           if (cancelled) return;
-          cacheRef.current[key] = canvas.toDataURL("image/png");
-          forceTick((n) => n + 1);
+          nextBaselines[i] = (((page.rotate ?? 0) % 360) + 360) % 360;
+          const key = `${selectedIndex}:${active.size}:${active.name}#${i}`;
+          if (!cacheRef.current[key]) {
+            const viewport = page.getViewport({ scale: THUMB_SCALE });
+            const canvas = document.createElement("canvas");
+            const ctx = canvas.getContext("2d");
+            if (ctx) {
+              canvas.width = Math.max(1, Math.round(viewport.width));
+              canvas.height = Math.max(1, Math.round(viewport.height));
+              await page.render({ canvasContext: ctx, viewport }).promise;
+              if (cancelled) return;
+              cacheRef.current[key] = canvas.toDataURL("image/png");
+              forceTick((n) => n + 1);
+            }
+          }
         }
+        if (!cancelled) setBaselines(nextBaselines);
       } catch {
         if (!cancelled) toast.error(t("errorRotating"));
       } finally {
@@ -95,17 +119,22 @@ export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
     return () => {
       cancelled = true;
     };
-  }, [active?.name, active?.data, t]);
+    // selectedIndex + size + name pin file identity for both cache and baselines.
+    // `t` is intentionally NOT a dependency: next-intl can hand back a fresh `t`
+    // identity per render, and since this effect calls setState, listing `t`
+    // would re-trigger it every render → an infinite render loop. `t` is only
+    // read here for an error toast, so a stale reference is harmless.
+  }, [active?.name, active?.data, active?.size, selectedIndex]);
 
   const bump = (index: number, delta: number) => {
-    setRotations((prev) => ({
+    setDeltas((prev) => ({
       ...prev,
       [index]: (((prev[index] ?? 0) + delta) % 360 + 360) % 360,
     }));
   };
 
   const rotateAll = (delta: number) => {
-    setRotations((prev) => {
+    setDeltas((prev) => {
       const next: Record<number, number> = { ...prev };
       for (let i = 0; i < pageCount; i++) {
         next[i] = (((prev[i] ?? 0) + delta) % 360 + 360) % 360;
@@ -114,14 +143,17 @@ export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
     });
   };
 
-  // Absolute map of ONLY the pages the user actually turned.
+  // Absolute map of ONLY the pages the user actually turned: baseline + delta.
   const changed = useMemo(() => {
     const map: Record<number, number> = {};
-    for (const [k, v] of Object.entries(rotations)) {
-      if (v % 360 !== 0) map[Number(k)] = v;
+    for (const [k, v] of Object.entries(deltas)) {
+      if (v % 360 !== 0) {
+        const i = Number(k);
+        map[i] = (((baselines[i] ?? 0) + v) % 360 + 360) % 360;
+      }
     }
     return map;
-  }, [rotations]);
+  }, [deltas, baselines]);
 
   const handleApply = async () => {
     if (!active) return;
@@ -218,10 +250,16 @@ export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
         </div>
       </div>
 
+      {rendering && (
+        <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
+          {t("renderingPages")}
+        </p>
+      )}
+
       <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
         {Array.from({ length: pageCount }, (_, i) => {
-          const angle = rotations[i] ?? 0;
-          const src = cacheRef.current[`${active.name}#${i}`];
+          const delta = deltas[i] ?? 0;
+          const src = cacheRef.current[thumbKey(i)];
           return (
             <button
               key={i}
@@ -236,17 +274,17 @@ export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
                   src={src}
                   alt=""
                   className="max-h-full max-w-full object-contain transition-transform"
-                  style={{ transform: `rotate(${angle}deg)` }}
+                  style={{ transform: `rotate(${delta}deg)` }}
                 />
               ) : (
                 <FileIcon className="w-6 h-6 text-muted-foreground" aria-hidden />
               )}
-              {angle !== 0 && (
+              {delta !== 0 && (
                 <span
                   dir="ltr"
                   className="absolute end-1 top-1 rounded bg-primary px-1.5 py-0.5 text-xs font-medium text-primary-foreground"
                 >
-                  {t("rotatedBadge", { degrees: angle })}
+                  {t("rotatedBadge", { degrees: delta })}
                 </span>
               )}
               <span
