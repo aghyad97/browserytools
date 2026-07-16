@@ -21,7 +21,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { tools, getAllTools, isToolNew } from "@/lib/tools-config";
+import { tools, getAllTools } from "@/lib/tools-config";
 import { FEATURED_APPS, type FeaturedApp } from "@/lib/featured-apps";
 import { routeFile, extOf, type RouteMatch } from "@/lib/file-router";
 import { playCue } from "@/lib/ui-sound";
@@ -47,7 +47,7 @@ const TOOL_INDEX = tools.flatMap((c) =>
       href: t.href,
       icon: t.icon,
       categoryId: c.id,
-      isNew: isToolNew(t.creationDate),
+      creationDate: t.creationDate,
     })),
 );
 
@@ -80,7 +80,7 @@ const GROUPED = tools
         slug: t.href.split("/").pop() as string,
         href: t.href,
         icon: t.icon,
-        isNew: isToolNew(t.creationDate),
+        creationDate: t.creationDate,
       })),
   }));
 
@@ -94,7 +94,7 @@ function Tile({
   name,
   catLabel,
   description,
-  isNew,
+  creationDate,
 }: {
   href: string;
   slug: string;
@@ -103,7 +103,7 @@ function Tile({
   name: string;
   catLabel: string;
   description?: string;
-  isNew?: boolean;
+  creationDate?: string;
 }) {
   const c = CHIP[categoryId];
   return (
@@ -116,7 +116,7 @@ function Tile({
       chipBg={c?.bg}
       chipFg={c?.fg}
       description={description}
-      isNew={isNew}
+      creationDate={creationDate}
     />
   );
 }
@@ -441,7 +441,7 @@ function LiveDemo() {
                 catLabel={tc(`categoriesShort.${tool.categoryId}` as never)}
                 chipBg={CHIP[tool.categoryId]?.bg}
                 chipFg={CHIP[tool.categoryId]?.fg}
-                isNew={tool.isNew}
+                creationDate={tool.creationDate}
               />
             ))}
           </div>
@@ -469,7 +469,7 @@ function ToolRow({
   items,
 }: {
   label: string;
-  items: { href: string; slug: string; icon: FeaturedApp["icon"]; categoryId: string; name: string; catLabel: string; description?: string; isNew?: boolean }[];
+  items: { href: string; slug: string; icon: FeaturedApp["icon"]; categoryId: string; name: string; catLabel: string; description?: string; creationDate?: string }[];
 }) {
   if (items.length === 0) return null;
   return (
@@ -644,7 +644,7 @@ export default function Landing() {
             name={tool.name}
             catLabel={tool.catLabel}
             description={tool.description}
-            isNew={tool.isNew}
+            creationDate={tool.creationDate}
           />
         ))}
       </div>
@@ -668,7 +668,7 @@ export default function Landing() {
                   catLabel={tc(`categoriesShort.${cat.id}` as never)}
                   chipBg={CHIP[cat.id]?.bg}
                   chipFg={CHIP[cat.id]?.fg}
-                  isNew={item.isNew}
+                  creationDate={item.creationDate}
                 />
               ))}
             </div>

@@ -125,11 +125,13 @@
   margin-block-start: 2px;
 }
 
-/* "NEW" pill — a soft green chip pinned to the block-start / inline-end corner
-   (mirrors to the start side under RTL via logical inset properties). Full
-   border on all four edges (no single-edge rule); colour is var(--bt-green)
-   only, softened via color-mix so it reads in both themes. Precedent: the
-   green success pill in landing.module.css. */
+/* "NEW" pill — a soft green chip straddling the tile's block-start edge at the
+   inline-end corner (mirrors to the start side under RTL via logical insets).
+   Bordered on all four edges — never a single-edge accent. Colour is
+   var(--bt-green) alone, softened through color-mix so it reads in both
+   themes; precedent is the green pill in landing.module.css. The -6px offset
+   paints outside the tile, which is safe: .tile sets no overflow (the
+   overflow: hidden above belongs to .tileChip, the 32px icon box). */
 .newBadge {
   position: absolute;
   inset-block-start: -6px;
