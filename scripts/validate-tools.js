@@ -81,7 +81,16 @@ function loadToolsConfig() {
         const isCommentedOut =
           beforeMatch.includes("// {") || beforeMatch.includes("//{");
 
-        if (!isCommentedOut) {
+        // SEO landing variants (entries carrying `landingFor`, which follows
+        // `available` in field order) are exempt from README sync — they are
+        // neither required in README nor flagged as missing. Scan this item's
+        // full block (from its `{` up to the next item / end of the category).
+        const rest = itemsContent.substring(itemMatch.index);
+        const nextItem = rest.slice(1).search(/{\s*name:\s*"/);
+        const block = nextItem === -1 ? rest : rest.substring(0, nextItem + 1);
+        const isLandingVariant = /landingFor\s*:/.test(block);
+
+        if (!isCommentedOut && !isLandingVariant) {
           items.push({
             name: itemMatch[1],
             available: itemMatch[2] === "true",

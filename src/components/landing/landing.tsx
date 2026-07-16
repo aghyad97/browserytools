@@ -35,14 +35,19 @@ import { CHIP } from "@/lib/category-chips";
 import { popularityRank } from "@/lib/tool-popularity";
 import s from "./landing.module.css";
 
-/* Locale-independent flat index — names/labels resolve via i18n at render. */
+/* Locale-independent flat index — names/labels resolve via i18n at render.
+   SEO landing variants (entries with `landingFor`) are excluded everywhere on
+   the landing: they must stay off the homepage grid, category counts and the
+   marketing tool count (they remain crawlable via their own routes/sitemap). */
 const TOOL_INDEX = tools.flatMap((c) =>
-  c.items.map((t) => ({
-    slug: t.href.split("/").pop() as string,
-    href: t.href,
-    icon: t.icon,
-    categoryId: c.id,
-  })),
+  c.items
+    .filter((t) => !t.landingFor)
+    .map((t) => ({
+      slug: t.href.split("/").pop() as string,
+      href: t.href,
+      icon: t.icon,
+      categoryId: c.id,
+    })),
 );
 
 const TOOL_COUNT = TOOL_INDEX.length;
@@ -54,7 +59,10 @@ const POPULAR_LIMIT = 47;
 const CATEGORIES = tools
   .slice()
   .sort((a, b) => a.order - b.order)
-  .map((c) => ({ id: c.id, count: c.items.length }));
+  .map((c) => ({
+    id: c.id,
+    count: c.items.filter((t) => !t.landingFor).length,
+  }));
 
 /* Full catalog grouped by category for the crawlable "All tools" surface.
    Copy before sorting — never mutate the shared config (an in-place sort
@@ -64,7 +72,8 @@ const GROUPED = tools
   .sort((a, b) => a.order - b.order)
   .map((c) => ({
     id: c.id,
-    items: [...c.items]
+    items: c.items
+      .filter((t) => !t.landingFor)
       .sort((a, b) => a.order - b.order)
       .map((t) => ({
         slug: t.href.split("/").pop() as string,

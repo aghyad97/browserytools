@@ -102,6 +102,15 @@ export interface Tool {
    * APIs) and can't honestly claim to run fully on-device. Absent/true means
    * the default on-device promise applies. */
   onDevice?: boolean;
+  /** Present ONLY on SEO landing-page variants (e.g. `compress-image-to-20kb`)
+   * whose value is the canonical tool's slug. Landing variants are real
+   * tools-config entries (so they inherit sitemap/metadata/route/e2e plumbing
+   * via getAllTools) but are hidden from the homepage grid, the marketing tool
+   * count (getCatalogTools / roundedToolCount), and other tools' related tiles.
+   * Field-order note: `landingFor` is an optional and MUST follow `onDevice`
+   * (after `creationDate`) — scripts/generate-tool-routes.mjs regexes the
+   * name → href → … available prefix, so keep required fields ahead of it. */
+  landingFor?: string;
 }
 
 export interface ToolCategory {
@@ -1588,6 +1597,55 @@ export const getAllTools = (): (Tool & { category: string })[] => {
   );
 };
 
+// Catalog tools — the public, user-facing set: every tool EXCEPT SEO landing
+// variants (entries carrying `landingFor`). This is what the homepage grid and
+// the marketing "N+ tools" count show. `getAllTools()` stays the full set so
+// sitemap / metadata / route + e2e generation keep landing variants visible.
+export const getCatalogTools = (): (Tool & { category: string })[] =>
+  getAllTools().filter((tool) => !tool.landingFor);
+
+// Related-tile resolution shared by the ToolShell (spec §3, zone 5). Pure so it
+// can be unit-tested against a synthetic pool; defaults to the live catalog.
+//   - NORMAL tool: up to `limit` same-category siblings, excluding itself AND
+//     any landing variant (they never surface as a normal tool's related tile).
+//   - LANDING tool (its own slug carries `landingFor`): the canonical tool
+//     first, then sibling variants sharing the same `landingFor`, with the TOTAL
+//     capped at `limit` so the tile count matches a normal tool's.
+export const getRelatedTools = (
+  slug: string,
+  limit = 3,
+  pool: (Tool & { category: string })[] = getAllTools(),
+): { slug: string; href: string; icon: Tool["icon"] }[] => {
+  const slugOf = (t: { href: string }) => t.href.split("/").pop() as string;
+  const toEntry = (t: Tool) => ({ slug: slugOf(t), href: t.href, icon: t.icon });
+  const self = pool.find((t) => slugOf(t) === slug);
+  if (!self) return [];
+
+  if (self.landingFor) {
+    const result: (Tool & { category: string })[] = [];
+    const canonical = pool.find((t) => slugOf(t) === self.landingFor);
+    if (canonical) result.push(canonical);
+    for (const t of pool) {
+      if (result.length >= limit) break;
+      if (t.landingFor === self.landingFor && slugOf(t) !== slug && t.available) {
+        result.push(t);
+      }
+    }
+    return result.slice(0, limit).map(toEntry);
+  }
+
+  return pool
+    .filter(
+      (t) =>
+        t.category === self.category &&
+        t.available &&
+        !t.landingFor &&
+        slugOf(t) !== slug,
+    )
+    .slice(0, limit)
+    .map(toEntry);
+};
+
 // Helper function to find a tool by href
 export const findToolByHref = (
   href: string,
@@ -1617,6 +1675,6 @@ export const getDaysSinceCreation = (creationDate: string): number => {
     copy ("Search 130+ tools"), where an exact count with a plus ("137+")
     reads wrong. Exact counts without a plus should use the real number. */
 export function roundedToolCount(): number {
-  const exact = tools.reduce((n, c) => n + c.items.length, 0);
+  const exact = getCatalogTools().length;
   return Math.floor(exact / 10) * 10;
 }
