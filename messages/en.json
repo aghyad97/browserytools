@@ -4779,6 +4779,17 @@
       "generated": "GIF created!",
       "generateFailed": "Couldn't create the GIF. Please try again."
     },
+    "GamepadTester": {
+      "title": "Gamepad Tester",
+      "description": "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad.",
+      "connectPrompt": "Connect a controller and press any button",
+      "buttons": "Buttons",
+      "axes": "Axes",
+      "vibrationTest": "Test vibration",
+      "mapping": "Mapping",
+      "connected": "Connected",
+      "disconnected": "Disconnected"
+    },
     "KeyboardTester": {
       "title": "Keyboard Tester",
       "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check.",
