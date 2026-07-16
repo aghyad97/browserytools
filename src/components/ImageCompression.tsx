@@ -304,7 +304,7 @@ export default function ImageCompression({
               )}
             </Button>
             <ControlStat label={t("sizeReduction")}>
-              <span className="text-2xl font-bold text-green-500">
+              <span className="text-2xl font-bold" style={{ color: "var(--bt-green)" }}>
                 {compressionRatio}
               </span>
             </ControlStat>
@@ -570,7 +570,7 @@ export default function ImageCompression({
                 {t("quality")}: {Math.round(targetMeta.quality * 100)}%
               </p>
               {targetMeta.hitTarget ? (
-                <p className="text-green-500 font-medium">
+                <p className="font-medium" style={{ color: "var(--bt-green)" }}>
                   {t("targetReached")}
                 </p>
               ) : (
