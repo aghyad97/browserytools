@@ -213,7 +213,6 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Typing Test**: Measure your typing speed (WPM) and accuracy with optional mechanical keyboard click sounds.
 - **Keyboard Tester**: Test every key on your keyboard with a live visual layout, key history, and rollover check.
 - **Gamepad Tester**: Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad.
-- **Dead Pixel Test**: Find dead or stuck pixels with fullscreen solid-color checks for any monitor or phone.
 
 ### 🎓 School & Learning
 
