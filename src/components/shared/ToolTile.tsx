@@ -15,6 +15,7 @@
 
 import type { LucideIcon } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import {
   Tooltip,
   TooltipContent,
@@ -47,6 +48,9 @@ export interface ToolTileProps {
   /** Localized tool description — shown in a hover tooltip when provided
       (parity with the pre-redesign ToolCard behavior). */
   description?: string;
+  /** Whether the tool is recently added — renders the "NEW" pill (parity with
+      the pre-redesign ToolCard badge; gate via isToolNew at the call site). */
+  isNew?: boolean;
 }
 
 export function ToolTile({
@@ -61,7 +65,9 @@ export function ToolTile({
   style,
   testId,
   description,
+  isNew,
 }: ToolTileProps) {
+  const tCommon = useTranslations("Common");
   const tile = (
     <Link
       href={href}
@@ -84,6 +90,11 @@ export function ToolTile({
         </span>
         <span className={s.tileCat}>{catLabel}</span>
       </span>
+      {isNew && (
+        <span className={s.newBadge} data-testid="tool-tile-new">
+          {tCommon("new")}
+        </span>
+      )}
     </Link>
   );
 

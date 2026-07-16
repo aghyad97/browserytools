@@ -1818,9 +1818,14 @@ export const getRelatedTools = (
   slug: string,
   limit = 3,
   pool: (Tool & { category: string })[] = getAllTools(),
-): { slug: string; href: string; icon: Tool["icon"] }[] => {
+): { slug: string; href: string; icon: Tool["icon"]; isNew: boolean }[] => {
   const slugOf = (t: { href: string }) => t.href.split("/").pop() as string;
-  const toEntry = (t: Tool) => ({ slug: slugOf(t), href: t.href, icon: t.icon });
+  const toEntry = (t: Tool) => ({
+    slug: slugOf(t),
+    href: t.href,
+    icon: t.icon,
+    isNew: isToolNew(t.creationDate),
+  });
   const self = pool.find((t) => slugOf(t) === slug);
   if (!self) return [];
 

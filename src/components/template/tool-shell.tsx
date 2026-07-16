@@ -151,6 +151,7 @@ export function ToolShell({
                 description={tc(`tools.${r.slug}.description` as never) as string}
                 chipBg={chip?.bg}
                 chipFg={chip?.fg}
+                isNew={r.isNew}
                 testId="tool-shell-related-tile"
               />
             ))}
