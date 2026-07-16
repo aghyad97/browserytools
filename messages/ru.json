@@ -120,56 +120,56 @@
         "description": "Сжимайте изображения, уменьшая размер файла без потери качества. Поддержка JPG, PNG, WebP."
       },
       "compress-image-to-20kb": {
-        "name": "Compress Image to 20KB",
-        "description": "Shrink any photo to 20 kilobytes or less for application forms and portals with strict size limits."
+        "name": "Сжать изображение до 20 КБ",
+        "description": "Уменьшите фото до 20 килобайт или меньше — для анкет и порталов со строгими лимитами размера."
       },
       "compress-image-to-50kb": {
-        "name": "Compress Image to 50KB",
-        "description": "Reduce image file size to 50KB for exam portals, job applications, and email attachments."
+        "name": "Сжать изображение до 50 КБ",
+        "description": "Уменьшите размер файла изображения до 50 КБ для экзаменационных порталов, анкет при трудоустройстве и вложений в письма."
       },
       "compress-image-to-100kb": {
-        "name": "Compress Image to 100KB",
-        "description": "Get any picture under 100KB while keeping it sharp — made for upload limits."
+        "name": "Сжать изображение до 100 КБ",
+        "description": "Уменьшите любое фото до 100 КБ, сохранив чёткость — специально для лимитов загрузки."
       },
       "compress-image-to-200kb": {
-        "name": "Compress Image to 200KB",
-        "description": "Compress photos to 200KB or less for CMS uploads, listings, and document portals."
+        "name": "Сжать изображение до 200 КБ",
+        "description": "Сжимайте фотографии до 200 КБ или меньше для CMS, объявлений и документов на порталах."
       },
       "compress-image-to-500kb": {
-        "name": "Compress Image to 500KB",
-        "description": "Bring large photos under 500KB without visible quality loss."
+        "name": "Сжать изображение до 500 КБ",
+        "description": "Уменьшите крупные фото до 500 КБ без заметной потери качества."
       },
       "compress-image-to-1mb": {
-        "name": "Compress Image to 1MB",
-        "description": "Compress high-resolution photos to under 1MB for email, forms, and faster sharing."
+        "name": "Сжать изображение до 1 МБ",
+        "description": "Сжимайте фото высокого разрешения до 1 МБ для писем, форм и быстрой отправки."
       },
       "compress-jpeg-to-50kb": {
-        "name": "Compress JPEG to 50KB",
-        "description": "Reduce JPEG file size to 50KB with smart quality search, right in your browser."
+        "name": "Сжать JPEG до 50 КБ",
+        "description": "Уменьшите размер JPEG-файла до 50 КБ с умным подбором качества прямо в браузере."
       },
       "compress-jpeg-to-100kb": {
-        "name": "Compress JPEG to 100KB",
-        "description": "Compress JPG photos to 100KB for portals and websites that cap upload size."
+        "name": "Сжать JPEG до 100 КБ",
+        "description": "Сжимайте JPG-фото до 100 КБ для порталов и сайтов с ограничением на размер загрузки."
       },
       "compress-jpeg-to-200kb": {
-        "name": "Compress JPEG to 200KB",
-        "description": "Shrink JPG images to 200KB while preserving detail."
+        "name": "Сжать JPEG до 200 КБ",
+        "description": "Уменьшите JPG-изображения до 200 КБ, сохранив детализацию."
       },
       "compress-signature-20kb": {
-        "name": "Compress Signature to 20KB",
-        "description": "Resize and compress your signature image to 10–20KB for online application forms."
+        "name": "Сжать подпись до 20 КБ",
+        "description": "Измените размер и сожмите изображение подписи до 10–20 КБ для онлайн-анкет."
       },
       "image-converter": {
         "name": "Конвертер форматов",
         "description": "Конвертируйте изображения между JPG, PNG, WebP, GIF, BMP, TIFF и SVG. Поддержка пакетной конвертации."
       },
       "heic-to-jpg": {
-        "name": "HEIC to JPG",
-        "description": "Convert iPhone HEIC photos to JPG right in your browser — no upload, instant download."
+        "name": "HEIC в JPG",
+        "description": "Конвертируйте HEIC-фото с iPhone в JPG прямо в браузере — без загрузки на сервер, мгновенное скачивание."
       },
       "heic-to-png": {
-        "name": "HEIC to PNG",
-        "description": "Convert HEIC images to lossless PNG locally in your browser."
+        "name": "HEIC в PNG",
+        "description": "Конвертируйте HEIC-изображения в PNG без потерь локально в браузере."
       },
       "color-correction": {
         "name": "Цветокоррекция",
@@ -212,12 +212,12 @@
         "description": "Проверьте микрофон и камеру без установки приложений."
       },
       "mic-test": {
-        "name": "Mic Test",
-        "description": "Check your microphone in seconds with a live level meter — before the call, not during it."
+        "name": "Тест микрофона",
+        "description": "Проверьте микрофон за секунды с помощью индикатора уровня в реальном времени — до звонка, а не во время него."
       },
       "webcam-test": {
-        "name": "Webcam Test",
-        "description": "Preview your camera and check quality before a meeting. Nothing is recorded or uploaded."
+        "name": "Тест веб-камеры",
+        "description": "Просмотрите камеру и проверьте качество перед встречей. Ничего не записывается и не загружается."
       },
       "compress-video": {
         "name": "Сжатие видео",
@@ -456,12 +456,12 @@
         "description": "Меняйте размер изображений до нужных размеров с сохранением качества."
       },
       "crop-image": {
-        "name": "Crop Image",
-        "description": "Crop images online with aspect-ratio presets and precise drag handles. Export to JPG, PNG, or WebP."
+        "name": "Обрезка изображения",
+        "description": "Обрезайте изображения онлайн с готовыми соотношениями сторон и точными маркерами перетаскивания. Экспорт в JPG, PNG или WebP."
       },
       "watermark-image": {
-        "name": "Watermark Image",
-        "description": "Add text or logo watermarks to photos — position, opacity, rotation, and tiling. All in your browser."
+        "name": "Водяной знак на изображении",
+        "description": "Добавляйте текстовые или графические водяные знаки на фото — позиция, прозрачность, поворот и повтор. Всё в браузере."
       },
       "contrast-checker": {
         "name": "Проверка контраста",
@@ -492,16 +492,16 @@
         "description": "Проверяйте и улучшайте скорость и точность набора текста."
       },
       "keyboard-tester": {
-        "name": "Keyboard Tester",
-        "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check."
+        "name": "Тест клавиатуры",
+        "description": "Проверьте каждую клавишу клавиатуры с наглядной раскладкой в реальном времени, историей нажатий и проверкой rollover."
       },
       "gamepad-tester": {
-        "name": "Gamepad Tester",
-        "description": "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad."
+        "name": "Тест геймпада",
+        "description": "Проверьте кнопки, стики, триггеры и вибрацию любого USB- или Bluetooth-геймпада."
       },
       "dead-pixel-test": {
-        "name": "Dead Pixel Test",
-        "description": "Find dead or stuck pixels with fullscreen solid-color checks for any monitor or phone."
+        "name": "Тест битых пикселей",
+        "description": "Найдите битые или зависшие пиксели с помощью полноэкранных проверок сплошным цветом на любом мониторе или телефоне."
       },
       "timezone-converter": {
         "name": "Конвертер часовых поясов",
@@ -824,24 +824,24 @@
       "compressedSuccess": "Изображение успешно сжато!",
       "compressFailed": "Не удалось сжать изображение. Попробуйте ещё раз.",
       "downloadedSuccess": "Изображение скачано!",
-      "modeTarget": "Target size",
-      "targetSize": "Target size (KB)",
-      "targetSizeHint": "We search quality and dimensions to hit your target.",
-      "targetReached": "Target reached",
-      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
-      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
-      "presetChipAria": "Set target to {label}"
+      "modeTarget": "Целевой размер",
+      "targetSize": "Целевой размер (КБ)",
+      "targetSizeHint": "Мы подбираем качество и размеры, чтобы достичь целевого значения.",
+      "targetReached": "Цель достигнута",
+      "targetMissed": "Не удалось достичь точного целевого значения — это минимально возможный размер при приемлемом качестве.",
+      "pngNotSupportedInTarget": "PNG нельзя сжать до целевого размера — переключено на JPEG.",
+      "presetChipAria": "Установить целевой размер {label}"
     },
     "ImageConverter": {
       "dropImageHere": "Перетащите изображение сюда",
       "supportedFormats": "Поддержка файлов PNG, JPG, WebP и AVIF",
-      "heicDropHint": "Drop iPhone HEIC photos here — converted locally, never uploaded.",
+      "heicDropHint": "Перетащите сюда HEIC-фото с iPhone — конвертация выполняется локально, без загрузки на сервер.",
       "size": "Размер",
       "targetFormat": "Целевой формат",
       "quality": "Качество",
       "convertedImagePlaceholder": "Сконвертированное изображение появится здесь",
       "imageTooLarge": "Размер изображения должен быть меньше 15 МБ",
-      "heicConverted": "HEIC сконвертирован в JPEG для предпросмотра",
+      "heicConverted": "HEIC-фото сконвертировано локально для предпросмотра",
       "heicFailed": "Не удалось прочитать HEIC. Попробуйте другой файл.",
       "convertedSuccess": "Изображение успешно сконвертировано!",
       "convertFailed": "Не удалось сконвертировать изображение. Попробуйте ещё раз.",
@@ -3120,58 +3120,58 @@
       "colorCopied": "{label} скопировано"
     },
     "WatermarkImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "processing": "Processing...",
-      "download": "Download",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded",
-      "watermarkType": "Watermark Type",
-      "watermarkText": "Text",
-      "watermarkImage": "Image",
-      "watermarkContent": "Text Content",
-      "watermarkContentPlaceholder": "Enter watermark text",
-      "watermarkFontSize": "Font Size",
-      "watermarkColor": "Color",
-      "watermarkChoose": "Choose Image",
-      "watermarkPreviewAlt": "Watermark preview",
-      "watermarkPosition": "Position",
-      "watermarkOpacity": "Opacity",
-      "watermarkScale": "Scale",
-      "watermarkRotation": "Rotation",
-      "watermarkTile": "Tile / Repeat",
-      "applyWatermark": "Apply Watermark",
-      "watermarkLoaded": "Watermark image loaded",
-      "watermarkTextRequired": "Please enter watermark text",
-      "watermarkImageRequired": "Please choose a watermark image",
-      "resultAlt": "Watermarked image"
+      "dropImage": "Перетащите изображение сюда",
+      "browseHint": "или нажмите для выбора (JPEG, PNG, WebP, GIF)",
+      "change": "Изменить",
+      "outputFormat": "Формат вывода",
+      "quality": "Качество",
+      "processing": "Обработка...",
+      "download": "Скачать",
+      "uploadError": "Пожалуйста, загрузите файл изображения",
+      "uploadFirst": "Сначала загрузите изображение",
+      "imageLoaded": "Изображение загружено",
+      "processFailed": "Не удалось выполнить обработку",
+      "downloaded": "Изображение скачано",
+      "watermarkType": "Тип водяного знака",
+      "watermarkText": "Текст",
+      "watermarkImage": "Изображение",
+      "watermarkContent": "Текст надписи",
+      "watermarkContentPlaceholder": "Введите текст водяного знака",
+      "watermarkFontSize": "Размер шрифта",
+      "watermarkColor": "Цвет",
+      "watermarkChoose": "Выбрать изображение",
+      "watermarkPreviewAlt": "Предпросмотр водяного знака",
+      "watermarkPosition": "Позиция",
+      "watermarkOpacity": "Прозрачность",
+      "watermarkScale": "Масштаб",
+      "watermarkRotation": "Поворот",
+      "watermarkTile": "Плитка / Повтор",
+      "applyWatermark": "Применить водяной знак",
+      "watermarkLoaded": "Изображение водяного знака загружено",
+      "watermarkTextRequired": "Пожалуйста, введите текст водяного знака",
+      "watermarkImageRequired": "Пожалуйста, выберите изображение для водяного знака",
+      "resultAlt": "Изображение с водяным знаком"
     },
     "CropImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "aspectRatio": "Aspect Ratio",
-      "aspectFree": "Free",
-      "cropPreviewAlt": "Crop preview",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "cropImage": "Crop Image",
-      "processing": "Processing...",
-      "download": "Download",
-      "statOriginal": "Original",
-      "statCropped": "Cropped",
-      "statOutputSize": "Output Size",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded"
+      "dropImage": "Перетащите изображение сюда",
+      "browseHint": "или нажмите для выбора (JPEG, PNG, WebP, GIF)",
+      "change": "Изменить",
+      "aspectRatio": "Соотношение сторон",
+      "aspectFree": "Свободно",
+      "cropPreviewAlt": "Предпросмотр обрезки",
+      "outputFormat": "Формат вывода",
+      "quality": "Качество",
+      "cropImage": "Обрезать изображение",
+      "processing": "Обработка...",
+      "download": "Скачать",
+      "statOriginal": "Оригинал",
+      "statCropped": "Обрезано",
+      "statOutputSize": "Размер файла",
+      "uploadError": "Пожалуйста, загрузите файл изображения",
+      "uploadFirst": "Сначала загрузите изображение",
+      "imageLoaded": "Изображение загружено",
+      "processFailed": "Не удалось выполнить обработку",
+      "downloaded": "Изображение скачано"
     },
     "ImageResizer": {
       "title": "Изменение размера изображений",
@@ -4774,29 +4774,29 @@
       "generateFailed": "Не удалось создать GIF. Попробуйте ещё раз."
     },
     "GamepadTester": {
-      "connectPrompt": "Connect a controller and press any button",
-      "buttons": "Buttons",
-      "axes": "Axes",
-      "vibrationTest": "Test vibration",
-      "mapping": "Mapping",
-      "connected": "Connected"
+      "connectPrompt": "Подключите контроллер и нажмите любую кнопку",
+      "buttons": "Кнопки",
+      "axes": "Оси",
+      "vibrationTest": "Проверить вибрацию",
+      "mapping": "Раскладка",
+      "connected": "Подключено"
     },
     "DeadPixelTest": {
-      "start": "Start test",
-      "instructionsTitle": "How to test",
-      "instructionsDead": "A dead pixel stays black on every colour — it never lights up.",
-      "instructionsStuck": "A stuck pixel is frozen on one colour (often red, green, or blue) even when the screen changes.",
-      "instructionsHowTo": "Start the test, then click or press the arrow keys to cycle through solid colours. Look closely for any dot that doesn't match. Press Esc to exit.",
-      "hintOverlay": "Click or press → to change colour · Esc to exit",
-      "customColor": "Custom"
+      "start": "Начать тест",
+      "instructionsTitle": "Как проверить",
+      "instructionsDead": "Битый пиксель остаётся чёрным на любом цвете — он никогда не загорается.",
+      "instructionsStuck": "Залипший пиксель застревает на одном цвете (часто красном, зелёном или синем), даже когда экран меняется.",
+      "instructionsHowTo": "Запустите тест, затем щёлкайте мышью или нажимайте стрелки, чтобы переключать сплошные цвета. Внимательно ищите любую точку, которая не совпадает по цвету. Нажмите Esc для выхода.",
+      "hintOverlay": "Клик или → для смены цвета · Esc для выхода",
+      "customColor": "Свой"
     },
     "KeyboardTester": {
-      "pressAnyKey": "Press any key — held keys light up, and every key you press stays marked as tested.",
-      "keysTested": "Keys tested",
+      "pressAnyKey": "Нажмите любую клавишу — удерживаемые клавиши подсвечиваются, а каждая нажатая остаётся отмеченной как проверенная.",
+      "keysTested": "Проверено клавиш",
       "rollover": "Rollover",
-      "maxRollover": "Max rollover",
-      "history": "History",
-      "reset": "Reset"
+      "maxRollover": "Макс. rollover",
+      "history": "История",
+      "reset": "Сбросить"
     }
   },
   "Blog": {

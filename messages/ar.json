@@ -120,56 +120,56 @@
         "description": "اضغط الصور لتقليل حجم الملف مع الحفاظ على الجودة. يدعم JPG وPNG وWebP."
       },
       "compress-image-to-20kb": {
-        "name": "Compress Image to 20KB",
-        "description": "Shrink any photo to 20 kilobytes or less for application forms and portals with strict size limits."
+        "name": "ضغط الصورة إلى 20 كيلوبايت",
+        "description": "قلّص أي صورة إلى 20 كيلوبايت أو أقل لاستمارات التقديم والبوابات ذات حدود الحجم الصارمة."
       },
       "compress-image-to-50kb": {
-        "name": "Compress Image to 50KB",
-        "description": "Reduce image file size to 50KB for exam portals, job applications, and email attachments."
+        "name": "ضغط الصورة إلى 50 كيلوبايت",
+        "description": "قلّل حجم ملف الصورة إلى 50 كيلوبايت لبوابات الامتحانات وطلبات التوظيف ومرفقات البريد الإلكتروني."
       },
       "compress-image-to-100kb": {
-        "name": "Compress Image to 100KB",
-        "description": "Get any picture under 100KB while keeping it sharp — made for upload limits."
+        "name": "ضغط الصورة إلى 100 كيلوبايت",
+        "description": "اجعل أي صورة أقل من 100 كيلوبايت مع الحفاظ على وضوحها — مصمم لحدود الرفع."
       },
       "compress-image-to-200kb": {
-        "name": "Compress Image to 200KB",
-        "description": "Compress photos to 200KB or less for CMS uploads, listings, and document portals."
+        "name": "ضغط الصورة إلى 200 كيلوبايت",
+        "description": "اضغط الصور إلى 200 كيلوبايت أو أقل لأنظمة إدارة المحتوى وقوائم العروض وبوابات المستندات."
       },
       "compress-image-to-500kb": {
-        "name": "Compress Image to 500KB",
-        "description": "Bring large photos under 500KB without visible quality loss."
+        "name": "ضغط الصورة إلى 500 كيلوبايت",
+        "description": "اجعل الصور الكبيرة أقل من 500 كيلوبايت دون فقدان ملحوظ في الجودة."
       },
       "compress-image-to-1mb": {
-        "name": "Compress Image to 1MB",
-        "description": "Compress high-resolution photos to under 1MB for email, forms, and faster sharing."
+        "name": "ضغط الصورة إلى 1 ميغابايت",
+        "description": "اضغط الصور عالية الدقة إلى أقل من 1 ميغابايت للبريد الإلكتروني والاستمارات والمشاركة الأسرع."
       },
       "compress-jpeg-to-50kb": {
-        "name": "Compress JPEG to 50KB",
-        "description": "Reduce JPEG file size to 50KB with smart quality search, right in your browser."
+        "name": "ضغط JPEG إلى 50 كيلوبايت",
+        "description": "قلّل حجم ملف JPEG إلى 50 كيلوبايت ببحث ذكي عن أفضل جودة، مباشرةً في متصفحك."
       },
       "compress-jpeg-to-100kb": {
-        "name": "Compress JPEG to 100KB",
-        "description": "Compress JPG photos to 100KB for portals and websites that cap upload size."
+        "name": "ضغط JPEG إلى 100 كيلوبايت",
+        "description": "اضغط صور JPG إلى 100 كيلوبايت للبوابات والمواقع التي تفرض حداً أقصى لحجم الرفع."
       },
       "compress-jpeg-to-200kb": {
-        "name": "Compress JPEG to 200KB",
-        "description": "Shrink JPG images to 200KB while preserving detail."
+        "name": "ضغط JPEG إلى 200 كيلوبايت",
+        "description": "قلّص صور JPG إلى 200 كيلوبايت مع الحفاظ على التفاصيل."
       },
       "compress-signature-20kb": {
-        "name": "Compress Signature to 20KB",
-        "description": "Resize and compress your signature image to 10–20KB for online application forms."
+        "name": "ضغط التوقيع إلى 20 كيلوبايت",
+        "description": "غيّر حجم صورة توقيعك واضغطها إلى 10–20 كيلوبايت لاستمارات التقديم الإلكترونية."
       },
       "image-converter": {
         "name": "محوّل الصيغ",
         "description": "حوّل الصور بين JPG وPNG وWebP وGIF وBMP وTIFF وSVG."
       },
       "heic-to-jpg": {
-        "name": "HEIC to JPG",
-        "description": "Convert iPhone HEIC photos to JPG right in your browser — no upload, instant download."
+        "name": "HEIC إلى JPG",
+        "description": "حوّل صور HEIC من الآيفون إلى JPG مباشرةً في متصفحك — بلا رفع وتنزيل فوري."
       },
       "heic-to-png": {
-        "name": "HEIC to PNG",
-        "description": "Convert HEIC images to lossless PNG locally in your browser."
+        "name": "HEIC إلى PNG",
+        "description": "حوّل صور HEIC إلى PNG عالي الجودة دون فقدان، محلياً في متصفحك."
       },
       "color-correction": {
         "name": "تصحيح الألوان",
@@ -212,12 +212,12 @@
         "description": "اختبر ميكروفونك وكاميرتك بدون أي تطبيق."
       },
       "mic-test": {
-        "name": "Mic Test",
-        "description": "Check your microphone in seconds with a live level meter — before the call, not during it."
+        "name": "اختبار الميكروفون",
+        "description": "تحقق من ميكروفونك خلال ثوانٍ بمقياس مستوى صوت مباشر — قبل المكالمة، لا أثناءها."
       },
       "webcam-test": {
-        "name": "Webcam Test",
-        "description": "Preview your camera and check quality before a meeting. Nothing is recorded or uploaded."
+        "name": "اختبار كاميرا الويب",
+        "description": "عاين كاميرتك وتحقق من جودتها قبل الاجتماع. لا يُسجَّل ولا يُرفع أي شيء."
       },
       "compress-video": {
         "name": "ضاغط الفيديو",
@@ -456,12 +456,12 @@
         "description": "غيّر حجم الصور إلى أبعاد محددة مع الحفاظ على الجودة."
       },
       "crop-image": {
-        "name": "Crop Image",
-        "description": "Crop images online with aspect-ratio presets and precise drag handles. Export to JPG, PNG, or WebP."
+        "name": "اقتصاص الصورة",
+        "description": "اقتصّ الصور أونلاين بنسب أبعاد جاهزة ومقابض سحب دقيقة. صدّر إلى JPG أو PNG أو WebP."
       },
       "watermark-image": {
-        "name": "Watermark Image",
-        "description": "Add text or logo watermarks to photos — position, opacity, rotation, and tiling. All in your browser."
+        "name": "علامة مائية على الصورة",
+        "description": "أضف علامة مائية نصية أو شعاراً إلى الصور — تحكّم بالموضع والشفافية والتدوير والتكرار. كل ذلك في متصفحك."
       },
       "contrast-checker": {
         "name": "فاحص التباين",
@@ -492,16 +492,16 @@
         "description": "اختبر وحسّن سرعة كتابتك ودقتها."
       },
       "keyboard-tester": {
-        "name": "Keyboard Tester",
-        "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check."
+        "name": "اختبار لوحة المفاتيح",
+        "description": "اختبر كل مفتاح في لوحة مفاتيحك بمخطط بصري مباشر وسجل للمفاتيح وفحص للتعدد."
       },
       "gamepad-tester": {
-        "name": "Gamepad Tester",
-        "description": "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad."
+        "name": "اختبار يد التحكم",
+        "description": "اختبر أزرار يد التحكم وعصي التوجيه والزناد والاهتزاز لأي يد تحكم USB أو بلوتوث."
       },
       "dead-pixel-test": {
-        "name": "Dead Pixel Test",
-        "description": "Find dead or stuck pixels with fullscreen solid-color checks for any monitor or phone."
+        "name": "اختبار البكسل الميت",
+        "description": "اكتشف البكسلات الميتة أو العالقة بفحوصات ألوان صلبة بملء الشاشة لأي شاشة أو هاتف."
       },
       "timezone-converter": {
         "name": "محوّل المناطق الزمنية",
@@ -824,24 +824,24 @@
       "compressedSuccess": "تم ضغط الصورة بنجاح!",
       "compressFailed": "فشل ضغط الصورة. يرجى المحاولة مجدداً.",
       "downloadedSuccess": "تم تحميل الصورة!",
-      "modeTarget": "Target size",
-      "targetSize": "Target size (KB)",
-      "targetSizeHint": "We search quality and dimensions to hit your target.",
-      "targetReached": "Target reached",
-      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
-      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
-      "presetChipAria": "Set target to {label}"
+      "modeTarget": "حجم مستهدف",
+      "targetSize": "الحجم المستهدف (كيلوبايت)",
+      "targetSizeHint": "نبحث في الجودة والأبعاد للوصول إلى الحجم المستهدف.",
+      "targetReached": "تم بلوغ الحجم المستهدف",
+      "targetMissed": "تعذّر بلوغ الحجم المستهدف بدقة — هذا أصغر حجم ممكن بجودة مقبولة.",
+      "pngNotSupportedInTarget": "لا يمكن استهداف حجم محدد لصيغة PNG — تم التحويل إلى JPEG.",
+      "presetChipAria": "تعيين الحجم المستهدف إلى {label}"
     },
     "ImageConverter": {
       "dropImageHere": "أفلت صورتك هنا",
       "supportedFormats": "يدعم PNG وJPG وWebP وAVIF",
-      "heicDropHint": "Drop iPhone HEIC photos here — converted locally, never uploaded.",
+      "heicDropHint": "أفلت صور HEIC من الآيفون هنا — تُحوَّل محلياً ولا تُرفع أبداً.",
       "size": "الحجم",
       "targetFormat": "الصيغة المستهدفة",
       "quality": "الجودة",
       "convertedImagePlaceholder": "ستظهر الصورة المحولة هنا",
       "imageTooLarge": "حجم الصورة يجب أن يكون أقل من 15 ميغابايت",
-      "heicConverted": "تم تحويل HEIC إلى JPEG للمعاينة",
+      "heicConverted": "تم تحويل صورة HEIC محلياً للمعاينة",
       "heicFailed": "فشل قراءة HEIC. يرجى تجربة ملف آخر.",
       "convertedSuccess": "تم تحويل الصورة بنجاح!",
       "convertFailed": "فشل تحويل الصورة. يرجى المحاولة مجدداً.",
@@ -3120,58 +3120,58 @@
       "colorCopied": "تم نسخ {label}"
     },
     "WatermarkImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "processing": "Processing...",
-      "download": "Download",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded",
-      "watermarkType": "Watermark Type",
-      "watermarkText": "Text",
-      "watermarkImage": "Image",
-      "watermarkContent": "Text Content",
-      "watermarkContentPlaceholder": "Enter watermark text",
-      "watermarkFontSize": "Font Size",
-      "watermarkColor": "Color",
-      "watermarkChoose": "Choose Image",
-      "watermarkPreviewAlt": "Watermark preview",
-      "watermarkPosition": "Position",
-      "watermarkOpacity": "Opacity",
-      "watermarkScale": "Scale",
-      "watermarkRotation": "Rotation",
-      "watermarkTile": "Tile / Repeat",
-      "applyWatermark": "Apply Watermark",
-      "watermarkLoaded": "Watermark image loaded",
-      "watermarkTextRequired": "Please enter watermark text",
-      "watermarkImageRequired": "Please choose a watermark image",
-      "resultAlt": "Watermarked image"
+      "dropImage": "أسقط صورة هنا",
+      "browseHint": "أو انقر للتصفح (JPEG، PNG، WebP، GIF)",
+      "change": "تغيير",
+      "outputFormat": "صيغة الناتج",
+      "quality": "الجودة",
+      "processing": "جارٍ المعالجة...",
+      "download": "تحميل",
+      "uploadError": "يرجى رفع ملف صورة",
+      "uploadFirst": "يرجى رفع صورة أولاً",
+      "imageLoaded": "تم تحميل الصورة",
+      "processFailed": "فشلت المعالجة",
+      "downloaded": "تم تحميل الصورة",
+      "watermarkType": "نوع العلامة المائية",
+      "watermarkText": "نص",
+      "watermarkImage": "صورة",
+      "watermarkContent": "محتوى النص",
+      "watermarkContentPlaceholder": "أدخل نص العلامة المائية",
+      "watermarkFontSize": "حجم الخط",
+      "watermarkColor": "اللون",
+      "watermarkChoose": "اختر صورة",
+      "watermarkPreviewAlt": "معاينة العلامة المائية",
+      "watermarkPosition": "الموضع",
+      "watermarkOpacity": "الشفافية",
+      "watermarkScale": "المقياس",
+      "watermarkRotation": "التدوير",
+      "watermarkTile": "تكرار / تبليط",
+      "applyWatermark": "تطبيق العلامة المائية",
+      "watermarkLoaded": "تم تحميل صورة العلامة المائية",
+      "watermarkTextRequired": "يرجى إدخال نص العلامة المائية",
+      "watermarkImageRequired": "يرجى اختيار صورة العلامة المائية",
+      "resultAlt": "الصورة بالعلامة المائية"
     },
     "CropImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "aspectRatio": "Aspect Ratio",
-      "aspectFree": "Free",
-      "cropPreviewAlt": "Crop preview",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "cropImage": "Crop Image",
-      "processing": "Processing...",
-      "download": "Download",
-      "statOriginal": "Original",
-      "statCropped": "Cropped",
-      "statOutputSize": "Output Size",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded"
+      "dropImage": "أسقط صورة هنا",
+      "browseHint": "أو انقر للتصفح (JPEG، PNG، WebP، GIF)",
+      "change": "تغيير",
+      "aspectRatio": "نسبة الأبعاد",
+      "aspectFree": "حر",
+      "cropPreviewAlt": "معاينة الاقتصاص",
+      "outputFormat": "صيغة الناتج",
+      "quality": "الجودة",
+      "cropImage": "اقتصاص الصورة",
+      "processing": "جارٍ المعالجة...",
+      "download": "تحميل",
+      "statOriginal": "الأصلية",
+      "statCropped": "المقصوصة",
+      "statOutputSize": "حجم الناتج",
+      "uploadError": "يرجى رفع ملف صورة",
+      "uploadFirst": "يرجى رفع صورة أولاً",
+      "imageLoaded": "تم تحميل الصورة",
+      "processFailed": "فشلت المعالجة",
+      "downloaded": "تم تحميل الصورة"
     },
     "ImageResizer": {
       "title": "تغيير حجم الصور",
@@ -4774,29 +4774,29 @@
       "generateFailed": "تعذّر إنشاء GIF. حاول مرة أخرى."
     },
     "GamepadTester": {
-      "connectPrompt": "Connect a controller and press any button",
-      "buttons": "Buttons",
-      "axes": "Axes",
-      "vibrationTest": "Test vibration",
-      "mapping": "Mapping",
-      "connected": "Connected"
+      "connectPrompt": "وصّل يد تحكم واضغط أي زر",
+      "buttons": "الأزرار",
+      "axes": "المحاور",
+      "vibrationTest": "اختبار الاهتزاز",
+      "mapping": "المخطط",
+      "connected": "متصلة"
     },
     "DeadPixelTest": {
-      "start": "Start test",
-      "instructionsTitle": "How to test",
-      "instructionsDead": "A dead pixel stays black on every colour — it never lights up.",
-      "instructionsStuck": "A stuck pixel is frozen on one colour (often red, green, or blue) even when the screen changes.",
-      "instructionsHowTo": "Start the test, then click or press the arrow keys to cycle through solid colours. Look closely for any dot that doesn't match. Press Esc to exit.",
-      "hintOverlay": "Click or press → to change colour · Esc to exit",
-      "customColor": "Custom"
+      "start": "ابدأ الاختبار",
+      "instructionsTitle": "طريقة الاختبار",
+      "instructionsDead": "البكسل الميت يبقى أسود مع كل الألوان — لا يضيء إطلاقاً.",
+      "instructionsStuck": "البكسل العالق يتجمد على لون واحد (غالباً أحمر أو أخضر أو أزرق) حتى عند تغيّر الشاشة.",
+      "instructionsHowTo": "ابدأ الاختبار، ثم انقر أو اضغط أسهم الاتجاه للتنقل بين الألوان الصلبة. راقب بدقة أي نقطة لا تطابق اللون. اضغط Esc للخروج.",
+      "hintOverlay": "انقر أو اضغط → لتغيير اللون · Esc للخروج",
+      "customColor": "مخصص"
     },
     "KeyboardTester": {
-      "pressAnyKey": "Press any key — held keys light up, and every key you press stays marked as tested.",
-      "keysTested": "Keys tested",
-      "rollover": "Rollover",
-      "maxRollover": "Max rollover",
-      "history": "History",
-      "reset": "Reset"
+      "pressAnyKey": "اضغط أي مفتاح — تُضاء المفاتيح المضغوطة، ويبقى كل مفتاح تضغطه مُعلَّماً كمُختبَر.",
+      "keysTested": "المفاتيح المُختبَرة",
+      "rollover": "التعدد (Rollover)",
+      "maxRollover": "أقصى تعدد",
+      "history": "السجل",
+      "reset": "إعادة تعيين"
     }
   },
   "Blog": {

@@ -120,56 +120,56 @@
         "description": "压缩图片以减小文件大小，同时保持质量。支持 JPG、PNG、WebP。"
       },
       "compress-image-to-20kb": {
-        "name": "Compress Image to 20KB",
-        "description": "Shrink any photo to 20 kilobytes or less for application forms and portals with strict size limits."
+        "name": "压缩图片至 20KB",
+        "description": "将任意照片压缩至 20KB 以内，适用于对文件大小有严格限制的申请表格和门户网站。"
       },
       "compress-image-to-50kb": {
-        "name": "Compress Image to 50KB",
-        "description": "Reduce image file size to 50KB for exam portals, job applications, and email attachments."
+        "name": "压缩图片至 50KB",
+        "description": "将图片文件压缩至 50KB，适用于考试报名系统、求职申请和邮件附件。"
       },
       "compress-image-to-100kb": {
-        "name": "Compress Image to 100KB",
-        "description": "Get any picture under 100KB while keeping it sharp — made for upload limits."
+        "name": "压缩图片至 100KB",
+        "description": "在保持清晰度的同时，将任意图片压缩至 100KB 以下——专为上传大小限制而设计。"
       },
       "compress-image-to-200kb": {
-        "name": "Compress Image to 200KB",
-        "description": "Compress photos to 200KB or less for CMS uploads, listings, and document portals."
+        "name": "压缩图片至 200KB",
+        "description": "将照片压缩至 200KB 以内，适用于 CMS 上传、商品列表和文件门户网站。"
       },
       "compress-image-to-500kb": {
-        "name": "Compress Image to 500KB",
-        "description": "Bring large photos under 500KB without visible quality loss."
+        "name": "压缩图片至 500KB",
+        "description": "在不产生明显画质损失的情况下，将大尺寸照片压缩至 500KB 以下。"
       },
       "compress-image-to-1mb": {
-        "name": "Compress Image to 1MB",
-        "description": "Compress high-resolution photos to under 1MB for email, forms, and faster sharing."
+        "name": "压缩图片至 1MB",
+        "description": "将高分辨率照片压缩至 1MB 以下，方便发送邮件、填写表格和快速分享。"
       },
       "compress-jpeg-to-50kb": {
-        "name": "Compress JPEG to 50KB",
-        "description": "Reduce JPEG file size to 50KB with smart quality search, right in your browser."
+        "name": "压缩 JPEG 至 50KB",
+        "description": "通过智能画质搜索，直接在浏览器中将 JPEG 文件压缩至 50KB。"
       },
       "compress-jpeg-to-100kb": {
-        "name": "Compress JPEG to 100KB",
-        "description": "Compress JPG photos to 100KB for portals and websites that cap upload size."
+        "name": "压缩 JPEG 至 100KB",
+        "description": "将 JPG 照片压缩至 100KB，适用于限制上传大小的门户网站和网页。"
       },
       "compress-jpeg-to-200kb": {
-        "name": "Compress JPEG to 200KB",
-        "description": "Shrink JPG images to 200KB while preserving detail."
+        "name": "压缩 JPEG 至 200KB",
+        "description": "在保留细节的同时，将 JPG 图片压缩至 200KB。"
       },
       "compress-signature-20kb": {
-        "name": "Compress Signature to 20KB",
-        "description": "Resize and compress your signature image to 10–20KB for online application forms."
+        "name": "压缩签名图片至 20KB",
+        "description": "将您的签名图片调整大小并压缩至 10–20KB，适用于在线申请表格。"
       },
       "image-converter": {
         "name": "格式转换器",
         "description": "在 JPG、PNG、WebP、GIF、BMP、TIFF 和 SVG 之间转换图片。支持批量转换。"
       },
       "heic-to-jpg": {
-        "name": "HEIC to JPG",
-        "description": "Convert iPhone HEIC photos to JPG right in your browser — no upload, instant download."
+        "name": "HEIC 转 JPG",
+        "description": "直接在浏览器中将 iPhone 拍摄的 HEIC 照片转换为 JPG——无需上传，即转即下载。"
       },
       "heic-to-png": {
-        "name": "HEIC to PNG",
-        "description": "Convert HEIC images to lossless PNG locally in your browser."
+        "name": "HEIC 转 PNG",
+        "description": "在浏览器本地将 HEIC 图片转换为无损 PNG 格式。"
       },
       "color-correction": {
         "name": "色彩校正",
@@ -212,12 +212,12 @@
         "description": "无需安装任何应用即可测试您的麦克风和摄像头。"
       },
       "mic-test": {
-        "name": "Mic Test",
-        "description": "Check your microphone in seconds with a live level meter — before the call, not during it."
+        "name": "麦克风测试",
+        "description": "通过实时电平表，几秒钟内检查您的麦克风——通话前就发现问题，而不是通话中。"
       },
       "webcam-test": {
-        "name": "Webcam Test",
-        "description": "Preview your camera and check quality before a meeting. Nothing is recorded or uploaded."
+        "name": "摄像头测试",
+        "description": "在会议前预览摄像头并检查画质，不会录制或上传任何内容。"
       },
       "compress-video": {
         "name": "视频压缩器",
@@ -456,12 +456,12 @@
         "description": "调整图片至指定尺寸，同时保持画质不变。"
       },
       "crop-image": {
-        "name": "Crop Image",
-        "description": "Crop images online with aspect-ratio presets and precise drag handles. Export to JPG, PNG, or WebP."
+        "name": "裁剪图片",
+        "description": "在线裁剪图片，支持宽高比预设和精确拖动手柄，可导出为 JPG、PNG 或 WebP。"
       },
       "watermark-image": {
-        "name": "Watermark Image",
-        "description": "Add text or logo watermarks to photos — position, opacity, rotation, and tiling. All in your browser."
+        "name": "图片水印",
+        "description": "为照片添加文字或图片水印——可调整位置、不透明度、旋转角度和平铺方式，全部在浏览器中完成。"
       },
       "contrast-checker": {
         "name": "对比度检查器",
@@ -492,16 +492,16 @@
         "description": "测试并提高您的打字速度和准确率。"
       },
       "keyboard-tester": {
-        "name": "Keyboard Tester",
-        "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check."
+        "name": "键盘测试",
+        "description": "通过实时可视化布局、按键历史和多键触发检测测试键盘上的每一个按键。"
       },
       "gamepad-tester": {
-        "name": "Gamepad Tester",
-        "description": "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad."
+        "name": "手柄测试",
+        "description": "测试任意 USB 或蓝牙手柄的按键、摇杆、扳机键和震动功能。"
       },
       "dead-pixel-test": {
-        "name": "Dead Pixel Test",
-        "description": "Find dead or stuck pixels with fullscreen solid-color checks for any monitor or phone."
+        "name": "坏点检测",
+        "description": "通过全屏纯色测试，检测显示器或手机屏幕上的坏点和亮点。"
       },
       "timezone-converter": {
         "name": "时区转换器",
@@ -824,24 +824,24 @@
       "compressedSuccess": "图片压缩成功！",
       "compressFailed": "图片压缩失败，请重试。",
       "downloadedSuccess": "图片已下载！",
-      "modeTarget": "Target size",
-      "targetSize": "Target size (KB)",
-      "targetSizeHint": "We search quality and dimensions to hit your target.",
-      "targetReached": "Target reached",
-      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
-      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
-      "presetChipAria": "Set target to {label}"
+      "modeTarget": "目标大小",
+      "targetSize": "目标大小（KB）",
+      "targetSizeHint": "我们会自动搜索合适的画质和尺寸，以达到您的目标大小。",
+      "targetReached": "已达到目标大小",
+      "targetMissed": "未能精确达到目标大小——这是在可接受画质下能达到的最小值。",
+      "pngNotSupportedInTarget": "PNG 格式不支持目标大小压缩，已切换为 JPEG。",
+      "presetChipAria": "将目标大小设为 {label}"
     },
     "ImageConverter": {
       "dropImageHere": "将图片拖放到此处",
       "supportedFormats": "支持 PNG、JPG、WebP 或 AVIF 文件",
-      "heicDropHint": "Drop iPhone HEIC photos here — converted locally, never uploaded.",
+      "heicDropHint": "将 iPhone 拍摄的 HEIC 照片拖放到此处——本地转换，无需上传。",
       "size": "尺寸",
       "targetFormat": "目标格式",
       "quality": "质量",
       "convertedImagePlaceholder": "转换后的图片将显示在此处",
       "imageTooLarge": "图片大小应小于 15MB",
-      "heicConverted": "已将 HEIC 转换为 JPEG 以进行预览",
+      "heicConverted": "HEIC 照片已在本地转换以供预览",
       "heicFailed": "无法读取 HEIC，请尝试其他文件。",
       "convertedSuccess": "图片转换成功！",
       "convertFailed": "图片转换失败，请重试。",
@@ -3120,58 +3120,58 @@
       "colorCopied": "{label} 已复制"
     },
     "WatermarkImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "processing": "Processing...",
-      "download": "Download",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded",
-      "watermarkType": "Watermark Type",
-      "watermarkText": "Text",
-      "watermarkImage": "Image",
-      "watermarkContent": "Text Content",
-      "watermarkContentPlaceholder": "Enter watermark text",
-      "watermarkFontSize": "Font Size",
-      "watermarkColor": "Color",
-      "watermarkChoose": "Choose Image",
-      "watermarkPreviewAlt": "Watermark preview",
-      "watermarkPosition": "Position",
-      "watermarkOpacity": "Opacity",
-      "watermarkScale": "Scale",
-      "watermarkRotation": "Rotation",
-      "watermarkTile": "Tile / Repeat",
-      "applyWatermark": "Apply Watermark",
-      "watermarkLoaded": "Watermark image loaded",
-      "watermarkTextRequired": "Please enter watermark text",
-      "watermarkImageRequired": "Please choose a watermark image",
-      "resultAlt": "Watermarked image"
+      "dropImage": "将图片拖放到此处",
+      "browseHint": "或点击浏览（JPEG、PNG、WebP、GIF）",
+      "change": "更换",
+      "outputFormat": "输出格式",
+      "quality": "质量",
+      "processing": "处理中...",
+      "download": "下载",
+      "uploadError": "请上传图片文件",
+      "uploadFirst": "请先上传图片",
+      "imageLoaded": "图片已加载",
+      "processFailed": "处理失败",
+      "downloaded": "图片已下载",
+      "watermarkType": "水印类型",
+      "watermarkText": "文字",
+      "watermarkImage": "图片",
+      "watermarkContent": "文字内容",
+      "watermarkContentPlaceholder": "输入水印文字",
+      "watermarkFontSize": "字体大小",
+      "watermarkColor": "颜色",
+      "watermarkChoose": "选择图片",
+      "watermarkPreviewAlt": "水印预览",
+      "watermarkPosition": "位置",
+      "watermarkOpacity": "不透明度",
+      "watermarkScale": "缩放",
+      "watermarkRotation": "旋转",
+      "watermarkTile": "平铺/重复",
+      "applyWatermark": "应用水印",
+      "watermarkLoaded": "水印图片已加载",
+      "watermarkTextRequired": "请输入水印文字",
+      "watermarkImageRequired": "请选择水印图片",
+      "resultAlt": "水印后的图片"
     },
     "CropImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "aspectRatio": "Aspect Ratio",
-      "aspectFree": "Free",
-      "cropPreviewAlt": "Crop preview",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "cropImage": "Crop Image",
-      "processing": "Processing...",
-      "download": "Download",
-      "statOriginal": "Original",
-      "statCropped": "Cropped",
-      "statOutputSize": "Output Size",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded"
+      "dropImage": "将图片拖放到此处",
+      "browseHint": "或点击浏览（JPEG、PNG、WebP、GIF）",
+      "change": "更换",
+      "aspectRatio": "宽高比",
+      "aspectFree": "自由",
+      "cropPreviewAlt": "裁剪预览",
+      "outputFormat": "输出格式",
+      "quality": "质量",
+      "cropImage": "裁剪图片",
+      "processing": "处理中...",
+      "download": "下载",
+      "statOriginal": "原图",
+      "statCropped": "已裁剪",
+      "statOutputSize": "输出大小",
+      "uploadError": "请上传图片文件",
+      "uploadFirst": "请先上传图片",
+      "imageLoaded": "图片已加载",
+      "processFailed": "处理失败",
+      "downloaded": "图片已下载"
     },
     "ImageResizer": {
       "title": "图片调整大小",
@@ -4774,29 +4774,29 @@
       "generateFailed": "无法生成 GIF，请重试。"
     },
     "GamepadTester": {
-      "connectPrompt": "Connect a controller and press any button",
-      "buttons": "Buttons",
-      "axes": "Axes",
-      "vibrationTest": "Test vibration",
-      "mapping": "Mapping",
-      "connected": "Connected"
+      "connectPrompt": "连接手柄并按下任意按键",
+      "buttons": "按键",
+      "axes": "摇杆轴",
+      "vibrationTest": "测试震动",
+      "mapping": "按键映射",
+      "connected": "已连接"
     },
     "DeadPixelTest": {
-      "start": "Start test",
-      "instructionsTitle": "How to test",
-      "instructionsDead": "A dead pixel stays black on every colour — it never lights up.",
-      "instructionsStuck": "A stuck pixel is frozen on one colour (often red, green, or blue) even when the screen changes.",
-      "instructionsHowTo": "Start the test, then click or press the arrow keys to cycle through solid colours. Look closely for any dot that doesn't match. Press Esc to exit.",
-      "hintOverlay": "Click or press → to change colour · Esc to exit",
-      "customColor": "Custom"
+      "start": "开始测试",
+      "instructionsTitle": "测试方法",
+      "instructionsDead": "坏点在任何颜色下都会保持黑色——它永远不会亮起。",
+      "instructionsStuck": "亮点会固定显示某一种颜色（通常是红色、绿色或蓝色），即使屏幕画面发生变化也不会改变。",
+      "instructionsHowTo": "开始测试后，点击或按方向键切换纯色画面，仔细观察是否有与背景颜色不一致的点。按 Esc 键退出。",
+      "hintOverlay": "点击或按 → 切换颜色 · 按 Esc 退出",
+      "customColor": "自定义"
     },
     "KeyboardTester": {
-      "pressAnyKey": "Press any key — held keys light up, and every key you press stays marked as tested.",
-      "keysTested": "Keys tested",
-      "rollover": "Rollover",
-      "maxRollover": "Max rollover",
-      "history": "History",
-      "reset": "Reset"
+      "pressAnyKey": "按下任意键——长按的按键会亮起，每个按下过的键都会被标记为已测试。",
+      "keysTested": "已测试按键数",
+      "rollover": "同时按键数",
+      "maxRollover": "最大同时按键数",
+      "history": "历史记录",
+      "reset": "重置"
     }
   },
   "Blog": {

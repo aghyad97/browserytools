@@ -120,56 +120,56 @@
         "description": "Comprime imágenes para reducir el tamaño del archivo manteniendo la calidad. Compatible con JPG, PNG y WebP."
       },
       "compress-image-to-20kb": {
-        "name": "Compress Image to 20KB",
-        "description": "Shrink any photo to 20 kilobytes or less for application forms and portals with strict size limits."
+        "name": "Comprimir imagen a 20KB",
+        "description": "Reduce cualquier foto a 20 kilobytes o menos para formularios y portales con límites de tamaño estrictos."
       },
       "compress-image-to-50kb": {
-        "name": "Compress Image to 50KB",
-        "description": "Reduce image file size to 50KB for exam portals, job applications, and email attachments."
+        "name": "Comprimir imagen a 50KB",
+        "description": "Reduce el tamaño de una imagen a 50KB para portales de exámenes, solicitudes de empleo y adjuntos de correo."
       },
       "compress-image-to-100kb": {
-        "name": "Compress Image to 100KB",
-        "description": "Get any picture under 100KB while keeping it sharp — made for upload limits."
+        "name": "Comprimir imagen a 100KB",
+        "description": "Deja cualquier foto por debajo de 100KB sin perder nitidez — pensado para límites de subida."
       },
       "compress-image-to-200kb": {
-        "name": "Compress Image to 200KB",
-        "description": "Compress photos to 200KB or less for CMS uploads, listings, and document portals."
+        "name": "Comprimir imagen a 200KB",
+        "description": "Comprime fotos a 200KB o menos para CMS, listados y portales de documentos."
       },
       "compress-image-to-500kb": {
-        "name": "Compress Image to 500KB",
-        "description": "Bring large photos under 500KB without visible quality loss."
+        "name": "Comprimir imagen a 500KB",
+        "description": "Reduce fotos grandes a menos de 500KB sin pérdida de calidad visible."
       },
       "compress-image-to-1mb": {
-        "name": "Compress Image to 1MB",
-        "description": "Compress high-resolution photos to under 1MB for email, forms, and faster sharing."
+        "name": "Comprimir imagen a 1MB",
+        "description": "Comprime fotos de alta resolución a menos de 1MB para correo, formularios y para compartirlas más rápido."
       },
       "compress-jpeg-to-50kb": {
-        "name": "Compress JPEG to 50KB",
-        "description": "Reduce JPEG file size to 50KB with smart quality search, right in your browser."
+        "name": "Comprimir JPEG a 50KB",
+        "description": "Reduce el tamaño de un archivo JPEG a 50KB con búsqueda inteligente de calidad, directamente en tu navegador."
       },
       "compress-jpeg-to-100kb": {
-        "name": "Compress JPEG to 100KB",
-        "description": "Compress JPG photos to 100KB for portals and websites that cap upload size."
+        "name": "Comprimir JPEG a 100KB",
+        "description": "Comprime fotos JPG a 100KB para portales y sitios web con límite de tamaño de subida."
       },
       "compress-jpeg-to-200kb": {
-        "name": "Compress JPEG to 200KB",
-        "description": "Shrink JPG images to 200KB while preserving detail."
+        "name": "Comprimir JPEG a 200KB",
+        "description": "Reduce imágenes JPG a 200KB conservando el detalle."
       },
       "compress-signature-20kb": {
-        "name": "Compress Signature to 20KB",
-        "description": "Resize and compress your signature image to 10–20KB for online application forms."
+        "name": "Comprimir firma a 20KB",
+        "description": "Redimensiona y comprime la imagen de tu firma a 10–20KB para formularios de solicitud en línea."
       },
       "image-converter": {
         "name": "Conversor de formatos",
         "description": "Convierte imágenes entre JPG, PNG, WebP, GIF, BMP, TIFF y SVG. Admite conversión por lotes."
       },
       "heic-to-jpg": {
-        "name": "HEIC to JPG",
-        "description": "Convert iPhone HEIC photos to JPG right in your browser — no upload, instant download."
+        "name": "HEIC a JPG",
+        "description": "Convierte fotos HEIC de iPhone a JPG directamente en tu navegador — sin subir nada, descarga al instante."
       },
       "heic-to-png": {
-        "name": "HEIC to PNG",
-        "description": "Convert HEIC images to lossless PNG locally in your browser."
+        "name": "HEIC a PNG",
+        "description": "Convierte imágenes HEIC a PNG sin pérdida, de forma local en tu navegador."
       },
       "color-correction": {
         "name": "Corrección de color",
@@ -212,12 +212,12 @@
         "description": "Prueba tu micrófono y tu cámara sin instalar ninguna aplicación."
       },
       "mic-test": {
-        "name": "Mic Test",
-        "description": "Check your microphone in seconds with a live level meter — before the call, not during it."
+        "name": "Prueba de micrófono",
+        "description": "Comprueba tu micrófono en segundos con un medidor de nivel en vivo — antes de la llamada, no durante."
       },
       "webcam-test": {
-        "name": "Webcam Test",
-        "description": "Preview your camera and check quality before a meeting. Nothing is recorded or uploaded."
+        "name": "Prueba de cámara web",
+        "description": "Previsualiza tu cámara y comprueba la calidad antes de una reunión. No se graba ni se sube nada."
       },
       "compress-video": {
         "name": "Compresor de video",
@@ -456,12 +456,12 @@
         "description": "Redimensiona imágenes a dimensiones específicas conservando la calidad."
       },
       "crop-image": {
-        "name": "Crop Image",
-        "description": "Crop images online with aspect-ratio presets and precise drag handles. Export to JPG, PNG, or WebP."
+        "name": "Recortar imagen",
+        "description": "Recorta imágenes en línea con preajustes de relación de aspecto y controles de arrastre precisos. Exporta a JPG, PNG o WebP."
       },
       "watermark-image": {
-        "name": "Watermark Image",
-        "description": "Add text or logo watermarks to photos — position, opacity, rotation, and tiling. All in your browser."
+        "name": "Marca de agua en imagen",
+        "description": "Añade marcas de agua de texto o logo a tus fotos — posición, opacidad, rotación y mosaico. Todo en tu navegador."
       },
       "contrast-checker": {
         "name": "Verificador de contraste",
@@ -492,16 +492,16 @@
         "description": "Pon a prueba y mejora tu velocidad y precisión al escribir."
       },
       "keyboard-tester": {
-        "name": "Keyboard Tester",
-        "description": "Test every key on your keyboard with a live visual layout, key history, and rollover check."
+        "name": "Probador de teclado",
+        "description": "Prueba cada tecla de tu teclado con un diseño visual en vivo, historial de teclas y comprobación de rollover."
       },
       "gamepad-tester": {
-        "name": "Gamepad Tester",
-        "description": "Test controller buttons, sticks, triggers, and vibration for any USB or Bluetooth gamepad."
+        "name": "Probador de mando",
+        "description": "Prueba botones, joysticks, gatillos y vibración de cualquier mando USB o Bluetooth."
       },
       "dead-pixel-test": {
-        "name": "Dead Pixel Test",
-        "description": "Find dead or stuck pixels with fullscreen solid-color checks for any monitor or phone."
+        "name": "Prueba de píxeles muertos",
+        "description": "Encuentra píxeles muertos o atascados con pruebas de color sólido a pantalla completa para cualquier monitor o teléfono."
       },
       "timezone-converter": {
         "name": "Conversor de zonas horarias",
@@ -824,24 +824,24 @@
       "compressedSuccess": "¡Imagen comprimida correctamente!",
       "compressFailed": "No se pudo comprimir la imagen. Inténtalo de nuevo.",
       "downloadedSuccess": "¡Imagen descargada!",
-      "modeTarget": "Target size",
-      "targetSize": "Target size (KB)",
-      "targetSizeHint": "We search quality and dimensions to hit your target.",
-      "targetReached": "Target reached",
-      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
-      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
-      "presetChipAria": "Set target to {label}"
+      "modeTarget": "Tamaño objetivo",
+      "targetSize": "Tamaño objetivo (KB)",
+      "targetSizeHint": "Buscamos la calidad y las dimensiones que logren tu objetivo.",
+      "targetReached": "Objetivo alcanzado",
+      "targetMissed": "No se pudo alcanzar el tamaño exacto — este es el más pequeño posible con una calidad aceptable.",
+      "pngNotSupportedInTarget": "PNG no admite un tamaño objetivo — se cambió a JPEG.",
+      "presetChipAria": "Establecer el objetivo en {label}"
     },
     "ImageConverter": {
       "dropImageHere": "Suelta tu imagen aquí",
       "supportedFormats": "Compatible con archivos PNG, JPG, WebP o AVIF",
-      "heicDropHint": "Drop iPhone HEIC photos here — converted locally, never uploaded.",
+      "heicDropHint": "Suelta aquí tus fotos HEIC de iPhone — se convierten localmente, nunca se suben.",
       "size": "Tamaño",
       "targetFormat": "Formato de destino",
       "quality": "Calidad",
       "convertedImagePlaceholder": "La imagen convertida aparecerá aquí",
       "imageTooLarge": "El tamaño de la imagen debe ser inferior a 15 MB",
-      "heicConverted": "Se convirtió HEIC a JPEG para la vista previa",
+      "heicConverted": "Foto HEIC convertida localmente para la vista previa",
       "heicFailed": "No se pudo leer el archivo HEIC. Prueba con otro archivo.",
       "convertedSuccess": "¡Imagen convertida correctamente!",
       "convertFailed": "No se pudo convertir la imagen. Inténtalo de nuevo.",
@@ -3120,58 +3120,58 @@
       "colorCopied": "{label} copiado"
     },
     "WatermarkImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "processing": "Processing...",
-      "download": "Download",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded",
-      "watermarkType": "Watermark Type",
-      "watermarkText": "Text",
-      "watermarkImage": "Image",
-      "watermarkContent": "Text Content",
-      "watermarkContentPlaceholder": "Enter watermark text",
-      "watermarkFontSize": "Font Size",
+      "dropImage": "Suelta una imagen aquí",
+      "browseHint": "o haz clic para explorar (JPEG, PNG, WebP, GIF)",
+      "change": "Cambiar",
+      "outputFormat": "Formato de salida",
+      "quality": "Calidad",
+      "processing": "Procesando...",
+      "download": "Descargar",
+      "uploadError": "Sube un archivo de imagen",
+      "uploadFirst": "Sube una imagen primero",
+      "imageLoaded": "Imagen cargada",
+      "processFailed": "Error al procesar",
+      "downloaded": "Imagen descargada",
+      "watermarkType": "Tipo de marca de agua",
+      "watermarkText": "Texto",
+      "watermarkImage": "Imagen",
+      "watermarkContent": "Contenido del texto",
+      "watermarkContentPlaceholder": "Escribe el texto de la marca de agua",
+      "watermarkFontSize": "Tamaño de fuente",
       "watermarkColor": "Color",
-      "watermarkChoose": "Choose Image",
-      "watermarkPreviewAlt": "Watermark preview",
-      "watermarkPosition": "Position",
-      "watermarkOpacity": "Opacity",
-      "watermarkScale": "Scale",
-      "watermarkRotation": "Rotation",
-      "watermarkTile": "Tile / Repeat",
-      "applyWatermark": "Apply Watermark",
-      "watermarkLoaded": "Watermark image loaded",
-      "watermarkTextRequired": "Please enter watermark text",
-      "watermarkImageRequired": "Please choose a watermark image",
-      "resultAlt": "Watermarked image"
+      "watermarkChoose": "Elegir imagen",
+      "watermarkPreviewAlt": "Vista previa de la marca de agua",
+      "watermarkPosition": "Posición",
+      "watermarkOpacity": "Opacidad",
+      "watermarkScale": "Escala",
+      "watermarkRotation": "Rotación",
+      "watermarkTile": "Mosaico / Repetir",
+      "applyWatermark": "Aplicar marca de agua",
+      "watermarkLoaded": "Imagen de marca de agua cargada",
+      "watermarkTextRequired": "Escribe el texto de la marca de agua",
+      "watermarkImageRequired": "Elige una imagen para la marca de agua",
+      "resultAlt": "Imagen con marca de agua"
     },
     "CropImage": {
-      "dropImage": "Drop an image here",
-      "browseHint": "or click to browse (JPEG, PNG, WebP, GIF)",
-      "change": "Change",
-      "aspectRatio": "Aspect Ratio",
-      "aspectFree": "Free",
-      "cropPreviewAlt": "Crop preview",
-      "outputFormat": "Output Format",
-      "quality": "Quality",
-      "cropImage": "Crop Image",
-      "processing": "Processing...",
-      "download": "Download",
+      "dropImage": "Suelta una imagen aquí",
+      "browseHint": "o haz clic para explorar (JPEG, PNG, WebP, GIF)",
+      "change": "Cambiar",
+      "aspectRatio": "Relación de aspecto",
+      "aspectFree": "Libre",
+      "cropPreviewAlt": "Vista previa del recorte",
+      "outputFormat": "Formato de salida",
+      "quality": "Calidad",
+      "cropImage": "Recortar imagen",
+      "processing": "Procesando...",
+      "download": "Descargar",
       "statOriginal": "Original",
-      "statCropped": "Cropped",
-      "statOutputSize": "Output Size",
-      "uploadError": "Please upload an image file",
-      "uploadFirst": "Please upload an image first",
-      "imageLoaded": "Image loaded",
-      "processFailed": "Processing failed",
-      "downloaded": "Image downloaded"
+      "statCropped": "Recortada",
+      "statOutputSize": "Tamaño de salida",
+      "uploadError": "Sube un archivo de imagen",
+      "uploadFirst": "Sube una imagen primero",
+      "imageLoaded": "Imagen cargada",
+      "processFailed": "Error al procesar",
+      "downloaded": "Imagen descargada"
     },
     "ImageResizer": {
       "title": "Redimensionador de imágenes",
@@ -4774,29 +4774,29 @@
       "generateFailed": "No se pudo crear el GIF. Inténtalo de nuevo."
     },
     "GamepadTester": {
-      "connectPrompt": "Connect a controller and press any button",
-      "buttons": "Buttons",
-      "axes": "Axes",
-      "vibrationTest": "Test vibration",
-      "mapping": "Mapping",
-      "connected": "Connected"
+      "connectPrompt": "Conecta un mando y presiona cualquier botón",
+      "buttons": "Botones",
+      "axes": "Ejes",
+      "vibrationTest": "Probar vibración",
+      "mapping": "Asignación",
+      "connected": "Conectado"
     },
     "DeadPixelTest": {
-      "start": "Start test",
-      "instructionsTitle": "How to test",
-      "instructionsDead": "A dead pixel stays black on every colour — it never lights up.",
-      "instructionsStuck": "A stuck pixel is frozen on one colour (often red, green, or blue) even when the screen changes.",
-      "instructionsHowTo": "Start the test, then click or press the arrow keys to cycle through solid colours. Look closely for any dot that doesn't match. Press Esc to exit.",
-      "hintOverlay": "Click or press → to change colour · Esc to exit",
-      "customColor": "Custom"
+      "start": "Iniciar prueba",
+      "instructionsTitle": "Cómo hacer la prueba",
+      "instructionsDead": "Un píxel muerto permanece negro en todos los colores — nunca se ilumina.",
+      "instructionsStuck": "Un píxel atascado queda fijo en un color (a menudo rojo, verde o azul) aunque la pantalla cambie.",
+      "instructionsHowTo": "Inicia la prueba y luego haz clic o presiona las flechas para recorrer colores sólidos. Fíjate bien en cualquier punto que no coincida. Presiona Esc para salir.",
+      "hintOverlay": "Haz clic o presiona → para cambiar de color · Esc para salir",
+      "customColor": "Personalizado"
     },
     "KeyboardTester": {
-      "pressAnyKey": "Press any key — held keys light up, and every key you press stays marked as tested.",
-      "keysTested": "Keys tested",
+      "pressAnyKey": "Presiona cualquier tecla — las teclas mantenidas se iluminan, y cada tecla que presiones queda marcada como probada.",
+      "keysTested": "Teclas probadas",
       "rollover": "Rollover",
-      "maxRollover": "Max rollover",
-      "history": "History",
-      "reset": "Reset"
+      "maxRollover": "Rollover máximo",
+      "history": "Historial",
+      "reset": "Reiniciar"
     }
   },
   "Blog": {
