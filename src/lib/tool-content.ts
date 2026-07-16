@@ -862,7 +862,7 @@ export const toolContent: Record<string, ToolContent> = {
     },
     ar: {
       intro:
-        "يقلّل «ضغط PDF» حجم المستند ليتجاوز الحدود التي تعيده مرارًا — سقف المرفقات في البريد، وحد الرفع في بوابة توظيف أو بوابة حكومية، والحجم الذي يقبله تطبيق مراسلة. فبدل إعادة التصدير من التطبيق الأصلي، تصغّر ملف PDF النهائي مباشرة.\n\nللوصول إلى حجم أصغر تعيد هذه الأداة ترميز الصفحات كصور بجودة أقل. وهذا هو التنازل الذي يجب فهمه بوضوح: تصبح الصفحات المضغوطة صورًا، فلا يعود النص فيها قابلًا للتحديد أو البحث، وتنعم التفاصيل الدقيقة. بالنسبة لمستند ممسوح هو أصلًا صورة، لا تخسر شيئًا يُذكر؛ أما ملف نصي واضح فوازن بين حاجتك إلى طبقة النص.\n\nتجري العملية كلها في متصفحك، فلا تُرفع فاتورة أو عقد سري إلى خادم ضغط. جرّب إعدادًا، وتحقق من النتيجة، وأعد الضغط حتى يناسب.",
+        "يقلّل «ضغط PDF» حجم المستند ليتجاوز الحدود التي تعيده مرارًا — سقف المرفقات في البريد، وحد الرفع في بوابة توظيف أو بوابة حكومية، والحجم الذي يقبله تطبيق مراسلة. فبدل إعادة التصدير من التطبيق الأصلي، تصغّر ملف PDF النهائي مباشرة.\n\nللوصول إلى حجم أصغر تعيد هذه الأداة ترميز الصفحات كصور بجودة أقل. وهذا هو التنازل الذي يجب فهمه بوضوح: تصبح الصفحات المضغوطة صورًا، فلا يعود النص فيها قابلًا للتحديد أو البحث، وتنعم التفاصيل الدقيقة. بالنسبة لمستند ممسوح هو أصلًا صورة، لا تخسر شيئًا يُذكر؛ أما ملف نصي واضح فوازن بين حاجتك إلى طبقة النص وبين حجم الملف الأصغر.\n\nتجري العملية كلها في متصفحك، فلا تُرفع فاتورة أو عقد سري إلى خادم ضغط. جرّب إعدادًا، وتحقق من النتيجة، وأعد الضغط حتى يناسب.",
       faq: [
         {
           q: "كيف يعمل الضغط فعليًا؟",
@@ -1034,7 +1034,7 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["signature-maker", "watermark-pdf", "merge-pdf", "pdf"],
     en: {
       intro:
-        "Sign PDF lets you place your signature onto a document and save it back as a PDF — a lease you need to return, a contract, a school or medical consent form that has to come back signed today. Instead of printing, signing, and scanning, you drop your signature straight onto the page.\n\nYou add your signature — drawn, typed, or uploaded as an image — position it on the signature line, size it, and place it wherever the form needs it, including a date or initials. The result is a flattened PDF you can email or upload.\n\nEverything happens in your browser, so a document with personal terms is never uploaded to a signing service. One honesty note, covered in the FAQ below: this places a picture of your signature on the page, which is what most everyday forms ask for — it is not a cryptographic e-signature.",
+        "Sign PDF lets you place your signature onto a document and save it back as a PDF — a lease you need to return, a contract, a school or medical consent form that has to come back signed today. Instead of printing, signing, and scanning, you drop your signature straight onto the page.\n\nYou add your signature — drawn, or uploaded as an image — position it on the signature line, size it, and place it wherever the form needs it, including a date or initials. The result is a flattened PDF you can email or upload.\n\nEverything happens in your browser, so a document with personal terms is never uploaded to a signing service. One honesty note, covered in the FAQ below: this places a picture of your signature on the page, which is what most everyday forms ask for — it is not a cryptographic e-signature.",
       faq: [
         {
           q: "Is this a legally binding electronic signature?",
@@ -1042,7 +1042,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "How do I create the signature?",
-          a: "Draw it with your mouse or finger, type it in a signature font, or upload an image of your handwritten signature.",
+          a: "Draw it with your mouse or finger, or upload an image of your handwritten signature. Want a typed signature font? Create it in the signature maker and upload it here.",
         },
         {
           q: "Can I place the signature exactly on the line?",
@@ -1059,14 +1059,14 @@ export const toolContent: Record<string, ToolContent> = {
       ],
       steps: [
         "Upload the PDF you need to sign.",
-        "Add your signature by drawing, typing, or uploading it.",
+        "Add your signature by drawing or uploading it.",
         "Position and size it on the signature line.",
         "Download the signed PDF.",
       ],
     },
     ar: {
       intro:
-        "يتيح «توقيع PDF» وضع توقيعك على مستند وحفظه ملف PDF — عقد إيجار عليك إعادته، أو عقد، أو نموذج موافقة مدرسي أو طبي يجب أن يعود موقّعًا اليوم. فبدل الطباعة والتوقيع والمسح، تسقط توقيعك مباشرة على الصفحة.\n\nتضيف توقيعك — مرسومًا أو مكتوبًا أو مرفوعًا كصورة — وتضعه على سطر التوقيع، وتضبط حجمه، وتضعه حيث يحتاج النموذج، بما في ذلك تاريخ أو أحرف أولى. والنتيجة ملف PDF مسطّح ترسله أو ترفعه.\n\nيجري كل شيء في متصفحك، فلا يُرفع مستند ببنود شخصية إلى خدمة توقيع. وملاحظة صدق واحدة موضّحة في الأسئلة أدناه: هذا يضع صورة لتوقيعك على الصفحة، وهو ما تطلبه أغلب النماذج اليومية — وليس توقيعًا إلكترونيًا تشفيريًا.",
+        "يتيح «توقيع PDF» وضع توقيعك على مستند وحفظه ملف PDF — عقد إيجار عليك إعادته، أو عقد، أو نموذج موافقة مدرسي أو طبي يجب أن يعود موقّعًا اليوم. فبدل الطباعة والتوقيع والمسح، تسقط توقيعك مباشرة على الصفحة.\n\nتضيف توقيعك — مرسومًا أو مرفوعًا كصورة — وتضعه على سطر التوقيع، وتضبط حجمه، وتضعه حيث يحتاج النموذج، بما في ذلك تاريخ أو أحرف أولى. والنتيجة ملف PDF مسطّح ترسله أو ترفعه.\n\nيجري كل شيء في متصفحك، فلا يُرفع مستند ببنود شخصية إلى خدمة توقيع. وملاحظة صدق واحدة موضّحة في الأسئلة أدناه: هذا يضع صورة لتوقيعك على الصفحة، وهو ما تطلبه أغلب النماذج اليومية — وليس توقيعًا إلكترونيًا تشفيريًا.",
       faq: [
         {
           q: "هل هذا توقيع إلكتروني مُلزِم قانونيًا؟",
@@ -1074,7 +1074,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "كيف أنشئ التوقيع؟",
-          a: "ارسمه بالفأرة أو إصبعك، أو اكتبه بخط توقيع، أو ارفع صورة لتوقيعك اليدوي.",
+          a: "ارسمه بالفأرة أو إصبعك، أو ارفع صورة لتوقيعك اليدوي. تريد خط توقيع مكتوبًا؟ أنشئه في صانع التوقيع ثم ارفعه هنا.",
         },
         {
           q: "هل يمكنني وضع التوقيع على السطر بدقة؟",
@@ -1091,7 +1091,7 @@ export const toolContent: Record<string, ToolContent> = {
       ],
       steps: [
         "ارفع ملف PDF الذي تريد توقيعه.",
-        "أضف توقيعك رسمًا أو كتابةً أو رفعًا.",
+        "أضف توقيعك رسمًا أو رفعًا.",
         "ضعه واضبط حجمه على سطر التوقيع.",
         "نزّل ملف PDF الموقّع.",
       ],
@@ -1238,7 +1238,7 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["merge-pdf", "compress-pdf", "image-converter", "pdf"],
     en: {
       intro:
-        "JPG to PDF turns your images into a PDF — one photo per page, combined into a single document in the order you set. It's built for the everyday task of submitting photographed paperwork: you snap each page of a form, an ID, or a set of receipts with your phone, and need them delivered as one tidy PDF instead of a pile of loose image files.\n\nYou add the JPGs (PNG and other common images work too), arrange them, and the tool lays each one onto its own page and bundles them into a single PDF ready to email or upload. A portal that only accepts PDF, or a person who doesn't want ten separate attachments, gets exactly one file.\n\nThe conversion happens in your browser, so photos of personal documents are never uploaded to a server. There's no watermark and no account, so the finished PDF is clean and yours.",
+        "JPG to PDF turns your images into a PDF — one photo per page, combined into a single document in the order you set. It's built for the everyday task of submitting photographed paperwork: you snap each page of a form, an ID, or a set of receipts with your phone, and need them delivered as one tidy PDF instead of a pile of loose image files.\n\nYou add the JPGs (PNG works too), arrange them, and the tool lays each one onto its own page and bundles them into a single PDF ready to email or upload. A portal that only accepts PDF, or a person who doesn't want ten separate attachments, gets exactly one file.\n\nThe conversion happens in your browser, so photos of personal documents are never uploaded to a server. There's no watermark and no account, so the finished PDF is clean and yours.",
       faq: [
         {
           q: "Can I put several photos into one PDF?",
@@ -1250,7 +1250,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "Which image formats can I convert?",
-          a: "JPG is the common case, and other everyday formats like PNG work too. To change a format first, the image converter handles that.",
+          a: "JPG is the common case, and PNG works too. To change a format first, the image converter handles that.",
         },
         {
           q: "Are my photos uploaded to convert them?",
@@ -1270,7 +1270,7 @@ export const toolContent: Record<string, ToolContent> = {
     },
     ar: {
       intro:
-        "يحوّل «JPG إلى PDF» صورك إلى ملف PDF — صورة واحدة لكل صفحة، مجمّعة في مستند واحد بالترتيب الذي تحدّده. صُمِّم للمهمة اليومية: تقديم أوراق مصوَّرة، فتلتقط كل صفحة من نموذج أو هوية أو مجموعة إيصالات بهاتفك، وتحتاج تسليمها ملف PDF واحدًا مرتّبًا بدل كومة ملفات صور متفرقة.\n\nتضيف صور JPG (وتعمل PNG وصيغ الصور الشائعة الأخرى أيضًا)، وترتّبها، فتضع الأداة كلًّا منها على صفحتها وتجمعها في ملف PDF واحد جاهز للإرسال أو الرفع. فبوابة لا تقبل إلا PDF، أو شخص لا يريد عشرة مرفقات منفصلة، يحصل على ملف واحد بالضبط.\n\nيجري التحويل في متصفحك، فلا تُرفع صور المستندات الشخصية إلى خادم. ولا علامة مائية ولا حساب، فيكون ملف PDF النهائي نظيفًا وملكك.",
+        "يحوّل «JPG إلى PDF» صورك إلى ملف PDF — صورة واحدة لكل صفحة، مجمّعة في مستند واحد بالترتيب الذي تحدّده. صُمِّم للمهمة اليومية: تقديم أوراق مصوَّرة، فتلتقط كل صفحة من نموذج أو هوية أو مجموعة إيصالات بهاتفك، وتحتاج تسليمها ملف PDF واحدًا مرتّبًا بدل كومة ملفات صور متفرقة.\n\nتضيف صور JPG (وتعمل PNG أيضًا)، وترتّبها، فتضع الأداة كلًّا منها على صفحتها وتجمعها في ملف PDF واحد جاهز للإرسال أو الرفع. فبوابة لا تقبل إلا PDF، أو شخص لا يريد عشرة مرفقات منفصلة، يحصل على ملف واحد بالضبط.\n\nيجري التحويل في متصفحك، فلا تُرفع صور المستندات الشخصية إلى خادم. ولا علامة مائية ولا حساب، فيكون ملف PDF النهائي نظيفًا وملكك.",
       faq: [
         {
           q: "هل يمكنني وضع عدة صور في ملف PDF واحد؟",
@@ -1282,7 +1282,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "أي صيغ الصور يمكنني تحويلها؟",
-          a: "JPG هي الحالة الشائعة، وتعمل صيغ يومية أخرى مثل PNG أيضًا. ولتغيير الصيغة أولًا، يتولى محوّل الصور ذلك.",
+          a: "JPG هي الحالة الشائعة، وتعمل PNG أيضًا. ولتغيير الصيغة أولًا، يتولى محوّل الصور ذلك.",
         },
         {
           q: "هل تُرفع صوري لتحويلها؟",
