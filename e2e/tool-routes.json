@@ -140,6 +140,42 @@
     "href": "/tools/pdf"
   },
   {
+    "name": "Merge PDF",
+    "href": "/tools/merge-pdf"
+  },
+  {
+    "name": "Split PDF",
+    "href": "/tools/split-pdf"
+  },
+  {
+    "name": "Compress PDF",
+    "href": "/tools/compress-pdf"
+  },
+  {
+    "name": "Rotate PDF",
+    "href": "/tools/rotate-pdf"
+  },
+  {
+    "name": "Watermark PDF",
+    "href": "/tools/watermark-pdf"
+  },
+  {
+    "name": "Sign PDF",
+    "href": "/tools/sign-pdf"
+  },
+  {
+    "name": "Extract Text from PDF",
+    "href": "/tools/extract-text-from-pdf"
+  },
+  {
+    "name": "Reorder PDF Pages",
+    "href": "/tools/reorder-pdf-pages"
+  },
+  {
+    "name": "JPG to PDF",
+    "href": "/tools/jpg-to-pdf"
+  },
+  {
     "name": "Zip Tools",
     "href": "/tools/zip"
   },
