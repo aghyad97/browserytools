@@ -40,6 +40,7 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
+import { PLACEHOLDER_OPS, type WorkbenchOp } from "@/components/pdf-workbench/ops";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -77,7 +78,10 @@ function downloadPdfBytes(data: Uint8Array, filename: string) {
   downloadBlob(new Blob([data as BlobPart], { type: "application/pdf" }), filename);
 }
 
-export default function PDFTools() {
+export default function PDFTools({
+  slug = "pdf",
+  preset,
+}: { slug?: string; preset?: { op?: WorkbenchOp } } = {}) {
   const t = useTranslations("Tools.PDFTools");
   const tc = useTranslations("ToolsConfig");
 
@@ -379,12 +383,12 @@ export default function PDFTools() {
 
   return (
     <ToolShell
-      slug="pdf"
-      title={tc("tools.pdf.name")}
-      sub={tc("tools.pdf.description")}
+      slug={slug}
+      title={tc(`tools.${slug}.name` as never)}
+      sub={tc(`tools.${slug}.description` as never)}
     >
       <div className="space-y-6">
-          <Tabs defaultValue="images" className="w-full">
+          <Tabs defaultValue={preset?.op ?? "images"} className="w-full">
             <TabsList className="flex-wrap h-auto">
               <TabsTrigger value="images">
                 <ImageIcon className="w-4 h-4 me-2" />
@@ -398,6 +402,12 @@ export default function PDFTools() {
                 <SplitSquareHorizontal className="w-4 h-4 me-2" />
                 {t("tabSplit")}
               </TabsTrigger>
+              {PLACEHOLDER_OPS.map(({ value, labelKey, Icon }) => (
+                <TabsTrigger key={value} value={value}>
+                  <Icon className="w-4 h-4 me-2" />
+                  {t(labelKey as never)}
+                </TabsTrigger>
+              ))}
             </TabsList>
 
             {/* ── Images → PDF ─────────────────────────────────────────── */}
@@ -730,6 +740,16 @@ export default function PDFTools() {
                 </SettingsCard>
               )}
             </TabsContent>
+
+            {/* ── Placeholder panels (wired in Tasks 5–8) ──────────────── */}
+            {PLACEHOLDER_OPS.map(({ value, labelKey }) => (
+              <TabsContent key={value} value={value} className="space-y-6">
+                <SettingsCard
+                  title={t(labelKey as never)}
+                  data-testid={`pdf-placeholder-${value}`}
+                />
+              </TabsContent>
+            ))}
           </Tabs>
 
           {previewFile && (
