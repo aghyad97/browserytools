@@ -1,0 +1,448 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`InvoiceGenerator — templates + Pro gating > export path invokes jsPDF > classic template constructs jsPDF for the page size, saves invoice-<number>.pdf, and draws the exact original sequence 1`] = `
+[
+  {
+    "args": [
+      24,
+    ],
+    "method": "setFontSize",
+  },
+  {
+    "args": [
+      "helvetica",
+      "bold",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "INVOICE",
+      535.28,
+      20,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      12,
+    ],
+    "method": "setFontSize",
+  },
+  {
+    "args": [
+      "helvetica",
+      "bold",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Acme Co",
+      20,
+      40,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "helvetica",
+      "normal",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "123 Main St",
+      20,
+      46,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Springfield, IL, 62704",
+      20,
+      52,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "USA",
+      20,
+      58,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Email: billing@acme.test",
+      20,
+      64,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Phone: 555-0100",
+      20,
+      70,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "helvetica",
+      "bold",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Invoice #: INV-2026-000001",
+      535.28,
+      86,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "helvetica",
+      "normal",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Date: 01/01/2026",
+      535.28,
+      92,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Due Date: 31/01/2026",
+      535.28,
+      98,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "helvetica",
+      "bold",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Bill To:",
+      20,
+      118,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "helvetica",
+      "normal",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Client Inc",
+      20,
+      124,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "456 Side Ave",
+      20,
+      130,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Shelbyville, IL, 62565",
+      20,
+      136,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "USA",
+      20,
+      142,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "helvetica",
+      "bold",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Description",
+      20,
+      168,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Qty",
+      120,
+      168,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Rate",
+      140,
+      168,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Amount",
+      565.28,
+      168,
+      {
+        "align": "right",
+      },
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      20,
+      174,
+      575.28,
+      174,
+    ],
+    "method": "line",
+  },
+  {
+    "args": [
+      "helvetica",
+      "normal",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Consulting",
+      20,
+      180,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "2",
+      120,
+      180,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "$100.00",
+      140,
+      180,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "$200.00",
+      565.28,
+      180,
+      {
+        "align": "right",
+      },
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "helvetica",
+      "normal",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Subtotal:",
+      515.28,
+      196,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "$200.00",
+      565.28,
+      196,
+      {
+        "align": "right",
+      },
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Discount:",
+      515.28,
+      202,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "-$50.00",
+      565.28,
+      202,
+      {
+        "align": "right",
+      },
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Tax (10%):",
+      515.28,
+      208,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "$15.00",
+      565.28,
+      208,
+      {
+        "align": "right",
+      },
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      515.28,
+      216,
+      575.28,
+      216,
+    ],
+    "method": "line",
+  },
+  {
+    "args": [
+      "helvetica",
+      "bold",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      14,
+    ],
+    "method": "setFontSize",
+  },
+  {
+    "args": [
+      "Total:",
+      515.28,
+      220,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "$165.00",
+      565.28,
+      220,
+      {
+        "align": "right",
+      },
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      10,
+    ],
+    "method": "setFontSize",
+  },
+  {
+    "args": [
+      "helvetica",
+      "normal",
+    ],
+    "method": "setFont",
+  },
+  {
+    "args": [
+      "Notes:",
+      20,
+      240,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Thanks for your business.",
+      555.28,
+    ],
+    "method": "splitTextToSize",
+  },
+  {
+    "args": [
+      [
+        "Thanks for your business.",
+      ],
+      20,
+      246,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Terms:",
+      20,
+      256,
+    ],
+    "method": "text",
+  },
+  {
+    "args": [
+      "Net 30",
+      555.28,
+    ],
+    "method": "splitTextToSize",
+  },
+  {
+    "args": [
+      [
+        "Net 30",
+      ],
+      20,
+      262,
+    ],
+    "method": "text",
+  },
+]
+`;

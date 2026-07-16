@@ -100,9 +100,11 @@ export default function InvoiceGenerator() {
   // Honor-system return flow: a successful checkout redirects back with
   // `?unlocked=pro`. Flip the flag, notify, then strip the param via replace.
   useEffect(() => {
-    if (searchParams.get("unlocked") === "pro") {
+    if (
+      INVOICE_PRO_PAYMENT_LINK &&
+      searchParams.get("unlocked") === "pro"
+    ) {
       unlockInvoicePro();
-      setMounted(true);
       toast.success(t("proUnlockedToast"));
       const params = new URLSearchParams(searchParams.toString());
       params.delete("unlocked");
