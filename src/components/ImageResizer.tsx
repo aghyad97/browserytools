@@ -41,6 +41,12 @@ import {
   resizeRect,
   type CropRect,
 } from "@/lib/image/crop-rect";
+import {
+  ANCHORS,
+  drawWatermark,
+  type Anchor,
+  type WatermarkKind,
+} from "@/lib/image/watermark-draw";
 import { downloadUrl } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
 
@@ -54,19 +60,6 @@ interface ImageInfo {
 }
 
 type ResizeMode = "dimensions" | "percentage" | "longest-side" | "preset";
-
-type WatermarkKind = "text" | "image";
-// 3x3 anchor grid.
-type Anchor =
-  | "top-left"
-  | "top-center"
-  | "top-right"
-  | "center-left"
-  | "center"
-  | "center-right"
-  | "bottom-left"
-  | "bottom-center"
-  | "bottom-right";
 
 const PRESET_SIZES = [
   { label: "HD (1920x1080)", width: 1920, height: 1080 },
@@ -82,18 +75,6 @@ const PRESET_SIZES = [
 ];
 
 const PERCENTAGE_PRESETS = [25, 50, 75, 100, 125, 150, 200];
-
-const ANCHORS: Anchor[] = [
-  "top-left",
-  "top-center",
-  "top-right",
-  "center-left",
-  "center",
-  "center-right",
-  "bottom-left",
-  "bottom-center",
-  "bottom-right",
-];
 
 export default function ImageResizer() {
   const t = useTranslations("Tools.ImageResizer");
@@ -370,24 +351,6 @@ export default function ImageResizer() {
     [t]
   );
 
-  function anchorPosition(
-    anchor: Anchor,
-    canvasW: number,
-    canvasH: number,
-    itemW: number,
-    itemH: number
-  ): { x: number; y: number } {
-    const [v, h] = anchor.split("-") as [string, string];
-    const pad = Math.round(Math.min(canvasW, canvasH) * 0.03);
-    let x = pad;
-    let y = pad;
-    if (h === "center") x = (canvasW - itemW) / 2;
-    else if (h === "right") x = canvasW - itemW - pad;
-    if (v === "center") y = (canvasH - itemH) / 2;
-    else if (v === "bottom") y = canvasH - itemH - pad;
-    return { x, y };
-  }
-
   const runWatermark = useCallback(async () => {
     if (!original || !previewUrl) {
       toast.error(t("uploadFirst"));
@@ -410,74 +373,21 @@ export default function ImageResizer() {
       const ctx = canvas.getContext("2d");
       if (!ctx) throw new Error("Canvas not supported");
       ctx.drawImage(base, 0, 0, original.width, original.height);
-      ctx.globalAlpha = wmOpacity / 100;
 
-      if (wmKind === "text") {
-        const fontPx = Math.max(1, Math.round(wmFontSize * (wmScale / 100)));
-        ctx.font = `${fontPx}px sans-serif`;
-        ctx.fillStyle = wmColor;
-        ctx.textBaseline = "top";
-        const metrics = ctx.measureText(wmText);
-        const itemW = metrics.width || fontPx * wmText.length;
-        const itemH = fontPx;
-        const drawOne = (x: number, y: number) => {
-          ctx.save();
-          ctx.translate(x + itemW / 2, y + itemH / 2);
-          ctx.rotate((wmRotation * Math.PI) / 180);
-          ctx.fillText(wmText, -itemW / 2, -itemH / 2);
-          ctx.restore();
-        };
-        if (wmTile) {
-          const stepX = itemW + fontPx;
-          const stepY = itemH + fontPx;
-          for (let y = 0; y < canvas.height; y += stepY) {
-            for (let x = 0; x < canvas.width; x += stepX) {
-              drawOne(x, y);
-            }
-          }
-        } else {
-          const { x, y } = anchorPosition(
-            wmAnchor,
-            canvas.width,
-            canvas.height,
-            itemW,
-            itemH
-          );
-          drawOne(x, y);
-        }
-      } else {
-        const wmImg = await loadHtmlImage(wmImageUrl as string);
-        const baseW = canvas.width * 0.25 * (wmScale / 100);
-        const ratio = wmImg.height / (wmImg.width || 1);
-        const itemW = baseW;
-        const itemH = baseW * ratio;
-        const drawOne = (x: number, y: number) => {
-          ctx.save();
-          ctx.translate(x + itemW / 2, y + itemH / 2);
-          ctx.rotate((wmRotation * Math.PI) / 180);
-          ctx.drawImage(wmImg, -itemW / 2, -itemH / 2, itemW, itemH);
-          ctx.restore();
-        };
-        if (wmTile) {
-          const stepX = itemW + itemW * 0.5;
-          const stepY = itemH + itemH * 0.5;
-          for (let y = 0; y < canvas.height; y += stepY) {
-            for (let x = 0; x < canvas.width; x += stepX) {
-              drawOne(x, y);
-            }
-          }
-        } else {
-          const { x, y } = anchorPosition(
-            wmAnchor,
-            canvas.width,
-            canvas.height,
-            itemW,
-            itemH
-          );
-          drawOne(x, y);
-        }
-      }
-      ctx.globalAlpha = 1;
+      const wmImg =
+        wmKind === "image" ? await loadHtmlImage(wmImageUrl as string) : null;
+      drawWatermark(ctx, canvas.width, canvas.height, {
+        kind: wmKind,
+        text: wmText,
+        fontSize: wmFontSize,
+        color: wmColor,
+        opacity: wmOpacity,
+        anchor: wmAnchor,
+        scale: wmScale,
+        rotation: wmRotation,
+        tile: wmTile,
+        image: wmImg,
+      });
       await finishExport(canvas, canvas.width, canvas.height);
     } catch (e) {
       toast.error(`Error: ${String(e)}`);
