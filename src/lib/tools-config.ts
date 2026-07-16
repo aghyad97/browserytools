@@ -92,6 +92,11 @@ import {
   StampIcon,
   Gamepad2Icon,
   KeyboardIcon,
+  CombineIcon,
+  ShrinkIcon,
+  RotateCwIcon,
+  FileOutputIcon,
+  ListOrderedIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -115,6 +120,14 @@ export interface Tool {
    * (after `creationDate`) — scripts/generate-tool-routes.mjs regexes the
    * name → href → … available prefix, so keep required fields ahead of it. */
   landingFor?: string;
+  /** Set on a `landingFor` variant that should ALSO surface as its own grid
+   * card — a distinct user intent (e.g. the PDF operations merge/split/sign)
+   * that happens to share an implementation with its canonical tool. Such a
+   * variant is shown in the grid, counted, and searchable in the palette,
+   * while still belonging to its canonical's family for related tiles. Plain
+   * SEO long-tail variants (e.g. `compress-image-to-20kb`, the same tool at a
+   * preset) leave this unset and stay hidden. */
+  inGrid?: boolean;
 }
 
 export interface ToolCategory {
@@ -507,101 +520,110 @@ export const tools: ToolCategory[] = [
       {
         name: "Merge PDF",
         href: "/tools/merge-pdf",
-        icon: FileTextIcon,
+        icon: CombineIcon,
         available: true,
         order: 60,
         creationDate: "2026-07-16",
         description:
           "Combine multiple PDF files into one document, in order, right in your browser.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Split PDF",
         href: "/tools/split-pdf",
-        icon: FileTextIcon,
+        icon: ScissorsIcon,
         available: true,
         order: 61,
         creationDate: "2026-07-16",
         description:
           "Extract pages or page ranges from a PDF into separate files — no upload.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Compress PDF",
         href: "/tools/compress-pdf",
-        icon: FileTextIcon,
+        icon: ShrinkIcon,
         available: true,
         order: 62,
         creationDate: "2026-07-16",
         description:
           "Shrink PDF file size in your browser with three quality presets.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Rotate PDF",
         href: "/tools/rotate-pdf",
-        icon: FileTextIcon,
+        icon: RotateCwIcon,
         available: true,
         order: 63,
         creationDate: "2026-07-16",
         description:
           "Rotate PDF pages permanently — single pages or the whole document.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Watermark PDF",
         href: "/tools/watermark-pdf",
-        icon: FileTextIcon,
+        icon: StampIcon,
         available: true,
         order: 64,
         creationDate: "2026-07-16",
         description:
           "Stamp DRAFT, CONFIDENTIAL, or any text across every page of a PDF.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Sign PDF",
         href: "/tools/sign-pdf",
-        icon: FileTextIcon,
+        icon: SignatureIcon,
         available: true,
         order: 65,
         creationDate: "2026-07-16",
         description:
           "Draw or upload your signature and place it on any page — files never leave your device.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Extract Text from PDF",
         href: "/tools/extract-text-from-pdf",
-        icon: FileTextIcon,
+        icon: FileOutputIcon,
         available: true,
         order: 66,
         creationDate: "2026-07-16",
         description:
           "Pull selectable text out of a PDF and copy or download it as .txt.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Reorder PDF Pages",
         href: "/tools/reorder-pdf-pages",
-        icon: FileTextIcon,
+        icon: ListOrderedIcon,
         available: true,
         order: 67,
         creationDate: "2026-07-16",
         description:
           "Drag and drop to rearrange or delete PDF pages, then save.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "JPG to PDF",
         href: "/tools/jpg-to-pdf",
-        icon: FileTextIcon,
+        icon: FileImageIcon,
         available: true,
         order: 68,
         creationDate: "2026-07-16",
         description:
           "Turn JPG and PNG images into a single PDF with page size and margin controls.",
         landingFor: "pdf",
+        inGrid: true,
       },
       {
         name: "Zip Tools",
@@ -1901,12 +1923,21 @@ export const getAllTools = (): (Tool & { category: string })[] => {
   );
 };
 
-// Catalog tools — the public, user-facing set: every tool EXCEPT SEO landing
-// variants (entries carrying `landingFor`). This is what the homepage grid and
-// the marketing "N+ tools" count show. `getAllTools()` stays the full set so
-// sitemap / metadata / route + e2e generation keep landing variants visible.
+// A tool is hidden from the user-facing catalog surfaces (homepage grid,
+// marketing count, command palette) when it is a `landingFor` variant that is
+// NOT flagged `inGrid`. `inGrid` variants (e.g. the PDF operations) are distinct
+// intents that surface as their own cards while still belonging to their
+// canonical's family; plain SEO long-tail variants stay hidden. One predicate so
+// the grid, the count, and the palette can never drift apart.
+export const isHiddenVariant = (tool: Tool): boolean =>
+  !!tool.landingFor && !tool.inGrid;
+
+// Catalog tools — the public, user-facing set: every tool EXCEPT hidden SEO
+// landing variants. This is what the homepage grid and the marketing "N+ tools"
+// count show. `getAllTools()` stays the full set so sitemap / metadata / route +
+// e2e generation keep every landing variant visible.
 export const getCatalogTools = (): (Tool & { category: string })[] =>
-  getAllTools().filter((tool) => !tool.landingFor);
+  getAllTools().filter((tool) => !isHiddenVariant(tool));
 
 // Related-tile resolution shared by the ToolShell (spec §3, zone 5). Pure so it
 // can be unit-tested against a synthetic pool; defaults to the live catalog.

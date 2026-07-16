@@ -26,16 +26,17 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
-import { tools, roundedToolCount } from "@/lib/tools-config";
+import { tools, roundedToolCount, isHiddenVariant } from "@/lib/tools-config";
 import { playCue } from "@/lib/ui-sound";
 import s from "./command-palette.module.css";
 
 /* Locale-independent flat index — names/labels resolve via i18n at render.
-   Excludes SEO landing variants (`landingFor`) so the palette stays
-   consistent with the homepage grid, tool count, and related-tile pools. */
+   Excludes hidden SEO landing variants so the palette stays consistent with the
+   homepage grid and tool count; `inGrid` variants (PDF operations) are searchable
+   like any other card. */
 const TOOL_INDEX = tools.flatMap((c) =>
   c.items
-    .filter((t) => !t.landingFor)
+    .filter((t) => !isHiddenVariant(t))
     .map((t) => ({
       slug: t.href.split("/").pop() as string,
       href: t.href,
