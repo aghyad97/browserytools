@@ -1,4 +1,4 @@
-import { PDFDocument } from "pdf-lib";
+import { PDFDocument, degrees } from "pdf-lib";
 
 /**
  * Where a signature image sits on a page, in a NORMALIZED (0..1) TOP-LEFT
@@ -123,10 +123,81 @@ export function placementToRect(
 }
 
 /**
+ * pdf-lib `page.drawImage` parameters that place a signature so it both sits in
+ * the mapped region AND displays UPRIGHT once the viewer honors the page's
+ * `/Rotate`. `placementToRect` alone only fixes the region: `drawImage` would
+ * still stamp the PNG axis-aligned in UNROTATED MediaBox space, and the viewer's
+ * clockwise `/Rotate` would then show it sideways (90/270) or upside-down (180).
+ * The fix counter-rotates the image so the viewer's rotation brings it back
+ * upright, translating the draw origin so the rotated image's bounding box still
+ * exactly fills the mapped rect.
+ *
+ * Derivation
+ * ----------
+ * The viewer displays the MediaBox rotated CLOCKWISE by R (= `/Rotate`); this is
+ * the same model `placementToRect`/`viewerPointToUnrotated` invert for the
+ * region. So a MediaBox direction appears in the viewer rotated CW by R:
+ *   R=90 : +y→screen-right, +x→screen-down (so -x→screen-up)
+ *   R=180: +y→screen-down,  +x→screen-left
+ *   R=270: +x→screen-up,    +y→screen-left (so -y→screen-right)
+ * For the drawn image to read upright, its "up" (+t) must land on screen-up and
+ * its "right" (+s) on screen-right. pdf-lib rotates CCW for positive angles
+ * (cm = cos,sin,-sin,cos), and image-up world dir = (-sinθ, cosθ),
+ * image-right = (cosθ, sinθ). Solving:
+ *   R=0 → θ=0 ; R=90 → θ=+90 ; R=180 → θ=180 ; R=270 → θ=+270 (≡ -90).
+ * i.e. rotateDeg = R  (NOT -R — an upright signature drawn with -R would read
+ * mirrored/upside-down; verified corner-by-corner and by the bbox invariant
+ * below).
+ *
+ * `drawImage` applies translate(x,y) → rotate(θ) → scale(width,height) → unit
+ * square, so it pivots about (x,y) (the image's local bottom-left) and
+ * `width`/`height` scale the image's LOCAL right/up axes before rotation. Thus
+ * for 90/270 the on-page bounding box swaps the drawn dims: because
+ * `placementToRect` already swaps the RECT dims for 90/270, the drawn
+ * `width`/`height` are the PRE-swap (viewer-perceived) dims — width=rh,
+ * height=rw. Placing corners = (x,y)+R(θ)·(width·s, height·t) and pinning the
+ * bbox min to the mapped rect's bottom-left (rx,ry) gives, with mapped rect
+ * (rx,ry,rw,rh):
+ *   R=0  : x=rx,      y=ry,      w=rw, h=rh, θ=0
+ *   R=90 : x=rx+rw,   y=ry,      w=rh, h=rw, θ=90
+ *   R=180: x=rx+rw,   y=ry+rh,   w=rw, h=rh, θ=180
+ *   R=270: x=rx,      y=ry+rh,   w=rh, h=rw, θ=270
+ * In every case the rotated image's axis-aligned bbox = (rx,ry,rw,rh), so the
+ * region mapping is preserved exactly (pinned by tests via the bbox invariant).
+ *
+ * Pure and unit-tested independently of pdf-lib.
+ */
+export function signDrawParams(
+  placement: SignPlacement,
+  pageWidth: number,
+  pageHeight: number,
+): { x: number; y: number; width: number; height: number; rotateDeg: number } {
+  const rotation = normalizeRotation(placement.pageRotation);
+  const {
+    x: rx,
+    y: ry,
+    width: rw,
+    height: rh,
+  } = placementToRect(placement, pageWidth, pageHeight);
+
+  switch (rotation) {
+    case 90:
+      return { x: rx + rw, y: ry, width: rh, height: rw, rotateDeg: 90 };
+    case 180:
+      return { x: rx + rw, y: ry + rh, width: rw, height: rh, rotateDeg: 180 };
+    case 270:
+      return { x: rx, y: ry + rh, width: rh, height: rw, rotateDeg: 270 };
+    default:
+      return { x: rx, y: ry, width: rw, height: rh, rotateDeg: 0 };
+  }
+}
+
+/**
  * Stamp a signature PNG onto a single page of a PDF at a normalized top-left
  * placement. Uses pdf-lib's `embedPng` + `page.drawImage`; only the target page
- * is touched. The rect is drawn in UNROTATED MediaBox space, so it rotates with
- * the page's `/Rotate` when any viewer opens the signed file.
+ * is touched. The image is drawn in UNROTATED MediaBox space and
+ * counter-rotated (see `signDrawParams`) so it sits in the mapped region AND
+ * displays upright once a viewer honors the page's `/Rotate`.
  *
  * @throws Error("invalid-page") when `placement.pageIndex` is out of range.
  */
@@ -148,8 +219,12 @@ export async function signPdf(
   const page = pages[placement.pageIndex];
   const { width, height } = page.getSize();
   const png = await doc.embedPng(signaturePng);
-  const rect = placementToRect(placement, width, height);
-  page.drawImage(png, rect);
+  const { x, y, width: w, height: h, rotateDeg } = signDrawParams(
+    placement,
+    width,
+    height,
+  );
+  page.drawImage(png, { x, y, width: w, height: h, rotate: degrees(rotateDeg) });
 
   return doc.save();
 }

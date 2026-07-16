@@ -1,6 +1,50 @@
 import { describe, it, expect } from "vitest";
 import { PDFDocument, degrees } from "pdf-lib";
-import { signPdf, placementToRect, type SignPlacement } from "@/lib/pdf/sign";
+import {
+  signPdf,
+  placementToRect,
+  signDrawParams,
+  type SignPlacement,
+} from "@/lib/pdf/sign";
+
+/**
+ * Axis-aligned bounding box of the image pdf-lib's `drawImage` actually stamps,
+ * given the draw params. Mirrors pdf-lib's transform order exactly: a unit
+ * square scaled by (width,height), rotated CCW by `rotateDeg` (cm =
+ * cos,sin,-sin,cos), then translated to (x,y). Used to prove the rotated
+ * signature still fills the mapped region.
+ */
+function drawnBBox(p: {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+  rotateDeg: number;
+}) {
+  const th = (p.rotateDeg * Math.PI) / 180;
+  const c = Math.cos(th);
+  const s = Math.sin(th);
+  const corners: Array<[number, number]> = [
+    [0, 0],
+    [p.width, 0],
+    [p.width, p.height],
+    [0, p.height],
+  ];
+  const world = corners.map(([sx, sy]) => [
+    p.x + sx * c - sy * s,
+    p.y + sx * s + sy * c,
+  ]);
+  const xs = world.map((w) => w[0]);
+  const ys = world.map((w) => w[1]);
+  const minX = Math.min(...xs);
+  const minY = Math.min(...ys);
+  return {
+    x: minX,
+    y: minY,
+    width: Math.max(...xs) - minX,
+    height: Math.max(...ys) - minY,
+  };
+}
 
 // A valid 1×1 red PNG (RGBA), base64. pdf-lib's embedPng accepts it directly.
 const PNG_1X1 =
@@ -107,6 +151,99 @@ describe("placementToRect rotation-aware (viewer space → unrotated MediaBox)",
     const rNeg90 = placementToRect({ ...viewerRect, pageRotation: -90 }, W, H);
     const r270 = placementToRect({ ...viewerRect, pageRotation: 270 }, W, H);
     expect(rNeg90).toEqual(r270);
+  });
+});
+
+describe("signDrawParams (counter-rotate so signature displays upright)", () => {
+  // Same distinctive viewer rect as the region tests, on 612×792 UNROTATED.
+  const viewerRect = { pageIndex: 0, x: 0, y: 0, w: 0.5, h: 0.25 };
+  const W = 612;
+  const H = 792;
+
+  it("rot 0 — draws axis-aligned, no rotation, dims match mapped rect", () => {
+    // mapped rect: {x:0, y:594, w:306, h:198}
+    const p = signDrawParams({ ...viewerRect, pageRotation: 0 }, W, H);
+    expect(p).toEqual({
+      x: 0,
+      y: 594,
+      width: 306,
+      height: 198,
+      rotateDeg: 0,
+    });
+  });
+
+  it("rot 90 — counter-rotates +90, swaps dims, shifts origin to +rw", () => {
+    // mapped rect: {x:0, y:0, w:153, h:396} → x=rx+rw=153, y=ry=0,
+    // width=rh=396, height=rw=153, θ=90.
+    const p = signDrawParams({ ...viewerRect, pageRotation: 90 }, W, H);
+    expect(p).toEqual({
+      x: 153,
+      y: 0,
+      width: 396,
+      height: 153,
+      rotateDeg: 90,
+    });
+  });
+
+  it("rot 180 — counter-rotates 180, origin at far corner, dims unswapped", () => {
+    // mapped rect: {x:306, y:0, w:306, h:198} → x=rx+rw=612, y=ry+rh=198,
+    // width=rw=306, height=rh=198, θ=180.
+    const p = signDrawParams({ ...viewerRect, pageRotation: 180 }, W, H);
+    expect(p).toEqual({
+      x: 612,
+      y: 198,
+      width: 306,
+      height: 198,
+      rotateDeg: 180,
+    });
+  });
+
+  it("rot 270 — counter-rotates +270, swaps dims, shifts origin to +rh", () => {
+    // mapped rect: {x:459, y:396, w:153, h:396} → x=rx=459, y=ry+rh=792,
+    // width=rh=396, height=rw=153, θ=270.
+    const p = signDrawParams({ ...viewerRect, pageRotation: 270 }, W, H);
+    expect(p).toEqual({
+      x: 459,
+      y: 792,
+      width: 396,
+      height: 153,
+      rotateDeg: 270,
+    });
+  });
+
+  it("treats a missing pageRotation as 0 (no counter-rotation)", () => {
+    const p = signDrawParams(viewerRect, W, H);
+    expect(p.rotateDeg).toBe(0);
+    expect(p).toEqual(signDrawParams({ ...viewerRect, pageRotation: 0 }, W, H));
+  });
+
+  it("normalizes out-of-range rotations (450 ≡ 90, -90 ≡ 270)", () => {
+    expect(signDrawParams({ ...viewerRect, pageRotation: 450 }, W, H)).toEqual(
+      signDrawParams({ ...viewerRect, pageRotation: 90 }, W, H),
+    );
+    expect(signDrawParams({ ...viewerRect, pageRotation: -90 }, W, H)).toEqual(
+      signDrawParams({ ...viewerRect, pageRotation: 270 }, W, H),
+    );
+  });
+
+  // The load-bearing invariant: the rotated image's on-page bounding box must
+  // exactly equal placementToRect's region for EVERY rotation — proving the
+  // counter-rotation preserves placement (region untouched) while fixing
+  // orientation. Exercised across several distinct rects, not just the pin.
+  it.each([
+    { pageIndex: 0, x: 0, y: 0, w: 0.5, h: 0.25 },
+    { pageIndex: 0, x: 0.55, y: 0.75, w: 0.3, h: 0.12 },
+    { pageIndex: 0, x: 0.2, y: 0.1, w: 0.6, h: 0.4 },
+  ])("bbox of the counter-rotated image fills the mapped rect (%o)", (rect) => {
+    for (const rot of [0, 90, 180, 270] as const) {
+      const placement = { ...rect, pageRotation: rot };
+      const bbox = drawnBBox(signDrawParams(placement, W, H));
+      const mapped = placementToRect(placement, W, H);
+      expect(bbox.x).toBeCloseTo(mapped.x);
+      expect(bbox.y).toBeCloseTo(mapped.y);
+      expect(bbox.width).toBeCloseTo(mapped.width);
+      expect(bbox.height).toBeCloseTo(mapped.height);
+    }
   });
 });
 
