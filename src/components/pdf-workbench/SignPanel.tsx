@@ -77,6 +77,10 @@ export function SignPanel({ files, onDropPdf }: SignPanelProps) {
   // Page selection (1-based in the UI) + preview render state.
   const [pageCount, setPageCount] = useState(0);
   const [pageNumber, setPageNumber] = useState(1);
+  // The rendered page's /Rotate (0/90/180/270). The preview shows the page
+  // upright; this records the viewer-space rotation so the engine maps the
+  // placement back onto the unrotated MediaBox.
+  const [pageRotation, setPageRotation] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -111,6 +115,9 @@ export function SignPanel({ files, onDropPdf }: SignPanelProps) {
         const clampedPage = Math.min(Math.max(1, pageNumber), doc.numPages);
         const page = await doc.getPage(clampedPage);
         if (cancelled) return;
+        // Record the page's /Rotate; the viewport (and thus the box we drag)
+        // is captured in this rotated, upright-looking space.
+        setPageRotation((((page.rotate ?? 0) % 360) + 360) % 360);
         const viewport = page.getViewport({ scale: PREVIEW_SCALE });
         const canvas = canvasRef.current;
         if (!canvas) return;
@@ -200,6 +207,7 @@ export function SignPanel({ files, onDropPdf }: SignPanelProps) {
         y: rect.y,
         w: rect.w,
         h: rect.h,
+        pageRotation,
       };
       const out = await signPdf(active.data, png, placement);
       const base = active.name.replace(/\.pdf$/i, "");

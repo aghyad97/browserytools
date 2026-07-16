@@ -133,7 +133,7 @@ describe("SignPanel", () => {
     expect(signPdf).toHaveBeenCalledWith(
       file.data,
       expect.any(Uint8Array),
-      { pageIndex: 0, x: 0.55, y: 0.75, w: 0.3, h: 0.12 },
+      { pageIndex: 0, x: 0.55, y: 0.75, w: 0.3, h: 0.12, pageRotation: 0 },
     );
     expect(URL.createObjectURL).toHaveBeenCalled();
   });
