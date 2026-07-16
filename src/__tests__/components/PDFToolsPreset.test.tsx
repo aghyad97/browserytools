@@ -50,11 +50,11 @@ vi.mock("@/components/pdf-preview", () => ({
 }));
 
 describe("PDFTools preset", () => {
-  it("opens the preset op's tab with its placeholder panel, not the images dropzone", () => {
-    // `extract` is still a placeholder op (reorder/watermark were wired in Task 6).
+  it("opens the preset op's tab with its real panel, not the images dropzone", () => {
+    // `extract` is now a real panel (Task 7 replaced the last placeholders).
     render(<PDFTools preset={{ op: "extract" }} />);
-    // Extract placeholder panel is the active content.
-    expect(screen.getByTestId("pdf-placeholder-extract")).toBeInTheDocument();
+    // The real ExtractPanel is the active content (its own dropzone input).
+    expect(screen.getByTestId("pdf-extract-input")).toBeInTheDocument();
     // Images dropzone (its TabsContent) is not mounted when extract is active.
     expect(screen.queryByText(/drop images here/i)).not.toBeInTheDocument();
   });
@@ -62,8 +62,6 @@ describe("PDFTools preset", () => {
   it("defaults to the images tab with no preset", () => {
     render(<PDFTools />);
     expect(screen.getByText(/drop images here/i)).toBeInTheDocument();
-    expect(
-      screen.queryByTestId("pdf-placeholder-extract")
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId("pdf-extract-input")).not.toBeInTheDocument();
   });
 });

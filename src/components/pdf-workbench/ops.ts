@@ -65,11 +65,14 @@ export const WORKBENCH_OPS: readonly WorkbenchOpDef[] = [
   { value: "rotate", labelKey: "tabRotate", Icon: RotateCw, placeholder: false },
   { value: "reorder", labelKey: "tabReorder", Icon: ListOrdered, placeholder: false },
   { value: "watermark", labelKey: "tabWatermark", Icon: Stamp, placeholder: false },
-  { value: "extract", labelKey: "tabExtract", Icon: FileText, placeholder: true },
-  { value: "sign", labelKey: "tabSign", Icon: PenLine, placeholder: true },
+  { value: "extract", labelKey: "tabExtract", Icon: FileText, placeholder: false },
+  { value: "sign", labelKey: "tabSign", Icon: PenLine, placeholder: false },
 ];
 
-/** The six ops whose panels are placeholders this task. */
+/**
+ * Ops whose panels are still placeholders. Now empty — all nine ops have real
+ * panels — but kept as a stable export (the shell no longer renders it).
+ */
 export const PLACEHOLDER_OPS: readonly WorkbenchOpDef[] = WORKBENCH_OPS.filter(
   (op) => op.placeholder
 );

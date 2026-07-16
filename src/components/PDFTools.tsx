@@ -36,6 +36,8 @@ import {
   RotateCw,
   ListOrdered,
   Stamp,
+  FileText,
+  PenLine,
 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
@@ -44,11 +46,13 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
-import { PLACEHOLDER_OPS, type WorkbenchOp } from "@/components/pdf-workbench/ops";
+import { type WorkbenchOp } from "@/components/pdf-workbench/ops";
 import { CompressPanel } from "@/components/pdf-workbench/CompressPanel";
 import { RotatePanel } from "@/components/pdf-workbench/RotatePanel";
 import { ReorderPanel } from "@/components/pdf-workbench/ReorderPanel";
 import { WatermarkPanel } from "@/components/pdf-workbench/WatermarkPanel";
+import { ExtractPanel } from "@/components/pdf-workbench/ExtractPanel";
+import { SignPanel } from "@/components/pdf-workbench/SignPanel";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -426,12 +430,14 @@ export default function PDFTools({
                 <Stamp className="w-4 h-4 me-2" />
                 {t("tabWatermark")}
               </TabsTrigger>
-              {PLACEHOLDER_OPS.map(({ value, labelKey, Icon }) => (
-                <TabsTrigger key={value} value={value}>
-                  <Icon className="w-4 h-4 me-2" />
-                  {t(labelKey as never)}
-                </TabsTrigger>
-              ))}
+              <TabsTrigger value="extract">
+                <FileText className="w-4 h-4 me-2" />
+                {t("tabExtract")}
+              </TabsTrigger>
+              <TabsTrigger value="sign">
+                <PenLine className="w-4 h-4 me-2" />
+                {t("tabSign")}
+              </TabsTrigger>
             </TabsList>
 
             {/* ── Images → PDF ─────────────────────────────────────────── */}
@@ -785,15 +791,15 @@ export default function PDFTools({
               <WatermarkPanel files={files} onDropPdf={onDropPdf} />
             </TabsContent>
 
-            {/* ── Placeholder panels (wired in later tasks) ────────────── */}
-            {PLACEHOLDER_OPS.map(({ value, labelKey }) => (
-              <TabsContent key={value} value={value} className="space-y-6">
-                <SettingsCard
-                  title={t(labelKey as never)}
-                  data-testid={`pdf-placeholder-${value}`}
-                />
-              </TabsContent>
-            ))}
+            {/* ── Extract text ─────────────────────────────────────────── */}
+            <TabsContent value="extract" className="space-y-6">
+              <ExtractPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Sign ─────────────────────────────────────────────────── */}
+            <TabsContent value="sign" className="space-y-6">
+              <SignPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
           </Tabs>
 
           {previewFile && (
