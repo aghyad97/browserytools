@@ -360,7 +360,7 @@ Posts per spec §5: `compress-pdf-under-limit`, `sign-pdf-online-free`, `merge-s
 - [ ] Ledger minors roll-up → final whole-branch review (most capable model) with review-package vs merge-base; fix round if needed.
 - [ ] Exit gates from clean state (clear stale :3000 first).
 - [ ] Manual browser smoke via agent: /tools/pdf (all 9 tabs), /tools/compress-pdf (preset preselected), /tools/sign-pdf (pad renders, placement box drags), dark + ar RTL + 390px mobile spot-checks; invoice template picker (Pro dark: no price shown).
-- [ ] Push; PR against main titled `feat: Wave 2 — PDF Workbench (9 ops) + 9 landing pages + invoice experiment (dark)`; body discloses: PDF copy now truthful, compress rasterizes (stated in UI), invoice Pro ships dark with flip-on instructions (create $5 Stripe payment link → set INVOICE_PRO_PAYMENT_LINK). NO AI footers. Note: PR base = main; if #43 merges first this PR shows only W2 commits, else it contains W1 too — note the stacking in the body.
+- [ ] Push; PR against main titled `feat: PDF workbench — compress, rotate, reorder, watermark, sign, extract text` (MINIMAL PR style per user rule: NO wave numbers, roadmap codenames, or strategy rationale in title/body — factual Summary / Behavior changes / Testing sections only). Body still discloses the user-relevant facts: PDF tool description now matches real capabilities, compress rasterizes pages (stated in UI), invoice Pro templates ship disabled until a Stripe payment link is set in `src/lib/pro-config.ts`, and (if #43 unmerged) that this PR contains the prior branch's commits. NO AI footers.
 - [ ] Report PR URL.
 
 ## Self-review notes
