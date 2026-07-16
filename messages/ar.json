@@ -823,7 +823,14 @@
       "imageTooLarge": "حجم الصورة يجب أن يكون أقل من 25 ميغابايت",
       "compressedSuccess": "تم ضغط الصورة بنجاح!",
       "compressFailed": "فشل ضغط الصورة. يرجى المحاولة مجدداً.",
-      "downloadedSuccess": "تم تحميل الصورة!"
+      "downloadedSuccess": "تم تحميل الصورة!",
+      "modeTarget": "Target size",
+      "targetSize": "Target size (KB)",
+      "targetSizeHint": "We search quality and dimensions to hit your target.",
+      "targetReached": "Target reached",
+      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
+      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
+      "presetChipAria": "Set target to {label}"
     },
     "ImageConverter": {
       "dropImageHere": "أفلت صورتك هنا",

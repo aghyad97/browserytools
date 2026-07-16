@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, useRef } from "react";
+import { useState, useCallback, useRef, useEffect } from "react";
 import { useTranslations } from "next-intl";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { ToolShell } from "@/components/template/tool-shell";
@@ -8,8 +8,14 @@ import { ControlStat } from "@/components/template/controls-bar";
 import { downloadDataUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { SliderRow } from "@/components/shared/SliderRow";
 import { OptionRow } from "@/components/shared/SettingsCard";
+import { loadImage } from "@/lib/image/canvas";
+import {
+  compressToTargetSize,
+  type TargetSizeFormat,
+} from "@/lib/image/target-size";
 import { formatBytes, formatPercent } from "@/lib/format";
 import {
   Select,
@@ -37,8 +43,49 @@ interface ImageInfo {
   name: string;
 }
 
+/**
+ * Optional initial configuration supplied by SEO landing-page variants
+ * (e.g. `compress-image-to-20kb`). All fields are optional and only seed the
+ * initial UI state; the tool remains fully interactive afterwards.
+ */
+export interface ImageCompressionPreset {
+  mode?: "auto" | "aggressive" | "custom" | "target";
+  targetKb?: number;
+  format?: string; // "original" | "image/jpeg" | "image/webp" | "image/png"
+  lockFormat?: boolean;
+}
 
-export default function ImageCompression() {
+const MIN_TARGET_KB = 5;
+const MAX_TARGET_KB = 5120;
+const clampKb = (n: number) =>
+  Math.min(MAX_TARGET_KB, Math.max(MIN_TARGET_KB, Math.round(n)));
+
+// Quick-set chips for the target-size input. 1024 KB is labelled "1 MB".
+const TARGET_PRESETS = [
+  { kb: 20, label: "20 KB" },
+  { kb: 50, label: "50 KB" },
+  { kb: 100, label: "100 KB" },
+  { kb: 200, label: "200 KB" },
+  { kb: 500, label: "500 KB" },
+  { kb: 1024, label: "1 MB" },
+];
+
+// Target mode is lossy-only: PNG/original can't be size-targeted, so they are
+// coerced to JPEG.
+const isTargetable = (format: string) =>
+  format === "image/jpeg" || format === "image/webp";
+
+interface TargetMeta {
+  width: number;
+  height: number;
+  quality: number;
+  hitTarget: boolean;
+}
+
+export default function ImageCompression({
+  slug = "image-compression",
+  preset,
+}: { slug?: string; preset?: ImageCompressionPreset } = {}) {
   const t = useTranslations("Tools.ImageCompression");
   const tc = useTranslations("ToolsConfig");
   const tCommon = useTranslations("Common");
@@ -47,6 +94,7 @@ export default function ImageCompression() {
     { value: "auto", label: t("modeAuto") },
     { value: "aggressive", label: t("modeAggressive") },
     { value: "custom", label: t("modeCustom") },
+    { value: "target", label: t("modeTarget") },
   ];
 
   const targetFormats = [
@@ -56,17 +104,41 @@ export default function ImageCompression() {
     { value: "image/png", label: "PNG" },
   ];
 
+  const initialFormat = preset?.format ?? "image/webp";
+  const startCoerced =
+    preset?.mode === "target" && !isTargetable(initialFormat);
+
   const [image, setImage] = useState<ImageInfo | null>(null);
   const [compressedImage, setCompressedImage] = useState<string | null>(null);
   const [compressedSize, setCompressedSize] = useState<number>(0);
-  const [mode, setMode] = useState("auto");
+  const [targetMeta, setTargetMeta] = useState<TargetMeta | null>(null);
+  const [mode, setMode] = useState(preset?.mode ?? "auto");
   const [quality, setQuality] = useState(80);
-  const [targetFormat, setTargetFormat] = useState("image/webp");
+  const [targetKb, setTargetKb] = useState(clampKb(preset?.targetKb ?? 100));
+  const [targetFormat, setTargetFormat] = useState(
+    startCoerced ? "image/jpeg" : initialFormat,
+  );
+  const [coercedPng, setCoercedPng] = useState(startCoerced);
+  const lockFormat = preset?.lockFormat ?? false;
   const [maxWidth, setMaxWidth] = useState(1920);
   const [loading, setLoading] = useState(false);
   const compareRef = useRef<HTMLDivElement>(null);
   const [comparing, setComparing] = useState(false);
   const [comparePosition, setComparePosition] = useState(50);
+
+  // Target mode is lossy-only: coerce a PNG/original selection to JPEG when the
+  // user switches into it, and surface a one-line hint. Leaving target mode
+  // clears the hint.
+  useEffect(() => {
+    if (mode === "target") {
+      if (!isTargetable(targetFormat)) {
+        setTargetFormat("image/jpeg");
+        setCoercedPng(true);
+      }
+    } else if (coercedPng) {
+      setCoercedPng(false);
+    }
+  }, [mode, targetFormat, coercedPng]);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -91,6 +163,7 @@ export default function ImageCompression() {
             name: file.name,
           });
           setCompressedImage(null);
+          setTargetMeta(null);
         };
         img.src = reader.result as string;
       };
@@ -103,6 +176,31 @@ export default function ImageCompression() {
     setLoading(true);
 
     try {
+      // Target-size mode: delegate the quality/dimension search to the shared
+      // engine, which fits the output under the byte budget.
+      if (mode === "target") {
+        const source = await loadImage(image.url);
+        const format = (
+          isTargetable(targetFormat) ? targetFormat : "image/jpeg"
+        ) as TargetSizeFormat;
+        const result = await compressToTargetSize({
+          source,
+          targetBytes: clampKb(targetKb) * 1024,
+          format,
+        });
+        const url = URL.createObjectURL(result.blob);
+        setCompressedImage(url);
+        setCompressedSize(result.blob.size);
+        setTargetMeta({
+          width: result.width,
+          height: result.height,
+          quality: result.quality,
+          hitTarget: result.hitTarget,
+        });
+        toast.success(t("compressedSuccess"));
+        return;
+      }
+
       // Create image element
       const img = new Image();
       await new Promise((resolve, reject) => {
@@ -188,9 +286,9 @@ export default function ImageCompression() {
 
   return (
     <ToolShell
-      slug="image-compression"
-      title={tc("tools.image-compression.name")}
-      sub={tc("tools.image-compression.description")}
+      slug={slug}
+      title={tc(`tools.${slug}.name` as never)}
+      sub={tc(`tools.${slug}.description` as never)}
       controls={
         image && compressedImage ? (
           <>
@@ -307,7 +405,10 @@ export default function ImageCompression() {
 
               <TabsContent value="basic" className="space-y-4">
                 <OptionRow label={t("compressionMode")} htmlFor="ic-mode">
-                  <Select value={mode} onValueChange={setMode}>
+                  <Select
+                    value={mode}
+                    onValueChange={(v) => setMode(v as typeof mode)}
+                  >
                     <SelectTrigger id="ic-mode">
                       <SelectValue />
                     </SelectTrigger>
@@ -321,47 +422,105 @@ export default function ImageCompression() {
                   </Select>
                 </OptionRow>
 
-                <OptionRow label={t("outputFormat")} htmlFor="ic-format">
-                  <Select
-                    value={targetFormat}
-                    onValueChange={setTargetFormat}
+                {mode === "target" && (
+                  <OptionRow
+                    label={t("targetSize")}
+                    htmlFor="ic-target"
+                    hint={t("targetSizeHint")}
                   >
-                    <SelectTrigger id="ic-format">
-                      <SelectValue />
-                    </SelectTrigger>
-                    <SelectContent>
-                      {targetFormats.map((f) => (
-                        <SelectItem key={f.value} value={f.value}>
-                          {f.label}
-                        </SelectItem>
+                    <Input
+                      id="ic-target"
+                      type="number"
+                      inputMode="numeric"
+                      min={MIN_TARGET_KB}
+                      max={MAX_TARGET_KB}
+                      data-testid="target-size-input"
+                      value={targetKb}
+                      onChange={(e) =>
+                        setTargetKb(Number(e.target.value) || 0)
+                      }
+                      onBlur={() => setTargetKb((v) => clampKb(v))}
+                    />
+                    <div className="flex flex-wrap gap-2 mt-2">
+                      {TARGET_PRESETS.map((p) => (
+                        <Button
+                          key={p.kb}
+                          type="button"
+                          size="sm"
+                          variant={targetKb === p.kb ? "default" : "outline"}
+                          aria-label={t("presetChipAria", { label: p.label })}
+                          onClick={() => setTargetKb(p.kb)}
+                        >
+                          <span dir="ltr">{p.label}</span>
+                        </Button>
                       ))}
-                    </SelectContent>
-                  </Select>
-                </OptionRow>
+                    </div>
+                  </OptionRow>
+                )}
+
+                {!lockFormat && (
+                  <OptionRow
+                    label={t("outputFormat")}
+                    htmlFor="ic-format"
+                    hint={
+                      mode === "target" && coercedPng
+                        ? t("pngNotSupportedInTarget")
+                        : undefined
+                    }
+                  >
+                    <Select
+                      value={targetFormat}
+                      onValueChange={(v) => {
+                        setTargetFormat(v);
+                        setCoercedPng(false);
+                      }}
+                    >
+                      <SelectTrigger id="ic-format">
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {(mode === "target"
+                          ? targetFormats.filter((f) => isTargetable(f.value))
+                          : targetFormats
+                        ).map((f) => (
+                          <SelectItem key={f.value} value={f.value}>
+                            {f.label}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </OptionRow>
+                )}
               </TabsContent>
 
               <TabsContent value="advanced" className="space-y-4">
-                {mode === "custom" && (
-                  <SliderRow
-                    label={t("quality")}
-                    value={quality}
-                    min={1}
-                    max={100}
-                    step={1}
-                    onChange={setQuality}
-                    display={`${quality}%`}
-                  />
-                )}
+                {/* Target mode owns its own quality/dimension search, so the
+                    manual quality + max-width controls are suppressed. */}
+                {mode !== "target" && (
+                  <>
+                    {mode === "custom" && (
+                      <SliderRow
+                        label={t("quality")}
+                        value={quality}
+                        min={1}
+                        max={100}
+                        step={1}
+                        onChange={setQuality}
+                        display={`${quality}%`}
+                      />
+                    )}
 
-                <SliderRow
-                  label={t("maxWidth")}
-                  value={maxWidth}
-                  min={320}
-                  max={3840}
-                  step={1}
-                  onChange={setMaxWidth}
-                  display={`${maxWidth}px`}
-                />
+                    <SliderRow
+                      label={t("maxWidth")}
+                      value={maxWidth}
+                      min={320}
+                      max={3840}
+                      step={1}
+                      onChange={setMaxWidth}
+                      display={`${maxWidth}px`}
+                    />
+                  </>
+                )}
               </TabsContent>
             </Tabs>
 
@@ -400,6 +559,27 @@ export default function ImageCompression() {
               )}
             </div>
           </Card>
+
+          {mode === "target" && compressedImage && targetMeta && (
+            <div className="rounded-lg border p-3 text-sm space-y-1">
+              <p className="text-muted-foreground">
+                <span dir="ltr">
+                  {targetMeta.width} x {targetMeta.height}
+                </span>
+                {" • "}
+                {t("quality")}: {Math.round(targetMeta.quality * 100)}%
+              </p>
+              {targetMeta.hitTarget ? (
+                <p className="text-green-500 font-medium">
+                  {t("targetReached")}
+                </p>
+              ) : (
+                <p className="text-destructive font-medium">
+                  {t("targetMissed")}
+                </p>
+              )}
+            </div>
+          )}
 
           {compressedImage && (
             <Button

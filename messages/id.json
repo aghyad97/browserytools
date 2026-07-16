@@ -823,7 +823,14 @@
       "imageTooLarge": "Ukuran gambar harus kurang dari 25MB",
       "compressedSuccess": "Gambar berhasil dikompres!",
       "compressFailed": "Gagal mengompres gambar. Silakan coba lagi.",
-      "downloadedSuccess": "Gambar diunduh!"
+      "downloadedSuccess": "Gambar diunduh!",
+      "modeTarget": "Target size",
+      "targetSize": "Target size (KB)",
+      "targetSizeHint": "We search quality and dimensions to hit your target.",
+      "targetReached": "Target reached",
+      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
+      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
+      "presetChipAria": "Set target to {label}"
     },
     "ImageConverter": {
       "dropImageHere": "Letakkan gambar Anda di sini",

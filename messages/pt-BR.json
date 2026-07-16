@@ -823,7 +823,14 @@
       "imageTooLarge": "O tamanho da imagem deve ser menor que 25 MB",
       "compressedSuccess": "Imagem comprimida com sucesso!",
       "compressFailed": "Falha ao comprimir a imagem. Tente novamente.",
-      "downloadedSuccess": "Imagem baixada!"
+      "downloadedSuccess": "Imagem baixada!",
+      "modeTarget": "Target size",
+      "targetSize": "Target size (KB)",
+      "targetSizeHint": "We search quality and dimensions to hit your target.",
+      "targetReached": "Target reached",
+      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
+      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
+      "presetChipAria": "Set target to {label}"
     },
     "ImageConverter": {
       "dropImageHere": "Solte sua imagem aqui",

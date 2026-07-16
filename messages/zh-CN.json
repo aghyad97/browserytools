@@ -823,7 +823,14 @@
       "imageTooLarge": "图片大小应小于 25MB",
       "compressedSuccess": "图片压缩成功！",
       "compressFailed": "图片压缩失败，请重试。",
-      "downloadedSuccess": "图片已下载！"
+      "downloadedSuccess": "图片已下载！",
+      "modeTarget": "Target size",
+      "targetSize": "Target size (KB)",
+      "targetSizeHint": "We search quality and dimensions to hit your target.",
+      "targetReached": "Target reached",
+      "targetMissed": "Couldn't reach the exact target — this is the smallest achievable at acceptable quality.",
+      "pngNotSupportedInTarget": "PNG can't be size-targeted — switched to JPEG.",
+      "presetChipAria": "Set target to {label}"
     },
     "ImageConverter": {
       "dropImageHere": "将图片拖放到此处",
