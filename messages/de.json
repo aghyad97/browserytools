@@ -2514,7 +2514,16 @@
       "clientAddressPlaceholder": "Kundenstraße 123",
       "itemDescriptionPlaceholder": "Beschreibung des Produkts oder der Dienstleistung",
       "notesPlaceholder": "Zusätzliche Notizen oder Kommentare …",
-      "termsPlaceholder": "Zahlungsbedingungen und Konditionen …"
+      "termsPlaceholder": "Zahlungsbedingungen und Konditionen …",
+      "templatesTitle": "Template",
+      "templateClassic": "Classic",
+      "templateModern": "Modern",
+      "templateCompact": "Compact",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro templates are coming soon.",
+      "proUnlockCta": "Unlock Pro",
+      "proUnlockedToast": "Pro templates unlocked!",
+      "apiWaitlist": "Need an invoice API? Join the waitlist"
     },
     "NumberBaseConverter": {
       "title": "Zahlensystem-Konverter",

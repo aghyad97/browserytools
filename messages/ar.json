@@ -2514,7 +2514,16 @@
       "clientAddressPlaceholder": "عنوان العميل",
       "itemDescriptionPlaceholder": "وصف المنتج أو الخدمة",
       "notesPlaceholder": "ملاحظات إضافية...",
-      "termsPlaceholder": "شروط وأحكام الدفع..."
+      "termsPlaceholder": "شروط وأحكام الدفع...",
+      "templatesTitle": "Template",
+      "templateClassic": "Classic",
+      "templateModern": "Modern",
+      "templateCompact": "Compact",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro templates are coming soon.",
+      "proUnlockCta": "Unlock Pro",
+      "proUnlockedToast": "Pro templates unlocked!",
+      "apiWaitlist": "Need an invoice API? Join the waitlist"
     },
     "NumberBaseConverter": {
       "title": "محوّل قاعدة الأعداد",

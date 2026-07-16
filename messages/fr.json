@@ -2514,7 +2514,16 @@
       "clientAddressPlaceholder": "123 rue du Client",
       "itemDescriptionPlaceholder": "Description du produit ou du service",
       "notesPlaceholder": "Notes ou commentaires supplémentaires…",
-      "termsPlaceholder": "Conditions de paiement…"
+      "termsPlaceholder": "Conditions de paiement…",
+      "templatesTitle": "Template",
+      "templateClassic": "Classic",
+      "templateModern": "Modern",
+      "templateCompact": "Compact",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro templates are coming soon.",
+      "proUnlockCta": "Unlock Pro",
+      "proUnlockedToast": "Pro templates unlocked!",
+      "apiWaitlist": "Need an invoice API? Join the waitlist"
     },
     "NumberBaseConverter": {
       "title": "Convertisseur de base numérique",

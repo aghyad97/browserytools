@@ -2514,7 +2514,16 @@
       "clientAddressPlaceholder": "Calle del Cliente 123",
       "itemDescriptionPlaceholder": "Descripción del producto o servicio",
       "notesPlaceholder": "Notas o comentarios adicionales...",
-      "termsPlaceholder": "Términos y condiciones de pago..."
+      "termsPlaceholder": "Términos y condiciones de pago...",
+      "templatesTitle": "Template",
+      "templateClassic": "Classic",
+      "templateModern": "Modern",
+      "templateCompact": "Compact",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro templates are coming soon.",
+      "proUnlockCta": "Unlock Pro",
+      "proUnlockedToast": "Pro templates unlocked!",
+      "apiWaitlist": "Need an invoice API? Join the waitlist"
     },
     "NumberBaseConverter": {
       "title": "Conversor de bases numéricas",

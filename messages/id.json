@@ -2514,7 +2514,16 @@
       "clientAddressPlaceholder": "Jl. Klien 123",
       "itemDescriptionPlaceholder": "Deskripsi produk atau layanan",
       "notesPlaceholder": "Catatan atau komentar tambahan...",
-      "termsPlaceholder": "Syarat dan ketentuan pembayaran..."
+      "termsPlaceholder": "Syarat dan ketentuan pembayaran...",
+      "templatesTitle": "Template",
+      "templateClassic": "Classic",
+      "templateModern": "Modern",
+      "templateCompact": "Compact",
+      "proBadge": "Pro",
+      "proComingSoon": "Pro templates are coming soon.",
+      "proUnlockCta": "Unlock Pro",
+      "proUnlockedToast": "Pro templates unlocked!",
+      "apiWaitlist": "Need an invoice API? Join the waitlist"
     },
     "NumberBaseConverter": {
       "title": "Konverter Basis Angka",

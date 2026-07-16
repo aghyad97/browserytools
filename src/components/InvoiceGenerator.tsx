@@ -16,6 +16,14 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import {
   Plus,
   Trash2,
   Download,
@@ -29,13 +37,24 @@ import {
   DollarSign,
   Save,
   FolderOpen,
+  Lock,
+  Sparkles,
+  Check,
 } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
 import jsPDF from "jspdf";
+import {
+  INVOICE_PRO_PAYMENT_LINK,
+  API_WAITLIST_MAILTO,
+  isInvoiceProUnlocked,
+  unlockInvoicePro,
+} from "@/lib/pro-config";
 import NumberFlow from "@number-flow/react";
 import {
   useInvoiceStore,
   InvoiceData,
   InvoiceItem,
+  InvoiceTemplateId,
   CompanyDetails,
   ClientDetails,
 } from "@/store/invoice-store";
@@ -54,6 +73,9 @@ export default function InvoiceGenerator() {
   const [activeTab, setActiveTab] = useState("details");
   const [showManager, setShowManager] = useState(true); // Start with manager view
 
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
   const {
     currentInvoice,
     createNewInvoice,
@@ -65,6 +87,34 @@ export default function InvoiceGenerator() {
   // Don't auto-create invoice - let user choose from manager
 
   const invoiceData = currentInvoice;
+
+  // Pro unlock is read from localStorage. `mounted` gates the first client
+  // render to match the server (both "locked"), avoiding a hydration mismatch;
+  // after mount we re-read the flag on every render so an unlock takes effect.
+  const [mounted, setMounted] = useState(false);
+  const [showUpsell, setShowUpsell] = useState(false);
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  // Honor-system return flow: a successful checkout redirects back with
+  // `?unlocked=pro`. Flip the flag, notify, then strip the param via replace.
+  useEffect(() => {
+    if (searchParams.get("unlocked") === "pro") {
+      unlockInvoicePro();
+      setMounted(true);
+      toast.success(t("proUnlockedToast"));
+      const params = new URLSearchParams(searchParams.toString());
+      params.delete("unlocked");
+      const query = params.toString();
+      router.replace(query ? `?${query}` : "?");
+    }
+  }, [searchParams, router, t]);
+
+  const proUnlocked = mounted && isInvoiceProUnlocked();
+  const templateId: InvoiceTemplateId = invoiceData?.templateId ?? "classic";
+  const templateIsPro = templateId !== "classic";
+  const exportLocked = templateIsPro && !proUnlocked;
 
   const currencyFormatter = (value: number) => {
     try {
@@ -184,9 +234,327 @@ export default function InvoiceGenerator() {
     setActiveTab("details");
   };
 
+  // ── Pro layout: Modern ──────────────────────────────────────────────────
+  // Accent header band + right-aligned totals block. Renders the same
+  // InvoiceData as classic; only the visual arrangement differs.
+  const generateModernPDF = (data: InvoiceData) => {
+    const accent: [number, number, number] = [46, 92, 255]; // bt-accent #2e5cff
+    const pdf = new jsPDF({ format: data.pageSize });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const marginL = 20;
+    const marginR = pageWidth - 20;
+
+    // Accent header band
+    const bandHeight = 42;
+    pdf.setFillColor(accent[0], accent[1], accent[2]);
+    pdf.rect(0, 0, pageWidth, bandHeight, "F");
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(22);
+    pdf.text("INVOICE", marginL, 22);
+    pdf.setFontSize(11);
+    pdf.setFont("helvetica", "normal");
+    pdf.text(data.company.name || "Your Company Name", marginL, 32);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(11);
+    pdf.text(`#${data.invoiceNumber}`, marginR, 22, { align: "right" });
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(9);
+    pdf.text(
+      `Date: ${new Date(data.date).toLocaleDateString()}`,
+      marginR,
+      30,
+      { align: "right" }
+    );
+    pdf.text(
+      `Due: ${new Date(data.dueDate).toLocaleDateString()}`,
+      marginR,
+      36,
+      { align: "right" }
+    );
+
+    // Body
+    pdf.setTextColor(30, 30, 30);
+    let y = bandHeight + 16;
+
+    // Company contact (left) + Bill To (right column start)
+    pdf.setFontSize(10);
+    pdf.setFont("helvetica", "normal");
+    const companyLines = [
+      data.company.address,
+      [data.company.city, data.company.state, data.company.zipCode]
+        .filter(Boolean)
+        .join(", "),
+      data.company.country,
+      data.company.email ? `Email: ${data.company.email}` : "",
+      data.company.phone ? `Phone: ${data.company.phone}` : "",
+    ].filter(Boolean);
+    companyLines.forEach((line) => {
+      pdf.text(line, marginL, y);
+      y += 5;
+    });
+
+    y += 6;
+    pdf.setFont("helvetica", "bold");
+    pdf.setTextColor(accent[0], accent[1], accent[2]);
+    pdf.text("BILL TO", marginL, y);
+    pdf.setTextColor(30, 30, 30);
+    y += 6;
+    pdf.setFont("helvetica", "normal");
+    const clientLines = [
+      data.client.name || "Client Name",
+      data.client.address,
+      [data.client.city, data.client.state, data.client.zipCode]
+        .filter(Boolean)
+        .join(", "),
+      data.client.country,
+      data.client.email ? `Email: ${data.client.email}` : "",
+    ].filter(Boolean);
+    clientLines.forEach((line) => {
+      pdf.text(line, marginL, y);
+      y += 5;
+    });
+
+    // Items table
+    y += 10;
+    pdf.setFillColor(accent[0], accent[1], accent[2]);
+    pdf.rect(marginL, y - 5, marginR - marginL, 8, "F");
+    pdf.setTextColor(255, 255, 255);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(9);
+    pdf.text("Description", marginL + 2, y);
+    pdf.text("Qty", 120, y);
+    pdf.text("Rate", 140, y);
+    pdf.text("Amount", marginR - 2, y, { align: "right" });
+    y += 9;
+
+    pdf.setTextColor(30, 30, 30);
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(10);
+    data.items.forEach((item) => {
+      if (item.description) {
+        pdf.text(item.description, marginL + 2, y);
+        pdf.text(item.quantity.toString(), 120, y);
+        pdf.text(currencyFormatter(item.rate), 140, y);
+        pdf.text(currencyFormatter(item.amount), marginR - 2, y, {
+          align: "right",
+        });
+        y += 6;
+      }
+    });
+
+    // Right-aligned totals block
+    y += 8;
+    const labelX = marginR - 60;
+    const valX = marginR - 2;
+    pdf.setFontSize(10);
+    pdf.setFont("helvetica", "normal");
+    pdf.text("Subtotal:", labelX, y);
+    pdf.text(currencyFormatter(data.subtotal), valX, y, { align: "right" });
+    y += 6;
+    if (data.discount > 0) {
+      pdf.text("Discount:", labelX, y);
+      pdf.text(`-${currencyFormatter(data.discount)}`, valX, y, {
+        align: "right",
+      });
+      y += 6;
+    }
+    if (data.taxRate > 0) {
+      pdf.text(`Tax (${data.taxRate}%):`, labelX, y);
+      pdf.text(currencyFormatter(data.taxAmount), valX, y, { align: "right" });
+      y += 6;
+    }
+    pdf.setDrawColor(accent[0], accent[1], accent[2]);
+    pdf.setLineWidth(0.6);
+    pdf.line(labelX, y, valX, y);
+    y += 7;
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(13);
+    pdf.setTextColor(accent[0], accent[1], accent[2]);
+    pdf.text("Total:", labelX, y);
+    pdf.text(currencyFormatter(data.total), valX, y, { align: "right" });
+    pdf.setTextColor(30, 30, 30);
+
+    // Notes / Terms
+    if (data.notes || data.terms) {
+      y += 18;
+      pdf.setFontSize(9);
+      pdf.setFont("helvetica", "normal");
+      if (data.notes) {
+        pdf.setFont("helvetica", "bold");
+        pdf.text("Notes:", marginL, y);
+        pdf.setFont("helvetica", "normal");
+        y += 5;
+        const notesLines = pdf.splitTextToSize(data.notes, marginR - marginL);
+        pdf.text(notesLines, marginL, y);
+        y += notesLines.length * 4 + 6;
+      }
+      if (data.terms) {
+        pdf.setFont("helvetica", "bold");
+        pdf.text("Terms:", marginL, y);
+        pdf.setFont("helvetica", "normal");
+        y += 5;
+        const termsLines = pdf.splitTextToSize(data.terms, marginR - marginL);
+        pdf.text(termsLines, marginL, y);
+      }
+    }
+
+    pdf.save(`invoice-${data.invoiceNumber}.pdf`);
+  };
+
+  // ── Pro layout: Compact ─────────────────────────────────────────────────
+  // Single column, smaller type, no logo box. Fits more on one page.
+  const generateCompactPDF = (data: InvoiceData) => {
+    const pdf = new jsPDF({ format: data.pageSize });
+    const pageWidth = pdf.internal.pageSize.getWidth();
+    const marginL = 16;
+    const marginR = pageWidth - 16;
+    let y = 18;
+
+    pdf.setTextColor(20, 20, 20);
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(14);
+    pdf.text(data.company.name || "Your Company Name", marginL, y);
+    pdf.setFontSize(12);
+    pdf.text(`INVOICE #${data.invoiceNumber}`, marginR, y, { align: "right" });
+    y += 6;
+
+    pdf.setFont("helvetica", "normal");
+    pdf.setFontSize(8);
+    const headerLeft = [
+      data.company.email,
+      data.company.phone,
+      [data.company.city, data.company.state, data.company.zipCode]
+        .filter(Boolean)
+        .join(", "),
+    ].filter(Boolean);
+    headerLeft.forEach((line) => {
+      pdf.text(line, marginL, y);
+      y += 4;
+    });
+    pdf.text(
+      `Date: ${new Date(data.date).toLocaleDateString()}  •  Due: ${new Date(
+        data.dueDate
+      ).toLocaleDateString()}`,
+      marginR,
+      y - headerLeft.length * 4,
+      { align: "right" }
+    );
+
+    y += 4;
+    pdf.setDrawColor(210, 210, 210);
+    pdf.setLineWidth(0.3);
+    pdf.line(marginL, y, marginR, y);
+    y += 6;
+
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(8);
+    pdf.text("BILL TO:", marginL, y);
+    pdf.setFont("helvetica", "normal");
+    pdf.text(
+      [
+        data.client.name || "Client Name",
+        data.client.email,
+        data.client.phone,
+      ]
+        .filter(Boolean)
+        .join("  •  "),
+      marginL + 18,
+      y
+    );
+    y += 8;
+
+    // Items
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(8);
+    pdf.text("Description", marginL, y);
+    pdf.text("Qty", 120, y);
+    pdf.text("Rate", 140, y);
+    pdf.text("Amount", marginR, y, { align: "right" });
+    y += 3;
+    pdf.line(marginL, y, marginR, y);
+    y += 5;
+
+    pdf.setFont("helvetica", "normal");
+    data.items.forEach((item) => {
+      if (item.description) {
+        pdf.text(item.description, marginL, y);
+        pdf.text(item.quantity.toString(), 120, y);
+        pdf.text(currencyFormatter(item.rate), 140, y);
+        pdf.text(currencyFormatter(item.amount), marginR, y, {
+          align: "right",
+        });
+        y += 5;
+      }
+    });
+
+    y += 4;
+    pdf.line(120, y, marginR, y);
+    y += 5;
+    const valX = marginR;
+    pdf.text("Subtotal:", 120, y);
+    pdf.text(currencyFormatter(data.subtotal), valX, y, { align: "right" });
+    y += 5;
+    if (data.discount > 0) {
+      pdf.text("Discount:", 120, y);
+      pdf.text(`-${currencyFormatter(data.discount)}`, valX, y, {
+        align: "right",
+      });
+      y += 5;
+    }
+    if (data.taxRate > 0) {
+      pdf.text(`Tax (${data.taxRate}%):`, 120, y);
+      pdf.text(currencyFormatter(data.taxAmount), valX, y, { align: "right" });
+      y += 5;
+    }
+    pdf.setFont("helvetica", "bold");
+    pdf.setFontSize(10);
+    pdf.text("Total:", 120, y);
+    pdf.text(currencyFormatter(data.total), valX, y, { align: "right" });
+
+    if (data.notes || data.terms) {
+      y += 10;
+      pdf.setFont("helvetica", "normal");
+      pdf.setFontSize(7);
+      if (data.notes) {
+        const notesLines = pdf.splitTextToSize(
+          `Notes: ${data.notes}`,
+          marginR - marginL
+        );
+        pdf.text(notesLines, marginL, y);
+        y += notesLines.length * 3.5 + 3;
+      }
+      if (data.terms) {
+        const termsLines = pdf.splitTextToSize(
+          `Terms: ${data.terms}`,
+          marginR - marginL
+        );
+        pdf.text(termsLines, marginL, y);
+      }
+    }
+
+    pdf.save(`invoice-${data.invoiceNumber}.pdf`);
+  };
+
   const generatePDF = () => {
     if (!invoiceData) return;
 
+    // Pro templates gate: never export a locked Pro layout.
+    const selectedTemplate: InvoiceTemplateId =
+      invoiceData.templateId ?? "classic";
+    if (selectedTemplate !== "classic") {
+      if (!isInvoiceProUnlocked()) return;
+      try {
+        if (selectedTemplate === "modern") generateModernPDF(invoiceData);
+        else generateCompactPDF(invoiceData);
+        toast.success(t("invoiceGenerated"));
+      } catch (error) {
+        toast.error(t("errorGenerating"));
+      }
+      return;
+    }
+
+    // ── Classic template: EXACT original code path (byte-identical output) ──
     try {
       const pdf = new jsPDF({ format: invoiceData.pageSize });
       const pageWidth = pdf.internal.pageSize.getWidth();
@@ -1169,7 +1537,99 @@ export default function InvoiceGenerator() {
           </SettingsCard>
         </TabsContent>
 
-        <TabsContent value="preview" className="mt-6">
+        <TabsContent value="preview" className="mt-6 space-y-6">
+          {/* Template picker — tiles use bt tokens (app chrome); each tile's
+              mini-preview uses fixed paper colors (content) to represent the
+              exported PDF, matching the WYSIWYG preview convention below. */}
+          <SettingsCard
+            title={
+              <span className="inline-flex items-center gap-2">
+                <Sparkles className="w-4 h-4" />
+                {t("templatesTitle")}
+              </span>
+            }
+          >
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              {(
+                [
+                  { id: "classic", label: t("templateClassic"), pro: false },
+                  { id: "modern", label: t("templateModern"), pro: true },
+                  { id: "compact", label: t("templateCompact"), pro: true },
+                ] as { id: InvoiceTemplateId; label: string; pro: boolean }[]
+              ).map((tpl) => {
+                const selected = templateId === tpl.id;
+                return (
+                  <button
+                    key={tpl.id}
+                    type="button"
+                    aria-pressed={selected}
+                    onClick={() => updateInvoiceData({ templateId: tpl.id })}
+                    className={`relative rounded-lg border p-3 text-start transition-colors ${
+                      selected
+                        ? "border-primary ring-2 ring-primary/40"
+                        : "border-border hover:border-primary/50"
+                    }`}
+                  >
+                    <div className="absolute top-2 end-2 flex items-center gap-1">
+                      {tpl.pro && (
+                        <Badge variant="secondary" className="gap-1 text-[10px]">
+                          <Lock className="w-3 h-3" />
+                          {t("proBadge")}
+                        </Badge>
+                      )}
+                      {selected && (
+                        <span className="text-primary">
+                          <Check className="w-4 h-4" />
+                        </span>
+                      )}
+                    </div>
+                    {/* Mini paper mock — fixed content colors, not app chrome. */}
+                    <div className="mb-2 aspect-[3/4] w-full overflow-hidden rounded bg-white p-2 shadow-sm">
+                      {tpl.id === "classic" && (
+                        <div className="flex h-full flex-col gap-1">
+                          <div className="flex items-start justify-between">
+                            <div className="h-2 w-10 rounded bg-gray-800" />
+                            <div className="h-2 w-6 rounded bg-gray-300" />
+                          </div>
+                          <div className="mt-1 h-1 w-8 rounded bg-gray-300" />
+                          <div className="mt-auto space-y-1">
+                            <div className="h-1 w-full rounded bg-gray-200" />
+                            <div className="h-1 w-full rounded bg-gray-200" />
+                            <div className="ms-auto h-1.5 w-8 rounded bg-gray-700" />
+                          </div>
+                        </div>
+                      )}
+                      {tpl.id === "modern" && (
+                        <div className="flex h-full flex-col gap-1">
+                          <div className="-mx-2 -mt-2 mb-1 h-5 bg-[#2e5cff]" />
+                          <div className="h-1 w-8 rounded bg-gray-300" />
+                          <div className="mt-auto space-y-1">
+                            <div className="h-1 w-full rounded bg-gray-200" />
+                            <div className="ms-auto h-1.5 w-8 rounded bg-[#2e5cff]" />
+                          </div>
+                        </div>
+                      )}
+                      {tpl.id === "compact" && (
+                        <div className="flex h-full flex-col gap-[3px]">
+                          <div className="flex items-center justify-between">
+                            <div className="h-1.5 w-8 rounded bg-gray-800" />
+                            <div className="h-1.5 w-6 rounded bg-gray-400" />
+                          </div>
+                          <div className="h-px w-full bg-gray-300" />
+                          <div className="h-1 w-full rounded bg-gray-200" />
+                          <div className="h-1 w-full rounded bg-gray-200" />
+                          <div className="h-1 w-full rounded bg-gray-200" />
+                          <div className="ms-auto h-1 w-8 rounded bg-gray-600" />
+                        </div>
+                      )}
+                    </div>
+                    <span className="text-sm font-medium">{tpl.label}</span>
+                  </button>
+                );
+              })}
+            </div>
+          </SettingsCard>
+
           <SettingsCard
             title={
               <span className="inline-flex items-center gap-2">
@@ -1465,17 +1925,72 @@ export default function InvoiceGenerator() {
                   onClick={generatePDF}
                   size="lg"
                   className="w-full max-w-xs"
+                  disabled={exportLocked}
                 >
                   <Download className="w-4 h-4 me-2" />
                   {t("downloadPdf")}
                 </Button>
 
+                {exportLocked && (
+                  <div className="mx-auto flex max-w-md flex-col items-center gap-3 rounded-lg border border-primary/30 bg-primary/5 p-4">
+                    <p className="inline-flex items-center gap-2 text-sm text-muted-foreground">
+                      <Lock className="w-4 h-4" />
+                      {t("proComingSoon")}
+                    </p>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      onClick={() => setShowUpsell(true)}
+                    >
+                      <Sparkles className="w-4 h-4 me-2" />
+                      {t("proUnlockCta")}
+                    </Button>
+                  </div>
+                )}
+
                 <div className="text-xs text-muted-foreground">
-                  <p>
-                    {t("pdfNote")}
-                  </p>
+                  <p>{t("pdfNote")}</p>
+                </div>
+
+                {/* API waitlist — always-visible small text link. */}
+                <div className="text-xs">
+                  <a
+                    href={API_WAITLIST_MAILTO}
+                    className="text-primary underline-offset-4 hover:underline"
+                  >
+                    {t("apiWaitlist")}
+                  </a>
                 </div>
               </div>
+
+              {/* Upsell dialog. Empty payment link ⇒ coming-soon copy with NO
+                  price and NO checkout CTA (no dead-end $5 button). */}
+              <Dialog open={showUpsell} onOpenChange={setShowUpsell}>
+                <DialogContent>
+                  <DialogHeader>
+                    <DialogTitle className="inline-flex items-center gap-2">
+                      <Sparkles className="w-4 h-4" />
+                      {t("proUnlockCta")}
+                    </DialogTitle>
+                    <DialogDescription>
+                      {INVOICE_PRO_PAYMENT_LINK
+                        ? t("readyToExportDesc")
+                        : t("proComingSoon")}
+                    </DialogDescription>
+                  </DialogHeader>
+                  {INVOICE_PRO_PAYMENT_LINK ? (
+                    <DialogFooter>
+                      <a
+                        href={INVOICE_PRO_PAYMENT_LINK}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
+                        <Button>{t("proUnlockCta")} — $5</Button>
+                      </a>
+                    </DialogFooter>
+                  ) : null}
+                </DialogContent>
+              </Dialog>
           </SettingsCard>
         </TabsContent>
       </Tabs>
