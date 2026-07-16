@@ -32,6 +32,8 @@ import {
   Image as ImageIcon,
   Download,
   X,
+  Minimize2,
+  RotateCw,
 } from "lucide-react";
 import { toast } from "sonner";
 import { PDFPreview } from "@/components/pdf-preview";
@@ -41,6 +43,8 @@ import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
 import { PLACEHOLDER_OPS, type WorkbenchOp } from "@/components/pdf-workbench/ops";
+import { CompressPanel } from "@/components/pdf-workbench/CompressPanel";
+import { RotatePanel } from "@/components/pdf-workbench/RotatePanel";
 import * as pdfjsLib from "pdfjs-dist";
 
 // Initialize PDF.js worker for thumbnails. Another agent self-hosts the worker
@@ -402,6 +406,14 @@ export default function PDFTools({
                 <SplitSquareHorizontal className="w-4 h-4 me-2" />
                 {t("tabSplit")}
               </TabsTrigger>
+              <TabsTrigger value="compress">
+                <Minimize2 className="w-4 h-4 me-2" />
+                {t("tabCompress")}
+              </TabsTrigger>
+              <TabsTrigger value="rotate">
+                <RotateCw className="w-4 h-4 me-2" />
+                {t("tabRotate")}
+              </TabsTrigger>
               {PLACEHOLDER_OPS.map(({ value, labelKey, Icon }) => (
                 <TabsTrigger key={value} value={value}>
                   <Icon className="w-4 h-4 me-2" />
@@ -741,7 +753,17 @@ export default function PDFTools({
               )}
             </TabsContent>
 
-            {/* ── Placeholder panels (wired in Tasks 5–8) ──────────────── */}
+            {/* ── Compress ─────────────────────────────────────────────── */}
+            <TabsContent value="compress" className="space-y-6">
+              <CompressPanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Rotate ───────────────────────────────────────────────── */}
+            <TabsContent value="rotate" className="space-y-6">
+              <RotatePanel files={files} onDropPdf={onDropPdf} />
+            </TabsContent>
+
+            {/* ── Placeholder panels (wired in later tasks) ────────────── */}
             {PLACEHOLDER_OPS.map(({ value, labelKey }) => (
               <TabsContent key={value} value={value} className="space-y-6">
                 <SettingsCard

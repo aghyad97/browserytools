@@ -51,10 +51,10 @@ vi.mock("@/components/pdf-preview", () => ({
 
 describe("PDFTools preset", () => {
   it("opens the preset op's tab with its placeholder panel, not the images dropzone", () => {
-    render(<PDFTools preset={{ op: "compress" }} />);
-    // Compress placeholder panel is the active content.
-    expect(screen.getByTestId("pdf-placeholder-compress")).toBeInTheDocument();
-    // Images dropzone (its TabsContent) is not mounted when compress is active.
+    render(<PDFTools preset={{ op: "reorder" }} />);
+    // Reorder placeholder panel is the active content.
+    expect(screen.getByTestId("pdf-placeholder-reorder")).toBeInTheDocument();
+    // Images dropzone (its TabsContent) is not mounted when reorder is active.
     expect(screen.queryByText(/drop images here/i)).not.toBeInTheDocument();
   });
 
@@ -62,7 +62,7 @@ describe("PDFTools preset", () => {
     render(<PDFTools />);
     expect(screen.getByText(/drop images here/i)).toBeInTheDocument();
     expect(
-      screen.queryByTestId("pdf-placeholder-compress")
+      screen.queryByTestId("pdf-placeholder-reorder")
     ).not.toBeInTheDocument();
   });
 });
