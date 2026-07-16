@@ -24,12 +24,67 @@ export interface PdfWatermarkOptions {
 /** Fraction of page width/height used as padding for corner anchors. */
 const PADDING_RATIO = 0.04;
 
+/** cos(45°) === sin(45°). */
+const COS_45 = Math.SQRT1_2;
+const SIN_45 = Math.SQRT1_2;
+
+/**
+ * Compute the pdf-lib draw-text origin (bottom-left, per pdf-lib's convention)
+ * and rotation (degrees) for a given anchor, so that:
+ *  - corner anchors sit inset by `PADDING_RATIO` of the page dimensions;
+ *  - "center" sits with its (unrotated) visual center on the page center;
+ *  - "diagonal" sits rotated 45° with its *visual* center on the page center.
+ *
+ * pdf-lib's `drawText` rotates the glyph run about its origin (the
+ * bottom-left of the unrotated text box), not about the text's visual
+ * center. For "diagonal" the origin is therefore offset by the rotated
+ * half-extents of the text box so the rotated run's visual center still
+ * lands on the page center.
+ */
+export function watermarkPosition(
+  anchor: PdfWatermarkAnchor,
+  pageWidth: number,
+  pageHeight: number,
+  textWidth: number,
+  textHeight: number,
+): { x: number; y: number; rotate: number } {
+  const padX = pageWidth * PADDING_RATIO;
+  const padY = pageHeight * PADDING_RATIO;
+  const cx = pageWidth / 2;
+  const cy = pageHeight / 2;
+
+  switch (anchor) {
+    case "top-left":
+      return { x: padX, y: pageHeight - padY - textHeight, rotate: 0 };
+    case "top-right":
+      return {
+        x: pageWidth - padX - textWidth,
+        y: pageHeight - padY - textHeight,
+        rotate: 0,
+      };
+    case "bottom-left":
+      return { x: padX, y: padY, rotate: 0 };
+    case "bottom-right":
+      return { x: pageWidth - padX - textWidth, y: padY, rotate: 0 };
+    case "diagonal":
+      return {
+        x: cx - (textWidth / 2) * COS_45 + (textHeight / 2) * SIN_45,
+        y: cy - (textWidth / 2) * SIN_45 - (textHeight / 2) * COS_45,
+        rotate: 45,
+      };
+    case "center":
+    default:
+      return { x: cx - textWidth / 2, y: cy - textHeight / 2, rotate: 0 };
+  }
+}
+
 /**
  * Stamp a text watermark onto every page of a PDF.
  *
  * Uses pdf-lib's native BOTTOM-LEFT coordinate origin. Corner anchors are
- * inset by 4% of the page dimensions; "center" and "diagonal" are centered,
- * with "diagonal" additionally rotated 45°.
+ * inset by 4% of the page dimensions; "center" and "diagonal" are centered
+ * on the page, with "diagonal" additionally rotated 45° about its visual
+ * center (see `watermarkPosition`).
  *
  * @throws Error("empty-text") if `text` is empty or whitespace-only.
  */
@@ -53,41 +108,13 @@ export async function watermarkPdf(
   for (const page of doc.getPages()) {
     const { width, height } = page.getSize();
     const textWidth = font.widthOfTextAtSize(text, fontSize);
-    const padX = width * PADDING_RATIO;
-    const padY = height * PADDING_RATIO;
-
-    let x: number;
-    let y: number;
-    let rotation = degrees(0);
-
-    switch (anchor) {
-      case "top-left":
-        x = padX;
-        y = height - padY - textHeight;
-        break;
-      case "top-right":
-        x = width - padX - textWidth;
-        y = height - padY - textHeight;
-        break;
-      case "bottom-left":
-        x = padX;
-        y = padY;
-        break;
-      case "bottom-right":
-        x = width - padX - textWidth;
-        y = padY;
-        break;
-      case "diagonal":
-        rotation = degrees(45);
-        x = (width - textWidth) / 2;
-        y = (height - textHeight) / 2;
-        break;
-      case "center":
-      default:
-        x = (width - textWidth) / 2;
-        y = (height - textHeight) / 2;
-        break;
-    }
+    const { x, y, rotate } = watermarkPosition(
+      anchor,
+      width,
+      height,
+      textWidth,
+      textHeight,
+    );
 
     page.drawText(text, {
       x,
@@ -96,7 +123,7 @@ export async function watermarkPdf(
       font,
       color: fill,
       opacity: alpha,
-      rotate: rotation,
+      rotate: degrees(rotate),
     });
   }
 

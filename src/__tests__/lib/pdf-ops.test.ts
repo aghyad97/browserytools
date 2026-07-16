@@ -2,7 +2,11 @@ import { describe, it, expect } from "vitest";
 import { PDFDocument } from "pdf-lib";
 import { rotatePdf } from "@/lib/pdf/rotate";
 import { reorderPdf } from "@/lib/pdf/reorder";
-import { watermarkPdf, type PdfWatermarkOptions } from "@/lib/pdf/watermark";
+import {
+  watermarkPdf,
+  watermarkPosition,
+  type PdfWatermarkOptions,
+} from "@/lib/pdf/watermark";
 
 /**
  * Build a doc whose pages have distinguishing sizes so reorder/delete can be
@@ -160,5 +164,52 @@ describe("watermarkPdf", () => {
     await expect(watermarkPdf(bytes, { ...base, text: "   " })).rejects.toThrow(
       "empty-text",
     );
+  });
+});
+
+describe("watermarkPosition", () => {
+  const PAGE_W = 612;
+  const PAGE_H = 792;
+  const TEXT_W = 130;
+  const TEXT_H = 48;
+
+  it("top-left: inset by 4% padding from the top-left corner", () => {
+    const pos = watermarkPosition("top-left", PAGE_W, PAGE_H, TEXT_W, TEXT_H);
+    expect(pos.x).toBeCloseTo(24.48);
+    expect(pos.y).toBeCloseTo(712.32);
+    expect(pos.rotate).toBe(0);
+  });
+
+  it("bottom-right: inset by 4% padding from the bottom-right corner", () => {
+    const pos = watermarkPosition(
+      "bottom-right",
+      PAGE_W,
+      PAGE_H,
+      TEXT_W,
+      TEXT_H,
+    );
+    expect(pos.x).toBeCloseTo(PAGE_W - 24.48 - TEXT_W);
+    expect(pos.y).toBeCloseTo(31.68);
+    expect(pos.rotate).toBe(0);
+  });
+
+  it("center: unrotated, text box centered on the page", () => {
+    const pos = watermarkPosition("center", PAGE_W, PAGE_H, TEXT_W, TEXT_H);
+    expect(pos.x).toBeCloseTo(PAGE_W / 2 - TEXT_W / 2);
+    expect(pos.y).toBeCloseTo(PAGE_H / 2 - TEXT_H / 2);
+    expect(pos.rotate).toBe(0);
+  });
+
+  it("diagonal: rotated 45°, with the *visual* center landing on the page center", () => {
+    const pos = watermarkPosition("diagonal", PAGE_W, PAGE_H, TEXT_W, TEXT_H);
+    expect(pos.rotate).toBe(45);
+    const cos45 = Math.SQRT1_2;
+    const sin45 = Math.SQRT1_2;
+    // Reversing the origin offset should recover the page center exactly —
+    // i.e. the rotated run's visual center, not its origin, is at (cx, cy).
+    const visualCenterX = pos.x + (TEXT_W / 2) * cos45 - (TEXT_H / 2) * sin45;
+    const visualCenterY = pos.y + (TEXT_W / 2) * sin45 + (TEXT_H / 2) * cos45;
+    expect(visualCenterX).toBeCloseTo(PAGE_W / 2);
+    expect(visualCenterY).toBeCloseTo(PAGE_H / 2);
   });
 });
