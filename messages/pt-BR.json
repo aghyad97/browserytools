@@ -762,6 +762,10 @@
       "gif-maker": {
         "name": "Criador de GIF",
         "description": "Transforme uma série de imagens em um GIF animado. Reordene quadros, ajuste a velocidade, repita e redimensione."
+      },
+      "wheel-of-names": {
+        "name": "Wheel of Names",
+        "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
       }
     },
     "categoriesShort": {
@@ -4897,6 +4901,18 @@
       "maxRollover": "Rollover máximo",
       "history": "Histórico",
       "reset": "Redefinir"
+    },
+    "WheelOfNames": {
+      "inputTitle": "Names",
+      "inputDesc": "Enter one name per line",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} names",
+      "removeWinnerAfterSpin": "Remove winner after spin",
+      "shuffle": "Shuffle",
+      "wheelTitle": "Wheel",
+      "wheelDesc": "Spin to pick a random name",
+      "spin": "Spin",
+      "winnerLabel": "Winner: {name}"
     }
   },
   "Blog": {

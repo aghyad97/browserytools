@@ -97,6 +97,7 @@ import {
   RotateCwIcon,
   FileOutputIcon,
   ListOrderedIcon,
+  Disc3Icon,
 } from "lucide-react";
 
 export interface Tool {
@@ -1884,6 +1885,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-05-21",
         description:
           "Interactive periodic table of all 118 elements in the standard layout. Color-coded by category, searchable by name, symbol, or atomic number. Click any element for atomic mass, group, period, and electron configuration.",
+      },
+      {
+        name: "Wheel of Names",
+        href: "/tools/wheel-of-names",
+        icon: Disc3Icon,
+        available: true,
+        order: 2,
+        creationDate: "2026-07-17",
+        description:
+          "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked.",
       },
     ],
   },

@@ -762,6 +762,10 @@
       "gif-maker": {
         "name": "GIF 制作器",
         "description": "将一系列图片转换为动态 GIF。重新排序帧、设置速度、循环并调整大小。"
+      },
+      "wheel-of-names": {
+        "name": "Wheel of Names",
+        "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
       }
     },
     "categoriesShort": {
@@ -4897,6 +4901,18 @@
       "maxRollover": "最大同时按键数",
       "history": "历史记录",
       "reset": "重置"
+    },
+    "WheelOfNames": {
+      "inputTitle": "Names",
+      "inputDesc": "Enter one name per line",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} names",
+      "removeWinnerAfterSpin": "Remove winner after spin",
+      "shuffle": "Shuffle",
+      "wheelTitle": "Wheel",
+      "wheelDesc": "Spin to pick a random name",
+      "spin": "Spin",
+      "winnerLabel": "Winner: {name}"
     }
   },
   "Blog": {
