@@ -973,6 +973,7 @@
       "loadingPages": "Carregando...",
       "splitPdfTitle": "Dividir PDF",
       "selectedFile": "Arquivo Selecionado",
+      "change": "Alterar",
       "pageRanges": "Intervalos de Páginas",
       "pageRangesHint": "Exemplos: 1-3,5,7-9 ou 1,3,5 para páginas individuais",
       "pageRangesPlaceholder": "ex.: 1-3,5,7-9",

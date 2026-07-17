@@ -973,6 +973,7 @@
       "loadingPages": "Загрузка...",
       "splitPdfTitle": "Разделить PDF",
       "selectedFile": "Выбранный файл",
+      "change": "Изменить",
       "pageRanges": "Диапазоны страниц",
       "pageRangesHint": "Примеры: 1-3,5,7-9 или 1,3,5 для отдельных страниц",
       "pageRangesPlaceholder": "например, 1-3,5,7-9",

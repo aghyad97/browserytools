@@ -973,6 +973,7 @@
       "loadingPages": "جارٍ التحميل...",
       "splitPdfTitle": "تقسيم PDF",
       "selectedFile": "الملف المحدد",
+      "change": "تغيير",
       "pageRanges": "نطاقات الصفحات",
       "pageRangesHint": "مثال: 1-3,5,7-9 أو 1,3,5 للصفحات الفردية",
       "pageRangesHelp": "افصل النطاقات بفواصل. تدعم الصفحات الفردية والنطاقات.",

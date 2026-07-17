@@ -973,6 +973,7 @@
       "loadingPages": "Memuat...",
       "splitPdfTitle": "Pisahkan PDF",
       "selectedFile": "Berkas Terpilih",
+      "change": "Ubah",
       "pageRanges": "Rentang Halaman",
       "pageRangesHint": "Contoh: 1-3,5,7-9 atau 1,3,5 untuk halaman individual",
       "pageRangesPlaceholder": "mis., 1-3,5,7-9",

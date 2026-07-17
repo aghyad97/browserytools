@@ -973,6 +973,7 @@
       "loadingPages": "加载中...",
       "splitPdfTitle": "拆分 PDF",
       "selectedFile": "已选文件",
+      "change": "更换",
       "pageRanges": "页面范围",
       "pageRangesHint": "示例：1-3,5,7-9 或 1,3,5 用于单独页面",
       "pageRangesPlaceholder": "例如：1-3,5,7-9",

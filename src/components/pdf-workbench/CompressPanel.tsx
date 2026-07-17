@@ -6,17 +6,12 @@ import { toast } from "sonner";
 import { Minimize2, Upload, Info } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { ModePicker } from "@/components/shared/ModePicker";
 import { StatStrip } from "@/components/shared/StatStrip";
+import { ActiveFileBar } from "@/components/pdf-workbench/ActiveFileBar";
+import { useActiveFileIndex } from "@/components/pdf-workbench/useActiveFileIndex";
 import { downloadBlob } from "@/lib/download";
 import { formatBytes, formatPercent } from "@/lib/format";
 import {
@@ -45,16 +40,12 @@ interface CompressPanelProps {
 export function CompressPanel({ files, onDropPdf }: CompressPanelProps) {
   const t = useTranslations("Tools.PDFTools");
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useActiveFileIndex(files);
   const [preset, setPreset] = useState<CompressPreset>("balanced");
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<CompressResult | null>(null);
 
-  // Keep the selection in range as files are added/removed, and clear any stale
-  // result when the active file changes.
-  useEffect(() => {
-    if (selectedIndex > files.length - 1) setSelectedIndex(0);
-  }, [files.length, selectedIndex]);
+  // Clear any stale result when the active file changes.
   useEffect(() => {
     setResult(null);
   }, [selectedIndex]);
@@ -138,70 +129,58 @@ export function CompressPanel({ files, onDropPdf }: CompressPanelProps) {
       : 0;
 
   return (
-    <SettingsCard>
-      {files.length > 1 && (
-        <OptionRow label={t("selectedFile")} htmlFor="pdf-compress-file">
-          <Select
-            value={String(selectedIndex)}
-            onValueChange={(v) => setSelectedIndex(Number(v))}
-          >
-            <SelectTrigger id="pdf-compress-file" aria-label={t("selectedFile")}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {files.map((file, index) => (
-                <SelectItem key={file.name + index} value={String(index)}>
-                  {file.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div className="space-y-6">
+      <ActiveFileBar
+        files={files}
+        selectedIndex={selectedIndex}
+        onSelect={setSelectedIndex}
+        onDropPdf={onDropPdf}
+      />
+      <SettingsCard>
+        <OptionRow label={t("compressLevel")} hint={presetHints[preset]}>
+          <ModePicker
+            aria-label={t("compressLevel")}
+            value={preset}
+            onChange={(v) => setPreset(v as CompressPreset)}
+            options={PRESETS.map((p) => ({ value: p, label: presetLabels[p] }))}
+            data-testid="compress-preset"
+          />
         </OptionRow>
-      )}
 
-      <OptionRow label={t("compressLevel")} hint={presetHints[preset]}>
-        <ModePicker
-          aria-label={t("compressLevel")}
-          value={preset}
-          onChange={(v) => setPreset(v as CompressPreset)}
-          options={PRESETS.map((p) => ({ value: p, label: presetLabels[p] }))}
-          data-testid="compress-preset"
-        />
-      </OptionRow>
+        {/* Rasterization honesty note — ALWAYS visible. */}
+        <div
+          className="flex items-start gap-2 rounded-md bg-muted/50 p-3 text-sm text-muted-foreground"
+          role="note"
+        >
+          <Info className="w-4 h-4 mt-0.5 shrink-0" aria-hidden />
+          <p>{t("compressRasterNote")}</p>
+        </div>
 
-      {/* Rasterization honesty note — ALWAYS visible. */}
-      <div
-        className="flex items-start gap-2 rounded-md bg-muted/50 p-3 text-sm text-muted-foreground"
-        role="note"
-      >
-        <Info className="w-4 h-4 mt-0.5 shrink-0" aria-hidden />
-        <p>{t("compressRasterNote")}</p>
-      </div>
+        {result && (
+          <StatStrip
+            data-testid="compress-stats"
+            items={[
+              {
+                label: t("compressBefore"),
+                value: <span dir="ltr">{formatBytes(result.before)}</span>,
+              },
+              {
+                label: t("compressAfter"),
+                value: <span dir="ltr">{formatBytes(result.after)}</span>,
+              },
+              {
+                label: t("compressReduction"),
+                value: <span dir="ltr">{formatPercent(reduction, 0)}</span>,
+              },
+            ]}
+          />
+        )}
 
-      {result && (
-        <StatStrip
-          data-testid="compress-stats"
-          items={[
-            {
-              label: t("compressBefore"),
-              value: <span dir="ltr">{formatBytes(result.before)}</span>,
-            },
-            {
-              label: t("compressAfter"),
-              value: <span dir="ltr">{formatBytes(result.after)}</span>,
-            },
-            {
-              label: t("compressReduction"),
-              value: <span dir="ltr">{formatPercent(reduction, 0)}</span>,
-            },
-          ]}
-        />
-      )}
-
-      <Button className="w-full" onClick={handleCompress} disabled={busy}>
-        <Minimize2 className="w-4 h-4 me-2" />
-        {busy ? t("compressing") : t("applyCompress")}
-      </Button>
-    </SettingsCard>
+        <Button className="w-full" onClick={handleCompress} disabled={busy}>
+          <Minimize2 className="w-4 h-4 me-2" />
+          {busy ? t("compressing") : t("applyCompress")}
+        </Button>
+      </SettingsCard>
+    </div>
   );
 }

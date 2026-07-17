@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { render, screen, waitFor, within } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { CompressPanel } from "@/components/pdf-workbench/CompressPanel";
 import { RotatePanel } from "@/components/pdf-workbench/RotatePanel";
@@ -103,9 +103,10 @@ describe("CompressPanel", () => {
 
     // before 10000 → 9.8 KB, after 4000 → 3.9 KB, reduction 60%.
     await waitFor(() => expect(screen.getByTestId("compress-stats")).toBeInTheDocument());
-    expect(screen.getByText(/9\.8 KB/)).toBeInTheDocument();
-    expect(screen.getByText(/3\.9 KB/)).toBeInTheDocument();
-    expect(screen.getByText(/60%/)).toBeInTheDocument();
+    const stats = within(screen.getByTestId("compress-stats"));
+    expect(stats.getByText(/9\.8 KB/)).toBeInTheDocument();
+    expect(stats.getByText(/3\.9 KB/)).toBeInTheDocument();
+    expect(stats.getByText(/60%/)).toBeInTheDocument();
     expect(URL.createObjectURL).toHaveBeenCalled();
   });
 });
