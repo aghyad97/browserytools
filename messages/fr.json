@@ -5029,7 +5029,8 @@
     "privacyDesc": "Chaque outil de BrowseryTools s'exécute entièrement dans votre navigateur. Aucun fichier n'est envoyé à un serveur. Aucun compte. Aucune publicité. Gratuit pour toujours.",
     "exploreTools": "Explorer tous les outils →",
     "featured": "À la une",
-    "allPosts": "Tous les articles"
+    "allPosts": "Tous les articles",
+    "openTool": "Ouvrir l'outil →"
   },
   "CoffeeBanner": {
     "message": "Vous aimez ces outils ? Soutenez leur développement avec un café !",

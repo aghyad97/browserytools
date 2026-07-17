@@ -5029,7 +5029,8 @@
     "privacyDesc": "BrowseryTools 上的每个工具完全在您的浏览器中运行。不会向任何服务器上传文件。无需账户。无广告。永远免费。",
     "exploreTools": "探索所有工具 →",
     "featured": "精选",
-    "allPosts": "全部文章"
+    "allPosts": "全部文章",
+    "openTool": "打开工具 →"
   },
   "CoffeeBanner": {
     "message": "喜欢这些工具？用一杯咖啡支持开发！",

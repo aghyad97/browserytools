@@ -5029,7 +5029,8 @@
     "privacyDesc": "Cada herramienta de BrowseryTools se ejecuta por completo en tu navegador. No se sube ningún archivo a ningún servidor. Sin cuentas. Sin anuncios. Gratis para siempre.",
     "exploreTools": "Explorar todas las herramientas →",
     "featured": "Destacado",
-    "allPosts": "Todas las publicaciones"
+    "allPosts": "Todas las publicaciones",
+    "openTool": "Abrir la herramienta →"
   },
   "CoffeeBanner": {
     "message": "¿Te gustan las herramientas? ¡Apoya su desarrollo con un café!",

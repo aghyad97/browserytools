@@ -5029,7 +5029,8 @@
     "privacyDesc": "Jedes Tool bei BrowseryTools läuft vollständig in deinem Browser. Es werden keine Dateien auf einen Server hochgeladen. Keine Konten. Keine Werbung. Für immer kostenlos.",
     "exploreTools": "Alle Tools entdecken →",
     "featured": "Empfohlen",
-    "allPosts": "Alle Beiträge"
+    "allPosts": "Alle Beiträge",
+    "openTool": "Tool öffnen →"
   },
   "CoffeeBanner": {
     "message": "Gefallen dir die Tools? Unterstütze die Entwicklung mit einem Kaffee!",
