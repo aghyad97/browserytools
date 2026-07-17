@@ -4275,6 +4275,8 @@
       "resetTally": "Réinitialiser le décompte",
       "listTitle": "Sélecteur de nom / liste",
       "listDesc": "Collez une liste et tirez un gagnant au sort. Idéal pour les concours et les tirages.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Éléments (un par ligne)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Retirer le gagnant après le tirage (pour les tirages au sort)",

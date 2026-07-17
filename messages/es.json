@@ -4275,6 +4275,8 @@
       "resetTally": "Reiniciar cuenta",
       "listTitle": "Selector de nombres / lista",
       "listDesc": "Pega una lista y elige un ganador al azar. Ideal para sorteos y rifas.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Elementos (uno por línea)",
       "listPlaceholder": "Ana\nBruno\nCarlos\nDiana",
       "removeWinner": "Quitar al ganador tras elegirlo (para sorteos)",

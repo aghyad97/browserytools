@@ -4275,6 +4275,8 @@
       "resetTally": "Atur Ulang Hitungan",
       "listTitle": "Pemilih Nama / Daftar",
       "listDesc": "Tempelkan daftar dan pilih pemenang acak. Bagus untuk giveaway dan undian.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Item (satu per baris)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Hapus pemenang setelah dipilih (untuk undian)",

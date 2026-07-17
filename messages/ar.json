@@ -4275,6 +4275,8 @@
       "resetTally": "إعادة تعيين العداد",
       "listTitle": "منتقي الأسماء / القائمة",
       "listDesc": "الصق قائمة واختر فائزاً عشوائياً. مثالي للمسابقات والقرعات.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "العناصر (عنصر في كل سطر)",
       "listPlaceholder": "أحمد\nسارة\nخالد\nليلى",
       "removeWinner": "إزالة الفائز بعد الاختيار (للقرعات)",

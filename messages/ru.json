@@ -4275,6 +4275,8 @@
       "resetTally": "Сбросить подсчёт",
       "listTitle": "Выбор имени / из списка",
       "listDesc": "Вставьте список и выберите случайного победителя. Отлично для розыгрышей и жеребьёвок.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Элементы (по одному на строку)",
       "listPlaceholder": "Алиса\nБорис\nВиктор\nДарья",
       "removeWinner": "Убирать победителя после выбора (для жеребьёвок)",

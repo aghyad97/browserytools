@@ -4275,6 +4275,8 @@
       "resetTally": "重置计数",
       "listTitle": "姓名 / 列表选择器",
       "listDesc": "粘贴列表并随机选出获胜者。适合抽奖和抽签。",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "项目（每行一个）",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "选出后移除获胜者（用于抽奖）",

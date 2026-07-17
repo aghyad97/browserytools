@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach, afterEach, vi } from "vitest";
-import { render, screen, within, waitFor } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import RandomPicker from "@/components/RandomPicker";
 
@@ -117,29 +117,14 @@ describe("RandomPicker", () => {
     expect(screen.getByTestId("rp-coin").textContent).toMatch(/heads/i);
   });
 
-  it("picks a winner that is one of the entered list items", async () => {
-    // 3 items, cryptoValue=1 → randomInt(0,2) = 1 → second item "Bob".
-    stubRandom(1);
+  it("points the List tab to the Wheel of Names tool instead of picking a winner", async () => {
     const user = userEvent.setup({ advanceTimers: vi.advanceTimersByTime });
     render(<RandomPicker />);
 
     await user.click(screen.getByRole("tab", { name: /list/i }));
 
-    const textarea = screen.getByLabelText(/items/i);
-    await user.type(textarea, "Alice{Enter}Bob{Enter}Charlie");
-
-    await user.click(screen.getByRole("button", { name: /pick a winner/i }));
-
-    // Advance past the 700ms spin timeout.
-    await vi.advanceTimersByTimeAsync(800);
-
-    await waitFor(() =>
-      expect(screen.getByTestId("rp-winner")).toBeInTheDocument()
-    );
-    const winner = within(screen.getByTestId("rp-winner")).getByText(
-      /alice|bob|charlie/i
-    );
-    expect(["Alice", "Bob", "Charlie"]).toContain(winner.textContent);
-    expect(winner.textContent).toBe("Bob");
+    const link = screen.getByRole("link", { name: /wheel of names/i });
+    expect(link).toBeInTheDocument();
+    expect(link).toHaveAttribute("href", "/tools/wheel-of-names");
   });
 });

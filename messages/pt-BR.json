@@ -4275,6 +4275,8 @@
       "resetTally": "Zerar Contagem",
       "listTitle": "Sorteador de Nomes / Lista",
       "listDesc": "Cole uma lista e sorteie um vencedor aleatório. Ótimo para sorteios e premiações.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Itens (um por linha)",
       "listPlaceholder": "Alice\nBruno\nCarlos\nDaniela",
       "removeWinner": "Remover o vencedor após o sorteio (para múltiplos sorteios)",

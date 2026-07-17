@@ -4275,6 +4275,8 @@
       "resetTally": "Zählung zurücksetzen",
       "listTitle": "Namens-/Listenauswahl",
       "listDesc": "Füge eine Liste ein und wähle einen zufälligen Gewinner. Ideal für Verlosungen und Ziehungen.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Elemente (eines pro Zeile)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Gewinner nach der Auswahl entfernen (für Ziehungen)",

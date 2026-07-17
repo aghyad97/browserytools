@@ -1,14 +1,13 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Badge } from "@/components/ui/badge";
 import { Checkbox } from "@/components/ui/checkbox";
-import { Copy, Dices, Hash, Coins, ListChecks, RefreshCw } from "lucide-react";
+import { Copy, Dices, Hash, Coins, ListChecks, RefreshCw, ArrowRight } from "lucide-react";
 import { toast } from "sonner";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
@@ -66,12 +65,6 @@ export default function RandomPicker() {
   const [flipping, setFlipping] = useState(false);
   const [headsTally, setHeadsTally] = useState(0);
   const [tailsTally, setTailsTally] = useState(0);
-
-  // ── List picker state ─────────────────────────────────────────────────────
-  const [listText, setListText] = useState("");
-  const [winner, setWinner] = useState<string | null>(null);
-  const [removeWinner, setRemoveWinner] = useState(false);
-  const [spinning, setSpinning] = useState(false);
 
   // ── Random Number ──────────────────────────────────────────────────────────
   const generateNumbers = () => {
@@ -141,32 +134,6 @@ export default function RandomPicker() {
     setCoin(null);
     setHeadsTally(0);
     setTailsTally(0);
-  };
-
-  // ── List picker ─────────────────────────────────────────────────────────────
-  const getListItems = () =>
-    listText
-      .split("\n")
-      .map((s) => s.trim())
-      .filter((s) => s.length > 0);
-
-  const pickWinner = () => {
-    const items = getListItems();
-    if (items.length === 0) {
-      toast.error(t("errorEmptyList"));
-      return;
-    }
-    setSpinning(true);
-    const idx = randomInt(0, items.length - 1);
-    const chosen = items[idx];
-    window.setTimeout(() => {
-      setWinner(chosen);
-      setSpinning(false);
-      if (removeWinner) {
-        const remaining = items.filter((_, i) => i !== idx);
-        setListText(remaining.join("\n"));
-      }
-    }, 700);
   };
 
   // ── Copy helper ───────────────────────────────────────────────────────────
@@ -451,7 +418,7 @@ export default function RandomPicker() {
           </SettingsCard>
         </TabsContent>
 
-        {/* ── List picker ── */}
+        {/* ── List picker (now a pointer to Wheel of Names) ── */}
         <TabsContent value="list" className="space-y-6">
           <SettingsCard
             title={
@@ -460,65 +427,14 @@ export default function RandomPicker() {
                 {t("listTitle")}
               </span>
             }
-            description={t("listDesc")}
+            description={t("listPointerDesc")}
           >
-              <OptionRow label={t("listLabel")} htmlFor="rp-list">
-                <Textarea
-                  id="rp-list"
-                  className="min-h-[160px]"
-                  placeholder={t("listPlaceholder")}
-                  value={listText}
-                  onChange={(e) => setListText(e.target.value)}
-                />
-              </OptionRow>
-
-              <div className="flex items-center gap-2">
-                <Checkbox
-                  id="rp-remove-winner"
-                  data-testid="rp-remove-winner"
-                  checked={removeWinner}
-                  onCheckedChange={(c) => setRemoveWinner(Boolean(c))}
-                />
-                <Label htmlFor="rp-remove-winner" className="cursor-pointer">
-                  {t("removeWinner")}
-                </Label>
-              </div>
-
-              <Button onClick={pickWinner} disabled={spinning} className="w-full">
-                <ListChecks className="h-4 w-4 me-2" />
-                {t("pick")}
+              <Button asChild className="w-full">
+                <Link href="/tools/wheel-of-names">
+                  {t("listPointerCta")}
+                  <ArrowRight className="h-4 w-4 ms-2" />
+                </Link>
               </Button>
-
-              {winner !== null && (
-                <div className="space-y-3">
-                  <div
-                    className="text-center p-6 border rounded-lg bg-muted/40"
-                    data-testid="rp-winner"
-                  >
-                    <div className="text-sm text-muted-foreground mb-2">
-                      {t("winnerLabel")}
-                    </div>
-                    <div
-                      className={`text-2xl font-bold text-primary ${
-                        spinning ? "opacity-50 animate-pulse" : ""
-                      }`}
-                    >
-                      {winner}
-                    </div>
-                  </div>
-                  <Badge variant="secondary" className="w-full justify-center py-1">
-                    {getListItems().length} {t("itemsRemaining")}
-                  </Badge>
-                  <Button
-                    variant="outline"
-                    className="w-full"
-                    onClick={() => copyText(winner)}
-                  >
-                    <Copy className="h-4 w-4 me-2" />
-                    {t("copyResult")}
-                  </Button>
-                </div>
-              )}
           </SettingsCard>
         </TabsContent>
       </Tabs>

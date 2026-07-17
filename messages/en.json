@@ -4275,6 +4275,8 @@
       "resetTally": "Reset Tally",
       "listTitle": "Name / List Picker",
       "listDesc": "Paste a list and pick a random winner. Great for giveaways and draws.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Items (one per line)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Remove winner after picking (for draws)",
