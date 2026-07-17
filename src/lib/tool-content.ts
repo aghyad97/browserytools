@@ -2682,6 +2682,488 @@ export const toolContent: Record<string, ToolContent> = {
     },
   },
 
+  "wheel-of-names": {
+    related: ["group-maker", "random-picker", "bingo-card-generator"],
+    en: {
+      intro:
+        "Wheel of Names turns a plain list into a spinning wheel that lands on one name at random. Paste one name per line — a class roster for cold-calling, a raffle or giveaway entry list, a standup speaking-order draw, or a chore-assignment list — and spin. Whoever the wheel lands on is the winner.\n\nA Shuffle button randomizes the order of the list before you spin, and a \"Remove winner after spin\" toggle drops each winner from the list automatically once the wheel stops, so you can keep spinning for a second, third, or fourth pick without retyping anything or risking the same name coming up twice.\n\nThe wheel is drawn on an HTML canvas and spun entirely in your browser — there's no server involved, so the names you paste in, whether real students, coworkers, or contest entrants, are never uploaded anywhere. The spin itself is genuinely random each time; it isn't weighted toward any name regardless of list order or length.",
+      faq: [
+        {
+          q: "How is the winner chosen?",
+          a: "The wheel spins to a random stopping angle, and whichever name's slice the pointer lands on wins. Every name gets an equal-size slice, so the result is uniformly random.",
+        },
+        {
+          q: "Can I remove the winner automatically after each spin?",
+          a: "Yes. Turn on \"Remove winner after spin\" and the winning name is deleted from the list the moment the wheel stops, so the next spin can't repeat it.",
+        },
+        {
+          q: "Does the order I paste names in affect the odds?",
+          a: "No. Order only changes how the slices are laid out visually — every name has the same chance of being picked.",
+        },
+        {
+          q: "Can I shuffle the list without spinning?",
+          a: "Yes, the Shuffle button randomizes the list order any time, which is handy if you just want to rearrange names before displaying them.",
+        },
+        {
+          q: "Is the list of names uploaded anywhere?",
+          a: "No. The wheel is drawn and spun entirely in your browser; your list never leaves your device.",
+        },
+      ],
+      steps: [
+        "Paste one name per line into the list box.",
+        "Optionally click Shuffle to randomize the order first.",
+        "Turn on \"Remove winner after spin\" if you'll be drawing multiple winners.",
+        "Click Spin and watch the wheel land on a name.",
+        "Repeat to draw more winners — removed names won't come up again.",
+      ],
+    },
+    ar: {
+      intro:
+        "عجلة الأسماء تحوّل قائمة بسيطة إلى عجلة دوّارة تتوقف على اسم واحد عشوائيًا. الصق اسمًا في كل سطر — قائمة طلاب الصف للسؤال العشوائي، أسماء المشاركين في سحب أو مسابقة، ترتيب الحديث في اجتماع الفريق اليومي، أو توزيع المهام المنزلية — ثم أدر العجلة. الاسم الذي تتوقف عنده العجلة هو الفائز.\n\nزر \"خلط\" يعيد ترتيب القائمة عشوائيًا قبل الدوران، وخيار \"إزالة الفائز بعد كل دورة\" يحذف اسم الفائز تلقائيًا من القائمة بمجرد توقف العجلة، فتستطيع سحب فائز ثانٍ وثالث ورابع دون إعادة الكتابة أو خطر اختيار الاسم نفسه مرتين.\n\nتُرسم العجلة وتدور بالكامل داخل متصفحك عبر canvas، دون أي خادم في الوسط — فالأسماء التي تلصقها، سواء كانت لطلاب حقيقيين أو زملاء عمل أو مشاركين في مسابقة، لا تُرفع إلى أي مكان. والدوران عشوائي فعلًا في كل مرة؛ لا تفضّل العجلة اسمًا على آخر بحسب ترتيبه أو طوله.",
+      faq: [
+        {
+          q: "كيف يُختار الفائز؟",
+          a: "تدور العجلة إلى زاوية توقف عشوائية، ويفوز صاحب القطاع الذي يستقر عنده المؤشر. كل اسم يحصل على قطاع بالحجم نفسه، فالنتيجة عشوائية بالتساوي.",
+        },
+        {
+          q: "هل يمكن إزالة الفائز تلقائيًا بعد كل دورة؟",
+          a: "نعم. فعّل خيار \"إزالة الفائز بعد كل دورة\" ليُحذف اسم الفائز من القائمة فور توقف العجلة، فلا يتكرر في الدورة التالية.",
+        },
+        {
+          q: "هل يؤثر ترتيب لصق الأسماء على فرص الفوز؟",
+          a: "لا. الترتيب يغيّر فقط شكل توزيع القطاعات على العجلة؛ كل اسم له فرصة فوز مساوية للبقية.",
+        },
+        {
+          q: "هل يمكنني خلط القائمة دون تدوير العجلة؟",
+          a: "نعم، زر \"خلط\" يعيد ترتيب القائمة عشوائيًا في أي وقت، وهو مفيد إن أردت فقط إعادة ترتيب الأسماء قبل عرضها.",
+        },
+        {
+          q: "هل تُرفع قائمة الأسماء إلى أي مكان؟",
+          a: "لا. تُرسم العجلة وتدور بالكامل في متصفحك، ولا تغادر قائمتك جهازك أبدًا.",
+        },
+      ],
+      steps: [
+        "الصق اسمًا واحدًا في كل سطر داخل مربع القائمة.",
+        "اضغط \"خلط\" اختياريًا لإعادة ترتيب الأسماء عشوائيًا أولًا.",
+        "فعّل \"إزالة الفائز بعد كل دورة\" إن كنت ستسحب أكثر من فائز.",
+        "اضغط \"دوران\" وشاهد العجلة تتوقف عند اسم.",
+        "كرّر السحب لاختيار فائزين إضافيين — الأسماء المُزالة لن تظهر مجددًا.",
+      ],
+    },
+  },
+
+  "group-maker": {
+    related: ["wheel-of-names", "random-picker", "bingo-card-generator"],
+    en: {
+      intro:
+        "Group Maker splits a pasted list of names into randomized groups — for classroom breakout sessions, assigning lab or project partners, dividing a team into smaller working groups, or setting up teams for a game night. Paste one name per line and choose how you want the split to work.\n\nYou can either set the number of groups you want (say, 4 groups from a class of 28) or set how many people should be in each group (say, teams of 3), and the tool works out the rest. Names are shuffled first, and the remainder is spread round-robin across the groups so no group ends up more than one person larger or smaller than the others.\n\nThe result is a clean, print-friendly grid you can hand out or project on a screen. Everything runs locally in your browser — the list of names you paste in is never uploaded — and a Print button formats the groups for a paper handout.",
+      faq: [
+        {
+          q: "What's the difference between choosing a group count and a group size?",
+          a: "By group count, you pick how many groups you want (e.g. 4 groups) and the tool divides everyone as evenly as possible. By group size, you pick how many people per group (e.g. 3 each) and the tool works out how many groups that requires.",
+        },
+        {
+          q: "Will the groups be evenly sized?",
+          a: "Yes. Names are shuffled and then distributed round-robin, so group sizes never differ by more than one person.",
+        },
+        {
+          q: "Is the grouping actually random?",
+          a: "Yes, the list is shuffled with a randomized algorithm before it's split, so who ends up in which group isn't predictable.",
+        },
+        {
+          q: "Can I print the groups?",
+          a: "Yes, click Print and the tool formats the groups into a clean, paper-friendly layout with the input form hidden.",
+        },
+        {
+          q: "Is my list of names uploaded anywhere?",
+          a: "No. Grouping happens entirely in your browser; nothing is sent to a server.",
+        },
+      ],
+      steps: [
+        "Paste one name per line into the list box.",
+        "Choose whether to split by number of groups or by group size.",
+        "Enter the number of groups or the group size you want.",
+        "Click Generate to create randomized, balanced groups.",
+        "Click Print for a paper-friendly handout, or reshuffle by generating again.",
+      ],
+    },
+    ar: {
+      intro:
+        "صانع المجموعات يقسّم قائمة أسماء ملصوقة إلى مجموعات عشوائية — لتقسيم الصف إلى مجموعات نقاش، أو توزيع شركاء المختبر أو المشروع، أو تقسيم فريق العمل إلى مجموعات أصغر، أو تكوين فرق لليلة ألعاب. الصق اسمًا في كل سطر واختر طريقة التقسيم التي تناسبك.\n\nيمكنك تحديد عدد المجموعات التي تريدها (مثلًا 4 مجموعات من صف يضم 28 طالبًا)، أو تحديد عدد الأفراد في كل مجموعة (مثلًا 3 أفراد لكل مجموعة)، وتتولى الأداة الباقي. تُخلط الأسماء أولًا، ثم يُوزَّع الفائض بالتناوب على المجموعات، فلا تزيد أي مجموعة أو تنقص عن الأخرى بأكثر من شخص واحد.\n\nالنتيجة شبكة نظيفة قابلة للطباعة يمكنك توزيعها أو عرضها على الشاشة. كل شيء يعمل محليًا في متصفحك — قائمة الأسماء التي تلصقها لا تُرفع أبدًا — وزر الطباعة ينسّق المجموعات لتوزيعها ورقيًا.",
+      faq: [
+        {
+          q: "ما الفرق بين اختيار عدد المجموعات وحجم المجموعة؟",
+          a: "عند اختيار عدد المجموعات، تحدّد كم مجموعة تريد (مثلًا 4 مجموعات) فتقسّم الأداة الجميع بالتساوي قدر الإمكان. وعند اختيار حجم المجموعة، تحدّد عدد الأفراد في كل مجموعة (مثلًا 3 لكل مجموعة) وتحسب الأداة عدد المجموعات اللازمة.",
+        },
+        {
+          q: "هل تكون المجموعات متساوية الحجم؟",
+          a: "نعم. تُخلط الأسماء ثم تُوزَّع بالتناوب، فلا يختلف حجم أي مجموعة عن الأخرى بأكثر من فرد واحد.",
+        },
+        {
+          q: "هل التوزيع عشوائي فعلًا؟",
+          a: "نعم، تُخلط القائمة بخوارزمية عشوائية قبل تقسيمها، فلا يمكن التنبؤ بمن سينتهي به المطاف في أي مجموعة.",
+        },
+        {
+          q: "هل يمكنني طباعة المجموعات؟",
+          a: "نعم، اضغط \"طباعة\" فتنسّق الأداة المجموعات في تخطيط نظيف مناسب للورق مع إخفاء نموذج الإدخال.",
+        },
+        {
+          q: "هل تُرفع قائمة الأسماء إلى أي مكان؟",
+          a: "لا. يتم التقسيم بالكامل داخل متصفحك، ولا يُرسَل شيء إلى أي خادم.",
+        },
+      ],
+      steps: [
+        "الصق اسمًا واحدًا في كل سطر داخل مربع القائمة.",
+        "اختر التقسيم حسب عدد المجموعات أو حسب حجم المجموعة.",
+        "أدخل عدد المجموعات أو حجم المجموعة الذي تريده.",
+        "اضغط \"إنشاء\" لتوليد مجموعات عشوائية ومتوازنة.",
+        "اضغط \"طباعة\" لتوزيع ورقي، أو أعد الإنشاء للحصول على تقسيم جديد.",
+      ],
+    },
+  },
+
+  "bingo-card-generator": {
+    related: ["wheel-of-names", "group-maker", "classroom-timer"],
+    en: {
+      intro:
+        "Bingo Card Generator makes printable bingo cards two ways: classic number bingo with the standard 1–75 B-I-N-G-O layout, or custom word bingo where you supply your own word or phrase pool — handy for a vocabulary review game, a conference icebreaker, a holiday party, or a classroom unit review where the squares are terms instead of numbers.\n\nIn number mode, each card draws 5 numbers per column from that column's standard range (B: 1–15, I: 16–30, N: 31–45, G: 46–60, O: 61–75), with the center square marked FREE, just like a traditional bingo hall card. In word mode, paste your list of words or phrases — one per line — set a card size (5×5 is the default, but you can go smaller or larger), and each generated card draws a different random subset, so no two players get an identical sheet.\n\nGenerate as many cards as your group needs in one batch, then click Print for a clean, paper-friendly layout. Everything is generated locally in your browser — your word list never leaves your device.",
+      faq: [
+        {
+          q: "What's the difference between number mode and word mode?",
+          a: "Number mode makes classic 1–75 bingo cards with the standard B-I-N-G-O column ranges and a FREE center square. Word mode uses a word or phrase pool you provide instead of numbers, so you can play a vocabulary or trivia version.",
+        },
+        {
+          q: "How many words do I need for word mode?",
+          a: "At least as many as the card size squared — for a 5×5 card that's 25 unique words. The tool will warn you if your pool is too small to fill a card.",
+        },
+        {
+          q: "Will every card be different?",
+          a: "Yes. Each card draws its own random subset of numbers or words, so generating multiple cards for a group produces different sheets, not copies.",
+        },
+        {
+          q: "Can I change the bingo card size?",
+          a: "In word mode, yes — set any card size (e.g. 3×3 for a quicker game or 5×5 for the classic layout). Number mode uses the standard 5×5 B-I-N-G-O size.",
+        },
+        {
+          q: "Can I print a batch of cards?",
+          a: "Yes, generate as many cards as you need and click Print for a paper-friendly layout with the input form hidden.",
+        },
+      ],
+      steps: [
+        "Choose Number mode for classic 1–75 bingo, or Word mode for a custom word pool.",
+        "Enter how many cards you want to generate.",
+        "For word mode, paste your word or phrase pool (one per line) and set the card size.",
+        "Click Generate to create the batch of cards.",
+        "Click Print for a paper-friendly handout.",
+      ],
+    },
+    ar: {
+      intro:
+        "مولّد بطاقات البنغو يصنع بطاقات بنغو قابلة للطباعة بطريقتين: بنغو الأرقام الكلاسيكي بتخطيط B-I-N-G-O المعتاد من 1 إلى 75، أو بنغو الكلمات المخصص حيث تزوّد الأداة بمجموعة كلمات أو عبارات من اختيارك — مفيدة للعبة مراجعة مفردات، أو لكسر الجليد في مؤتمر، أو حفلة في مناسبة، أو مراجعة وحدة دراسية تكون فيها الخانات مصطلحات بدل الأرقام.\n\nفي وضع الأرقام، تسحب كل بطاقة 5 أرقام لكل عمود من نطاقه المعتاد (B: 1–15، I: 16–30، N: 31–45، G: 46–60، O: 61–75)، مع خانة وسطى تحمل علامة FREE تمامًا كبطاقة قاعة البنغو التقليدية. وفي وضع الكلمات، الصق قائمة كلماتك أو عباراتك — واحدة في كل سطر — وحدّد حجم البطاقة (الافتراضي 5×5، ويمكن تصغيره أو تكبيره)، وتسحب كل بطاقة مُولَّدة مجموعة فرعية عشوائية مختلفة، فلا يحصل لاعبان على الورقة نفسها.\n\nولّد بقدر ما يحتاج فريقك من البطاقات دفعة واحدة، ثم اضغط \"طباعة\" للحصول على تخطيط نظيف مناسب للورق. كل شيء يُولَّد محليًا في متصفحك — قائمة كلماتك لا تغادر جهازك أبدًا.",
+      faq: [
+        {
+          q: "ما الفرق بين وضع الأرقام ووضع الكلمات؟",
+          a: "وضع الأرقام يصنع بطاقات بنغو كلاسيكية من 1 إلى 75 بنطاقات أعمدة B-I-N-G-O المعتادة وخانة وسطى FREE. أما وضع الكلمات فيستخدم مجموعة كلمات أو عبارات تزوّدها أنت بدل الأرقام، فتلعب نسخة مفردات أو معلومات عامة.",
+        },
+        {
+          q: "كم كلمة أحتاج لوضع الكلمات؟",
+          a: "على الأقل بقدر مربع حجم البطاقة — لبطاقة 5×5 هذا يعني 25 كلمة فريدة. ستنبّهك الأداة إن كانت مجموعتك صغيرة جدًا لملء البطاقة.",
+        },
+        {
+          q: "هل تختلف كل بطاقة عن الأخرى؟",
+          a: "نعم. تسحب كل بطاقة مجموعتها الفرعية العشوائية الخاصة من الأرقام أو الكلمات، فتوليد عدة بطاقات لمجموعة ينتج أوراقًا مختلفة وليست نسخًا متطابقة.",
+        },
+        {
+          q: "هل يمكنني تغيير حجم بطاقة البنغو؟",
+          a: "في وضع الكلمات نعم — حدّد أي حجم بطاقة (مثلًا 3×3 للعب أسرع أو 5×5 للتخطيط الكلاسيكي). أما وضع الأرقام فيستخدم الحجم المعتاد 5×5.",
+        },
+        {
+          q: "هل يمكنني طباعة دفعة من البطاقات؟",
+          a: "نعم، ولّد بقدر ما تحتاج من البطاقات ثم اضغط \"طباعة\" للحصول على تخطيط مناسب للورق مع إخفاء نموذج الإدخال.",
+        },
+      ],
+      steps: [
+        "اختر وضع الأرقام لبنغو كلاسيكي من 1 إلى 75، أو وضع الكلمات لمجموعة كلمات مخصصة.",
+        "أدخل عدد البطاقات التي تريد توليدها.",
+        "في وضع الكلمات، الصق مجموعة كلماتك أو عباراتك (واحدة في كل سطر) وحدّد حجم البطاقة.",
+        "اضغط \"إنشاء\" لتوليد دفعة البطاقات.",
+        "اضغط \"طباعة\" للحصول على نسخة ورقية جاهزة للتوزيع.",
+      ],
+    },
+  },
+
+  "classroom-timer": {
+    related: ["timer", "pomodoro", "wheel-of-names"],
+    en: {
+      intro:
+        "Classroom Timer is a fullscreen-friendly countdown built for the front of a room — timing a test, a silent reading period, a group activity, or a transition between subjects, where everyone needs to see the remaining time at a glance from across the room.\n\nSet the minutes, hit start, and go fullscreen so the numbers fill the projector or screen. It's the same countdown engine as the general Timer tool, just opened straight into a countdown preset with a nudge toward fullscreen mode, so you don't have to dig through settings before class starts. A sound plays when time runs out, so you don't have to keep glancing at the screen.\n\nIt runs entirely in your browser with no account and no ads — open the page, set the time, and project it.",
+      faq: [
+        {
+          q: "How is this different from the regular Timer tool?",
+          a: "It's the same countdown timer, just opened straight into countdown mode with a prompt to go fullscreen — a shortcut for classroom use so you don't have to configure it each time.",
+        },
+        {
+          q: "Can I display it fullscreen for the whole class to see?",
+          a: "Yes, the tool includes a fullscreen mode designed for exactly this — large numbers visible from across the room.",
+        },
+        {
+          q: "Does it make a sound when time is up?",
+          a: "Yes, a sound plays when the countdown reaches zero.",
+        },
+        {
+          q: "Do I need to install anything or sign in?",
+          a: "No. It runs entirely in your browser — open the page, set your time, and start.",
+        },
+        {
+          q: "Can I use it for something other than a classroom?",
+          a: "Yes — it's a general countdown timer with a classroom-friendly fullscreen preset, so it works just as well for meetings, presentations, or any timed activity.",
+        },
+      ],
+      steps: [
+        "Set the number of minutes for the countdown.",
+        "Click Start to begin the timer.",
+        "Enter fullscreen so the time is visible across the room.",
+        "Listen for the sound when time runs out.",
+      ],
+    },
+    ar: {
+      intro:
+        "مؤقّت الصف الدراسي عدّاد تنازلي مصمّم لملء الشاشة أمام الصف — لتوقيت اختبار، أو فترة قراءة صامتة، أو نشاط جماعي، أو الانتقال بين الحصص، حيث يحتاج الجميع لرؤية الوقت المتبقي بنظرة واحدة من أي مكان في الغرفة.\n\nحدّد الدقائق، اضغط \"ابدأ\"، وفعّل وضع ملء الشاشة لتملأ الأرقام جهاز العرض أو الشاشة. هي نفس محرّك العدّ التنازلي في أداة المؤقّت العامة، لكنها تفتح مباشرة على إعداد العد التنازلي مع تلميح لتفعيل ملء الشاشة، فلا تحتاج للبحث في الإعدادات قبل بدء الحصة. يُصدر المؤقّت صوتًا عند انتهاء الوقت، فلا تحتاج لمراقبة الشاشة باستمرار.\n\nيعمل بالكامل داخل متصفحك دون حساب أو إعلانات — افتح الصفحة، حدّد الوقت، واعرضه.",
+      faq: [
+        {
+          q: "ما الفرق بينه وبين أداة المؤقّت العادية؟",
+          a: "هو نفس المؤقّت التنازلي، لكنه يفتح مباشرة في وضع العد التنازلي مع اقتراح لتفعيل ملء الشاشة — اختصار لاستخدام الصف الدراسي دون إعداده في كل مرة.",
+        },
+        {
+          q: "هل يمكن عرضه بملء الشاشة ليراه كل الصف؟",
+          a: "نعم، تتضمن الأداة وضع ملء شاشة مصمَّمًا لهذا بالضبط — أرقام كبيرة مرئية من أي مكان في الغرفة.",
+        },
+        {
+          q: "هل يصدر صوتًا عند انتهاء الوقت؟",
+          a: "نعم، يُصدر صوتًا عندما يصل العد التنازلي إلى الصفر.",
+        },
+        {
+          q: "هل أحتاج لتثبيت شيء أو تسجيل الدخول؟",
+          a: "لا. يعمل بالكامل داخل متصفحك — افتح الصفحة، حدّد الوقت، وابدأ.",
+        },
+        {
+          q: "هل يمكن استخدامه لغير الصف الدراسي؟",
+          a: "نعم — هو مؤقّت تنازلي عام بإعداد ملء شاشة مناسب للصف، فيعمل بالقدر نفسه من الكفاءة للاجتماعات والعروض التقديمية أو أي نشاط محدد بوقت.",
+        },
+      ],
+      steps: [
+        "حدّد عدد دقائق العد التنازلي.",
+        "اضغط \"ابدأ\" لتشغيل المؤقّت.",
+        "فعّل ملء الشاشة ليكون الوقت مرئيًا من كل الغرفة.",
+        "انتظر الصوت عند انتهاء الوقت.",
+      ],
+    },
+  },
+
+  "word-unscrambler": {
+    related: ["anagram-solver", "wordle-solver", "word-frequency"],
+    en: {
+      intro:
+        "Word Unscrambler takes a jumble of letters and finds every valid word you can make from them — the tool most people reach for when they're stuck on a Scrabble rack, a Words With Friends turn, a crossword clue, or a word-scramble puzzle in a newspaper or app.\n\nType your letters, optionally set a minimum word length (to skip short two- and three-letter words) or require the results to contain a specific letter, and the results come back grouped by word length — longest first — so it's easy to scan for a game-winning play.\n\nMatching is checked against a large English word list loaded once in your browser; nothing you type is sent to a server. Because it's a single dictionary, some valid words in other languages, proper nouns, or very obscure or regional terms may not appear.",
+      faq: [
+        {
+          q: "What counts as a valid word?",
+          a: "Any entry in the tool's built-in English word list. It's a single general-purpose dictionary, so proper nouns and some obscure or regional words may not be included.",
+        },
+        {
+          q: "Can I filter out short words?",
+          a: "Yes, set a minimum length and only words at or above that length will show up — useful for skipping trivial two-letter results.",
+        },
+        {
+          q: "Can I require a specific letter in the results?",
+          a: "Yes, the \"contains\" filter narrows results to words that include a letter you specify.",
+        },
+        {
+          q: "How are results organized?",
+          a: "Results are grouped by word length, with the longest matches shown first, since longer words are usually worth more in tile games.",
+        },
+        {
+          q: "Is this useful for anything besides Scrabble?",
+          a: "Yes — crosswords, Words With Friends, word-scramble puzzles, and just settling arguments about whether a word is valid.",
+        },
+      ],
+      steps: [
+        "Type or paste your jumbled letters.",
+        "Optionally set a minimum word length or a required letter.",
+        "Click Solve to find every matching word.",
+        "Browse results grouped by word length, longest first.",
+      ],
+    },
+    ar: {
+      intro:
+        "أداة فك تشتيت الحروف تأخذ حروفًا مبعثرة وتجد كل كلمة صحيحة يمكن تكوينها منها — الأداة التي يلجأ إليها معظم الناس حين يعلقون في لعبة سكرابل، أو دور في Words With Friends، أو دليل كلمات متقاطعة، أو أحجية حروف مبعثرة في صحيفة أو تطبيق.\n\nاكتب حروفك، وحدّد اختياريًا حدًّا أدنى لطول الكلمة (لتخطي الكلمات القصيرة من حرفين أو ثلاثة)، أو اشترط أن تحتوي النتائج على حرف معيّن، وتعود النتائج مُجمّعة حسب طول الكلمة — الأطول أولًا — فيسهل عليك مسحها بحثًا عن كلمة تفوز بها في اللعبة.\n\nتُطابَق الحروف مع قائمة كلمات إنجليزية كبيرة تُحمَّل مرة واحدة في متصفحك؛ ولا يُرسَل ما تكتبه إلى أي خادم. ولأنها قاموس واحد فقط، قد لا تظهر بعض الكلمات الصحيحة بلغات أخرى، أو الأسماء العلَم، أو المصطلحات النادرة أو الإقليمية جدًا.",
+      faq: [
+        {
+          q: "ما الذي يُعتبر كلمة صحيحة؟",
+          a: "أي إدخال في قائمة الكلمات الإنجليزية المدمجة في الأداة. هي قاموس عام واحد، فقد لا تتضمن بعض الأسماء العلَم أو الكلمات النادرة أو الإقليمية.",
+        },
+        {
+          q: "هل يمكنني استبعاد الكلمات القصيرة؟",
+          a: "نعم، حدّد حدًّا أدنى للطول ولن تظهر إلا الكلمات التي تساويه أو تتجاوزه — مفيد لتخطي نتائج الحرفين التافهة.",
+        },
+        {
+          q: "هل يمكنني اشتراط حرف معيّن في النتائج؟",
+          a: "نعم، مرشّح \"يحتوي على\" يضيّق النتائج إلى الكلمات التي تتضمن حرفًا تحدّده.",
+        },
+        {
+          q: "كيف تُنظَّم النتائج؟",
+          a: "تُجمَّع النتائج حسب طول الكلمة، مع عرض أطول التطابقات أولًا، لأن الكلمات الأطول عادة ما تكون أعلى قيمة في ألعاب الأحرف.",
+        },
+        {
+          q: "هل هي مفيدة لغير سكرابل؟",
+          a: "نعم — للكلمات المتقاطعة، وWords With Friends، وأحاجي الحروف المبعثرة، ولحسم الجدل حول صحة كلمة ما.",
+        },
+      ],
+      steps: [
+        "اكتب أو الصق حروفك المبعثرة.",
+        "حدّد اختياريًا حدًّا أدنى لطول الكلمة أو حرفًا مطلوبًا.",
+        "اضغط \"حل\" لإيجاد كل كلمة مطابقة.",
+        "تصفّح النتائج مُجمّعة حسب الطول، الأطول أولًا.",
+      ],
+    },
+  },
+
+  "wordle-solver": {
+    related: ["word-unscrambler", "anagram-solver", "word-frequency"],
+    en: {
+      intro:
+        "Wordle Solver helps you narrow down candidates for the daily 5-letter word puzzle. Enter the letters you've already guessed, then mark each tile the same way the game does: gray for a letter that's not in the word, yellow for a letter that's in the word but the wrong position, and green for a letter that's correct and in the right spot.\n\nClick through each tile to cycle its color, and the tool filters its word list down to every 5-letter word consistent with those constraints — including the trickier cases, like a letter that's yellow in one spot and gray elsewhere, meaning the word contains it exactly once, just not there.\n\nIt's meant to help you think through your next guess or settle a debate about whether a word was possible, not to spoil the puzzle before you've tried. Matching runs against a general English word list loaded in your browser — nothing you enter is sent anywhere.",
+      faq: [
+        {
+          q: "How do I mark a tile's color?",
+          a: "Type the letter, then click the tile below it to cycle through gray, yellow, and green — the same three states Wordle uses.",
+        },
+        {
+          q: "What if a letter appears more than once?",
+          a: "Mark each occurrence the way Wordle showed it. If a letter is yellow in one position and gray in another, the tool understands that as \"the word contains this letter exactly once, just not in that gray spot.\"",
+        },
+        {
+          q: "Do I need to fill in all 5 tiles?",
+          a: "No, enter as many letters and colors as you know so far; the tool filters based on whatever constraints you've provided.",
+        },
+        {
+          q: "Does it guarantee the actual answer?",
+          a: "No — it returns every word in its dictionary consistent with your clues. If the real answer isn't in that word list it won't appear, and if several words fit your clues equally, they'll all show up.",
+        },
+        {
+          q: "Is this cheating?",
+          a: "That's up to you. Some people use it to double-check a guess or learn from a stuck puzzle rather than see the answer outright.",
+        },
+      ],
+      steps: [
+        "Type each guessed letter into its tile.",
+        "Click a tile to cycle its color: gray, yellow, then green.",
+        "Repeat for every letter you've guessed so far.",
+        "Click Solve to see every word consistent with your clues.",
+      ],
+    },
+    ar: {
+      intro:
+        "حلّال ووردل يساعدك على تضييق قائمة المرشّحين لأحجية الكلمة اليومية المكوّنة من 5 أحرف. أدخل الحروف التي خمّنتها بالفعل، ثم علّم كل خانة كما تفعل اللعبة تمامًا: رمادي للحرف غير الموجود في الكلمة، أصفر للحرف الموجود لكن في موضع خاطئ، وأخضر للحرف الصحيح في موضعه الصحيح.\n\nاضغط على كل خانة للتنقّل بين ألوانها، وتُصفّي الأداة قائمة كلماتها إلى كل كلمة من 5 أحرف تتوافق مع هذه القيود — بما في ذلك الحالات الأدق، مثل حرف أصفر في موضع ورمادي في موضع آخر، أي أن الكلمة تحتوي عليه مرة واحدة بالضبط، لكن ليس في ذلك الموضع الرمادي.\n\nالهدف مساعدتك على التفكير في تخمينك التالي أو حسم جدل حول إمكانية كلمة ما، لا إفساد الأحجية قبل أن تجرّب. تُطابَق الحروف مع قائمة كلمات إنجليزية عامة مُحمَّلة في متصفحك — ولا يُرسَل ما تُدخله إلى أي مكان.",
+      faq: [
+        {
+          q: "كيف أعلّم لون خانة؟",
+          a: "اكتب الحرف، ثم اضغط الخانة أسفله للتنقّل بين الرمادي والأصفر والأخضر — الحالات الثلاث نفسها التي تستخدمها ووردل.",
+        },
+        {
+          q: "ماذا لو تكرّر حرف أكثر من مرة؟",
+          a: "علّم كل ظهور كما أظهرته ووردل بالضبط. إن كان الحرف أصفر في موضع ورماديًا في آخر، تفهم الأداة ذلك على أن \"الكلمة تحتوي هذا الحرف مرة واحدة فقط، وليس في ذلك الموضع الرمادي\".",
+        },
+        {
+          q: "هل يجب ملء الخانات الخمس كلها؟",
+          a: "لا، أدخل بقدر ما تعرفه من حروف وألوان حتى الآن؛ تُصفّي الأداة النتائج بحسب القيود المتوفرة فقط.",
+        },
+        {
+          q: "هل تضمن الحل الصحيح فعليًا؟",
+          a: "لا — تعرض كل كلمة في قاموسها تتوافق مع أدلتك. فإن لم تكن الإجابة الحقيقية ضمن تلك القائمة فلن تظهر، وإن توافقت عدة كلمات مع أدلتك بالتساوي فستظهر كلها.",
+        },
+        {
+          q: "هل هذا يُعد غشًّا؟",
+          a: "الأمر يعود إليك. بعض المستخدمين يستعملونها للتحقق من تخمين أو التعلّم من أحجية عالقة، لا لرؤية الإجابة مباشرة.",
+        },
+      ],
+      steps: [
+        "اكتب كل حرف خمّنته في خانته.",
+        "اضغط الخانة للتنقّل بين ألوانها: رمادي ثم أصفر ثم أخضر.",
+        "كرّر لكل الحروف التي خمّنتها حتى الآن.",
+        "اضغط \"حل\" لرؤية كل كلمة تتوافق مع أدلتك.",
+      ],
+    },
+  },
+
+  "anagram-solver": {
+    related: ["word-unscrambler", "wordle-solver", "word-frequency"],
+    en: {
+      intro:
+        "Anagram Solver finds every word that can be spelled using exactly the letters you provide, no more and no less — the classic anagram puzzle, useful for word games, crosswords that ask for an anagram of a given word, or just settling whether \"listen\" really does rearrange into \"silent\" (it does).\n\nBy default it looks for exact anagrams — words that use every one of your letters exactly once. Turn on the \"allow shorter\" option and it also finds sub-anagrams: valid words made from a subset of your letters, grouped by length so you can browse from longest to shortest.\n\nMatching runs against a general English word list loaded once in your browser, and nothing you type is sent anywhere. Because it's a single dictionary, some proper nouns or very obscure words may not appear in results.",
+      faq: [
+        {
+          q: "What's the difference between an exact anagram and a sub-anagram?",
+          a: "An exact anagram uses every letter you entered exactly once. A sub-anagram (found with \"allow shorter\" turned on) uses only some of your letters — still a valid word, just shorter.",
+        },
+        {
+          q: "Why did I get zero results?",
+          a: "Not every jumble of letters rearranges into a dictionary word. Try turning on \"allow shorter\" to find valid words from a subset of your letters instead.",
+        },
+        {
+          q: "Does letter case or repeated letters matter?",
+          a: "Case doesn't matter, but repeated letters do — the word you're looking for must use the same letters, including duplicates, that you entered.",
+        },
+        {
+          q: "How are sub-anagram results organized?",
+          a: "They're grouped by word length, longest first, so you can scan for the best-scoring option in a game.",
+        },
+        {
+          q: "Are my letters sent to a server?",
+          a: "No. Matching happens entirely in your browser against a local word list.",
+        },
+      ],
+      steps: [
+        "Type the letters you want to find anagrams of.",
+        "Optionally turn on \"allow shorter\" to include sub-anagrams.",
+        "Click Solve.",
+        "Browse the results — grouped by length if sub-anagrams are included.",
+      ],
+    },
+    ar: {
+      intro:
+        "حلّال الجُناس يجد كل كلمة يمكن تهجئتها باستخدام حروفك بالضبط، لا أكثر ولا أقل — أحجية الجُناس الكلاسيكية، مفيدة لألعاب الكلمات، أو الكلمات المتقاطعة التي تطلب جناسًا لكلمة معيّنة، أو لحسم ما إذا كانت \"listen\" تُعاد ترتيبها فعلًا إلى \"silent\" (نعم، هذا صحيح).\n\nتبحث الأداة افتراضيًا عن الجُناس الدقيق — كلمات تستخدم كل حرف من حروفك مرة واحدة بالضبط. فعّل خيار \"السماح بكلمات أقصر\" لتجد أيضًا جُناسًا فرعيًا: كلمات صحيحة مكوّنة من جزء فقط من حروفك، مُجمّعة حسب الطول لتتصفّحها من الأطول إلى الأقصر.\n\nتُطابَق الحروف مع قائمة كلمات إنجليزية عامة تُحمَّل مرة واحدة في متصفحك، ولا يُرسَل ما تكتبه إلى أي مكان. ولأنها قاموس واحد فقط، قد لا تظهر بعض الأسماء العلَم أو الكلمات النادرة جدًا في النتائج.",
+      faq: [
+        {
+          q: "ما الفرق بين الجُناس الدقيق والجُناس الفرعي؟",
+          a: "الجُناس الدقيق يستخدم كل حرف أدخلته مرة واحدة بالضبط. أما الجُناس الفرعي (يظهر عند تفعيل \"السماح بكلمات أقصر\") فيستخدم بعض حروفك فقط — كلمة صحيحة، لكنها أقصر.",
+        },
+        {
+          q: "لماذا حصلت على صفر نتائج؟",
+          a: "ليس كل خليط من الحروف يُعاد ترتيبه إلى كلمة موجودة في القاموس. جرّب تفعيل \"السماح بكلمات أقصر\" لإيجاد كلمات صحيحة من جزء من حروفك بدلًا من ذلك.",
+        },
+        {
+          q: "هل حالة الأحرف أو تكرارها مهم؟",
+          a: "حالة الأحرف (كبيرة أو صغيرة) لا تهم، لكن تكرار الحرف مهم — يجب أن تستخدم الكلمة المطلوبة الحروف نفسها، بما فيها المكرّرة، التي أدخلتها.",
+        },
+        {
+          q: "كيف تُنظَّم نتائج الجُناس الفرعي؟",
+          a: "تُجمَّع حسب طول الكلمة، الأطول أولًا، لتتمكن من مسح أفضل خيار تسجيل نقاط في اللعبة.",
+        },
+        {
+          q: "هل تُرسَل حروفي إلى خادم؟",
+          a: "لا. تتم المطابقة بالكامل داخل متصفحك مقابل قائمة كلمات محلية.",
+        },
+      ],
+      steps: [
+        "اكتب الحروف التي تريد إيجاد جُناس لها.",
+        "فعّل اختياريًا \"السماح بكلمات أقصر\" لتضمين الجُناس الفرعي.",
+        "اضغط \"حل\".",
+        "تصفّح النتائج — مُجمّعة حسب الطول إن تضمّنت جُناسًا فرعيًا.",
+      ],
+    },
+  },
+
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
