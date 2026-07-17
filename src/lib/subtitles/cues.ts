@@ -148,8 +148,10 @@ export function splitCue(doc: CueDoc, id: string, atTime: number): CueDoc {
 }
 
 // Merge two cues (in either argument order) into one that spans both. Text
-// is joined with a space, words are concatenated in doc order, and the span
-// is the union of both cues' start/end.
+// is joined with a space, and the span is the union of both cues' start/end.
+// Words are concatenated in doc order only when BOTH cues have word timings;
+// otherwise words is left undefined to avoid a merged cue whose `words` only
+// covers part of its `text`.
 export function mergeCues(doc: CueDoc, idA: string, idB: string): CueDoc {
   const idxA = doc.findIndex((c) => c.id === idA);
   const idxB = doc.findIndex((c) => c.id === idB);
@@ -161,9 +163,7 @@ export function mergeCues(doc: CueDoc, idA: string, idB: string): CueDoc {
   const later = doc[laterIdx];
 
   const words =
-    earlier.words || later.words
-      ? [...(earlier.words ?? []), ...(later.words ?? [])]
-      : undefined;
+    earlier.words && later.words ? [...earlier.words, ...later.words] : undefined;
 
   const merged: Cue = {
     id: `${earlier.id}_${later.id}`,
@@ -181,7 +181,12 @@ export function mergeCues(doc: CueDoc, idA: string, idB: string): CueDoc {
 
 // Change a cue's start and/or end, clamped so it can never overlap a
 // neighbouring cue: the new start can't precede the previous cue's end, and
-// the new end can't exceed the next cue's start.
+// the new end can't exceed the next cue's start. Start is clamped first
+// (against the previous cue's end and the next cue's start), then end is
+// clamped against the *already-clamped* start and the next cue's start —
+// this way a pulled-down end can never drag start back below the previous
+// cue's end, and a pushed-up start can never drag end past the next cue's
+// start.
 export function retime(
   doc: CueDoc,
   id: string,
@@ -193,12 +198,16 @@ export function retime(
   const prev = doc[index - 1];
   const next = doc[index + 1];
 
+  const prevEnd = prev ? prev.end : -Infinity;
+  const nextStart = next ? next.start : Infinity;
+
+  const clamp = (value: number, lo: number, hi: number) => Math.min(Math.max(value, lo), hi);
+
   let newStart = changes.start ?? cue.start;
   let newEnd = changes.end ?? cue.end;
 
-  if (prev) newStart = Math.max(newStart, prev.end);
-  if (next) newEnd = Math.min(newEnd, next.start);
-  if (newStart > newEnd) newStart = newEnd;
+  newStart = clamp(newStart, prevEnd, nextStart);
+  newEnd = clamp(newEnd, newStart, nextStart);
 
   const updated: Cue = { ...cue, start: newStart, end: newEnd };
   return [...doc.slice(0, index), updated, ...doc.slice(index + 1)];

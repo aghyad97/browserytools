@@ -148,6 +148,16 @@ describe("mergeCues", () => {
     mergeCues(doc, "a", "b");
     expect(doc).toEqual(before);
   });
+
+  it("drops words entirely when only one side has them, but keeps both texts", () => {
+    // "b" has no words, "c" (renamed here as the words-less side) merges with "a" which has
+    // words. If only one side's words survive, a later splitCue on the merged cue would
+    // silently lose the wordless side's text.
+    const result = mergeCues(doc, "a", "c");
+    const merged = result[0];
+    expect(merged.words).toBeUndefined();
+    expect(merged.text).toBe("Hello !");
+  });
 });
 
 describe("retime", () => {
@@ -177,6 +187,35 @@ describe("retime", () => {
     const before = JSON.parse(JSON.stringify(doc));
     retime(doc, "b", { start: 1.2 });
     expect(doc).toEqual(before);
+  });
+
+  it("never lets a pulled-down end drag start below the previous cue's end", () => {
+    // Regression: pulling `end` far below the previous cue's end used to pull `start` down
+    // with it (to make start <= end), which let the retimed cue overlap its predecessor.
+    const gappedDoc: CueDoc = [
+      { id: "a", start: 0, end: 5, text: "one" },
+      { id: "b", start: 6, end: 7, text: "two" },
+      { id: "c", start: 10, end: 20, text: "three" },
+    ];
+    const result = retime(gappedDoc, "b", { end: 2 });
+    const b = result[1];
+    expect(b.start).toBeGreaterThanOrEqual(5); // must not overlap "a" (ends at 5)
+    expect(b.end).toBeGreaterThanOrEqual(5);
+    expect(b.start).toBeLessThanOrEqual(b.end);
+  });
+
+  it("never lets a pushed-up start drag end past the next cue's start", () => {
+    // Symmetric case: pushing `start` far past the next cue's start.
+    const gappedDoc: CueDoc = [
+      { id: "a", start: 0, end: 5, text: "one" },
+      { id: "b", start: 6, end: 7, text: "two" },
+      { id: "c", start: 10, end: 20, text: "three" },
+    ];
+    const result = retime(gappedDoc, "b", { start: 15 });
+    const b = result[1];
+    expect(b.start).toBeLessThanOrEqual(10); // must not overlap "c" (starts at 10)
+    expect(b.end).toBeLessThanOrEqual(10);
+    expect(b.start).toBeLessThanOrEqual(b.end);
   });
 });
 
