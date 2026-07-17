@@ -532,3 +532,38 @@ describe("splitGroups", () => {
 - [ ] Map each locale post to the same primary tool as its English counterpart.
 - [ ] Verify build green + spot-check one Arabic post (RTL — confirm the CTA mirrors correctly).
 - [ ] Commit `feat(blog): tool CTAs across locale posts`.
+
+---
+
+## Phase F — File-swap fixes (folded in 2026-07-17)
+
+**Why:** an audit of 46 file-accepting surfaces found users cannot change the selected file after the first upload in the entire PDF workbench (all 6 panels) and in 6 standalone tools. Reported by the user against `/tools/pdf`. ~34 other tools already handle this via a persistent dropzone.
+
+**Reference pattern (binding):** `src/components/CropImage.tsx` (also `ImageResizer.tsx`, `WatermarkImage.tsx`) — a compact file-info row showing the current file's name/size with an outline **Change** button that re-triggers a hidden `<input type="file">` via ref. Match it; do not invent a new pattern.
+
+**Audit report:** `/private/tmp/claude-501/-Users-aghyad-dev-browserytools/c247f678-c3c0-4467-b311-f4866d6b2f80/scratchpad/file-swap-audit.md`
+
+### Task 22: PDF workbench — shared active-file bar
+
+**Files:**
+- Create: `src/components/pdf-workbench/ActiveFileBar.tsx` + test
+- Modify: the 6 panels — `CompressPanel.tsx`, `RotatePanel.tsx`, `ReorderPanel.tsx`, `WatermarkPanel.tsx`, `ExtractPanel.tsx`, `SignPanel.tsx`
+- Modify: `messages/*.json` (×9) for any new label
+
+**Interfaces:**
+- Produces: `<ActiveFileBar files={PDFFile[]} selectedIndex={number} onSelect={(i:number)=>void} onDropPdf={(f:File[])=>void} />` — renders the active file's name + size, a **Change** button (re-opens the picker, routing through the existing `onDropPdf` so the new file joins shared state), and, when `files.length > 1`, the existing file selector.
+
+- [ ] Step 1: failing test — renders the active file's name; clicking Change triggers the file input; selecting a new file calls `onDropPdf`.
+- [ ] Step 2: FAIL → Step 3: implement → Step 4: PASS.
+- [ ] Step 5: render `<ActiveFileBar/>` at the top of each of the 6 panels (they already receive `files` + `onDropPdf`; several already own a `selectedIndex` — reuse it, don't duplicate state).
+- [ ] Step 6: verify in a browser: load a PDF on `/tools/compress-pdf`, click Change, pick a different PDF, confirm the panel now operates on the NEW file (not the old one). This is the reported bug — prove it's fixed.
+- [ ] Step 7: full test + tsc + lint. Commit `fix(pdf): let users change the active PDF from any panel`.
+
+### Task 23: Stuck standalone tools — file-info bar + Change
+
+**Files:** Modify `src/components/{AudioEditor,ColorCorrection,CompressVideo,ImageCompression,PhotoCensor,SpreadsheetViewer}.tsx` + their tests where they exist. `messages/*.json` (×9) for any new label (reuse an existing "Change" key if one exists — grep first).
+
+- [ ] For each: after a file loads, render the CropImage-style info row + **Change** button that re-opens the picker and REPLACES the loaded file (resetting any derived state/result so the tool doesn't show stale output from the previous file).
+- [ ] Add/extend a test per tool asserting a Change control exists once a file is loaded and that choosing a new file swaps it.
+- [ ] Watch for stale-derived-state bugs: e.g. ImageCompression must clear its previous compressed result on swap.
+- [ ] Verify one tool in a browser end-to-end. Full test + tsc + lint. Commit `fix(tools): allow changing the loaded file after upload`.
