@@ -33,6 +33,18 @@ export const TOOL_POPULARITY: string[] = [
   // — Tier 2: search-demand ranking (head-term volume, descending) —
   "qr-generator",        // "qr code generator" — one of the largest utility queries
   "password-generator",
+  // PDF operations — each a large head-term query ("merge pdf", "jpg to pdf",
+  // "compress pdf", …). Surfaced as their own cards (Tool.inGrid) and kept
+  // contiguous here so they read as a cluster in the grid.
+  "merge-pdf",
+  "jpg-to-pdf",
+  "compress-pdf",
+  "split-pdf",
+  "sign-pdf",
+  "rotate-pdf",
+  "watermark-pdf",
+  "extract-text-from-pdf",
+  "reorder-pdf-pages",
   "image-converter",     // heic→jpg / webp→png conversions
   "heic-to-jpg",
   "unit-converter",

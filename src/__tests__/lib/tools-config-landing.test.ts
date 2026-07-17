@@ -3,13 +3,14 @@ import {
   getAllTools,
   getCatalogTools,
   getRelatedTools,
+  isHiddenVariant,
   roundedToolCount,
   type Tool,
 } from "@/lib/tools-config";
 
-/* Synthetic pool for the landing-variant related-tile rules. No `landingFor`
-   entries exist in the real config yet (Task 3 adds them), so the family-aware
-   branch is exercised against an injected fixture. */
+/* Synthetic pool for the landing-variant related-tile rules — exercises the
+   family-aware branch against an injected fixture, independent of the real
+   config's variants. */
 const FakeIcon = (() => null) as unknown as Tool["icon"];
 const mk = (
   slug: string,
@@ -39,10 +40,10 @@ const POOL: (Tool & { category: string })[] = [
 ];
 
 describe("getCatalogTools", () => {
-  it("is exported and returns getAllTools filtered to entries without landingFor", () => {
+  it("returns getAllTools minus hidden variants (landingFor without inGrid)", () => {
     const catalog = getCatalogTools();
-    expect(catalog.every((t) => !t.landingFor)).toBe(true);
-    const expected = getAllTools().filter((t) => !t.landingFor);
+    expect(catalog.every((t) => !isHiddenVariant(t))).toBe(true);
+    const expected = getAllTools().filter((t) => !isHiddenVariant(t));
     expect(catalog).toEqual(expected);
   });
 
@@ -50,11 +51,33 @@ describe("getCatalogTools", () => {
     expect(getCatalogTools().length).toBeLessThanOrEqual(getAllTools().length);
   });
 
+  it("includes surfaced (inGrid) PDF variants but excludes hidden SEO variants", () => {
+    const slugs = getCatalogTools().map((t) => t.href.split("/").pop());
+    // merge-pdf is a landingFor:"pdf" variant flagged inGrid — a real card.
+    expect(slugs).toContain("merge-pdf");
+    expect(slugs).toContain("sign-pdf");
+    // compress-image-to-20kb is a plain long-tail variant — stays hidden.
+    expect(slugs).not.toContain("compress-image-to-20kb");
+  });
+
   it("excludes landing variants from the pool (synthetic)", () => {
     const slugOf = (t: { href: string }) => t.href.split("/").pop();
-    const catalogSlugs = POOL.filter((t) => !t.landingFor).map(slugOf);
+    const catalogSlugs = POOL.filter((t) => !isHiddenVariant(t)).map(slugOf);
     expect(catalogSlugs).not.toContain("compress-image-to-20kb");
     expect(catalogSlugs).toContain("compress-image");
+  });
+});
+
+describe("isHiddenVariant", () => {
+  const base = POOL[0];
+  it("hides a landingFor variant with no inGrid flag", () => {
+    expect(isHiddenVariant({ ...base, landingFor: "x" })).toBe(true);
+  });
+  it("surfaces a landingFor variant flagged inGrid", () => {
+    expect(isHiddenVariant({ ...base, landingFor: "x", inGrid: true })).toBe(false);
+  });
+  it("treats a plain tool (no landingFor) as visible", () => {
+    expect(isHiddenVariant(base)).toBe(false);
   });
 });
 

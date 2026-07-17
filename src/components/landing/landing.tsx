@@ -21,7 +21,7 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { tools, getAllTools } from "@/lib/tools-config";
+import { tools, getAllTools, isHiddenVariant } from "@/lib/tools-config";
 import { FEATURED_APPS, type FeaturedApp } from "@/lib/featured-apps";
 import { routeFile, extOf, type RouteMatch } from "@/lib/file-router";
 import { playCue } from "@/lib/ui-sound";
@@ -36,12 +36,13 @@ import { popularityRank } from "@/lib/tool-popularity";
 import s from "./landing.module.css";
 
 /* Locale-independent flat index — names/labels resolve via i18n at render.
-   SEO landing variants (entries with `landingFor`) are excluded everywhere on
-   the landing: they must stay off the homepage grid, category counts and the
-   marketing tool count (they remain crawlable via their own routes/sitemap). */
+   Hidden SEO landing variants are excluded everywhere on the landing: they stay
+   off the homepage grid, category counts and the marketing tool count (they
+   remain crawlable via their own routes/sitemap). `inGrid` variants (the PDF
+   operations) are NOT hidden — they surface as their own cards. */
 const TOOL_INDEX = tools.flatMap((c) =>
   c.items
-    .filter((t) => !t.landingFor)
+    .filter((t) => !isHiddenVariant(t))
     .map((t) => ({
       slug: t.href.split("/").pop() as string,
       href: t.href,
@@ -62,7 +63,7 @@ const CATEGORIES = tools
   .sort((a, b) => a.order - b.order)
   .map((c) => ({
     id: c.id,
-    count: c.items.filter((t) => !t.landingFor).length,
+    count: c.items.filter((t) => !isHiddenVariant(t)).length,
   }));
 
 /* Full catalog grouped by category for the crawlable "All tools" surface.
@@ -74,7 +75,7 @@ const GROUPED = tools
   .map((c) => ({
     id: c.id,
     items: c.items
-      .filter((t) => !t.landingFor)
+      .filter((t) => !isHiddenVariant(t))
       .sort((a, b) => a.order - b.order)
       .map((t) => ({
         slug: t.href.split("/").pop() as string,
