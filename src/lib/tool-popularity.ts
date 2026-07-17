@@ -49,6 +49,7 @@ export const TOOL_POPULARITY: string[] = [
   "heic-to-jpg",
   "unit-converter",
   "text-counter",        // "word counter"
+  "word-unscrambler",    // "word unscrambler" — strong search term
   "json-formatter",
   "currency-converter",
   "translator",

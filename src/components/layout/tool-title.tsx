@@ -238,6 +238,8 @@ const HAS_OWN_H1 = new Set([
   // Wave 4 (W4) Task 9: Classroom Timer is a Timer countdown preset, already
   // on ToolShell (the shell owns the h1).
   "classroom-timer",
+  // Wave 4 (W4) Task 10: Word Unscrambler ships directly on ToolShell.
+  "word-unscrambler",
 ]);
 
 export function ToolTitle() {

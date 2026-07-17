@@ -315,6 +315,10 @@
         "name": "Word Frequency",
         "description": "Analyze word frequency in text."
       },
+      "word-unscrambler": {
+        "name": "Word Unscrambler",
+        "description": "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length."
+      },
       "notepad": {
         "name": "Notepad",
         "description": "A simple in-browser notepad that auto-saves your text."
@@ -4944,6 +4948,22 @@
       "resultsTitle": "Groups",
       "resultsDesc": "{count} groups",
       "groupLabel": "Group {number}"
+    },
+    "WordUnscrambler": {
+      "inputTitle": "Letters",
+      "inputDesc": "Enter the letters you want to unscramble, then narrow the results with optional filters.",
+      "inputPlaceholder": "e.g. scarcat",
+      "lettersLabel": "Letters",
+      "minLengthLabel": "Min length",
+      "containsLabel": "Contains letter",
+      "solve": "Unscramble",
+      "resultsTitle": "Matches",
+      "resultsDesc": "{count} words found",
+      "groupLabel": "{length} letters",
+      "noResults": "No words found. Try different letters or filters.",
+      "loadingDictionary": "Loading dictionary...",
+      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
+      "retry": "Retry"
     },
     "BingoCardGenerator": {
       "inputTitle": "Bingo Setup",

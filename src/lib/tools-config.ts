@@ -1,4 +1,5 @@
 import {
+  ShuffleIcon,
   BrainIcon,
   BookMinusIcon,
   FileDownIcon,
@@ -906,6 +907,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-03-05",
         description:
           "Build tables in a visual grid editor and export as valid Markdown table syntax. Control column alignment per column.",
+      },
+      {
+        name: "Word Unscrambler",
+        href: "/tools/word-unscrambler",
+        icon: ShuffleIcon,
+        available: true,
+        order: 19,
+        creationDate: "2026-07-17",
+        description:
+          "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length.",
       },
     ],
   },
