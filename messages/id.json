@@ -316,16 +316,16 @@
         "description": "Analisis frekuensi kata dalam teks."
       },
       "word-unscrambler": {
-        "name": "Word Unscrambler",
-        "description": "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length."
+        "name": "Pembongkar Kata Acak",
+        "description": "Susun huruf acak menjadi kata yang valid. Saring berdasarkan panjang minimum atau huruf wajib, lalu jelajahi hasil yang dikelompokkan menurut panjang kata."
       },
       "wordle-solver": {
-        "name": "Wordle Solver",
-        "description": "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word."
+        "name": "Pemecah Wordle",
+        "description": "Selesaikan teka-teki Wordle dengan cepat. Tandai setiap kotak abu-abu, kuning, atau hijau, dan langsung lihat semua kata kandidat yang valid."
       },
       "anagram-solver": {
-        "name": "Anagram Solver",
-        "description": "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length."
+        "name": "Pemecah Anagram",
+        "description": "Temukan semua anagram dari sekumpulan huruf. Sertakan sub-anagram yang lebih pendek jika diinginkan, dikelompokkan menurut panjang kata."
       },
       "notepad": {
         "name": "Notepad",
@@ -776,20 +776,20 @@
         "description": "Ubah serangkaian gambar menjadi GIF animasi. Atur ulang bingkai, atur kecepatan, ulang, dan ubah ukuran."
       },
       "wheel-of-names": {
-        "name": "Wheel of Names",
-        "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
+        "name": "Roda Nama",
+        "description": "Putar roda yang bisa disesuaikan untuk memilih pemenang secara acak dari daftar nama. Tempel satu nama per baris, acak urutannya, dan opsional hapus setiap pemenang setelah terpilih."
       },
       "group-maker": {
-        "name": "Random Group Maker",
-        "description": "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams."
+        "name": "Pembuat Kelompok Acak",
+        "description": "Bagi daftar nama menjadi kelompok acak. Pilih jumlah kelompok yang diinginkan atau ukuran kelompok, lalu dapatkan grid tim seimbang yang siap dicetak."
       },
       "bingo-card-generator": {
-        "name": "Bingo Card Generator",
-        "description": "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student."
+        "name": "Pembuat Kartu Bingo",
+        "description": "Buat kartu bingo angka klasik B-I-N-G-O atau kartu bingo kata kustom, cetak sebanyak yang dibutuhkan kelasmu, dan bagikan satu lembar unik ke setiap siswa."
       },
       "classroom-timer": {
-        "name": "Classroom Timer",
-        "description": "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track."
+        "name": "Timer Kelas",
+        "description": "Timer hitung mundur layar penuh yang dirancang untuk kelas — atur menitnya, tekan mulai, dan jaga seluruh ruangan tetap fokus."
       }
     },
     "categoriesShort": {
@@ -2068,7 +2068,7 @@
       "pause": "Jeda",
       "countsUpFrom0": "Menghitung naik dari 0.",
       "testSound": "Uji suara",
-      "fullscreenHint": "Best used in fullscreen so the whole class can see the countdown."
+      "fullscreenHint": "Paling optimal digunakan dalam mode layar penuh agar seluruh kelas bisa melihat hitungan mundur."
     },
     "KeepAwake": {
       "title": "Tetap Terjaga",
@@ -4300,8 +4300,8 @@
       "resetTally": "Atur Ulang Hitungan",
       "listTitle": "Pemilih Nama / Daftar",
       "listDesc": "Tempelkan daftar dan pilih pemenang acak. Bagus untuk giveaway dan undian.",
-      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
-      "listPointerCta": "Go to Wheel of Names",
+      "listPointerDesc": "Ingin memilih nama secara acak dari daftar? Gunakan Roda Nama untuk pengalaman roda putar.",
+      "listPointerCta": "Buka Roda Nama",
       "listLabel": "Item (satu per baris)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Hapus pemenang setelah dipilih (untuk undian)",
@@ -4930,95 +4930,95 @@
       "reset": "Atur Ulang"
     },
     "WheelOfNames": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
+      "inputTitle": "Nama",
+      "inputDesc": "Masukkan satu nama per baris",
       "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "removeWinnerAfterSpin": "Remove winner after spin",
-      "shuffle": "Shuffle",
-      "wheelTitle": "Wheel",
-      "wheelDesc": "Spin to pick a random name",
-      "spin": "Spin",
-      "winnerLabel": "Winner: {name}"
+      "namesCount": "{count} nama",
+      "removeWinnerAfterSpin": "Hapus pemenang setelah putaran",
+      "shuffle": "Acak",
+      "wheelTitle": "Roda",
+      "wheelDesc": "Putar untuk memilih nama secara acak",
+      "spin": "Putar",
+      "winnerLabel": "Pemenang: {name}"
     },
     "GroupMaker": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
+      "inputTitle": "Nama",
+      "inputDesc": "Masukkan satu nama per baris",
       "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "modeLabel": "Group by",
-      "byGroupCount": "Number of groups",
-      "byGroupSize": "Group size",
-      "numberOfGroups": "Number of groups",
-      "peoplePerGroup": "People per group",
-      "generate": "Generate Groups",
-      "print": "Print",
-      "resultsTitle": "Groups",
-      "resultsDesc": "{count} groups",
-      "groupLabel": "Group {number}"
+      "namesCount": "{count} nama",
+      "modeLabel": "Kelompokkan berdasarkan",
+      "byGroupCount": "Jumlah kelompok",
+      "byGroupSize": "Ukuran kelompok",
+      "numberOfGroups": "Jumlah kelompok",
+      "peoplePerGroup": "Orang per kelompok",
+      "generate": "Buat Kelompok",
+      "print": "Cetak",
+      "resultsTitle": "Kelompok",
+      "resultsDesc": "{count} kelompok",
+      "groupLabel": "Kelompok {number}"
     },
     "WordUnscrambler": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to unscramble, then narrow the results with optional filters.",
-      "inputPlaceholder": "e.g. scarcat",
-      "lettersLabel": "Letters",
-      "minLengthLabel": "Min length",
-      "containsLabel": "Contains letter",
-      "solve": "Unscramble",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No words found. Try different letters or filters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "Huruf",
+      "inputDesc": "Masukkan huruf yang ingin kamu susun, lalu persempit hasilnya dengan filter opsional.",
+      "inputPlaceholder": "cth. scarcat",
+      "lettersLabel": "Huruf",
+      "minLengthLabel": "Panjang min.",
+      "containsLabel": "Mengandung huruf",
+      "solve": "Susun Kata",
+      "resultsTitle": "Hasil Cocok",
+      "resultsDesc": "{count} kata ditemukan",
+      "groupLabel": "{length} huruf",
+      "noResults": "Tidak ada kata ditemukan. Coba huruf atau filter lain.",
+      "loadingDictionary": "Memuat kamus...",
+      "errorMessage": "Gagal memuat kamus. Periksa koneksimu dan coba lagi.",
+      "retry": "Coba Lagi"
     },
     "WordleSolver": {
-      "inputTitle": "Guess Tiles",
-      "inputDesc": "Type a letter in each tile, then click below it to cycle its color: gray (not in word), yellow (wrong spot), or green (correct spot).",
-      "letterAriaLabel": "Letter {position}",
-      "tileStateAriaLabel": "Tile {position} state: {state}",
-      "stateGray": "Gray",
-      "stateYellow": "Yellow",
-      "stateGreen": "Green",
-      "solve": "Find Words",
-      "resultsTitle": "Possible Answers",
-      "resultsDesc": "{count} words found",
-      "noResults": "No matching words. Double-check your tile colors.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "Kotak Tebakan",
+      "inputDesc": "Ketik satu huruf di setiap kotak, lalu klik di bawahnya untuk mengganti warnanya: abu-abu (tidak ada di kata), kuning (posisi salah), atau hijau (posisi benar).",
+      "letterAriaLabel": "Huruf {position}",
+      "tileStateAriaLabel": "Status kotak {position}: {state}",
+      "stateGray": "Abu-abu",
+      "stateYellow": "Kuning",
+      "stateGreen": "Hijau",
+      "solve": "Cari Kata",
+      "resultsTitle": "Kemungkinan Jawaban",
+      "resultsDesc": "{count} kata ditemukan",
+      "noResults": "Tidak ada kata yang cocok. Periksa kembali warna kotakmu.",
+      "loadingDictionary": "Memuat kamus...",
+      "errorMessage": "Gagal memuat kamus. Periksa koneksimu dan coba lagi.",
+      "retry": "Coba Lagi"
     },
     "AnagramSolver": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to find anagrams for.",
-      "inputPlaceholder": "e.g. cat",
-      "lettersLabel": "Letters",
-      "allowShorterLabel": "Include shorter words",
-      "solve": "Find Anagrams",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No anagrams found. Try different letters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "Huruf",
+      "inputDesc": "Masukkan huruf yang ingin kamu cari anagramnya.",
+      "inputPlaceholder": "cth. cat",
+      "lettersLabel": "Huruf",
+      "allowShorterLabel": "Sertakan kata lebih pendek",
+      "solve": "Cari Anagram",
+      "resultsTitle": "Hasil Cocok",
+      "resultsDesc": "{count} kata ditemukan",
+      "groupLabel": "{length} huruf",
+      "noResults": "Tidak ada anagram ditemukan. Coba huruf lain.",
+      "loadingDictionary": "Memuat kamus...",
+      "errorMessage": "Gagal memuat kamus. Periksa koneksimu dan coba lagi.",
+      "retry": "Coba Lagi"
     },
     "BingoCardGenerator": {
-      "inputTitle": "Bingo Setup",
-      "inputDesc": "Choose a mode, set how many cards you need, and generate.",
-      "modeLabel": "Card type",
-      "numberMode": "Numbers (B-I-N-G-O)",
-      "wordMode": "Word pool",
-      "cardCountLabel": "Number of cards",
-      "wordPoolPlaceholder": "Apple\nBanana\nCherry\nDate\nElderberry",
-      "wordsCount": "{count} words",
-      "cardSizeLabel": "Card size (per side)",
-      "generate": "Generate Cards",
-      "print": "Print",
-      "resultsTitle": "Bingo Cards",
-      "resultsDesc": "{count} cards",
-      "errorPoolTooSmall": "Your word pool is too small for the selected card size. Add more words or use a smaller card."
+      "inputTitle": "Pengaturan Bingo",
+      "inputDesc": "Pilih mode, tentukan jumlah kartu yang kamu butuhkan, lalu buat kartunya.",
+      "modeLabel": "Jenis kartu",
+      "numberMode": "Angka (B-I-N-G-O)",
+      "wordMode": "Kumpulan kata",
+      "cardCountLabel": "Jumlah kartu",
+      "wordPoolPlaceholder": "Apel\nPisang\nCeri\nKurma\nAnggur",
+      "wordsCount": "{count} kata",
+      "cardSizeLabel": "Ukuran kartu (per sisi)",
+      "generate": "Buat Kartu",
+      "print": "Cetak",
+      "resultsTitle": "Kartu Bingo",
+      "resultsDesc": "{count} kartu",
+      "errorPoolTooSmall": "Kumpulan katamu terlalu sedikit untuk ukuran kartu yang dipilih. Tambahkan lebih banyak kata atau gunakan kartu yang lebih kecil."
     }
   },
   "Blog": {

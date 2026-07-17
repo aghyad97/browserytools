@@ -316,16 +316,16 @@
         "description": "Analysez la fréquence des mots dans un texte."
       },
       "word-unscrambler": {
-        "name": "Word Unscrambler",
-        "description": "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length."
+        "name": "Démêleur de mots",
+        "description": "Démêlez des lettres pour former des mots valides. Filtrez par longueur minimale ou par lettre imposée, et parcourez les résultats groupés par longueur de mot."
       },
       "wordle-solver": {
-        "name": "Wordle Solver",
-        "description": "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word."
+        "name": "Solveur Wordle",
+        "description": "Résolvez vos grilles Wordle en un clin d'œil. Marquez chaque case en gris, jaune ou vert et découvrez instantanément tous les mots possibles."
       },
       "anagram-solver": {
-        "name": "Anagram Solver",
-        "description": "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length."
+        "name": "Solveur d'anagrammes",
+        "description": "Trouvez tous les anagrammes d'un ensemble de lettres. Incluez en option les sous-anagrammes plus courts, groupés par longueur de mot."
       },
       "notepad": {
         "name": "Bloc-notes",
@@ -776,20 +776,20 @@
         "description": "Transformez une série d'images en GIF animé. Réorganisez les images, réglez la vitesse, bouclez et redimensionnez."
       },
       "wheel-of-names": {
-        "name": "Wheel of Names",
-        "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
+        "name": "Roue des noms",
+        "description": "Faites tourner une roue personnalisable pour tirer au sort un gagnant dans une liste de noms. Collez un nom par ligne, mélangez l'ordre et retirez chaque gagnant après son tirage si vous le souhaitez."
       },
       "group-maker": {
-        "name": "Random Group Maker",
-        "description": "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams."
+        "name": "Créateur de groupes aléatoires",
+        "description": "Répartissez une liste de noms en groupes aléatoires. Choisissez un nombre de groupes ou une taille de groupe cible, et obtenez une grille prête à imprimer avec des équipes équilibrées."
       },
       "bingo-card-generator": {
-        "name": "Bingo Card Generator",
-        "description": "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student."
+        "name": "Générateur de cartes de bingo",
+        "description": "Générez des cartes de bingo classiques B-I-N-G-O ou des cartes personnalisées à partir d'une liste de mots, imprimez-en autant que votre classe en a besoin et distribuez une grille unique à chaque élève."
       },
       "classroom-timer": {
-        "name": "Classroom Timer",
-        "description": "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track."
+        "name": "Minuteur de classe",
+        "description": "Un compte à rebours plein écran conçu pour la salle de classe : réglez les minutes, lancez le décompte et gardez toute la classe dans le rythme."
       }
     },
     "categoriesShort": {
@@ -2068,7 +2068,7 @@
       "pause": "Pause",
       "countsUpFrom0": "Compte à partir de 0.",
       "testSound": "Tester le son",
-      "fullscreenHint": "Best used in fullscreen so the whole class can see the countdown."
+      "fullscreenHint": "À utiliser de préférence en plein écran pour que toute la classe voie le compte à rebours."
     },
     "KeepAwake": {
       "title": "Maintenir éveillé",
@@ -4300,8 +4300,8 @@
       "resetTally": "Réinitialiser le décompte",
       "listTitle": "Sélecteur de nom / liste",
       "listDesc": "Collez une liste et tirez un gagnant au sort. Idéal pour les concours et les tirages.",
-      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
-      "listPointerCta": "Go to Wheel of Names",
+      "listPointerDesc": "Vous voulez tirer un nom au sort dans une liste ? Essayez la Roue des noms pour une roue qui tourne.",
+      "listPointerCta": "Aller à la Roue des noms",
       "listLabel": "Éléments (un par ligne)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Retirer le gagnant après le tirage (pour les tirages au sort)",
@@ -4930,95 +4930,95 @@
       "reset": "Réinitialiser"
     },
     "WheelOfNames": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
+      "inputTitle": "Noms",
+      "inputDesc": "Saisissez un nom par ligne",
       "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "removeWinnerAfterSpin": "Remove winner after spin",
-      "shuffle": "Shuffle",
-      "wheelTitle": "Wheel",
-      "wheelDesc": "Spin to pick a random name",
-      "spin": "Spin",
-      "winnerLabel": "Winner: {name}"
+      "namesCount": "{count} noms",
+      "removeWinnerAfterSpin": "Retirer le gagnant après le tirage",
+      "shuffle": "Mélanger",
+      "wheelTitle": "Roue",
+      "wheelDesc": "Faites tourner la roue pour tirer un nom au sort",
+      "spin": "Lancer",
+      "winnerLabel": "Gagnant : {name}"
     },
     "GroupMaker": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
+      "inputTitle": "Noms",
+      "inputDesc": "Saisissez un nom par ligne",
       "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "modeLabel": "Group by",
-      "byGroupCount": "Number of groups",
-      "byGroupSize": "Group size",
-      "numberOfGroups": "Number of groups",
-      "peoplePerGroup": "People per group",
-      "generate": "Generate Groups",
-      "print": "Print",
-      "resultsTitle": "Groups",
-      "resultsDesc": "{count} groups",
-      "groupLabel": "Group {number}"
+      "namesCount": "{count} noms",
+      "modeLabel": "Répartir par",
+      "byGroupCount": "Nombre de groupes",
+      "byGroupSize": "Taille des groupes",
+      "numberOfGroups": "Nombre de groupes",
+      "peoplePerGroup": "Personnes par groupe",
+      "generate": "Générer les groupes",
+      "print": "Imprimer",
+      "resultsTitle": "Groupes",
+      "resultsDesc": "{count} groupes",
+      "groupLabel": "Groupe {number}"
     },
     "WordUnscrambler": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to unscramble, then narrow the results with optional filters.",
-      "inputPlaceholder": "e.g. scarcat",
-      "lettersLabel": "Letters",
-      "minLengthLabel": "Min length",
-      "containsLabel": "Contains letter",
-      "solve": "Unscramble",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No words found. Try different letters or filters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "Lettres",
+      "inputDesc": "Saisissez les lettres à démêler, puis affinez les résultats avec les filtres facultatifs.",
+      "inputPlaceholder": "ex. scarcat",
+      "lettersLabel": "Lettres",
+      "minLengthLabel": "Longueur min.",
+      "containsLabel": "Contient la lettre",
+      "solve": "Démêler",
+      "resultsTitle": "Résultats",
+      "resultsDesc": "{count} mots trouvés",
+      "groupLabel": "{length} lettres",
+      "noResults": "Aucun mot trouvé. Essayez d'autres lettres ou filtres.",
+      "loadingDictionary": "Chargement du dictionnaire…",
+      "errorMessage": "Impossible de charger le dictionnaire. Vérifiez votre connexion et réessayez.",
+      "retry": "Réessayer"
     },
     "WordleSolver": {
-      "inputTitle": "Guess Tiles",
-      "inputDesc": "Type a letter in each tile, then click below it to cycle its color: gray (not in word), yellow (wrong spot), or green (correct spot).",
-      "letterAriaLabel": "Letter {position}",
-      "tileStateAriaLabel": "Tile {position} state: {state}",
-      "stateGray": "Gray",
-      "stateYellow": "Yellow",
-      "stateGreen": "Green",
-      "solve": "Find Words",
-      "resultsTitle": "Possible Answers",
-      "resultsDesc": "{count} words found",
-      "noResults": "No matching words. Double-check your tile colors.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "Cases à deviner",
+      "inputDesc": "Saisissez une lettre dans chaque case, puis cliquez dessous pour changer sa couleur : gris (absente du mot), jaune (mauvaise position) ou vert (bonne position).",
+      "letterAriaLabel": "Lettre {position}",
+      "tileStateAriaLabel": "État de la case {position} : {state}",
+      "stateGray": "Gris",
+      "stateYellow": "Jaune",
+      "stateGreen": "Vert",
+      "solve": "Trouver les mots",
+      "resultsTitle": "Réponses possibles",
+      "resultsDesc": "{count} mots trouvés",
+      "noResults": "Aucun mot correspondant. Vérifiez les couleurs de vos cases.",
+      "loadingDictionary": "Chargement du dictionnaire…",
+      "errorMessage": "Impossible de charger le dictionnaire. Vérifiez votre connexion et réessayez.",
+      "retry": "Réessayer"
     },
     "AnagramSolver": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to find anagrams for.",
-      "inputPlaceholder": "e.g. cat",
-      "lettersLabel": "Letters",
-      "allowShorterLabel": "Include shorter words",
-      "solve": "Find Anagrams",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No anagrams found. Try different letters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "Lettres",
+      "inputDesc": "Saisissez les lettres dont vous voulez trouver les anagrammes.",
+      "inputPlaceholder": "ex. cat",
+      "lettersLabel": "Lettres",
+      "allowShorterLabel": "Inclure les mots plus courts",
+      "solve": "Trouver les anagrammes",
+      "resultsTitle": "Résultats",
+      "resultsDesc": "{count} mots trouvés",
+      "groupLabel": "{length} lettres",
+      "noResults": "Aucun anagramme trouvé. Essayez d'autres lettres.",
+      "loadingDictionary": "Chargement du dictionnaire…",
+      "errorMessage": "Impossible de charger le dictionnaire. Vérifiez votre connexion et réessayez.",
+      "retry": "Réessayer"
     },
     "BingoCardGenerator": {
-      "inputTitle": "Bingo Setup",
-      "inputDesc": "Choose a mode, set how many cards you need, and generate.",
-      "modeLabel": "Card type",
-      "numberMode": "Numbers (B-I-N-G-O)",
-      "wordMode": "Word pool",
-      "cardCountLabel": "Number of cards",
-      "wordPoolPlaceholder": "Apple\nBanana\nCherry\nDate\nElderberry",
-      "wordsCount": "{count} words",
-      "cardSizeLabel": "Card size (per side)",
-      "generate": "Generate Cards",
-      "print": "Print",
-      "resultsTitle": "Bingo Cards",
-      "resultsDesc": "{count} cards",
-      "errorPoolTooSmall": "Your word pool is too small for the selected card size. Add more words or use a smaller card."
+      "inputTitle": "Paramètres du bingo",
+      "inputDesc": "Choisissez un mode, indiquez le nombre de cartes nécessaires, puis générez.",
+      "modeLabel": "Type de carte",
+      "numberMode": "Nombres (B-I-N-G-O)",
+      "wordMode": "Liste de mots",
+      "cardCountLabel": "Nombre de cartes",
+      "wordPoolPlaceholder": "Pomme\nBanane\nCerise\nDatte\nFigue",
+      "wordsCount": "{count} mots",
+      "cardSizeLabel": "Taille de la carte (par côté)",
+      "generate": "Générer les cartes",
+      "print": "Imprimer",
+      "resultsTitle": "Cartes de bingo",
+      "resultsDesc": "{count} cartes",
+      "errorPoolTooSmall": "Votre liste de mots est trop courte pour la taille de carte choisie. Ajoutez des mots ou choisissez une carte plus petite."
     }
   },
   "Blog": {

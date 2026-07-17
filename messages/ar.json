@@ -316,16 +316,16 @@
         "description": "حلّل تكرار الكلمات في النص."
       },
       "word-unscrambler": {
-        "name": "Word Unscrambler",
-        "description": "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length."
+        "name": "فكّ الكلمات المبعثرة",
+        "description": "فكّ حروف مبعثرة إلى كلمات صحيحة. صفِّ النتائج حسب الحد الأدنى للطول أو حرف مطلوب، وتصفّح المطابقات مجمّعة حسب طول الكلمة."
       },
       "wordle-solver": {
-        "name": "Wordle Solver",
-        "description": "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word."
+        "name": "حلّال Wordle",
+        "description": "احلّ ألغاز Wordle بسرعة. حدّد لون كل مربع رمادي أو أصفر أو أخضر، وشاهد فوراً كل الكلمات المرشّحة الصحيحة."
       },
       "anagram-solver": {
-        "name": "Anagram Solver",
-        "description": "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length."
+        "name": "حلّال الأناغرام",
+        "description": "اعثر على كل الأناغرامات الممكنة لمجموعة من الحروف. يمكنك تضمين أناغرامات فرعية أقصر، وتظهر النتائج مجمّعة حسب طول الكلمة."
       },
       "notepad": {
         "name": "المفكرة",
@@ -776,20 +776,20 @@
         "description": "حوّل سلسلة من الصور إلى صورة GIF متحركة. أعِد ترتيب الإطارات واضبط السرعة والتكرار والحجم."
       },
       "wheel-of-names": {
-        "name": "Wheel of Names",
-        "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
+        "name": "عجلة الأسماء",
+        "description": "أدر عجلة قابلة للتخصيص لاختيار فائز عشوائي من قائمة أسماء. الصق كل اسم في سطر مستقل، بدّل ترتيب الأسماء، ويمكنك حذف كل فائز تلقائياً بعد اختياره."
       },
       "group-maker": {
-        "name": "Random Group Maker",
-        "description": "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams."
+        "name": "صانع المجموعات العشوائية",
+        "description": "قسّم قائمة أسماء إلى مجموعات عشوائية. اختر عدد المجموعات المطلوب أو حجم كل مجموعة، واحصل على شبكة فرق متوازنة جاهزة للطباعة."
       },
       "bingo-card-generator": {
-        "name": "Bingo Card Generator",
-        "description": "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student."
+        "name": "مولّد بطاقات البينغو",
+        "description": "أنشئ بطاقات بينغو كلاسيكية بأرقام B-I-N-G-O أو بطاقات بينغو بكلمات مخصّصة من بنك كلمات، اطبع العدد الذي يحتاجه صفك، ووزّع بطاقة فريدة على كل طالب."
       },
       "classroom-timer": {
-        "name": "Classroom Timer",
-        "description": "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track."
+        "name": "مؤقّت الفصل الدراسي",
+        "description": "مؤقّت تنازلي بملء الشاشة مصمّم للفصول الدراسية — حدّد عدد الدقائق، اضغط ابدأ، وحافظ على انضباط الوقت في الصف بأكمله."
       }
     },
     "categoriesShort": {
@@ -2068,7 +2068,7 @@
       "pause": "إيقاف مؤقت",
       "countsUpFrom0": "يعد تصاعدياً من الصفر.",
       "testSound": "اختبار الصوت",
-      "fullscreenHint": "Best used in fullscreen so the whole class can see the countdown."
+      "fullscreenHint": "يُفضَّل استخدامه بملء الشاشة ليتمكّن كل الطلاب من رؤية العدّ التنازلي."
     },
     "KeepAwake": {
       "title": "إبقاء الجهاز مستيقظاً",
@@ -4300,8 +4300,8 @@
       "resetTally": "إعادة تعيين العداد",
       "listTitle": "منتقي الأسماء / القائمة",
       "listDesc": "الصق قائمة واختر فائزاً عشوائياً. مثالي للمسابقات والقرعات.",
-      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
-      "listPointerCta": "Go to Wheel of Names",
+      "listPointerDesc": "تريد اختيار اسم عشوائي من قائمة؟ جرّب عجلة الأسماء للحصول على تجربة عجلة دوّارة.",
+      "listPointerCta": "انتقل إلى عجلة الأسماء",
       "listLabel": "العناصر (عنصر في كل سطر)",
       "listPlaceholder": "أحمد\nسارة\nخالد\nليلى",
       "removeWinner": "إزالة الفائز بعد الاختيار (للقرعات)",
@@ -4930,95 +4930,95 @@
       "reset": "إعادة تعيين"
     },
     "WheelOfNames": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
-      "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "removeWinnerAfterSpin": "Remove winner after spin",
-      "shuffle": "Shuffle",
-      "wheelTitle": "Wheel",
-      "wheelDesc": "Spin to pick a random name",
-      "spin": "Spin",
-      "winnerLabel": "Winner: {name}"
+      "inputTitle": "الأسماء",
+      "inputDesc": "أدخل كل اسم في سطر مستقل",
+      "inputPlaceholder": "أحمد\nسارة\nخالد",
+      "namesCount": "{count} اسم",
+      "removeWinnerAfterSpin": "إزالة الفائز بعد الدوران",
+      "shuffle": "عشوائي",
+      "wheelTitle": "العجلة",
+      "wheelDesc": "أدر العجلة لاختيار اسم عشوائي",
+      "spin": "دوّر",
+      "winnerLabel": "الفائز: {name}"
     },
     "GroupMaker": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
-      "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "modeLabel": "Group by",
-      "byGroupCount": "Number of groups",
-      "byGroupSize": "Group size",
-      "numberOfGroups": "Number of groups",
-      "peoplePerGroup": "People per group",
-      "generate": "Generate Groups",
-      "print": "Print",
-      "resultsTitle": "Groups",
-      "resultsDesc": "{count} groups",
-      "groupLabel": "Group {number}"
+      "inputTitle": "الأسماء",
+      "inputDesc": "أدخل كل اسم في سطر مستقل",
+      "inputPlaceholder": "أحمد\nسارة\nخالد",
+      "namesCount": "{count} اسم",
+      "modeLabel": "التقسيم حسب",
+      "byGroupCount": "عدد المجموعات",
+      "byGroupSize": "حجم المجموعة",
+      "numberOfGroups": "عدد المجموعات",
+      "peoplePerGroup": "عدد الأشخاص في كل مجموعة",
+      "generate": "إنشاء المجموعات",
+      "print": "طباعة",
+      "resultsTitle": "المجموعات",
+      "resultsDesc": "{count} مجموعة",
+      "groupLabel": "المجموعة {number}"
     },
     "WordUnscrambler": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to unscramble, then narrow the results with optional filters.",
-      "inputPlaceholder": "e.g. scarcat",
-      "lettersLabel": "Letters",
-      "minLengthLabel": "Min length",
-      "containsLabel": "Contains letter",
-      "solve": "Unscramble",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No words found. Try different letters or filters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "الحروف",
+      "inputDesc": "أدخل الحروف التي تريد ترتيبها لتكوين كلمات، ثم ضيّق النتائج باستخدام عوامل التصفية الاختيارية.",
+      "inputPlaceholder": "مثال: scarcat",
+      "lettersLabel": "الحروف",
+      "minLengthLabel": "الحد الأدنى للطول",
+      "containsLabel": "يحتوي على الحرف",
+      "solve": "فكّ الحروف",
+      "resultsTitle": "المطابقات",
+      "resultsDesc": "تم العثور على {count} كلمة",
+      "groupLabel": "{length} حرف",
+      "noResults": "لم يتم العثور على كلمات. جرّب حروفاً أو عوامل تصفية مختلفة.",
+      "loadingDictionary": "جارٍ تحميل القاموس...",
+      "errorMessage": "تعذّر تحميل القاموس. تحقّق من اتصالك بالإنترنت وحاول مرة أخرى.",
+      "retry": "إعادة المحاولة"
     },
     "WordleSolver": {
-      "inputTitle": "Guess Tiles",
-      "inputDesc": "Type a letter in each tile, then click below it to cycle its color: gray (not in word), yellow (wrong spot), or green (correct spot).",
-      "letterAriaLabel": "Letter {position}",
-      "tileStateAriaLabel": "Tile {position} state: {state}",
-      "stateGray": "Gray",
-      "stateYellow": "Yellow",
-      "stateGreen": "Green",
-      "solve": "Find Words",
-      "resultsTitle": "Possible Answers",
-      "resultsDesc": "{count} words found",
-      "noResults": "No matching words. Double-check your tile colors.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "مربّعات التخمين",
+      "inputDesc": "اكتب حرفاً في كل مربّع، ثم انقر أسفله لتبديل لونه بين: رمادي (غير موجود في الكلمة)، أصفر (في مكان خاطئ)، أو أخضر (في المكان الصحيح).",
+      "letterAriaLabel": "الحرف {position}",
+      "tileStateAriaLabel": "حالة المربّع {position}: {state}",
+      "stateGray": "رمادي",
+      "stateYellow": "أصفر",
+      "stateGreen": "أخضر",
+      "solve": "ابحث عن الكلمات",
+      "resultsTitle": "الإجابات المحتملة",
+      "resultsDesc": "تم العثور على {count} كلمة",
+      "noResults": "لا توجد كلمات مطابقة. تحقّق مرة أخرى من ألوان المربّعات.",
+      "loadingDictionary": "جارٍ تحميل القاموس...",
+      "errorMessage": "تعذّر تحميل القاموس. تحقّق من اتصالك بالإنترنت وحاول مرة أخرى.",
+      "retry": "إعادة المحاولة"
     },
     "AnagramSolver": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to find anagrams for.",
-      "inputPlaceholder": "e.g. cat",
-      "lettersLabel": "Letters",
-      "allowShorterLabel": "Include shorter words",
-      "solve": "Find Anagrams",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No anagrams found. Try different letters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "الحروف",
+      "inputDesc": "أدخل الحروف التي تريد إيجاد أناغرامات لها.",
+      "inputPlaceholder": "مثال: cat",
+      "lettersLabel": "الحروف",
+      "allowShorterLabel": "تضمين الكلمات الأقصر",
+      "solve": "ابحث عن الأناغرامات",
+      "resultsTitle": "المطابقات",
+      "resultsDesc": "تم العثور على {count} كلمة",
+      "groupLabel": "{length} حرف",
+      "noResults": "لم يتم العثور على أناغرامات. جرّب حروفاً مختلفة.",
+      "loadingDictionary": "جارٍ تحميل القاموس...",
+      "errorMessage": "تعذّر تحميل القاموس. تحقّق من اتصالك بالإنترنت وحاول مرة أخرى.",
+      "retry": "إعادة المحاولة"
     },
     "BingoCardGenerator": {
-      "inputTitle": "Bingo Setup",
-      "inputDesc": "Choose a mode, set how many cards you need, and generate.",
-      "modeLabel": "Card type",
-      "numberMode": "Numbers (B-I-N-G-O)",
-      "wordMode": "Word pool",
-      "cardCountLabel": "Number of cards",
-      "wordPoolPlaceholder": "Apple\nBanana\nCherry\nDate\nElderberry",
-      "wordsCount": "{count} words",
-      "cardSizeLabel": "Card size (per side)",
-      "generate": "Generate Cards",
-      "print": "Print",
-      "resultsTitle": "Bingo Cards",
-      "resultsDesc": "{count} cards",
-      "errorPoolTooSmall": "Your word pool is too small for the selected card size. Add more words or use a smaller card."
+      "inputTitle": "إعداد البينغو",
+      "inputDesc": "اختر نمط البطاقة، وحدّد عدد البطاقات التي تحتاجها، ثم أنشئها.",
+      "modeLabel": "نوع البطاقة",
+      "numberMode": "أرقام (B-I-N-G-O)",
+      "wordMode": "بنك الكلمات",
+      "cardCountLabel": "عدد البطاقات",
+      "wordPoolPlaceholder": "تفاح\nموز\nكرز\nعنب\nفراولة",
+      "wordsCount": "{count} كلمة",
+      "cardSizeLabel": "حجم البطاقة (لكل ضلع)",
+      "generate": "إنشاء البطاقات",
+      "print": "طباعة",
+      "resultsTitle": "بطاقات البينغو",
+      "resultsDesc": "{count} بطاقة",
+      "errorPoolTooSmall": "بنك الكلمات لديك صغير جداً بالنسبة لحجم البطاقة المحدد. أضف كلمات أكثر أو اختر بطاقة أصغر."
     }
   },
   "Blog": {

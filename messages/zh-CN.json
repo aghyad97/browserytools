@@ -316,16 +316,16 @@
         "description": "分析文本中的词频。"
       },
       "word-unscrambler": {
-        "name": "Word Unscrambler",
-        "description": "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length."
+        "name": "乱序单词还原器",
+        "description": "将打乱的字母还原成有效单词。可按最小长度或指定字母筛选，并按单词长度分组浏览匹配结果。"
       },
       "wordle-solver": {
-        "name": "Wordle Solver",
-        "description": "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word."
+        "name": "Wordle 解题助手",
+        "description": "快速解出 Wordle 谜题。为每个字母格标记灰色、黄色或绿色，即可立即查看所有符合条件的候选单词。"
       },
       "anagram-solver": {
-        "name": "Anagram Solver",
-        "description": "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length."
+        "name": "变位词生成器",
+        "description": "查找一组字母能组成的所有变位词。可选择包含较短的子变位词，并按单词长度分组显示结果。"
       },
       "notepad": {
         "name": "记事本",
@@ -776,20 +776,20 @@
         "description": "将一系列图片转换为动态 GIF。重新排序帧、设置速度、循环并调整大小。"
       },
       "wheel-of-names": {
-        "name": "Wheel of Names",
-        "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
+        "name": "抽奖转盘",
+        "description": "旋转可自定义的转盘，从姓名列表中随机抽取一位获胜者。每行输入一个姓名，可打乱顺序，也可设置获胜者被抽中后自动移除。"
       },
       "group-maker": {
-        "name": "Random Group Maker",
-        "description": "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams."
+        "name": "随机分组生成器",
+        "description": "将姓名列表随机拆分成若干小组。可指定分组数量或每组人数，生成便于打印的均衡分组表格。"
       },
       "bingo-card-generator": {
-        "name": "Bingo Card Generator",
-        "description": "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student."
+        "name": "宾果卡生成器",
+        "description": "生成经典 B-I-N-G-O 数字宾果卡或自定义词库宾果卡，按需打印任意数量，为每位学生分发独一无二的卡片。"
       },
       "classroom-timer": {
-        "name": "Classroom Timer",
-        "description": "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track."
+        "name": "课堂计时器",
+        "description": "专为课堂设计的全屏倒计时器——设置分钟数，点击开始，让全班同学都能掌握时间进度。"
       }
     },
     "categoriesShort": {
@@ -2068,7 +2068,7 @@
       "pause": "暂停",
       "countsUpFrom0": "从0开始计数。",
       "testSound": "测试声音",
-      "fullscreenHint": "Best used in fullscreen so the whole class can see the countdown."
+      "fullscreenHint": "建议在全屏模式下使用，方便全班同学都能看清倒计时。"
     },
     "KeepAwake": {
       "title": "屏幕常亮",
@@ -4300,8 +4300,8 @@
       "resetTally": "重置计数",
       "listTitle": "姓名 / 列表选择器",
       "listDesc": "粘贴列表并随机选出获胜者。适合抽奖和抽签。",
-      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
-      "listPointerCta": "Go to Wheel of Names",
+      "listPointerDesc": "想从列表中随机抽取一个名字？试试抽奖转盘，体验转盘抽取的乐趣。",
+      "listPointerCta": "前往抽奖转盘",
       "listLabel": "项目（每行一个）",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "选出后移除获胜者（用于抽奖）",
@@ -4930,95 +4930,95 @@
       "reset": "重置"
     },
     "WheelOfNames": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
-      "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "removeWinnerAfterSpin": "Remove winner after spin",
-      "shuffle": "Shuffle",
-      "wheelTitle": "Wheel",
-      "wheelDesc": "Spin to pick a random name",
-      "spin": "Spin",
-      "winnerLabel": "Winner: {name}"
+      "inputTitle": "姓名",
+      "inputDesc": "每行输入一个姓名",
+      "inputPlaceholder": "小明\n小红\n小刚",
+      "namesCount": "{count} 个姓名",
+      "removeWinnerAfterSpin": "抽中后移除获胜者",
+      "shuffle": "打乱顺序",
+      "wheelTitle": "转盘",
+      "wheelDesc": "旋转转盘随机抽取一个姓名",
+      "spin": "旋转",
+      "winnerLabel": "获胜者：{name}"
     },
     "GroupMaker": {
-      "inputTitle": "Names",
-      "inputDesc": "Enter one name per line",
-      "inputPlaceholder": "Alice\nBob\nCharlie",
-      "namesCount": "{count} names",
-      "modeLabel": "Group by",
-      "byGroupCount": "Number of groups",
-      "byGroupSize": "Group size",
-      "numberOfGroups": "Number of groups",
-      "peoplePerGroup": "People per group",
-      "generate": "Generate Groups",
-      "print": "Print",
-      "resultsTitle": "Groups",
-      "resultsDesc": "{count} groups",
-      "groupLabel": "Group {number}"
+      "inputTitle": "姓名",
+      "inputDesc": "每行输入一个姓名",
+      "inputPlaceholder": "小明\n小红\n小刚",
+      "namesCount": "{count} 个姓名",
+      "modeLabel": "分组方式",
+      "byGroupCount": "按组数",
+      "byGroupSize": "按每组人数",
+      "numberOfGroups": "组数",
+      "peoplePerGroup": "每组人数",
+      "generate": "生成分组",
+      "print": "打印",
+      "resultsTitle": "分组结果",
+      "resultsDesc": "{count} 组",
+      "groupLabel": "第 {number} 组"
     },
     "WordUnscrambler": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to unscramble, then narrow the results with optional filters.",
-      "inputPlaceholder": "e.g. scarcat",
-      "lettersLabel": "Letters",
-      "minLengthLabel": "Min length",
-      "containsLabel": "Contains letter",
-      "solve": "Unscramble",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No words found. Try different letters or filters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "字母",
+      "inputDesc": "输入想要还原的字母，然后使用可选筛选条件缩小结果范围。",
+      "inputPlaceholder": "例如：scarcat",
+      "lettersLabel": "字母",
+      "minLengthLabel": "最小长度",
+      "containsLabel": "包含字母",
+      "solve": "还原单词",
+      "resultsTitle": "匹配结果",
+      "resultsDesc": "找到 {count} 个单词",
+      "groupLabel": "{length} 个字母",
+      "noResults": "未找到单词，请尝试更换字母或筛选条件。",
+      "loadingDictionary": "正在加载词典…",
+      "errorMessage": "词典加载失败，请检查网络连接后重试。",
+      "retry": "重试"
     },
     "WordleSolver": {
-      "inputTitle": "Guess Tiles",
-      "inputDesc": "Type a letter in each tile, then click below it to cycle its color: gray (not in word), yellow (wrong spot), or green (correct spot).",
-      "letterAriaLabel": "Letter {position}",
-      "tileStateAriaLabel": "Tile {position} state: {state}",
-      "stateGray": "Gray",
-      "stateYellow": "Yellow",
-      "stateGreen": "Green",
-      "solve": "Find Words",
-      "resultsTitle": "Possible Answers",
-      "resultsDesc": "{count} words found",
-      "noResults": "No matching words. Double-check your tile colors.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "猜测字母格",
+      "inputDesc": "在每个字母格中输入一个字母，然后点击其下方按钮循环切换颜色：灰色（不在单词中）、黄色（位置错误）或绿色（位置正确）。",
+      "letterAriaLabel": "第 {position} 个字母",
+      "tileStateAriaLabel": "第 {position} 格状态：{state}",
+      "stateGray": "灰色",
+      "stateYellow": "黄色",
+      "stateGreen": "绿色",
+      "solve": "查找单词",
+      "resultsTitle": "可能的答案",
+      "resultsDesc": "找到 {count} 个单词",
+      "noResults": "没有匹配的单词，请检查各格颜色是否正确。",
+      "loadingDictionary": "正在加载词典…",
+      "errorMessage": "词典加载失败，请检查网络连接后重试。",
+      "retry": "重试"
     },
     "AnagramSolver": {
-      "inputTitle": "Letters",
-      "inputDesc": "Enter the letters you want to find anagrams for.",
-      "inputPlaceholder": "e.g. cat",
-      "lettersLabel": "Letters",
-      "allowShorterLabel": "Include shorter words",
-      "solve": "Find Anagrams",
-      "resultsTitle": "Matches",
-      "resultsDesc": "{count} words found",
-      "groupLabel": "{length} letters",
-      "noResults": "No anagrams found. Try different letters.",
-      "loadingDictionary": "Loading dictionary...",
-      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
-      "retry": "Retry"
+      "inputTitle": "字母",
+      "inputDesc": "输入想要查找变位词的字母。",
+      "inputPlaceholder": "例如：cat",
+      "lettersLabel": "字母",
+      "allowShorterLabel": "包含较短的单词",
+      "solve": "查找变位词",
+      "resultsTitle": "匹配结果",
+      "resultsDesc": "找到 {count} 个单词",
+      "groupLabel": "{length} 个字母",
+      "noResults": "未找到变位词，请尝试更换字母。",
+      "loadingDictionary": "正在加载词典…",
+      "errorMessage": "词典加载失败，请检查网络连接后重试。",
+      "retry": "重试"
     },
     "BingoCardGenerator": {
-      "inputTitle": "Bingo Setup",
-      "inputDesc": "Choose a mode, set how many cards you need, and generate.",
-      "modeLabel": "Card type",
-      "numberMode": "Numbers (B-I-N-G-O)",
-      "wordMode": "Word pool",
-      "cardCountLabel": "Number of cards",
-      "wordPoolPlaceholder": "Apple\nBanana\nCherry\nDate\nElderberry",
-      "wordsCount": "{count} words",
-      "cardSizeLabel": "Card size (per side)",
-      "generate": "Generate Cards",
-      "print": "Print",
-      "resultsTitle": "Bingo Cards",
-      "resultsDesc": "{count} cards",
-      "errorPoolTooSmall": "Your word pool is too small for the selected card size. Add more words or use a smaller card."
+      "inputTitle": "宾果设置",
+      "inputDesc": "选择模式，设置所需卡片数量，然后生成。",
+      "modeLabel": "卡片类型",
+      "numberMode": "数字（B-I-N-G-O）",
+      "wordMode": "词库模式",
+      "cardCountLabel": "卡片数量",
+      "wordPoolPlaceholder": "苹果\n香蕉\n樱桃\n葡萄\n西瓜",
+      "wordsCount": "{count} 个词",
+      "cardSizeLabel": "卡片尺寸（每边格数）",
+      "generate": "生成卡片",
+      "print": "打印",
+      "resultsTitle": "宾果卡",
+      "resultsDesc": "{count} 张卡片",
+      "errorPoolTooSmall": "词库数量不足，无法生成所选尺寸的卡片。请添加更多词语或选择更小的卡片尺寸。"
     }
   },
   "Blog": {
