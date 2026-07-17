@@ -90,6 +90,10 @@ export function loadDictionary(): Promise<Dict> {
       if (!r.ok) throw new Error(`wordlist ${r.status}`);
       return r.text();
     })
-    .then((t) => buildDict(t.split(/\r?\n/)));
+    .then((t) => buildDict(t.split(/\r?\n/)))
+    .catch((e) => {
+      inflight = null;
+      throw e;
+    });
   return inflight;
 }

@@ -1,6 +1,6 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, afterEach } from "vitest";
 import {
-  buildDict, isWord, unscramble, anagramsOf, wordleMatches, sortLetters,
+  buildDict, isWord, unscramble, anagramsOf, wordleMatches, sortLetters, loadDictionary,
 } from "@/lib/word/dictionary";
 
 const dict = buildDict(["cat", "act", "car", "arc", "care", "race", "a", "at", "scar", "cars"]);
@@ -50,5 +50,28 @@ describe("wordleMatches", () => {
     expect(res).toContain("crane");
     expect(res).toContain("crate");
     expect(res).not.toContain("brace"); // gray b
+  });
+});
+
+describe("loadDictionary", () => {
+  afterEach(() => {
+    vi.unstubAllGlobals();
+  });
+
+  it("clears the in-flight memo on failure so a retry re-fetches", async () => {
+    const fetchMock = vi
+      .fn()
+      .mockRejectedValueOnce(new Error("network down"))
+      .mockResolvedValueOnce({
+        ok: true,
+        text: () => Promise.resolve("cat\ncar\nact"),
+      });
+    vi.stubGlobal("fetch", fetchMock);
+
+    await expect(loadDictionary()).rejects.toThrow("network down");
+    const dict = await loadDictionary();
+
+    expect(fetchMock).toHaveBeenCalledTimes(2);
+    expect(isWord("cat", dict)).toBe(true);
   });
 });
