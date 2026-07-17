@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         through. So now you are hunting for a way to shrink a PDF without turning it into a mess, ideally
         without installing desktop software or handing a sensitive document to some random website.
       </p>
+      <ToolCTA slug="compress-pdf" variant="inline" />
       <p>
         You can do it in your browser in a few seconds. The{" "}
         <a href="/tools/compress-pdf">Compress PDF</a> tool shrinks the file locally, shows you the exact
@@ -116,6 +119,7 @@ export default function Content() {
         Keep the original if you will ever need selectable text — and either way, the document never leaves
         your device.
       </p>
+      <ToolCTA slug="compress-pdf" variant="card" />
     </div>
   );
 }

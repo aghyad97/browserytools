@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         landed at the wrong time for half the team. A developer stored timestamps in local time
         and now the database is a mess of ambiguous entries.
       </p>
+      <ToolCTA slug="timezone-converter" variant="inline" />
       <p>
         Time zones are one of those systems that seem intuitive until they are not, and the edge
         cases cause real problems. This guide covers how the system works, where it breaks down,
@@ -201,6 +204,7 @@ export default function Content() {
           Open Timezone Converter →
         </a>
       </div>
+      <ToolCTA slug="timezone-converter" variant="card" />
     </div>
   );
 }

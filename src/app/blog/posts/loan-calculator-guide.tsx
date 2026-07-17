@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         is actually paying down the principal, how much interest they will pay in total, what happens
         if they make extra payments — remain opaque.
       </p>
+      <ToolCTA slug="loan-calculator" variant="inline" />
       <p>
         This guide explains the mechanics of loan repayment clearly, including the actual math behind
         monthly payments, what amortization means and why it matters, the important difference between
@@ -206,6 +209,7 @@ export default function Content() {
           Open Loan Calculator →
         </a>
       </div>
+      <ToolCTA slug="loan-calculator" variant="card" />
     </div>
   );
 }

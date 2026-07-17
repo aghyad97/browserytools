@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         translator that runs an AI translation model directly inside your browser, so you can translate text in the
         browser without anything ever being uploaded.
       </p>
+      <ToolCTA slug="translator" variant="inline" />
 
       <h2>What "On-Device Translation" Actually Means</h2>
       <p>
@@ -83,6 +86,7 @@ export default function Content() {
         first sentence. It is a free, private translation tool that lives entirely in your browser — no Google, no
         DeepL, no upload.
       </p>
+      <ToolCTA slug="translator" variant="card" />
     </div>
   );
 }

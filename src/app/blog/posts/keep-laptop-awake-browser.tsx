@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         long training video, running a presentation, monitoring a dashboard, or reading an article that
         demands your attention, and suddenly the screen dims and the laptop starts drifting toward sleep.
       </p>
+      <ToolCTA slug="keep-awake" variant="inline" />
       <p>
         The traditional fix is clunky. On macOS people install Amphetamine or Caffeine. On Windows they tweak
         power settings or run a utility called PowerToys. On Linux they hunt through systemd flags. Every one
@@ -176,6 +179,7 @@ export default function Content() {
         <a href="/tools/world-clock">world clock</a>, and more. Everything is free, everything is local,
         and nothing asks you to sign up.
       </p>
+      <ToolCTA slug="keep-awake" variant="card" />
     </div>
   );
 }

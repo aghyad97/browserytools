@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>remove personal info from text</strong> and{" "}
         <strong>anonymize text online</strong> — in seconds, without uploading anything.
       </p>
+      <ToolCTA slug="pii-redactor" variant="inline" />
       <p>
         You can do it right now with the{" "}
         <a href="/tools/pii-redactor">BrowseryTools PII Detector &amp; Redactor</a>. Paste your text,
@@ -113,6 +116,7 @@ export default function Content() {
         That is the whole process: paste, detect, redact, copy. Free, private, and entirely in your
         browser.
       </p>
+      <ToolCTA slug="pii-redactor" variant="card" />
     </div>
   );
 }

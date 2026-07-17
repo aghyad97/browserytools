@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         in some app you do not normally use, guessing at settings, and re-uploading over and over until
         the number finally comes in under the limit.
       </p>
+      <ToolCTA slug="compress-image-to-20kb" variant="inline" />
       <p>
         You can skip the guesswork. The{" "}
         <a href="/tools/compress-image-to-20kb">Compress Image to 20KB</a> tool does the searching for
@@ -114,6 +117,7 @@ export default function Content() {
         and download the result. If 20 KB is not your exact target, pick the matching preset from the
         list above — the same honest, on-device search runs every time.
       </p>
+      <ToolCTA slug="compress-image-to-20kb" variant="card" />
     </div>
   );
 }

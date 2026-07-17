@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         a character flaw — it is a design problem. Money leaves accounts silently and invisibly,
         and nothing in the typical financial life prompts you to pay attention.
       </p>
+      <ToolCTA slug="expense-tracker" variant="inline" />
       <p>
         The fix is not complicated, but it does require one thing: actually looking at the numbers.
         This guide covers why most people lose track of their spending, the most practical
@@ -195,6 +198,7 @@ export default function Content() {
           Open Expense Tracker →
         </a>
       </div>
+      <ToolCTA slug="expense-tracker" variant="card" />
     </div>
   );
 }

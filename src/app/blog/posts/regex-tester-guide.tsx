@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         well-crafted regex becomes one of the most powerful single-line tools in your entire
         toolkit.
       </p>
+      <ToolCTA slug="regex-tester" variant="inline" />
       <p>
         This guide cuts through the noise. Instead of cataloguing every regex feature, it focuses
         on the 20% of syntax that handles 80% of real-world use cases: character classes,
@@ -204,6 +207,7 @@ export default function Content() {
         can build from it are vast. Start with the examples in this guide, test them against your
         own strings, and the syntax will become intuitive faster than you expect.
       </p>
+      <ToolCTA slug="regex-tester" variant="card" />
     </div>
   );
 }

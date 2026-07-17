@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         coding assistant into that codebase without giving it this context, you get generic suggestions
         that miss your conventions, break your patterns, and require constant correction.
       </p>
+      <ToolCTA slug="claude-md-generator" variant="inline" />
       <p>
         A <code>CLAUDE.md</code> file solves this. You can use the{" "}
         <a href="/tools/claude-md-generator">BrowseryTools CLAUDE.md Generator</a> — free, no sign-up,
@@ -190,6 +193,7 @@ which wrap supabase-js queries. Never call supabase directly in components.
         information. Keep it current and treat it as first-class documentation — because for AI-assisted
         development, it effectively is.
       </p>
+      <ToolCTA slug="claude-md-generator" variant="card" />
     </div>
   );
 }

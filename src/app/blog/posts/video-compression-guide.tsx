@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -7,6 +9,7 @@ export default function Content() {
         the internet is feasible at all. But not all compression is equal, and the wrong settings can produce a
         file that is still too large, looks noticeably degraded, or both.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         You can compress any video file right now using the{" "}
         <a href="/tools/compress-video">BrowseryTools Video Compressor</a> — free, no sign-up, and the entire
@@ -201,6 +204,7 @@ export default function Content() {
         delivery platform, match resolution to the intended screen size, and use CRF mode for quality-driven
         compression rather than chasing an arbitrary bitrate target.
       </div>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

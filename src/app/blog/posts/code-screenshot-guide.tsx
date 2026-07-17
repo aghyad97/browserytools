@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         comprehensible. What you want is a <strong>code screenshot</strong> — a beautiful, syntax-highlighted
         image of your code with a clean window frame and a tasteful background.
       </p>
+      <ToolCTA slug="code-screenshot" variant="inline" />
       <p>
         The tool that popularized this was Carbon. It is excellent, but it runs on a remote server and
         has accumulated trackers and ads over the years. The good news is that you do not need it. The{" "}
@@ -96,6 +99,7 @@ export default function Content() {
         <a href="/tools/code-screenshot">Code Screenshot tool</a> and turn your next snippet into something
         worth sharing — free, private, and entirely in your browser.
       </p>
+      <ToolCTA slug="code-screenshot" variant="card" />
     </div>
   );
 }

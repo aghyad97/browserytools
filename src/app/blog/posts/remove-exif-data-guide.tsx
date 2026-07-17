@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         This guide explains how to <strong>remove EXIF data online</strong> and why you should make a
         habit of it.
       </p>
+      <ToolCTA slug="exif-remover" variant="inline" />
       <p>
         You can <strong>strip metadata from a photo</strong> right now with the{" "}
         <a href="/tools/exif-remover">BrowseryTools EXIF Remover</a> — free, no sign-up, and the image
@@ -97,6 +100,7 @@ export default function Content() {
         <a href="/tools/exif-remover">EXIF Remover</a> first. Clean file out, hidden data gone, nothing
         uploaded anywhere.
       </p>
+      <ToolCTA slug="exif-remover" variant="card" />
     </div>
   );
 }

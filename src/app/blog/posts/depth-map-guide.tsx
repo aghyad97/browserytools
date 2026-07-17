@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         for depth maps because they unlock a second dimension hidden inside a flat photo: parallax effects,
         fake bokeh, relighting, 3D photo conversion, and ControlNet conditioning all start with one.
       </p>
+      <ToolCTA slug="depth-map" variant="inline" />
       <p>
         Historically you needed a depth sensor (a LiDAR scanner, a Kinect, a stereo camera rig) or a slow
         cloud service to get a usable depth map. That is no longer true. Modern monocular depth-estimation
@@ -94,6 +97,7 @@ export default function Content() {
         images never leave your device. Pair it with our other on-device AI tools and the rest of the{" "}
         <a href="/tools">BrowseryTools toolkit</a> to build a complete, private creative workflow.
       </p>
+      <ToolCTA slug="depth-map" variant="card" />
     </div>
   );
 }

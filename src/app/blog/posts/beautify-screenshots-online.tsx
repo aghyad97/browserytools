@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         changes everything — give the screenshot some breathing room, drop it onto a clean background, round
         its corners, add a soft shadow, and suddenly it reads as a product shot rather than a debug capture.
       </p>
+      <ToolCTA slug="screenshot-beautifier" variant="inline" />
       <p>
         That is the entire job of the{" "}
         <a href="/tools/screenshot-beautifier">BrowseryTools Screenshot Beautifier</a>. You upload a
@@ -133,6 +136,7 @@ export default function Content() {
         entirely in your browser, and exports a clean PNG in seconds. Open it, drop in your next capture, and
         watch a plain rectangle turn into something worth sharing.
       </p>
+      <ToolCTA slug="screenshot-beautifier" variant="card" />
     </div>
   );
 }

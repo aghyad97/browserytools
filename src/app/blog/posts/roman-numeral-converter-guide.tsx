@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         what is <strong>MCMXCIV</strong>? This guide explains exactly how Roman numerals work, the
         rules that trip people up, and how to convert any number in both directions instantly.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         If you just need the answer, the{" "}
         <a href="/tools/roman-numeral">BrowseryTools Roman Numeral Converter</a> turns numbers into
@@ -135,6 +138,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/percentage-calculator">percentage calculator</a> for the math the Romans
         never got around to.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

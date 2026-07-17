@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         more than most people realize until they are chasing an overdue invoice from a client who
         has gone quiet.
       </p>
+      <ToolCTA slug="invoice" variant="inline" />
       <p>
         This guide covers everything a professional invoice must include, the conventions around
         numbering and payment terms, how invoicing requirements differ by country, and why the
@@ -211,6 +214,7 @@ export default function Content() {
           Create Invoice →
         </a>
       </div>
+      <ToolCTA slug="invoice" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         in practice, and how to work within them skillfully is foundational to building reliable
         AI-powered applications.
       </p>
+      <ToolCTA slug="context-window" variant="inline" />
       <p>
         You can use the{" "}
         <a href="/tools/context-window">BrowseryTools Context Window tool</a> — free, no sign-up,
@@ -197,6 +200,7 @@ export default function Content() {
           Open Context Window Tool →
         </a>
       </div>
+      <ToolCTA slug="context-window" variant="card" />
     </div>
   );
 }

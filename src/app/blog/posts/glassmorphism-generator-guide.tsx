@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         dashboards, login cards, and pricing tables. Done well, it adds depth and hierarchy without heavy
         drop shadows. Done by hand, it is a fiddly stack of CSS properties that are easy to get wrong.
       </p>
+      <ToolCTA slug="glassmorphism-generator" variant="inline" />
       <p>
         Our free <a href="/tools/glassmorphism-generator">glassmorphism CSS generator</a> turns that fiddly
         stack into a few sliders. You drag blur, transparency, tint, saturation, border, and radius, watch a
@@ -97,6 +100,7 @@ export default function Content() {
         <a href="/tools/css-gradient">CSS Gradient Generator</a> to design the background your glass will sit
         on, and the <a href="/tools/css-shadow">CSS Box Shadow Generator</a> if you want to fine-tune the lift.
       </p>
+      <ToolCTA slug="glassmorphism-generator" variant="card" />
     </div>
   );
 }

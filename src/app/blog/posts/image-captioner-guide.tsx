@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -14,6 +16,7 @@ export default function Content() {
         <code>alt=&quot;…&quot;</code> snippet — entirely in your browser, with no
         upload.
       </p>
+      <ToolCTA slug="image-captioner" variant="inline" />
 
       <h2>Caption vs. Alt Text — Why You Need Both</h2>
       <p>
@@ -102,6 +105,7 @@ export default function Content() {
         <a href="/tools/image-captioner">Image Captioner &amp; Alt Text Generator</a>{" "}
         — no upload, no account, no limits.
       </p>
+      <ToolCTA slug="image-captioner" variant="card" />
     </div>
   );
 }

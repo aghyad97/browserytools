@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         is easy to fudge, and half the time you do not have a coin on you anyway. A{" "}
         <a href="/tools/random-picker">random picker</a> in your browser solves all of that in one tab.
       </p>
+      <ToolCTA slug="random-picker" variant="inline" />
       <p>
         The BrowseryTools <strong>Random Picker</strong> bundles four classic randomizers into a single
         page: a <strong>random number generator</strong>, a <strong>dice roller</strong>, a{" "}
@@ -91,6 +94,7 @@ export default function Content() {
         your next giveaway, the <a href="/tools/random-picker">Random Picker</a> has it in one place — free,
         private, and instant. No installs, no accounts, no catch.
       </p>
+      <ToolCTA slug="random-picker" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         shell scripts. You are writing JavaScript, Python, Go, or Ruby, and you need to translate
         that cURL command into working code before you can use it.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         That translation is tedious and error-prone. Headers, authentication schemes, request
         bodies, and URL encoding all have to be mapped to the right method calls in the right
@@ -186,6 +189,7 @@ const data = response.data;`}
         <a href="/tools/curl-converter">BrowseryTools cURL Converter</a> to get clean, runnable
         code in seconds.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

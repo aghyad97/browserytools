@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         static assets, and layouts that broke the moment someone changed the brand colors. Today, a single line
         of CSS replaces all of that.
       </p>
+      <ToolCTA slug="css-gradient" variant="inline" />
       <p>
         This guide covers everything you need to know about CSS gradients — the three types, the angle system,
         real-world use cases with copy-ready code, common mistakes, and how to use the{" "}
@@ -346,6 +349,7 @@ background: repeating-linear-gradient(
           Open CSS Gradient Generator →
         </a>
       </div>
+      <ToolCTA slug="css-gradient" variant="card" />
     </div>
   );
 }

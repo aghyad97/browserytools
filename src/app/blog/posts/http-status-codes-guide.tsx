@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         common ones signal about a bug makes you significantly faster at debugging and building better
         services.
       </p>
+      <ToolCTA slug="http-status" variant="inline" />
       <p>
         You can look up any HTTP status code with the{" "}
         <a href="/tools/http-status">BrowseryTools HTTP Status Code Reference</a> — free, no sign-up,
@@ -190,6 +193,7 @@ Authorization: Bearer <valid-regular-user-token>
           Open HTTP Status Reference →
         </a>
       </div>
+      <ToolCTA slug="http-status" variant="card" />
     </div>
   );
 }

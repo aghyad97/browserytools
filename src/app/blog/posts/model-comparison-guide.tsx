@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         wrong one can mean paying 10x too much, getting lower-quality outputs, or building on a
         model that turns out to be unreliable for your specific task.
       </p>
+      <ToolCTA slug="model-comparison" variant="inline" />
       <p>
         You can use the{" "}
         <a href="/tools/model-comparison">BrowseryTools Model Comparison tool</a> — free, no sign-up,
@@ -216,6 +219,7 @@ export default function Content() {
           Open Model Comparison →
         </a>
       </div>
+      <ToolCTA slug="model-comparison" variant="card" />
     </div>
   );
 }

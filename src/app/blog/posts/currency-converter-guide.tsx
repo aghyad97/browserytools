@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         large. Understanding how currency exchange actually works will save you money every time
         you travel, send money internationally, or get paid in a foreign currency.
       </p>
+      <ToolCTA slug="currency-converter" variant="inline" />
       <p>
         You can use the{" "}
         <a href="/tools/currency-converter">BrowseryTools Currency Converter</a> — free, no sign-up,
@@ -168,6 +171,7 @@ export default function Content() {
           Open Currency Converter →
         </a>
       </div>
+      <ToolCTA slug="currency-converter" variant="card" />
     </div>
   );
 }

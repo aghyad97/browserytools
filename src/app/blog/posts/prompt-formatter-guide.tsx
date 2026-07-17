@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         If you have ever felt like an AI tool is not living up to its potential, your prompt format is the
         first thing worth examining.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="inline" />
       <p>
         You can use the{" "}
         <a href="/tools/prompt-formatter">BrowseryTools Prompt Formatter</a> — free, no sign-up, everything
@@ -209,6 +212,7 @@ Subject line + email body, under 150 words`}
         explicit output constraints remove the guesswork. The best prompt is not the most elaborate one —
         it is the one that leaves the fewest questions unanswered before generation begins.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="card" />
     </div>
   );
 }

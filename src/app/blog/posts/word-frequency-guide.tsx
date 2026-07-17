@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         analysis is the technique that makes these patterns visible, and it is useful across a surprisingly
         wide range of fields: writing craft, SEO, academic research, and even forensics.
       </p>
+      <ToolCTA slug="word-frequency" variant="inline" />
       <p>
         You can analyze the word frequency of any text instantly using the{" "}
         <a href="/tools/word-frequency">BrowseryTools Word Frequency Analyzer</a> — free, no sign-up,
@@ -177,6 +180,7 @@ IDF = log(total documents / documents containing term)`}
         <li><strong>For research</strong> — export frequency data to a spreadsheet and sort by frequency to find both the most common terms (the document's core themes) and the least common unique terms (the document's distinctive vocabulary)</li>
         <li><strong>For editing</strong> — pay special attention to hedging language ("somewhat," "rather," "fairly," "quite") and empty intensifiers ("very," "really," "extremely") — high frequency of these is a reliable signal that the prose needs tightening</li>
       </ul>
+      <ToolCTA slug="word-frequency" variant="card" />
     </div>
   );
 }

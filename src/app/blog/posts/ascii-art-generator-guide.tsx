@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -12,6 +14,7 @@ export default function Content() {
         art directly in your browser with the{" "}
         <a href="/tools/ascii-art">BrowseryTools ASCII Art Generator</a>.
       </p>
+      <ToolCTA slug="ascii-art" variant="inline" />
 
       <h2>What an ASCII Art Generator Actually Does</h2>
       <p>
@@ -124,6 +127,7 @@ export default function Content() {
         <a href="/tools/ascii-art">ASCII Art Generator</a> and turn your next image
         into text you can paste anywhere.
       </p>
+      <ToolCTA slug="ascii-art" variant="card" />
     </div>
   );
 }

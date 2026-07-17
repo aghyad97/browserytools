@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         encryption is the technical approach that changes this equation: your data is encrypted before it
         ever leaves your device, so even the server that stores it cannot read it.
       </p>
+      <ToolCTA slug="text-encryption" variant="inline" />
       <p>
         You can encrypt and decrypt any text directly in your browser using the{" "}
         <a href="/tools/text-encryption">BrowseryTools Text Encryption tool</a> — free, no sign-up,
@@ -166,6 +169,7 @@ export default function Content() {
         <li><strong>No sharing without key exchange</strong> — sharing encrypted data with someone else requires securely sharing the key, which is a separate problem</li>
         <li><strong>No search or indexing</strong> — encrypted data cannot be searched, sorted, or processed without decrypting it first</li>
       </ul>
+      <ToolCTA slug="text-encryption" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         elements, color-coded, searchable, and clickable, running entirely in your browser with nothing to
         install.
       </p>
+      <ToolCTA slug="periodic-table" variant="inline" />
 
       <h2>How the Periodic Table Is Organized</h2>
       <p>
@@ -89,6 +92,7 @@ export default function Content() {
         Open the <a href="/tools/periodic-table">interactive periodic table</a> and start exploring. It is
         free, private, and ready whenever a question about the elements comes up.
       </p>
+      <ToolCTA slug="periodic-table" variant="card" />
     </div>
   );
 }

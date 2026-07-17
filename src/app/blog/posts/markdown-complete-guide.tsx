@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         developers only learn the basics — bold, italic, and a few heading levels — and miss the features that
         make Markdown genuinely powerful for structured writing.
       </p>
+      <ToolCTA slug="markdown-editor" variant="inline" />
       <p>
         You can write and preview Markdown instantly using the{" "}
         <a href="/tools/markdown-editor">BrowseryTools Markdown Editor</a> — free, no sign-up, everything stays
@@ -208,6 +211,7 @@ function greet(name) {
         can catch rendering issues immediately as you write, without copying text into another tool. Paste your
         Markdown and see the rendered HTML output side by side.
       </p>
+      <ToolCTA slug="markdown-editor" variant="card" />
     </div>
   );
 }

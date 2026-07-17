@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <a href="/tools/object-cutout">Object Cutout</a>, you click once on the thing you want, and an AI model
         running inside your browser figures out the exact boundary for you and hands back a transparent PNG.
       </p>
+      <ToolCTA slug="object-cutout" variant="inline" />
 
       <h2>What &ldquo;Cut Out an Object from an Image&rdquo; Really Means</h2>
       <p>
@@ -84,6 +87,7 @@ export default function Content() {
         Ready to try it? Open <a href="/tools/object-cutout">Object Cutout</a>, drop in an image, and click the
         object you want. The cut-out PNG is yours in seconds — no upload, no watermark, no account.
       </p>
+      <ToolCTA slug="object-cutout" variant="card" />
     </div>
   );
 }

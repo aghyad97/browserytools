@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         to Google, 65% of people reuse the same password across multiple sites. This is the single biggest security
         mistake you can make online.
       </p>
+      <ToolCTA slug="password-strength" variant="inline" />
       <p>
         This guide breaks down exactly what makes a password weak or strong, how attackers crack them, and how you
         can protect yourself — using free tools that run entirely in your browser with no data ever sent to a server.
@@ -324,6 +327,7 @@ export default function Content() {
         outside your own device. That is the BrowseryTools promise — powerful tools that genuinely respect your
         privacy.
       </p>
+      <ToolCTA slug="password-strength" variant="card" />
     </div>
   );
 }

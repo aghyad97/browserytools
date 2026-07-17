@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         subscription. They do not. A small set of focused browser tools handles each of these problems
         in a minute or two, and — this is the part that matters — the file never leaves your device.
       </p>
+      <ToolCTA slug="merge-pdf" variant="inline" />
       <p>
         Everything below runs entirely inside the browser tab. Your PDF is read, edited, and written
         back out locally; nothing is uploaded to a server, which is exactly what you want when the
@@ -107,6 +110,7 @@ export default function Content() {
         page, then split off the section you actually need to send. Each step takes a moment, runs
         entirely on your device, and leaves you with a document that is exactly what you meant to send.
       </p>
+      <ToolCTA slug="merge-pdf" variant="card" />
     </div>
   );
 }

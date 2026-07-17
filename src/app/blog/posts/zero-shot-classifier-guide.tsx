@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         <a href="/tools/zero-shot-classifier">Zero-Shot Text Classifier</a> runs it directly in your browser,
         with no upload and no account.
       </p>
+      <ToolCTA slug="zero-shot-classifier" variant="inline" />
 
       <h2>What &ldquo;zero-shot&rdquo; actually means</h2>
       <p>
@@ -100,6 +103,7 @@ export default function Content() {
         <a href="/tools/zero-shot-classifier">Zero-Shot Text Classifier</a>, paste some text, invent a few
         labels, and watch it sort them. No training, no upload, no cost.
       </p>
+      <ToolCTA slug="zero-shot-classifier" variant="card" />
     </div>
   );
 }

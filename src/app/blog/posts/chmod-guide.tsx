@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         <code>ls -la</code> output showing <code>-rwxr-xr--</code> — can feel opaque until you understand
         the model underneath. This guide explains Unix file permissions from first principles.
       </p>
+      <ToolCTA slug="chmod" variant="inline" />
       <p>
         You can calculate permission values and convert between octal and symbolic notation instantly with the{" "}
         <a href="/tools/chmod">BrowseryTools chmod Calculator</a> — free, no sign-up, everything runs in
@@ -167,6 +170,7 @@ chmod +x deploy.sh`}
           Open chmod Calculator →
         </a>
       </div>
+      <ToolCTA slug="chmod" variant="card" />
     </div>
   );
 }

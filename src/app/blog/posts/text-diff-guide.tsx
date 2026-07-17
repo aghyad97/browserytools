@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         that a vendor returned and you need to verify nothing was accidentally deleted. In all these cases,
         the answer is the same: run a diff.
       </p>
+      <ToolCTA slug="text-diff" variant="inline" />
       <p>
         You can compare any two blocks of text instantly using the{" "}
         <a href="/tools/text-diff">BrowseryTools Text Diff tool</a> — free, no sign-up, everything stays
@@ -167,6 +170,7 @@ git diff --stat               # summary: files changed, insertions, deletions`}
         <li><strong>Meld</strong> — free, cross-platform GUI diff tool with three-way merge support. The best free alternative to Beyond Compare.</li>
         <li><strong>BrowseryTools Text Diff</strong> — instant, browser-based, no installation. Best for quick one-off comparisons, especially for text you would not want to paste into an online service.</li>
       </ul>
+      <ToolCTA slug="text-diff" variant="card" />
     </div>
   );
 }

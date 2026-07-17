@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         remarkably consistent; get it wrong and you spend every session correcting behavior that should
         have been locked in from the start.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="inline" />
       <p>
         You can use the{" "}
         <a href="/tools/system-prompt-builder">BrowseryTools System Prompt Builder</a> — free, no
@@ -192,6 +195,7 @@ Always include a specific, actionable takeaway at the end of each response.`}
         constraints, output format, and an example or two. The iteration process — testing edge cases and
         versioning changes — is what takes a good system prompt to a great one.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="card" />
     </div>
   );
 }

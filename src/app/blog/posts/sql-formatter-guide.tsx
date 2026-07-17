@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         — as a single concatenated string. In all of these cases, the raw query is technically
         correct but practically unreadable.
       </p>
+      <ToolCTA slug="sql-formatter" variant="inline" />
       <p>
         Formatting SQL is not about aesthetics. It is about being able to understand what a query
         is doing at a glance — which tables it reads from, which conditions it filters by, and
@@ -421,6 +424,7 @@ LIMIT 20;`}
           Open SQL Formatter →
         </a>
       </div>
+      <ToolCTA slug="sql-formatter" variant="card" />
     </div>
   );
 }

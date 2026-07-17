@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         reconstructing detail rather than just stretching pixels, so you can{" "}
         <strong>increase image resolution</strong> while keeping edges crisp and textures clean.
       </p>
+      <ToolCTA slug="image-upscaler" variant="inline" />
       <p>
         You can{" "}
         <a href="/tools/image-upscaler">upscale an image online for free</a> with the BrowseryTools
@@ -92,6 +95,7 @@ export default function Content() {
         Ready to try it? <a href="/tools/image-upscaler">Upscale your image online for free</a> and see
         the difference AI super-resolution makes.
       </p>
+      <ToolCTA slug="image-upscaler" variant="card" />
     </div>
   );
 }
