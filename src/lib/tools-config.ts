@@ -11,6 +11,7 @@ import {
   FilmIcon,
   FileTextIcon,
   Grid3X3Icon,
+  TicketIcon,
   PaintRollerIcon,
   DatabaseIcon,
   FileArchiveIcon,
@@ -1906,6 +1907,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-17",
         description:
           "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams.",
+      },
+      {
+        name: "Bingo Card Generator",
+        href: "/tools/bingo-card-generator",
+        icon: TicketIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-07-17",
+        description:
+          "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student.",
       },
     ],
   },

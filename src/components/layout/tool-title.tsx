@@ -230,6 +230,8 @@ const HAS_OWN_H1 = new Set([
   "extract-text-from-pdf",
   "reorder-pdf-pages",
   "jpg-to-pdf",
+  // Wave 4 (W4) Task 8: Bingo Card Generator ships directly on ToolShell.
+  "bingo-card-generator",
 ]);
 
 export function ToolTitle() {

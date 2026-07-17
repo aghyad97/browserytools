@@ -31,7 +31,7 @@ export function TopBar() {
   const placeholder = t("searchPlaceholder", { count: TOOL_COUNT });
 
   return (
-    <div className={s.bar}>
+    <div className={s.bar} data-testid="top-bar">
       <button
         type="button"
         className={s.search}

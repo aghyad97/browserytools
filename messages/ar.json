@@ -770,6 +770,10 @@
       "group-maker": {
         "name": "Random Group Maker",
         "description": "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams."
+      },
+      "bingo-card-generator": {
+        "name": "Bingo Card Generator",
+        "description": "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student."
       }
     },
     "categoriesShort": {
@@ -4935,6 +4939,22 @@
       "resultsTitle": "Groups",
       "resultsDesc": "{count} groups",
       "groupLabel": "Group {number}"
+    },
+    "BingoCardGenerator": {
+      "inputTitle": "Bingo Setup",
+      "inputDesc": "Choose a mode, set how many cards you need, and generate.",
+      "modeLabel": "Card type",
+      "numberMode": "Numbers (B-I-N-G-O)",
+      "wordMode": "Word pool",
+      "cardCountLabel": "Number of cards",
+      "wordPoolPlaceholder": "Apple\nBanana\nCherry\nDate\nElderberry",
+      "wordsCount": "{count} words",
+      "cardSizeLabel": "Card size (per side)",
+      "generate": "Generate Cards",
+      "print": "Print",
+      "resultsTitle": "Bingo Cards",
+      "resultsDesc": "{count} cards",
+      "errorPoolTooSmall": "Your word pool is too small for the selected card size. Add more words or use a smaller card."
     }
   },
   "Blog": {
