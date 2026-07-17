@@ -144,6 +144,60 @@ describe("PDFTools", () => {
     expect(toast.success).toHaveBeenCalled();
   });
 
+  // Regression: real pdf.js transfers (neuters) the ArrayBuffer it is handed, so
+  // thumbnail generation must pass it a COPY. When it didn't, every uploaded
+  // PDF's stored buffer was detached on upload and EVERY later operation failed
+  // with "detached ArrayBuffer". Here the getDocument mock detaches its input to
+  // prove the stored bytes survive for a subsequent op.
+  it("keeps the uploaded buffer intact after thumbnail generation (pdf.js detaches its input)", async () => {
+    const { getDocument } = await import("pdfjs-dist");
+    vi.mocked(getDocument).mockImplementation(((opts: { data: Uint8Array }) => {
+      const buf = opts.data.buffer as ArrayBuffer;
+      // Neuter the handed-in buffer, like a transfer to the pdf.js worker.
+      try {
+        structuredClone(buf, { transfer: [buf] });
+      } catch {
+        /* no transfer support — see the sanity assertion below */
+      }
+      return {
+        promise: Promise.resolve({
+          numPages: 1,
+          getPage: vi.fn(async () => ({
+            getViewport: () => ({ width: 50, height: 70 }),
+            render: () => ({ promise: Promise.resolve() }),
+          })),
+        }),
+      };
+    }) as never);
+
+    const { PDFDocument } = await import("pdf-lib");
+    render(<PDFTools />);
+    const user = userEvent.setup();
+    await user.click(screen.getByRole("tab", { name: /merge/i }));
+
+    const input = document.querySelector(
+      'input[data-testid="pdf-input"]'
+    ) as HTMLInputElement;
+    const fileA = new File(["%PDF-1.4 AAAA"], "a.pdf", { type: "application/pdf" });
+    const fileB = new File(["%PDF-1.4 BBBB"], "b.pdf", { type: "application/pdf" });
+    await user.upload(input, [fileA, fileB]);
+
+    // Sanity: the detaching mock must actually detach, or this test proves nothing.
+    await waitFor(() => expect(vi.mocked(getDocument)).toHaveBeenCalled());
+
+    // Only inspect the bytes the MERGE engine reads (not the upload-time load).
+    vi.mocked(PDFDocument.load).mockClear();
+    const mergeBtn = await screen.findByRole("button", { name: /merge pdfs/i });
+    await waitFor(() => expect(mergeBtn).not.toBeDisabled());
+    await user.click(mergeBtn);
+
+    await waitFor(() => expect(vi.mocked(PDFDocument.load)).toHaveBeenCalled());
+    for (const call of vi.mocked(PDFDocument.load).mock.calls) {
+      // A detached buffer reports byteLength 0 — the bug. Intact data is > 0.
+      expect((call[0] as Uint8Array).byteLength).toBeGreaterThan(0);
+    }
+  });
+
   it("extracts a page range and produces a single download", async () => {
     render(<PDFTools />);
     const user = userEvent.setup();

@@ -122,7 +122,11 @@ export default function PDFTools({
       setThumbnailLoading((prev) => ({ ...prev, [filename]: true }));
       if (!pdfjsLib.GlobalWorkerOptions.workerSrc) return;
 
-      const loadingTask = pdfjsLib.getDocument({ data: pdfData });
+      // pdf.js transfers (detaches) the buffer it is handed. `pdfData` is the
+      // SAME Uint8Array stored as the uploaded file's data, so handing it over
+      // directly neutered it and broke every subsequent operation. Pass a copy
+      // (the openPdf helper does the same for exactly this reason).
+      const loadingTask = pdfjsLib.getDocument({ data: new Uint8Array(pdfData) });
       const pdfDoc = await loadingTask.promise;
       const page = await pdfDoc.getPage(1);
       const viewport = page.getViewport({ scale: 0.3 });
