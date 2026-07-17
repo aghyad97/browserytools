@@ -74,6 +74,19 @@ describe("WordUnscrambler", () => {
     expect(results).not.toHaveTextContent(/\bact\b/);
   });
 
+  it("clears stale results when the letters input changes", async () => {
+    mockedUseDictionary.mockReturnValue({ status: "ready", dict: TEST_DICT, retry: vi.fn() });
+    const user = userEvent.setup();
+    render(<WordUnscrambler />);
+
+    await user.type(screen.getByTestId("unscramble-letters-input"), "cat");
+    await user.click(screen.getByTestId("unscramble-solve-button"));
+    expect(screen.getByTestId("unscramble-results")).toBeInTheDocument();
+
+    await user.type(screen.getByTestId("unscramble-letters-input"), "s");
+    expect(screen.queryByTestId("unscramble-results")).not.toBeInTheDocument();
+  });
+
   it("shows a loading indicator while the dictionary is loading", () => {
     mockedUseDictionary.mockReturnValue({ status: "loading", dict: null, retry: vi.fn() });
     render(<WordUnscrambler />);

@@ -66,12 +66,14 @@ export default function WordleSolver() {
   const handleLetterChange = (index: number, value: string) => {
     const letter = value.replace(/[^a-zA-Z]/g, "").slice(-1).toUpperCase();
     setTiles((prev) => prev.map((tile, i) => (i === index ? { ...tile, letter } : tile)));
+    setResults(null);
   };
 
   const handleCycle = (index: number) => {
     setTiles((prev) =>
       prev.map((tile, i) => (i === index ? { ...tile, color: NEXT_COLOR[tile.color] } : tile)),
     );
+    setResults(null);
   };
 
   const handleSolve = () => {

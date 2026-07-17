@@ -68,6 +68,23 @@ describe("WordleSolver", () => {
     expect(results).not.toHaveTextContent("spits");
   });
 
+  it("clears stale results when a tile letter changes", async () => {
+    mockedUseDictionary.mockReturnValue({ status: "ready", dict: TEST_DICT, retry: vi.fn() });
+    const user = userEvent.setup();
+    render(<WordleSolver />);
+
+    // position 0: 'c' -> green, matches "crane" and "crate"
+    await typeLetter(user, 0, "c");
+    await user.click(screen.getByTestId("wordle-tile-0"));
+    await user.click(screen.getByTestId("wordle-tile-0"));
+
+    await user.click(screen.getByTestId("wordle-solve-button"));
+    expect(screen.getByTestId("wordle-results")).toBeInTheDocument();
+
+    await typeLetter(user, 1, "r");
+    expect(screen.queryByTestId("wordle-results")).not.toBeInTheDocument();
+  });
+
   it("shows a loading indicator while the dictionary is loading", () => {
     mockedUseDictionary.mockReturnValue({ status: "loading", dict: null, retry: vi.fn() });
     render(<WordleSolver />);

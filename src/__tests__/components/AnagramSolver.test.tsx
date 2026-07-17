@@ -55,6 +55,19 @@ describe("AnagramSolver", () => {
     expect(groups[0]).toHaveTextContent("3");
   });
 
+  it("clears stale results when the letters input changes", async () => {
+    mockedUseDictionary.mockReturnValue({ status: "ready", dict: TEST_DICT, retry: vi.fn() });
+    const user = userEvent.setup();
+    render(<AnagramSolver />);
+
+    await user.type(screen.getByTestId("anagram-letters-input"), "cat");
+    await user.click(screen.getByTestId("anagram-solve-button"));
+    expect(screen.getByTestId("anagram-results")).toBeInTheDocument();
+
+    await user.type(screen.getByTestId("anagram-letters-input"), "s");
+    expect(screen.queryByTestId("anagram-results")).not.toBeInTheDocument();
+  });
+
   it("shows a loading indicator while the dictionary is loading", () => {
     mockedUseDictionary.mockReturnValue({ status: "loading", dict: null, retry: vi.fn() });
     render(<AnagramSolver />);

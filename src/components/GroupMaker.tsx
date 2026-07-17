@@ -65,7 +65,15 @@ export default function GroupMaker({ rng }: GroupMakerProps = {}) {
   };
 
   const handlePrint = () => {
-    if (typeof window !== "undefined") window.print();
+    if (typeof window === "undefined") return;
+    const { body } = document;
+    body.classList.add("bt-print-cards-only");
+    const cleanup = () => {
+      body.classList.remove("bt-print-cards-only");
+      window.removeEventListener("afterprint", cleanup);
+    };
+    window.addEventListener("afterprint", cleanup);
+    window.print();
   };
 
   return (
@@ -184,8 +192,8 @@ export default function GroupMaker({ rng }: GroupMakerProps = {}) {
                       {t("groupLabel", { number: index + 1 })}
                     </div>
                     <ul className="space-y-1 text-sm">
-                      {group.map((name) => (
-                        <li key={name}>{name}</li>
+                      {group.map((name, i) => (
+                        <li key={`${name}-${i}`}>{name}</li>
                       ))}
                     </ul>
                   </div>

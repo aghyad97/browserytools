@@ -118,7 +118,10 @@ export default function WordUnscrambler() {
                     data-testid="unscramble-letters-input"
                     placeholder={t("inputPlaceholder")}
                     value={letters}
-                    onChange={(e) => setLetters(e.target.value)}
+                    onChange={(e) => {
+                      setLetters(e.target.value);
+                      setResults(null);
+                    }}
                   />
                 </div>
 
@@ -131,7 +134,10 @@ export default function WordUnscrambler() {
                       min={1}
                       data-testid="unscramble-min-length-input"
                       value={minLength}
-                      onChange={(e) => setMinLength(e.target.value)}
+                      onChange={(e) => {
+                        setMinLength(e.target.value);
+                        setResults(null);
+                      }}
                     />
                   </div>
                   <div className="space-y-2">
@@ -141,7 +147,10 @@ export default function WordUnscrambler() {
                       maxLength={1}
                       data-testid="unscramble-contains-input"
                       value={contains}
-                      onChange={(e) => setContains(e.target.value)}
+                      onChange={(e) => {
+                        setContains(e.target.value);
+                        setResults(null);
+                      }}
                     />
                   </div>
                 </div>

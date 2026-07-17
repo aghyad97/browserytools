@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi } from "vitest";
 import GroupMaker from "@/components/GroupMaker";
 
 async function typeNames(user: ReturnType<typeof userEvent.setup>, names: string[]) {
@@ -65,6 +65,31 @@ describe("GroupMaker", () => {
   it("disables generate until names are entered", () => {
     render(<GroupMaker />);
     expect(screen.getByTestId("generate-groups")).toBeDisabled();
+  });
+
+  it("renders duplicate names without a duplicate-key warning", async () => {
+    const errorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+    const user = userEvent.setup();
+    render(<GroupMaker rng={() => 0} />);
+
+    await typeNames(user, ["Alice", "Alice"]);
+
+    const countInput = screen.getByTestId("group-count-input");
+    await user.clear(countInput);
+    await user.type(countInput, "1");
+
+    await user.click(screen.getByTestId("generate-groups"));
+
+    const groupCards = screen.getAllByTestId("group-card");
+    expect(groupCards).toHaveLength(1);
+    expect(groupCards[0].querySelectorAll("li")).toHaveLength(2);
+
+    const keyWarnings = errorSpy.mock.calls.filter((args) =>
+      String(args[0]).includes("same key"),
+    );
+    expect(keyWarnings).toHaveLength(0);
+
+    errorSpy.mockRestore();
   });
 
   it("clears names and generated groups when Clear is clicked", async () => {

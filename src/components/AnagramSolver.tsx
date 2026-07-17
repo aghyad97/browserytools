@@ -115,7 +115,10 @@ export default function AnagramSolver() {
                     data-testid="anagram-letters-input"
                     placeholder={t("inputPlaceholder")}
                     value={letters}
-                    onChange={(e) => setLetters(e.target.value)}
+                    onChange={(e) => {
+                      setLetters(e.target.value);
+                      setResults(null);
+                    }}
                   />
                 </div>
 
@@ -124,7 +127,10 @@ export default function AnagramSolver() {
                     id="anagram-allow-shorter"
                     data-testid="anagram-allow-shorter"
                     checked={allowShorter}
-                    onCheckedChange={setAllowShorter}
+                    onCheckedChange={(checked) => {
+                      setAllowShorter(checked);
+                      setResults(null);
+                    }}
                   />
                   <Label htmlFor="anagram-allow-shorter" className="cursor-pointer">
                     {t("allowShorterLabel")}
