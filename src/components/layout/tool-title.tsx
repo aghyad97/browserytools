@@ -232,6 +232,9 @@ const HAS_OWN_H1 = new Set([
   "jpg-to-pdf",
   // Wave 4 (W4) Task 8: Bingo Card Generator ships directly on ToolShell.
   "bingo-card-generator",
+  // Wave 4 (W4) Task 9: Wheel of Names and Group Maker ship directly on ToolShell.
+  "wheel-of-names",
+  "group-maker",
 ]);
 
 export function ToolTitle() {
