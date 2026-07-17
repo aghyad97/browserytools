@@ -485,3 +485,50 @@ describe("splitGroups", () => {
 - **Spec coverage:** dictionary engine (T1–2), wheel (T3–4), Wheel of Names (T5), RandomPicker consolidation (T6), group maker (T7), bingo both modes (T8), classroom-timer preset + inGrid + popularity (T9), 3 solvers (T10–12), config/README/popularity (T13), SEO content (T14), OG/e2e (T15), 9-locale parity (T16), blog (T17), gates/review/PR (T18). All spec sections mapped.
 - **Placeholder scan:** algorithmic tasks carry real failing tests + implementations; UI/config/SEO tasks name the exact reference file to mirror and the exact content to add — no "TODO"/"add validation".
 - **Type consistency:** `Dict`, `buildDict`, `unscramble/anagramsOf/wordleMatches`, `splitGroups`, `numberCard/wordCard/makeCards`, `targetRotation/indexAtPointer`, `useDictionary`, and the `Timer` preset prop names are used identically across producing and consuming tasks.
+
+---
+
+## Phase E — Blog tool CTAs (folded in 2026-07-17)
+
+**Why:** an audit of 93 English posts found every post links its matching tool *somewhere*, but as plain inline text links — there is no visually prominent call-to-action. 45 posts also lack any mid-body mention. Readers who just want the tool have to hunt for it. Fix presentation and coverage together with ONE reusable component rather than hand-editing hundreds of posts.
+
+### Task 19: `ToolCTA` component
+
+**Files:**
+- Create: `src/components/blog/ToolCTA.tsx`, `src/__tests__/components/ToolCTA.test.tsx`
+- Modify: `messages/*.json` (×9 — one new label key)
+
+**Interfaces:**
+- Produces: `<ToolCTA slug="keep-awake" variant?="card"|"inline" />`. Looks the slug up in `tools-config` (`getAllTools()`), renders a prominent link to `/tools/<slug>` showing the tool's icon + localized name + description, with an "Open the tool →" affordance. Unknown slug → renders `null` (never crash a post).
+
+**Key points:**
+- Tool name/description come from the EXISTING `ToolsConfig.tools.<slug>.name|description` i18n keys — already present in all 9 locales, so NO per-tool locale work is needed. Only ONE new key (e.g. `Blog.openTool`) × 9 locales.
+- Design rules (binding): all-around hairline ring only — **never** a single-edge/left-border accent. Use `var(--bt-*)` tokens. Reuse the category chip colors via `CHIP` (see `ToolTile`) so it reads as part of the system.
+- `variant="card"` = the prominent end-of-post block; `variant="inline"` = a slimmer top-of-post bar.
+
+- [ ] Step 1: failing test — `<ToolCTA slug="keep-awake" />` renders a link with `href="/tools/keep-awake"` and the tool's name; `<ToolCTA slug="does-not-exist" />` renders nothing.
+- [ ] Step 2: run → FAIL. Step 3: implement. Step 4: run → PASS.
+- [ ] Step 5: add `Blog.openTool` to en.json + 8 placeholder copies. `tsc` + full test + lint.
+- [ ] Step 6: commit `feat(blog): reusable ToolCTA component`.
+
+### Task 20: Apply ToolCTA to English posts
+
+**Files:** Modify `src/app/blog/posts/*.tsx` (93 English posts).
+
+**Source of truth for the post→tool mapping:** the audit report at `/private/tmp/claude-501/-Users-aghyad-dev-browserytools/c247f678-c3c0-4467-b311-f4866d6b2f80/scratchpad/blog-cta-audit.md` (table: post slug → primary tool). Use it; do not re-derive.
+
+- [ ] For each post with a primary tool: insert `<ToolCTA slug="<tool>" variant="inline" />` after the FIRST paragraph, and `<ToolCTA slug="<tool>" />` at the END (before the closing `</div>`), replacing/absorbing any existing hand-rolled end CTA paragraph where it duplicates.
+- [ ] Leave the 6 N/A roundup posts alone (they intentionally link several tools) unless a single primary tool is obvious.
+- [ ] Keep existing inline prose links — this ADDS a prominent CTA, it does not strip context links.
+- [ ] Parallelizable: posts are independent files; batch them, but no two workers may touch the same file.
+- [ ] Verify: `bun run build` green; spot-check 3 posts render the CTA (top + end) in a browser; no post 404s.
+- [ ] Commit `feat(blog): prominent tool CTAs on English posts`.
+
+### Task 21: Apply ToolCTA to non-English posts
+
+**Files:** Modify the locale post files (`-ar` suffixed + the other locale batches; ~429 files).
+
+- [ ] Same insertion, same slugs (the CTA self-localizes via `ToolsConfig.tools.<slug>` + `Blog.openTool`, so no translation work — just the component insert).
+- [ ] Map each locale post to the same primary tool as its English counterpart.
+- [ ] Verify build green + spot-check one Arabic post (RTL — confirm the CTA mirrors correctly).
+- [ ] Commit `feat(blog): tool CTAs across locale posts`.
