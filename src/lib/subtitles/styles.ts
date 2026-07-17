@@ -7,6 +7,11 @@ export interface CaptionStyle {
   fontName: string;
   fontSize: number;
   primary: string;
+  // Accent colour ("#RRGGBB") used for the karaoke/word-highlight "spoken"
+  // state. Only takes visual effect when animation is "karaoke" or
+  // "word-highlight" — ass.ts neutralizes it (equal to primary) otherwise so
+  // it can never be seen as a stray colour.
+  highlight: string;
   outline: string;
   back: string;
   outlineWidth: number;
@@ -23,6 +28,7 @@ export const PRESETS: Record<string, CaptionStyle> = {
     fontName: "Arial Black",
     fontSize: 72,
     primary: "#FFFFFF",
+    highlight: "#FFD400",
     outline: "#000000",
     back: "#000000",
     outlineWidth: 4,
@@ -37,6 +43,7 @@ export const PRESETS: Record<string, CaptionStyle> = {
     fontName: "Helvetica",
     fontSize: 48,
     primary: "#FFFFFF",
+    highlight: "#22C1FF",
     outline: "#000000",
     back: "#000000",
     outlineWidth: 2,
@@ -51,6 +58,7 @@ export const PRESETS: Record<string, CaptionStyle> = {
     fontName: "Arial",
     fontSize: 40,
     primary: "#FFFFFF",
+    highlight: "#22C1FF",
     outline: "#000000",
     back: "#000000",
     outlineWidth: 0,

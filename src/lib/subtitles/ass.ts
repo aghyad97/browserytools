@@ -43,18 +43,26 @@ function escapeAssText(text: string): string {
 
 // Per-word karaoke tags: {\k<centiseconds>}word for each word, so the
 // player highlights/reveals one word at a time as it plays.
-function karaokeText(words: Word[]): string {
+//
+// \k durations are cumulative from the Dialogue's Start time, not from each
+// word's own start — so any silence between words (or before the first
+// word) must be closed with its own leading {\k<gapCs>} tag, otherwise every
+// later word's highlight fires early by the sum of the skipped gaps.
+function karaokeText(cueStart: number, words: Word[]): string {
   return words
-    .map((w) => {
-      const cs = Math.round((w.end - w.start) * 100);
-      return `{\\k${cs}}${escapeAssText(w.text)}`;
+    .map((w, i) => {
+      const prevEnd = i === 0 ? cueStart : words[i - 1].end;
+      const gap = w.start - prevEnd;
+      const gapTag = gap > 0 ? `{\\k${Math.round(gap * 100)}}` : "";
+      const durCs = Math.round((w.end - w.start) * 100);
+      return `${gapTag}{\\k${durCs}}${escapeAssText(w.text)}`;
     })
     .join(" ");
 }
 
 function dialogueText(cue: CueDoc[number], style: CaptionStyle): string {
   if (style.animation === "karaoke" || style.animation === "word-highlight") {
-    if (cue.words && cue.words.length > 0) return karaokeText(cue.words);
+    if (cue.words && cue.words.length > 0) return karaokeText(cue.start, cue.words);
     return escapeAssText(cue.text);
   }
   if (style.animation === "pop-on") {
@@ -66,6 +74,17 @@ function dialogueText(cue: CueDoc[number], style: CaptionStyle): string {
 export function toAss(doc: CueDoc, style: CaptionStyle, dims: { w: number; h: number }): string {
   const bold = style.bold ? -1 : 0;
   const borderStyle = style.box ? 3 : 1;
+  const isKaraoke = style.animation === "karaoke" || style.animation === "word-highlight";
+
+  // libass \k: a syllable renders in SecondaryColour until its own
+  // cumulative \k timer elapses, then switches to (and stays) PrimaryColour.
+  // So "sung" == PrimaryColour and "unsung" == SecondaryColour — the accent
+  // belongs in PrimaryColour so a word visibly lights UP to the accent as
+  // it's spoken (and stays lit), with the base text colour as the unsung
+  // state. Non-karaoke styles never emit \k, so SecondaryColour is
+  // neutralized to match PrimaryColour — it can never be seen.
+  const primaryColour = hexToAssColor(isKaraoke ? style.highlight : style.primary);
+  const secondaryColour = hexToAssColor(style.primary);
 
   const header = [
     "[Script Info]",
@@ -78,7 +97,7 @@ export function toAss(doc: CueDoc, style: CaptionStyle, dims: { w: number; h: nu
     "",
     "[V4+ Styles]",
     "Format: Name, Fontname, Fontsize, PrimaryColour, SecondaryColour, OutlineColour, BackColour, Bold, Italic, Underline, StrikeOut, ScaleX, ScaleY, Spacing, Angle, BorderStyle, Outline, Shadow, Alignment, MarginL, MarginR, MarginV, Encoding",
-    `Style: Default,${style.fontName},${style.fontSize},${hexToAssColor(style.primary)},&H000000FF,${hexToAssColor(style.outline)},${hexToAssColor(style.back)},${bold},0,0,0,100,100,0,0,${borderStyle},${style.outlineWidth},${style.shadow},${style.alignment},10,10,${style.marginV},1`,
+    `Style: Default,${style.fontName},${style.fontSize},${primaryColour},${secondaryColour},${hexToAssColor(style.outline)},${hexToAssColor(style.back)},${bold},0,0,0,100,100,0,0,${borderStyle},${style.outlineWidth},${style.shadow},${style.alignment},10,10,${style.marginV},1`,
     "",
     "[Events]",
     "Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text",
