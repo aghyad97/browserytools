@@ -240,6 +240,8 @@ const HAS_OWN_H1 = new Set([
   "classroom-timer",
   // Wave 4 (W4) Task 10: Word Unscrambler ships directly on ToolShell.
   "word-unscrambler",
+  // Wave 4 (W4) Task 11: Wordle Solver ships directly on ToolShell.
+  "wordle-solver",
 ]);
 
 export function ToolTitle() {

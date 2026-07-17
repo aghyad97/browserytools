@@ -60,7 +60,25 @@ export function wordleMatches(
   dict: Dict,
   c: { greens: (string | null)[]; yellows: { letter: string; pos: number }[]; grays: string[] },
 ): string[] {
-  const grays = new Set(c.grays.map((g) => g.toLowerCase()));
+  // Per-letter minimum required count, derived from how many times a letter
+  // shows up green/yellow. A gray marking for a letter that also has a
+  // required count means that occurrence didn't exist — i.e. the total count
+  // is capped (exact) at the minimum, rather than just a floor. A gray for a
+  // letter with zero required count means it's fully absent. This mirrors how
+  // real Wordle colors duplicate letters: greens/yellows are consumed first,
+  // and only the leftover occurrences come back gray.
+  const minCount = new Map<string, number>();
+  for (const g of c.greens) {
+    if (!g) continue;
+    const l = g.toLowerCase();
+    minCount.set(l, (minCount.get(l) ?? 0) + 1);
+  }
+  for (const y of c.yellows) {
+    const l = y.letter.toLowerCase();
+    minCount.set(l, (minCount.get(l) ?? 0) + 1);
+  }
+  const exact = new Set(c.grays.map((g) => g.toLowerCase()));
+
   const out: string[] = [];
   for (const w of dict.set) {
     if (w.length !== 5) continue;
@@ -71,11 +89,24 @@ export function wordleMatches(
       const l = y.letter.toLowerCase();
       if (!w.includes(l) || w[y.pos] === l) ok = false;
     }
-    for (const g of grays) {
-      if (!ok) break;
-      // a gray letter may still appear if it's also green/yellow elsewhere; keep simple: reject if present and not required
-      const required = c.greens.some((x) => x?.toLowerCase() === g) || c.yellows.some((y) => y.letter.toLowerCase() === g);
-      if (!required && w.includes(g)) ok = false;
+    if (ok) {
+      const wCounts = new Map<string, number>();
+      for (const ch of w) wCounts.set(ch, (wCounts.get(ch) ?? 0) + 1);
+      for (const [l, min] of minCount) {
+        const actual = wCounts.get(l) ?? 0;
+        if (actual < min || (exact.has(l) && actual !== min)) {
+          ok = false;
+          break;
+        }
+      }
+      if (ok) {
+        for (const l of exact) {
+          if (!minCount.has(l) && wCounts.has(l)) {
+            ok = false;
+            break;
+          }
+        }
+      }
     }
     if (ok) out.push(w);
   }

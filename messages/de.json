@@ -319,6 +319,10 @@
         "name": "Word Unscrambler",
         "description": "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length."
       },
+      "wordle-solver": {
+        "name": "Wordle Solver",
+        "description": "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word."
+      },
       "notepad": {
         "name": "Notizblock",
         "description": "Ein einfacher Notizblock im Browser, der deinen Text automatisch speichert."
@@ -4961,6 +4965,22 @@
       "resultsDesc": "{count} words found",
       "groupLabel": "{length} letters",
       "noResults": "No words found. Try different letters or filters.",
+      "loadingDictionary": "Loading dictionary...",
+      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
+      "retry": "Retry"
+    },
+    "WordleSolver": {
+      "inputTitle": "Guess Tiles",
+      "inputDesc": "Type a letter in each tile, then click below it to cycle its color: gray (not in word), yellow (wrong spot), or green (correct spot).",
+      "letterAriaLabel": "Letter {position}",
+      "tileStateAriaLabel": "Tile {position} state: {state}",
+      "stateGray": "Gray",
+      "stateYellow": "Yellow",
+      "stateGreen": "Green",
+      "solve": "Find Words",
+      "resultsTitle": "Possible Answers",
+      "resultsDesc": "{count} words found",
+      "noResults": "No matching words. Double-check your tile colors.",
       "loadingDictionary": "Loading dictionary...",
       "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
       "retry": "Retry"

@@ -51,6 +51,44 @@ describe("wordleMatches", () => {
     expect(res).toContain("crate");
     expect(res).not.toContain("brace"); // gray b
   });
+
+  describe("count-aware gray handling (double letters)", () => {
+    it("green s + gray s means exactly one s: excludes a two-s candidate, includes a one-s candidate", () => {
+      const dd = buildDict(["sadly", "spits", "today"]);
+      const res = wordleMatches(dd, {
+        greens: ["s", null, null, null, null],
+        yellows: [],
+        grays: ["s"],
+      });
+      expect(res).toContain("sadly"); // one s, at position 0
+      expect(res).not.toContain("spits"); // two s's — gray s caps the count at 1
+      expect(res).not.toContain("today"); // no s at all, fails the green
+    });
+
+    it("yellow s + gray s means exactly one s, not at the yellow position", () => {
+      const dd = buildDict(["sadly", "spots", "toads"]);
+      const res = wordleMatches(dd, {
+        greens: [null, null, null, null, null],
+        yellows: [{ letter: "s", pos: 1 }],
+        grays: ["s"],
+      });
+      expect(res).toContain("sadly"); // one s, not at index 1
+      expect(res).toContain("toads"); // one s, not at index 1
+      expect(res).not.toContain("spots"); // two s's — gray s caps the count at 1
+    });
+
+    it("green k + gray k means exactly one k: excludes kayak (two k's)", () => {
+      const dd = buildDict(["kayak", "koala", "kazoo"]);
+      const res = wordleMatches(dd, {
+        greens: ["k", null, null, null, null],
+        yellows: [],
+        grays: ["k"],
+      });
+      expect(res).toContain("koala");
+      expect(res).toContain("kazoo");
+      expect(res).not.toContain("kayak"); // two k's — gray k caps the count at 1
+    });
+  });
 });
 
 describe("loadDictionary", () => {

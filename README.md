@@ -122,6 +122,7 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Text to Speech**: Read text aloud in your browser for free.
 - **Live Dictation (mic)**: Convert speech to text online for free.
 - **Word Unscrambler**: Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length.
+- **Wordle Solver**: Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word.
 
 ### 📊 Data Tools
 

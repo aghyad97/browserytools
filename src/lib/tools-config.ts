@@ -102,6 +102,7 @@ import {
   Disc3Icon,
   UsersIcon,
   Clock4Icon,
+  SquareStackIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -917,6 +918,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-17",
         description:
           "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length.",
+      },
+      {
+        name: "Wordle Solver",
+        href: "/tools/wordle-solver",
+        icon: SquareStackIcon,
+        available: true,
+        order: 20,
+        creationDate: "2026-07-17",
+        description:
+          "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word.",
       },
     ],
   },

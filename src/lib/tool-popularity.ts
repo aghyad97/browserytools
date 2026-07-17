@@ -50,6 +50,7 @@ export const TOOL_POPULARITY: string[] = [
   "unit-converter",
   "text-counter",        // "word counter"
   "word-unscrambler",    // "word unscrambler" — strong search term
+  "wordle-solver",       // "wordle solver" — strong search term
   "json-formatter",
   "currency-converter",
   "translator",
