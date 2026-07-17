@@ -220,6 +220,9 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 ### 🎓 School & Learning
 
 - **Periodic Table**: Interactive periodic table of all 118 elements in the standard layout.
+- **Wheel of Names**: Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked.
+- **Random Group Maker**: Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams.
+- **Bingo Card Generator**: Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student.
 
 ### 💼 Business
 
