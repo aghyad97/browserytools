@@ -20,6 +20,7 @@
 - **R3 content-colour exception:** wheel segment fills and bingo cell values are CONTENT — inline styles allowed. All other chrome uses `var(--bt-*)` tokens. No single-edge borders.
 - **creationDate:** `"2026-07-17"` for all new entries.
 - **Gates per task:** `bun run test` · `bunx tsc --noEmit` · `bun run lint`. Wave-level also: `bun run validate` · `CI=true bun run build` · `CI=true bun run e2e:smoke`.
+- **CSS gate (learned the hard way, T8):** vitest/tsc/lint do NOT compile CSS Modules. A task that adds or edits ANY `*.module.css` MUST additionally run `CI=true bun run build` (or hit the route on a dev server and confirm 200) before commit. A malformed CSS Module 500s EVERY route while all other gates stay green. Specifically: CSS Modules reject selectors that aren't "pure" — a rule made only of `:global(...)` fails; use the `:global { ... }` block form.
 - **Commit style:** no AI footers, no wave numbers in PR title/body.
 
 ---
