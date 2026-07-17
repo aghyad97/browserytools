@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         <a href="/tools/favicon-generator">generator favicon online</a> yang baik.
       </p>
 
+      <ToolCTA slug="favicon-generator" variant="inline" />
       <h2>Mengapa Satu Favicon Tidak Pernah Cukup</h2>
       <p>
         Di masa awal web, Anda menaruh satu <code>favicon.ico</code> di direktori root Anda dan selesai. Saat
@@ -113,6 +116,7 @@ export default function Content() {
         <a href="/tools/meta-tags">Generator Meta Tag</a> — semuanya gratis, semuanya privat, semuanya berjalan
         sepenuhnya di browser Anda.
       </p>
+      <ToolCTA slug="favicon-generator" variant="card" />
     </div>
   );
 }

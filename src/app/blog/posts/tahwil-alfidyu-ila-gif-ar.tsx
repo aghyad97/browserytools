@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         المحادثة، والوثائق، وملفات README — دون مشغّل أو نقرة. المشكلة أنك عادةً تبدأ بملف MP4 أو MOV، وتحتاج
         إلى <strong>تحويل ذلك الفيديو إلى GIF</strong> أولاً.
       </p>
+      <ToolCTA slug="video" variant="inline" />
       <p>
         تتيح لك <a href="/tools/video">أداة الفيديو من BrowseryTools</a> تحويل مقطع إلى GIF داخل متصفحك — بدون
         رفع، بدون حساب، بدون علامة مائية. يغطّي هذا الدليل كيفية فعل ذلك، وكيف تبقي الملف صغيراً (صور GIF تتضخّم
@@ -91,6 +94,7 @@ export default function Content() {
         متصفحك. وإن كان ملف المصدر كبيراً أصلاً، اضغطه أولاً باستخدام دليلنا حول{" "}
         <a href="/blog/dagt-alfidyu-online-ar">ضغط الفيديو أونلاين مجاناً</a>.
       </p>
+      <ToolCTA slug="video" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         crachás de conferências para se conectar no LinkedIn. Em 2026, a expectativa de que um QR code simplesmente "funcione"
         é tão normal quanto esperar que um número de telefone possa ser discado.
       </p>
+      <ToolCTA slug="qr-generator" variant="inline" />
       <p>
         Ainda assim, para a maioria das pessoas, gerar um QR code ainda envolve encontrar um site, lidar com anúncios ou
         paywalls, ficar na dúvida se o serviço armazena o código ou a URL que ele codifica e, muitas vezes, descobrir
@@ -204,6 +207,7 @@ export default function Content() {
         Sem conta, sem assinatura, sem rastreamento, sem marcas d'água. Abra a ferramenta, codifique seu conteúdo e
         baixe seu código. Ele está pronto para uso no momento em que você acessa a página.
       </p>
+      <ToolCTA slug="qr-generator" variant="card" />
     </div>
   );
 }

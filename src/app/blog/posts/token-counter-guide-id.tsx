@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         bagaimana dihitung, dan mengapa hitungan itu penting adalah salah satu hal yang paling berguna
         secara praktis yang bisa Anda pelajari sebelum membangun sesuatu yang serius di atas LLM.
       </p>
+      <ToolCTA slug="token-counter" variant="inline" />
       <p>
         Anda dapat menggunakan{" "}
         <a href="/tools/token-counter">BrowseryTools Token Counter</a> — gratis, tanpa pendaftaran,
@@ -204,6 +207,7 @@ export default function Content() {
           Buka Token Counter →
         </a>
       </div>
+      <ToolCTA slug="token-counter" variant="card" />
     </div>
   );
 }

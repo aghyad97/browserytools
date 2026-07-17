@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         com JavaScript ou transições CSS, e incorporados diretamente no HTML. Entender SVG corretamente
         muda como você pensa sobre gráficos na web.
       </p>
+      <ToolCTA slug="svg" variant="inline" />
       <p>
         Você pode visualizar, inspecionar e otimizar qualquer arquivo SVG usando a{" "}
         <a href="/tools/svg">Ferramenta SVG do BrowseryTools</a> — gratuita, sem cadastro, tudo roda
@@ -264,6 +267,7 @@ export default function Content() {
         SVGs enviados por usuários diretamente no seu HTML. Use <code>currentColor</code> para ícones
         que precisam se adaptar ao contexto de cor do texto.
       </div>
+      <ToolCTA slug="svg" variant="card" />
     </div>
   );
 }

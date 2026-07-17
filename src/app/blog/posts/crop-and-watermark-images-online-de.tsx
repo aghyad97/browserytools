@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         kennzeichnet Ihre Screenshots. Dafür braucht man weder Photoshop noch ein Abonnement —
         und man sollte das Bild definitiv nicht auf den Server einer unbekannten Person hochladen.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         Der <a href="/tools/image-resizer">BrowseryTools Bildbearbeitungs-Tool</a> übernimmt
         Zuschneiden, Skalieren und Wasserzeichnen vollständig in Ihrem Browser. Kein Upload, kein
@@ -143,6 +146,7 @@ export default function Content() {
         Dateigröße zu verkleinern, lesen Sie unseren{" "}
         <a href="/blog/free-image-tools-guide">Leitfaden zu kostenlosen Bildtools</a>.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

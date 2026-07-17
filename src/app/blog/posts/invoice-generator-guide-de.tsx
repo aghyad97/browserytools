@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         Menschen erkennen — bis sie eine überfällige Rechnung von einem Kunden einfordern müssen,
         der sich in Schweigen hüllt.
       </p>
+      <ToolCTA slug="invoice" variant="inline" />
       <p>
         Dieser Leitfaden behandelt alles, was eine professionelle Rechnung enthalten muss, die
         Konventionen zur Nummerierung und zu Zahlungszielen, wie sich Rechnungsanforderungen je nach
@@ -225,6 +228,7 @@ export default function Content() {
           Rechnung erstellen →
         </a>
       </div>
+      <ToolCTA slug="invoice" variant="card" />
     </div>
   );
 }

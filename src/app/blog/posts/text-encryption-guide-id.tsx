@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         teknis yang mengubah persamaan ini: datamu dienkripsi sebelum meninggalkan perangkatmu,
         sehingga bahkan server yang menyimpannya pun tidak dapat membacanya.
       </p>
+      <ToolCTA slug="text-encryption" variant="inline" />
       <p>
         Kamu bisa mengenkripsi dan mendekripsi teks apa pun langsung di browsermu menggunakan{" "}
         <a href="/tools/text-encryption">BrowseryTools Text Encryption tool</a> — gratis, tanpa
@@ -182,6 +185,7 @@ export default function Content() {
         <li><strong>Tidak ada berbagi tanpa pertukaran kunci</strong> — berbagi data yang dienkripsi dengan orang lain memerlukan berbagi kunci secara aman, yang merupakan masalah tersendiri</li>
         <li><strong>Tidak ada pencarian atau pengindeksan</strong> — data yang dienkripsi tidak dapat dicari, diurutkan, atau diproses tanpa mendekripsinya terlebih dahulu</li>
       </ul>
+      <ToolCTA slug="text-encryption" variant="card" />
     </div>
   );
 }

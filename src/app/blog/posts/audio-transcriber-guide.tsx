@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         <a href="/tools/audio-transcriber">transcribe audio to text free</a>, right inside your
         browser, with the recording never leaving your device.
       </p>
+      <ToolCTA slug="audio-transcriber" variant="inline" />
       <p>
         The <a href="/tools/audio-transcriber">BrowseryTools Audio &amp; Video Transcriber</a> runs
         OpenAI&apos;s Whisper speech-recognition model entirely on your own machine. You drop in an
@@ -122,6 +125,7 @@ export default function Content() {
         of BrowseryTools: a <a href="/tools/sentiment-analyzer">sentiment analyzer</a>, a{" "}
         <a href="/tools/notepad">notepad</a>, and dozens of other private, in-browser utilities.
       </p>
+      <ToolCTA slug="audio-transcriber" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Problem ist, dass man normalerweise mit einem MP4 oder MOV beginnt und dieses{" "}
         <strong>Video erst in ein GIF konvertieren</strong> muss.
       </p>
+      <ToolCTA slug="video" variant="inline" />
       <p>
         Das <a href="/tools/video">BrowseryTools-Video-Tool</a> ermöglicht es Ihnen, einen Clip
         direkt in Ihrem Browser in ein GIF umzuwandeln — kein Upload, kein Konto, kein Wasserzeichen.
@@ -115,6 +118,7 @@ export default function Content() {
         <a href="/blog/video-compression-guide">wie man Videodateien ohne Qualitätsverlust komprimiert</a>
         .
       </p>
+      <ToolCTA slug="video" variant="card" />
     </div>
   );
 }

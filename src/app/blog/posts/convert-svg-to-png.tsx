@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         use it in apps that simply do not understand vectors. The fix is to{" "}
         <strong>convert SVG to PNG</strong>: a universal raster format that works everywhere.
       </p>
+      <ToolCTA slug="svg-png" variant="inline" />
       <p>
         The <a href="/tools/svg-png">BrowseryTools SVG to PNG converter</a> does this in your browser
         — paste or upload an SVG, pick a resolution, and download a crisp PNG. No upload, no account,
@@ -115,6 +118,7 @@ export default function Content() {
         and to understand the vector format itself read the{" "}
         <a href="/blog/svg-guide">complete SVG guide</a>.
       </p>
+      <ToolCTA slug="svg-png" variant="card" />
     </div>
   );
 }

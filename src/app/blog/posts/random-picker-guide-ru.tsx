@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         долго, легко сфальсифицировать, и половину времени монеты под рукой нет. Браузерный{" "}
         <a href="/tools/random-picker">случайный выбор</a> решает всё это за одну вкладку.
       </p>
+      <ToolCTA slug="random-picker" variant="inline" />
       <p>
         BrowseryTools <strong>Random Picker</strong> объединяет четыре классических рандомайзера
         на одной странице: <strong>генератор случайных чисел</strong>, <strong>бросок кубика</strong>,{" "}
@@ -97,6 +100,7 @@ export default function Content() {
         всё в одном месте — бесплатно, приватно и мгновенно. Без установки, без аккаунтов,
         без подвохов.
       </p>
+      <ToolCTA slug="random-picker" variant="card" />
     </div>
   );
 }

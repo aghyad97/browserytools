@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         verifikasi tidak ada yang terhapus secara tidak sengaja. Dalam semua kasus ini, jawabannya
         sama: jalankan diff.
       </p>
+      <ToolCTA slug="text-diff" variant="inline" />
       <p>
         Kamu bisa membandingkan dua blok teks apa pun secara instan menggunakan{" "}
         <a href="/tools/text-diff">BrowseryTools Text Diff tool</a> — gratis, tanpa daftar,
@@ -173,6 +176,7 @@ git diff --stat               # summary: files changed, insertions, deletions`}
         <li><strong>Meld</strong> — alat diff GUI gratis, lintas platform dengan dukungan three-way merge. Alternatif gratis terbaik untuk Beyond Compare.</li>
         <li><strong>BrowseryTools Text Diff</strong> — instan, berbasis browser, tanpa instalasi. Terbaik untuk perbandingan satu kali yang cepat, terutama untuk teks yang tidak ingin kamu tempel ke layanan online.</li>
       </ul>
+      <ToolCTA slug="text-diff" variant="card" />
     </div>
   );
 }

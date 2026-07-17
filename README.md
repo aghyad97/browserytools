@@ -121,6 +121,9 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Image to Text (OCR)**: Extract text from images for free with on-device OCR.
 - **Text to Speech**: Read text aloud in your browser for free.
 - **Live Dictation (mic)**: Convert speech to text online for free.
+- **Word Unscrambler**: Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length.
+- **Wordle Solver**: Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word.
+- **Anagram Solver**: Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length.
 
 ### 📊 Data Tools
 
@@ -217,6 +220,9 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 ### 🎓 School & Learning
 
 - **Periodic Table**: Interactive periodic table of all 118 elements in the standard layout.
+- **Wheel of Names**: Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked.
+- **Random Group Maker**: Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams.
+- **Bingo Card Generator**: Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student.
 
 ### 💼 Business
 

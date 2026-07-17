@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         خفياً داخل الصورة المسطّحة: مؤثرات المنظور (parallax)، وتمويه الخلفية الاصطناعي، وإعادة الإضاءة، وتحويل
         الصور إلى ثلاثية الأبعاد، وتهيئة ControlNet — كلها تبدأ من خريطة عمق.
       </p>
+      <ToolCTA slug="depth-map" variant="inline" />
       <p>
         كان الحصول على خريطة عمق مفيدة يتطلّب في السابق مستشعر عمق (ماسح LiDAR أو كاميرا مجسّمة) أو خدمة سحابية
         بطيئة. لم يعد الأمر كذلك. تستطيع نماذج تقدير العمق الأحادية الحديثة استنتاج عمق دقيق بشكل مدهش من صورة
@@ -87,6 +90,7 @@ export default function Content() {
         مع بقية أدوات الذكاء الاصطناعي على الجهاز وبقية مجموعة{" "}
         <a href="/tools">BrowseryTools</a> لبناء سير عمل إبداعي خاص ومتكامل.
       </p>
+      <ToolCTA slug="depth-map" variant="card" />
     </div>
   );
 }

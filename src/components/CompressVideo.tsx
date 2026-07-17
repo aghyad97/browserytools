@@ -19,7 +19,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Upload, Download, Video, Loader2 } from "lucide-react";
+import { Upload, Download, Video, Loader2, RefreshCw } from "lucide-react";
 import { toast } from "sonner";
 import { getFFmpeg } from "@/lib/media/ffmpeg";
 
@@ -63,6 +63,11 @@ export default function CompressVideo() {
 
   const inputUrlRef = useRef<string | null>(null);
   const outputUrlRef = useRef<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  // Bumped on every file swap. An in-flight compress from a superseded video
+  // checks this before applying its result, so a slow ffmpeg run for the old
+  // file can never overwrite the new file's (empty) output state.
+  const activeVideoTokenRef = useRef(0);
 
   useEffect(() => {
     return () => {
@@ -86,16 +91,21 @@ export default function CompressVideo() {
       }
       const url = URL.createObjectURL(file);
       inputUrlRef.current = url;
+      // Invalidate any compress still running for the previous video so its
+      // result can't land on the new one once it finishes.
+      activeVideoTokenRef.current += 1;
       setVideo({ file, url, size: file.size, name: file.name });
       setOutputUrl(null);
       setOutputSize(0);
       setProgress(0);
+      setIsCompressing(false);
     },
     [t]
   );
 
   const handleCompress = async () => {
     if (!video || isCompressing) return;
+    const token = activeVideoTokenRef.current;
     setIsCompressing(true);
     setProgress(0);
     if (outputUrlRef.current) {
@@ -106,6 +116,7 @@ export default function CompressVideo() {
 
     let ffmpeg: import("@ffmpeg/ffmpeg").FFmpeg | null = null;
     const onProgress = ({ progress: p }: { progress: number }) => {
+      if (token !== activeVideoTokenRef.current) return;
       setProgress(Math.min(100, Math.max(0, Math.round(p * 100))));
     };
 
@@ -141,6 +152,11 @@ export default function CompressVideo() {
       await ffmpeg.exec(args);
       const data = (await ffmpeg.readFile(outputName)) as Uint8Array;
 
+      // The video may have been swapped while this compress was running —
+      // discard the result instead of applying a stale file's output to the
+      // new file's state.
+      if (token !== activeVideoTokenRef.current) return;
+
       const bytes = new Uint8Array(data);
       const blob = new Blob([bytes.buffer as ArrayBuffer], {
         type: "video/mp4",
@@ -153,12 +169,16 @@ export default function CompressVideo() {
       toast.success(t("compressedSuccess"));
     } catch (error) {
       console.error(error);
-      toast.error(t("compressFailed"));
+      if (token === activeVideoTokenRef.current) {
+        toast.error(t("compressFailed"));
+      }
     } finally {
       // Detach the per-run progress listener so repeat compressions on the
       // now-shared singleton don't stack subscriptions.
       ffmpeg?.off("progress", onProgress);
-      setIsCompressing(false);
+      if (token === activeVideoTokenRef.current) {
+        setIsCompressing(false);
+      }
     }
   };
 
@@ -182,37 +202,52 @@ export default function CompressVideo() {
     >
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-4">
+            {video && (
+              <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
+                <Video className="w-8 h-8 text-primary shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium truncate">{video.name}</p>
+                  <p className="text-sm text-muted-foreground" dir="ltr">
+                    {formatBytes(video.size)}
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <RefreshCw className="w-4 h-4 me-1" />
+                  {t("change")}
+                </Button>
+              </div>
+            )}
             <Card className="p-6 shadow-none">
-              <FileDropzone
-                onFiles={onDrop}
-                accept={{
-                  "video/*": [".mp4", ".mov", ".webm", ".mkv", ".avi", ".m4v"],
-                }}
-                multiple={false}
-                className={({ isDragActive }) => `
-                  h-64 rounded-lg border-2 border-dashed
-                  flex flex-col items-center justify-center space-y-4 p-8
-                  cursor-pointer transition-[border-color,background-color] duration-150
-                  ${
-                    isDragActive
-                      ? "border-primary bg-primary/10 scale-[0.99]"
-                      : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-                  }
-                `}
-              >
-                {video ? (
-                  <div className="w-full h-full relative">
-                    <video
-                      src={video.url}
-                      controls
-                      className="w-full h-full object-contain"
-                    />
-                    <div className="absolute bottom-0 start-0 end-0 bg-black/50 text-white p-2 text-sm flex justify-between">
-                      <span className="truncate">{video.name}</span>
-                      <span dir="ltr">{formatBytes(video.size)}</span>
-                    </div>
-                  </div>
-                ) : (
+              {video ? (
+                <div className="w-full h-64 relative">
+                  <video
+                    src={video.url}
+                    controls
+                    className="w-full h-full object-contain"
+                  />
+                </div>
+              ) : (
+                <FileDropzone
+                  onFiles={onDrop}
+                  accept={{
+                    "video/*": [".mp4", ".mov", ".webm", ".mkv", ".avi", ".m4v"],
+                  }}
+                  multiple={false}
+                  className={({ isDragActive }) => `
+                    h-64 rounded-lg border-2 border-dashed
+                    flex flex-col items-center justify-center space-y-4 p-8
+                    cursor-pointer transition-[border-color,background-color] duration-150
+                    ${
+                      isDragActive
+                        ? "border-primary bg-primary/10 scale-[0.99]"
+                        : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+                    }
+                  `}
+                >
                   <div className="text-center">
                     <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                       <Upload className="w-10 h-10 text-primary" />
@@ -224,9 +259,20 @@ export default function CompressVideo() {
                       {t("supportedFormats")}
                     </p>
                   </div>
-                )}
-              </FileDropzone>
+                </FileDropzone>
+              )}
             </Card>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="video/*"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) onDrop([file]);
+                e.target.value = "";
+              }}
+            />
 
             <SettingsCard>
               <SliderRow

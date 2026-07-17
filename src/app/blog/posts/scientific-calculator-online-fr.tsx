@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         trigonométrie complète, logarithmes, exposants et constantes — qui s'ouvre instantanément
         dans un onglet de navigateur et fonctionne sur n'importe quel appareil.
       </p>
+      <ToolCTA slug="calculator" variant="inline" />
       <p>
         La <a href="/tools/calculator">calculatrice scientifique BrowseryTools</a> vous donne
         exactement cela : une calculatrice gratuite, dans le navigateur, avec les fonctions
@@ -126,6 +129,7 @@ export default function Content() {
         décoder un chiffre romain, le{" "}
         <a href="/blog/roman-numeral-converter-guide">guide des chiffres romains</a> est là pour vous.
       </p>
+      <ToolCTA slug="calculator" variant="card" />
     </div>
   );
 }

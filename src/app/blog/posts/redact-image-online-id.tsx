@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>meredaksi atau menyensor gambar</strong> — mengaburkannya, mempikselkannya, atau
         memburamnya — tanpa menyerahkan aslinya ke situs web.
       </p>
+      <ToolCTA slug="photo-censor" variant="inline" />
       <p>
         Alat <a href="/tools/photo-censor">BrowseryTools Photo Censor</a> melakukan persis itu,
         sepenuhnya di browsermu. Kamu melukis area yang ingin disembunyikan, memilih blur, pikselasi,
@@ -128,6 +131,7 @@ export default function Content() {
         tentang{" "}
         <a href="/blog/crop-and-watermark-images-online">memotong dan memberi watermark pada gambar secara online</a>.
       </p>
+      <ToolCTA slug="photo-censor" variant="card" />
     </div>
   );
 }

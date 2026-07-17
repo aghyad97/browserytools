@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         membengkak dengan watermark, situs web yang mengunggah gambar Anda ke server, atau suite desain yang
         meminta Anda mendaftar sebelum Anda bisa menempatkan satu kata pun di sebuah gambar.
       </p>
+      <ToolCTA slug="meme-generator" variant="inline" />
       <p>
         Ada cara yang lebih sederhana. Anda bisa{" "}
         <a href="/tools/meme-generator">membuat meme online gratis</a> langsung di browser Anda dengan Meme
@@ -129,6 +132,7 @@ export default function Content() {
         tertentu, <a href="/tools/image-resizer">Image Resizer</a> siap membantu. Semuanya gratis, semuanya
         lokal, dan tidak ada yang meminta Anda mendaftar.
       </p>
+      <ToolCTA slug="meme-generator" variant="card" />
     </div>
   );
 }

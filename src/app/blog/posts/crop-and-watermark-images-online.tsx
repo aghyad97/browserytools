@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         work and brands your screenshots. You should not need Photoshop or a subscription for either
         — and you definitely should not upload the image to a stranger&rsquo;s server.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         The <a href="/tools/image-resizer">BrowseryTools image resizer</a> handles cropping, resizing,
         and watermarking entirely in your browser. No upload, no account, no watermark forced onto
@@ -128,6 +131,7 @@ export default function Content() {
         shrink the final file size read our{" "}
         <a href="/blog/free-image-tools-guide">guide to free image tools</a>.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

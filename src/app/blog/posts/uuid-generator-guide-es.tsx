@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         fuentes. Esta guía cubre las principales opciones: UUID (v1, v4, v7), NanoID y CUID, y cuándo
         usar cada uno.
       </p>
+      <ToolCTA slug="uuid-generator" variant="inline" />
       <p>
         Puedes generar UUIDs y otros IDs únicos al instante con el{" "}
         <a href="/tools/uuid-generator">Generador de UUID de BrowseryTools</a> — gratuito, sin
@@ -189,6 +192,7 @@ nanoid(10);    // → "IRFa-VaY2b"  (longitud personalizada)`}
           Abrir el Generador de UUID →
         </a>
       </div>
+      <ToolCTA slug="uuid-generator" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         zusammenführen. Dieser Leitfaden behandelt die wichtigsten Optionen: UUIDs (v1, v4, v7),
         NanoIDs und CUIDs sowie den richtigen Einsatzzeitpunkt für jede Variante.
       </p>
+      <ToolCTA slug="uuid-generator" variant="inline" />
       <p>
         UUIDs und andere eindeutige IDs können Sie sofort mit dem{" "}
         <a href="/tools/uuid-generator">BrowseryTools UUID-Generator</a> erzeugen — kostenlos, ohne
@@ -194,6 +197,7 @@ nanoid(10);    // → "IRFa-VaY2b"  (custom length)`}
           UUID-Generator öffnen →
         </a>
       </div>
+      <ToolCTA slug="uuid-generator" variant="card" />
     </div>
   );
 }

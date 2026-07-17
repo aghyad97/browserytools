@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         décadas de investigaciones que apuntan a técnicas concretas y fiables que funcionan para la
         mayoría de las personas.
       </p>
+      <ToolCTA slug="habit-tracker" variant="inline" />
       <p>
         Esta guía cubre la ciencia detrás de por qué se forman y se mantienen los hábitos, la mecánica
         psicológica de las rachas, los mejores marcos para construir nuevas rutinas y cómo usar un
@@ -398,6 +401,7 @@ export default function Content() {
           Abrir Rastreador de Hábitos →
         </a>
       </div>
+      <ToolCTA slug="habit-tracker" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         ist, das von über 4,5 Millionen Menschen verwendet wird. Laut Google nutzen 65 % der Menschen dasselbe Passwort
         auf mehreren Websites. Das ist der größte einzelne Sicherheitsfehler, den Sie online begehen können.
       </p>
+      <ToolCTA slug="password-strength" variant="inline" />
       <p>
         Dieser Leitfaden erklärt genau, was ein Passwort schwach oder stark macht, wie Angreifer es knacken und wie Sie
         sich schützen können — mit kostenlosen Tools, die vollständig in Ihrem Browser laufen, ohne dass jemals Daten an
@@ -336,6 +339,7 @@ export default function Content() {
         irgendwo außerhalb Ihres eigenen Geräts gespeichert. Das ist das Versprechen von BrowseryTools — leistungsstarke
         Tools, die Ihre Privatsphäre wirklich respektieren.
       </p>
+      <ToolCTA slug="password-strength" variant="card" />
     </div>
   );
 }

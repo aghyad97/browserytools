@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         e as configurações erradas podem produzir um arquivo que ainda é grande demais, parece
         visivelmente degradado, ou ambos.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         Você pode comprimir qualquer arquivo de vídeo agora mesmo usando o{" "}
         <a href="/tools/compress-video">Compressor de Vídeo do BrowseryTools</a> — gratuito, sem
@@ -174,6 +177,7 @@ export default function Content() {
         e use o modo CRF para compressão orientada à qualidade em vez de perseguir uma meta de taxa de
         bits arbitrária.
       </div>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

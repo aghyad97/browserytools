@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         client est l'approche technique qui change cette équation : vos données sont chiffrées avant
         même de quitter votre appareil, de sorte que même le serveur qui les stocke ne peut pas les lire.
       </p>
+      <ToolCTA slug="text-encryption" variant="inline" />
       <p>
         Vous pouvez chiffrer et déchiffrer n'importe quel texte directement dans votre navigateur grâce
         à l'outil{" "}
@@ -149,6 +152,7 @@ export default function Content() {
         <li><strong>Pas de partage sans échange de clé</strong> — partager des données chiffrées avec quelqu'un d'autre nécessite de partager la clé de manière sécurisée, ce qui est un problème distinct</li>
         <li><strong>Pas de recherche ni d'indexation</strong> — les données chiffrées ne peuvent pas être cherchées, triées ou traitées sans être préalablement déchiffrées</li>
       </ul>
+      <ToolCTA slug="text-encryption" variant="card" />
     </div>
   );
 }

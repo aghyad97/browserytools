@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         kerjanya, regex yang dibuat dengan baik menjadi salah satu alat satu baris yang paling kuat
         dalam seluruh toolkit Anda.
       </p>
+      <ToolCTA slug="regex-tester" variant="inline" />
       <p>
         Panduan ini memotong kebisingan. Daripada mengkatalog setiap fitur regex, ini berfokus pada
         20% sintaks yang menangani 80% kasus penggunaan dunia nyata: karakter class, quantifier, anchor,
@@ -207,6 +210,7 @@ export default function Content() {
         terhadap string Anda sendiri, dan sintaksnya akan menjadi intuitif lebih cepat dari yang Anda
         harapkan.
       </p>
+      <ToolCTA slug="regex-tester" variant="card" />
     </div>
   );
 }

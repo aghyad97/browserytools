@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         هذا الدليل يشرح ما هو Base64، وكيف يعمل على مستوى البايتات، وأين يُستخدم في الأنظمة الحقيقية، ومتى
         يجب عليك اللجوء إليه ومتى لا.
       </p>
+      <ToolCTA slug="base64" variant="inline" />
       <p>
         يمكنك ترميز أي نص أو فك ترميز أي سلسلة Base64 فورًا باستخدام{" "}
         <a href="/tools/base64">أداة Base64 من BrowseryTools</a> — مجانية تمامًا، بدون تسجيل، ولا شيء يغادر
@@ -165,6 +168,7 @@ export default function Content() {
         في المرة القادمة التي تصادف فيها سلسلة نصية غريبة تبدو عشوائية في JWT أو طلب HTTP، جرّب فك
         ترميزها بـ<a href="/tools/base64">أداة Base64</a> — ستتفاجأ كم من المعلومات المخفية تظهر فجأة.
       </p>
+      <ToolCTA slug="base64" variant="card" />
     </div>
   );
 }

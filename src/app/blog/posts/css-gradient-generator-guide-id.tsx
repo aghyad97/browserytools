@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         tata letak yang rusak begitu seseorang mengubah warna merek. Sekarang, satu baris CSS menggantikan
         semua itu.
       </p>
+      <ToolCTA slug="css-gradient" variant="inline" />
       <p>
         Panduan ini mencakup semua yang perlu Anda ketahui tentang gradient CSS — tiga jenisnya, sistem
         sudut, kasus penggunaan dunia nyata dengan kode siap salin, kesalahan umum, dan cara menggunakan{" "}
@@ -351,6 +354,7 @@ background: repeating-linear-gradient(
           Buka Generator Gradient CSS →
         </a>
       </div>
+      <ToolCTA slug="css-gradient" variant="card" />
     </div>
   );
 }

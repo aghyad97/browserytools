@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         über einen Fehler aussagen, macht Sie beim Debuggen deutlich schneller und hilft beim Aufbau
         besserer Dienste.
       </p>
+      <ToolCTA slug="http-status" variant="inline" />
       <p>
         Jeden HTTP-Statuscode können Sie mit der{" "}
         <a href="/tools/http-status">BrowseryTools HTTP-Statuscode-Referenz</a> nachschlagen —
@@ -196,6 +199,7 @@ Authorization: Bearer <valid-regular-user-token>
           HTTP-Statuscode-Referenz öffnen →
         </a>
       </div>
+      <ToolCTA slug="http-status" variant="card" />
     </div>
   );
 }

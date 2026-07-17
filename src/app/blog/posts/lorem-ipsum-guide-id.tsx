@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         dari mana asalnya, mengapa tampilannya seperti itu, atau apakah itu benar-benar pilihan
         tepat untuk setiap situasi.
       </p>
+      <ToolCTA slug="lorem-ipsum" variant="inline" />
       <p>
         Kamu bisa menghasilkan teks Lorem Ipsum dalam jumlah berapa pun secara instan menggunakan{" "}
         <a href="/tools/lorem-ipsum">BrowseryTools Lorem Ipsum Generator</a> — gratis, tanpa daftar,
@@ -172,6 +175,7 @@ export default function Content() {
         <li><strong>Beralih ke konten nyata sebelum pengujian pengguna</strong> — pengujian apa pun yang melibatkan pemahaman, penyelesaian tugas, atau perilaku membaca memerlukan konten nyata</li>
         <li><strong>Hasilkan tepat panjang yang kamu butuhkan</strong> — Lorem Ipsum berukuran besar dalam komponen kecil menyembunyikan bug overflow dan pemotongan</li>
       </ul>
+      <ToolCTA slug="lorem-ipsum" variant="card" />
     </div>
   );
 }

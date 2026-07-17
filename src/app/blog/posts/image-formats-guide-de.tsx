@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         welches Format einsetzen und wie Sie eine fundierte Entscheidung für Ihren Anwendungsfall
         treffen.
       </p>
+      <ToolCTA slug="image-converter" variant="inline" />
       <p>
         Zwischen diesen Formaten können Sie mit dem{" "}
         <a href="/tools/image-converter">BrowseryTools Bildkonverter</a> konvertieren — kostenlos,
@@ -224,6 +227,7 @@ export default function Content() {
         Projekt von Grund auf mit einem modernen Stack aufbauen, liefern Sie AVIF mit WebP-Fallback
         und hören Sie auf, sich überhaupt noch Gedanken über JPEG zu machen.
       </div>
+      <ToolCTA slug="image-converter" variant="card" />
     </div>
   );
 }

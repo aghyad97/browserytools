@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         preguntarse nunca de dónde viene, por qué tiene ese aspecto ni si es realmente la opción correcta
         en todas las situaciones.
       </p>
+      <ToolCTA slug="lorem-ipsum" variant="inline" />
       <p>
         Puedes generar cualquier cantidad de texto Lorem Ipsum al instante con el{" "}
         <a href="/tools/lorem-ipsum">Generador de Lorem Ipsum de BrowseryTools</a> — gratuito, sin
@@ -173,6 +176,7 @@ export default function Content() {
         <li><strong>Cambia a contenido real antes de las pruebas de usuario</strong> — cualquier prueba que implique comprensión, finalización de tareas o comportamiento de lectura necesita contenido real</li>
         <li><strong>Genera exactamente la longitud que necesitas</strong> — Lorem Ipsum sobredimensionado en un componente pequeño enmascara errores de desbordamiento y truncamiento</li>
       </ul>
+      <ToolCTA slug="lorem-ipsum" variant="card" />
     </div>
   );
 }

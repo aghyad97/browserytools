@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         is nobody&apos;s idea of fun. That is exactly the problem a{" "}
         <a href="/tools/clip-path-generator">CSS clip-path generator</a> solves.
       </p>
+      <ToolCTA slug="clip-path-generator" variant="inline" />
       <p>
         This guide explains what <code>clip-path</code> does, walks through each shape function, shows
         real-world use cases with copy-ready code, and demonstrates how to build any shape visually with
@@ -192,6 +195,7 @@ clip-path: inset(10% 10% 10% 10% round 12%);`}</code></pre>
           Open CSS clip-path Generator →
         </a>
       </div>
+      <ToolCTA slug="clip-path-generator" variant="card" />
     </div>
   );
 }

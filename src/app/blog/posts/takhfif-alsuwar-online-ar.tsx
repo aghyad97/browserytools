@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         بطاقة. القصّ يساعد، لكن الشيء الحساس غالباً في وسط الصورة. ما تحتاجه فعلاً هو{" "}
         <strong>تمويه أو حجب الصورة</strong> — تشويشها أو تبكسلها أو طمسها بالكامل — دون تسليم الأصل لموقع.
       </p>
+      <ToolCTA slug="photo-censor" variant="inline" />
       <p>
         أداة <a href="/tools/photo-censor">حجب الصور من BrowseryTools</a> تفعل ذلك بالضبط، كلياً في متصفحك.
         ترسم فوق المناطق التي تريد إخفاءها، تختار التشويش أو التبكسل أو الحجب الصلب، وتصدّر نسخة نظيفة. لا شيء
@@ -100,6 +103,7 @@ export default function Content() {
         جهازك قط. ولإتمام المهمة، أزل بيانات الموقع باستخدام{" "}
         <a href="/tools/image-converter">أداة تحويل الصور</a>.
       </p>
+      <ToolCTA slug="photo-censor" variant="card" />
     </div>
   );
 }

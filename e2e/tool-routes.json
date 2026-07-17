@@ -280,6 +280,18 @@
     "href": "/tools/markdown-table"
   },
   {
+    "name": "Word Unscrambler",
+    "href": "/tools/word-unscrambler"
+  },
+  {
+    "name": "Wordle Solver",
+    "href": "/tools/wordle-solver"
+  },
+  {
+    "name": "Anagram Solver",
+    "href": "/tools/anagram-solver"
+  },
+  {
     "name": "JSON to CSV",
     "href": "/tools/json-csv"
   },
@@ -646,6 +658,22 @@
   {
     "name": "Periodic Table",
     "href": "/tools/periodic-table"
+  },
+  {
+    "name": "Wheel of Names",
+    "href": "/tools/wheel-of-names"
+  },
+  {
+    "name": "Random Group Maker",
+    "href": "/tools/group-maker"
+  },
+  {
+    "name": "Bingo Card Generator",
+    "href": "/tools/bingo-card-generator"
+  },
+  {
+    "name": "Classroom Timer",
+    "href": "/tools/classroom-timer"
   },
   {
     "name": "Invoice Generator",

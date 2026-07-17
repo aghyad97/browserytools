@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         O dinheiro sai das contas em silêncio e de forma invisível, e nada na vida financeira
         típica nos incentiva a prestar atenção.
       </p>
+      <ToolCTA slug="expense-tracker" variant="inline" />
       <p>
         A solução não é complicada, mas exige uma coisa: olhar de fato para os números. Este guia
         aborda por que a maioria das pessoas perde o controle dos gastos, os frameworks mais
@@ -204,6 +207,7 @@ export default function Content() {
           Abrir Expense Tracker →
         </a>
       </div>
+      <ToolCTA slug="expense-tracker" variant="card" />
     </div>
   );
 }

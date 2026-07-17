@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         логирует генерируемый SQL — единой конкатенированной строкой. Во всех этих случаях
         запрос технически корректен, но практически нечитаем.
       </p>
+      <ToolCTA slug="sql-formatter" variant="inline" />
       <p>
         Форматирование SQL — это не эстетика. Это способность понять, что делает запрос с
         первого взгляда: из каких таблиц он читает данные, по каким условиям фильтрует и
@@ -432,6 +435,7 @@ LIMIT 20;`}
           Открыть SQL-форматтер →
         </a>
       </div>
+      <ToolCTA slug="sql-formatter" variant="card" />
     </div>
   );
 }

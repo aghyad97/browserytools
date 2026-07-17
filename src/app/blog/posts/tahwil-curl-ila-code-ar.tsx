@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         و<code>-d</code> و<code>-u</code> و<code>-X</code> يجب أن يُربط بالوسيط الصحيح في لغتك، وترويسة واحدة
         مفقودة تكسر الطلب.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         أداة <a href="/tools/curl-converter">محوّل cURL من BrowseryTools</a> تفعل ذلك فوراً — الصق أمر cURL
         واحصل على كود نظيف بـ JavaScript <code>fetch</code> وPython <code>requests</code> وNode.js والمزيد،
@@ -117,6 +120,7 @@ requests.post(
         أدوات المطوّرين في المتصفح، اطّلع على{" "}
         <a href="/blog/adawat-almutawwirin-arabi">دليل أدوات المطوّرين</a>.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

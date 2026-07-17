@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         إعادة كتابته يدوياً بطيئة وعرضة للأخطاء. الحل هو <strong>التعرّف الضوئي على الحروف</strong> (OCR): برنامج
         ينظر إلى الصورة ويعيد بناء النص الموجود فيها.
       </p>
+      <ToolCTA slug="image-to-text" variant="inline" />
       <p>
         الخبر السار أنك لم تعد بحاجة إلى Adobe Acrobat أو برنامج ماسح ضوئي أو خدمة ويب مدفوعة لتفعل ذلك. يمكنك
         <strong> استخراج النص من أي صورة</strong> بالكامل داخل متصفحك، مجاناً، عبر{" "}
@@ -91,6 +94,7 @@ export default function Content() {
         <a href="/tools/image-to-text">أداة تحويل الصورة إلى نص (OCR) المجانية</a>، أفلِت صورتك، واحصل على نص
         قابل للتحرير خلال ثوانٍ — مع بقاء ملفاتك خاصة على جهازك أنت.
       </p>
+      <ToolCTA slug="image-to-text" variant="card" />
     </div>
   );
 }

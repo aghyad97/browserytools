@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ToolCTA } from "@/components/blog/ToolCTA";
 
 export default function Content() {
   return (
@@ -11,6 +12,7 @@ export default function Content() {
         инструментов требует установки, создания аккаунта и доверия стороннему приложению с доступом ко всему вашему
         экрану.
       </p>
+      <ToolCTA slug="screen-recorder" variant="inline" />
       <p>
         Вот чего большинство людей не осознают: ваш браузер уже умеет записывать экран.{" "}
         <strong>Screen Capture API</strong> (<code>getDisplayMedia</code>) — это стандарт W3C, который годами
@@ -365,6 +367,7 @@ ffmpeg -i recording.webm -c:v libx264 -c:a aac output.mp4`}</code></pre>
         <Link href="/tools/image-converter">Конвертер изображений</Link> ·{" "}
         <Link href="/">Все инструменты BrowseryTools</Link>
       </p>
+      <ToolCTA slug="screen-recorder" variant="card" />
     </div>
   );
 }

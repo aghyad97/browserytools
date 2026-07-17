@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -9,6 +11,7 @@ export default function Content() {
         <a href="/tools/favicon-generator">مولّد الفافيكون عبر الإنترنت</a>.
       </p>
 
+      <ToolCTA slug="favicon-generator" variant="inline" />
       <h2>لماذا لا تكفي أيقونة واحدة؟</h2>
       <p>
         في بدايات الويب كان يكفي وضع ملف <code>favicon.ico</code> واحد في المجلد الجذر للموقع. أما اليوم فإن
@@ -99,6 +102,7 @@ export default function Content() {
         <a href="/tools/image-converter">محوّل صيغ الصور</a>، و
         <a href="/tools/meta-tags">مولّد وسوم الميتا</a> — جميعها مجانية وخاصة وتعمل بالكامل داخل متصفحك.
       </p>
+      <ToolCTA slug="favicon-generator" variant="card" />
     </div>
   );
 }

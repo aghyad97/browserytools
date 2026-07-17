@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         <code>^[\w.-]+@[\w.-]+\.\w{"{2,}"}$</code> يبدو كطلاسم لمن لم يدرسها، لكن بمجرد أن تفهم
         المنطق وراءها، ستجد نفسك تستخدمها بشكل طبيعي في العمل اليومي.
       </p>
+      <ToolCTA slug="regex-tester" variant="inline" />
       <p>
         هذا الدليل مصمم للمبتدئين. سنبدأ من الصفر ونبني المفاهيم تدريجياً، مع أمثلة عملية يمكنك
         اختبارها فوراً في{" "}
@@ -167,6 +170,7 @@ emails = re.findall(r"[\\w.-]+@[\\w.-]+\\.[a-zA-Z]{2,}", text)`}
         النهج يسرع التعلم بشكل كبير — بدلاً من تشغيل سكريبت في Terminal مرات عديدة، تحصل على
         تغذية راجعة لحظية تساعدك على فهم سلوك النمط بدقة.
       </p>
+      <ToolCTA slug="regex-tester" variant="card" />
     </div>
   );
 }

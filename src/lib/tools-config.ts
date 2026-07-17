@@ -1,4 +1,5 @@
 import {
+  ShuffleIcon,
   BrainIcon,
   BookMinusIcon,
   FileDownIcon,
@@ -11,6 +12,7 @@ import {
   FilmIcon,
   FileTextIcon,
   Grid3X3Icon,
+  TicketIcon,
   PaintRollerIcon,
   DatabaseIcon,
   FileArchiveIcon,
@@ -97,6 +99,11 @@ import {
   RotateCwIcon,
   FileOutputIcon,
   ListOrderedIcon,
+  Disc3Icon,
+  UsersIcon,
+  Clock4Icon,
+  SquareStackIcon,
+  PuzzleIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -902,6 +909,36 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-03-05",
         description:
           "Build tables in a visual grid editor and export as valid Markdown table syntax. Control column alignment per column.",
+      },
+      {
+        name: "Word Unscrambler",
+        href: "/tools/word-unscrambler",
+        icon: ShuffleIcon,
+        available: true,
+        order: 19,
+        creationDate: "2026-07-17",
+        description:
+          "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length.",
+      },
+      {
+        name: "Wordle Solver",
+        href: "/tools/wordle-solver",
+        icon: SquareStackIcon,
+        available: true,
+        order: 20,
+        creationDate: "2026-07-17",
+        description:
+          "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word.",
+      },
+      {
+        name: "Anagram Solver",
+        href: "/tools/anagram-solver",
+        icon: PuzzleIcon,
+        available: true,
+        order: 21,
+        creationDate: "2026-07-17",
+        description:
+          "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length.",
       },
     ],
   },
@@ -1884,6 +1921,50 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-05-21",
         description:
           "Interactive periodic table of all 118 elements in the standard layout. Color-coded by category, searchable by name, symbol, or atomic number. Click any element for atomic mass, group, period, and electron configuration.",
+      },
+      {
+        name: "Wheel of Names",
+        href: "/tools/wheel-of-names",
+        icon: Disc3Icon,
+        available: true,
+        order: 2,
+        creationDate: "2026-07-17",
+        description:
+          "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked.",
+      },
+      {
+        name: "Random Group Maker",
+        href: "/tools/group-maker",
+        icon: UsersIcon,
+        available: true,
+        order: 3,
+        creationDate: "2026-07-17",
+        description:
+          "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams.",
+      },
+      {
+        name: "Bingo Card Generator",
+        href: "/tools/bingo-card-generator",
+        icon: TicketIcon,
+        available: true,
+        order: 4,
+        creationDate: "2026-07-17",
+        description:
+          "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student.",
+      },
+      // landingFor variant of Timer: a countdown preset for classroom use.
+      // inGrid because it's a distinct search intent (Task 9).
+      {
+        name: "Classroom Timer",
+        href: "/tools/classroom-timer",
+        icon: Clock4Icon,
+        available: true,
+        order: 5,
+        creationDate: "2026-07-17",
+        description:
+          "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track.",
+        landingFor: "timer",
+        inGrid: true,
       },
     ],
   },

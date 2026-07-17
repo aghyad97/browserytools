@@ -49,6 +49,10 @@ export const TOOL_POPULARITY: string[] = [
   "heic-to-jpg",
   "unit-converter",
   "text-counter",        // "word counter"
+  "wheel-of-names",      // "wheel of names" — strong search term
+  "word-unscrambler",    // "word unscrambler" — strong search term
+  "wordle-solver",       // "wordle solver" — strong search term
+  "anagram-solver",      // "anagram solver" — strong search term
   "json-formatter",
   "currency-converter",
   "translator",
@@ -70,6 +74,7 @@ export const TOOL_POPULARITY: string[] = [
   "color-palette",
   "css-gradient",
   "timer",
+  "classroom-timer",
   "pomodoro",
   "stopwatch",
   "regex-tester",
@@ -80,6 +85,8 @@ export const TOOL_POPULARITY: string[] = [
   "text-case",
   "text-diff",
   "keyboard-tester",
+  "group-maker",          // niche classroom/team-split query
+  "bingo-card-generator", // niche classroom/party query
 ];
 
 const RANK = new Map(TOOL_POPULARITY.map((slug, i) => [slug, i]));

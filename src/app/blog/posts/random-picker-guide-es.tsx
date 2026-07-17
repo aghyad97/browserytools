@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <a href="/tools/random-picker">selector aleatorio</a> en tu navegador resuelve todo eso en
         una sola pestaña.
       </p>
+      <ToolCTA slug="random-picker" variant="inline" />
       <p>
         El <strong>Selector Aleatorio</strong> de BrowseryTools agrupa cuatro sorteadores clásicos
         en una sola página: un <strong>generador de números aleatorios</strong>, un{" "}
@@ -101,6 +104,7 @@ export default function Content() {
         <a href="/tools/random-picker">Selector Aleatorio</a> lo tiene todo en un solo lugar —
         gratuito, privado e instantáneo. Sin instalaciones, sin cuentas, sin trampa.
       </p>
+      <ToolCTA slug="random-picker" variant="card" />
     </div>
   );
 }

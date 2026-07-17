@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         batasnya dalam praktik, dan cara bekerja di dalamnya dengan terampil adalah fondasi untuk
         membangun aplikasi bertenaga AI yang andal.
       </p>
+      <ToolCTA slug="context-window" variant="inline" />
       <p>
         Anda dapat menggunakan{" "}
         <a href="/tools/context-window">BrowseryTools Context Window tool</a> — gratis, tanpa
@@ -205,6 +208,7 @@ export default function Content() {
           Buka Context Window Tool →
         </a>
       </div>
+      <ToolCTA slug="context-window" variant="card" />
     </div>
   );
 }

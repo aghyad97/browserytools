@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         الحل بسيط ويغيّر كل شيء — امنح اللقطة بعض المساحة، وضعها على خلفية نظيفة، ودوّر زواياها، وأضِف ظلاً
         ناعماً، فتتحول فجأة إلى صورة منتج بدلاً من لقطة تنقيح.
       </p>
+      <ToolCTA slug="screenshot-beautifier" variant="inline" />
       <p>
         هذه هي بالضبط مهمة{" "}
         <a href="/tools/screenshot-beautifier">مُجمِّل لقطات الشاشة من أدواتك</a>. ترفع لقطة الشاشة، وتختار
@@ -123,6 +126,7 @@ export default function Content() {
         متصفحك، ويصدّر صورة PNG نظيفة في ثوانٍ. افتحه، أفلِت فيه لقطتك القادمة، وشاهد مستطيلاً عادياً يتحول إلى
         شيء يستحق المشاركة.
       </p>
+      <ToolCTA slug="screenshot-beautifier" variant="card" />
     </div>
   );
 }

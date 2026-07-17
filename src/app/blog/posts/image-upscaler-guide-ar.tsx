@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         يحل مكبّر الصور بالذكاء الاصطناعي هذه المشكلة عبر إعادة بناء التفاصيل بدلاً من مجرد مطّ البكسلات،
         فتستطيع <strong>رفع دقة الصورة</strong> مع الحفاظ على وضوح الحواف ونظافة الأنسجة.
       </p>
+      <ToolCTA slug="image-upscaler" variant="inline" />
       <p>
         يمكنك{" "}
         <a href="/tools/image-upscaler">تكبير صورة عبر الإنترنت مجاناً</a> باستخدام مكبّر الصور من
@@ -85,6 +88,7 @@ export default function Content() {
         <a href="/tools/image-upscaler">كبّر صورتك عبر الإنترنت مجاناً</a> وشاهد الفرق الذي تصنعه الدقة
         الفائقة بالذكاء الاصطناعي.
       </p>
+      <ToolCTA slug="image-upscaler" variant="card" />
     </div>
   );
 }

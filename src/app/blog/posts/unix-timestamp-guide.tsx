@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         it comes from, and how to handle its common pitfalls will save you from a class of bugs
         that are subtle, hard to reproduce, and occasionally embarrassing in production.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="inline" />
       <p>
         You can convert any Unix timestamp to a human-readable date (and back) using the{" "}
         <a href="/tools/unix-timestamp">BrowseryTools Unix Timestamp Converter</a> — free,
@@ -205,6 +208,7 @@ new Intl.DateTimeFormat("en-US", {
         after 1970. Handle the milliseconds/seconds distinction explicitly, use UTC for storage
         and transmission, and convert to local time only at the display layer.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="card" />
     </div>
   );
 }

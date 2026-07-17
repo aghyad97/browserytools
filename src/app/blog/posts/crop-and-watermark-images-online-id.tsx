@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         melindungi karyamu dan memberi merek pada tangkapan layarmu. Kamu tidak perlu Photoshop atau
         langganan untuk keduanya — dan kamu pasti tidak boleh mengunggah gambar ke server orang asing.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         <a href="/tools/image-resizer">BrowseryTools image resizer</a> menangani pemotongan,
         pengubahan ukuran, dan pemberian watermark sepenuhnya di browsermu. Tanpa unggahan, tanpa
@@ -136,6 +139,7 @@ export default function Content() {
         ukuran file akhir baca{" "}
         <a href="/blog/free-image-tools-guide">panduan alat gambar gratis</a> kami.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

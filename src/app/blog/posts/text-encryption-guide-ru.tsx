@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         подход, меняющий это уравнение: ваши данные шифруются до того, как покинут ваше устройство,
         поэтому даже сервер, хранящий их, не может их прочитать.
       </p>
+      <ToolCTA slug="text-encryption" variant="inline" />
       <p>
         Вы можете шифровать и расшифровывать любой текст непосредственно в браузере с помощью{" "}
         <a href="/tools/text-encryption">инструмента шифрования текста BrowseryTools</a> — бесплатно,
@@ -184,6 +187,7 @@ export default function Content() {
         <li><strong>Нет обмена без обмена ключами</strong> — передача зашифрованных данных другому человеку требует безопасной передачи ключа — это отдельная проблема</li>
         <li><strong>Нет поиска или индексирования</strong> — зашифрованные данные нельзя искать, сортировать или обрабатывать без предварительной расшифровки</li>
       </ul>
+      <ToolCTA slug="text-encryption" variant="card" />
     </div>
   );
 }

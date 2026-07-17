@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -12,6 +14,7 @@ export default function Content() {
         secara instan dan privat di browser.
       </p>
 
+      <ToolCTA slug="bmi-calculator" variant="inline" />
       <h2>Apa Itu BMI?</h2>
       <p>
         BMI adalah rasio sederhana antara berat badan dan tinggi badan kuadrat. Indeks ini dirancang pada
@@ -336,6 +339,7 @@ Upper bound = 24.9 × 3.0625 = 76.3 kg`}
           Buka Kalkulator BMI →
         </a>
       </div>
+      <ToolCTA slug="bmi-calculator" variant="card" />
     </div>
   );
 }

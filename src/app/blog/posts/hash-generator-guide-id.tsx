@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         MD5, SHA-1, SHA-256, dan SHA-512 banyak disalahpahami, yang menyebabkan kesalahan keamanan nyata
         dalam sistem produksi.
       </p>
+      <ToolCTA slug="hash-generator" variant="inline" />
       <p>
         Panduan ini menjelaskan apa itu fungsi hash, cara kerja setiap algoritma utama, kapan masing-masing
         sesuai (dan kapan berbahaya untuk digunakan), dan cara menggunakan{" "}
@@ -347,6 +350,7 @@ export default function Content() {
           Buka Generator Hash →
         </a>
       </div>
+      <ToolCTA slug="hash-generator" variant="card" />
     </div>
   );
 }

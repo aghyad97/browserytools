@@ -8,7 +8,7 @@ import { downloadDataUrl } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { SliderRow } from "@/components/shared/SliderRow";
-import { Upload, Undo, Redo } from "lucide-react";
+import { Upload, Undo, Redo, Image as ImageIcon, RefreshCw } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 interface Adjustment {
@@ -41,18 +41,24 @@ export default function ColorCorrection() {
   const tc = useTranslations("ToolsConfig");
 
   const [image, setImage] = useState<string | null>(null);
+  const [fileName, setFileName] = useState<string | null>(null);
   const [adjustments, setAdjustments] =
     useState<Adjustment>(defaultAdjustments);
   const [history, setHistory] = useState<Adjustment[]>([defaultAdjustments]);
   const [historyIndex, setHistoryIndex] = useState(0);
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
+        // Swapping the file must also clear every adjustment derived from the
+        // previous image — otherwise the new photo loads under old
+        // brightness/contrast/etc. sliders and a stale undo history.
         setImage(reader.result as string);
+        setFileName(file.name);
         setAdjustments(defaultAdjustments);
         setHistory([defaultAdjustments]);
         setHistoryIndex(0);
@@ -187,7 +193,23 @@ export default function ColorCorrection() {
       }}
     >
       <div className="flex gap-6">
-        <div className="flex-1 min-w-0">
+        <div className="flex-1 min-w-0 space-y-4">
+          {image && (
+            <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
+              <ImageIcon className="w-8 h-8 text-primary shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="font-medium truncate">{fileName}</p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <RefreshCw className="w-4 h-4 me-1" />
+                {t("change")}
+              </Button>
+            </div>
+          )}
           <Card className="h-[28rem]">
             {!image ? (
               <FileDropzone
@@ -228,6 +250,17 @@ export default function ColorCorrection() {
               </div>
             )}
           </Card>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) onDrop([file]);
+              e.target.value = "";
+            }}
+          />
         </div>
 
         <Card className="w-80 p-4 overflow-y-auto max-h-[28rem]">
@@ -236,6 +269,7 @@ export default function ColorCorrection() {
               variant="outline"
               onClick={handleUndo}
               disabled={historyIndex === 0}
+              data-testid="cc-undo"
             >
               <Undo className="w-4 h-4" />
             </Button>
@@ -243,6 +277,7 @@ export default function ColorCorrection() {
               variant="outline"
               onClick={handleRedo}
               disabled={historyIndex === history.length - 1}
+              data-testid="cc-redo"
             >
               <Redo className="w-4 h-4" />
             </Button>

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         JSON deeply — not just how to parse it, but how to read it, validate it, and troubleshoot
         it — is one of the highest-leverage skills a developer can have.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         This guide covers everything from JSON syntax fundamentals to debugging common parse errors,
         formatting strategies, and working with deeply nested structures. Paste any JSON into the{" "}
@@ -198,6 +201,7 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">BrowseryTools JSON Formatter</a> and the error will be
         immediately visible with the exact position highlighted.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

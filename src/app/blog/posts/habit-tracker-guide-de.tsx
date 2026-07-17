@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Gebiete der Verhaltenspsychologie, mit Jahrzehnten von Studien, die auf konkrete, zuverlässige
         Techniken hinweisen, die für die meisten Menschen funktionieren.
       </p>
+      <ToolCTA slug="habit-tracker" variant="inline" />
       <p>
         Dieser Leitfaden behandelt die Wissenschaft hinter der Entstehung und Verfestigung von
         Gewohnheiten, die psychologischen Mechanismen von Serien, die besten Rahmenwerke zum
@@ -418,6 +421,7 @@ export default function Content() {
           Gewohnheits-Tracker öffnen →
         </a>
       </div>
+      <ToolCTA slug="habit-tracker" variant="card" />
     </div>
   );
 }

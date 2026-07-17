@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         yang tepat dan dapat ditindaklanjuti. Jika Anda pernah merasa alat AI tidak memenuhi potensinya,
         format prompt Anda adalah hal pertama yang layak diperiksa.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="inline" />
       <p>
         Anda dapat menggunakan{" "}
         <a href="/tools/prompt-formatter">BrowseryTools Prompt Formatter</a> — gratis, tanpa pendaftaran,
@@ -207,6 +210,7 @@ Baris subjek + isi email, di bawah 150 kata`}
         Prompt terbaik bukan yang paling rumit — melainkan yang paling sedikit meninggalkan pertanyaan
         yang tidak terjawab sebelum pembuatan dimulai.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="card" />
     </div>
   );
 }

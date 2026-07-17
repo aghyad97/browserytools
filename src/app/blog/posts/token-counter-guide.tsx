@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         the count matters is one of the most practically useful things you can learn before building
         anything serious on top of an LLM.
       </p>
+      <ToolCTA slug="token-counter" variant="inline" />
       <p>
         You can use the{" "}
         <a href="/tools/token-counter">BrowseryTools Token Counter</a> — free, no sign-up, everything
@@ -200,6 +203,7 @@ export default function Content() {
           Open Token Counter →
         </a>
       </div>
+      <ToolCTA slug="token-counter" variant="card" />
     </div>
   );
 }

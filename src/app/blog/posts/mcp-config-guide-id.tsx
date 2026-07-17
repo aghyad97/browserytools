@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Anda dukung. Hasilnya adalah ekosistem yang terfragmentasi di mana setiap aplikasi AI
         menciptakan ulang pipa yang sama dari awal.
       </p>
+      <ToolCTA slug="mcp-config" variant="inline" />
       <p>
         Model Context Protocol (MCP) adalah jawaban Anthropic atas masalah ini: standar terbuka yang
         memberi model AI antarmuka tunggal yang konsisten ke alat, file, database, dan layanan. Anda
@@ -211,6 +214,7 @@ claude mcp list`}
         ada, Anda mendapatkan asisten AI yang jauh lebih capable tanpa mengubah cara Anda berinteraksi
         dengannya — alatnya sudah ada, siap digunakan.
       </p>
+      <ToolCTA slug="mcp-config" variant="card" />
     </div>
   );
 }

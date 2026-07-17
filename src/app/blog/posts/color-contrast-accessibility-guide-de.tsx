@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -15,6 +17,7 @@ export default function Content() {
         Farbpaar sofort im Browser zu überprüfen.
       </p>
 
+      <ToolCTA slug="contrast-checker" variant="inline" />
       <h2>Warum Kontrast wichtig ist</h2>
       <p>
         Die betroffene Bevölkerungsgruppe ist größer, als die meisten Designer annehmen. Laut der
@@ -442,6 +445,7 @@ L = 0.2126 × R_linear + 0.7152 × G_linear + 0.0722 × B_linear`}
           Farbkontrast-Prüfer öffnen →
         </a>
       </div>
+      <ToolCTA slug="contrast-checker" variant="card" />
     </div>
   );
 }

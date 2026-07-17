@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         yang tidak tahu betapa spesifiknya. Panduan ini menjelaskan apa yang direkam data EXIF,
         apa implikasi privasinya, dan cara melihat atau menghapusnya.
       </p>
+      <ToolCTA slug="exif-viewer" variant="inline" />
       <p>
         Kamu bisa memeriksa metadata EXIF di foto apa pun menggunakan{" "}
         <a href="/tools/exif-viewer">BrowseryTools EXIF Viewer</a> — gratis, tanpa daftar, dan
@@ -250,6 +253,7 @@ export default function Content() {
         menghapusnya, daripada default membiarkannya dan berharap penerima atau platform akan
         menanganinya.
       </p>
+      <ToolCTA slug="exif-viewer" variant="card" />
     </div>
   );
 }

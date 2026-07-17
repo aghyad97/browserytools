@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         expectativa de que un código QR "simplemente funcione" es tan normal como esperar que un número de teléfono se
         pueda marcar.
       </p>
+      <ToolCTA slug="qr-generator" variant="inline" />
       <p>
         Sin embargo, para la mayoría de la gente, generar un código QR sigue implicando encontrar un sitio web, lidiar
         con anuncios o muros de pago, preguntarse si el servicio almacena el código o la URL que codifica y, a menudo,
@@ -208,6 +211,7 @@ export default function Content() {
         Sin cuenta, sin suscripción, sin seguimiento, sin marcas de agua. Abre la herramienta, codifica tu contenido y
         descarga tu código. Está listo para usarse en el momento en que llegas a la página.
       </p>
+      <ToolCTA slug="qr-generator" variant="card" />
     </div>
   );
 }

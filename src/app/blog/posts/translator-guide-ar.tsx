@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         ترجمة بالذكاء الاصطناعي مباشرة داخل متصفحك، حتى تترجم النص في المتصفح دون رفع أي شيء على الإطلاق.
       </p>
 
+      <ToolCTA slug="translator" variant="inline" />
       <h2>ما الذي تعنيه «الترجمة على الجهاز» فعلاً</h2>
       <p>
         معظم خدمات الترجمة تعمل على السحابة. تكتب، فينتقل النص عبر الإنترنت إلى مركز بيانات، حيث ينتج نموذج هناك
@@ -73,6 +76,7 @@ export default function Content() {
         افتح <a href="/tools/translator">المترجم المجاني الذي يعمل دون اتصال</a>، اختر لغتيك، وترجم جملتك الأولى. إنها
         أداة ترجمة مجانية وخاصة تعيش بالكامل داخل متصفحك — بلا غوغل، بلا DeepL، وبلا رفع.
       </p>
+      <ToolCTA slug="translator" variant="card" />
     </div>
   );
 }

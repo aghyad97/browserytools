@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         generierte SQL – als einzelnen verketteten String. In all diesen Fällen ist die
         rohe Abfrage technisch korrekt, aber praktisch unleserlich.
       </p>
+      <ToolCTA slug="sql-formatter" variant="inline" />
       <p>
         SQL zu formatieren geht nicht um Ästhetik. Es geht darum, auf einen Blick zu
         verstehen, was eine Abfrage tut – aus welchen Tabellen sie liest, nach welchen
@@ -441,6 +444,7 @@ LIMIT 20;`}
           SQL-Formatierer öffnen →
         </a>
       </div>
+      <ToolCTA slug="sql-formatter" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         أن يتحوّل إلى فوضى، ويفضّل أن يكون ذلك دون تثبيت برامج على جهازك ودون تسليم مستند حسّاس لموقع
         مجهول.
       </p>
+      <ToolCTA slug="compress-pdf" variant="inline" />
       <p>
         يمكنك إنجاز ذلك في متصفحك خلال ثوانٍ. أداة <a href="/tools/compress-pdf">ضغط PDF</a> تصغّر الملف
         محلياً، وتعرض لك الحجم قبل وبعد بدقة، وتتيح لك تنزيل النتيجة — دون رفع أي شيء لأي خادم أبداً.
@@ -106,6 +109,7 @@ export default function Content() {
         بالمتوازنة)، ونزّل النسخة الأصغر بمجرد أن تراها تتجاوز حدّك. احتفظ بالأصل إن كنت ستحتاج نصاً قابلاً
         للتحديد يوماً ما — وفي كل الأحوال، المستند لا يغادر جهازك.
       </p>
+      <ToolCTA slug="compress-pdf" variant="card" />
     </div>
   );
 }

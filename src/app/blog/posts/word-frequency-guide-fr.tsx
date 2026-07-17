@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         visibles, et elle s'avère utile dans un éventail de domaines étonnamment large : le travail
         d'écriture, le SEO, la recherche académique et même la criminalistique.
       </p>
+      <ToolCTA slug="word-frequency" variant="inline" />
       <p>
         Vous pouvez analyser la fréquence des mots de n'importe quel texte instantanément grâce à l'outil{" "}
         <a href="/tools/word-frequency">Analyseur de fréquence des mots BrowseryTools</a> — gratuit,
@@ -162,6 +165,7 @@ IDF = log(total documents / documents containing term)`}
         <li><strong>Pour la recherche</strong> — exportez les données de fréquence dans un tableur et triez par fréquence pour trouver à la fois les termes les plus communs (les thèmes centraux du document) et les termes uniques les moins fréquents (le vocabulaire distinctif du document)</li>
         <li><strong>Pour l'édition</strong> — accordez une attention particulière au langage de couverture (« quelque peu », « plutôt », « assez », « tout à fait ») et aux intensificateurs vides (« très », « vraiment », « extrêmement ») — une forte fréquence de ceux-ci est un signal fiable que la prose a besoin d'être resserrée</li>
       </ul>
+      <ToolCTA slug="word-frequency" variant="card" />
     </div>
   );
 }

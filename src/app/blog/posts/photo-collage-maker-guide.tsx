@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         bury the feature behind a sign-up wall, stamp a watermark across your work, upload your private
         photos to a server you do not control, or push a paid subscription before you can download anything.
       </p>
+      <ToolCTA slug="photo-collage" variant="inline" />
       <p>
         The <a href="/tools/photo-collage">BrowseryTools Photo Collage maker</a> takes the opposite
         approach. It is a <strong>free online photo collage maker</strong> that runs entirely in your
@@ -104,6 +107,7 @@ export default function Content() {
         <a href="/tools/photo-collage">free Photo Collage maker</a> and build your first collage in the
         browser — no install, no sign-up, no watermark.
       </p>
+      <ToolCTA slug="photo-collage" variant="card" />
     </div>
   );
 }

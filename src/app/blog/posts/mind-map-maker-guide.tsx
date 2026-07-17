@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <a href="/tools/mind-map">free online mind map maker</a> that runs entirely in your browser, you can go
         from a single central idea to a full diagram in a couple of minutes.
       </p>
+      <ToolCTA slug="mind-map" variant="inline" />
 
       <h2>What Is a Mind Map, and Why Does It Work?</h2>
       <p>
@@ -119,6 +122,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">Markdown Editor</a> for turning your outline into a finished document.
         All free, all in your browser, no sign-up required.
       </p>
+      <ToolCTA slug="mind-map" variant="card" />
     </div>
   );
 }

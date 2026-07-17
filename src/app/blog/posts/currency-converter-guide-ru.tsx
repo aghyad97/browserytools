@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         работает обмен валюты, сэкономит деньги при каждой поездке, международном переводе
         или получении оплаты в иностранной валюте.
       </p>
+      <ToolCTA slug="currency-converter" variant="inline" />
       <p>
         Вы можете воспользоваться{" "}
         <a href="/tools/currency-converter">конвертером валют BrowseryTools</a> — бесплатно,
@@ -173,6 +176,7 @@ export default function Content() {
           Открыть конвертер валют →
         </a>
       </div>
+      <ToolCTA slug="currency-converter" variant="card" />
     </div>
   );
 }

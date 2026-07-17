@@ -6,15 +6,10 @@ import { toast } from "sonner";
 import { RotateCw, RotateCcw, Upload, File as FileIcon } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FileDropzone } from "@/components/shared/FileDropzone";
-import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { ActiveFileBar } from "@/components/pdf-workbench/ActiveFileBar";
+import { useActiveFileIndex } from "@/components/pdf-workbench/useActiveFileIndex";
 import { downloadBlob } from "@/lib/download";
 import { rotatePdf } from "@/lib/pdf/rotate";
 import { openPdf } from "@/lib/pdf/pdfjs-doc";
@@ -46,7 +41,7 @@ interface RotatePanelProps {
 export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
   const t = useTranslations("Tools.PDFTools");
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useActiveFileIndex(files);
   // User-applied delta (0/90/180/270) per 0-based page index, on top of the
   // page's baseline /Rotate.
   const [deltas, setDeltas] = useState<Record<number, number>>({});
@@ -59,10 +54,6 @@ export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
   // so same-named files at different slots never collide. Persists across switches.
   const cacheRef = useRef<Record<string, string>>({});
   const [, forceTick] = useState(0);
-
-  useEffect(() => {
-    if (selectedIndex > files.length - 1) setSelectedIndex(0);
-  }, [files.length, selectedIndex]);
 
   const active = files[selectedIndex] ?? null;
 
@@ -205,107 +196,95 @@ export function RotatePanel({ files, onDropPdf }: RotatePanelProps) {
   }
 
   return (
-    <SettingsCard>
-      {files.length > 1 && (
-        <OptionRow label={t("selectedFile")} htmlFor="pdf-rotate-file">
-          <Select
-            value={String(selectedIndex)}
-            onValueChange={(v) => setSelectedIndex(Number(v))}
-          >
-            <SelectTrigger id="pdf-rotate-file" aria-label={t("selectedFile")}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {files.map((file, index) => (
-                <SelectItem key={file.name + index} value={String(index)}>
-                  {file.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </OptionRow>
-      )}
-
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <p className="text-sm text-muted-foreground">{t("rotateHint")}</p>
-        <div className="flex items-center gap-2">
-          <Button
-            variant="outline"
-            size="sm"
-            aria-label={t("rotateAllCcw")}
-            onClick={() => rotateAll(-90)}
-          >
-            <RotateCcw className="w-4 h-4 me-2" />
-            {t("rotateAllCcw")}
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            aria-label={t("rotateAllCw")}
-            onClick={() => rotateAll(90)}
-          >
-            <RotateCw className="w-4 h-4 me-2" />
-            {t("rotateAllCw")}
-          </Button>
-        </div>
-      </div>
-
-      {rendering && (
-        <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
-          {t("renderingPages")}
-        </p>
-      )}
-
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-        {Array.from({ length: pageCount }, (_, i) => {
-          const delta = deltas[i] ?? 0;
-          const src = cacheRef.current[thumbKey(i)];
-          return (
-            <button
-              key={i}
-              type="button"
-              data-testid={`rotate-thumb-${i}`}
-              aria-label={t("rotatePage", { number: i + 1 })}
-              onClick={() => bump(i, 90)}
-              className="group relative flex aspect-[3/4] items-center justify-center overflow-hidden rounded-md border bg-muted/40 p-2 transition-colors hover:border-primary"
+    <div className="space-y-6">
+      <ActiveFileBar
+        files={files}
+        selectedIndex={selectedIndex}
+        onSelect={setSelectedIndex}
+        onDropPdf={onDropPdf}
+      />
+      <SettingsCard>
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-sm text-muted-foreground">{t("rotateHint")}</p>
+          <div className="flex items-center gap-2">
+            <Button
+              variant="outline"
+              size="sm"
+              aria-label={t("rotateAllCcw")}
+              onClick={() => rotateAll(-90)}
             >
-              {src ? (
-                <img
-                  src={src}
-                  alt=""
-                  className="max-h-full max-w-full object-contain transition-transform"
-                  style={{ transform: `rotate(${delta}deg)` }}
-                />
-              ) : (
-                <FileIcon className="w-6 h-6 text-muted-foreground" aria-hidden />
-              )}
-              {delta !== 0 && (
+              <RotateCcw className="w-4 h-4 me-2" />
+              {t("rotateAllCcw")}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              aria-label={t("rotateAllCw")}
+              onClick={() => rotateAll(90)}
+            >
+              <RotateCw className="w-4 h-4 me-2" />
+              {t("rotateAllCw")}
+            </Button>
+          </div>
+        </div>
+
+        {rendering && (
+          <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
+            {t("renderingPages")}
+          </p>
+        )}
+
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+          {Array.from({ length: pageCount }, (_, i) => {
+            const delta = deltas[i] ?? 0;
+            const src = cacheRef.current[thumbKey(i)];
+            return (
+              <button
+                key={i}
+                type="button"
+                data-testid={`rotate-thumb-${i}`}
+                aria-label={t("rotatePage", { number: i + 1 })}
+                onClick={() => bump(i, 90)}
+                className="group relative flex aspect-[3/4] items-center justify-center overflow-hidden rounded-md border bg-muted/40 p-2 transition-colors hover:border-primary"
+              >
+                {src ? (
+                  <img
+                    src={src}
+                    alt=""
+                    className="max-h-full max-w-full object-contain transition-transform"
+                    style={{ transform: `rotate(${delta}deg)` }}
+                  />
+                ) : (
+                  <FileIcon className="w-6 h-6 text-muted-foreground" aria-hidden />
+                )}
+                {delta !== 0 && (
+                  <span
+                    dir="ltr"
+                    className="absolute end-1 top-1 rounded bg-primary px-1.5 py-0.5 text-xs font-medium text-primary-foreground"
+                  >
+                    {t("rotatedBadge", { degrees: delta })}
+                  </span>
+                )}
                 <span
                   dir="ltr"
-                  className="absolute end-1 top-1 rounded bg-primary px-1.5 py-0.5 text-xs font-medium text-primary-foreground"
+                  className="absolute bottom-1 start-1 rounded bg-background/80 px-1.5 py-0.5 text-xs text-muted-foreground"
                 >
-                  {t("rotatedBadge", { degrees: delta })}
+                  {i + 1}
                 </span>
-              )}
-              <span
-                dir="ltr"
-                className="absolute bottom-1 start-1 rounded bg-background/80 px-1.5 py-0.5 text-xs text-muted-foreground"
-              >
-                {i + 1}
-              </span>
-            </button>
-          );
-        })}
-      </div>
+              </button>
+            );
+          })}
+        </div>
 
-      <Button
-        className="w-full"
-        onClick={handleApply}
-        disabled={busy || rendering || Object.keys(changed).length === 0}
-      >
-        <RotateCw className="w-4 h-4 me-2" />
-        {busy ? t("rotating") : t("applyRotate")}
-      </Button>
-    </SettingsCard>
+        <Button
+          className="w-full"
+          onClick={handleApply}
+          disabled={busy || rendering || Object.keys(changed).length === 0}
+        >
+          <RotateCw className="w-4 h-4 me-2" />
+          {busy ? t("rotating") : t("applyRotate")}
+        </Button>
+      </SettingsCard>
+    </div>
   );
 }

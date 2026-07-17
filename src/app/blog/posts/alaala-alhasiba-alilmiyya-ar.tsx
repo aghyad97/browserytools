@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         تريده فعلاً هو <strong>آلة حاسبة علمية أونلاين</strong> — مثلثات ولوغاريتمات وأُسّات وثوابت كاملة —
         تُفتح فوراً في تبويب متصفح وتعمل على أي جهاز.
       </p>
+      <ToolCTA slug="calculator" variant="inline" />
       <p>
         تمنحك <a href="/tools/calculator">الآلة الحاسبة العلمية من BrowseryTools</a> ذلك بالضبط: حاسبة مجانية
         في المتصفح بالدوال المتقدّمة التي تحتاجها، بدون تثبيت وبدون تسجيل. يغطّي هذا الدليل ما تفعله الآلة
@@ -100,6 +103,7 @@ export default function Content() {
         قروض</a> — وإن احتجت يوماً فكّ رقم روماني، فإن{" "}
         <a href="/blog/alarqam-alrumaniyya-ar">دليل الأرقام الرومانية</a> يغطّيك.
       </p>
+      <ToolCTA slug="calculator" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         bunga yang akan dibayar, apa yang terjadi jika mereka membuat pembayaran ekstra — tetap
         tidak jelas.
       </p>
+      <ToolCTA slug="loan-calculator" variant="inline" />
       <p>
         Panduan ini menjelaskan mekanisme pelunasan pinjaman dengan jelas, termasuk matematika
         sebenarnya di balik cicilan bulanan, apa arti amortisasi dan mengapa itu penting, perbedaan
@@ -217,6 +220,7 @@ export default function Content() {
           Buka Kalkulator Pinjaman →
         </a>
       </div>
+      <ToolCTA slug="loan-calculator" variant="card" />
     </div>
   );
 }

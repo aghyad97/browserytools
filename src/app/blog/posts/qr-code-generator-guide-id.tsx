@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         pada lencana konferensi untuk terhubung di LinkedIn. Pada tahun 2026, ekspektasi bahwa kode QR akan
         "berfungsi begitu saja" sudah sama normalnya dengan mengharapkan nomor telepon bisa dihubungi.
       </p>
+      <ToolCTA slug="qr-generator" variant="inline" />
       <p>
         Namun bagi sebagian besar orang, membuat kode QR masih melibatkan pencarian situs web, berurusan
         dengan iklan atau paywall, bertanya-tanya apakah layanan menyimpan kode atau URL yang dikodekannya,
@@ -209,6 +212,7 @@ export default function Content() {
         Tanpa akun, tanpa langganan, tanpa pelacakan, tanpa watermark. Buka alatnya, kodekan konten
         Anda, dan unduh kode Anda. Siap digunakan begitu Anda membuka halaman.
       </p>
+      <ToolCTA slug="qr-generator" variant="card" />
     </div>
   );
 }

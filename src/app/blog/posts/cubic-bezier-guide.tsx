@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         <a href="/tools/cubic-bezier">cubic bezier generator</a> — a CSS easing editor that lets you drag two
         control handles and watch the curve update in real time.
       </p>
+      <ToolCTA slug="cubic-bezier" variant="inline" />
 
       <h2>What Is a Cubic Bezier Curve?</h2>
       <p>
@@ -97,6 +100,7 @@ export default function Content() {
         <a href="/tools/cubic-bezier">Cubic-Bezier Easing Editor</a> the next time a transition feels off —
         a five-second tweak to the curve often does more than any change to duration or distance.
       </p>
+      <ToolCTA slug="cubic-bezier" variant="card" />
     </div>
   );
 }

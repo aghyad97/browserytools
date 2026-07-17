@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>إزالة المعلومات الشخصية من النص</strong> و
         <strong>إخفاء هوية النص عبر الإنترنت</strong> — في ثوانٍ ودون رفع أي شيء.
       </p>
+      <ToolCTA slug="pii-redactor" variant="inline" />
       <p>
         يمكنك فعل ذلك الآن عبر{" "}
         <a href="/tools/pii-redactor">كاشف وحاجب المعلومات الشخصية من BrowseryTools</a>. الصق نصّك،
@@ -106,6 +109,7 @@ export default function Content() {
       <p>
         هذه هي العملية كاملةً: الصق، اكشف، احجب، انسخ. مجاناً وبخصوصية تامة وداخل متصفحك بالكامل.
       </p>
+      <ToolCTA slug="pii-redactor" variant="card" />
     </div>
   );
 }

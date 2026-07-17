@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         (comumente chamada de URL encoding) é o mecanismo que torna dados arbitrários seguros para
         embutir em uma URL.
       </p>
+      <ToolCTA slug="url-encoder" variant="inline" />
       <p>
         Você pode codificar e decodificar URLs instantaneamente com o{" "}
         <a href="/tools/url-encoder">Codificador/Decodificador de URL do BrowseryTools</a> — gratuito,
@@ -195,6 +198,7 @@ new URLSearchParams({ q: "rock & roll" }).toString()
           Abrir Codificador de URL →
         </a>
       </div>
+      <ToolCTA slug="url-encoder" variant="card" />
     </div>
   );
 }

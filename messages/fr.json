@@ -315,6 +315,18 @@
         "name": "Fréquence des mots",
         "description": "Analysez la fréquence des mots dans un texte."
       },
+      "word-unscrambler": {
+        "name": "Démêleur de mots",
+        "description": "Démêlez des lettres pour former des mots valides. Filtrez par longueur minimale ou par lettre imposée, et parcourez les résultats groupés par longueur de mot."
+      },
+      "wordle-solver": {
+        "name": "Solveur Wordle",
+        "description": "Résolvez vos grilles Wordle en un clin d'œil. Marquez chaque case en gris, jaune ou vert et découvrez instantanément tous les mots possibles."
+      },
+      "anagram-solver": {
+        "name": "Solveur d'anagrammes",
+        "description": "Trouvez tous les anagrammes d'un ensemble de lettres. Incluez en option les sous-anagrammes plus courts, groupés par longueur de mot."
+      },
       "notepad": {
         "name": "Bloc-notes",
         "description": "Un simple bloc-notes dans le navigateur qui enregistre votre texte automatiquement."
@@ -762,6 +774,22 @@
       "gif-maker": {
         "name": "Créateur de GIF",
         "description": "Transformez une série d'images en GIF animé. Réorganisez les images, réglez la vitesse, bouclez et redimensionnez."
+      },
+      "wheel-of-names": {
+        "name": "Roue des noms",
+        "description": "Faites tourner une roue personnalisable pour tirer au sort un gagnant dans une liste de noms. Collez un nom par ligne, mélangez l'ordre et retirez chaque gagnant après son tirage si vous le souhaitez."
+      },
+      "group-maker": {
+        "name": "Créateur de groupes aléatoires",
+        "description": "Répartissez une liste de noms en groupes aléatoires. Choisissez un nombre de groupes ou une taille de groupe cible, et obtenez une grille prête à imprimer avec des équipes équilibrées."
+      },
+      "bingo-card-generator": {
+        "name": "Générateur de cartes de bingo",
+        "description": "Générez des cartes de bingo classiques B-I-N-G-O ou des cartes personnalisées à partir d'une liste de mots, imprimez-en autant que votre classe en a besoin et distribuez une grille unique à chaque élève."
+      },
+      "classroom-timer": {
+        "name": "Minuteur de classe",
+        "description": "Un compte à rebours plein écran conçu pour la salle de classe : réglez les minutes, lancez le décompte et gardez toute la classe dans le rythme."
       }
     },
     "categoriesShort": {
@@ -862,7 +890,8 @@
       "targetReached": "Cible atteinte",
       "targetMissed": "Impossible d'atteindre exactement la cible — voici la taille la plus petite possible à une qualité acceptable.",
       "pngNotSupportedInTarget": "Le PNG ne permet pas de cibler une taille — basculé en JPEG.",
-      "presetChipAria": "Définir la cible sur {label}"
+      "presetChipAria": "Définir la cible sur {label}",
+      "change": "Changer"
     },
     "ImageConverter": {
       "dropImageHere": "Déposez votre image ici",
@@ -895,7 +924,8 @@
       "vibrance": "Vibrance",
       "exposure": "Exposition",
       "highlights": "Hautes lumières",
-      "shadows": "Ombres"
+      "shadows": "Ombres",
+      "change": "Changer"
     },
     "SvgEditor": {
       "title": "Éditeur SVG",
@@ -945,6 +975,7 @@
       "loadingPages": "Chargement…",
       "splitPdfTitle": "Diviser un PDF",
       "selectedFile": "Fichier sélectionné",
+      "change": "Changer",
       "pageRanges": "Plages de pages",
       "pageRangesHint": "Exemples : 1-3,5,7-9 ou 1,3,5 pour des pages individuelles",
       "pageRangesPlaceholder": "ex. 1-3,5,7-9",
@@ -1101,7 +1132,8 @@
       "showChart": "Afficher le graphique",
       "exportCsv": "Exporter en CSV",
       "fileLoadedSuccess": "Fichier chargé avec succès !",
-      "errorLoadingFile": "Erreur lors du chargement du fichier"
+      "errorLoadingFile": "Erreur lors du chargement du fichier",
+      "change": "Changer"
     },
     "FileConverter": {
       "title": "Convertisseur de fichiers",
@@ -1200,7 +1232,8 @@
       "errorLoadingFile": "Erreur lors du chargement du fichier audio",
       "errorProcessingFile": "Erreur lors du traitement du fichier audio",
       "speedSet": "Vitesse de lecture réglée sur {speed}x",
-      "downloadOriginal": "Télécharger l'original"
+      "downloadOriginal": "Télécharger l'original",
+      "change": "Changer"
     },
     "MicCameraTester": {
       "title": "Testeur micro et caméra",
@@ -2039,7 +2072,8 @@
       "start": "Démarrer",
       "pause": "Pause",
       "countsUpFrom0": "Compte à partir de 0.",
-      "testSound": "Tester le son"
+      "testSound": "Tester le son",
+      "fullscreenHint": "À utiliser de préférence en plein écran pour que toute la classe voie le compte à rebours."
     },
     "KeepAwake": {
       "title": "Maintenir éveillé",
@@ -4049,7 +4083,8 @@
       "videoTooLarge": "La taille de la vidéo doit être inférieure à 500 Mo",
       "compressedSuccess": "Vidéo compressée avec succès !",
       "compressFailed": "Échec de la compression de la vidéo. Veuillez réessayer.",
-      "downloadedSuccess": "Vidéo téléchargée !"
+      "downloadedSuccess": "Vidéo téléchargée !",
+      "change": "Changer"
     },
     "CurlConverter": {
       "selectLanguage": "Sélectionner un langage",
@@ -4095,7 +4130,8 @@
       "loadFailed": "Échec du chargement de l'image. Veuillez essayer un autre fichier.",
       "noRegions": "Dessinez au moins une zone à censurer avant d'exporter.",
       "exportedSuccess": "Image censurée téléchargée !",
-      "exportFailed": "Échec de l'export de l'image. Veuillez réessayer."
+      "exportFailed": "Échec de l'export de l'image. Veuillez réessayer.",
+      "change": "Changer"
     },
     "ScreenshotBeautifier": {
       "title": "Embellisseur de captures d'écran",
@@ -4271,6 +4307,8 @@
       "resetTally": "Réinitialiser le décompte",
       "listTitle": "Sélecteur de nom / liste",
       "listDesc": "Collez une liste et tirez un gagnant au sort. Idéal pour les concours et les tirages.",
+      "listPointerDesc": "Vous voulez tirer un nom au sort dans une liste ? Essayez la Roue des noms pour une roue qui tourne.",
+      "listPointerCta": "Aller à la Roue des noms",
       "listLabel": "Éléments (un par ligne)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Retirer le gagnant après le tirage (pour les tirages au sort)",
@@ -4897,6 +4935,97 @@
       "maxRollover": "Rollover max.",
       "history": "Historique",
       "reset": "Réinitialiser"
+    },
+    "WheelOfNames": {
+      "inputTitle": "Noms",
+      "inputDesc": "Saisissez un nom par ligne",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} noms",
+      "removeWinnerAfterSpin": "Retirer le gagnant après le tirage",
+      "shuffle": "Mélanger",
+      "wheelTitle": "Roue",
+      "wheelDesc": "Faites tourner la roue pour tirer un nom au sort",
+      "spin": "Lancer",
+      "winnerLabel": "Gagnant : {name}"
+    },
+    "GroupMaker": {
+      "inputTitle": "Noms",
+      "inputDesc": "Saisissez un nom par ligne",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} noms",
+      "modeLabel": "Répartir par",
+      "byGroupCount": "Nombre de groupes",
+      "byGroupSize": "Taille des groupes",
+      "numberOfGroups": "Nombre de groupes",
+      "peoplePerGroup": "Personnes par groupe",
+      "generate": "Générer les groupes",
+      "print": "Imprimer",
+      "resultsTitle": "Groupes",
+      "resultsDesc": "{count} groupes",
+      "groupLabel": "Groupe {number}"
+    },
+    "WordUnscrambler": {
+      "inputTitle": "Lettres",
+      "inputDesc": "Saisissez les lettres à démêler, puis affinez les résultats avec les filtres facultatifs.",
+      "inputPlaceholder": "ex. scarcat",
+      "lettersLabel": "Lettres",
+      "minLengthLabel": "Longueur min.",
+      "containsLabel": "Contient la lettre",
+      "solve": "Démêler",
+      "resultsTitle": "Résultats",
+      "resultsDesc": "{count} mots trouvés",
+      "groupLabel": "{length} lettres",
+      "noResults": "Aucun mot trouvé. Essayez d'autres lettres ou filtres.",
+      "loadingDictionary": "Chargement du dictionnaire…",
+      "errorMessage": "Impossible de charger le dictionnaire. Vérifiez votre connexion et réessayez.",
+      "retry": "Réessayer"
+    },
+    "WordleSolver": {
+      "inputTitle": "Cases à deviner",
+      "inputDesc": "Saisissez une lettre dans chaque case, puis cliquez dessous pour changer sa couleur : gris (absente du mot), jaune (mauvaise position) ou vert (bonne position).",
+      "letterAriaLabel": "Lettre {position}",
+      "tileStateAriaLabel": "État de la case {position} : {state}",
+      "stateGray": "Gris",
+      "stateYellow": "Jaune",
+      "stateGreen": "Vert",
+      "solve": "Trouver les mots",
+      "resultsTitle": "Réponses possibles",
+      "resultsDesc": "{count} mots trouvés",
+      "noResults": "Aucun mot correspondant. Vérifiez les couleurs de vos cases.",
+      "loadingDictionary": "Chargement du dictionnaire…",
+      "errorMessage": "Impossible de charger le dictionnaire. Vérifiez votre connexion et réessayez.",
+      "retry": "Réessayer"
+    },
+    "AnagramSolver": {
+      "inputTitle": "Lettres",
+      "inputDesc": "Saisissez les lettres dont vous voulez trouver les anagrammes.",
+      "inputPlaceholder": "ex. cat",
+      "lettersLabel": "Lettres",
+      "allowShorterLabel": "Inclure les mots plus courts",
+      "solve": "Trouver les anagrammes",
+      "resultsTitle": "Résultats",
+      "resultsDesc": "{count} mots trouvés",
+      "groupLabel": "{length} lettres",
+      "noResults": "Aucun anagramme trouvé. Essayez d'autres lettres.",
+      "loadingDictionary": "Chargement du dictionnaire…",
+      "errorMessage": "Impossible de charger le dictionnaire. Vérifiez votre connexion et réessayez.",
+      "retry": "Réessayer"
+    },
+    "BingoCardGenerator": {
+      "inputTitle": "Paramètres du bingo",
+      "inputDesc": "Choisissez un mode, indiquez le nombre de cartes nécessaires, puis générez.",
+      "modeLabel": "Type de carte",
+      "numberMode": "Nombres (B-I-N-G-O)",
+      "wordMode": "Liste de mots",
+      "cardCountLabel": "Nombre de cartes",
+      "wordPoolPlaceholder": "Pomme\nBanane\nCerise\nDatte\nFigue",
+      "wordsCount": "{count} mots",
+      "cardSizeLabel": "Taille de la carte (par côté)",
+      "generate": "Générer les cartes",
+      "print": "Imprimer",
+      "resultsTitle": "Cartes de bingo",
+      "resultsDesc": "{count} cartes",
+      "errorPoolTooSmall": "Votre liste de mots est trop courte pour la taille de carte choisie. Ajoutez des mots ou choisissez une carte plus petite."
     }
   },
   "Blog": {
@@ -4907,7 +5036,8 @@
     "privacyDesc": "Chaque outil de BrowseryTools s'exécute entièrement dans votre navigateur. Aucun fichier n'est envoyé à un serveur. Aucun compte. Aucune publicité. Gratuit pour toujours.",
     "exploreTools": "Explorer tous les outils →",
     "featured": "À la une",
-    "allPosts": "Tous les articles"
+    "allPosts": "Tous les articles",
+    "openTool": "Ouvrir l'outil →"
   },
   "CoffeeBanner": {
     "message": "Vous aimez ces outils ? Soutenez leur développement avec un café !",

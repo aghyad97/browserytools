@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <a href="/tools/random-picker">random picker</a> di browsermu menyelesaikan semua itu dalam
         satu tab.
       </p>
+      <ToolCTA slug="random-picker" variant="inline" />
       <p>
         BrowseryTools <strong>Random Picker</strong> menggabungkan empat pengacak klasik dalam satu
         halaman: <strong>generator angka acak</strong>, <strong>pelemparan dadu</strong>, <strong>
@@ -99,6 +102,7 @@ export default function Content() {
         memilikinya dalam satu tempat — gratis, privat, dan instan. Tanpa instalasi, tanpa akun,
         tanpa embel-embel.
       </p>
+      <ToolCTA slug="random-picker" variant="card" />
     </div>
   );
 }

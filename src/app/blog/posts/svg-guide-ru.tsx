@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         стилизоваться через CSS, анимироваться с помощью JavaScript или CSS-переходов и встраиваться
         непосредственно в HTML. Правильное понимание SVG меняет взгляд на графику в вебе.
       </p>
+      <ToolCTA slug="svg" variant="inline" />
       <p>
         Вы можете просматривать, инспектировать и оптимизировать любой SVG-файл с помощью{" "}
         <a href="/tools/svg">инструмента SVG BrowseryTools</a> — бесплатно, без регистрации,
@@ -292,6 +295,7 @@ export default function Content() {
         напрямую в HTML. Используйте <code>currentColor</code> для иконок, адаптирующихся
         к цвету текстового контекста.
       </div>
+      <ToolCTA slug="svg" variant="card" />
     </div>
   );
 }

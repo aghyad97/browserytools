@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         تعرض مؤشرات حية، أو تقرأ وثيقة قانونية تحتاج تركيزاً كاملاً — وفجأة تخفت الشاشة ويبدأ الجهاز بالانزلاق
         نحو وضع السكون. النتيجة: مقاطعة في أسوأ توقيت ممكن.
       </p>
+      <ToolCTA slug="keep-awake" variant="inline" />
       <p>
         الحلول التقليدية لهذه المشكلة مرهقة. على macOS يثبّت المستخدمون تطبيقات مثل Amphetamine أو Caffeine.
         على Windows يعبثون بإعدادات الطاقة أو يبحثون عن أداة PowerToys. على Linux يتعاملون مع أوامر systemd
@@ -151,6 +154,7 @@ export default function Content() {
         المرور</a>، و<a href="/tools/world-clock">ساعة العالم</a>، والمزيد. كل شيء مجاني، كل شيء محلي، ولا
         شيء يطلب منك التسجيل.
       </p>
+      <ToolCTA slug="keep-awake" variant="card" />
     </div>
   );
 }

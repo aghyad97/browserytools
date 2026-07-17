@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -6,6 +8,7 @@ export default function Content() {
         Notion، فأنت على الأرجح تتعامل مع Markdown يوميًا — سواء أدركت ذلك أم لا. يمكنك استخدام{" "}
         <a href="/tools/markdown-editor">محرر Markdown في BrowseryTools</a> — مجانية تمامًا، بدون تسجيل، وتعمل في متصفحك — للكتابة والمعاينة الفورية لأي نص Markdown.
       </p>
+      <ToolCTA slug="markdown-editor" variant="inline" />
       <p>
         في هذا الدليل، نشرح ما هو Markdown، ولماذا أصبح معيارًا في كتابة المحتوى التقني والمدونات،
         مع دليل شامل للصيغ الأساسية واستخدامه مع اللغة العربية.
@@ -107,6 +110,7 @@ export default function Content() {
         افتح محرر Markdown في BrowseryTools وجرّب كتابة ملاحظتك التالية به — ستندهش كم هو بسيط
         ومحرر في آنٍ واحد.
       </p>
+      <ToolCTA slug="markdown-editor" variant="card" />
     </div>
   );
 }

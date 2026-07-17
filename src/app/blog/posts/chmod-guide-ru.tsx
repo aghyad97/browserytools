@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         <code>-rwxr-xr--</code> могут казаться непрозрачными, пока вы не поймёте лежащую в основе
         модель. Это руководство объясняет права доступа Unix с первых принципов.
       </p>
+      <ToolCTA slug="chmod" variant="inline" />
       <p>
         Вы можете вычислять значения прав и конвертировать между восьмеричной и символьной нотацией
         с помощью{" "}
@@ -175,6 +178,7 @@ chmod +x deploy.sh`}
           Открыть калькулятор chmod →
         </a>
       </div>
+      <ToolCTA slug="chmod" variant="card" />
     </div>
   );
 }

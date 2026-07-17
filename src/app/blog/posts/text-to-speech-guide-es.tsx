@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         gratuita que puedes usar en segundos.
       </p>
 
+      <ToolCTA slug="text-to-speech" variant="inline" />
       <h2>Qué significa realmente "Texto a Voz"</h2>
       <p>
         El texto a voz (TTS) es el proceso de convertir palabras escritas en audio hablado. Escribes o pegas
@@ -118,6 +121,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">editor de Markdown</a> — todos ejecutándose íntegramente en tu navegador, sin
         anuncios, sin rastreo y sin registro.
       </p>
+      <ToolCTA slug="text-to-speech" variant="card" />
     </div>
   );
 }

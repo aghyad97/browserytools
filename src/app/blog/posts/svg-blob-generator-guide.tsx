@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         avatars, and break up otherwise rigid layouts. The trouble is that drawing a good blob by hand in a
         vector editor is fiddly, and exporting clean SVG from those tools often leaves you with bloated markup.
       </p>
+      <ToolCTA slug="svg-blob-generator" variant="inline" />
       <p>
         The <a href="/tools/svg-blob-generator">BrowseryTools SVG Blob Generator</a> solves this in your
         browser. It is an organic shape maker that produces a smooth, closed bézier path from a set of
@@ -81,6 +84,7 @@ export default function Content() {
         is uploaded, nothing is logged, and there is no sign-up wall between you and a finished shape. Open
         it, generate a blob or a wave, copy the markup, and get back to designing.
       </p>
+      <ToolCTA slug="svg-blob-generator" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         تجعله مفهومًا. ما تحتاجه هو <strong>لقطة شاشة للكود</strong> — صورة جميلة بتلوين للصياغة، ضمن إطار
         نافذة أنيق وخلفية ذوقية.
       </p>
+      <ToolCTA slug="code-screenshot" variant="inline" />
       <p>
         الأداة التي شاعت لهذا الغرض كانت Carbon. وهي ممتازة، لكنها تعمل على خادم بعيد وتراكمت عليها مع
         السنين أدوات تتبّع وإعلانات. الخبر الجيد أنك لست بحاجة إليها. إن{" "}
@@ -84,6 +87,7 @@ export default function Content() {
         <a href="/tools/code-screenshot">أداة لقطة شاشة الكود</a> وحوّل مقتطفك القادم إلى شيء يستحق المشاركة
         — مجانًا، وبخصوصية، وبالكامل داخل متصفحك.
       </p>
+      <ToolCTA slug="code-screenshot" variant="card" />
     </div>
   );
 }

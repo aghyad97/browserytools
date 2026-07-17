@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         sekali. Namun tidak semua kompresi setara, dan pengaturan yang salah dapat menghasilkan file
         yang masih terlalu besar, terlihat jelas terdegradasi, atau keduanya.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         Kamu bisa mengompresi file video apa pun sekarang menggunakan{" "}
         <a href="/tools/compress-video">BrowseryTools Video Compressor</a> — gratis, tanpa daftar,
@@ -175,6 +178,7 @@ export default function Content() {
         dengan ukuran layar yang dimaksud, dan gunakan mode CRF untuk kompresi berbasis kualitas
         daripada mengejar target bitrate yang arbitrer.
       </div>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

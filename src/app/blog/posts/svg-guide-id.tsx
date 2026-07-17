@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         dengan CSS, dianimasikan dengan JavaScript atau transisi CSS, dan disematkan langsung ke
         dalam HTML. Memahami SVG dengan benar mengubah cara kamu berpikir tentang grafis di web.
       </p>
+      <ToolCTA slug="svg" variant="inline" />
       <p>
         Kamu bisa melihat, memeriksa, dan mengoptimalkan file SVG apa pun menggunakan{" "}
         <a href="/tools/svg">BrowseryTools SVG Tool</a> — gratis, tanpa daftar, semuanya berjalan
@@ -289,6 +292,7 @@ export default function Content() {
         pernah meng-inline SVG yang diunggah pengguna langsung dalam HTML-mu. Gunakan{" "}
         <code>currentColor</code> untuk ikon yang perlu beradaptasi dengan konteks warna teks mereka.
       </div>
+      <ToolCTA slug="svg" variant="card" />
     </div>
   );
 }

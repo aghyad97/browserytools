@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         actually want is a <strong>scientific calculator online</strong> — full trig, logs, exponents,
         and constants — that opens instantly in a browser tab and works on any device.
       </p>
+      <ToolCTA slug="calculator" variant="inline" />
       <p>
         The <a href="/tools/calculator">BrowseryTools scientific calculator</a> gives you exactly that:
         a free, in-browser calculator with the advanced functions you need, no install and no sign-up.
@@ -113,6 +116,7 @@ export default function Content() {
         numeral, the <a href="/blog/roman-numeral-converter-guide">Roman numeral guide</a> has you
         covered.
       </p>
+      <ToolCTA slug="calculator" variant="card" />
     </div>
   );
 }

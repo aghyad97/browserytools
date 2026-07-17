@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         chacun sous le capot, quand utiliser chacun, et comment faire un choix éclairé selon votre
         contexte.
       </p>
+      <ToolCTA slug="image-converter" variant="inline" />
       <p>
         Vous pouvez convertir entre tous ces formats grâce au{" "}
         <a href="/tools/image-converter">Convertisseur d'images BrowseryTools</a> — gratuit, sans
@@ -226,6 +229,7 @@ export default function Content() {
         projet avec une stack moderne, servez AVIF avec un fallback WebP et ne vous préoccupez plus du
         JPEG.
       </div>
+      <ToolCTA slug="image-converter" variant="card" />
     </div>
   );
 }

@@ -315,6 +315,18 @@
         "name": "Word Frequency",
         "description": "Analyze word frequency in text."
       },
+      "word-unscrambler": {
+        "name": "Word Unscrambler",
+        "description": "Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length."
+      },
+      "wordle-solver": {
+        "name": "Wordle Solver",
+        "description": "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word."
+      },
+      "anagram-solver": {
+        "name": "Anagram Solver",
+        "description": "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length."
+      },
       "notepad": {
         "name": "Notepad",
         "description": "A simple in-browser notepad that auto-saves your text."
@@ -762,6 +774,22 @@
       "gif-maker": {
         "name": "GIF Maker",
         "description": "Turn a series of images into an animated GIF. Reorder frames, set speed, loop, and resize."
+      },
+      "wheel-of-names": {
+        "name": "Wheel of Names",
+        "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
+      },
+      "group-maker": {
+        "name": "Random Group Maker",
+        "description": "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams."
+      },
+      "bingo-card-generator": {
+        "name": "Bingo Card Generator",
+        "description": "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student."
+      },
+      "classroom-timer": {
+        "name": "Classroom Timer",
+        "description": "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track."
       }
     },
     "categoriesShort": {
@@ -862,7 +890,8 @@
       "imageTooLarge": "Image size should be less than 25MB",
       "compressedSuccess": "Image compressed successfully!",
       "compressFailed": "Failed to compress image. Please try again.",
-      "downloadedSuccess": "Image downloaded!"
+      "downloadedSuccess": "Image downloaded!",
+      "change": "Change"
     },
     "ImageConverter": {
       "dropImageHere": "Drop your image here",
@@ -895,7 +924,8 @@
       "vibrance": "Vibrance",
       "exposure": "Exposure",
       "highlights": "Highlights",
-      "shadows": "Shadows"
+      "shadows": "Shadows",
+      "change": "Change"
     },
     "SvgEditor": {
       "title": "SVG Editor",
@@ -945,6 +975,7 @@
       "loadingPages": "Loading...",
       "splitPdfTitle": "Split PDF",
       "selectedFile": "Selected File",
+      "change": "Change",
       "pageRanges": "Page Ranges",
       "pageRangesHint": "Examples: 1-3,5,7-9 or 1,3,5 for individual pages",
       "pageRangesPlaceholder": "e.g., 1-3,5,7-9",
@@ -1101,7 +1132,8 @@
       "showChart": "Show Chart",
       "exportCsv": "Export CSV",
       "fileLoadedSuccess": "File loaded successfully!",
-      "errorLoadingFile": "Error loading file"
+      "errorLoadingFile": "Error loading file",
+      "change": "Change"
     },
     "FileConverter": {
       "title": "File Converter",
@@ -1200,7 +1232,8 @@
       "errorLoadingFile": "Error loading audio file",
       "errorProcessingFile": "Error processing audio file",
       "speedSet": "Playback speed set to {speed}x",
-      "downloadOriginal": "Download original"
+      "downloadOriginal": "Download original",
+      "change": "Change"
     },
     "MicCameraTester": {
       "title": "Mic & Camera Tester",
@@ -2039,7 +2072,8 @@
       "start": "Start",
       "pause": "Pause",
       "countsUpFrom0": "Counts up from 0.",
-      "testSound": "Test sound"
+      "testSound": "Test sound",
+      "fullscreenHint": "Best used in fullscreen so the whole class can see the countdown."
     },
     "KeepAwake": {
       "title": "Keep Awake",
@@ -4049,7 +4083,8 @@
       "videoTooLarge": "Video size should be less than 500MB",
       "compressedSuccess": "Video compressed successfully!",
       "compressFailed": "Failed to compress video. Please try again.",
-      "downloadedSuccess": "Video downloaded!"
+      "downloadedSuccess": "Video downloaded!",
+      "change": "Change"
     },
     "CurlConverter": {
       "selectLanguage": "Select language",
@@ -4095,7 +4130,8 @@
       "loadFailed": "Failed to load image. Please try another file.",
       "noRegions": "Draw at least one region to censor before exporting.",
       "exportedSuccess": "Censored image downloaded!",
-      "exportFailed": "Failed to export image. Please try again."
+      "exportFailed": "Failed to export image. Please try again.",
+      "change": "Change"
     },
     "ScreenshotBeautifier": {
       "title": "Screenshot Beautifier",
@@ -4271,6 +4307,8 @@
       "resetTally": "Reset Tally",
       "listTitle": "Name / List Picker",
       "listDesc": "Paste a list and pick a random winner. Great for giveaways and draws.",
+      "listPointerDesc": "Picking a random name from a list? Use Wheel of Names for a spinning wheel experience.",
+      "listPointerCta": "Go to Wheel of Names",
       "listLabel": "Items (one per line)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Remove winner after picking (for draws)",
@@ -4897,6 +4935,97 @@
       "maxRollover": "Max rollover",
       "history": "History",
       "reset": "Reset"
+    },
+    "WheelOfNames": {
+      "inputTitle": "Names",
+      "inputDesc": "Enter one name per line",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} names",
+      "removeWinnerAfterSpin": "Remove winner after spin",
+      "shuffle": "Shuffle",
+      "wheelTitle": "Wheel",
+      "wheelDesc": "Spin to pick a random name",
+      "spin": "Spin",
+      "winnerLabel": "Winner: {name}"
+    },
+    "GroupMaker": {
+      "inputTitle": "Names",
+      "inputDesc": "Enter one name per line",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} names",
+      "modeLabel": "Group by",
+      "byGroupCount": "Number of groups",
+      "byGroupSize": "Group size",
+      "numberOfGroups": "Number of groups",
+      "peoplePerGroup": "People per group",
+      "generate": "Generate Groups",
+      "print": "Print",
+      "resultsTitle": "Groups",
+      "resultsDesc": "{count} groups",
+      "groupLabel": "Group {number}"
+    },
+    "WordUnscrambler": {
+      "inputTitle": "Letters",
+      "inputDesc": "Enter the letters you want to unscramble, then narrow the results with optional filters.",
+      "inputPlaceholder": "e.g. scarcat",
+      "lettersLabel": "Letters",
+      "minLengthLabel": "Min length",
+      "containsLabel": "Contains letter",
+      "solve": "Unscramble",
+      "resultsTitle": "Matches",
+      "resultsDesc": "{count} words found",
+      "groupLabel": "{length} letters",
+      "noResults": "No words found. Try different letters or filters.",
+      "loadingDictionary": "Loading dictionary...",
+      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
+      "retry": "Retry"
+    },
+    "WordleSolver": {
+      "inputTitle": "Guess Tiles",
+      "inputDesc": "Type a letter in each tile, then click below it to cycle its color: gray (not in word), yellow (wrong spot), or green (correct spot).",
+      "letterAriaLabel": "Letter {position}",
+      "tileStateAriaLabel": "Tile {position} state: {state}",
+      "stateGray": "Gray",
+      "stateYellow": "Yellow",
+      "stateGreen": "Green",
+      "solve": "Find Words",
+      "resultsTitle": "Possible Answers",
+      "resultsDesc": "{count} words found",
+      "noResults": "No matching words. Double-check your tile colors.",
+      "loadingDictionary": "Loading dictionary...",
+      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
+      "retry": "Retry"
+    },
+    "AnagramSolver": {
+      "inputTitle": "Letters",
+      "inputDesc": "Enter the letters you want to find anagrams for.",
+      "inputPlaceholder": "e.g. cat",
+      "lettersLabel": "Letters",
+      "allowShorterLabel": "Include shorter words",
+      "solve": "Find Anagrams",
+      "resultsTitle": "Matches",
+      "resultsDesc": "{count} words found",
+      "groupLabel": "{length} letters",
+      "noResults": "No anagrams found. Try different letters.",
+      "loadingDictionary": "Loading dictionary...",
+      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
+      "retry": "Retry"
+    },
+    "BingoCardGenerator": {
+      "inputTitle": "Bingo Setup",
+      "inputDesc": "Choose a mode, set how many cards you need, and generate.",
+      "modeLabel": "Card type",
+      "numberMode": "Numbers (B-I-N-G-O)",
+      "wordMode": "Word pool",
+      "cardCountLabel": "Number of cards",
+      "wordPoolPlaceholder": "Apple\nBanana\nCherry\nDate\nElderberry",
+      "wordsCount": "{count} words",
+      "cardSizeLabel": "Card size (per side)",
+      "generate": "Generate Cards",
+      "print": "Print",
+      "resultsTitle": "Bingo Cards",
+      "resultsDesc": "{count} cards",
+      "errorPoolTooSmall": "Your word pool is too small for the selected card size. Add more words or use a smaller card."
     }
   },
   "Blog": {
@@ -4907,7 +5036,8 @@
     "privacyDesc": "Every tool on BrowseryTools runs entirely in your browser. No files are uploaded to any server. No accounts. No ads. Forever free.",
     "exploreTools": "Explore All Tools →",
     "featured": "Featured",
-    "allPosts": "All Posts"
+    "allPosts": "All Posts",
+    "openTool": "Open the tool →"
   },
   "CoffeeBanner": {
     "message": "Enjoying the tools? Support development with a coffee!",

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         которые бывает сложно отладить. Процентное кодирование (URL-кодирование) — это механизм,
         позволяющий безопасно встраивать произвольные данные в URL.
       </p>
+      <ToolCTA slug="url-encoder" variant="inline" />
       <p>
         Вы можете мгновенно кодировать и декодировать URL с помощью{" "}
         <a href="/tools/url-encoder">кодировщика/декодировщика URL BrowseryTools</a> — бесплатно,
@@ -190,6 +193,7 @@ new URLSearchParams({ q: "rock & roll" }).toString()
           Открыть кодировщик URL →
         </a>
       </div>
+      <ToolCTA slug="url-encoder" variant="card" />
     </div>
   );
 }

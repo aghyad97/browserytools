@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         yang paling banyak diteliti dalam psikologi perilaku, dengan puluhan tahun penelitian yang
         menunjukkan teknik konkret dan andal yang berhasil untuk kebanyakan orang.
       </p>
+      <ToolCTA slug="habit-tracker" variant="inline" />
       <p>
         Panduan ini membahas ilmu di balik mengapa kebiasaan terbentuk dan bertahan, mekanisme
         psikologis streak, kerangka terbaik untuk membangun rutinitas baru, dan cara menggunakan
@@ -404,6 +407,7 @@ export default function Content() {
           Buka Habit Tracker →
         </a>
       </div>
+      <ToolCTA slug="habit-tracker" variant="card" />
     </div>
   );
 }

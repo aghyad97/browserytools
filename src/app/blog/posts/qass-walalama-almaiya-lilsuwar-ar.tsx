@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         عملك وتضع علامتك على لقطاتك. لا تحتاج إلى فوتوشوب أو اشتراك لأيٍّ منهما — وبالتأكيد لا يجب أن ترفع
         الصورة إلى خادم جهة مجهولة.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         أداة <a href="/tools/image-resizer">تغيير حجم الصور من BrowseryTools</a> تتولّى القصّ وتغيير الحجم
         ووضع العلامة المائية كلياً في متصفحك. بدون رفع، بدون حساب، وبدون علامة مائية تفرضها الأداة نفسها على
@@ -110,6 +113,7 @@ export default function Content() {
         مكان واحد — كل ذلك دون رفع. وإن احتجت أيضاً إخفاء تفاصيل حساسة في الصورة، اطّلع على دليلنا حول{" "}
         <a href="/blog/takhfif-alsuwar-online-ar">حجب الصور أونلاين</a>.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         servidor ou suítes de design que pedem que você se cadastre antes de poder colocar uma única palavra sobre
         uma foto.
       </p>
+      <ToolCTA slug="meme-generator" variant="inline" />
       <p>
         Existe um jeito mais simples. Você pode{" "}
         <a href="/tools/meme-generator">criar um meme online de graça</a> diretamente no seu navegador com o
@@ -128,6 +131,7 @@ export default function Content() {
         redimensioná-lo para uma plataforma específica, o <a href="/tools/image-resizer">Redimensionador de
         Imagens</a> resolve para você. Tudo é gratuito, tudo é local, e nada pede que você se cadastre.
       </p>
+      <ToolCTA slug="meme-generator" variant="card" />
     </div>
   );
 }

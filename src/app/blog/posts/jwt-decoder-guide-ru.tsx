@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Понимание того, что на самом деле содержит JWT, как его читать и как замечать частые проблемы, делает отладку
         аутентификации значительно быстрее.
       </p>
+      <ToolCTA slug="jwt-decoder" variant="inline" />
       <p>
         <a href="/tools/jwt-decoder">Декодировщик JWT BrowseryTools</a> позволяет вставить любой JWT-токен и
         мгновенно увидеть его декодированный заголовок, полезную нагрузку и статус истечения — всё в браузере, причём
@@ -316,6 +319,7 @@ export default function Content() {
           Открыть декодировщик JWT →
         </a>
       </div>
+      <ToolCTA slug="jwt-decoder" variant="card" />
     </div>
   );
 }

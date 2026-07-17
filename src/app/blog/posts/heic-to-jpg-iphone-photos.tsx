@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -7,6 +9,7 @@ export default function Content() {
         not corrupted. The problem is the file format: iPhones save photos as <strong>HEIC</strong> by
         default, and a huge number of websites, forms, and older apps have no idea what to do with it.
       </p>
+      <ToolCTA slug="heic-to-jpg" variant="inline" />
       <p>
         You can fix this in a few seconds without installing anything. The{" "}
         <a href="/tools/heic-to-jpg">HEIC to JPG</a> converter turns the file into a format every
@@ -99,6 +102,7 @@ export default function Content() {
         <a href="/tools/compress-image-to-20kb">image compression</a> for the next form that caps your
         upload size.
       </p>
+      <ToolCTA slug="heic-to-jpg" variant="card" />
     </div>
   );
 }

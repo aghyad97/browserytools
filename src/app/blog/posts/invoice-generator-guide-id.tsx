@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         disadari kebanyakan orang sampai mereka harus mengejar invoice yang sudah melewati jatuh tempo
         dari klien yang tidak merespons.
       </p>
+      <ToolCTA slug="invoice" variant="inline" />
       <p>
         Panduan ini mencakup semua yang harus ada dalam invoice profesional, konvensi tentang penomoran
         dan syarat pembayaran, bagaimana persyaratan invoicing berbeda antar negara, dan mengapa
@@ -219,6 +222,7 @@ export default function Content() {
           Buat Invoice →
         </a>
       </div>
+      <ToolCTA slug="invoice" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -10,6 +12,7 @@ export default function Content() {
         الذي يتيح لك سحب مقبضين ومشاهدة المنحنى يتحدّث لحظياً.
       </p>
 
+      <ToolCTA slug="cubic-bezier" variant="inline" />
       <h2>ما هو منحنى Cubic Bezier؟</h2>
       <p>
         يُعرَّف منحنى التوقيت من نوع cubic Bezier بأربعة أرقام: <code>cubic-bezier(x1, y1, x2, y2)</code>.
@@ -87,6 +90,7 @@ export default function Content() {
         <a href="/tools/cubic-bezier">محرّر منحنيات التوقيت Cubic-Bezier</a> في المرة القادمة التي يبدو فيها
         الانتقال غير مريح — فتعديل المنحنى لخمس ثوانٍ غالباً يفعل أكثر من أي تغيير في المدة أو المسافة.
       </p>
+      <ToolCTA slug="cubic-bezier" variant="card" />
     </div>
   );
 }

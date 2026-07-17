@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -13,6 +15,7 @@ export default function Content() {
         <a href="/tools/image-color-picker">BrowseryTools Image Color Picker</a>{" "}
         to pull HEX, RGB, and HSL values from any image in seconds.
       </p>
+      <ToolCTA slug="image-color-picker" variant="inline" />
 
       <h2>What an Image Color Picker Actually Does</h2>
       <p>
@@ -144,6 +147,7 @@ export default function Content() {
         <a href="/tools/color-converter">Color Converter</a> to fine-tune any
         color you pick across HEX, RGB, and HSL.
       </p>
+      <ToolCTA slug="image-color-picker" variant="card" />
     </div>
   );
 }

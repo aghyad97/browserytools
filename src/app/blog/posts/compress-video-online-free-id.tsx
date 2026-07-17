@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>mengompresi video secara online secara gratis</strong>, langsung di browsermu, dengan
         file yang tidak pernah meninggalkan perangkatmu.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         Itulah yang dilakukan oleh alat <a href="/tools/compress-video">BrowseryTools Compress Video</a>.
         Alat ini mengompresi ukuran file video langsung di dalam tab browser — tanpa unggahan, tanpa
@@ -149,6 +152,7 @@ export default function Content() {
         <a href="/blog/video-compression-guide">cara mengompresi file video tanpa kehilangan kualitas</a>
         .
       </p>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

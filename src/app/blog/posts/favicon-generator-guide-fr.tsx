@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -12,6 +14,7 @@ export default function Content() {
         <a href="/tools/favicon-generator">générateur de favicon en ligne</a> corrige.
       </p>
 
+      <ToolCTA slug="favicon-generator" variant="inline" />
       <h2>Pourquoi un seul favicon ne suffit jamais</h2>
       <p>
         Aux débuts du web, vous déposiez un unique <code>favicon.ico</code> dans votre répertoire racine et
@@ -125,6 +128,7 @@ export default function Content() {
         <a href="/tools/meta-tags">générateur de balises Meta</a> — tous gratuits, tous privés, tous
         s&apos;exécutant entièrement dans votre navigateur.
       </p>
+      <ToolCTA slug="favicon-generator" variant="card" />
     </div>
   );
 }

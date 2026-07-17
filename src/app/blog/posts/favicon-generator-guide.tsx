@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         first pixel. The problem is that getting favicons right used to be needlessly painful — and that is
         exactly what a good <a href="/tools/favicon-generator">favicon generator online</a> fixes.
       </p>
+      <ToolCTA slug="favicon-generator" variant="inline" />
 
       <h2>Why One Favicon Is Never Enough</h2>
       <p>
@@ -108,6 +111,7 @@ export default function Content() {
         <a href="/tools/meta-tags">Meta Tags Generator</a> — all free, all private, all running entirely in your
         browser.
       </p>
+      <ToolCTA slug="favicon-generator" variant="card" />
     </div>
   );
 }

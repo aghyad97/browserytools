@@ -7,16 +7,11 @@ import { toast } from "sonner";
 import { FileText, Upload, Info } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FileDropzone } from "@/components/shared/FileDropzone";
-import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SettingsCard } from "@/components/shared/SettingsCard";
 import { OutputPanel } from "@/components/shared/OutputPanel";
+import { ActiveFileBar } from "@/components/pdf-workbench/ActiveFileBar";
+import { useActiveFileIndex } from "@/components/pdf-workbench/useActiveFileIndex";
 import { extractPdfText } from "@/lib/pdf/extract-text";
 import type { PDFFile } from "@/components/pdf-workbench/ops";
 
@@ -39,14 +34,10 @@ interface ExtractPanelProps {
 export function ExtractPanel({ files, onDropPdf }: ExtractPanelProps) {
   const t = useTranslations("Tools.PDFTools");
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useActiveFileIndex(files);
   const [busy, setBusy] = useState(false);
   const [result, setResult] = useState<string | null>(null);
   const [empty, setEmpty] = useState(false);
-
-  useEffect(() => {
-    if (selectedIndex > files.length - 1) setSelectedIndex(0);
-  }, [files.length, selectedIndex]);
 
   const active = files[selectedIndex] ?? null;
 
@@ -101,27 +92,13 @@ export function ExtractPanel({ files, onDropPdf }: ExtractPanelProps) {
 
   return (
     <div className="space-y-6">
+      <ActiveFileBar
+        files={files}
+        selectedIndex={selectedIndex}
+        onSelect={setSelectedIndex}
+        onDropPdf={onDropPdf}
+      />
       <SettingsCard>
-        {files.length > 1 && (
-          <OptionRow label={t("selectedFile")} htmlFor="pdf-extract-file">
-            <Select
-              value={String(selectedIndex)}
-              onValueChange={(v) => setSelectedIndex(Number(v))}
-            >
-              <SelectTrigger id="pdf-extract-file" aria-label={t("selectedFile")}>
-                <SelectValue />
-              </SelectTrigger>
-              <SelectContent>
-                {files.map((file, index) => (
-                  <SelectItem key={file.name + index} value={String(index)}>
-                    {file.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </OptionRow>
-        )}
-
         <Button className="w-full" onClick={handleExtract} disabled={busy}>
           <FileText className="w-4 h-4 me-2" />
           {busy ? t("extracting") : t("extractAction")}

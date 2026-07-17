@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         antes de que salgan de tu dispositivo, de modo que incluso el servidor que los almacena no
         puede leerlos.
       </p>
+      <ToolCTA slug="text-encryption" variant="inline" />
       <p>
         Puedes cifrar y descifrar cualquier texto directamente en tu navegador con la{" "}
         <a href="/tools/text-encryption">Herramienta de Cifrado de Texto de BrowseryTools</a> — gratuita,
@@ -183,6 +186,7 @@ export default function Content() {
         <li><strong>Sin compartición sin intercambio de claves</strong> — compartir datos cifrados con otra persona requiere compartir la clave de forma segura, lo cual es un problema separado</li>
         <li><strong>Sin búsqueda ni indexación</strong> — los datos cifrados no pueden buscarse, ordenarse ni procesarse sin descifrarlos primero</li>
       </ul>
+      <ToolCTA slug="text-encryption" variant="card" />
     </div>
   );
 }

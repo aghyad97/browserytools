@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Technik, die diese Muster sichtbar macht, und sie ist in einem überraschend breiten Spektrum
         von Bereichen nützlich: Schreibhandwerk, SEO, akademische Forschung und sogar Forensik.
       </p>
+      <ToolCTA slug="word-frequency" variant="inline" />
       <p>
         Sie können die Wortfrequenz jedes Textes sofort mit dem{" "}
         <a href="/tools/word-frequency">BrowseryTools Wortfrequenz-Analysator</a> analysieren —
@@ -191,6 +194,7 @@ IDF = log(total documents / documents containing term)`}
         <li><strong>Für Forschung</strong> — exportieren Sie Frequenzdaten in eine Tabelle und sortieren Sie nach Häufigkeit, um sowohl die häufigsten Begriffe (die Kernthemen des Dokuments) als auch die seltensten einzigartigen Begriffe (den charakteristischen Wortschatz des Dokuments) zu finden</li>
         <li><strong>Beim Lektorat</strong> — achten Sie besonders auf Abschwächungssprache („etwas", „ziemlich", „relativ", „recht") und leere Verstärker („sehr", „wirklich", „äußerst") — eine hohe Frequenz dieser ist ein zuverlässiges Signal, dass der Text gestrafft werden muss</li>
       </ul>
+      <ToolCTA slug="word-frequency" variant="card" />
     </div>
   );
 }

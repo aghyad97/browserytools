@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         model condenses it into a short, readable summary in seconds — without sending a single word to a
         server.
       </p>
+      <ToolCTA slug="text-summarizer" variant="inline" />
 
       <h2>What Is a Text Summarizer?</h2>
       <p>
@@ -101,6 +104,7 @@ export default function Content() {
         <a href="/tools/notepad">Notepad</a> for quick local notes. All free, all in your browser, no sign-up
         required.
       </p>
+      <ToolCTA slug="text-summarizer" variant="card" />
     </div>
   );
 }

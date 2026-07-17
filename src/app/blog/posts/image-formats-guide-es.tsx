@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         usuario. Esta guía explica cómo JPEG, PNG, WebP y AVIF comprimen las imágenes bajo el capó,
         cuándo usar cada uno y cómo tomar una decisión informada para tu contexto específico.
       </p>
+      <ToolCTA slug="image-converter" variant="inline" />
       <p>
         Puedes convertir entre cualquiera de estos formatos con el{" "}
         <a href="/tools/image-converter">Conversor de Imágenes de BrowseryTools</a> — gratuito, sin
@@ -225,6 +228,7 @@ export default function Content() {
         añade AVIF como mejora. Si estás construyendo un proyecto nuevo desde cero con una pila moderna,
         sirve AVIF con respaldo WebP y deja de preocuparte por JPEG.
       </div>
+      <ToolCTA slug="image-converter" variant="card" />
     </div>
   );
 }

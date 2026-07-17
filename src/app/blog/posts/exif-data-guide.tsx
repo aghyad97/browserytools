@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Most people have no idea it exists. Many have no idea how specific it is. This guide explains what
         EXIF data captures, what the privacy implications are, and how to view or remove it.
       </p>
+      <ToolCTA slug="exif-viewer" variant="inline" />
       <p>
         You can inspect the EXIF metadata in any photo using the{" "}
         <a href="/tools/exif-viewer">BrowseryTools EXIF Viewer</a> — free, no sign-up, and the image
@@ -238,6 +241,7 @@ export default function Content() {
         The key is making a conscious decision about when to share EXIF data and when to remove it,
         rather than defaulting to leaving it in place and hoping the recipient or platform will handle it.
       </p>
+      <ToolCTA slug="exif-viewer" variant="card" />
     </div>
   );
 }

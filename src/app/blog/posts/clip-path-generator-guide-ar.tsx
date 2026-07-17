@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -10,6 +12,7 @@ export default function Content() {
         مرهقة: حساب النِّسب المئوية لنجمة ذات عشر نقاط ليس أمراً ممتعاً. وهذا تحديداً ما يحلّه{" "}
         <a href="/tools/clip-path-generator">مُنشئ clip-path في CSS</a>.
       </p>
+      <ToolCTA slug="clip-path-generator" variant="inline" />
       <p>
         في هذا الدليل نشرح ما الذي تفعله <code>clip-path</code>، ونمرّ على كل دالّة شكل، ونعرض حالات
         استخدام واقعية بأكواد جاهزة للنسخ، ونوضّح كيف تبني أي شكل بصرياً باستخدام{" "}
@@ -151,6 +154,7 @@ clip-path: inset(10% 10% 10% 10% round 12%);`}</code></pre>
           افتح مُنشئ clip-path في CSS ←
         </a>
       </div>
+      <ToolCTA slug="clip-path-generator" variant="card" />
     </div>
   );
 }

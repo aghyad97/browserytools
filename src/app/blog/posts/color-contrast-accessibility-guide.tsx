@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -12,6 +14,7 @@ export default function Content() {
         how to use the <a href="/tools/contrast-checker">BrowseryTools Color Contrast Checker</a> to
         verify any color pair instantly in your browser.
       </p>
+      <ToolCTA slug="contrast-checker" variant="inline" />
 
       <h2>Why Contrast Matters</h2>
       <p>
@@ -427,6 +430,7 @@ L = 0.2126 × R_linear + 0.7152 × G_linear + 0.0722 × B_linear`}
           Open Color Contrast Checker →
         </a>
       </div>
+      <ToolCTA slug="contrast-checker" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         удивительно последовательна; напишите плохо — и каждую сессию придётся тратить
         на корректировку поведения, которое должно было быть зафиксировано изначально.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="inline" />
       <p>
         Воспользуйтесь{" "}
         <a href="/tools/system-prompt-builder">Конструктором системных промптов BrowseryTools</a> —
@@ -201,6 +204,7 @@ Always include a specific, actionable takeaway at the end of each response.`}
         примера. Итеративный процесс — тестирование крайних случаев и версионирование изменений —
         это то, что превращает хороший системный промпт в отличный.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="card" />
     </div>
   );
 }

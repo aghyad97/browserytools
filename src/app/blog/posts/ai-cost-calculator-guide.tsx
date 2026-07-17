@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         and request volume can create bills that are orders of magnitude larger than expected. A few
         minutes of estimation upfront can save a lot of surprise invoices later.
       </p>
+      <ToolCTA slug="ai-cost-calculator" variant="inline" />
       <p>
         You can use the{" "}
         <a href="/tools/ai-cost-calculator">BrowseryTools AI Cost Calculator</a> — free, no sign-up,
@@ -171,6 +174,7 @@ daily_cost = (800 × $0.003 + 300 × $0.015) per 1K tokens × 5000
           Open AI Cost Calculator →
         </a>
       </div>
+      <ToolCTA slug="ai-cost-calculator" variant="card" />
     </div>
   );
 }

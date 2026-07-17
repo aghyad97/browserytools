@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         Vous ne devriez avoir besoin ni de Photoshop ni d'un abonnement pour cela — et vous ne
         devriez certainement pas uploader l'image sur le serveur d'un inconnu.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         Le <a href="/tools/image-resizer">redimensionneur d'images BrowseryTools</a> gère le
         recadrage, le redimensionnement et l'ajout de filigrane entièrement dans votre navigateur.
@@ -137,6 +140,7 @@ export default function Content() {
         taille finale du fichier lisez notre{" "}
         <a href="/blog/free-image-tools-guide">guide des outils d'image gratuits</a>.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

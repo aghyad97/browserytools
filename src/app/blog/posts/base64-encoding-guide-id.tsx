@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         cara kerjanya di level byte, di mana ia digunakan dalam sistem dunia nyata, dan kapan Anda
         sebaiknya (dan sebaiknya tidak) menggunakannya.
       </p>
+      <ToolCTA slug="base64" variant="inline" />
       <p>
         Anda dapat meng-encode dan men-decode string Base64 apa pun secara instan menggunakan{" "}
         <a href="/tools/base64">Encoder/Decoder Base64 BrowseryTools</a> — gratis, tanpa pendaftaran,
@@ -345,6 +348,7 @@ echo "SGVsbG8sIFdvcmxkIQ==" | base64 --decode`}
           Buka Alat Base64 →
         </a>
       </div>
+      <ToolCTA slug="base64" variant="card" />
     </div>
   );
 }

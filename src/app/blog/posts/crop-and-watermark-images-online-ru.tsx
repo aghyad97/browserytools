@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         нужен Photoshop или подписка — и уж точно не нужно загружать изображение на сторонние
         серверы.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         <a href="/tools/image-resizer">Инструмент изменения размера изображений BrowseryTools</a>{" "}
         выполняет кадрирование, изменение размера и добавление водяных знаков полностью в
@@ -139,6 +142,7 @@ export default function Content() {
         уменьшить итоговый файл — наш{" "}
         <a href="/blog/free-image-tools-guide">справочник по бесплатным инструментам для изображений</a>.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

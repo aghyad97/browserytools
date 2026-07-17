@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         изображение, или использовать в приложениях, которые просто не понимают векторы. Решение —{" "}
         <strong>конвертировать SVG в PNG</strong>: универсальный растровый формат, работающий везде.
       </p>
+      <ToolCTA slug="svg-png" variant="inline" />
       <p>
         <a href="/tools/svg-png">Конвертер SVG в PNG от BrowseryTools</a> делает это в вашем
         браузере: вставьте или загрузите SVG, выберите разрешение и скачайте чёткий PNG. Без
@@ -124,6 +127,7 @@ export default function Content() {
         а чтобы разобраться в самом векторном формате — читайте{" "}
         <a href="/blog/svg-guide">полное руководство по SVG</a>.
       </p>
+      <ToolCTA slug="svg-png" variant="card" />
     </div>
   );
 }

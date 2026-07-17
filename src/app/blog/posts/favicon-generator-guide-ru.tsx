@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         это исправляет хороший <a href="/tools/favicon-generator">генератор фавиконов онлайн</a>.
       </p>
 
+      <ToolCTA slug="favicon-generator" variant="inline" />
       <h2>Почему одного фавикона никогда не достаточно</h2>
       <p>
         В раннем вебе вы клали один <code>favicon.ico</code> в корневую директорию — и на этом всё. Сегодня
@@ -116,6 +119,7 @@ export default function Content() {
         <a href="/tools/meta-tags">Генератор мета-тегов</a> — всё бесплатно, всё приватно, всё работает целиком
         в вашем браузере.
       </p>
+      <ToolCTA slug="favicon-generator" variant="card" />
     </div>
   );
 }

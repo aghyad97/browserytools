@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         eksponen, dan konstanta — yang terbuka secara instan di tab browser dan berfungsi di perangkat
         apa pun.
       </p>
+      <ToolCTA slug="calculator" variant="inline" />
       <p>
         <a href="/tools/calculator">BrowseryTools scientific calculator</a> memberi kamu tepat itu:
         kalkulator gratis dalam browser dengan fungsi lanjutan yang kamu butuhkan, tanpa instalasi
@@ -121,6 +124,7 @@ export default function Content() {
         angka Romawi, <a href="/blog/roman-numeral-converter-guide">panduan angka Romawi</a> siap
         membantumu.
       </p>
+      <ToolCTA slug="calculator" variant="card" />
     </div>
   );
 }

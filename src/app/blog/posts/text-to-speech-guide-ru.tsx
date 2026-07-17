@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         бесплатный интерфейс, которым можно воспользоваться за секунды.
       </p>
 
+      <ToolCTA slug="text-to-speech" variant="inline" />
       <h2>Что на самом деле означает «синтез речи»</h2>
       <p>
         Синтез речи (TTS) — это процесс преобразования написанных слов в звучащую речь. Вы вводите или
@@ -123,6 +126,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">редактора Markdown</a> — всё работает целиком в вашем браузере, без
         рекламы, без отслеживания и без регистрации.
       </p>
+      <ToolCTA slug="text-to-speech" variant="card" />
     </div>
   );
 }

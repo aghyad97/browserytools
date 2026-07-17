@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         comportementale, avec des décennies d'études pointant vers des techniques concrètes et fiables qui
         fonctionnent pour la plupart des gens.
       </p>
+      <ToolCTA slug="habit-tracker" variant="inline" />
       <p>
         Ce guide couvre la science derrière la formation et l'ancrage des habitudes, la mécanique
         psychologique des séries, les meilleurs cadres pour construire de nouvelles routines, et comment
@@ -404,6 +407,7 @@ export default function Content() {
           Ouvrir le Suivi d'habitudes →
         </a>
       </div>
+      <ToolCTA slug="habit-tracker" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>отредактировать или заретушировать изображение</strong> — размыть, пикселизировать
         или закрасить — не передавая оригинал стороннему сайту.
       </p>
+      <ToolCTA slug="photo-censor" variant="inline" />
       <p>
         Инструмент <a href="/tools/photo-censor">BrowseryTools «Ретушь фото»</a> делает именно
         это, полностью в вашем браузере. Закрасьте нужные области, выберите размытие,
@@ -130,6 +133,7 @@ export default function Content() {
         обрезать или добавить водяной знак — прочитайте руководство по{" "}
         <a href="/blog/crop-and-watermark-images-online">кадрированию и добавлению водяных знаков онлайн</a>.
       </p>
+      <ToolCTA slug="photo-censor" variant="card" />
     </div>
   );
 }

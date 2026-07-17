@@ -1,0 +1,13 @@
+wordlist.txt — ENABLE (Enhanced North American Benchmark LExicon) word list
+
+Source: https://raw.githubusercontent.com/dolph/dictionary/master/enable1.txt
+(mirror of the original enable1.txt word list, ~172,823 words, one lowercase
+a-z word per line)
+
+Provenance: ENABLE was compiled in the early 1990s by M. Cooper Lea and
+released into the public domain. It has been widely redistributed since
+(e.g. the "enable1.txt" list used by Scrabble/word-game tooling and word
+puzzle solvers). No license restrictions apply — this list is public domain
+and free to use, modify, and redistribute.
+
+Fetched: 2026-07-17

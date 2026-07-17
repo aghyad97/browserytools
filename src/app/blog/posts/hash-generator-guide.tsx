@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -7,6 +9,7 @@ export default function Content() {
         the foundational primitives of modern computing security — and yet the differences between MD5, SHA-1,
         SHA-256, and SHA-512 are widely misunderstood, leading to real security mistakes in production systems.
       </p>
+      <ToolCTA slug="hash-generator" variant="inline" />
       <p>
         This guide explains what hash functions are, how each major algorithm works, when each is appropriate
         (and when it is dangerously inappropriate), and how to use the{" "}
@@ -332,6 +335,7 @@ export default function Content() {
           Open Hash Generator →
         </a>
       </div>
+      <ToolCTA slug="hash-generator" variant="card" />
     </div>
   );
 }

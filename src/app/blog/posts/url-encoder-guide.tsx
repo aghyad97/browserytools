@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         ways that can be difficult to debug. Percent-encoding (commonly called URL encoding) is the mechanism
         that makes arbitrary data safe to embed in a URL.
       </p>
+      <ToolCTA slug="url-encoder" variant="inline" />
       <p>
         You can encode and decode URLs instantly with the{" "}
         <a href="/tools/url-encoder">BrowseryTools URL Encoder/Decoder</a> — free, no sign-up, everything
@@ -181,6 +184,7 @@ new URLSearchParams({ q: "rock & roll" }).toString()
           Open URL Encoder →
         </a>
       </div>
+      <ToolCTA slug="url-encoder" variant="card" />
     </div>
   );
 }

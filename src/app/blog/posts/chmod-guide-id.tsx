@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         sampai kamu memahami model di baliknya. Panduan ini menjelaskan izin file Unix dari
         prinsip pertama.
       </p>
+      <ToolCTA slug="chmod" variant="inline" />
       <p>
         Kamu bisa menghitung nilai izin dan mengkonversi antara notasi oktal dan simbolik secara
         instan dengan{" "}
@@ -179,6 +182,7 @@ chmod +x deploy.sh`}
           Buka chmod Calculator →
         </a>
       </div>
+      <ToolCTA slug="chmod" variant="card" />
     </div>
   );
 }

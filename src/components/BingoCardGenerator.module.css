@@ -1,0 +1,25 @@
+/*
+ * Print stylesheet for the Bingo Card Generator.
+ *
+ * Screen: no rules needed — the on-page layout uses Tailwind utilities.
+ * Print: each generated card gets its own printed page (`.printCard` +
+ * `page-break-after`) so a teacher can hand one sheet per student.
+ *
+ * Hiding the site chrome (rail, top bar, mobile bar, tool-shell crumb +
+ * related tiles, SEO content) during print lives in globals.css instead of
+ * here: those elements are outside this component's own DOM subtree, so a
+ * CSS-module rule targeting them is composed entirely of :global() selectors
+ * with no local class to anchor to — CSS Modules' "pure selector" check
+ * rejects that (`is not pure`), including the `:global { }` block form.
+ */
+
+.printCard {
+  break-inside: avoid;
+}
+
+@media print {
+  .printCard:not(:last-child) {
+    page-break-after: always;
+    break-after: page;
+  }
+}

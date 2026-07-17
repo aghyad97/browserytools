@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         ini terlihat, dan berguna di berbagai bidang yang mengejutkan: kerajinan menulis, SEO,
         penelitian akademis, dan bahkan forensik.
       </p>
+      <ToolCTA slug="word-frequency" variant="inline" />
       <p>
         Kamu bisa menganalisis frekuensi kata teks apa pun secara instan menggunakan{" "}
         <a href="/tools/word-frequency">BrowseryTools Word Frequency Analyzer</a> — gratis, tanpa
@@ -193,6 +196,7 @@ IDF = log(total documents / documents containing term)`}
         <li><strong>Untuk penelitian</strong> — ekspor data frekuensi ke spreadsheet dan urutkan berdasarkan frekuensi untuk menemukan istilah yang paling umum (tema inti dokumen) dan istilah unik yang paling jarang (kosakata khas dokumen)</li>
         <li><strong>Untuk pengeditan</strong> — perhatikan secara khusus bahasa yang melemahkan ("somewhat," "rather," "fairly," "quite") dan intensifier kosong ("very," "really," "extremely") — frekuensi tinggi ini adalah sinyal andal bahwa prosa perlu diperketat</li>
       </ul>
+      <ToolCTA slug="word-frequency" variant="card" />
     </div>
   );
 }

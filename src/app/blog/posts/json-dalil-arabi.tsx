@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -6,6 +8,7 @@ export default function Content() {
         تتعامل مع JSON بشكل شبه يومي. هذا التنسيق أصبح اللغة المشتركة لتبادل البيانات في الإنترنت
         الحديث. فهمه جيداً يوفر عليك ساعات من تصحيح الأخطاء.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         يمكنك تطبيق كل ما ستتعلمه هنا مباشرةً باستخدام{" "}
         <a href="/tools/json-formatter">أداة JSON Formatter</a> — مجانية تماماً، بدون تسجيل،
@@ -160,6 +163,7 @@ print(user['name'])  # "Ahmed"`}
         فورياً، والتحقق من صحة JSON قبل استخدامه، مع عرض أي أخطاء بدقة في السطر المحدد.
         البيانات لا تغادر متصفحك — آمن تماماً حتى لملفات JSON التي تحتوي على بيانات إنتاج حساسة.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

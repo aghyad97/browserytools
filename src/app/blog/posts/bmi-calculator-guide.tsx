@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <a href="/tools/bmi-calculator">BrowseryTools BMI Calculator</a> to get your result instantly and
         privately in your browser.
       </p>
+      <ToolCTA slug="bmi-calculator" variant="inline" />
 
       <h2>What Is BMI?</h2>
       <p>
@@ -322,6 +325,7 @@ Upper bound = 24.9 × 3.0625 = 76.3 kg`}
           Open BMI Calculator →
         </a>
       </div>
+      <ToolCTA slug="bmi-calculator" variant="card" />
     </div>
   );
 }

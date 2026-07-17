@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         graphics, can be styled with CSS, animated with JavaScript or CSS transitions, and embedded
         directly into HTML. Understanding SVG properly changes how you think about graphics on the web.
       </p>
+      <ToolCTA slug="svg" variant="inline" />
       <p>
         You can view, inspect, and optimize any SVG file using the{" "}
         <a href="/tools/svg">BrowseryTools SVG Tool</a> — free, no sign-up, everything runs in your
@@ -268,6 +271,7 @@ export default function Content() {
         Always run SVG files through SVGO before shipping. Never inline user-uploaded SVGs directly in
         your HTML. Use <code>currentColor</code> for icons that need to adapt to their text color context.
       </div>
+      <ToolCTA slug="svg" variant="card" />
     </div>
   );
 }

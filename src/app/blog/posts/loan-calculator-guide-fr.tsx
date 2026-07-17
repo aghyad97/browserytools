@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         d'intérêts ils paieront au total, ce qui se passe s'ils effectuent des remboursements
         supplémentaires — restent opaques.
       </p>
+      <ToolCTA slug="loan-calculator" variant="inline" />
       <p>
         Ce guide explique clairement la mécanique du remboursement d'un prêt, incluant le calcul
         mathématique des mensualités, ce que signifie l'amortissement et pourquoi cela compte,
@@ -215,6 +218,7 @@ export default function Content() {
           Ouvrir le calculateur de prêt →
         </a>
       </div>
+      <ToolCTA slug="loan-calculator" variant="card" />
     </div>
   );
 }

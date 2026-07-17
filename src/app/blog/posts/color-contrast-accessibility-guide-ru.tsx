@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -15,6 +17,7 @@ export default function Content() {
         мгновенно проверить любую пару цветов прямо в браузере.
       </p>
 
+      <ToolCTA slug="contrast-checker" variant="inline" />
       <h2>Почему контрастность важна</h2>
       <p>
         Масштаб затронутой аудитории больше, чем обычно предполагают дизайнеры. По данным
@@ -434,6 +437,7 @@ L = 0.2126 × R_linear + 0.7152 × G_linear + 0.0722 × B_linear`}
           Открыть Проверку контрастности →
         </a>
       </div>
+      <ToolCTA slug="contrast-checker" variant="card" />
     </div>
   );
 }

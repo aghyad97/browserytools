@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         saat menggunakan BrowseryTools.
       </p>
 
+      <ToolCTA slug="bg-removal" variant="inline" />
       <h2>Cara Lama: Photoshop dan GIMP</h2>
       <p>
         Selama beberapa dekade, menghapus latar belakang gambar berarti salah satu dari dua hal: membayar
@@ -340,6 +343,7 @@ export default function Content() {
           Buka Alat Penghapus Latar Belakang →
         </a>
       </div>
+      <ToolCTA slug="bg-removal" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         volume permintaan dapat menciptakan tagihan yang jauh lebih besar dari yang diperkirakan.
         Beberapa menit estimasi di awal dapat menghemat banyak tagihan mengejutkan di kemudian hari.
       </p>
+      <ToolCTA slug="ai-cost-calculator" variant="inline" />
       <p>
         Anda dapat menggunakan{" "}
         <a href="/tools/ai-cost-calculator">BrowseryTools AI Cost Calculator</a> — gratis, tanpa
@@ -177,6 +180,7 @@ daily_cost = (800 × $0.003 + 300 × $0.015) per 1K tokens × 5000
           Buka AI Cost Calculator →
         </a>
       </div>
+      <ToolCTA slug="ai-cost-calculator" variant="card" />
     </div>
   );
 }

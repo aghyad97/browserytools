@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         vídeo formativo largo, dando una presentación, vigilando un panel de control o leyendo un artículo que
         exige tu atención, y de repente la pantalla se atenúa y el portátil empieza a deslizarse hacia la suspensión.
       </p>
+      <ToolCTA slug="keep-awake" variant="inline" />
       <p>
         La solución tradicional es engorrosa. En macOS la gente instala Amphetamine o Caffeine. En Windows ajustan
         la configuración de energía o usan una utilidad llamada PowerToys. En Linux rebuscan entre los flags de
@@ -179,6 +182,7 @@ export default function Content() {
         <a href="/tools/world-clock">reloj mundial</a> y mucho más. Todo es gratis, todo es local
         y nada te pide que te registres.
       </p>
+      <ToolCTA slug="keep-awake" variant="card" />
     </div>
   );
 }

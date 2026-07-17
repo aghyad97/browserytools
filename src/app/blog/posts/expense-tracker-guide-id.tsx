@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         Uang keluar dari rekening secara diam-diam dan tidak terlihat, dan tidak ada dalam kehidupan
         keuangan biasa yang mendorongmu untuk memperhatikannya.
       </p>
+      <ToolCTA slug="expense-tracker" variant="inline" />
       <p>
         Solusinya tidak rumit, tapi membutuhkan satu hal: benar-benar melihat angka-angkanya.
         Panduan ini membahas mengapa kebanyakan orang kehilangan jejak pengeluaran mereka, kerangka
@@ -203,6 +206,7 @@ export default function Content() {
           Buka Pelacak Pengeluaran →
         </a>
       </div>
+      <ToolCTA slug="expense-tracker" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         that nobody on the team fully understands anymore. Cron expressions are everywhere — and they are genuinely
         confusing if you have not taken the time to learn the system behind them.
       </p>
+      <ToolCTA slug="cron-parser" variant="inline" />
       <p>
         This guide is the reference you should bookmark. It covers everything from the history of cron and where it
         shows up in modern infrastructure, to every special character, 10 annotated real-world examples, common
@@ -491,6 +494,7 @@ cron(0 0 1 * ? *)           # First day of every month at midnight`}</pre>
           Open the Cron Parser →
         </a>
       </div>
+      <ToolCTA slug="cron-parser" variant="card" />
     </div>
   );
 }

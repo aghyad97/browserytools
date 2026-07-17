@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         العالم ما زالت <strong>"123456"</strong>، يستخدمها ملايين الأشخاص. والأخطر من ذلك أن 65٪ من المستخدمين
         يعيدون استخدام كلمة المرور نفسها على أكثر من موقع — وهذه هي الكارثة الأمنية الحقيقية.
       </p>
+      <ToolCTA slug="password-strength" variant="inline" />
       <p>
         في هذا الدليل ستتعلم لماذا معظم كلمات المرور قابلة للاختراق، وكيف يعمل المهاجمون، وما الذي يجعل كلمة
         المرور قوية فعلًا. وإذا أردت البدء الآن، يمكنك استخدام{" "}
@@ -150,6 +153,7 @@ export default function Content() {
         <li>تحقق بانتظام من هل بريدك الإلكتروني ظهر في اختراقات معروفة</li>
         <li>لا تشارك كلمات المرور عبر أي قناة غير مشفرة</li>
       </ul>
+      <ToolCTA slug="password-strength" variant="card" />
     </div>
   );
 }

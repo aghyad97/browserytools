@@ -7,17 +7,12 @@ import { Stamp, Upload, Info } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { SliderRow } from "@/components/shared/SliderRow";
 import { ModePicker } from "@/components/shared/ModePicker";
+import { ActiveFileBar } from "@/components/pdf-workbench/ActiveFileBar";
+import { useActiveFileIndex } from "@/components/pdf-workbench/useActiveFileIndex";
 import { downloadBlob } from "@/lib/download";
 import { watermarkPdf, type PdfWatermarkAnchor } from "@/lib/pdf/watermark";
 import type { PDFFile } from "@/components/pdf-workbench/ops";
@@ -60,7 +55,7 @@ interface WatermarkPanelProps {
 export function WatermarkPanel({ files, onDropPdf }: WatermarkPanelProps) {
   const t = useTranslations("Tools.PDFTools");
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useActiveFileIndex(files);
   const [text, setText] = useState("DRAFT");
   const [fontSize, setFontSize] = useState(48);
   const [opacity, setOpacity] = useState(30);
@@ -68,10 +63,6 @@ export function WatermarkPanel({ files, onDropPdf }: WatermarkPanelProps) {
   // content value: an arbitrary user-chosen fill color, not a UI token.
   const [color, setColor] = useState("#ff0000");
   const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    if (selectedIndex > files.length - 1) setSelectedIndex(0);
-  }, [files.length, selectedIndex]);
 
   const active = files[selectedIndex] ?? null;
 
@@ -139,94 +130,82 @@ export function WatermarkPanel({ files, onDropPdf }: WatermarkPanelProps) {
   }
 
   return (
-    <SettingsCard>
-      {files.length > 1 && (
-        <OptionRow label={t("selectedFile")} htmlFor="pdf-watermark-file">
-          <Select
-            value={String(selectedIndex)}
-            onValueChange={(v) => setSelectedIndex(Number(v))}
-          >
-            <SelectTrigger id="pdf-watermark-file" aria-label={t("selectedFile")}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {files.map((file, index) => (
-                <SelectItem key={file.name + index} value={String(index)}>
-                  {file.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div className="space-y-6">
+      <ActiveFileBar
+        files={files}
+        selectedIndex={selectedIndex}
+        onSelect={setSelectedIndex}
+        onDropPdf={onDropPdf}
+      />
+      <SettingsCard>
+        <OptionRow label={t("watermarkTextLabel")} htmlFor="pdf-watermark-text">
+          <Input
+            id="pdf-watermark-text"
+            value={text}
+            onChange={(e) => setText(e.target.value)}
+            placeholder={t("watermarkTextPlaceholder")}
+            maxLength={80}
+          />
         </OptionRow>
-      )}
 
-      <OptionRow label={t("watermarkTextLabel")} htmlFor="pdf-watermark-text">
-        <Input
-          id="pdf-watermark-text"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
-          placeholder={t("watermarkTextPlaceholder")}
-          maxLength={80}
+        <SliderRow
+          label={t("watermarkFontSize")}
+          value={fontSize}
+          display={<span dir="ltr">{fontSize}</span>}
+          onChange={setFontSize}
+          min={12}
+          max={144}
+          data-testid="watermark-font-size"
         />
-      </OptionRow>
 
-      <SliderRow
-        label={t("watermarkFontSize")}
-        value={fontSize}
-        display={<span dir="ltr">{fontSize}</span>}
-        onChange={setFontSize}
-        min={12}
-        max={144}
-        data-testid="watermark-font-size"
-      />
-
-      <SliderRow
-        label={t("watermarkOpacity")}
-        value={opacity}
-        display={<span dir="ltr">{opacity}%</span>}
-        onChange={setOpacity}
-        min={0}
-        max={100}
-        data-testid="watermark-opacity"
-      />
-
-      <OptionRow label={t("watermarkPlacement")}>
-        <ModePicker
-          aria-label={t("watermarkPlacement")}
-          value={anchor}
-          onChange={(v) => setAnchor(v as PdfWatermarkAnchor)}
-          options={ANCHORS.map((a) => ({ value: a, label: anchorLabels[a] }))}
-          data-testid="watermark-anchor"
+        <SliderRow
+          label={t("watermarkOpacity")}
+          value={opacity}
+          display={<span dir="ltr">{opacity}%</span>}
+          onChange={setOpacity}
+          min={0}
+          max={100}
+          data-testid="watermark-opacity"
         />
-      </OptionRow>
 
-      <OptionRow label={t("watermarkColor")} htmlFor="pdf-watermark-color">
-        {/* content color: the watermark fill the user picks, not a UI token. */}
-        <Input
-          id="pdf-watermark-color"
-          type="color"
-          value={color}
-          onChange={(e) => setColor(e.target.value)}
-          className="h-10 w-16 cursor-pointer p-1"
-        />
-      </OptionRow>
+        <OptionRow label={t("watermarkPlacement")}>
+          <ModePicker
+            aria-label={t("watermarkPlacement")}
+            value={anchor}
+            onChange={(v) => setAnchor(v as PdfWatermarkAnchor)}
+            options={ANCHORS.map((a) => ({ value: a, label: anchorLabels[a] }))}
+            data-testid="watermark-anchor"
+          />
+        </OptionRow>
 
-      <div
-        className="flex items-start gap-2 rounded-md bg-muted/50 p-3 text-sm text-muted-foreground"
-        role="note"
-      >
-        <Info className="w-4 h-4 mt-0.5 shrink-0" aria-hidden />
-        <p>{t("watermarkAppliedOnExport")}</p>
-      </div>
+        <OptionRow label={t("watermarkColor")} htmlFor="pdf-watermark-color">
+          {/* content color: the watermark fill the user picks, not a UI token. */}
+          <Input
+            id="pdf-watermark-color"
+            type="color"
+            value={color}
+            onChange={(e) => setColor(e.target.value)}
+            className="h-10 w-16 cursor-pointer p-1"
+          />
+        </OptionRow>
 
-      <Button
-        className="w-full"
-        onClick={handleApply}
-        disabled={busy || text.trim().length === 0}
-      >
-        <Stamp className="w-4 h-4 me-2" />
-        {busy ? t("watermarking") : t("applyWatermark")}
-      </Button>
-    </SettingsCard>
+        <div
+          className="flex items-start gap-2 rounded-md bg-muted/50 p-3 text-sm text-muted-foreground"
+          role="note"
+        >
+          <Info className="w-4 h-4 mt-0.5 shrink-0" aria-hidden />
+          <p>{t("watermarkAppliedOnExport")}</p>
+        </div>
+
+        <Button
+          className="w-full"
+          onClick={handleApply}
+          disabled={busy || text.trim().length === 0}
+        >
+          <Stamp className="w-4 h-4 me-2" />
+          {busy ? t("watermarking") : t("applyWatermark")}
+        </Button>
+      </SettingsCard>
+    </div>
   );
 }

@@ -315,6 +315,18 @@
         "name": "Worthäufigkeit",
         "description": "Analysiere die Worthäufigkeit in einem Text."
       },
+      "word-unscrambler": {
+        "name": "Buchstabensalat lösen",
+        "description": "Entwirre Buchstaben zu gültigen Wörtern. Filtere nach Mindestlänge oder einem Pflichtbuchstaben und durchstöbere Treffer, gruppiert nach Wortlänge."
+      },
+      "wordle-solver": {
+        "name": "Wordle-Löser",
+        "description": "Löse Wordle-Rätsel im Handumdrehen. Markiere jedes Feld grau, gelb oder grün und sieh sofort alle passenden Wörter."
+      },
+      "anagram-solver": {
+        "name": "Anagramm-Löser",
+        "description": "Finde alle Anagramme zu einer Buchstabenmenge. Optional auch kürzere Teil-Anagramme, gruppiert nach Wortlänge."
+      },
       "notepad": {
         "name": "Notizblock",
         "description": "Ein einfacher Notizblock im Browser, der deinen Text automatisch speichert."
@@ -762,6 +774,22 @@
       "gif-maker": {
         "name": "GIF-Ersteller",
         "description": "Verwandle eine Bildserie in ein animiertes GIF. Frames neu anordnen, Tempo einstellen, wiederholen und skalieren."
+      },
+      "wheel-of-names": {
+        "name": "Namensrad",
+        "description": "Drehe ein anpassbares Glücksrad, um zufällig einen Gewinner aus einer Namensliste zu ziehen. Ein Name pro Zeile, Reihenfolge mischen und Gewinner nach der Ziehung optional entfernen."
+      },
+      "group-maker": {
+        "name": "Zufallsgruppen-Generator",
+        "description": "Teile eine Namensliste in zufällige Gruppen auf. Wähle eine Zielanzahl an Gruppen oder eine Gruppengröße und erhalte ein druckfertiges Raster mit ausgewogenen Teams."
+      },
+      "bingo-card-generator": {
+        "name": "Bingokarten-Generator",
+        "description": "Erstelle klassische B-I-N-G-O-Zahlenkarten oder eigene Bingokarten mit Wortpool, drucke so viele wie deine Klasse braucht, und verteile jedem Schüler ein einzigartiges Blatt."
+      },
+      "classroom-timer": {
+        "name": "Klassenzimmer-Timer",
+        "description": "Ein Vollbild-Countdown-Timer für den Unterricht — Minuten einstellen, Start drücken und die ganze Klasse im Blick behalten."
       }
     },
     "categoriesShort": {
@@ -862,7 +890,8 @@
       "targetReached": "Ziel erreicht",
       "targetMissed": "Die genaue Zielgröße konnte nicht erreicht werden — das ist die kleinste erreichbare Größe bei akzeptabler Qualität.",
       "pngNotSupportedInTarget": "PNG kann nicht zielgrößenbasiert komprimiert werden — auf JPEG umgestellt.",
-      "presetChipAria": "Zielgröße auf {label} setzen"
+      "presetChipAria": "Zielgröße auf {label} setzen",
+      "change": "Ändern"
     },
     "ImageConverter": {
       "dropImageHere": "Lege dein Bild hier ab",
@@ -895,7 +924,8 @@
       "vibrance": "Brillanz",
       "exposure": "Belichtung",
       "highlights": "Lichter",
-      "shadows": "Schatten"
+      "shadows": "Schatten",
+      "change": "Ändern"
     },
     "SvgEditor": {
       "title": "SVG-Editor",
@@ -945,6 +975,7 @@
       "loadingPages": "Wird geladen …",
       "splitPdfTitle": "PDF teilen",
       "selectedFile": "Ausgewählte Datei",
+      "change": "Ändern",
       "pageRanges": "Seitenbereiche",
       "pageRangesHint": "Beispiele: 1-3,5,7-9 oder 1,3,5 für einzelne Seiten",
       "pageRangesPlaceholder": "z. B. 1-3,5,7-9",
@@ -1101,7 +1132,8 @@
       "showChart": "Diagramm anzeigen",
       "exportCsv": "CSV exportieren",
       "fileLoadedSuccess": "Datei erfolgreich geladen!",
-      "errorLoadingFile": "Fehler beim Laden der Datei"
+      "errorLoadingFile": "Fehler beim Laden der Datei",
+      "change": "Ändern"
     },
     "FileConverter": {
       "title": "Datei-Konverter",
@@ -1200,7 +1232,8 @@
       "errorLoadingFile": "Fehler beim Laden der Audiodatei",
       "errorProcessingFile": "Fehler beim Verarbeiten der Audiodatei",
       "speedSet": "Wiedergabegeschwindigkeit auf {speed}x gesetzt",
-      "downloadOriginal": "Original herunterladen"
+      "downloadOriginal": "Original herunterladen",
+      "change": "Ändern"
     },
     "MicCameraTester": {
       "title": "Mikrofon- & Kameratest",
@@ -2039,7 +2072,8 @@
       "start": "Starten",
       "pause": "Pause",
       "countsUpFrom0": "Zählt ab 0 aufwärts.",
-      "testSound": "Ton testen"
+      "testSound": "Ton testen",
+      "fullscreenHint": "Am besten im Vollbildmodus nutzen, damit die ganze Klasse den Countdown sieht."
     },
     "KeepAwake": {
       "title": "Wachhalten",
@@ -4049,7 +4083,8 @@
       "videoTooLarge": "Die Videogröße sollte unter 500 MB liegen",
       "compressedSuccess": "Video erfolgreich komprimiert!",
       "compressFailed": "Video konnte nicht komprimiert werden. Bitte versuche es erneut.",
-      "downloadedSuccess": "Video heruntergeladen!"
+      "downloadedSuccess": "Video heruntergeladen!",
+      "change": "Ändern"
     },
     "CurlConverter": {
       "selectLanguage": "Sprache auswählen",
@@ -4095,7 +4130,8 @@
       "loadFailed": "Bild konnte nicht geladen werden. Bitte versuche eine andere Datei.",
       "noRegions": "Zeichne mindestens einen Bereich zum Zensieren, bevor du exportierst.",
       "exportedSuccess": "Zensiertes Bild heruntergeladen!",
-      "exportFailed": "Bild konnte nicht exportiert werden. Bitte versuche es erneut."
+      "exportFailed": "Bild konnte nicht exportiert werden. Bitte versuche es erneut.",
+      "change": "Ändern"
     },
     "ScreenshotBeautifier": {
       "title": "Screenshot-Verschönerer",
@@ -4271,6 +4307,8 @@
       "resetTally": "Zählung zurücksetzen",
       "listTitle": "Namens-/Listenauswahl",
       "listDesc": "Füge eine Liste ein und wähle einen zufälligen Gewinner. Ideal für Verlosungen und Ziehungen.",
+      "listPointerDesc": "Willst du zufällig einen Namen aus einer Liste ziehen? Nutze das Namensrad für ein Glücksrad-Erlebnis.",
+      "listPointerCta": "Zum Namensrad",
       "listLabel": "Elemente (eines pro Zeile)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Gewinner nach der Auswahl entfernen (für Ziehungen)",
@@ -4897,6 +4935,97 @@
       "maxRollover": "Max. Rollover",
       "history": "Verlauf",
       "reset": "Zurücksetzen"
+    },
+    "WheelOfNames": {
+      "inputTitle": "Namen",
+      "inputDesc": "Einen Namen pro Zeile eingeben",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} Namen",
+      "removeWinnerAfterSpin": "Gewinner nach Drehung entfernen",
+      "shuffle": "Mischen",
+      "wheelTitle": "Rad",
+      "wheelDesc": "Drehen, um einen Namen zufällig auszuwählen",
+      "spin": "Drehen",
+      "winnerLabel": "Gewinner: {name}"
+    },
+    "GroupMaker": {
+      "inputTitle": "Namen",
+      "inputDesc": "Einen Namen pro Zeile eingeben",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} Namen",
+      "modeLabel": "Gruppieren nach",
+      "byGroupCount": "Anzahl der Gruppen",
+      "byGroupSize": "Gruppengröße",
+      "numberOfGroups": "Anzahl der Gruppen",
+      "peoplePerGroup": "Personen pro Gruppe",
+      "generate": "Gruppen erstellen",
+      "print": "Drucken",
+      "resultsTitle": "Gruppen",
+      "resultsDesc": "{count} Gruppen",
+      "groupLabel": "Gruppe {number}"
+    },
+    "WordUnscrambler": {
+      "inputTitle": "Buchstaben",
+      "inputDesc": "Gib die Buchstaben ein, die du entwirren möchtest, und grenze die Ergebnisse mit optionalen Filtern ein.",
+      "inputPlaceholder": "z. B. scarcat",
+      "lettersLabel": "Buchstaben",
+      "minLengthLabel": "Mindestlänge",
+      "containsLabel": "Enthält Buchstabe",
+      "solve": "Entwirren",
+      "resultsTitle": "Treffer",
+      "resultsDesc": "{count} Wörter gefunden",
+      "groupLabel": "{length} Buchstaben",
+      "noResults": "Keine Wörter gefunden. Versuche andere Buchstaben oder Filter.",
+      "loadingDictionary": "Wörterbuch wird geladen …",
+      "errorMessage": "Wörterbuch konnte nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.",
+      "retry": "Erneut versuchen"
+    },
+    "WordleSolver": {
+      "inputTitle": "Rateplättchen",
+      "inputDesc": "Gib in jedes Feld einen Buchstaben ein und klicke darunter, um die Farbe zu wechseln: grau (nicht im Wort), gelb (falsche Position), grün (richtige Position).",
+      "letterAriaLabel": "Buchstabe {position}",
+      "tileStateAriaLabel": "Status von Feld {position}: {state}",
+      "stateGray": "Grau",
+      "stateYellow": "Gelb",
+      "stateGreen": "Grün",
+      "solve": "Wörter finden",
+      "resultsTitle": "Mögliche Antworten",
+      "resultsDesc": "{count} Wörter gefunden",
+      "noResults": "Keine passenden Wörter. Überprüfe deine Feldfarben.",
+      "loadingDictionary": "Wörterbuch wird geladen …",
+      "errorMessage": "Wörterbuch konnte nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.",
+      "retry": "Erneut versuchen"
+    },
+    "AnagramSolver": {
+      "inputTitle": "Buchstaben",
+      "inputDesc": "Gib die Buchstaben ein, für die du Anagramme finden möchtest.",
+      "inputPlaceholder": "z. B. cat",
+      "lettersLabel": "Buchstaben",
+      "allowShorterLabel": "Kürzere Wörter einbeziehen",
+      "solve": "Anagramme finden",
+      "resultsTitle": "Treffer",
+      "resultsDesc": "{count} Wörter gefunden",
+      "groupLabel": "{length} Buchstaben",
+      "noResults": "Keine Anagramme gefunden. Versuche andere Buchstaben.",
+      "loadingDictionary": "Wörterbuch wird geladen …",
+      "errorMessage": "Wörterbuch konnte nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.",
+      "retry": "Erneut versuchen"
+    },
+    "BingoCardGenerator": {
+      "inputTitle": "Bingo-Einstellungen",
+      "inputDesc": "Wähle einen Modus, lege die Anzahl der Karten fest und erstelle sie.",
+      "modeLabel": "Kartentyp",
+      "numberMode": "Zahlen (B-I-N-G-O)",
+      "wordMode": "Wortpool",
+      "cardCountLabel": "Anzahl der Karten",
+      "wordPoolPlaceholder": "Apfel\nBanane\nKirsche\nDattel\nHolunder",
+      "wordsCount": "{count} Wörter",
+      "cardSizeLabel": "Kartengröße (pro Seite)",
+      "generate": "Karten erstellen",
+      "print": "Drucken",
+      "resultsTitle": "Bingokarten",
+      "resultsDesc": "{count} Karten",
+      "errorPoolTooSmall": "Dein Wortpool ist für die gewählte Kartengröße zu klein. Füge mehr Wörter hinzu oder wähle eine kleinere Karte."
     }
   },
   "Blog": {
@@ -4907,7 +5036,8 @@
     "privacyDesc": "Jedes Tool bei BrowseryTools läuft vollständig in deinem Browser. Es werden keine Dateien auf einen Server hochgeladen. Keine Konten. Keine Werbung. Für immer kostenlos.",
     "exploreTools": "Alle Tools entdecken →",
     "featured": "Empfohlen",
-    "allPosts": "Alle Beiträge"
+    "allPosts": "Alle Beiträge",
+    "openTool": "Tool öffnen →"
   },
   "CoffeeBanner": {
     "message": "Gefallen dir die Tools? Unterstütze die Entwicklung mit einem Kaffee!",

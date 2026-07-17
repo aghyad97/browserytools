@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         memahami vektor. Solusinya adalah{" "}
         <strong>mengkonversi SVG ke PNG</strong>: format raster universal yang berfungsi di mana saja.
       </p>
+      <ToolCTA slug="svg-png" variant="inline" />
       <p>
         <a href="/tools/svg-png">BrowseryTools SVG to PNG converter</a> melakukan ini di browsermu
         — tempel atau unggah SVG, pilih resolusi, dan unduh PNG yang tajam. Tanpa unggahan, tanpa
@@ -123,6 +126,7 @@ export default function Content() {
         dan untuk memahami format vektor itu sendiri baca{" "}
         <a href="/blog/svg-guide">panduan SVG lengkap</a>.
       </p>
+      <ToolCTA slug="svg-png" variant="card" />
     </div>
   );
 }

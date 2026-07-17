@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         pour la moitié de l'équipe. Un développeur a stocké des horodatages en heure locale et
         maintenant la base de données est un fouillis d'entrées ambiguës.
       </p>
+      <ToolCTA slug="timezone-converter" variant="inline" />
       <p>
         Les fuseaux horaires sont l'un de ces systèmes qui paraissent intuitifs jusqu'à ce qu'ils
         ne le soient plus, et les cas limites causent de vrais problèmes. Ce guide explique comment
@@ -215,6 +218,7 @@ export default function Content() {
           Ouvrir le convertisseur de fuseaux horaires →
         </a>
       </div>
+      <ToolCTA slug="timezone-converter" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         nilai <strong>MCMXCIV</strong>? Panduan ini menjelaskan persis cara kerja angka Romawi, aturan
         yang sering membingungkan, dan cara mengkonversi angka apa pun dalam kedua arah secara instan.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         Jika kamu hanya membutuhkan jawabannya, gunakan{" "}
         <a href="/tools/roman-numeral">BrowseryTools Roman Numeral Converter</a> yang mengkonversi
@@ -140,6 +143,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/percentage-calculator">kalkulator persentase</a> untuk matematika yang tidak
         pernah diselesaikan oleh orang Romawi.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

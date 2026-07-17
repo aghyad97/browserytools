@@ -54,6 +54,19 @@ async function uploadVideo(container: HTMLElement) {
   return user;
 }
 
+async function changeVideo(
+  user: ReturnType<typeof userEvent.setup>,
+  name: string
+) {
+  await user.click(screen.getByRole("button", { name: /change/i }));
+  const input = document.querySelector(
+    'input[type="file"]'
+  ) as HTMLInputElement;
+  const file = new File(["y".repeat(1000)], name, { type: "video/mp4" });
+  await user.upload(input, file);
+  await screen.findByText(name);
+}
+
 describe("CompressVideo", () => {
   it("renders the idle upload prompt and controls", () => {
     render(<CompressVideo />);
@@ -102,5 +115,71 @@ describe("CompressVideo", () => {
     expect(args).toContain("libx264");
     expect(args).toContain("-crf");
     expect(args).toContain("28");
+  });
+
+  it("offers a Change control once a video is loaded, and swaps the file", async () => {
+    const { container } = render(<CompressVideo />);
+    const user = await uploadVideo(container);
+
+    expect(
+      screen.getByRole("button", { name: /change/i })
+    ).toBeInTheDocument();
+
+    await changeVideo(user, "second.mp4");
+    expect(screen.queryByText("clip.mp4")).not.toBeInTheDocument();
+  });
+
+  it("clears the previous compressed output when the video is swapped", async () => {
+    const { container } = render(<CompressVideo />);
+    const user = await uploadVideo(container);
+
+    await user.click(screen.getByRole("button", { name: /compress video/i }));
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: /download/i })).toBeEnabled()
+    );
+
+    // Swap files — the compressed result belongs to the old file and must
+    // not linger as if it applies to the new one.
+    await changeVideo(user, "second.mp4");
+    expect(
+      screen.getByRole("button", { name: /download/i })
+    ).toBeDisabled();
+  });
+
+  it("discards a still-running compression's result if the video is swapped mid-run", async () => {
+    let resolveExec: () => void = () => {};
+    exec.mockImplementationOnce(
+      () =>
+        new Promise<void>((resolve) => {
+          resolveExec = () => {
+            progressHandler?.({ progress: 1 });
+            resolve();
+          };
+        })
+    );
+
+    const { container } = render(<CompressVideo />);
+    const user = await uploadVideo(container);
+
+    // Start a compress for the first video, but don't let ffmpeg.exec resolve
+    // yet — simulates a slow encode still running when the user swaps files.
+    await user.click(screen.getByRole("button", { name: /compress video/i }));
+    await waitFor(() => expect(exec).toHaveBeenCalledTimes(1));
+
+    await changeVideo(user, "second.mp4");
+    expect(
+      screen.getByRole("button", { name: /download/i })
+    ).toBeDisabled();
+
+    // Now let the stale compress finish — its result must be discarded
+    // instead of silently becoming "second.mp4"'s compressed output.
+    resolveExec();
+    await waitFor(() => expect(readFile).toHaveBeenCalled());
+    // Give any pending state updates a chance to flush, then assert the
+    // download button is still disabled (stale result was not applied).
+    await new Promise((r) => setTimeout(r, 10));
+    expect(
+      screen.getByRole("button", { name: /download/i })
+    ).toBeDisabled();
   });
 });

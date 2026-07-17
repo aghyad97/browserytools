@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         (comúnmente llamada codificación de URL) es el mecanismo que permite incrustar datos arbitrarios
         de forma segura en una URL.
       </p>
+      <ToolCTA slug="url-encoder" variant="inline" />
       <p>
         Puedes codificar y decodificar URLs al instante con el{" "}
         <a href="/tools/url-encoder">Codificador/Decodificador de URL de BrowseryTools</a> — gratuito,
@@ -195,6 +198,7 @@ new URLSearchParams({ q: "rock & roll" }).toString()
           Abrir Codificador de URL →
         </a>
       </div>
+      <ToolCTA slug="url-encoder" variant="card" />
     </div>
   );
 }

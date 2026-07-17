@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         entender o modelo por baixo. Este guia explica as permissões de arquivos Unix desde os
         primeiros princípios.
       </p>
+      <ToolCTA slug="chmod" variant="inline" />
       <p>
         Você pode calcular valores de permissão e converter entre notação octal e simbólica instantaneamente
         com a{" "}
@@ -177,6 +180,7 @@ chmod +x deploy.sh`}
           Abrir Calculadora chmod →
         </a>
       </div>
+      <ToolCTA slug="chmod" variant="card" />
     </div>
   );
 }

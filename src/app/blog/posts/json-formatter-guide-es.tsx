@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         analizarlo, sino cómo leerlo, validarlo y solucionar sus problemas— es una de las habilidades
         de mayor apalancamiento que puede tener un desarrollador.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         Esta guía cubre desde los fundamentos de la sintaxis JSON hasta la depuración de errores de
         análisis comunes, estrategias de formato y el trabajo con estructuras profundamente anidadas.
@@ -207,6 +210,7 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">Formateador JSON de BrowseryTools</a> y el error será
         inmediatamente visible con la posición exacta resaltada.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>schwärzen oder zensieren</strong> — weichzeichnen, verpixeln oder schwärzen — ohne
         das Original einer Website zu übergeben.
       </p>
+      <ToolCTA slug="photo-censor" variant="inline" />
       <p>
         Das <a href="/tools/photo-censor">BrowseryTools Photo Censor</a>-Tool erledigt genau das,
         vollständig in Ihrem Browser. Sie malen über die Bereiche, die Sie verbergen möchten, wählen
@@ -132,6 +135,7 @@ export default function Content() {
         zuschneiden oder mit einem Wasserzeichen versehen müssen, lesen Sie unseren Leitfaden zum{" "}
         <a href="/blog/crop-and-watermark-images-online">Zuschneiden und Wasserzeichnen von Bildern online</a>.
       </p>
+      <ToolCTA slug="photo-censor" variant="card" />
     </div>
   );
 }

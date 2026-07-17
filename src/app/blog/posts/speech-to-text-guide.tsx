@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -12,6 +14,7 @@ export default function Content() {
         <a href="/tools/speech-to-text">BrowseryTools Speech to Text</a> puts it
         one click away.
       </p>
+      <ToolCTA slug="speech-to-text" variant="inline" />
 
       <h2>What Is Speech to Text?</h2>
       <p>
@@ -157,6 +160,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">Markdown editor</a> for polishing them.
         Everything is free, everything is local, and nothing asks you to sign up.
       </p>
+      <ToolCTA slug="speech-to-text" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         as consequências do atraso. Acertar isso importa mais do que a maioria percebe, até
         o momento em que estão tentando cobrar uma fatura vencida de um cliente que sumiu.
       </p>
+      <ToolCTA slug="invoice" variant="inline" />
       <p>
         Este guia cobre tudo que uma fatura profissional deve incluir, as convenções de numeração
         e prazos de pagamento, como os requisitos de faturamento diferem por país e por que a
@@ -220,6 +223,7 @@ export default function Content() {
           Criar Fatura →
         </a>
       </div>
+      <ToolCTA slug="invoice" variant="card" />
     </div>
   );
 }

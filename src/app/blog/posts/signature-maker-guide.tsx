@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         in or photograph it, crop it, and email it back. It wastes paper, time, and patience — and the result
         usually looks crooked and grey.
       </p>
+      <ToolCTA slug="signature-maker" variant="inline" />
       <p>
         An <strong>online signature maker</strong> removes every step of that. Instead of printing and
         scanning, you create your signature directly in the browser and drop it onto the document as an image.
@@ -129,6 +132,7 @@ export default function Content() {
         <a href="/tools/image-resizer">image resizer</a> to size your signature precisely, and dozens of other
         free, privacy-respecting utilities that run entirely in your browser.
       </p>
+      <ToolCTA slug="signature-maker" variant="card" />
     </div>
   );
 }

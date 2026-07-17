@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         <code>-d</code>, <code>-u</code>, dan <code>-X</code> harus dipetakan ke argumen yang tepat
         dalam bahasamu, dan satu header yang terlewat akan merusak request.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         <a href="/tools/curl-converter">BrowseryTools cURL Converter</a> melakukannya secara instan —
         tempel perintah cURL dan dapatkan kode bersih dalam JavaScript <code>fetch</code>, Python{" "}
@@ -131,6 +134,7 @@ requests.post(
         untuk memahami respons yang kamu dapatkan kembali lihat{" "}
         <a href="/blog/http-status-codes-guide">panduan kode status HTTP</a>.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

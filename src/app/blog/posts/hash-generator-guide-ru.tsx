@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -7,6 +9,7 @@ export default function Content() {
         примитивов современной компьютерной безопасности — и всё же различия между MD5, SHA-1, SHA-256 и SHA-512
         широко неправильно понимаются, что приводит к реальным ошибкам безопасности в продакшен-системах.
       </p>
+      <ToolCTA slug="hash-generator" variant="inline" />
       <p>
         Это руководство объясняет, что такое хеш-функции, как работает каждый основной алгоритм, когда какой уместен
         (и когда опасно неуместен) и как использовать <a href="/tools/hash-generator">генератор хешей BrowseryTools</a>,
@@ -333,6 +336,7 @@ export default function Content() {
           Открыть генератор хешей →
         </a>
       </div>
+      <ToolCTA slug="hash-generator" variant="card" />
     </div>
   );
 }

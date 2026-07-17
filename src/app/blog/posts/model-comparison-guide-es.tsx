@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Elegir el equivocado puede significar pagar 10 veces más de lo necesario, obtener resultados
         de menor calidad o construir sobre un modelo que resulte poco fiable para tu tarea específica.
       </p>
+      <ToolCTA slug="model-comparison" variant="inline" />
       <p>
         Puedes usar la{" "}
         <a href="/tools/model-comparison">herramienta de Comparación de Modelos de BrowseryTools</a>{" "}
@@ -230,6 +233,7 @@ export default function Content() {
           Abrir Comparación de Modelos →
         </a>
       </div>
+      <ToolCTA slug="model-comparison" variant="card" />
     </div>
   );
 }

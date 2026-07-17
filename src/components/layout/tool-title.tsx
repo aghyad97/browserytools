@@ -230,6 +230,20 @@ const HAS_OWN_H1 = new Set([
   "extract-text-from-pdf",
   "reorder-pdf-pages",
   "jpg-to-pdf",
+  // Wave 4 (W4) Task 8: Bingo Card Generator ships directly on ToolShell.
+  "bingo-card-generator",
+  // Wave 4 (W4) Task 9: Wheel of Names and Group Maker ship directly on ToolShell.
+  "wheel-of-names",
+  "group-maker",
+  // Wave 4 (W4) Task 9: Classroom Timer is a Timer countdown preset, already
+  // on ToolShell (the shell owns the h1).
+  "classroom-timer",
+  // Wave 4 (W4) Task 10: Word Unscrambler ships directly on ToolShell.
+  "word-unscrambler",
+  // Wave 4 (W4) Task 11: Wordle Solver ships directly on ToolShell.
+  "wordle-solver",
+  // Wave 4 (W4) Task 12: Anagram Solver ships directly on ToolShell.
+  "anagram-solver",
 ]);
 
 export function ToolTitle() {

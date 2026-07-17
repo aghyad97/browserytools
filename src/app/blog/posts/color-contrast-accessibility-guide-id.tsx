@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -15,6 +17,7 @@ export default function Content() {
         pasangan warna apa pun secara instan di browser Anda.
       </p>
 
+      <ToolCTA slug="contrast-checker" variant="inline" />
       <h2>Mengapa Kontras Itu Penting</h2>
       <p>
         Skala populasi yang terdampak jauh lebih besar dari yang diperkirakan kebanyakan desainer. Menurut
@@ -433,6 +436,7 @@ L = 0.2126 × R_linear + 0.7152 × G_linear + 0.0722 × B_linear`}
           Buka Color Contrast Checker →
         </a>
       </div>
+      <ToolCTA slug="contrast-checker" variant="card" />
     </div>
   );
 }

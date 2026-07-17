@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         The fix is <strong>OCR</strong> (optical character recognition): software that looks at an image and
         reconstructs the text it contains.
       </p>
+      <ToolCTA slug="image-to-text" variant="inline" />
       <p>
         The good news is you no longer need Adobe Acrobat, a desktop scanner suite, or a paid web service to
         do this. You can <strong>extract text from an image</strong> entirely inside your browser, for free,
@@ -100,6 +103,7 @@ export default function Content() {
         <a href="/tools/image-to-text">free Image to Text (OCR) tool</a>, drop in your image, and have editable
         text in seconds — all while your files stay private on your own device.
       </p>
+      <ToolCTA slug="image-to-text" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         of the most well-researched areas in behavioral psychology, with decades of studies pointing
         to concrete, reliable techniques that work for most people.
       </p>
+      <ToolCTA slug="habit-tracker" variant="inline" />
       <p>
         This guide covers the science behind why habits form and stick, the psychological mechanics
         of streaks, the best frameworks for building new routines, and how to use a simple daily
@@ -385,6 +388,7 @@ export default function Content() {
           Open Habit Tracker →
         </a>
       </div>
+      <ToolCTA slug="habit-tracker" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         знаками, сайты, которые загружают ваше изображение на сервер, или дизайн-пакеты, которые просят вас
         зарегистрироваться, прежде чем вы поставите на картинку хоть одно слово.
       </p>
+      <ToolCTA slug="meme-generator" variant="inline" />
       <p>
         Есть способ проще. Вы можете{" "}
         <a href="/tools/meme-generator">сделать мем онлайн бесплатно</a> прямо в браузере с помощью генератора
@@ -129,6 +132,7 @@ export default function Content() {
         конкретную платформу, вас выручит <a href="/tools/image-resizer">Изменение размера изображений</a>.
         Всё бесплатно, всё локально, и ничто не просит вас регистрироваться.
       </p>
+      <ToolCTA slug="meme-generator" variant="card" />
     </div>
   );
 }

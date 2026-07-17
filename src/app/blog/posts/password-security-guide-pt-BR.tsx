@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         com o Google, 65% das pessoas reutilizam a mesma senha em vários sites. Esse é o maior erro de segurança
         que você pode cometer na internet.
       </p>
+      <ToolCTA slug="password-strength" variant="inline" />
       <p>
         Este guia detalha exatamente o que torna uma senha fraca ou forte, como os atacantes a quebram e como você
         pode se proteger — usando ferramentas gratuitas que rodam inteiramente no seu navegador, sem que nenhum dado seja enviado a um servidor.
@@ -324,6 +327,7 @@ export default function Content() {
         fora do seu próprio dispositivo. Essa é a promessa do BrowseryTools — ferramentas poderosas que genuinamente respeitam sua
         privacidade.
       </p>
+      <ToolCTA slug="password-strength" variant="card" />
     </div>
   );
 }

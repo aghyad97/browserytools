@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -9,6 +11,7 @@ export default function Content() {
         بسيطة ومجانية تستخدمها في ثوانٍ.
       </p>
 
+      <ToolCTA slug="text-to-speech" variant="inline" />
       <h2>ما المقصود بـ«تحويل النص إلى كلام»؟</h2>
       <p>
         تحويل النص إلى كلام (TTS) هو عملية تحويل الكلمات المكتوبة إلى صوت منطوق. تكتب النص أو تلصقه، وتختار صوتاً،
@@ -100,6 +103,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">محرّر ماركداون</a> — وكلها تعمل بالكامل في متصفحك، بلا إعلانات ولا تتبّع
         ولا تسجيل.
       </p>
+      <ToolCTA slug="text-to-speech" variant="card" />
     </div>
   );
 }

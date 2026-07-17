@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -7,6 +9,7 @@ export default function Content() {
         and no cost. This guide explains how the technology works, why the popular alternatives have meaningful
         drawbacks, and how to get perfect results every time using BrowseryTools.
       </p>
+      <ToolCTA slug="bg-removal" variant="inline" />
 
       <h2>The Old Way: Photoshop and GIMP</h2>
       <p>
@@ -323,6 +326,7 @@ export default function Content() {
           Open Background Removal Tool →
         </a>
       </div>
+      <ToolCTA slug="bg-removal" variant="card" />
     </div>
   );
 }

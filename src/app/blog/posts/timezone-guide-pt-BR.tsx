@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         desenvolvedor armazenou timestamps no horário local e agora o banco de dados está cheio
         de registros ambíguos.
       </p>
+      <ToolCTA slug="timezone-converter" variant="inline" />
       <p>
         Os fusos horários são um desses sistemas que parecem intuitivos até que não são, e os
         casos extremos causam problemas reais. Este guia aborda como o sistema funciona, onde ele
@@ -213,6 +216,7 @@ export default function Content() {
           Abrir Conversor de Fuso Horário →
         </a>
       </div>
+      <ToolCTA slug="timezone-converter" variant="card" />
     </div>
   );
 }

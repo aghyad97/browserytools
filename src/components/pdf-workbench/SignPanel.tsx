@@ -7,13 +7,6 @@ import { PenLine, Upload } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { ModePicker } from "@/components/shared/ModePicker";
@@ -22,6 +15,8 @@ import {
   type Stroke,
   type SignaturePadHandle,
 } from "@/components/shared/SignaturePad";
+import { ActiveFileBar } from "@/components/pdf-workbench/ActiveFileBar";
+import { useActiveFileIndex } from "@/components/pdf-workbench/useActiveFileIndex";
 import { openPdf } from "@/lib/pdf/pdfjs-doc";
 import { signPdf, type SignPlacement } from "@/lib/pdf/sign";
 import { moveRect, resizeRect, type CropRect } from "@/lib/image/crop-rect";
@@ -62,7 +57,7 @@ async function blobToBytes(blob: Blob): Promise<Uint8Array> {
 export function SignPanel({ files, onDropPdf }: SignPanelProps) {
   const t = useTranslations("Tools.PDFTools");
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useActiveFileIndex(files);
   const [source, setSource] = useState<SignSource>("draw");
   const [busy, setBusy] = useState(false);
 
@@ -86,10 +81,6 @@ export function SignPanel({ files, onDropPdf }: SignPanelProps) {
 
   // Placement box, normalized TOP-LEFT (fractions of the page).
   const [rect, setRect] = useState<CropRect>(DEFAULT_RECT);
-
-  useEffect(() => {
-    if (selectedIndex > files.length - 1) setSelectedIndex(0);
-  }, [files.length, selectedIndex]);
 
   const active = files[selectedIndex] ?? null;
 
@@ -251,134 +242,122 @@ export function SignPanel({ files, onDropPdf }: SignPanelProps) {
   }
 
   return (
-    <SettingsCard>
-      {files.length > 1 && (
-        <OptionRow label={t("selectedFile")} htmlFor="pdf-sign-file">
-          <Select
-            value={String(selectedIndex)}
-            onValueChange={(v) => setSelectedIndex(Number(v))}
-          >
-            <SelectTrigger id="pdf-sign-file" aria-label={t("selectedFile")}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {files.map((file, index) => (
-                <SelectItem key={file.name + index} value={String(index)}>
-                  {file.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+    <div className="space-y-6">
+      <ActiveFileBar
+        files={files}
+        selectedIndex={selectedIndex}
+        onSelect={setSelectedIndex}
+        onDropPdf={onDropPdf}
+      />
+      <SettingsCard>
+        <OptionRow label={t("signSourceLabel")}>
+          <ModePicker
+            aria-label={t("signSourceLabel")}
+            value={source}
+            onChange={(v) => setSource(v as SignSource)}
+            options={[
+              { value: "draw", label: t("signSourceDraw") },
+              { value: "upload", label: t("signSourceUpload") },
+            ]}
+            data-testid="sign-source"
+          />
         </OptionRow>
-      )}
 
-      <OptionRow label={t("signSourceLabel")}>
-        <ModePicker
-          aria-label={t("signSourceLabel")}
-          value={source}
-          onChange={(v) => setSource(v as SignSource)}
-          options={[
-            { value: "draw", label: t("signSourceDraw") },
-            { value: "upload", label: t("signSourceUpload") },
-          ]}
-          data-testid="sign-source"
-        />
-      </OptionRow>
-
-      {source === "draw" ? (
-        <div
-          className="rounded-lg border-2 border-dashed border-muted-foreground/40"
-          // content value: fixed neutral checkerboard = "transparent background"
-          // indicator (same convention as the Signature Maker), theme-independent.
-          style={{
-            backgroundImage:
-              "linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)",
-            backgroundSize: "20px 20px",
-            backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
-          }}
-        >
-          <SignaturePad
-            ref={padRef}
-            mode="draw"
-            strokes={strokes}
-            onStrokesChange={setStrokes}
-          />
-        </div>
-      ) : (
-        <FileDropzone
-          onFiles={onUploadPng}
-          accept={PNG_ACCEPT}
-          inputProps={{ "data-testid": "sign-upload-input" }}
-          className={({ isDragActive }) =>
-            `rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-2 p-6 cursor-pointer transition-[border-color,background-color] duration-150 ${
-              isDragActive
-                ? "border-primary bg-primary/10"
-                : "border-muted-foreground hover:border-primary hover:bg-primary/5"
-            }`
-          }
-        >
-          <Upload className="w-6 h-6 text-primary" />
-          <p className="text-sm font-medium">
-            {uploadedName ?? t("signUploadHint")}
-          </p>
-        </FileDropzone>
-      )}
-
-      <OptionRow label={t("signPageLabel")} htmlFor="pdf-sign-page">
-        <Input
-          id="pdf-sign-page"
-          type="number"
-          dir="ltr"
-          min={1}
-          max={pageCount || 1}
-          value={pageNumber}
-          onChange={(e) => handlePageInput(e.target.value)}
-          className="w-24"
-        />
-        {pageCount > 0 && (
-          <span className="text-sm text-muted-foreground" dir="ltr">
-            {t("pageOf", { current: pageNumber, total: pageCount })}
-          </span>
+        {source === "draw" ? (
+          <div
+            className="rounded-lg border-2 border-dashed border-muted-foreground/40"
+            // content value: fixed neutral checkerboard = "transparent background"
+            // indicator (same convention as the Signature Maker), theme-independent.
+            style={{
+              backgroundImage:
+                "linear-gradient(45deg, #e5e7eb 25%, transparent 25%), linear-gradient(-45deg, #e5e7eb 25%, transparent 25%), linear-gradient(45deg, transparent 75%, #e5e7eb 75%), linear-gradient(-45deg, transparent 75%, #e5e7eb 75%)",
+              backgroundSize: "20px 20px",
+              backgroundPosition: "0 0, 0 10px, 10px -10px, -10px 0px",
+            }}
+          >
+            <SignaturePad
+              ref={padRef}
+              mode="draw"
+              strokes={strokes}
+              onStrokesChange={setStrokes}
+            />
+          </div>
+        ) : (
+          <FileDropzone
+            onFiles={onUploadPng}
+            accept={PNG_ACCEPT}
+            inputProps={{ "data-testid": "sign-upload-input" }}
+            className={({ isDragActive }) =>
+              `rounded-lg border-2 border-dashed flex flex-col items-center justify-center gap-2 p-6 cursor-pointer transition-[border-color,background-color] duration-150 ${
+                isDragActive
+                  ? "border-primary bg-primary/10"
+                  : "border-muted-foreground hover:border-primary hover:bg-primary/5"
+              }`
+            }
+          >
+            <Upload className="w-6 h-6 text-primary" />
+            <p className="text-sm font-medium">
+              {uploadedName ?? t("signUploadHint")}
+            </p>
+          </FileDropzone>
         )}
-      </OptionRow>
 
-      {/* Physical document space: keep LTR so the box never mirrors under RTL. */}
-      <div
-        ref={containerRef}
-        dir="ltr"
-        className="relative mx-auto w-fit max-w-full touch-none select-none"
-        data-testid="sign-preview"
-      >
-        <canvas ref={canvasRef} className="block max-w-full h-auto rounded-md border" />
-        <div
-          role="button"
-          tabIndex={0}
-          aria-label={t("signBoxLabel")}
-          onPointerDown={(e) => startDrag(e, "move")}
-          className="absolute cursor-move rounded-sm border-2 border-primary bg-primary/15"
-          style={{
-            left: `${rect.x * 100}%`,
-            top: `${rect.y * 100}%`,
-            width: `${rect.w * 100}%`,
-            height: `${rect.h * 100}%`,
-          }}
-        >
-          <span
-            onPointerDown={(e) => startDrag(e, "resize")}
-            className="absolute -bottom-1.5 -end-1.5 h-3 w-3 cursor-se-resize rounded-full border-2 border-primary bg-background"
-            aria-hidden
+        <OptionRow label={t("signPageLabel")} htmlFor="pdf-sign-page">
+          <Input
+            id="pdf-sign-page"
+            type="number"
+            dir="ltr"
+            min={1}
+            max={pageCount || 1}
+            value={pageNumber}
+            onChange={(e) => handlePageInput(e.target.value)}
+            className="w-24"
           />
-        </div>
-      </div>
+          {pageCount > 0 && (
+            <span className="text-sm text-muted-foreground" dir="ltr">
+              {t("pageOf", { current: pageNumber, total: pageCount })}
+            </span>
+          )}
+        </OptionRow>
 
-      <Button
-        className="w-full"
-        onClick={handleApply}
-        disabled={busy || !hasSignature}
-      >
-        <PenLine className="w-4 h-4 me-2" />
-        {busy ? t("signing") : t("applySign")}
-      </Button>
-    </SettingsCard>
+        {/* Physical document space: keep LTR so the box never mirrors under RTL. */}
+        <div
+          ref={containerRef}
+          dir="ltr"
+          className="relative mx-auto w-fit max-w-full touch-none select-none"
+          data-testid="sign-preview"
+        >
+          <canvas ref={canvasRef} className="block max-w-full h-auto rounded-md border" />
+          <div
+            role="button"
+            tabIndex={0}
+            aria-label={t("signBoxLabel")}
+            onPointerDown={(e) => startDrag(e, "move")}
+            className="absolute cursor-move rounded-sm border-2 border-primary bg-primary/15"
+            style={{
+              left: `${rect.x * 100}%`,
+              top: `${rect.y * 100}%`,
+              width: `${rect.w * 100}%`,
+              height: `${rect.h * 100}%`,
+            }}
+          >
+            <span
+              onPointerDown={(e) => startDrag(e, "resize")}
+              className="absolute -bottom-1.5 -end-1.5 h-3 w-3 cursor-se-resize rounded-full border-2 border-primary bg-background"
+              aria-hidden
+            />
+          </div>
+        </div>
+
+        <Button
+          className="w-full"
+          onClick={handleApply}
+          disabled={busy || !hasSignature}
+        >
+          <PenLine className="w-4 h-4 me-2" />
+          {busy ? t("signing") : t("applySign")}
+        </Button>
+      </SettingsCard>
+    </div>
   );
 }

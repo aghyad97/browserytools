@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         que mapear para o argumento certo na sua linguagem, e um único cabeçalho ausente quebra
         a requisição.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         O <a href="/tools/curl-converter">BrowseryTools cURL Converter</a> faz isso
         instantaneamente — cole um comando cURL e obtenha código limpo em JavaScript{" "}
@@ -133,6 +136,7 @@ requests.post(
         e para entender as respostas que você recebe de volta veja o{" "}
         <a href="/blog/http-status-codes-guide">guia de códigos de status HTTP</a>.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

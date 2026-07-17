@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         apps with watermarks, websites that upload your image to a server, or design suites that ask you to
         sign up before you can place a single word on a picture.
       </p>
+      <ToolCTA slug="meme-generator" variant="inline" />
       <p>
         There is a simpler way. You can{" "}
         <a href="/tools/meme-generator">make a meme online free</a> directly in your browser with the
@@ -124,6 +127,7 @@ export default function Content() {
         <a href="/tools/image-resizer">Image Resizer</a> has you covered. Everything is free, everything is
         local, and nothing asks you to sign up.
       </p>
+      <ToolCTA slug="meme-generator" variant="card" />
     </div>
   );
 }

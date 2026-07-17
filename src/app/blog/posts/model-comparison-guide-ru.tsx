@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         качество вывода или строительство на модели, которая окажется ненадёжной для вашей
         конкретной задачи.
       </p>
+      <ToolCTA slug="model-comparison" variant="inline" />
       <p>
         Воспользуйтесь{" "}
         <a href="/tools/model-comparison">инструментом сравнения моделей BrowseryTools</a> —
@@ -233,6 +236,7 @@ export default function Content() {
           Открыть сравнение моделей →
         </a>
       </div>
+      <ToolCTA slug="model-comparison" variant="card" />
     </div>
   );
 }

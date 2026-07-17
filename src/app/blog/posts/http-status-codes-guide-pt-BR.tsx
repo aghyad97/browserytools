@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         indicam sobre um bug torna você significativamente mais rápido na depuração e na construção
         de serviços melhores.
       </p>
+      <ToolCTA slug="http-status" variant="inline" />
       <p>
         Você pode consultar qualquer código de status HTTP com a{" "}
         <a href="/tools/http-status">Referência de Códigos de Status HTTP do BrowseryTools</a> — gratuita,
@@ -193,6 +196,7 @@ Authorization: Bearer <valid-regular-user-token>
           Abrir Referência de Status HTTP →
         </a>
       </div>
+      <ToolCTA slug="http-status" variant="card" />
     </div>
   );
 }

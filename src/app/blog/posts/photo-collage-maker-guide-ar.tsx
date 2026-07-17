@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         مائية على عملك، أو ترفع صورك الخاصة إلى خادم لا تتحكم به، أو تدفعك إلى اشتراك مدفوع قبل أن تتمكن من
         تنزيل أي شيء.
       </p>
+      <ToolCTA slug="photo-collage" variant="inline" />
       <p>
         تتبع <a href="/tools/photo-collage">أداة كولاج الصور من BrowseryTools</a> النهج المعاكس. إنها{" "}
         <strong>أداة مجانية لصنع الكولاج عبر الإنترنت</strong> تعمل بالكامل داخل متصفحك. لا تغادر صورك جهازك
@@ -98,6 +101,7 @@ export default function Content() {
         <a href="/tools/photo-collage">أداة كولاج الصور المجانية</a> وأنشئ أول كولاج لك في المتصفح — بدون
         تثبيت، وبدون تسجيل، وبدون علامة مائية.
       </p>
+      <ToolCTA slug="photo-collage" variant="card" />
     </div>
   );
 }

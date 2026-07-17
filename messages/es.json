@@ -315,6 +315,18 @@
         "name": "Frecuencia de palabras",
         "description": "Analiza la frecuencia de las palabras en un texto."
       },
+      "word-unscrambler": {
+        "name": "Solucionador de palabras revueltas",
+        "description": "Convierte letras revueltas en palabras válidas. Filtra por longitud mínima o por una letra requerida, y consulta los resultados agrupados por longitud."
+      },
+      "wordle-solver": {
+        "name": "Solucionador de Wordle",
+        "description": "Resuelve tus partidas de Wordle al instante. Marca cada casilla en gris, amarillo o verde y descubre todas las palabras candidatas válidas."
+      },
+      "anagram-solver": {
+        "name": "Solucionador de anagramas",
+        "description": "Encuentra todos los anagramas de un conjunto de letras. Incluye opcionalmente subanagramas más cortos, agrupados por longitud de palabra."
+      },
       "notepad": {
         "name": "Bloc de notas",
         "description": "Un sencillo bloc de notas en el navegador que guarda tu texto automáticamente."
@@ -762,6 +774,22 @@
       "gif-maker": {
         "name": "Creador de GIF",
         "description": "Convierte una serie de imágenes en un GIF animado. Reordena fotogramas, ajusta la velocidad, repite y redimensiona."
+      },
+      "wheel-of-names": {
+        "name": "Ruleta de nombres",
+        "description": "Gira una ruleta personalizable para elegir al azar un ganador de una lista de nombres. Pega un nombre por línea, mezcla el orden y, si quieres, elimina a cada ganador tras el sorteo."
+      },
+      "group-maker": {
+        "name": "Creador de grupos aleatorios",
+        "description": "Divide una lista de nombres en grupos aleatorios. Elige el número de grupos o el tamaño de cada uno y obtén una cuadrícula lista para imprimir con equipos equilibrados."
+      },
+      "bingo-card-generator": {
+        "name": "Generador de cartones de bingo",
+        "description": "Genera cartones de bingo clásicos con números B-I-N-G-O o cartones personalizados con tus propias palabras, imprime tantos como necesite tu clase y entrega una hoja única a cada alumno."
+      },
+      "classroom-timer": {
+        "name": "Temporizador para el aula",
+        "description": "Un temporizador de cuenta regresiva a pantalla completa pensado para el aula: elige los minutos, pulsa iniciar y mantén a toda la clase enfocada."
       }
     },
     "categoriesShort": {
@@ -862,7 +890,8 @@
       "targetReached": "Objetivo alcanzado",
       "targetMissed": "No se pudo alcanzar el tamaño exacto — este es el más pequeño posible con una calidad aceptable.",
       "pngNotSupportedInTarget": "PNG no admite un tamaño objetivo — se cambió a JPEG.",
-      "presetChipAria": "Establecer el objetivo en {label}"
+      "presetChipAria": "Establecer el objetivo en {label}",
+      "change": "Cambiar"
     },
     "ImageConverter": {
       "dropImageHere": "Suelta tu imagen aquí",
@@ -895,7 +924,8 @@
       "vibrance": "Intensidad",
       "exposure": "Exposición",
       "highlights": "Luces",
-      "shadows": "Sombras"
+      "shadows": "Sombras",
+      "change": "Cambiar"
     },
     "SvgEditor": {
       "title": "Editor de SVG",
@@ -945,6 +975,7 @@
       "loadingPages": "Cargando...",
       "splitPdfTitle": "Dividir PDF",
       "selectedFile": "Archivo seleccionado",
+      "change": "Cambiar",
       "pageRanges": "Rangos de páginas",
       "pageRangesHint": "Ejemplos: 1-3,5,7-9 o 1,3,5 para páginas individuales",
       "pageRangesPlaceholder": "p. ej., 1-3,5,7-9",
@@ -1101,7 +1132,8 @@
       "showChart": "Mostrar gráfico",
       "exportCsv": "Exportar CSV",
       "fileLoadedSuccess": "¡Archivo cargado correctamente!",
-      "errorLoadingFile": "Error al cargar el archivo"
+      "errorLoadingFile": "Error al cargar el archivo",
+      "change": "Cambiar"
     },
     "FileConverter": {
       "title": "Conversor de archivos",
@@ -1200,7 +1232,8 @@
       "errorLoadingFile": "Error al cargar el archivo de audio",
       "errorProcessingFile": "Error al procesar el archivo de audio",
       "speedSet": "Velocidad de reproducción ajustada a {speed}x",
-      "downloadOriginal": "Descargar original"
+      "downloadOriginal": "Descargar original",
+      "change": "Cambiar"
     },
     "MicCameraTester": {
       "title": "Probador de micrófono y cámara",
@@ -2039,7 +2072,8 @@
       "start": "Iniciar",
       "pause": "Pausar",
       "countsUpFrom0": "Cuenta hacia arriba desde 0.",
-      "testSound": "Probar sonido"
+      "testSound": "Probar sonido",
+      "fullscreenHint": "Se recomienda usarlo en pantalla completa para que toda la clase pueda ver la cuenta regresiva."
     },
     "KeepAwake": {
       "title": "Mantener activo",
@@ -4049,7 +4083,8 @@
       "videoTooLarge": "El tamaño del video debe ser inferior a 500 MB",
       "compressedSuccess": "¡Video comprimido correctamente!",
       "compressFailed": "No se pudo comprimir el video. Inténtalo de nuevo.",
-      "downloadedSuccess": "¡Video descargado!"
+      "downloadedSuccess": "¡Video descargado!",
+      "change": "Cambiar"
     },
     "CurlConverter": {
       "selectLanguage": "Selecciona el lenguaje",
@@ -4095,7 +4130,8 @@
       "loadFailed": "No se pudo cargar la imagen. Prueba con otro archivo.",
       "noRegions": "Dibuja al menos un área para censurar antes de exportar.",
       "exportedSuccess": "¡Imagen censurada descargada!",
-      "exportFailed": "No se pudo exportar la imagen. Inténtalo de nuevo."
+      "exportFailed": "No se pudo exportar la imagen. Inténtalo de nuevo.",
+      "change": "Cambiar"
     },
     "ScreenshotBeautifier": {
       "title": "Embellecedor de capturas",
@@ -4271,6 +4307,8 @@
       "resetTally": "Reiniciar cuenta",
       "listTitle": "Selector de nombres / lista",
       "listDesc": "Pega una lista y elige un ganador al azar. Ideal para sorteos y rifas.",
+      "listPointerDesc": "¿Quieres elegir un nombre al azar de una lista? Prueba la Ruleta de nombres para una experiencia con ruleta giratoria.",
+      "listPointerCta": "Ir a la Ruleta de nombres",
       "listLabel": "Elementos (uno por línea)",
       "listPlaceholder": "Ana\nBruno\nCarlos\nDiana",
       "removeWinner": "Quitar al ganador tras elegirlo (para sorteos)",
@@ -4897,6 +4935,97 @@
       "maxRollover": "Rollover máximo",
       "history": "Historial",
       "reset": "Reiniciar"
+    },
+    "WheelOfNames": {
+      "inputTitle": "Nombres",
+      "inputDesc": "Introduce un nombre por línea",
+      "inputPlaceholder": "Ana\nBruno\nCarla",
+      "namesCount": "{count} nombres",
+      "removeWinnerAfterSpin": "Eliminar al ganador tras el sorteo",
+      "shuffle": "Mezclar",
+      "wheelTitle": "Ruleta",
+      "wheelDesc": "Gira para elegir un nombre al azar",
+      "spin": "Girar",
+      "winnerLabel": "Ganador: {name}"
+    },
+    "GroupMaker": {
+      "inputTitle": "Nombres",
+      "inputDesc": "Introduce un nombre por línea",
+      "inputPlaceholder": "Ana\nBruno\nCarla",
+      "namesCount": "{count} nombres",
+      "modeLabel": "Agrupar por",
+      "byGroupCount": "Número de grupos",
+      "byGroupSize": "Tamaño del grupo",
+      "numberOfGroups": "Número de grupos",
+      "peoplePerGroup": "Personas por grupo",
+      "generate": "Generar grupos",
+      "print": "Imprimir",
+      "resultsTitle": "Grupos",
+      "resultsDesc": "{count} grupos",
+      "groupLabel": "Grupo {number}"
+    },
+    "WordUnscrambler": {
+      "inputTitle": "Letras",
+      "inputDesc": "Introduce las letras que quieres ordenar y acota los resultados con los filtros opcionales.",
+      "inputPlaceholder": "p. ej. scarcat",
+      "lettersLabel": "Letras",
+      "minLengthLabel": "Longitud mínima",
+      "containsLabel": "Contiene la letra",
+      "solve": "Resolver",
+      "resultsTitle": "Coincidencias",
+      "resultsDesc": "{count} palabras encontradas",
+      "groupLabel": "{length} letras",
+      "noResults": "No se encontraron palabras. Prueba con otras letras o filtros.",
+      "loadingDictionary": "Cargando diccionario...",
+      "errorMessage": "No se pudo cargar el diccionario. Comprueba tu conexión e inténtalo de nuevo.",
+      "retry": "Reintentar"
+    },
+    "WordleSolver": {
+      "inputTitle": "Casillas de intento",
+      "inputDesc": "Escribe una letra en cada casilla y haz clic debajo para cambiar su color: gris (no está en la palabra), amarillo (posición incorrecta) o verde (posición correcta).",
+      "letterAriaLabel": "Letra {position}",
+      "tileStateAriaLabel": "Estado de la casilla {position}: {state}",
+      "stateGray": "Gris",
+      "stateYellow": "Amarillo",
+      "stateGreen": "Verde",
+      "solve": "Buscar palabras",
+      "resultsTitle": "Respuestas posibles",
+      "resultsDesc": "{count} palabras encontradas",
+      "noResults": "No hay palabras coincidentes. Revisa los colores de las casillas.",
+      "loadingDictionary": "Cargando diccionario...",
+      "errorMessage": "No se pudo cargar el diccionario. Comprueba tu conexión e inténtalo de nuevo.",
+      "retry": "Reintentar"
+    },
+    "AnagramSolver": {
+      "inputTitle": "Letras",
+      "inputDesc": "Introduce las letras de las que quieres encontrar anagramas.",
+      "inputPlaceholder": "p. ej. cat",
+      "lettersLabel": "Letras",
+      "allowShorterLabel": "Incluir palabras más cortas",
+      "solve": "Buscar anagramas",
+      "resultsTitle": "Coincidencias",
+      "resultsDesc": "{count} palabras encontradas",
+      "groupLabel": "{length} letras",
+      "noResults": "No se encontraron anagramas. Prueba con otras letras.",
+      "loadingDictionary": "Cargando diccionario...",
+      "errorMessage": "No se pudo cargar el diccionario. Comprueba tu conexión e inténtalo de nuevo.",
+      "retry": "Reintentar"
+    },
+    "BingoCardGenerator": {
+      "inputTitle": "Configuración del bingo",
+      "inputDesc": "Elige un modo, indica cuántos cartones necesitas y genéralos.",
+      "modeLabel": "Tipo de cartón",
+      "numberMode": "Números (B-I-N-G-O)",
+      "wordMode": "Banco de palabras",
+      "cardCountLabel": "Número de cartones",
+      "wordPoolPlaceholder": "Manzana\nPlátano\nCereza\nDátil\nUva",
+      "wordsCount": "{count} palabras",
+      "cardSizeLabel": "Tamaño del cartón (por lado)",
+      "generate": "Generar cartones",
+      "print": "Imprimir",
+      "resultsTitle": "Cartones de bingo",
+      "resultsDesc": "{count} cartones",
+      "errorPoolTooSmall": "Tu banco de palabras es demasiado pequeño para el tamaño de cartón elegido. Añade más palabras o usa un cartón más pequeño."
     }
   },
   "Blog": {
@@ -4907,7 +5036,8 @@
     "privacyDesc": "Cada herramienta de BrowseryTools se ejecuta por completo en tu navegador. No se sube ningún archivo a ningún servidor. Sin cuentas. Sin anuncios. Gratis para siempre.",
     "exploreTools": "Explorar todas las herramientas →",
     "featured": "Destacado",
-    "allPosts": "Todas las publicaciones"
+    "allPosts": "Todas las publicaciones",
+    "openTool": "Abrir la herramienta →"
   },
   "CoffeeBanner": {
     "message": "¿Te gustan las herramientas? ¡Apoya su desarrollo con un café!",

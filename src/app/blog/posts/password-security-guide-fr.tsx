@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Google, 65 % des gens réutilisent le même mot de passe sur plusieurs sites. C'est la plus grande erreur de sécurité
         que vous puissiez commettre en ligne.
       </p>
+      <ToolCTA slug="password-strength" variant="inline" />
       <p>
         Ce guide décompose précisément ce qui rend un mot de passe faible ou solide, comment les attaquants les cassent, et comment
         vous pouvez vous protéger — à l'aide d'outils gratuits qui s'exécutent entièrement dans votre navigateur, sans qu'aucune donnée ne soit envoyée à un serveur.
@@ -324,6 +327,7 @@ export default function Content() {
         en dehors de votre propre appareil. C'est la promesse de BrowseryTools — des outils puissants qui respectent réellement votre
         confidentialité.
       </p>
+      <ToolCTA slug="password-strength" variant="card" />
     </div>
   );
 }

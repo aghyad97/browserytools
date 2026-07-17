@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         основной долг, сколько процентов будет выплачено в итоге, что произойдёт при
         досрочных погашениях.
       </p>
+      <ToolCTA slug="loan-calculator" variant="inline" />
       <p>
         В этом руководстве механика погашения кредита объясняется доступно: реальная математика
         ежемесячных платежей, что такое амортизация и почему это важно, принципиальное различие
@@ -207,6 +210,7 @@ export default function Content() {
           Открыть кредитный калькулятор →
         </a>
       </div>
+      <ToolCTA slug="loan-calculator" variant="card" />
     </div>
   );
 }

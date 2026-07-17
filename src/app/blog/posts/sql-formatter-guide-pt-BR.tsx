@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         seu ORM gentilmente registra o SQL que está gerando — como uma única string concatenada.
         Em todos esses casos, a query bruta está tecnicamente correta, mas é praticamente ilegível.
       </p>
+      <ToolCTA slug="sql-formatter" variant="inline" />
       <p>
         Formatar SQL não é questão de estética. É sobre conseguir entender o que uma query faz
         de relance — quais tabelas ela lê, quais condições ela filtra e quais colunas ela retorna.
@@ -435,6 +438,7 @@ LIMIT 20;`}
           Abrir Formatador de SQL →
         </a>
       </div>
+      <ToolCTA slug="sql-formatter" variant="card" />
     </div>
   );
 }

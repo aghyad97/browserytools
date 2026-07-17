@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         الطريقة القديمة مرهقة: تطبع الصفحة، توقّعها بقلم، تمسحها ضوئياً أو تصوّرها، تقصّها، ثم تعيد إرسالها. كل
         ذلك يهدر الورق والوقت والصبر — والنتيجة غالباً تبدو مائلة وباهتة.
       </p>
+      <ToolCTA slug="signature-maker" variant="inline" />
       <p>
         أداة <strong>صنع التوقيع عبر الإنترنت</strong> تلغي كل هذه الخطوات. فبدلاً من الطباعة والمسح الضوئي،
         تنشئ توقيعك مباشرةً داخل المتصفح وتضعه على المستند كصورة. أداة{" "}
@@ -118,6 +121,7 @@ export default function Content() {
         التي توقّعها، و<a href="/tools/image-resizer">أداة تغيير حجم الصور</a> لضبط حجم توقيعك بدقة، وعشرات
         الأدوات الأخرى المجانية التي تحترم خصوصيتك وتعمل بالكامل داخل متصفحك.
       </p>
+      <ToolCTA slug="signature-maker" variant="card" />
     </div>
   );
 }

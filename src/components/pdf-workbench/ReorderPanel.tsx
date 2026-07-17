@@ -6,15 +6,10 @@ import { toast } from "sonner";
 import { ListOrdered, Upload, File as FileIcon, X } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { FileDropzone } from "@/components/shared/FileDropzone";
-import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
+import { SettingsCard } from "@/components/shared/SettingsCard";
+import { ActiveFileBar } from "@/components/pdf-workbench/ActiveFileBar";
+import { useActiveFileIndex } from "@/components/pdf-workbench/useActiveFileIndex";
 import { downloadBlob } from "@/lib/download";
 import { reorderPdf } from "@/lib/pdf/reorder";
 import { usePageThumbnails } from "@/components/pdf-workbench/usePageThumbnails";
@@ -41,14 +36,10 @@ interface ReorderPanelProps {
 export function ReorderPanel({ files, onDropPdf }: ReorderPanelProps) {
   const t = useTranslations("Tools.PDFTools");
 
-  const [selectedIndex, setSelectedIndex] = useState(0);
+  const [selectedIndex, setSelectedIndex] = useActiveFileIndex(files);
   const [order, setOrder] = useState<number[]>([]);
   const [dragIndex, setDragIndex] = useState<number | null>(null);
   const [busy, setBusy] = useState(false);
-
-  useEffect(() => {
-    if (selectedIndex > files.length - 1) setSelectedIndex(0);
-  }, [files.length, selectedIndex]);
 
   const active = files[selectedIndex] ?? null;
   const { pageCount, rendering, thumbFor } = usePageThumbnails(active, selectedIndex);
@@ -119,92 +110,80 @@ export function ReorderPanel({ files, onDropPdf }: ReorderPanelProps) {
   }
 
   return (
-    <SettingsCard>
-      {files.length > 1 && (
-        <OptionRow label={t("selectedFile")} htmlFor="pdf-reorder-file">
-          <Select
-            value={String(selectedIndex)}
-            onValueChange={(v) => setSelectedIndex(Number(v))}
-          >
-            <SelectTrigger id="pdf-reorder-file" aria-label={t("selectedFile")}>
-              <SelectValue />
-            </SelectTrigger>
-            <SelectContent>
-              {files.map((file, index) => (
-                <SelectItem key={file.name + index} value={String(index)}>
-                  {file.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </OptionRow>
-      )}
+    <div className="space-y-6">
+      <ActiveFileBar
+        files={files}
+        selectedIndex={selectedIndex}
+        onSelect={setSelectedIndex}
+        onDropPdf={onDropPdf}
+      />
+      <SettingsCard>
+        <p className="text-sm text-muted-foreground">{t("dragToReorderPages")}</p>
 
-      <p className="text-sm text-muted-foreground">{t("dragToReorderPages")}</p>
+        {rendering && (
+          <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
+            {t("renderingPages")}
+          </p>
+        )}
 
-      {rendering && (
-        <p className="text-sm text-muted-foreground" role="status" aria-live="polite">
-          {t("renderingPages")}
-        </p>
-      )}
-
-      <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-        {order.map((pageIndex, position) => {
-          const src = thumbFor(pageIndex);
-          return (
-            <div
-              key={pageIndex}
-              draggable
-              data-testid={`reorder-thumb-${position}`}
-              onDragStart={() => setDragIndex(position)}
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={() => {
-                if (dragIndex !== null) reorder(dragIndex, position);
-                setDragIndex(null);
-              }}
-              onDragEnd={() => setDragIndex(null)}
-              className="group relative flex aspect-[3/4] cursor-grab items-center justify-center overflow-hidden rounded-md border bg-muted/40 p-2 transition-colors hover:border-primary active:cursor-grabbing"
-            >
-              {src ? (
-                <img
-                  src={src}
-                  alt=""
-                  className="max-h-full max-w-full object-contain"
-                  draggable={false}
-                />
-              ) : (
-                <FileIcon className="w-6 h-6 text-muted-foreground" aria-hidden />
-              )}
-              {/* content value: bg-black/60 text-white — the delete affordance sits
-                  on top of arbitrary rendered pages, so it keeps a fixed dark scrim
-                  independent of theme. */}
-              <button
-                type="button"
-                aria-label={t("deletePage", { number: position + 1 })}
-                onClick={() => deleteAt(position)}
-                className="absolute end-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
+          {order.map((pageIndex, position) => {
+            const src = thumbFor(pageIndex);
+            return (
+              <div
+                key={pageIndex}
+                draggable
+                data-testid={`reorder-thumb-${position}`}
+                onDragStart={() => setDragIndex(position)}
+                onDragOver={(e) => e.preventDefault()}
+                onDrop={() => {
+                  if (dragIndex !== null) reorder(dragIndex, position);
+                  setDragIndex(null);
+                }}
+                onDragEnd={() => setDragIndex(null)}
+                className="group relative flex aspect-[3/4] cursor-grab items-center justify-center overflow-hidden rounded-md border bg-muted/40 p-2 transition-colors hover:border-primary active:cursor-grabbing"
               >
-                <X className="h-3 w-3" />
-              </button>
-              <span
-                dir="ltr"
-                className="absolute bottom-1 start-1 rounded bg-background/80 px-1.5 py-0.5 text-xs text-muted-foreground"
-              >
-                {position + 1}
-              </span>
-            </div>
-          );
-        })}
-      </div>
+                {src ? (
+                  <img
+                    src={src}
+                    alt=""
+                    className="max-h-full max-w-full object-contain"
+                    draggable={false}
+                  />
+                ) : (
+                  <FileIcon className="w-6 h-6 text-muted-foreground" aria-hidden />
+                )}
+                {/* content value: bg-black/60 text-white — the delete affordance sits
+                    on top of arbitrary rendered pages, so it keeps a fixed dark scrim
+                    independent of theme. */}
+                <button
+                  type="button"
+                  aria-label={t("deletePage", { number: position + 1 })}
+                  onClick={() => deleteAt(position)}
+                  className="absolute end-1 top-1 flex h-5 w-5 items-center justify-center rounded-full bg-black/60 text-white opacity-0 transition-opacity group-hover:opacity-100 focus-visible:opacity-100"
+                >
+                  <X className="h-3 w-3" />
+                </button>
+                <span
+                  dir="ltr"
+                  className="absolute bottom-1 start-1 rounded bg-background/80 px-1.5 py-0.5 text-xs text-muted-foreground"
+                >
+                  {position + 1}
+                </span>
+              </div>
+            );
+          })}
+        </div>
 
-      <Button
-        className="w-full"
-        onClick={handleApply}
-        disabled={busy || rendering || order.length === 0}
-      >
-        <ListOrdered className="w-4 h-4 me-2" />
-        {busy ? t("reordering") : t("applyReorder")}
-      </Button>
-    </SettingsCard>
+        <Button
+          className="w-full"
+          onClick={handleApply}
+          disabled={busy || rendering || order.length === 0}
+        >
+          <ListOrdered className="w-4 h-4 me-2" />
+          {busy ? t("reordering") : t("applyReorder")}
+        </Button>
+      </SettingsCard>
+    </div>
   );
 }

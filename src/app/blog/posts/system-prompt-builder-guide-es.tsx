@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         general. Hazlo bien y el modelo se siente notablemente consistente; hazlo mal y pasas cada
         sesión corrigiendo comportamientos que deberían haber sido establecidos desde el principio.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="inline" />
       <p>
         Puedes usar el{" "}
         <a href="/tools/system-prompt-builder">Constructor de Prompts de Sistema de BrowseryTools</a>{" "}
@@ -197,6 +200,7 @@ Always include a specific, actionable takeaway at the end of each response.`}
         salida y uno o dos ejemplos. El proceso de iteración —probar casos extremos y versionar los
         cambios— es lo que lleva un buen prompt de sistema a uno excelente.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="card" />
     </div>
   );
 }

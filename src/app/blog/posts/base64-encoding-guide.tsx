@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         is, how it works at the byte level, where it is used in real-world systems, and when you should
         (and should not) reach for it.
       </p>
+      <ToolCTA slug="base64" variant="inline" />
       <p>
         You can encode and decode any Base64 string instantly using the{" "}
         <a href="/tools/base64">BrowseryTools Base64 Encoder/Decoder</a> — free, no sign-up, and nothing
@@ -335,6 +338,7 @@ echo "SGVsbG8sIFdvcmxkIQ==" | base64 --decode`}
           Open Base64 Tool →
         </a>
       </div>
+      <ToolCTA slug="base64" variant="card" />
     </div>
   );
 }

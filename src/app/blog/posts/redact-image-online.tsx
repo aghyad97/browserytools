@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         <strong>redact or censor the image</strong> — blur it, pixelate it, or black it out — without
         handing the original to a website.
       </p>
+      <ToolCTA slug="photo-censor" variant="inline" />
       <p>
         The <a href="/tools/photo-censor">BrowseryTools Photo Censor</a> tool does exactly that,
         entirely in your browser. You paint over the regions you want to hide, choose blur, pixelate,
@@ -118,6 +121,7 @@ export default function Content() {
         to trim or watermark the result, read our guide on{" "}
         <a href="/blog/crop-and-watermark-images-online">cropping and watermarking images online</a>.
       </p>
+      <ToolCTA slug="photo-censor" variant="card" />
     </div>
   );
 }

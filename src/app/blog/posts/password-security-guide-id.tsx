@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         digunakan oleh lebih dari 4,5 juta orang. Menurut Google, 65% orang menggunakan kembali kata sandi yang sama di
         beberapa situs. Ini adalah kesalahan keamanan terbesar yang bisa Anda lakukan secara online.
       </p>
+      <ToolCTA slug="password-strength" variant="inline" />
       <p>
         Panduan ini menjelaskan secara tepat apa yang membuat kata sandi lemah atau kuat, bagaimana penyerang
         membobolnya, dan bagaimana Anda dapat melindungi diri — menggunakan alat gratis yang berjalan sepenuhnya di
@@ -335,6 +338,7 @@ export default function Content() {
         mana pun di luar perangkat Anda sendiri. Itulah janji BrowseryTools — alat canggih yang benar-benar menghormati
         privasi Anda.
       </p>
+      <ToolCTA slug="password-strength" variant="card" />
     </div>
   );
 }

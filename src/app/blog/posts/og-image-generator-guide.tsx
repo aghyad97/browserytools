@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         any article, product page, or landing page. A good social share image earns clicks; a missing or ugly
         one quietly costs you traffic on every share.
       </p>
+      <ToolCTA slug="og-image-generator" variant="inline" />
       <p>
         The frustrating part has always been creating it. Designers open Figma, set up a 1200×630 frame, build
         a layout, export a PNG, and hand it off. Developers without design tools resort to screenshots or skip
@@ -119,6 +122,7 @@ export default function Content() {
         designer and a Figma file now takes about thirty seconds, and it is free, private, and repeatable for
         every link you share.
       </p>
+      <ToolCTA slug="og-image-generator" variant="card" />
     </div>
   );
 }

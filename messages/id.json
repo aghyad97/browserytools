@@ -315,6 +315,18 @@
         "name": "Frekuensi Kata",
         "description": "Analisis frekuensi kata dalam teks."
       },
+      "word-unscrambler": {
+        "name": "Pembongkar Kata Acak",
+        "description": "Susun huruf acak menjadi kata yang valid. Saring berdasarkan panjang minimum atau huruf wajib, lalu jelajahi hasil yang dikelompokkan menurut panjang kata."
+      },
+      "wordle-solver": {
+        "name": "Pemecah Wordle",
+        "description": "Selesaikan teka-teki Wordle dengan cepat. Tandai setiap kotak abu-abu, kuning, atau hijau, dan langsung lihat semua kata kandidat yang valid."
+      },
+      "anagram-solver": {
+        "name": "Pemecah Anagram",
+        "description": "Temukan semua anagram dari sekumpulan huruf. Sertakan sub-anagram yang lebih pendek jika diinginkan, dikelompokkan menurut panjang kata."
+      },
       "notepad": {
         "name": "Notepad",
         "description": "Notepad sederhana di browser yang menyimpan teks Anda secara otomatis."
@@ -762,6 +774,22 @@
       "gif-maker": {
         "name": "Pembuat GIF",
         "description": "Ubah serangkaian gambar menjadi GIF animasi. Atur ulang bingkai, atur kecepatan, ulang, dan ubah ukuran."
+      },
+      "wheel-of-names": {
+        "name": "Roda Nama",
+        "description": "Putar roda yang bisa disesuaikan untuk memilih pemenang secara acak dari daftar nama. Tempel satu nama per baris, acak urutannya, dan opsional hapus setiap pemenang setelah terpilih."
+      },
+      "group-maker": {
+        "name": "Pembuat Kelompok Acak",
+        "description": "Bagi daftar nama menjadi kelompok acak. Pilih jumlah kelompok yang diinginkan atau ukuran kelompok, lalu dapatkan grid tim seimbang yang siap dicetak."
+      },
+      "bingo-card-generator": {
+        "name": "Pembuat Kartu Bingo",
+        "description": "Buat kartu bingo angka klasik B-I-N-G-O atau kartu bingo kata kustom, cetak sebanyak yang dibutuhkan kelasmu, dan bagikan satu lembar unik ke setiap siswa."
+      },
+      "classroom-timer": {
+        "name": "Timer Kelas",
+        "description": "Timer hitung mundur layar penuh yang dirancang untuk kelas — atur menitnya, tekan mulai, dan jaga seluruh ruangan tetap fokus."
       }
     },
     "categoriesShort": {
@@ -862,7 +890,8 @@
       "targetReached": "Target tercapai",
       "targetMissed": "Tidak dapat mencapai target yang tepat — ini adalah ukuran terkecil yang bisa dicapai dengan kualitas yang masih layak.",
       "pngNotSupportedInTarget": "PNG tidak dapat ditarget ukurannya — beralih ke JPEG.",
-      "presetChipAria": "Atur target ke {label}"
+      "presetChipAria": "Atur target ke {label}",
+      "change": "Ubah"
     },
     "ImageConverter": {
       "dropImageHere": "Letakkan gambar Anda di sini",
@@ -895,7 +924,8 @@
       "vibrance": "Vibrance",
       "exposure": "Eksposur",
       "highlights": "Sorotan",
-      "shadows": "Bayangan"
+      "shadows": "Bayangan",
+      "change": "Ubah"
     },
     "SvgEditor": {
       "title": "Editor SVG",
@@ -945,6 +975,7 @@
       "loadingPages": "Memuat...",
       "splitPdfTitle": "Pisahkan PDF",
       "selectedFile": "Berkas Terpilih",
+      "change": "Ubah",
       "pageRanges": "Rentang Halaman",
       "pageRangesHint": "Contoh: 1-3,5,7-9 atau 1,3,5 untuk halaman individual",
       "pageRangesPlaceholder": "mis., 1-3,5,7-9",
@@ -1101,7 +1132,8 @@
       "showChart": "Tampilkan Grafik",
       "exportCsv": "Ekspor CSV",
       "fileLoadedSuccess": "Berkas berhasil dimuat!",
-      "errorLoadingFile": "Galat memuat berkas"
+      "errorLoadingFile": "Galat memuat berkas",
+      "change": "Ubah"
     },
     "FileConverter": {
       "title": "Konverter Berkas",
@@ -1200,7 +1232,8 @@
       "errorLoadingFile": "Galat memuat berkas audio",
       "errorProcessingFile": "Galat memproses berkas audio",
       "speedSet": "Kecepatan pemutaran disetel ke {speed}x",
-      "downloadOriginal": "Unduh file asli"
+      "downloadOriginal": "Unduh file asli",
+      "change": "Ubah"
     },
     "MicCameraTester": {
       "title": "Penguji Mikrofon & Kamera",
@@ -2039,7 +2072,8 @@
       "start": "Mulai",
       "pause": "Jeda",
       "countsUpFrom0": "Menghitung naik dari 0.",
-      "testSound": "Uji suara"
+      "testSound": "Uji suara",
+      "fullscreenHint": "Paling optimal digunakan dalam mode layar penuh agar seluruh kelas bisa melihat hitungan mundur."
     },
     "KeepAwake": {
       "title": "Tetap Terjaga",
@@ -4049,7 +4083,8 @@
       "videoTooLarge": "Ukuran video harus kurang dari 500MB",
       "compressedSuccess": "Video berhasil dikompres!",
       "compressFailed": "Gagal mengompres video. Silakan coba lagi.",
-      "downloadedSuccess": "Video diunduh!"
+      "downloadedSuccess": "Video diunduh!",
+      "change": "Ubah"
     },
     "CurlConverter": {
       "selectLanguage": "Pilih bahasa",
@@ -4095,7 +4130,8 @@
       "loadFailed": "Gagal memuat gambar. Silakan coba berkas lain.",
       "noRegions": "Gambar minimal satu area untuk disensor sebelum mengekspor.",
       "exportedSuccess": "Gambar tersensor diunduh!",
-      "exportFailed": "Gagal mengekspor gambar. Silakan coba lagi."
+      "exportFailed": "Gagal mengekspor gambar. Silakan coba lagi.",
+      "change": "Ubah"
     },
     "ScreenshotBeautifier": {
       "title": "Pempercantik Tangkapan Layar",
@@ -4271,6 +4307,8 @@
       "resetTally": "Atur Ulang Hitungan",
       "listTitle": "Pemilih Nama / Daftar",
       "listDesc": "Tempelkan daftar dan pilih pemenang acak. Bagus untuk giveaway dan undian.",
+      "listPointerDesc": "Ingin memilih nama secara acak dari daftar? Gunakan Roda Nama untuk pengalaman roda putar.",
+      "listPointerCta": "Buka Roda Nama",
       "listLabel": "Item (satu per baris)",
       "listPlaceholder": "Alice\nBob\nCharlie\nDana",
       "removeWinner": "Hapus pemenang setelah dipilih (untuk undian)",
@@ -4897,6 +4935,97 @@
       "maxRollover": "Rollover maksimum",
       "history": "Riwayat",
       "reset": "Atur Ulang"
+    },
+    "WheelOfNames": {
+      "inputTitle": "Nama",
+      "inputDesc": "Masukkan satu nama per baris",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} nama",
+      "removeWinnerAfterSpin": "Hapus pemenang setelah putaran",
+      "shuffle": "Acak",
+      "wheelTitle": "Roda",
+      "wheelDesc": "Putar untuk memilih nama secara acak",
+      "spin": "Putar",
+      "winnerLabel": "Pemenang: {name}"
+    },
+    "GroupMaker": {
+      "inputTitle": "Nama",
+      "inputDesc": "Masukkan satu nama per baris",
+      "inputPlaceholder": "Alice\nBob\nCharlie",
+      "namesCount": "{count} nama",
+      "modeLabel": "Kelompokkan berdasarkan",
+      "byGroupCount": "Jumlah kelompok",
+      "byGroupSize": "Ukuran kelompok",
+      "numberOfGroups": "Jumlah kelompok",
+      "peoplePerGroup": "Orang per kelompok",
+      "generate": "Buat Kelompok",
+      "print": "Cetak",
+      "resultsTitle": "Kelompok",
+      "resultsDesc": "{count} kelompok",
+      "groupLabel": "Kelompok {number}"
+    },
+    "WordUnscrambler": {
+      "inputTitle": "Huruf",
+      "inputDesc": "Masukkan huruf yang ingin kamu susun, lalu persempit hasilnya dengan filter opsional.",
+      "inputPlaceholder": "cth. scarcat",
+      "lettersLabel": "Huruf",
+      "minLengthLabel": "Panjang min.",
+      "containsLabel": "Mengandung huruf",
+      "solve": "Susun Kata",
+      "resultsTitle": "Hasil Cocok",
+      "resultsDesc": "{count} kata ditemukan",
+      "groupLabel": "{length} huruf",
+      "noResults": "Tidak ada kata ditemukan. Coba huruf atau filter lain.",
+      "loadingDictionary": "Memuat kamus...",
+      "errorMessage": "Gagal memuat kamus. Periksa koneksimu dan coba lagi.",
+      "retry": "Coba Lagi"
+    },
+    "WordleSolver": {
+      "inputTitle": "Kotak Tebakan",
+      "inputDesc": "Ketik satu huruf di setiap kotak, lalu klik di bawahnya untuk mengganti warnanya: abu-abu (tidak ada di kata), kuning (posisi salah), atau hijau (posisi benar).",
+      "letterAriaLabel": "Huruf {position}",
+      "tileStateAriaLabel": "Status kotak {position}: {state}",
+      "stateGray": "Abu-abu",
+      "stateYellow": "Kuning",
+      "stateGreen": "Hijau",
+      "solve": "Cari Kata",
+      "resultsTitle": "Kemungkinan Jawaban",
+      "resultsDesc": "{count} kata ditemukan",
+      "noResults": "Tidak ada kata yang cocok. Periksa kembali warna kotakmu.",
+      "loadingDictionary": "Memuat kamus...",
+      "errorMessage": "Gagal memuat kamus. Periksa koneksimu dan coba lagi.",
+      "retry": "Coba Lagi"
+    },
+    "AnagramSolver": {
+      "inputTitle": "Huruf",
+      "inputDesc": "Masukkan huruf yang ingin kamu cari anagramnya.",
+      "inputPlaceholder": "cth. cat",
+      "lettersLabel": "Huruf",
+      "allowShorterLabel": "Sertakan kata lebih pendek",
+      "solve": "Cari Anagram",
+      "resultsTitle": "Hasil Cocok",
+      "resultsDesc": "{count} kata ditemukan",
+      "groupLabel": "{length} huruf",
+      "noResults": "Tidak ada anagram ditemukan. Coba huruf lain.",
+      "loadingDictionary": "Memuat kamus...",
+      "errorMessage": "Gagal memuat kamus. Periksa koneksimu dan coba lagi.",
+      "retry": "Coba Lagi"
+    },
+    "BingoCardGenerator": {
+      "inputTitle": "Pengaturan Bingo",
+      "inputDesc": "Pilih mode, tentukan jumlah kartu yang kamu butuhkan, lalu buat kartunya.",
+      "modeLabel": "Jenis kartu",
+      "numberMode": "Angka (B-I-N-G-O)",
+      "wordMode": "Kumpulan kata",
+      "cardCountLabel": "Jumlah kartu",
+      "wordPoolPlaceholder": "Apel\nPisang\nCeri\nKurma\nAnggur",
+      "wordsCount": "{count} kata",
+      "cardSizeLabel": "Ukuran kartu (per sisi)",
+      "generate": "Buat Kartu",
+      "print": "Cetak",
+      "resultsTitle": "Kartu Bingo",
+      "resultsDesc": "{count} kartu",
+      "errorPoolTooSmall": "Kumpulan katamu terlalu sedikit untuk ukuran kartu yang dipilih. Tambahkan lebih banyak kata atau gunakan kartu yang lebih kecil."
     }
   },
   "Blog": {
@@ -4907,7 +5036,8 @@
     "privacyDesc": "Setiap alat di BrowseryTools berjalan sepenuhnya di browser Anda. Tidak ada berkas yang diunggah ke server mana pun. Tanpa akun. Tanpa iklan. Gratis selamanya.",
     "exploreTools": "Jelajahi Semua Alat →",
     "featured": "Unggulan",
-    "allPosts": "Semua Postingan"
+    "allPosts": "Semua Postingan",
+    "openTool": "Buka alat →"
   },
   "CoffeeBanner": {
     "message": "Menikmati alat-alatnya? Dukung pengembangan dengan secangkir kopi!",

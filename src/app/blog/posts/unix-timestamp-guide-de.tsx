@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         woher sie stammt und wie man typische Fallstricke vermeidet, bewahrt Sie vor einer Klasse von
         Fehlern, die schwer zu reproduzieren und gelegentlich in der Produktion peinlich sind.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="inline" />
       <p>
         Jeden Unix-Timestamp können Sie mit dem{" "}
         <a href="/tools/unix-timestamp">BrowseryTools Unix-Timestamp-Konverter</a> in ein
@@ -211,6 +214,7 @@ new Intl.DateTimeFormat("en-US", {
         verwenden Sie UTC für Speicherung und Übertragung, und konvertieren Sie in Ortszeit nur auf der
         Darstellungsebene.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="card" />
     </div>
   );
 }

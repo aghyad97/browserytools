@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         são contados e por que a contagem importa é uma das coisas mais praticamente úteis que você
         pode aprender antes de construir algo sério sobre um LLM.
       </p>
+      <ToolCTA slug="token-counter" variant="inline" />
       <p>
         Você pode usar o{" "}
         <a href="/tools/token-counter">Contador de Tokens do BrowseryTools</a> — gratuito, sem
@@ -212,6 +215,7 @@ export default function Content() {
           Abrir Contador de Tokens →
         </a>
       </div>
+      <ToolCTA slug="token-counter" variant="card" />
     </div>
   );
 }

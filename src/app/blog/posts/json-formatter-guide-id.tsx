@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         memecahkan masalahnya — adalah salah satu keterampilan paling berdaya ungkit yang dapat dimiliki
         seorang developer.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         Panduan ini mencakup segalanya mulai dari dasar sintaks JSON hingga men-debug error parse umum,
         strategi pemformatan, dan bekerja dengan struktur yang sangat bersarang. Tempel JSON apa pun
@@ -203,6 +206,7 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">BrowseryTools JSON Formatter</a> dan error akan langsung
         terlihat dengan posisi tepat yang disorot.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

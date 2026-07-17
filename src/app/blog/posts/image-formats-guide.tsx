@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         and AVIF each work under the hood, when to use each one, and how to make an informed choice for
         your specific context.
       </p>
+      <ToolCTA slug="image-converter" variant="inline" />
       <p>
         You can convert between any of these formats using the{" "}
         <a href="/tools/image-converter">BrowseryTools Image Converter</a> — free, no sign-up, and
@@ -209,6 +212,7 @@ export default function Content() {
         add AVIF as an enhancement. If you are building a new project from scratch with a modern stack,
         serve AVIF with WebP fallback and stop worrying about JPEG entirely.
       </div>
+      <ToolCTA slug="image-converter" variant="card" />
     </div>
   );
 }

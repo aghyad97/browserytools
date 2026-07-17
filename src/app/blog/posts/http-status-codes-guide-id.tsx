@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         kapan menggunakan kode mana di API-mu sendiri, dan apa yang ditandakan oleh kode umum tentang
         sebuah bug akan membuatmu jauh lebih cepat dalam debugging dan membangun layanan yang lebih baik.
       </p>
+      <ToolCTA slug="http-status" variant="inline" />
       <p>
         Kamu bisa mencari kode status HTTP apa pun dengan{" "}
         <a href="/tools/http-status">BrowseryTools HTTP Status Code Reference</a> — gratis, tanpa
@@ -193,6 +196,7 @@ Authorization: Bearer <valid-regular-user-token>
           Buka Referensi HTTP Status →
         </a>
       </div>
+      <ToolCTA slug="http-status" variant="card" />
     </div>
   );
 }

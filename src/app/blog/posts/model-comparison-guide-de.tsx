@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         zu zahlen, qualitativ schlechtere Ausgaben zu erhalten oder auf einem Modell aufzubauen,
         das sich für die eigene spezifische Aufgabe als unzuverlässig herausstellt.
       </p>
+      <ToolCTA slug="model-comparison" variant="inline" />
       <p>
         Mit dem{" "}
         <a href="/tools/model-comparison">BrowseryTools Modell-Vergleichstool</a> – kostenlos, keine
@@ -234,6 +237,7 @@ export default function Content() {
           Modell-Vergleich öffnen →
         </a>
       </div>
+      <ToolCTA slug="model-comparison" variant="card" />
     </div>
   );
 }

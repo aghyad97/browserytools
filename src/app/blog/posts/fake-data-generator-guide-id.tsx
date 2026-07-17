@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ToolCTA } from "@/components/blog/ToolCTA";
 
 export default function Content() {
   return (
@@ -12,6 +13,7 @@ export default function Content() {
         <Link href="/tools/fake-data">Generator Data Palsu BrowseryTools</Link> melakukannya secara gratis,
         secara lokal, tanpa akun, tanpa batasan baris, dan tanpa langganan.
       </p>
+      <ToolCTA slug="fake-data" variant="inline" />
       <p>
         Panduan ini mencakup mengapa data palsu yang realistis penting, apa yang dihasilkan generator,
         cara menggunakannya secara efektif di berbagai alur kerja, dan cara mengimpor output ke setiap
@@ -419,6 +421,7 @@ describe('POST /api/users', () => {
         <Link href="/tools/csv-to-json">CSV ke JSON</Link> ·{" "}
         <Link href="/">Semua BrowseryTools</Link>
       </p>
+      <ToolCTA slug="fake-data" variant="card" />
     </div>
   );
 }

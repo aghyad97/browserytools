@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         Zinsen sie insgesamt zahlen werden, was passiert, wenn sie Sonderzahlungen leisten — bleiben
         undurchsichtig.
       </p>
+      <ToolCTA slug="loan-calculator" variant="inline" />
       <p>
         Dieser Leitfaden erklärt die Mechanik der Kreditrückzahlung klar, einschließlich der
         tatsächlichen Mathematik hinter monatlichen Raten, was Tilgungsplan (Amortisation) bedeutet
@@ -216,6 +219,7 @@ export default function Content() {
           Kreditrechner öffnen →
         </a>
       </div>
+      <ToolCTA slug="loan-calculator" variant="card" />
     </div>
   );
 }

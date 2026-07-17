@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         result back. The print-sign-scan cycle is one of the most quietly annoying rituals left in
         everyday paperwork, and for a single signature it is almost never worth it.
       </p>
+      <ToolCTA slug="sign-pdf" variant="inline" />
       <p>
         You can skip all of it. The <a href="/tools/sign-pdf">Sign PDF</a> tool lets you add your
         signature to a PDF right in the browser: draw it once, drop it onto the page where it
@@ -99,6 +102,7 @@ export default function Content() {
         drag it onto the right spot, and download the signed file — all without your document ever
         leaving your device. It takes less time than finding a working pen would have.
       </p>
+      <ToolCTA slug="sign-pdf" variant="card" />
     </div>
   );
 }

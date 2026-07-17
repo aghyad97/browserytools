@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         لصناعتها أثقل مما يجب: تطبيقات ضخمة تضيف علامة مائية، أو مواقع ترفع صورتك إلى خادم بعيد، أو برامج تصميم
         تطلب منك إنشاء حساب قبل أن تضع كلمة واحدة على الصورة.
       </p>
+      <ToolCTA slug="meme-generator" variant="inline" />
       <p>
         هناك طريقة أبسط. يمكنك أن{" "}
         <a href="/tools/meme-generator">تنشئ ميماً عبر الإنترنت مجاناً</a> مباشرةً داخل متصفحك باستخدام أداة
@@ -116,6 +119,7 @@ export default function Content() {
         <a href="/tools/image-resizer">تغيير حجم الصور</a> تفي بالغرض. كل شيء مجاني، وكل شيء محلي، ولا شيء
         يطلب منك التسجيل.
       </p>
+      <ToolCTA slug="meme-generator" variant="card" />
     </div>
   );
 }
