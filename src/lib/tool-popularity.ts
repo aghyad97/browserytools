@@ -70,6 +70,7 @@ export const TOOL_POPULARITY: string[] = [
   "color-palette",
   "css-gradient",
   "timer",
+  "classroom-timer",
   "pomodoro",
   "stopwatch",
   "regex-tester",

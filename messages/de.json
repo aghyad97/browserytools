@@ -774,6 +774,10 @@
       "bingo-card-generator": {
         "name": "Bingo Card Generator",
         "description": "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student."
+      },
+      "classroom-timer": {
+        "name": "Classroom Timer",
+        "description": "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track."
       }
     },
     "categoriesShort": {
@@ -2051,7 +2055,8 @@
       "start": "Starten",
       "pause": "Pause",
       "countsUpFrom0": "Zählt ab 0 aufwärts.",
-      "testSound": "Ton testen"
+      "testSound": "Ton testen",
+      "fullscreenHint": "Best used in fullscreen so the whole class can see the countdown."
     },
     "KeepAwake": {
       "title": "Wachhalten",

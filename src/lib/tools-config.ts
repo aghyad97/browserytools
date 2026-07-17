@@ -100,6 +100,7 @@ import {
   ListOrderedIcon,
   Disc3Icon,
   UsersIcon,
+  Clock4Icon,
 } from "lucide-react";
 
 export interface Tool {
@@ -1917,6 +1918,20 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-17",
         description:
           "Generate classic B-I-N-G-O number cards or custom word-pool bingo cards, print as many as your class needs, and hand out a unique sheet to every student.",
+      },
+      // landingFor variant of Timer: a countdown preset for classroom use.
+      // inGrid because it's a distinct search intent (Task 9).
+      {
+        name: "Classroom Timer",
+        href: "/tools/classroom-timer",
+        icon: Clock4Icon,
+        available: true,
+        order: 5,
+        creationDate: "2026-07-17",
+        description:
+          "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track.",
+        landingFor: "timer",
+        inGrid: true,
       },
     ],
   },

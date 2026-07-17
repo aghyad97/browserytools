@@ -66,4 +66,22 @@ describe("Timer (ToolShell pilot)", () => {
     // Applying a countdown resets to a paused state (primary shows Start).
     expect(screen.getByTestId("tool-shell-primary")).toHaveTextContent("Start");
   });
+
+  it("boots into countdown mode when seeded via the classroom-timer preset", () => {
+    render(
+      <Timer
+        slug="classroom-timer"
+        preset={{ mode: "countdown", autoFullscreenHint: true }}
+      />,
+    );
+
+    // Countdown tab is active (its content — the H/M/S apply fields — is
+    // rendered; Radix Tabs unmounts inactive content in happy-dom).
+    expect(screen.getByRole("tab", { name: /countdown/i })).toHaveAttribute(
+      "data-state",
+      "active",
+    );
+    expect(screen.getAllByRole("spinbutton")).toHaveLength(3);
+    expect(screen.getByRole("button", { name: /apply/i })).toBeInTheDocument();
+  });
 });

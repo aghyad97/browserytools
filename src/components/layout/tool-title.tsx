@@ -235,6 +235,9 @@ const HAS_OWN_H1 = new Set([
   // Wave 4 (W4) Task 9: Wheel of Names and Group Maker ship directly on ToolShell.
   "wheel-of-names",
   "group-maker",
+  // Wave 4 (W4) Task 9: Classroom Timer is a Timer countdown preset, already
+  // on ToolShell (the shell owns the h1).
+  "classroom-timer",
 ]);
 
 export function ToolTitle() {

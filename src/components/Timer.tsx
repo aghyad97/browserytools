@@ -36,12 +36,20 @@ function formatTime(totalMs: number): {
   return { hh, mm, ss, ms };
 }
 
-export default function Timer() {
+export default function Timer({
+  slug = "timer",
+  preset,
+}: {
+  slug?: string;
+  preset?: { mode?: "countdown"; seconds?: number; autoFullscreenHint?: boolean };
+} = {}) {
   const t = useTranslations("Tools.Timer");
   const tc = useTranslations("ToolsConfig");
-  const [mode, setMode] = useState<Mode>("countdown");
+  const [mode, setMode] = useState<Mode>(preset?.mode ?? "countdown");
   const [isRunning, setIsRunning] = useState(false);
-  const [initialMs, setInitialMs] = useState(5 * 60 * 1000); // default 5 min
+  const [initialMs, setInitialMs] = useState(
+    preset?.seconds != null ? preset.seconds * 1000 : 5 * 60 * 1000,
+  ); // default 5 min
   const [elapsedMs, setElapsedMs] = useState(0);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [showControls, setShowControls] = useState(true);
@@ -190,15 +198,22 @@ export default function Timer() {
   }, [isFullscreen]);
 
   // Inputs for countdown
-  const [hInput, setHInput] = useState(0);
-  const [mInput, setMInput] = useState(5);
-  const [sInput, setSInput] = useState(0);
+  const presetSeconds = preset?.seconds;
+  const [hInput, setHInput] = useState(
+    presetSeconds != null ? Math.floor(presetSeconds / 3600) : 0,
+  );
+  const [mInput, setMInput] = useState(
+    presetSeconds != null ? Math.floor((presetSeconds % 3600) / 60) : 5,
+  );
+  const [sInput, setSInput] = useState(
+    presetSeconds != null ? presetSeconds % 60 : 0,
+  );
 
   return (
     <ToolShell
-      slug="timer"
-      title={tc("tools.timer.name")}
-      sub={tc("tools.timer.description")}
+      slug={slug}
+      title={tc(`tools.${slug}.name` as never)}
+      sub={tc(`tools.${slug}.description` as never)}
       controls={
         <>
           <Button variant="outline" onClick={handleReset}>
@@ -330,6 +345,11 @@ export default function Timer() {
                 <span>:</span>
                 <NumberFlow value={ss} format={{ minimumIntegerDigits: 2 }} />
               </div>
+              {preset?.autoFullscreenHint && (
+                <p className="text-xs text-muted-foreground text-center">
+                  {t("fullscreenHint")}
+                </p>
+              )}
             </div>
           </div>
         )}
