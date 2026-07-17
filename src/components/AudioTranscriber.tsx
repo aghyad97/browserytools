@@ -19,6 +19,8 @@ import { CopyButton } from "@/components/shared/CopyButton";
 import { OutputPanel } from "@/components/shared/OutputPanel";
 import { downloadText } from "@/lib/download";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
+import { decodeToMono16k } from "@/lib/media/decode-audio";
+import { srtTime, buildSrt, buildVtt, type CueDoc } from "@/lib/subtitles/cues";
 
 const MODEL = "Xenova/whisper-base";
 
@@ -31,83 +33,15 @@ type Transcriber = (
   options: Record<string, unknown>
 ) => Promise<{ text: string; chunks?: Chunk[] }>;
 
-// Decode an arbitrary audio/video file to a 16kHz mono Float32Array using the
-// Web Audio API. Whisper expects 16kHz mono PCM.
-async function decodeToMono16k(file: File): Promise<Float32Array> {
-  const arrayBuffer = await file.arrayBuffer();
-  const AudioCtx =
-    window.AudioContext ||
-    (window as unknown as { webkitAudioContext: typeof AudioContext })
-      .webkitAudioContext;
-  const ctx = new AudioCtx();
-  let decoded: AudioBuffer;
-  try {
-    decoded = await ctx.decodeAudioData(arrayBuffer.slice(0));
-  } finally {
-    // Close best-effort; some browsers reject double-close.
-    ctx.close().catch(() => {});
-  }
-
-  // Mix all channels down to mono.
-  const numChannels = decoded.numberOfChannels;
-  const length = decoded.length;
-  const mono = new Float32Array(length);
-  for (let ch = 0; ch < numChannels; ch++) {
-    const data = decoded.getChannelData(ch);
-    for (let i = 0; i < length; i++) mono[i] += data[i] / numChannels;
-  }
-
-  // Resample to 16kHz if needed (linear interpolation is sufficient for ASR).
-  const targetRate = 16000;
-  if (decoded.sampleRate === targetRate) return mono;
-  const ratio = decoded.sampleRate / targetRate;
-  const newLength = Math.floor(length / ratio);
-  const resampled = new Float32Array(newLength);
-  for (let i = 0; i < newLength; i++) {
-    const srcIndex = i * ratio;
-    const i0 = Math.floor(srcIndex);
-    const i1 = Math.min(i0 + 1, length - 1);
-    const frac = srcIndex - i0;
-    resampled[i] = mono[i0] * (1 - frac) + mono[i1] * frac;
-  }
-  return resampled;
-}
-
-// Format seconds as an SRT timestamp: HH:MM:SS,mmm
-function srtTime(seconds: number): string {
-  const s = Math.max(0, seconds);
-  const hh = Math.floor(s / 3600);
-  const mm = Math.floor((s % 3600) / 60);
-  const ss = Math.floor(s % 60);
-  const ms = Math.round((s - Math.floor(s)) * 1000);
-  const pad = (n: number, w = 2) => String(n).padStart(w, "0");
-  return `${pad(hh)}:${pad(mm)}:${pad(ss)},${pad(ms, 3)}`;
-}
-
-// VTT uses a dot for milliseconds: HH:MM:SS.mmm
-function vttTime(seconds: number): string {
-  return srtTime(seconds).replace(",", ".");
-}
-
-function buildSrt(chunks: Chunk[]): string {
-  return chunks
-    .map((c, i) => {
-      const start = c.timestamp[0] ?? 0;
-      const end = c.timestamp[1] ?? start;
-      return `${i + 1}\n${srtTime(start)} --> ${srtTime(end)}\n${c.text.trim()}\n`;
-    })
-    .join("\n");
-}
-
-function buildVtt(chunks: Chunk[]): string {
-  const body = chunks
-    .map((c) => {
-      const start = c.timestamp[0] ?? 0;
-      const end = c.timestamp[1] ?? start;
-      return `${vttTime(start)} --> ${vttTime(end)}\n${c.text.trim()}\n`;
-    })
-    .join("\n");
-  return `WEBVTT\n\n${body}`;
+// Adapt Whisper's Chunk[] into the shared CueDoc shape expected by the
+// SRT/VTT builders in @/lib/subtitles/cues.
+function chunksToCueDoc(chunks: Chunk[]): CueDoc {
+  return chunks.map((c, i) => ({
+    id: String(i),
+    start: c.timestamp[0] ?? 0,
+    end: c.timestamp[1] ?? c.timestamp[0] ?? 0,
+    text: c.text,
+  }));
 }
 
 export default function AudioTranscriber() {
@@ -288,7 +222,7 @@ export default function AudioTranscriber() {
                 size="sm"
                 disabled={!hasChunks}
                 onClick={() =>
-                  download(buildSrt(chunks), "srt", "text/plain")
+                  download(buildSrt(chunksToCueDoc(chunks)), "srt", "text/plain")
                 }
               >
                 <DownloadIcon className="h-4 w-4 me-2" />
@@ -299,14 +233,14 @@ export default function AudioTranscriber() {
                 size="sm"
                 disabled={!hasChunks}
                 onClick={() =>
-                  download(buildVtt(chunks), "vtt", "text/vtt")
+                  download(buildVtt(chunksToCueDoc(chunks)), "vtt", "text/vtt")
                 }
               >
                 <DownloadIcon className="h-4 w-4 me-2" />
                 {t("downloadVtt")}
               </Button>
               <CopyButton
-                text={hasChunks ? buildSrt(chunks) : ""}
+                text={hasChunks ? buildSrt(chunksToCueDoc(chunks)) : ""}
                 label={t("copySrt")}
                 successMessage={t("copied")}
                 errorMessage={t("copyFailed")}
