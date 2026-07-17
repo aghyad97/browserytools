@@ -890,7 +890,8 @@
       "targetReached": "Ziel erreicht",
       "targetMissed": "Die genaue Zielgröße konnte nicht erreicht werden — das ist die kleinste erreichbare Größe bei akzeptabler Qualität.",
       "pngNotSupportedInTarget": "PNG kann nicht zielgrößenbasiert komprimiert werden — auf JPEG umgestellt.",
-      "presetChipAria": "Zielgröße auf {label} setzen"
+      "presetChipAria": "Zielgröße auf {label} setzen",
+      "change": "Ändern"
     },
     "ImageConverter": {
       "dropImageHere": "Lege dein Bild hier ab",
@@ -923,7 +924,8 @@
       "vibrance": "Brillanz",
       "exposure": "Belichtung",
       "highlights": "Lichter",
-      "shadows": "Schatten"
+      "shadows": "Schatten",
+      "change": "Ändern"
     },
     "SvgEditor": {
       "title": "SVG-Editor",
@@ -1130,7 +1132,8 @@
       "showChart": "Diagramm anzeigen",
       "exportCsv": "CSV exportieren",
       "fileLoadedSuccess": "Datei erfolgreich geladen!",
-      "errorLoadingFile": "Fehler beim Laden der Datei"
+      "errorLoadingFile": "Fehler beim Laden der Datei",
+      "change": "Ändern"
     },
     "FileConverter": {
       "title": "Datei-Konverter",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "Fehler beim Laden der Audiodatei",
       "errorProcessingFile": "Fehler beim Verarbeiten der Audiodatei",
       "speedSet": "Wiedergabegeschwindigkeit auf {speed}x gesetzt",
-      "downloadOriginal": "Original herunterladen"
+      "downloadOriginal": "Original herunterladen",
+      "change": "Ändern"
     },
     "MicCameraTester": {
       "title": "Mikrofon- & Kameratest",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "Die Videogröße sollte unter 500 MB liegen",
       "compressedSuccess": "Video erfolgreich komprimiert!",
       "compressFailed": "Video konnte nicht komprimiert werden. Bitte versuche es erneut.",
-      "downloadedSuccess": "Video heruntergeladen!"
+      "downloadedSuccess": "Video heruntergeladen!",
+      "change": "Ändern"
     },
     "CurlConverter": {
       "selectLanguage": "Sprache auswählen",
@@ -4125,7 +4130,8 @@
       "loadFailed": "Bild konnte nicht geladen werden. Bitte versuche eine andere Datei.",
       "noRegions": "Zeichne mindestens einen Bereich zum Zensieren, bevor du exportierst.",
       "exportedSuccess": "Zensiertes Bild heruntergeladen!",
-      "exportFailed": "Bild konnte nicht exportiert werden. Bitte versuche es erneut."
+      "exportFailed": "Bild konnte nicht exportiert werden. Bitte versuche es erneut.",
+      "change": "Ändern"
     },
     "ScreenshotBeautifier": {
       "title": "Screenshot-Verschönerer",

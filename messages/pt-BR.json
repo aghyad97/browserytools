@@ -890,7 +890,8 @@
       "targetReached": "Alvo atingido",
       "targetMissed": "Não foi possível atingir o alvo exato — este é o menor tamanho possível com qualidade aceitável.",
       "pngNotSupportedInTarget": "PNG não pode ter tamanho alvo — mudamos para JPEG.",
-      "presetChipAria": "Definir alvo para {label}"
+      "presetChipAria": "Definir alvo para {label}",
+      "change": "Alterar"
     },
     "ImageConverter": {
       "dropImageHere": "Solte sua imagem aqui",
@@ -923,7 +924,8 @@
       "vibrance": "Vibração",
       "exposure": "Exposição",
       "highlights": "Realces",
-      "shadows": "Sombras"
+      "shadows": "Sombras",
+      "change": "Alterar"
     },
     "SvgEditor": {
       "title": "Editor de SVG",
@@ -1130,7 +1132,8 @@
       "showChart": "Mostrar Gráfico",
       "exportCsv": "Exportar CSV",
       "fileLoadedSuccess": "Arquivo carregado com sucesso!",
-      "errorLoadingFile": "Erro ao carregar o arquivo"
+      "errorLoadingFile": "Erro ao carregar o arquivo",
+      "change": "Alterar"
     },
     "FileConverter": {
       "title": "Conversor de Arquivos",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "Erro ao carregar o arquivo de áudio",
       "errorProcessingFile": "Erro ao processar o arquivo de áudio",
       "speedSet": "Velocidade de reprodução definida para {speed}x",
-      "downloadOriginal": "Baixar original"
+      "downloadOriginal": "Baixar original",
+      "change": "Alterar"
     },
     "MicCameraTester": {
       "title": "Testador de Microfone e Câmera",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "O tamanho do vídeo deve ser menor que 500 MB",
       "compressedSuccess": "Vídeo comprimido com sucesso!",
       "compressFailed": "Falha ao comprimir o vídeo. Tente novamente.",
-      "downloadedSuccess": "Vídeo baixado!"
+      "downloadedSuccess": "Vídeo baixado!",
+      "change": "Alterar"
     },
     "CurlConverter": {
       "selectLanguage": "Selecione o idioma",
@@ -4125,7 +4130,8 @@
       "loadFailed": "Falha ao carregar a imagem. Tente outro arquivo.",
       "noRegions": "Desenhe pelo menos uma região para censurar antes de exportar.",
       "exportedSuccess": "Imagem censurada baixada!",
-      "exportFailed": "Falha ao exportar a imagem. Tente novamente."
+      "exportFailed": "Falha ao exportar a imagem. Tente novamente.",
+      "change": "Alterar"
     },
     "ScreenshotBeautifier": {
       "title": "Embelezador de Capturas de Tela",

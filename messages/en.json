@@ -890,7 +890,8 @@
       "imageTooLarge": "Image size should be less than 25MB",
       "compressedSuccess": "Image compressed successfully!",
       "compressFailed": "Failed to compress image. Please try again.",
-      "downloadedSuccess": "Image downloaded!"
+      "downloadedSuccess": "Image downloaded!",
+      "change": "Change"
     },
     "ImageConverter": {
       "dropImageHere": "Drop your image here",
@@ -923,7 +924,8 @@
       "vibrance": "Vibrance",
       "exposure": "Exposure",
       "highlights": "Highlights",
-      "shadows": "Shadows"
+      "shadows": "Shadows",
+      "change": "Change"
     },
     "SvgEditor": {
       "title": "SVG Editor",
@@ -1130,7 +1132,8 @@
       "showChart": "Show Chart",
       "exportCsv": "Export CSV",
       "fileLoadedSuccess": "File loaded successfully!",
-      "errorLoadingFile": "Error loading file"
+      "errorLoadingFile": "Error loading file",
+      "change": "Change"
     },
     "FileConverter": {
       "title": "File Converter",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "Error loading audio file",
       "errorProcessingFile": "Error processing audio file",
       "speedSet": "Playback speed set to {speed}x",
-      "downloadOriginal": "Download original"
+      "downloadOriginal": "Download original",
+      "change": "Change"
     },
     "MicCameraTester": {
       "title": "Mic & Camera Tester",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "Video size should be less than 500MB",
       "compressedSuccess": "Video compressed successfully!",
       "compressFailed": "Failed to compress video. Please try again.",
-      "downloadedSuccess": "Video downloaded!"
+      "downloadedSuccess": "Video downloaded!",
+      "change": "Change"
     },
     "CurlConverter": {
       "selectLanguage": "Select language",
@@ -4125,7 +4130,8 @@
       "loadFailed": "Failed to load image. Please try another file.",
       "noRegions": "Draw at least one region to censor before exporting.",
       "exportedSuccess": "Censored image downloaded!",
-      "exportFailed": "Failed to export image. Please try again."
+      "exportFailed": "Failed to export image. Please try again.",
+      "change": "Change"
     },
     "ScreenshotBeautifier": {
       "title": "Screenshot Beautifier",

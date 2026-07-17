@@ -890,7 +890,8 @@
       "targetReached": "Cible atteinte",
       "targetMissed": "Impossible d'atteindre exactement la cible — voici la taille la plus petite possible à une qualité acceptable.",
       "pngNotSupportedInTarget": "Le PNG ne permet pas de cibler une taille — basculé en JPEG.",
-      "presetChipAria": "Définir la cible sur {label}"
+      "presetChipAria": "Définir la cible sur {label}",
+      "change": "Changer"
     },
     "ImageConverter": {
       "dropImageHere": "Déposez votre image ici",
@@ -923,7 +924,8 @@
       "vibrance": "Vibrance",
       "exposure": "Exposition",
       "highlights": "Hautes lumières",
-      "shadows": "Ombres"
+      "shadows": "Ombres",
+      "change": "Changer"
     },
     "SvgEditor": {
       "title": "Éditeur SVG",
@@ -1130,7 +1132,8 @@
       "showChart": "Afficher le graphique",
       "exportCsv": "Exporter en CSV",
       "fileLoadedSuccess": "Fichier chargé avec succès !",
-      "errorLoadingFile": "Erreur lors du chargement du fichier"
+      "errorLoadingFile": "Erreur lors du chargement du fichier",
+      "change": "Changer"
     },
     "FileConverter": {
       "title": "Convertisseur de fichiers",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "Erreur lors du chargement du fichier audio",
       "errorProcessingFile": "Erreur lors du traitement du fichier audio",
       "speedSet": "Vitesse de lecture réglée sur {speed}x",
-      "downloadOriginal": "Télécharger l'original"
+      "downloadOriginal": "Télécharger l'original",
+      "change": "Changer"
     },
     "MicCameraTester": {
       "title": "Testeur micro et caméra",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "La taille de la vidéo doit être inférieure à 500 Mo",
       "compressedSuccess": "Vidéo compressée avec succès !",
       "compressFailed": "Échec de la compression de la vidéo. Veuillez réessayer.",
-      "downloadedSuccess": "Vidéo téléchargée !"
+      "downloadedSuccess": "Vidéo téléchargée !",
+      "change": "Changer"
     },
     "CurlConverter": {
       "selectLanguage": "Sélectionner un langage",
@@ -4125,7 +4130,8 @@
       "loadFailed": "Échec du chargement de l'image. Veuillez essayer un autre fichier.",
       "noRegions": "Dessinez au moins une zone à censurer avant d'exporter.",
       "exportedSuccess": "Image censurée téléchargée !",
-      "exportFailed": "Échec de l'export de l'image. Veuillez réessayer."
+      "exportFailed": "Échec de l'export de l'image. Veuillez réessayer.",
+      "change": "Changer"
     },
     "ScreenshotBeautifier": {
       "title": "Embellisseur de captures d'écran",

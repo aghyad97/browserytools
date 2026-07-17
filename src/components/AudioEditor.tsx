@@ -19,6 +19,8 @@ import {
   FastForward,
   Rewind,
   RotateCcw,
+  Music,
+  RefreshCw,
 } from "lucide-react";
 
 export default function AudioEditor() {
@@ -46,6 +48,7 @@ export default function AudioEditor() {
   const gainNodeRef = useRef<GainNode | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const animationFrameRef = useRef<number>(0);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     const updateTime = () => {
@@ -70,10 +73,34 @@ export default function AudioEditor() {
     event: React.ChangeEvent<HTMLInputElement>
   ) => {
     const file = event.target.files?.[0];
-    if (!file?.type.startsWith("audio/")) {
+    // Allow re-selecting the same file twice in a row.
+    event.target.value = "";
+    if (!file) return;
+    if (!file.type.startsWith("audio/")) {
       toast.error(t("invalidAudioFile"));
       return;
     }
+
+    // Stop any current playback and clear everything derived from the
+    // previous file (waveform, AudioContext, timing) so swapping files never
+    // leaves stale audio/UI behind while the new one decodes.
+    audioRef.current?.pause();
+    if (animationFrameRef.current) {
+      cancelAnimationFrame(animationFrameRef.current);
+    }
+    if (audioContextRef.current) {
+      audioContextRef.current.close().catch(() => {});
+      audioContextRef.current = null;
+    }
+    gainNodeRef.current = null;
+    const canvas = canvasRef.current;
+    if (canvas) {
+      canvas.getContext("2d")?.clearRect(0, 0, canvas.width, canvas.height);
+    }
+    setIsPlaying(false);
+    setCurrentTime(0);
+    setDuration(0);
+    setAudioBuffer(null);
 
     try {
       setAudioFile(file);
@@ -190,22 +217,16 @@ export default function AudioEditor() {
       sub={tc("tools.audio.description")}
     >
       <div className="space-y-4">
-          <Card className="p-6">
-            <div
-              className={`
-                h-32 rounded-lg border-2 border-dashed
-                flex flex-col items-center justify-center space-y-4
-                ${!audioFile ? "border-muted-foreground" : "border-primary"}
-              `}
-            >
-              <input
-                type="file"
-                accept="audio/*"
-                className="hidden"
-                onChange={handleFileUpload}
-                id="audio-upload"
-              />
-              {!audioFile ? (
+          {!audioFile ? (
+            <Card className="p-6">
+              <div className="h-32 rounded-lg border-2 border-dashed border-muted-foreground flex flex-col items-center justify-center space-y-4">
+                <input
+                  type="file"
+                  accept="audio/*"
+                  className="hidden"
+                  onChange={handleFileUpload}
+                  id="audio-upload"
+                />
                 <label
                   htmlFor="audio-upload"
                   className="flex flex-col items-center cursor-pointer"
@@ -215,16 +236,34 @@ export default function AudioEditor() {
                     {t("dropHere")}
                   </p>
                 </label>
-              ) : (
-                <div className="text-center">
-                  <p className="font-medium">{audioFile.name}</p>
-                  <p className="text-sm text-muted-foreground mt-1">
-                    {t("seconds", { count: Math.round(duration) })}
-                  </p>
-                </div>
-              )}
+              </div>
+            </Card>
+          ) : (
+            <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
+              <Music className="w-8 h-8 text-primary shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="font-medium truncate">{audioFile.name}</p>
+                <p className="text-sm text-muted-foreground" dir="ltr">
+                  {t("seconds", { count: Math.round(duration) })}
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <RefreshCw className="w-4 h-4 me-1" />
+                {t("change")}
+              </Button>
             </div>
-          </Card>
+          )}
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="audio/*"
+            className="hidden"
+            onChange={handleFileUpload}
+          />
 
           {audioFile && (
             <Card className="p-6 space-y-6">
@@ -252,6 +291,7 @@ export default function AudioEditor() {
                     variant="outline"
                     size="icon"
                     onClick={togglePlayPause}
+                    data-testid="audio-play-pause"
                   >
                     {isPlaying ? (
                       <Pause className="h-4 w-4" />

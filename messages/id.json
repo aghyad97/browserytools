@@ -890,7 +890,8 @@
       "targetReached": "Target tercapai",
       "targetMissed": "Tidak dapat mencapai target yang tepat — ini adalah ukuran terkecil yang bisa dicapai dengan kualitas yang masih layak.",
       "pngNotSupportedInTarget": "PNG tidak dapat ditarget ukurannya — beralih ke JPEG.",
-      "presetChipAria": "Atur target ke {label}"
+      "presetChipAria": "Atur target ke {label}",
+      "change": "Ubah"
     },
     "ImageConverter": {
       "dropImageHere": "Letakkan gambar Anda di sini",
@@ -923,7 +924,8 @@
       "vibrance": "Vibrance",
       "exposure": "Eksposur",
       "highlights": "Sorotan",
-      "shadows": "Bayangan"
+      "shadows": "Bayangan",
+      "change": "Ubah"
     },
     "SvgEditor": {
       "title": "Editor SVG",
@@ -1130,7 +1132,8 @@
       "showChart": "Tampilkan Grafik",
       "exportCsv": "Ekspor CSV",
       "fileLoadedSuccess": "Berkas berhasil dimuat!",
-      "errorLoadingFile": "Galat memuat berkas"
+      "errorLoadingFile": "Galat memuat berkas",
+      "change": "Ubah"
     },
     "FileConverter": {
       "title": "Konverter Berkas",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "Galat memuat berkas audio",
       "errorProcessingFile": "Galat memproses berkas audio",
       "speedSet": "Kecepatan pemutaran disetel ke {speed}x",
-      "downloadOriginal": "Unduh file asli"
+      "downloadOriginal": "Unduh file asli",
+      "change": "Ubah"
     },
     "MicCameraTester": {
       "title": "Penguji Mikrofon & Kamera",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "Ukuran video harus kurang dari 500MB",
       "compressedSuccess": "Video berhasil dikompres!",
       "compressFailed": "Gagal mengompres video. Silakan coba lagi.",
-      "downloadedSuccess": "Video diunduh!"
+      "downloadedSuccess": "Video diunduh!",
+      "change": "Ubah"
     },
     "CurlConverter": {
       "selectLanguage": "Pilih bahasa",
@@ -4125,7 +4130,8 @@
       "loadFailed": "Gagal memuat gambar. Silakan coba berkas lain.",
       "noRegions": "Gambar minimal satu area untuk disensor sebelum mengekspor.",
       "exportedSuccess": "Gambar tersensor diunduh!",
-      "exportFailed": "Gagal mengekspor gambar. Silakan coba lagi."
+      "exportFailed": "Gagal mengekspor gambar. Silakan coba lagi.",
+      "change": "Ubah"
     },
     "ScreenshotBeautifier": {
       "title": "Pempercantik Tangkapan Layar",

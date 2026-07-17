@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback } from "react";
+import { useState, useCallback, useRef } from "react";
 import { useTranslations } from "next-intl";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -26,11 +26,14 @@ import {
   BarChart3,
   Download,
   ArrowUpDown,
+  FileSpreadsheet,
+  RefreshCw,
 } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { downloadBlob } from "@/lib/download";
+import { formatBytes } from "@/lib/format";
 import Papa from "papaparse";
 import * as XLSX from "xlsx";
 import {
@@ -57,6 +60,8 @@ export default function SpreadsheetViewer() {
   const t = useTranslations("Tools.SpreadsheetViewer");
   const tc = useTranslations("ToolsConfig");
   const [data, setData] = useState<DataRow[]>([]);
+  const [fileName, setFileName] = useState<string | null>(null);
+  const [fileSize, setFileSize] = useState(0);
   const [columns, setColumns] = useState<Column[]>([]);
   const [filteredData, setFilteredData] = useState<DataRow[]>([]);
   const [search, setSearch] = useState("");
@@ -66,6 +71,7 @@ export default function SpreadsheetViewer() {
     key: string;
     direction: "asc" | "desc";
   } | null>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const onDrop = useCallback(async (acceptedFiles: File[]) => {
     const file = acceptedFiles[0];
@@ -98,10 +104,19 @@ export default function SpreadsheetViewer() {
         sortable: true,
       }));
 
+      // Swapping files must clear every result derived from the previous
+      // sheet — search text, sort order, and the selected chart column all
+      // reference the old columns/rows and would otherwise silently persist
+      // (or point at a column that no longer exists) over the new sheet.
       setColumns(cols);
       setData(parsedData);
       setFilteredData(parsedData);
+      setFileName(file.name);
+      setFileSize(file.size);
       setSelectedColumn(cols[0].key);
+      setSearch("");
+      setSortConfig(null);
+      setShowChart(false);
       toast.success(t("fileLoadedSuccess"));
     } catch (error) {
       console.error(error);
@@ -238,6 +253,34 @@ export default function SpreadsheetViewer() {
             </Card>
           ) : (
             <>
+              <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
+                <FileSpreadsheet className="w-8 h-8 text-primary shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium truncate">{fileName}</p>
+                  <p className="text-sm text-muted-foreground" dir="ltr">
+                    {formatBytes(fileSize)}
+                  </p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <RefreshCw className="w-4 h-4 me-1" />
+                  {t("change")}
+                </Button>
+              </div>
+              <input
+                ref={fileInputRef}
+                type="file"
+                accept=".csv,.xlsx,.xls"
+                className="hidden"
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) onDrop([file]);
+                  e.target.value = "";
+                }}
+              />
               <Card className="p-4">
                 <div className="flex items-center space-x-4">
                   <div className="relative flex-1">

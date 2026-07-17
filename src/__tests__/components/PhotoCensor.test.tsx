@@ -108,4 +108,46 @@ describe("PhotoCensor", () => {
     const { toast } = await import("sonner");
     expect(toast.success).toHaveBeenCalled();
   });
+
+  it("shows a Change control once an image is loaded", async () => {
+    const { container } = render(<PhotoCensor />);
+    await uploadImage(container);
+    expect(
+      screen.getByRole("button", { name: /change/i })
+    ).toBeInTheDocument();
+  });
+
+  it("swaps the image via Change and clears the previously drawn censor regions", async () => {
+    const { container } = render(<PhotoCensor />);
+    const user = await uploadImage(container);
+
+    const canvas = screen.getByTestId("censor-canvas") as HTMLCanvasElement;
+    drawRegion(canvas);
+    // A region was drawn — download is enabled and the region count reads 1.
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: /download/i })).not.toBeDisabled()
+    );
+    expect(screen.getByText("1 region(s)")).toBeInTheDocument();
+
+    // Swap to a new image via Change.
+    await user.click(screen.getByRole("button", { name: /change/i }));
+    const changeInput = container.querySelector(
+      'input[type="file"]'
+    ) as HTMLInputElement;
+    const secondFile = new File(["data2"], "other.png", {
+      type: "image/png",
+    });
+    await user.upload(changeInput, secondFile);
+    const secondCanvas = (await screen.findByTestId(
+      "censor-canvas"
+    )) as HTMLCanvasElement;
+    await waitFor(() => expect(secondCanvas.width).toBe(20));
+
+    // The undrawn regions from the previous image must not carry over —
+    // otherwise exporting the new image would silently bake in censor boxes
+    // that belong to a photo the user already replaced.
+    const downloadBtn = screen.getByRole("button", { name: /download/i });
+    expect(downloadBtn).toBeDisabled();
+    expect(screen.getByText("0 region(s)")).toBeInTheDocument();
+  });
 });

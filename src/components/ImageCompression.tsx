@@ -31,6 +31,7 @@ import {
   Maximize2,
   MinusSquare,
   FileDown,
+  RefreshCw,
 } from "lucide-react";
 import { toast } from "sonner";
 
@@ -125,6 +126,12 @@ export default function ImageCompression({
   const compareRef = useRef<HTMLDivElement>(null);
   const [comparing, setComparing] = useState(false);
   const [comparePosition, setComparePosition] = useState(50);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  // Bumped on every file swap. compressImage() is async (target mode awaits a
+  // search loop); this lets an in-flight compression for the previous image
+  // detect it's been superseded and discard its result instead of applying it
+  // to the new image's state.
+  const activeImageTokenRef = useRef(0);
 
   // Target mode is lossy-only: coerce a PNG/original selection to JPEG when the
   // user switches into it, and surface a one-line hint. Leaving target mode
@@ -149,6 +156,10 @@ export default function ImageCompression({
         return;
       }
 
+      // Invalidate any in-flight compression for the previous image so its
+      // result can't land on the new image once it resolves.
+      activeImageTokenRef.current += 1;
+
       const reader = new FileReader();
       reader.onloadend = () => {
         // Get image dimensions
@@ -162,8 +173,15 @@ export default function ImageCompression({
             type: file.type,
             name: file.name,
           });
+          // Swapping the file must clear every result derived from the
+          // previous image — otherwise the compressed output / comparison
+          // slider from the old file lingers over the new one.
           setCompressedImage(null);
+          setCompressedSize(0);
           setTargetMeta(null);
+          setComparing(false);
+          setComparePosition(50);
+          setLoading(false);
         };
         img.src = reader.result as string;
       };
@@ -173,6 +191,7 @@ export default function ImageCompression({
 
   const compressImage = async () => {
     if (!image) return;
+    const token = activeImageTokenRef.current;
     setLoading(true);
 
     try {
@@ -188,6 +207,10 @@ export default function ImageCompression({
           targetBytes: clampKb(targetKb) * 1024,
           format,
         });
+        // The image may have been swapped while this search was running —
+        // discard the result instead of showing the old file's compressed
+        // output under the new file's info.
+        if (token !== activeImageTokenRef.current) return;
         const url = URL.createObjectURL(result.blob);
         setCompressedImage(url);
         setCompressedSize(result.blob.size);
@@ -246,14 +269,21 @@ export default function ImageCompression({
       const base64str = compressed.split(",")[1];
       const compressedBytes = atob(base64str).length;
 
+      // Same race guard as target mode: bail if the file was swapped mid-run.
+      if (token !== activeImageTokenRef.current) return;
+
       setCompressedImage(compressed);
       setCompressedSize(compressedBytes);
       toast.success(t("compressedSuccess"));
     } catch (error) {
       console.error(error);
-      toast.error(t("compressFailed"));
+      if (token === activeImageTokenRef.current) {
+        toast.error(t("compressFailed"));
+      }
     } finally {
-      setLoading(false);
+      if (token === activeImageTokenRef.current) {
+        setLoading(false);
+      }
     }
   };
 
@@ -319,6 +349,25 @@ export default function ImageCompression({
     >
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div className="space-y-4">
+          {image && (
+            <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border">
+              <ImageIcon className="w-8 h-8 text-primary shrink-0" />
+              <div className="flex-1 min-w-0">
+                <p className="font-medium truncate">{image.name}</p>
+                <p className="text-sm text-muted-foreground" dir="ltr">
+                  {image.width}x{image.height}px | {formatBytes(image.size)}
+                </p>
+              </div>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={() => fileInputRef.current?.click()}
+              >
+                <RefreshCw className="w-4 h-4 me-1" />
+                {t("change")}
+              </Button>
+            </div>
+          )}
           <Card className="p-6">
             {!image ? (
               <FileDropzone
@@ -395,6 +444,17 @@ export default function ImageCompression({
               </div>
             )}
           </Card>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept="image/png,image/jpeg,image/webp"
+            className="hidden"
+            onChange={(e) => {
+              const file = e.target.files?.[0];
+              if (file) onDrop([file]);
+              e.target.value = "";
+            }}
+          />
 
           <Card className="p-4">
             <Tabs defaultValue="basic" className="space-y-4">

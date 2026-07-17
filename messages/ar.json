@@ -890,7 +890,8 @@
       "targetReached": "تم بلوغ الحجم المستهدف",
       "targetMissed": "تعذّر بلوغ الحجم المستهدف بدقة — هذا أصغر حجم ممكن بجودة مقبولة.",
       "pngNotSupportedInTarget": "لا يمكن استهداف حجم محدد لصيغة PNG — تم التحويل إلى JPEG.",
-      "presetChipAria": "تعيين الحجم المستهدف إلى {label}"
+      "presetChipAria": "تعيين الحجم المستهدف إلى {label}",
+      "change": "تغيير"
     },
     "ImageConverter": {
       "dropImageHere": "أفلت صورتك هنا",
@@ -923,7 +924,8 @@
       "vibrance": "الحيوية",
       "exposure": "التعرض",
       "highlights": "الإضاءات",
-      "shadows": "الظلال"
+      "shadows": "الظلال",
+      "change": "تغيير"
     },
     "SvgEditor": {
       "title": "محرر SVG",
@@ -1130,7 +1132,8 @@
       "showChart": "إظهار الرسم البياني",
       "exportCsv": "تصدير CSV",
       "fileLoadedSuccess": "تم تحميل الملف بنجاح!",
-      "errorLoadingFile": "خطأ في تحميل الملف"
+      "errorLoadingFile": "خطأ في تحميل الملف",
+      "change": "تغيير"
     },
     "FileConverter": {
       "title": "محوّل الملفات",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "خطأ في تحميل ملف الصوت",
       "errorProcessingFile": "خطأ في معالجة ملف الصوت",
       "speedSet": "تم ضبط سرعة التشغيل على {speed}×",
-      "downloadOriginal": "تنزيل الملف الأصلي"
+      "downloadOriginal": "تنزيل الملف الأصلي",
+      "change": "تغيير"
     },
     "MicCameraTester": {
       "title": "اختبار الميكروفون والكاميرا",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "حجم الفيديو يجب أن يكون أقل من 500 ميغابايت",
       "compressedSuccess": "تم ضغط الفيديو بنجاح!",
       "compressFailed": "فشل ضغط الفيديو. يرجى المحاولة مجدداً.",
-      "downloadedSuccess": "تم تحميل الفيديو!"
+      "downloadedSuccess": "تم تحميل الفيديو!",
+      "change": "تغيير"
     },
     "CurlConverter": {
       "selectLanguage": "اختر اللغة",
@@ -4125,7 +4130,8 @@
       "loadFailed": "فشل تحميل الصورة. يرجى تجربة ملف آخر.",
       "noRegions": "ارسم منطقة واحدة على الأقل للتحجيب قبل التصدير.",
       "exportedSuccess": "تم تحميل الصورة المُحجَّبة!",
-      "exportFailed": "فشل تصدير الصورة. يرجى المحاولة مجدداً."
+      "exportFailed": "فشل تصدير الصورة. يرجى المحاولة مجدداً.",
+      "change": "تغيير"
     },
     "ScreenshotBeautifier": {
       "title": "مُجمِّل لقطات الشاشة",

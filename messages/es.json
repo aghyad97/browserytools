@@ -890,7 +890,8 @@
       "targetReached": "Objetivo alcanzado",
       "targetMissed": "No se pudo alcanzar el tamaño exacto — este es el más pequeño posible con una calidad aceptable.",
       "pngNotSupportedInTarget": "PNG no admite un tamaño objetivo — se cambió a JPEG.",
-      "presetChipAria": "Establecer el objetivo en {label}"
+      "presetChipAria": "Establecer el objetivo en {label}",
+      "change": "Cambiar"
     },
     "ImageConverter": {
       "dropImageHere": "Suelta tu imagen aquí",
@@ -923,7 +924,8 @@
       "vibrance": "Intensidad",
       "exposure": "Exposición",
       "highlights": "Luces",
-      "shadows": "Sombras"
+      "shadows": "Sombras",
+      "change": "Cambiar"
     },
     "SvgEditor": {
       "title": "Editor de SVG",
@@ -1130,7 +1132,8 @@
       "showChart": "Mostrar gráfico",
       "exportCsv": "Exportar CSV",
       "fileLoadedSuccess": "¡Archivo cargado correctamente!",
-      "errorLoadingFile": "Error al cargar el archivo"
+      "errorLoadingFile": "Error al cargar el archivo",
+      "change": "Cambiar"
     },
     "FileConverter": {
       "title": "Conversor de archivos",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "Error al cargar el archivo de audio",
       "errorProcessingFile": "Error al procesar el archivo de audio",
       "speedSet": "Velocidad de reproducción ajustada a {speed}x",
-      "downloadOriginal": "Descargar original"
+      "downloadOriginal": "Descargar original",
+      "change": "Cambiar"
     },
     "MicCameraTester": {
       "title": "Probador de micrófono y cámara",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "El tamaño del video debe ser inferior a 500 MB",
       "compressedSuccess": "¡Video comprimido correctamente!",
       "compressFailed": "No se pudo comprimir el video. Inténtalo de nuevo.",
-      "downloadedSuccess": "¡Video descargado!"
+      "downloadedSuccess": "¡Video descargado!",
+      "change": "Cambiar"
     },
     "CurlConverter": {
       "selectLanguage": "Selecciona el lenguaje",
@@ -4125,7 +4130,8 @@
       "loadFailed": "No se pudo cargar la imagen. Prueba con otro archivo.",
       "noRegions": "Dibuja al menos un área para censurar antes de exportar.",
       "exportedSuccess": "¡Imagen censurada descargada!",
-      "exportFailed": "No se pudo exportar la imagen. Inténtalo de nuevo."
+      "exportFailed": "No se pudo exportar la imagen. Inténtalo de nuevo.",
+      "change": "Cambiar"
     },
     "ScreenshotBeautifier": {
       "title": "Embellecedor de capturas",

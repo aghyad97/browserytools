@@ -53,6 +53,18 @@ async function uploadImage(user: ReturnType<typeof userEvent.setup>) {
   const input = document.querySelector('input[type="file"]') as HTMLInputElement;
   const file = new File(["data"], "photo.png", { type: "image/png" });
   await user.upload(input, file);
+  await screen.findByText("photo.png");
+}
+
+async function changeImage(
+  user: ReturnType<typeof userEvent.setup>,
+  name: string,
+) {
+  await user.click(screen.getByRole("button", { name: /change/i }));
+  const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+  const file = new File(["data2"], name, { type: "image/png" });
+  await user.upload(input, file);
+  await screen.findByText(name);
 }
 
 describe("ImageCompression — target size mode", () => {
@@ -109,5 +121,75 @@ describe("ImageCompression — target size mode", () => {
         expect.objectContaining({ targetBytes: 20 * 1024 }),
       ),
     );
+  });
+
+  it("shows a Change control once an image is loaded, and clears the stale compressed result on swap", async () => {
+    const user = userEvent.setup();
+    render(<ImageCompression preset={{ mode: "target", targetKb: 20 }} />);
+
+    await uploadImage(user);
+    expect(
+      screen.getByRole("button", { name: /change/i }),
+    ).toBeInTheDocument();
+
+    const compress = await screen.findByRole("button", {
+      name: /compress image/i,
+    });
+    await waitFor(() => expect(compress).toBeEnabled());
+    await user.click(compress);
+    await waitFor(() =>
+      expect(screen.getByTestId("tool-shell-primary")).toBeEnabled(),
+    );
+
+    // Swap the file — the compressed output belongs to the previous image and
+    // must not linger as if it were produced from the new one.
+    await changeImage(user, "portrait.png");
+    expect(screen.queryByText("photo.png")).not.toBeInTheDocument();
+    expect(screen.getByTestId("tool-shell-primary")).toBeDisabled();
+  });
+
+  it("discards a still-running target compression's result if the image is swapped mid-run", async () => {
+    let resolveCompress: (r: {
+      blob: Blob;
+      width: number;
+      height: number;
+      quality: number;
+      iterations: number;
+      hitTarget: boolean;
+    }) => void = () => {};
+    vi.mocked(compressToTargetSize).mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveCompress = resolve;
+        }),
+    );
+
+    const user = userEvent.setup();
+    render(<ImageCompression preset={{ mode: "target", targetKb: 20 }} />);
+
+    await uploadImage(user);
+    const compress = await screen.findByRole("button", {
+      name: /compress image/i,
+    });
+    await waitFor(() => expect(compress).toBeEnabled());
+    await user.click(compress);
+    await waitFor(() => expect(compressToTargetSize).toHaveBeenCalledTimes(1));
+
+    // Swap before the slow compression resolves.
+    await changeImage(user, "portrait.png");
+    expect(screen.getByTestId("tool-shell-primary")).toBeDisabled();
+
+    // Now let the stale compression finish — its result must be discarded,
+    // not silently applied as "portrait.png"'s compressed output.
+    resolveCompress({
+      blob: new Blob(["stale"], { type: "image/jpeg" }),
+      width: 10,
+      height: 10,
+      quality: 0.5,
+      iterations: 1,
+      hitTarget: true,
+    });
+    await new Promise((r) => setTimeout(r, 10));
+    expect(screen.getByTestId("tool-shell-primary")).toBeDisabled();
   });
 });

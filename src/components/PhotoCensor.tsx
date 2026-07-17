@@ -15,7 +15,15 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Upload, Download, Undo2, Trash2, ShieldCheck } from "lucide-react";
+import {
+  Upload,
+  Download,
+  Undo2,
+  Trash2,
+  ShieldCheck,
+  Image as ImageIcon,
+  RefreshCw,
+} from "lucide-react";
 import { toast } from "sonner";
 import { canvasToBlob } from "@/lib/image/canvas";
 import { downloadUrl } from "@/lib/download";
@@ -121,6 +129,7 @@ export default function PhotoCensor() {
   const [outputSize, setOutputSize] = useState<number | null>(null);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
   const sourceCanvasRef = useRef<HTMLCanvasElement | null>(null);
   const imgElRef = useRef<HTMLImageElement | null>(null);
   const objectUrlRef = useRef<string | null>(null);
@@ -306,6 +315,22 @@ export default function PhotoCensor() {
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {/* Canvas / dropzone */}
         <div className="md:col-span-2 space-y-4">
+            {image && (
+              <div className="flex items-center gap-4 p-4 bg-muted/30 rounded-lg border mb-4">
+                <ImageIcon className="w-8 h-8 text-primary shrink-0" />
+                <div className="flex-1 min-w-0">
+                  <p className="font-medium truncate">{image.name}</p>
+                </div>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  <RefreshCw className="w-4 h-4 me-1" />
+                  {t("change")}
+                </Button>
+              </div>
+            )}
             <Card className="p-6 shadow-none">
               {image ? (
                 <div className="space-y-3">
@@ -381,6 +406,17 @@ export default function PhotoCensor() {
                 </FileDropzone>
               )}
             </Card>
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/png,image/jpeg,image/webp"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) onDrop([file]);
+                e.target.value = "";
+              }}
+            />
 
             <Card className="p-4 flex items-start gap-3">
               <ShieldCheck className="w-5 h-5 text-primary shrink-0 mt-0.5" />

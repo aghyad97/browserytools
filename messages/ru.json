@@ -890,7 +890,8 @@
       "targetReached": "Цель достигнута",
       "targetMissed": "Не удалось достичь точного целевого значения — это минимально возможный размер при приемлемом качестве.",
       "pngNotSupportedInTarget": "PNG нельзя сжать до целевого размера — переключено на JPEG.",
-      "presetChipAria": "Установить целевой размер {label}"
+      "presetChipAria": "Установить целевой размер {label}",
+      "change": "Изменить"
     },
     "ImageConverter": {
       "dropImageHere": "Перетащите изображение сюда",
@@ -923,7 +924,8 @@
       "vibrance": "Сочность",
       "exposure": "Экспозиция",
       "highlights": "Светлые тона",
-      "shadows": "Тени"
+      "shadows": "Тени",
+      "change": "Изменить"
     },
     "SvgEditor": {
       "title": "Редактор SVG",
@@ -1130,7 +1132,8 @@
       "showChart": "Показать диаграмму",
       "exportCsv": "Экспорт CSV",
       "fileLoadedSuccess": "Файл успешно загружен!",
-      "errorLoadingFile": "Ошибка загрузки файла"
+      "errorLoadingFile": "Ошибка загрузки файла",
+      "change": "Изменить"
     },
     "FileConverter": {
       "title": "Конвертер файлов",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "Ошибка загрузки аудиофайла",
       "errorProcessingFile": "Ошибка обработки аудиофайла",
       "speedSet": "Скорость воспроизведения установлена на {speed}x",
-      "downloadOriginal": "Скачать оригинал"
+      "downloadOriginal": "Скачать оригинал",
+      "change": "Изменить"
     },
     "MicCameraTester": {
       "title": "Тест микрофона и камеры",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "Размер видео должен быть меньше 500 МБ",
       "compressedSuccess": "Видео успешно сжато!",
       "compressFailed": "Не удалось сжать видео. Попробуйте ещё раз.",
-      "downloadedSuccess": "Видео скачано!"
+      "downloadedSuccess": "Видео скачано!",
+      "change": "Изменить"
     },
     "CurlConverter": {
       "selectLanguage": "Выберите язык",
@@ -4125,7 +4130,8 @@
       "loadFailed": "Не удалось загрузить изображение. Попробуйте другой файл.",
       "noRegions": "Выделите хотя бы одну область для цензуры перед экспортом.",
       "exportedSuccess": "Изображение с цензурой скачано!",
-      "exportFailed": "Не удалось экспортировать изображение. Попробуйте ещё раз."
+      "exportFailed": "Не удалось экспортировать изображение. Попробуйте ещё раз.",
+      "change": "Изменить"
     },
     "ScreenshotBeautifier": {
       "title": "Оформление скриншотов",

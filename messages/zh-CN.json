@@ -890,7 +890,8 @@
       "targetReached": "已达到目标大小",
       "targetMissed": "未能精确达到目标大小——这是在可接受画质下能达到的最小值。",
       "pngNotSupportedInTarget": "PNG 格式不支持目标大小压缩，已切换为 JPEG。",
-      "presetChipAria": "将目标大小设为 {label}"
+      "presetChipAria": "将目标大小设为 {label}",
+      "change": "更换"
     },
     "ImageConverter": {
       "dropImageHere": "将图片拖放到此处",
@@ -923,7 +924,8 @@
       "vibrance": "鲜艳度",
       "exposure": "曝光",
       "highlights": "高光",
-      "shadows": "阴影"
+      "shadows": "阴影",
+      "change": "更换"
     },
     "SvgEditor": {
       "title": "SVG 编辑器",
@@ -1130,7 +1132,8 @@
       "showChart": "展示图表",
       "exportCsv": "导出 CSV",
       "fileLoadedSuccess": "文件加载成功！",
-      "errorLoadingFile": "加载文件时出错"
+      "errorLoadingFile": "加载文件时出错",
+      "change": "更换"
     },
     "FileConverter": {
       "title": "文件转换器",
@@ -1229,7 +1232,8 @@
       "errorLoadingFile": "加载音频文件失败",
       "errorProcessingFile": "处理音频文件时出错",
       "speedSet": "播放速度设置为 {speed}x",
-      "downloadOriginal": "下载原始文件"
+      "downloadOriginal": "下载原始文件",
+      "change": "更换"
     },
     "MicCameraTester": {
       "title": "麦克风与摄像头测试",
@@ -4079,7 +4083,8 @@
       "videoTooLarge": "视频大小应小于 500MB",
       "compressedSuccess": "视频压缩成功！",
       "compressFailed": "视频压缩失败，请重试。",
-      "downloadedSuccess": "视频已下载！"
+      "downloadedSuccess": "视频已下载！",
+      "change": "更换"
     },
     "CurlConverter": {
       "selectLanguage": "选择语言",
@@ -4125,7 +4130,8 @@
       "loadFailed": "加载图片失败，请尝试其他文件。",
       "noRegions": "导出前至少绘制一个打码区域。",
       "exportedSuccess": "打码图片已下载！",
-      "exportFailed": "导出图片失败，请重试。"
+      "exportFailed": "导出图片失败，请重试。",
+      "change": "更换"
     },
     "ScreenshotBeautifier": {
       "title": "截图美化工具",
