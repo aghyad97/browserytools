@@ -59,4 +59,38 @@ describe("useDictionary", () => {
     expect(screen.getByTestId("word-count").textContent).toBe("2");
     expect(mockedLoadDictionary).toHaveBeenCalledTimes(2);
   });
+
+  it("does not update state after unmount when loadDictionary resolves late", async () => {
+    let resolveLoad!: (d: ReturnType<typeof buildDict>) => void;
+    const deferred = new Promise<ReturnType<typeof buildDict>>((resolve) => {
+      resolveLoad = resolve;
+    });
+    mockedLoadDictionary.mockReturnValue(deferred);
+
+    const consoleErrorSpy = vi.spyOn(console, "error").mockImplementation(() => {});
+
+    const { unmount } = render(<Probe />);
+    expect(screen.getByTestId("status").textContent).toBe("loading");
+
+    unmount();
+
+    // Resolve after unmount — if the hook doesn't guard this, React will
+    // warn ("act"/"perform a React state update on an unmounted component").
+    resolveLoad(buildDict(["dog", "god"]));
+    await deferred;
+    // flush microtasks so the .then() handler (if unguarded) has a chance to run
+    await Promise.resolve();
+    await Promise.resolve();
+
+    const unmountWarning = consoleErrorSpy.mock.calls.some((call) =>
+      call.some(
+        (arg) =>
+          typeof arg === "string" &&
+          (arg.includes("unmounted component") || arg.includes("not wrapped in act")),
+      ),
+    );
+    expect(unmountWarning).toBe(false);
+
+    consoleErrorSpy.mockRestore();
+  });
 });
