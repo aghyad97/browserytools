@@ -135,3 +135,21 @@ html[lang="ar"] input[type="number"] {
     animation: none;
   }
 }
+
+/* Bingo Card Generator print view: window.print() prints the whole document,
+   so the tool toggles this body class for the duration of the print (see
+   BingoCardGenerator.tsx handlePrint) to hide site chrome around the cards.
+   Lives here (a plain global stylesheet) rather than in the component's CSS
+   module because CSS Modules' "pure selector" check rejects any rule whose
+   selectors are entirely :global() — every one of these targets DOM outside
+   the component's own subtree, so there is no local class to anchor them to. */
+@media print {
+  body.bt-print-cards-only aside,
+  body.bt-print-cards-only [data-testid="top-bar"],
+  body.bt-print-cards-only [data-testid="mobile-bar"],
+  body.bt-print-cards-only [data-testid="tool-shell-crumb"],
+  body.bt-print-cards-only [data-testid="tool-shell-related"],
+  body.bt-print-cards-only [data-testid="tool-seo-content"] {
+    display: none !important;
+  }
+}

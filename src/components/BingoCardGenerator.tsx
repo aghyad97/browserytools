@@ -93,7 +93,15 @@ export default function BingoCardGenerator({ rng }: BingoCardGeneratorProps = {}
   };
 
   const handlePrint = () => {
-    if (typeof window !== "undefined") window.print();
+    if (typeof window === "undefined") return;
+    const { body } = document;
+    body.classList.add("bt-print-cards-only");
+    const cleanup = () => {
+      body.classList.remove("bt-print-cards-only");
+      window.removeEventListener("afterprint", cleanup);
+    };
+    window.addEventListener("afterprint", cleanup);
+    window.print();
   };
 
   return (
