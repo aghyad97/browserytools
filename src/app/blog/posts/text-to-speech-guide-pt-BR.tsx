@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         simples e gratuita que você pode usar em segundos.
       </p>
 
+      <ToolCTA slug="text-to-speech" variant="inline" />
       <h2>O que "texto para fala" realmente significa</h2>
       <p>
         Texto para fala (TTS) é o processo de converter palavras escritas em áudio falado. Você digita ou cola um
@@ -121,6 +124,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">editor de Markdown</a> — tudo rodando inteiramente no seu navegador, sem
         anúncios, sem rastreamento e sem cadastro.
       </p>
+      <ToolCTA slug="text-to-speech" variant="card" />
     </div>
   );
 }

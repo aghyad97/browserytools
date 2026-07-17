@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         объясняется, что захватывают EXIF-данные, каковы последствия для конфиденциальности
         и как их просматривать и удалять.
       </p>
+      <ToolCTA slug="exif-viewer" variant="inline" />
       <p>
         Вы можете изучить EXIF-метаданные любого фото с помощью{" "}
         <a href="/tools/exif-viewer">просмотрщика EXIF BrowseryTools</a> — бесплатно, без регистрации,
@@ -252,6 +255,7 @@ export default function Content() {
         удалять их, а не оставлять их по умолчанию в надежде, что получатель или платформа
         сами с этим разберутся.
       </p>
+      <ToolCTA slug="exif-viewer" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         объясняет, как именно работают римские цифры, какие правила ставят людей в тупик и
         как мгновенно конвертировать любое число в обоих направлениях.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         Если нужен просто ответ, то{" "}
         <a href="/tools/roman-numeral">конвертер римских цифр BrowseryTools</a> переводит числа
@@ -140,6 +143,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/percentage-calculator">калькулятор процентов</a> для той математики,
         до которой римляне так и не добрались.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         base de código sem dar-lhe esse contexto, você obtém sugestões genéricas que ignoram suas
         convenções, quebram seus padrões e exigem correções constantes.
       </p>
+      <ToolCTA slug="claude-md-generator" variant="inline" />
       <p>
         Um arquivo <code>CLAUDE.md</code> resolve isso. Você pode usar o{" "}
         <a href="/tools/claude-md-generator">Gerador de CLAUDE.md do BrowseryTools</a> — gratuito,
@@ -198,6 +201,7 @@ which wrap supabase-js queries. Never call supabase directly in components.
         Mantenha-o atualizado e trate-o como documentação de primeira classe — porque para o
         desenvolvimento assistido por IA, efetivamente é.
       </p>
+      <ToolCTA slug="claude-md-generator" variant="card" />
     </div>
   );
 }

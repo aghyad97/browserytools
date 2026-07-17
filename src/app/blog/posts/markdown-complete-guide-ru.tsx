@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         только основы — жирный шрифт, курсив и несколько уровней заголовков — и упускают
         возможности, делающие Markdown по-настоящему мощным для структурированного письма.
       </p>
+      <ToolCTA slug="markdown-editor" variant="inline" />
       <p>
         Вы можете писать и предварительно просматривать Markdown мгновенно с помощью{" "}
         <a href="/tools/markdown-editor">редактора Markdown BrowseryTools</a> — бесплатно,
@@ -219,6 +222,7 @@ function greet(name) {
         написания, без копирования текста в другой инструмент. Вставьте Markdown и смотрите
         рендеренный HTML бок о бок.
       </p>
+      <ToolCTA slug="markdown-editor" variant="card" />
     </div>
   );
 }

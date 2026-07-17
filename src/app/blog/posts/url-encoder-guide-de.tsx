@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         (allgemein URL-Kodierung genannt) ist der Mechanismus, der beliebige Daten sicher in einer URL
         unterbringbar macht.
       </p>
+      <ToolCTA slug="url-encoder" variant="inline" />
       <p>
         URLs können Sie sofort mit dem{" "}
         <a href="/tools/url-encoder">BrowseryTools URL-Encoder/Decoder</a> kodieren und dekodieren —
@@ -198,6 +201,7 @@ new URLSearchParams({ q: "rock & roll" }).toString()
           URL-Encoder öffnen →
         </a>
       </div>
+      <ToolCTA slug="url-encoder" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         de{" "}
         <strong>convertir le SVG en PNG</strong> : un format matriciel universel qui fonctionne partout.
       </p>
+      <ToolCTA slug="svg-png" variant="inline" />
       <p>
         Le <a href="/tools/svg-png">convertisseur SVG vers PNG de BrowseryTools</a> le fait dans
         votre navigateur — collez ou uploadez un SVG, choisissez une résolution, et téléchargez
@@ -127,6 +130,7 @@ export default function Content() {
         et pour comprendre le format vectoriel lui-même lisez le{" "}
         <a href="/blog/svg-guide">guide complet SVG</a>.
       </p>
+      <ToolCTA slug="svg-png" variant="card" />
     </div>
   );
 }

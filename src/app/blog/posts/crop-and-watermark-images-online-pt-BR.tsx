@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         de tela. Você não precisa do Photoshop nem de uma assinatura para nenhum dos dois — e
         definitivamente não deveria fazer upload da imagem para o servidor de um desconhecido.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         O <a href="/tools/image-resizer">redimensionador de imagens BrowseryTools</a> cuida de
         recorte, redimensionamento e marca d'água inteiramente no seu navegador. Sem upload, sem
@@ -137,6 +140,7 @@ export default function Content() {
         tamanho final do arquivo leia nosso{" "}
         <a href="/blog/free-image-tools-guide">guia de ferramentas de imagem gratuitas</a>.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

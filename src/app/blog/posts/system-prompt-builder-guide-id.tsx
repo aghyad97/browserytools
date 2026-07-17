@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Dapatkan dengan benar dan model akan terasa luar biasa konsisten; dapatkan dengan salah dan
         Anda akan menghabiskan setiap sesi mengoreksi perilaku yang seharusnya sudah dikunci sejak awal.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="inline" />
       <p>
         Anda dapat menggunakan{" "}
         <a href="/tools/system-prompt-builder">BrowseryTools System Prompt Builder</a> — gratis, tanpa
@@ -193,6 +196,7 @@ Always include a specific, actionable takeaway at the end of each response.`}
         menguji kasus tepi dan memberi versi perubahan — adalah yang mengubah system prompt yang baik
         menjadi yang hebat.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="card" />
     </div>
   );
 }

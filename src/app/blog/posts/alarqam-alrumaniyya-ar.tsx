@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         إنها أنيقة، لكن قراءتها وكتابتها ليستا بديهيتين — بسرعة، ما قيمة <strong>MCMXCIV</strong>؟ يشرح هذا
         الدليل كيف تعمل الأرقام الرومانية بالضبط، والقواعد التي تربك الناس، وكيف تحوّل أي رقم في الاتجاهين فوراً.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         إن أردت الإجابة فقط، فإن{" "}
         <a href="/tools/roman-numeral">محوّل الأرقام الرومانية من BrowseryTools</a> يحوّل الأرقام إلى أرقام
@@ -124,6 +127,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/calculator">آلة حاسبة علمية</a> و<a href="/tools/percentage-calculator">حاسبة نسبة
         مئوية</a> للحسابات التي لم يصل إليها الرومان.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

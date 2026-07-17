@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         O tu ORM registra el SQL que genera —como una cadena concatenada. En todos estos casos, la
         consulta sin formato es técnicamente correcta pero prácticamente ilegible.
       </p>
+      <ToolCTA slug="sql-formatter" variant="inline" />
       <p>
         Formatear SQL no es una cuestión estética. Se trata de poder entender de un vistazo lo que
         hace una consulta: de qué tablas lee, por qué condiciones filtra y qué columnas devuelve. Una
@@ -431,6 +434,7 @@ LIMIT 20;`}
           Abrir Formateador SQL →
         </a>
       </div>
+      <ToolCTA slug="sql-formatter" variant="card" />
     </div>
   );
 }

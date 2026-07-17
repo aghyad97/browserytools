@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         que ses limites signifient en pratique et comment travailler habilement dans ces limites est la
         base pour construire des applications alimentées par l'IA fiables.
       </p>
+      <ToolCTA slug="context-window" variant="inline" />
       <p>
         Vous pouvez utiliser l'{" "}
         <a href="/tools/context-window">outil Fenêtre de contexte BrowseryTools</a> — gratuit, sans
@@ -206,6 +209,7 @@ export default function Content() {
           Ouvrir l'outil Fenêtre de contexte →
         </a>
       </div>
+      <ToolCTA slug="context-window" variant="card" />
     </div>
   );
 }

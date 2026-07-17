@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         الأسعار. عند تنفيذه بإتقان يضيف عمقاً وتدرّجاً بصرياً دون ظلال ثقيلة، لكن كتابته يدوياً تعني تكديس عدّة
         خصائص CSS يَسهُل الخطأ فيها.
       </p>
+      <ToolCTA slug="glassmorphism-generator" variant="inline" />
       <p>
         تُحوِّل أداتنا المجانية{" "}
         <a href="/tools/glassmorphism-generator">مولِّد الزجاجية في CSS</a> ذلك التكديس المعقّد إلى بضعة
@@ -89,6 +92,7 @@ export default function Content() {
         <a href="/tools/css-gradient">مولِّد التدرّجات في CSS</a> لتصميم الخلفية التي سيستقرّ عليها زجاجك، ومع{" "}
         <a href="/tools/css-shadow">مولِّد ظل الصندوق في CSS</a> إن أردت ضبط الرفع بدقّة.
       </p>
+      <ToolCTA slug="glassmorphism-generator" variant="card" />
     </div>
   );
 }

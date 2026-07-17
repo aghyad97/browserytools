@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -15,6 +17,7 @@ export default function Content() {
         verificar cualquier par de colores al instante en tu navegador.
       </p>
 
+      <ToolCTA slug="contrast-checker" variant="inline" />
       <h2>Por Qué Importa el Contraste</h2>
       <p>
         La escala de la población afectada es mayor de lo que la mayoría de los diseñadores supone.
@@ -442,6 +445,7 @@ L = 0.2126 × R_linear + 0.7152 × G_linear + 0.0722 × B_linear`}
           Abrir Verificador de Contraste de Color →
         </a>
       </div>
+      <ToolCTA slug="contrast-checker" variant="card" />
     </div>
   );
 }

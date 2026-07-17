@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Login-Ablauf auf mysteriöse Weise fehlschlägt. Zu verstehen, was ein JWT tatsächlich enthält, wie man es liest
         und wie man häufige Probleme erkennt, beschleunigt das Authentifizierungs-Debugging dramatisch.
       </p>
+      <ToolCTA slug="jwt-decoder" variant="inline" />
       <p>
         Mit dem <a href="/tools/jwt-decoder">BrowseryTools JWT-Decoder</a> können Sie jedes JWT-Token einfügen und
         sofort dessen dekodierten Header, die Nutzlast und den Ablaufstatus sehen — alles in Ihrem Browser, wobei das
@@ -322,6 +325,7 @@ export default function Content() {
           JWT-Decoder öffnen →
         </a>
       </div>
+      <ToolCTA slug="jwt-decoder" variant="card" />
     </div>
   );
 }

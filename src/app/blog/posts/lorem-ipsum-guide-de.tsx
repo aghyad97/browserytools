@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         verwenden ihn täglich, ohne jemals zu fragen, woher er stammt, warum er so aussieht wie er
         aussieht oder ob er tatsächlich für jede Situation die richtige Wahl ist.
       </p>
+      <ToolCTA slug="lorem-ipsum" variant="inline" />
       <p>
         Sie können beliebig viel Lorem-Ipsum-Text sofort mit dem{" "}
         <a href="/tools/lorem-ipsum">BrowseryTools Lorem-Ipsum-Generator</a> erzeugen — kostenlos,
@@ -174,6 +177,7 @@ export default function Content() {
         <li><strong>Vor Nutzertests auf echten Inhalt umstellen</strong> — jeder Test, der Verständnis, Aufgabenerledigung oder Leseverhalten beinhaltet, benötigt echten Text</li>
         <li><strong>Genau die benötigte Länge generieren</strong> — überdimensioniertes Lorem Ipsum in einer kleinen Komponente verdeckt Überlauf- und Abschneidefehler</li>
       </ul>
+      <ToolCTA slug="lorem-ipsum" variant="card" />
     </div>
   );
 }

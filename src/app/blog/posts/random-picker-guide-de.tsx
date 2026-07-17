@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         dabei. Ein{" "}
         <a href="/tools/random-picker">Zufalls-Picker</a> im Browser löst all das in einem Tab.
       </p>
+      <ToolCTA slug="random-picker" variant="inline" />
       <p>
         Der BrowseryTools <strong>Zufalls-Picker</strong> bündelt vier klassische Zufallsgeneratoren
         auf einer Seite: einen <strong>Zufallszahlengenerator</strong>, einen{" "}
@@ -104,6 +107,7 @@ export default function Content() {
         <a href="/tools/random-picker">Zufalls-Picker</a> hat alles an einem Ort — kostenlos, privat
         und sofort. Keine Installation, keine Konten, kein Haken.
       </p>
+      <ToolCTA slug="random-picker" variant="card" />
     </div>
   );
 }

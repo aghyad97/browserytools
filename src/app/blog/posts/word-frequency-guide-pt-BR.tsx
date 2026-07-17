@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         variedade surpreendentemente ampla de campos: escrita criativa, SEO, pesquisa acadêmica e até
         forense.
       </p>
+      <ToolCTA slug="word-frequency" variant="inline" />
       <p>
         Você pode analisar a frequência de palavras de qualquer texto instantaneamente usando o{" "}
         <a href="/tools/word-frequency">Analisador de Frequência de Palavras do BrowseryTools</a> —
@@ -161,6 +164,7 @@ IDF = log(total documents / documents containing term)`}
         <li><strong>Para pesquisa</strong> — exporte dados de frequência para uma planilha e classifique por frequência para encontrar tanto os termos mais comuns (os temas centrais do documento) quanto os termos únicos menos comuns (o vocabulário distintivo do documento)</li>
         <li><strong>Para edição</strong> — preste atenção especial à linguagem de hesitação ("um tanto", "bastante", "razoavelmente", "relativamente") e intensificadores vazios ("muito", "realmente", "extremamente") — alta frequência desses é um sinal confiável de que a prosa precisa ser enxugada</li>
       </ul>
+      <ToolCTA slug="word-frequency" variant="card" />
     </div>
   );
 }

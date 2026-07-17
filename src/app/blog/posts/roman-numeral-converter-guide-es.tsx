@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         las reglas que confunden a la gente y cómo convertir cualquier número en ambas direcciones
         al instante.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         Si solo necesitas la respuesta, el{" "}
         <a href="/tools/roman-numeral">Conversor de Números Romanos de BrowseryTools</a> convierte
@@ -142,6 +145,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/percentage-calculator">calculadora de porcentajes</a> para las matemáticas
         que los romanos nunca llegaron a resolver.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

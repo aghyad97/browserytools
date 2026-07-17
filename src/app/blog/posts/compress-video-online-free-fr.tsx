@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>compresser une vidéo en ligne gratuitement</strong>, directement dans votre navigateur,
         sans que le fichier ne quitte jamais votre appareil.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         C'est exactement ce que fait l'outil <a href="/tools/compress-video">BrowseryTools Compress Video</a>.
         Il réduit la taille du fichier vidéo directement dans l'onglet du navigateur — sans envoi,
@@ -150,6 +153,7 @@ export default function Content() {
         <a href="/blog/video-compression-guide">comment compresser des fichiers vidéo sans perdre en qualité</a>
         .
       </p>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Entender JSON profundamente — não apenas como analisá-lo, mas como lê-lo, validá-lo e
         depurá-lo — é uma das habilidades de maior alavancagem que um desenvolvedor pode ter.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         Este guia cobre tudo, desde os fundamentos da sintaxe JSON até a depuração de erros comuns
         de análise, estratégias de formatação e como trabalhar com estruturas profundamente
@@ -205,6 +208,7 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">Formatador de JSON do BrowseryTools</a> e o erro ficará
         imediatamente visível com a posição exata destacada.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

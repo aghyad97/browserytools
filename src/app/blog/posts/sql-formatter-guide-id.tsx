@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         SQL yang dihasilkan — sebagai satu string yang digabungkan. Dalam semua kasus ini, query
         mentahnya secara teknis benar namun secara praktis tidak terbaca.
       </p>
+      <ToolCTA slug="sql-formatter" variant="inline" />
       <p>
         Memformat SQL bukan soal estetika. Ini tentang kemampuan memahami apa yang dilakukan suatu
         query secara sekilas — tabel mana yang dibacanya, kondisi mana yang difilternya, dan kolom
@@ -427,6 +430,7 @@ LIMIT 20;`}
           Buka SQL Formatter →
         </a>
       </div>
+      <ToolCTA slug="sql-formatter" variant="card" />
     </div>
   );
 }

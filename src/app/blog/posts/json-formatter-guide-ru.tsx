@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Глубокое понимание JSON — не просто умение его парсить, но и читать, валидировать,
         диагностировать — один из наиболее прибыльных навыков разработчика.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         Это руководство охватывает всё: от основ синтаксиса JSON до отладки распространённых
         ошибок парсинга, стратегий форматирования и работы с глубоко вложенными структурами.
@@ -205,6 +208,7 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">JSON Formatter BrowseryTools</a> — ошибка сразу станет
         видна с указанием точной позиции.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

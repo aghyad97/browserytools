@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         exponentes y constantes — que se abra al instante en una pestaña del navegador y funcione
         en cualquier dispositivo.
       </p>
+      <ToolCTA slug="calculator" variant="inline" />
       <p>
         La <a href="/tools/calculator">calculadora científica de BrowseryTools</a> te da exactamente
         eso: una calculadora gratuita, en el navegador, con las funciones avanzadas que necesitas,
@@ -124,6 +127,7 @@ export default function Content() {
         descifrar un número romano, la{" "}
         <a href="/blog/roman-numeral-converter-guide">guía de números romanos</a> te tiene cubierto.
       </p>
+      <ToolCTA slug="calculator" variant="card" />
     </div>
   );
 }

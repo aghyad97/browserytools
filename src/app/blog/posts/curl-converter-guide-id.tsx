@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         tidak menulis shell script. Anda menulis JavaScript, Python, Go, atau Ruby, dan Anda perlu
         menerjemahkan perintah cURL tersebut menjadi kode yang berfungsi sebelum dapat menggunakannya.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         Terjemahan tersebut membosankan dan rawan kesalahan. Header, skema autentikasi, request body,
         dan URL encoding semuanya harus dipetakan ke pemanggilan method yang tepat dalam bahasa yang
@@ -186,6 +189,7 @@ const data = response.data;`}
         <a href="/tools/curl-converter">BrowseryTools cURL Converter</a> untuk mendapatkan kode yang
         bersih dan dapat dijalankan dalam hitungan detik.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

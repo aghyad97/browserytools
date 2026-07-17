@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ToolCTA } from "@/components/blog/ToolCTA";
 
 export default function Content() {
   return (
@@ -11,6 +12,7 @@ export default function Content() {
         para um plano pago. E cada uma dessas ferramentas exige instalação, criação de conta
         e confiar em um aplicativo de terceiros com acesso à sua tela inteira.
       </p>
+      <ToolCTA slug="screen-recorder" variant="inline" />
       <p>
         Eis o que a maioria das pessoas não percebe: o seu navegador já sabe gravar a sua tela.
         A <strong>Screen Capture API</strong> (<code>getDisplayMedia</code>) é um padrão do W3C que
@@ -372,6 +374,7 @@ ffmpeg -i recording.webm -c:v libx264 -c:a aac output.mp4`}</code></pre>
         <Link href="/tools/image-converter">Conversor de Imagem</Link> ·{" "}
         <Link href="/">Todas as BrowseryTools</Link>
       </p>
+      <ToolCTA slug="screen-recorder" variant="card" />
     </div>
   );
 }

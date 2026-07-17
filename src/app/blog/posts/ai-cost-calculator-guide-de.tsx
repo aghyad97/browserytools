@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Rechnungen erzeugen, die um Größenordnungen höher sind als erwartet. Ein paar Minuten
         Planung im Voraus können eine Menge unangenehmer Überraschungsrechnungen ersparen.
       </p>
+      <ToolCTA slug="ai-cost-calculator" variant="inline" />
       <p>
         Mit dem{" "}
         <a href="/tools/ai-cost-calculator">BrowseryTools KI-Kostenkalkulator</a> – kostenlos,
@@ -184,6 +187,7 @@ daily_cost = (800 × $0.003 + 300 × $0.015) pro 1K Token × 5000
           KI-Kostenkalkulator öffnen →
         </a>
       </div>
+      <ToolCTA slug="ai-cost-calculator" variant="card" />
     </div>
   );
 }

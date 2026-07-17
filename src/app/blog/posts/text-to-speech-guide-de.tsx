@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         einfache, kostenlose Oberfläche, die Sie in Sekunden nutzen können.
       </p>
 
+      <ToolCTA slug="text-to-speech" variant="inline" />
       <h2>Was „Text-zu-Sprache" eigentlich bedeutet</h2>
       <p>
         Text-zu-Sprache (TTS) ist der Vorgang, geschriebene Wörter in gesprochenes Audio umzuwandeln. Sie
@@ -128,6 +131,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">Markdown-Editor</a> – alle vollständig in Ihrem Browser laufend,
         ohne Werbung, ohne Tracking und ohne Anmeldung.
       </p>
+      <ToolCTA slug="text-to-speech" variant="card" />
     </div>
   );
 }

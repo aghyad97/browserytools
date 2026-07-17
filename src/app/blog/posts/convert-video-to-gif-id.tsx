@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         dengan MP4 atau MOV, dan kamu perlu <strong>mengkonversi video tersebut ke GIF</strong>
         {" "}terlebih dahulu.
       </p>
+      <ToolCTA slug="video" variant="inline" />
       <p>
         <a href="/tools/video">BrowseryTools video tool</a> memungkinkan kamu mengubah klip menjadi
         GIF langsung di browsermu — tanpa unggahan, tanpa akun, tanpa watermark. Panduan ini
@@ -108,6 +111,7 @@ export default function Content() {
         <a href="/blog/video-compression-guide">cara mengompresi file video tanpa kehilangan kualitas</a>
         .
       </p>
+      <ToolCTA slug="video" variant="card" />
     </div>
   );
 }

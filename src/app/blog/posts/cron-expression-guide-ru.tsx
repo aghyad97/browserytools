@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         EventBridge, которое уже никто в команде до конца не понимает. Cron-выражения повсюду — и они по-настоящему
         запутанны, если вы не уделили время изучению стоящей за ними системы.
       </p>
+      <ToolCTA slug="cron-parser" variant="inline" />
       <p>
         Это руководство — справочник, который стоит добавить в закладки. Оно охватывает всё: от истории cron и того,
         где он встречается в современной инфраструктуре, до каждого специального символа, 10 размеченных реальных
@@ -501,6 +504,7 @@ cron(0 0 1 * ? *)           # First day of every month at midnight`}</pre>
           Открыть разборщик cron →
         </a>
       </div>
+      <ToolCTA slug="cron-parser" variant="card" />
     </div>
   );
 }

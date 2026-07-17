@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -13,6 +15,7 @@ export default function Content() {
         متصفحك ودون رفع أي شيء.
       </p>
 
+      <ToolCTA slug="image-captioner" variant="inline" />
       <h2>الوصف مقابل النص البديل — لماذا تحتاج كليهما</h2>
       <p>
         كثيراً ما يُستخدم المصطلحان بالتبادل، لكن لكلٍّ منهما وظيفة. <strong>الوصف</strong>{" "}
@@ -88,6 +91,7 @@ export default function Content() {
         <a href="/tools/image-captioner">واصف الصور ومُولّد النص البديل</a> — بدون رفع وبدون
         حساب وبدون حدود.
       </p>
+      <ToolCTA slug="image-captioner" variant="card" />
     </div>
   );
 }

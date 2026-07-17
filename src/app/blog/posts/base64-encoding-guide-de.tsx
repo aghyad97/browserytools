@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         verstehen. Dieser Leitfaden erklärt, was Base64 ist, wie es auf Byte-Ebene funktioniert, wo es in realen Systemen
         eingesetzt wird und wann Sie dazu greifen sollten (und wann nicht).
       </p>
+      <ToolCTA slug="base64" variant="inline" />
       <p>
         Sie können jede Base64-Zeichenkette sofort mit dem{" "}
         <a href="/tools/base64">BrowseryTools Base64-Encoder/Decoder</a> kodieren und dekodieren — kostenlos, ohne
@@ -343,6 +346,7 @@ echo "SGVsbG8sIFdvcmxkIQ==" | base64 --decode`}
           Base64-Tool öffnen →
         </a>
       </div>
+      <ToolCTA slug="base64" variant="card" />
     </div>
   );
 }

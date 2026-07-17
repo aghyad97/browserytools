@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         órdenes de magnitud mayores de lo esperado. Unos minutos de estimación anticipada pueden
         ahorrar muchas sorpresas en la factura más adelante.
       </p>
+      <ToolCTA slug="ai-cost-calculator" variant="inline" />
       <p>
         Puedes usar la{" "}
         <a href="/tools/ai-cost-calculator">Calculadora de Costos de IA de BrowseryTools</a> —gratis,
@@ -184,6 +187,7 @@ daily_cost = (800 × $0.003 + 300 × $0.015) per 1K tokens × 5000
           Abrir Calculadora de Costos de IA →
         </a>
       </div>
+      <ToolCTA slug="ai-cost-calculator" variant="card" />
     </div>
   );
 }

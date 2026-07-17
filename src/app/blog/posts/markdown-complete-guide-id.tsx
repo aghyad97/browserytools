@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         tebal, miring, dan beberapa level heading — dan melewatkan fitur yang membuat Markdown
         benar-benar kuat untuk penulisan terstruktur.
       </p>
+      <ToolCTA slug="markdown-editor" variant="inline" />
       <p>
         Kamu bisa menulis dan mempratinjau Markdown secara instan menggunakan{" "}
         <a href="/tools/markdown-editor">BrowseryTools Markdown Editor</a> — gratis, tanpa daftar,
@@ -220,6 +223,7 @@ function greet(name) {
         langsung sehingga kamu dapat menemukan masalah rendering segera saat menulis, tanpa menyalin
         teks ke alat lain. Tempel Markdown-mu dan lihat output HTML yang dirender berdampingan.
       </p>
+      <ToolCTA slug="markdown-editor" variant="card" />
     </div>
   );
 }

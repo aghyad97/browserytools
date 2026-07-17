@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         plus pratiquement utiles que vous puissiez apprendre avant de construire quoi que ce soit de
         sérieux par-dessus un LLM.
       </p>
+      <ToolCTA slug="token-counter" variant="inline" />
       <p>
         Vous pouvez utiliser le{" "}
         <a href="/tools/token-counter">Compteur de tokens BrowseryTools</a> — gratuit, sans inscription,
@@ -211,6 +214,7 @@ export default function Content() {
           Ouvrir le Compteur de tokens →
         </a>
       </div>
+      <ToolCTA slug="token-counter" variant="card" />
     </div>
   );
 }

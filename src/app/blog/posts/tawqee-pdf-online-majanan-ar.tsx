@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -9,6 +11,7 @@ export default function Content() {
         أكثر الطقوس المزعجة التي بقيت في المعاملات اليومية، ولأجل توقيع واحد فقط، نادراً ما تستحق كل
         هذا العناء.
       </p>
+      <ToolCTA slug="sign-pdf" variant="inline" />
       <p>
         يمكنك تجاوز ذلك كله. أداة <a href="/tools/sign-pdf">توقيع ملفات PDF</a> تتيح لك إضافة توقيعك
         إلى الملف مباشرة داخل المتصفح: ارسم توقيعك مرة واحدة، ضعه في مكانه على الصفحة، ونزّل الملف
@@ -91,6 +94,7 @@ export default function Content() {
         اسحبه إلى موضعه الصحيح، ونزّل الملف الموقّع — كل ذلك دون أن يغادر مستندك جهازك ولو للحظة.
         سيستغرق الأمر وقتاً أقل مما ستقضيه في البحث عن قلم يعمل.
       </p>
+      <ToolCTA slug="sign-pdf" variant="card" />
     </div>
   );
 }

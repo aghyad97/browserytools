@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         результат в браузере.
       </p>
 
+      <ToolCTA slug="bmi-calculator" variant="inline" />
       <h2>Что такое ИМТ?</h2>
       <p>
         ИМТ — это простое отношение веса к квадрату роста. Он был разработан в 1830-х годах бельгийским математиком
@@ -318,6 +321,7 @@ export default function Content() {
           Открыть калькулятор ИМТ →
         </a>
       </div>
+      <ToolCTA slug="bmi-calculator" variant="card" />
     </div>
   );
 }

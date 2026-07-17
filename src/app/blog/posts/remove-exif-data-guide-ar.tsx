@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         نحو خمس ثوانٍ. يشرح هذا الدليل كيف <strong>تحذف بيانات EXIF أونلاين</strong> ولماذا يجدر بك جعل
         ذلك عادة.
       </p>
+      <ToolCTA slug="exif-remover" variant="inline" />
       <p>
         يمكنك <strong>إزالة البيانات الوصفية من صورة</strong> الآن باستخدام{" "}
         <a href="/tools/exif-remover">أداة مزيل بيانات EXIF من BrowseryTools</a> — مجانية، بدون تسجيل،
@@ -89,6 +92,7 @@ export default function Content() {
         <a href="/tools/exif-remover">مزيل بيانات EXIF</a>. ملف نظيف يخرج، وبيانات خفية تختفي، ولا شيء
         يُرفع إلى أي مكان.
       </p>
+      <ToolCTA slug="exif-remover" variant="card" />
     </div>
   );
 }

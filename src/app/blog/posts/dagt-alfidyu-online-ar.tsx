@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         إلى تثبيت برنامج، أو الاشتراك في خدمة مدفوعة، أو تسليم لقطاتك الخاصة لموقع مجهول. يمكنك{" "}
         <strong>ضغط الفيديو أونلاين مجاناً</strong> مباشرةً داخل متصفحك، دون أن يغادر الملف جهازك إطلاقاً.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         هذا بالضبط ما تفعله أداة <a href="/tools/compress-video">ضغط الفيديو من BrowseryTools</a>. تقلّص
         حجم ملف الفيديو داخل تبويب المتصفح — بدون رفع، بدون حساب، بدون علامة مائية، وبدون حد للحجم مخفي خلف
@@ -115,6 +118,7 @@ export default function Content() {
         أصغر — كل ذلك دون رفع بايت واحد. وإن احتجت تحويل مقطع إلى صورة متحركة قابلة للمشاركة، اطّلع على دليلنا
         حول <a href="/tools/video">أداة الفيديو</a> لإنشاء صور GIF.
       </p>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

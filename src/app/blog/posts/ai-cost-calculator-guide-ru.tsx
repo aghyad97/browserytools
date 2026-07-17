@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         ожидаемые. Несколько минут предварительной оценки способны сэкономить много неприятных
         неожиданностей при получении счетов.
       </p>
+      <ToolCTA slug="ai-cost-calculator" variant="inline" />
       <p>
         Воспользуйтесь{" "}
         <a href="/tools/ai-cost-calculator">Калькулятором стоимости AI BrowseryTools</a> —
@@ -182,6 +185,7 @@ daily_cost = (800 × $0.003 + 300 × $0.015) per 1K tokens × 5000
           Открыть калькулятор стоимости AI →
         </a>
       </div>
+      <ToolCTA slug="ai-cost-calculator" variant="card" />
     </div>
   );
 }

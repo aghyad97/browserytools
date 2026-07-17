@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         tatsächlich funktioniert, spart Ihnen Geld — jedes Mal, wenn Sie reisen, Geld international
         überweisen oder in einer Fremdwährung bezahlt werden.
       </p>
+      <ToolCTA slug="currency-converter" variant="inline" />
       <p>
         Sie können den{" "}
         <a href="/tools/currency-converter">BrowseryTools Währungsrechner</a> verwenden — kostenlos,
@@ -178,6 +181,7 @@ export default function Content() {
           Währungsrechner öffnen →
         </a>
       </div>
+      <ToolCTA slug="currency-converter" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -13,6 +15,7 @@ export default function Content() {
         للحصول على قيم HEX وRGB وHSL من أي صورة في ثوانٍ.
       </p>
 
+      <ToolCTA slug="image-color-picker" variant="inline" />
       <h2>ماذا تفعل أداة انتقاء الألوان فعلياً</h2>
       <p>
         تقرأ الأداة بيانات البكسل الخام للصورة وتُبلغ عن لون أي بكسل تشير إليه.
@@ -133,6 +136,7 @@ export default function Content() {
         <a href="/tools/color-converter">محوّل الألوان</a> لضبط أي لون تنتقيه عبر
         HEX وRGB وHSL.
       </p>
+      <ToolCTA slug="image-color-picker" variant="card" />
     </div>
   );
 }

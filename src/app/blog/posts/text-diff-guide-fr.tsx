@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         vérifier pour vous assurer que rien n'a été supprimé accidentellement. Dans tous ces cas, la
         réponse est la même : lancez un diff.
       </p>
+      <ToolCTA slug="text-diff" variant="inline" />
       <p>
         Vous pouvez comparer deux blocs de texte instantanément grâce à l'outil{" "}
         <a href="/tools/text-diff">Diff de texte BrowseryTools</a> — gratuit, sans inscription, tout
@@ -166,6 +169,7 @@ git diff --stat               # summary: files changed, insertions, deletions`}
         <li><strong>Meld</strong> — outil de diff GUI gratuit et multiplateforme avec support de fusion à trois voies. La meilleure alternative gratuite à Beyond Compare.</li>
         <li><strong>Diff de texte BrowseryTools</strong> — instantané, basé sur le navigateur, sans installation. Idéal pour les comparaisons ponctuelles rapides, surtout pour du texte que vous ne souhaiteriez pas coller dans un service en ligne.</li>
       </ul>
+      <ToolCTA slug="text-diff" variant="card" />
     </div>
   );
 }

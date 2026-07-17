@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Photoshop, lo que resultaba en peticiones HTTP adicionales, recursos estáticos poco flexibles y diseños que se
         rompían en cuanto alguien cambiaba los colores de la marca. Hoy, una sola línea de CSS reemplaza todo eso.
       </p>
+      <ToolCTA slug="css-gradient" variant="inline" />
       <p>
         Esta guía cubre todo lo que necesitas saber sobre los degradados CSS — los tres tipos, el sistema de ángulos,
         casos de uso reales con código listo para copiar, errores comunes y cómo usar el{" "}
@@ -349,6 +352,7 @@ background: repeating-linear-gradient(
           Abrir Generador de degradados CSS →
         </a>
       </div>
+      <ToolCTA slug="css-gradient" variant="card" />
     </div>
   );
 }

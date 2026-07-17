@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Cron-Ausdrücke sind überall — und sie sind wirklich verwirrend, wenn Sie sich nicht die Zeit genommen haben, das
         System dahinter zu lernen.
       </p>
+      <ToolCTA slug="cron-parser" variant="inline" />
       <p>
         Dieser Leitfaden ist die Referenz, die Sie als Lesezeichen speichern sollten. Er behandelt alles von der
         Geschichte von Cron und seinem Auftreten in der modernen Infrastruktur über jedes Sonderzeichen, 10 annotierte
@@ -503,6 +506,7 @@ cron(0 0 1 * ? *)           # First day of every month at midnight`}</pre>
           Den Cron-Parser öffnen →
         </a>
       </div>
+      <ToolCTA slug="cron-parser" variant="card" />
     </div>
   );
 }

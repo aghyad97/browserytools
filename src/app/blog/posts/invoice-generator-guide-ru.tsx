@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         важнее, чем думают многие, — до тех пор, пока не приходится гоняться за просроченным
         счётом молчащего клиента.
       </p>
+      <ToolCTA slug="invoice" variant="inline" />
       <p>
         В этом руководстве рассматривается всё, что должен содержать профессиональный счёт:
         соглашения о нумерации, условия оплаты, особенности требований по странам и почему
@@ -215,6 +218,7 @@ export default function Content() {
           Создать счёт →
         </a>
       </div>
+      <ToolCTA slug="invoice" variant="card" />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ToolCTA } from "@/components/blog/ToolCTA";
 
 export default function Content() {
   return (
@@ -11,6 +12,7 @@ export default function Content() {
         <Link href="/tools/fake-data">Generador de datos falsos de BrowseryTools</Link> lo hace gratis, en local, sin
         cuenta, sin límites de filas y sin suscripción.
       </p>
+      <ToolCTA slug="fake-data" variant="inline" />
       <p>
         Esta guía cubre por qué importan los datos falsos realistas, qué produce el generador, cómo usarlo de forma
         eficaz en distintos flujos de trabajo y cómo importar la salida a cada base de datos y cadena de herramientas
@@ -413,6 +415,7 @@ describe('POST /api/users', () => {
         <Link href="/tools/csv-to-json">CSV a JSON</Link> ·{" "}
         <Link href="/">Todas las BrowseryTools</Link>
       </p>
+      <ToolCTA slug="fake-data" variant="card" />
     </div>
   );
 }

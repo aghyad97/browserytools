@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         do cliente é a abordagem técnica que muda essa equação: seus dados são criptografados antes
         de saírem do seu dispositivo, de modo que até o servidor que os armazena não possa lê-los.
       </p>
+      <ToolCTA slug="text-encryption" variant="inline" />
       <p>
         Você pode criptografar e descriptografar qualquer texto diretamente no seu navegador usando a{" "}
         <a href="/tools/text-encryption">Ferramenta de Criptografia de Texto do BrowseryTools</a> —
@@ -146,6 +149,7 @@ export default function Content() {
         <li><strong>Sem compartilhamento sem troca de chaves</strong> — compartilhar dados criptografados com outra pessoa requer compartilhar com segurança a chave, o que é um problema separado</li>
         <li><strong>Sem pesquisa ou indexação</strong> — dados criptografados não podem ser pesquisados, classificados ou processados sem descriptografá-los primeiro</li>
       </ul>
+      <ToolCTA slug="text-encryption" variant="card" />
     </div>
   );
 }

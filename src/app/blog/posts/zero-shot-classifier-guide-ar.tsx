@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -11,6 +13,7 @@ export default function Content() {
         داخل متصفحك، دون رفع ودون حساب.
       </p>
 
+      <ToolCTA slug="zero-shot-classifier" variant="inline" />
       <h2>ماذا يعني &laquo;دون تدريب&raquo; فعلياً؟</h2>
       <p>
         المصنّف التقليدي لا يعرف سوى التصنيفات التي دُرّب عليها. إن دُرّب على التمييز بين{" "}
@@ -91,6 +94,7 @@ export default function Content() {
         <a href="/tools/zero-shot-classifier">مصنّف النصوص دون تدريب</a>، والصق نصاً، وابتكر بضعة
         تصنيفات، وراقبه يفرزها. دون تدريب، ودون رفع، ودون تكلفة.
       </p>
+      <ToolCTA slug="zero-shot-classifier" variant="card" />
     </div>
   );
 }

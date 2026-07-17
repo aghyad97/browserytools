@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         существенные недостатки и как получать идеальный результат каждый раз с помощью BrowseryTools.
       </p>
 
+      <ToolCTA slug="bg-removal" variant="inline" />
       <h2>Старый способ: Photoshop и GIMP</h2>
       <p>
         Десятилетиями удаление фона с изображений означало одно из двух: оплачивать Adobe Photoshop (сейчас 21,99 $ в
@@ -328,6 +331,7 @@ export default function Content() {
           Открыть инструмент удаления фона →
         </a>
       </div>
+      <ToolCTA slug="bg-removal" variant="card" />
     </div>
   );
 }

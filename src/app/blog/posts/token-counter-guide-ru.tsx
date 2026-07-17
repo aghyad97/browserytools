@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         как они считаются и почему это важно — одно из наиболее практически полезных знаний,
         которые можно получить до того, как строить что-либо серьёзное поверх LLM.
       </p>
+      <ToolCTA slug="token-counter" variant="inline" />
       <p>
         Воспользуйтесь{" "}
         <a href="/tools/token-counter">Счётчиком токенов BrowseryTools</a> — бесплатно, без
@@ -214,6 +217,7 @@ export default function Content() {
           Открыть счётчик токенов →
         </a>
       </div>
+      <ToolCTA slug="token-counter" variant="card" />
     </div>
   );
 }

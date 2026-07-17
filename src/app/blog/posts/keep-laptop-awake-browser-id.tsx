@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         artikel yang menuntut perhatian Anda, dan tiba-tiba layar meredup dan laptop mulai bergerak menuju mode
         sleep.
       </p>
+      <ToolCTA slug="keep-awake" variant="inline" />
       <p>
         Solusi tradisionalnya merepotkan. Di macOS orang memasang Amphetamine atau Caffeine. Di Windows mereka
         mengutak-atik pengaturan daya atau menjalankan utilitas bernama PowerToys. Di Linux mereka berburu di
@@ -185,6 +188,7 @@ export default function Content() {
         <a href="/tools/world-clock">jam dunia</a>, dan masih banyak lagi. Semuanya gratis, semuanya lokal, dan
         tidak ada yang meminta Anda mendaftar.
       </p>
+      <ToolCTA slug="keep-awake" variant="card" />
     </div>
   );
 }

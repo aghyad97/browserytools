@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Talvez seja um arquivo de tradução que um fornecedor devolveu e você precisa verificar se nada
         foi acidentalmente excluído. Em todos esses casos, a resposta é a mesma: execute um diff.
       </p>
+      <ToolCTA slug="text-diff" variant="inline" />
       <p>
         Você pode comparar quaisquer dois blocos de texto instantaneamente usando a{" "}
         <a href="/tools/text-diff">Ferramenta de Diff de Texto do BrowseryTools</a> — gratuita, sem
@@ -157,6 +160,7 @@ git diff --stat               # summary: files changed, insertions, deletions`}
         <li><strong>Meld</strong> — ferramenta de diff GUI gratuita e multiplataforma com suporte a merge de três vias. A melhor alternativa gratuita ao Beyond Compare.</li>
         <li><strong>BrowseryTools Text Diff</strong> — instantâneo, baseado em navegador, sem instalação. Melhor para comparações únicas rápidas, especialmente para texto que você não gostaria de colar em um serviço online.</li>
       </ul>
+      <ToolCTA slug="text-diff" variant="card" />
     </div>
   );
 }

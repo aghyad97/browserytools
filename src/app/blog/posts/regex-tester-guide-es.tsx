@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         cómo funcionan, una expresión regular bien elaborada se convierte en una de las herramientas
         de una sola línea más poderosas de todo tu arsenal.
       </p>
+      <ToolCTA slug="regex-tester" variant="inline" />
       <p>
         Esta guía elimina el ruido. En lugar de catalogar cada característica de las expresiones
         regulares, se enfoca en el 20% de la sintaxis que maneja el 80% de los casos de uso reales:
@@ -212,6 +215,7 @@ export default function Content() {
         pruébalos con tus propias cadenas y la sintaxis se volverá intuitiva más rápido de lo que
         esperas.
       </p>
+      <ToolCTA slug="regex-tester" variant="card" />
     </div>
   );
 }

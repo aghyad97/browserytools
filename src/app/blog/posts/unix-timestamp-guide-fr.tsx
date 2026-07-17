@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         vient et comment éviter ses pièges habituels vous épargnera toute une catégorie de bugs subtils,
         difficiles à reproduire et parfois embarrassants en production.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="inline" />
       <p>
         Vous pouvez convertir n'importe quel timestamp Unix en date lisible (et inversement) grâce au{" "}
         <a href="/tools/unix-timestamp">Convertisseur de timestamp Unix BrowseryTools</a> — gratuit,
@@ -211,6 +214,7 @@ new Intl.DateTimeFormat("en-US", {
         utilisez UTC pour le stockage et la transmission, et ne convertissez en heure locale qu'à la
         couche d'affichage.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="card" />
     </div>
   );
 }

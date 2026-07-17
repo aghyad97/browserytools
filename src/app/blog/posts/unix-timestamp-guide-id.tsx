@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         menyelamatkanmu dari sekelompok bug yang halus, sulit direproduksi, dan kadang memalukan
         di production.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="inline" />
       <p>
         Kamu bisa mengkonversi Unix timestamp apa pun ke tanggal yang mudah dibaca (dan sebaliknya)
         menggunakan{" "}
@@ -215,6 +218,7 @@ new Intl.DateTimeFormat("en-US", {
         milidetik/detik secara eksplisit, gunakan UTC untuk penyimpanan dan transmisi, dan
         konversikan ke waktu lokal hanya di lapisan tampilan.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="card" />
     </div>
   );
 }

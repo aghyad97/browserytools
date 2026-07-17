@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         salah bisa berarti membayar 10x terlalu mahal, mendapatkan output berkualitas lebih rendah,
         atau membangun di atas model yang ternyata tidak andal untuk tugas spesifik Anda.
       </p>
+      <ToolCTA slug="model-comparison" variant="inline" />
       <p>
         Anda dapat menggunakan{" "}
         <a href="/tools/model-comparison">BrowseryTools Model Comparison tool</a> — gratis, tanpa
@@ -223,6 +226,7 @@ export default function Content() {
           Buka Model Comparison →
         </a>
       </div>
+      <ToolCTA slug="model-comparison" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         exportieren, was zusätzliche HTTP-Anfragen, unflexible statische Assets und Layouts zur Folge hatte, die in dem
         Moment zerbrachen, in dem jemand die Markenfarben änderte. Heute ersetzt eine einzige Zeile CSS all das.
       </p>
+      <ToolCTA slug="css-gradient" variant="inline" />
       <p>
         Dieser Leitfaden behandelt alles, was Sie über CSS-Farbverläufe wissen müssen — die drei Typen, das
         Winkelsystem, praxisnahe Anwendungsfälle mit kopierfertigem Code, häufige Fehler und wie Sie den{" "}
@@ -350,6 +353,7 @@ background: repeating-linear-gradient(
           CSS-Verlaufsgenerator öffnen →
         </a>
       </div>
+      <ToolCTA slug="css-gradient" variant="card" />
     </div>
   );
 }

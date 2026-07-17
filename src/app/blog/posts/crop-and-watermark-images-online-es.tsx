@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         deberías necesitar Photoshop ni una suscripción para ninguna de las dos — y desde luego no
         deberías subir la imagen al servidor de un desconocido.
       </p>
+      <ToolCTA slug="image-resizer" variant="inline" />
       <p>
         El <a href="/tools/image-resizer">redimensionador de imágenes de BrowseryTools</a> gestiona
         el recorte, el redimensionado y la marca de agua completamente en tu navegador. Sin subidas,
@@ -141,6 +144,7 @@ export default function Content() {
         final del archivo lee nuestra{" "}
         <a href="/blog/free-image-tools-guide">guía de herramientas de imagen gratuitas</a>.
       </p>
+      <ToolCTA slug="image-resizer" variant="card" />
     </div>
   );
 }

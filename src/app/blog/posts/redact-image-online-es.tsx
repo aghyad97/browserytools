@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>redactar o censurar la imagen</strong> — difuminarla, pixelarla o taparla con un
         bloque negro — sin entregar el original a un sitio web.
       </p>
+      <ToolCTA slug="photo-censor" variant="inline" />
       <p>
         La herramienta <a href="/tools/photo-censor">Censura de Fotos de BrowseryTools</a> hace
         exactamente eso, completamente en tu navegador. Pintas sobre las regiones que quieres ocultar,
@@ -129,6 +132,7 @@ export default function Content() {
         recortar o añadir una marca de agua al resultado, consulta nuestra guía sobre{" "}
         <a href="/blog/crop-and-watermark-images-online">recortar y añadir marcas de agua a imágenes online</a>.
       </p>
+      <ToolCTA slug="photo-censor" variant="card" />
     </div>
   );
 }

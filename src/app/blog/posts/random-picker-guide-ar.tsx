@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         معك أصلاً. أداة <a href="/tools/random-picker">المنتقي العشوائي</a> في متصفحك تحلّ كل ذلك في تبويب
         واحد.
       </p>
+      <ToolCTA slug="random-picker" variant="inline" />
       <p>
         تجمع أداة <strong>المنتقي العشوائي</strong> من BrowseryTools أربعة مولّدات عشوائية كلاسيكية في صفحة
         واحدة: <strong>مولّد أرقام عشوائية</strong>، و<strong>رامي نرد</strong>، و<strong>قاذف عملة</strong>،
@@ -83,6 +86,7 @@ export default function Content() {
         القادمة، فإن <a href="/tools/random-picker">المنتقي العشوائي</a> يجمع ذلك كله في مكان واحد — مجاناً،
         وبخصوصية، وفورياً. بدون تثبيت، بدون حسابات، بدون مقابل.
       </p>
+      <ToolCTA slug="random-picker" variant="card" />
     </div>
   );
 }

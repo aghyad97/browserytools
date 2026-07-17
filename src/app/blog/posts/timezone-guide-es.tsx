@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         almacenó las marcas de tiempo en hora local y ahora la base de datos es un desastre de
         entradas ambiguas.
       </p>
+      <ToolCTA slug="timezone-converter" variant="inline" />
       <p>
         Las zonas horarias son uno de esos sistemas que parecen intuitivos hasta que dejan de serlo,
         y los casos extremos causan problemas reales. Esta guía explica cómo funciona el sistema,
@@ -213,6 +216,7 @@ export default function Content() {
           Abrir Conversor de Zonas Horarias →
         </a>
       </div>
+      <ToolCTA slug="timezone-converter" variant="card" />
     </div>
   );
 }

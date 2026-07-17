@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         qui exige votre attention, et soudain l&apos;écran s&apos;assombrit et l&apos;ordinateur commence à
         glisser vers la veille.
       </p>
+      <ToolCTA slug="keep-awake" variant="inline" />
       <p>
         La solution traditionnelle est laborieuse. Sur macOS, les gens installent Amphetamine ou Caffeine.
         Sur Windows, ils ajustent les paramètres d&apos;alimentation ou lancent un utilitaire appelé
@@ -207,6 +210,7 @@ export default function Content() {
         <a href="/tools/world-clock">horloge mondiale</a>, et plus encore. Tout est gratuit, tout est local,
         et rien ne vous demande de vous inscrire.
       </p>
+      <ToolCTA slug="keep-awake" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         Aufmerksamkeit verlangt – und plötzlich wird der Bildschirm dunkler und das Notebook driftet in den
         Ruhezustand.
       </p>
+      <ToolCTA slug="keep-awake" variant="inline" />
       <p>
         Die herkömmliche Lösung ist umständlich. Unter macOS installieren viele Amphetamine oder Caffeine.
         Unter Windows passen sie die Energieeinstellungen an oder verwenden ein Tool namens PowerToys. Unter
@@ -196,6 +199,7 @@ export default function Content() {
         <a href="/tools/world-clock">Weltzeituhr</a> und mehr. Alles ist kostenlos, alles ist lokal, und
         nichts verlangt von Ihnen, sich zu registrieren.
       </p>
+      <ToolCTA slug="keep-awake" variant="card" />
     </div>
   );
 }

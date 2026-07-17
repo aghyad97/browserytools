@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         dan rapat itu jatuh pada waktu yang salah untuk separuh tim. Seorang developer menyimpan
         timestamp dalam waktu lokal dan sekarang database penuh dengan entri yang ambigu.
       </p>
+      <ToolCTA slug="timezone-converter" variant="inline" />
       <p>
         Zona waktu adalah salah satu sistem yang tampak intuitif sampai ternyata tidak, dan kasus
         tepinya menyebabkan masalah nyata. Panduan ini membahas cara kerja sistem, di mana ia rusak,
@@ -203,6 +206,7 @@ export default function Content() {
           Buka Konverter Zona Waktu →
         </a>
       </div>
+      <ToolCTA slug="timezone-converter" variant="card" />
     </div>
   );
 }

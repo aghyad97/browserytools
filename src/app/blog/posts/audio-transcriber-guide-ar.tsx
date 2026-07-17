@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -9,6 +11,7 @@ export default function Content() {
         <a href="/tools/audio-transcriber">تفرّغ الصوت إلى نص مجاناً</a> داخل متصفحك مباشرةً، دون أن
         يغادر التسجيل جهازك أبداً.
       </p>
+      <ToolCTA slug="audio-transcriber" variant="inline" />
       <p>
         يشغّل <a href="/tools/audio-transcriber">مفرّغ الصوت والفيديو من أدواتك</a> نموذج Whisper
         للتعرّف على الكلام من OpenAI بالكامل على جهازك. تُفلِت ملف صوت أو فيديو، فتحوّل الأداة الكلام
@@ -115,6 +118,7 @@ export default function Content() {
         مُنشأة على جهازك مجاناً. وأثناء وجودك، استكشف بقية أدواتك: <a href="/tools/sentiment-analyzer">محلّل المشاعر</a>{" "}
         و<a href="/tools/notepad">المفكرة</a> وعشرات الأدوات الأخرى الخاصّة العاملة داخل المتصفح.
       </p>
+      <ToolCTA slug="audio-transcriber" variant="card" />
     </div>
   );
 }

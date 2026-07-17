@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -10,6 +12,7 @@ export default function Content() {
         ملوّنة حسب الفئة، قابلة للبحث والنقر، ويعمل بالكامل داخل متصفحك دون أي تثبيت.
       </p>
 
+      <ToolCTA slug="periodic-table" variant="inline" />
       <h2>كيف يُنظَّم الجدول الدوري</h2>
       <p>
         يُرتَّب الجدول في <strong>صفوف تُسمّى الدورات</strong> و<strong>أعمدة تُسمّى المجموعات</strong>. هناك
@@ -79,6 +82,7 @@ export default function Content() {
         افتح <a href="/tools/periodic-table">الجدول الدوري التفاعلي</a> وابدأ الاستكشاف. إنه مجاني وخاص وجاهز
         كلما طرأ سؤال عن العناصر.
       </p>
+      <ToolCTA slug="periodic-table" variant="card" />
     </div>
   );
 }

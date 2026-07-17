@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Gefühl hat, ein KI-Tool schöpfe sein Potenzial nicht aus, ist das Prompt-Format der erste
         untersuchenswerte Ansatzpunkt.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="inline" />
       <p>
         Mit dem{" "}
         <a href="/tools/prompt-formatter">BrowseryTools Prompt-Formatierer</a> – kostenlos, keine
@@ -213,6 +216,7 @@ Betreffzeile + E-Mail-Text, unter 150 Wörtern`}
         das Rätselraten. Der beste Prompt ist nicht der ausgefeilteste – er ist derjenige, der
         die wenigsten unbeantworteten Fragen vor dem Generierungsbeginn hinterlässt.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="card" />
     </div>
   );
 }

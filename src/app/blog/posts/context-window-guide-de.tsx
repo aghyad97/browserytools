@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         was ein Kontextfenster ist, was seine Grenzen in der Praxis bedeuten und wie man
         geschickt damit umgeht, ist grundlegend für den Aufbau zuverlässiger KI-Anwendungen.
       </p>
+      <ToolCTA slug="context-window" variant="inline" />
       <p>
         Mit dem{" "}
         <a href="/tools/context-window">BrowseryTools Kontextfenster-Tool</a> – kostenlos, keine
@@ -207,6 +210,7 @@ export default function Content() {
           Kontextfenster-Tool öffnen →
         </a>
       </div>
+      <ToolCTA slug="context-window" variant="card" />
     </div>
   );
 }

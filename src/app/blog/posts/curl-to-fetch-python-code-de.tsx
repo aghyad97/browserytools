@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <code>-u</code> und <code>-X</code> muss dem richtigen Argument in Ihrer Sprache zugeordnet
         werden, und ein einziger vergessener Header bricht den Request.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         Der <a href="/tools/curl-converter">BrowseryTools cURL-Konverter</a> erledigt das sofort —
         fügen Sie einen cURL-Befehl ein und erhalten Sie sauberen Code in JavaScript <code>fetch</code>,
@@ -136,6 +139,7 @@ requests.post(
         und um die Antworten zu verstehen, die Sie zurückbekommen, lesen Sie den{" "}
         <a href="/blog/http-status-codes-guide">HTTP-Statuscodes-Leitfaden</a>.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

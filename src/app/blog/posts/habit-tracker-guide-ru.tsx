@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         десятилетия исследований указывают на конкретные, надёжные техники, которые работают
         для большинства людей.
       </p>
+      <ToolCTA slug="habit-tracker" variant="inline" />
       <p>
         В этом руководстве разбирается наука о том, почему привычки формируются и закрепляются,
         психологическая механика серий, лучшие системы для выработки новых привычек и то, как
@@ -396,6 +399,7 @@ export default function Content() {
           Открыть трекер привычек →
         </a>
       </div>
+      <ToolCTA slug="habit-tracker" variant="card" />
     </div>
   );
 }

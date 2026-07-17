@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         фрагментированная экосистема, где каждое AI-приложение заново изобретало одни и те же
         базовые компоненты.
       </p>
+      <ToolCTA slug="mcp-config" variant="inline" />
       <p>
         Model Context Protocol (MCP) — ответ Anthropic на эту проблему: открытый стандарт,
         предоставляющий AI-моделям единый унифицированный интерфейс к инструментам, файлам,
@@ -216,6 +219,7 @@ claude mcp list`}
         без изменения способа взаимодействия с ним — инструменты просто доступны и готовы
         к использованию.
       </p>
+      <ToolCTA slug="mcp-config" variant="card" />
     </div>
   );
 }

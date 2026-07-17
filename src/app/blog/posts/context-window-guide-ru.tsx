@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         контекста, что означают его ограничения на практике и как умело работать в их рамках,
         — это основа для создания надёжных AI-приложений.
       </p>
+      <ToolCTA slug="context-window" variant="inline" />
       <p>
         Воспользуйтесь{" "}
         <a href="/tools/context-window">инструментом «Окно контекста» BrowseryTools</a> —
@@ -207,6 +210,7 @@ export default function Content() {
           Открыть инструмент «Окно контекста» →
         </a>
       </div>
+      <ToolCTA slug="context-window" variant="card" />
     </div>
   );
 }

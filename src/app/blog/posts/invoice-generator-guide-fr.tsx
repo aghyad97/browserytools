@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         gens ne le réalisent, jusqu'au jour où ils courent après une facture en souffrance d'un
         client qui ne répond plus.
       </p>
+      <ToolCTA slug="invoice" variant="inline" />
       <p>
         Ce guide couvre tout ce qu'une facture professionnelle doit inclure, les conventions de
         numérotation et les conditions de paiement, les différences d'obligations légales selon
@@ -224,6 +227,7 @@ export default function Content() {
           Créer une facture →
         </a>
       </div>
+      <ToolCTA slug="invoice" variant="card" />
     </div>
   );
 }

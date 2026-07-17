@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         بصورة كاملة. والنتيجة المعتادة: تفتح برنامجاً لا تستخدمه إلا نادراً، وتجرّب إعدادات عشوائية،
         وتعيد الرفع مرة تلو الأخرى حتى يقبل النموذج الحجم أخيراً.
       </p>
+      <ToolCTA slug="compress-image-to-20kb" variant="inline" />
       <p>
         يمكنك تجاوز كل هذا التخمين. أداة <a href="/tools/compress-image-to-20kb">ضغط الصورة إلى ٢٠
         كيلوبايت</a> تقوم بالبحث نيابة عنك: ترفع الصورة، وتخبرك الأداة بدقة كم أصبح حجمها وكيف وصلت
@@ -103,6 +106,7 @@ export default function Content() {
         النتيجة. وإذا لم يكن ٢٠ كيلوبايت هدفك بالضبط، اختر الصفحة المناسبة من القائمة أعلاه — نفس البحث
         الصادق يعمل محلياً في كل مرة.
       </p>
+      <ToolCTA slug="compress-image-to-20kb" variant="card" />
     </div>
   );
 }

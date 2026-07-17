@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         pas des scripts shell. Vous écrivez du JavaScript, Python, Go ou Ruby, et vous devez traduire
         cette commande cURL en code fonctionnel avant de pouvoir l'utiliser.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         Cette traduction est fastidieuse et sujette aux erreurs. Les en-têtes, les schémas
         d'authentification, les corps de requête et l'encodage d'URL doivent tous être mappés aux bons
@@ -189,6 +192,7 @@ const data = response.data;`}
         <a href="/tools/curl-converter">Convertisseur cURL BrowseryTools</a> pour obtenir du code
         propre et fonctionnel en quelques secondes.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

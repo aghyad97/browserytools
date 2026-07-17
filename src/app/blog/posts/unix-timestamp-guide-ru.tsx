@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         откуда оно берётся и как избегать типичных ловушек, убережёт вас от целого класса багов —
         незаметных, трудновоспроизводимых и порой весьма неловких в продакшне.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="inline" />
       <p>
         Вы можете мгновенно конвертировать любую Unix-временную метку в читаемую дату (и обратно)
         с помощью{" "}
@@ -206,6 +209,7 @@ new Intl.DateTimeFormat("en-US", {
         любой даты после 1970 года. Явно обрабатывайте различие миллисекунды/секунды, используйте
         UTC для хранения и передачи, и конвертируйте в локальное время только на уровне отображения.
       </p>
+      <ToolCTA slug="unix-timestamp" variant="card" />
     </div>
   );
 }

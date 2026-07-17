@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         sederhana dan gratis yang bisa Anda gunakan dalam hitungan detik.
       </p>
 
+      <ToolCTA slug="text-to-speech" variant="inline" />
       <h2>Apa Sebenarnya Arti "Text to Speech"</h2>
       <p>
         Text to speech (TTS) adalah proses mengubah kata-kata tertulis menjadi audio yang diucapkan. Anda
@@ -123,6 +126,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">editor Markdown</a> — semuanya berjalan sepenuhnya di browser Anda,
         tanpa iklan, tanpa pelacakan, dan tanpa pendaftaran.
       </p>
+      <ToolCTA slug="text-to-speech" variant="card" />
     </div>
   );
 }

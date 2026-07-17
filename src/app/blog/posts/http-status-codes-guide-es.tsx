@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         lo que significa cada código, cuándo usar cuál en tus propias APIs y qué señalan los más comunes
         sobre un error te hace significativamente más rápido depurando y construyendo mejores servicios.
       </p>
+      <ToolCTA slug="http-status" variant="inline" />
       <p>
         Puedes consultar cualquier código de estado HTTP con la{" "}
         <a href="/tools/http-status">Referencia de Códigos de Estado HTTP de BrowseryTools</a> — gratuita,
@@ -192,6 +195,7 @@ Authorization: Bearer <token-de-usuario-regular-válido>
           Abrir la Referencia HTTP →
         </a>
       </div>
+      <ToolCTA slug="http-status" variant="card" />
     </div>
   );
 }

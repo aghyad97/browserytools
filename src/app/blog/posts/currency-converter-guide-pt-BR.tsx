@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         dinheiro toda vez que você viajar, enviar dinheiro ao exterior ou receber pagamento em
         moeda estrangeira.
       </p>
+      <ToolCTA slug="currency-converter" variant="inline" />
       <p>
         Você pode usar o{" "}
         <a href="/tools/currency-converter">BrowseryTools Conversor de Moedas</a> — gratuito, sem
@@ -176,6 +179,7 @@ export default function Content() {
           Abrir Conversor de Moedas →
         </a>
       </div>
+      <ToolCTA slug="currency-converter" variant="card" />
     </div>
   );
 }

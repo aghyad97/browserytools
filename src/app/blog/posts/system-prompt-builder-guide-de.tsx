@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         nicht, verbringt man jede Sitzung damit, Verhalten zu korrigieren, das von Anfang an
         festgelegt sein sollte.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="inline" />
       <p>
         Mit dem{" "}
         <a href="/tools/system-prompt-builder">BrowseryTools System-Prompt-Builder</a> – kostenlos,
@@ -192,6 +195,7 @@ Always include a specific, actionable takeaway at the end of each response.`}
         oder zwei Beispiele. Der Iterationsprozess – Grenzfälle testen und Änderungen versionieren
         – ist das, was einen guten System-Prompt zu einem hervorragenden macht.
       </p>
+      <ToolCTA slug="system-prompt-builder" variant="card" />
     </div>
   );
 }

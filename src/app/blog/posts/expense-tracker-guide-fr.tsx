@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         les comptes silencieusement et invisiblement, et rien dans la vie financière ordinaire ne vous
         incite à y prêter attention.
       </p>
+      <ToolCTA slug="expense-tracker" variant="inline" />
       <p>
         La solution n'est pas compliquée, mais elle exige une chose : regarder les chiffres en face.
         Ce guide explique pourquoi la plupart des gens perdent la trace de leurs dépenses, les
@@ -207,6 +210,7 @@ export default function Content() {
           Ouvrir l'outil de suivi →
         </a>
       </div>
+      <ToolCTA slug="expense-tracker" variant="card" />
     </div>
   );
 }

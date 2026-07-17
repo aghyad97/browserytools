@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         pengguna. Panduan ini menjelaskan cara kerja JPEG, PNG, WebP, dan AVIF di baliknya, kapan
         menggunakan masing-masing, dan cara membuat pilihan yang tepat untuk konteksmu.
       </p>
+      <ToolCTA slug="image-converter" variant="inline" />
       <p>
         Kamu bisa mengkonversi antara format apa pun menggunakan{" "}
         <a href="/tools/image-converter">BrowseryTools Image Converter</a> — gratis, tanpa daftar,
@@ -224,6 +227,7 @@ export default function Content() {
         baru dari awal dengan stack modern, sajikan AVIF dengan fallback WebP dan berhenti
         memikirkan JPEG sama sekali.
       </div>
+      <ToolCTA slug="image-converter" variant="card" />
     </div>
   );
 }

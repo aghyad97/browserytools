@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         опыт. В этом руководстве рассматривается, как JPEG, PNG, WebP и AVIF работают под капотом,
         когда использовать каждый из них и как сделать осознанный выбор для вашего контекста.
       </p>
+      <ToolCTA slug="image-converter" variant="inline" />
       <p>
         Вы можете конвертировать между любыми из этих форматов с помощью{" "}
         <a href="/tools/image-converter">конвертера изображений BrowseryTools</a> — бесплатно,
@@ -226,6 +229,7 @@ export default function Content() {
         вариант и AVIF как улучшение. Если строите новый проект на современном стеке — отдавайте
         AVIF с WebP-fallback и забудьте про JPEG.
       </div>
+      <ToolCTA slug="image-converter" variant="card" />
     </div>
   );
 }

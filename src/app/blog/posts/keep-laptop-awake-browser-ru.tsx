@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         обучающее видео, проводите презентацию, следите за дашбордом или читаете статью, требующую вашего
         внимания, — и вдруг экран тускнеет, а ноутбук начинает уходить в сон.
       </p>
+      <ToolCTA slug="keep-awake" variant="inline" />
       <p>
         Традиционное решение неуклюже. На macOS люди устанавливают Amphetamine или Caffeine. На Windows
         возятся с настройками питания или запускают утилиту PowerToys. На Linux роются в флагах systemd. Каждое
@@ -185,6 +188,7 @@ export default function Content() {
         <a href="/tools/world-clock">мирового времени</a> и других. Всё бесплатно, всё локально, и ничто не
         просит вас регистрироваться.
       </p>
+      <ToolCTA slug="keep-awake" variant="card" />
     </div>
   );
 }

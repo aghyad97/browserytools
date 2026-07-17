@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -7,6 +9,7 @@ export default function Content() {
         видео в интернете вообще возможно. Но не всякое сжатие одинаково, и неправильные настройки
         могут дать файл, который по-прежнему слишком велик, выглядит заметно хуже, или и то и другое.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         Вы можете сжать любой видеофайл прямо сейчас с помощью{" "}
         <a href="/tools/compress-video">видеокомпрессора BrowseryTools</a> — бесплатно, без
@@ -220,6 +223,7 @@ export default function Content() {
         экрана и используйте режим CRF для сжатия по качеству, а не в погоне за произвольным
         значением битрейта.
       </div>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

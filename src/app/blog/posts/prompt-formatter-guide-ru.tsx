@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         многословный вывод в точный, практичный ответ. Если вы когда-либо ощущали, что AI-инструмент
         не раскрывает свой потенциал, формат промпта — первое, что стоит пересмотреть.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="inline" />
       <p>
         Воспользуйтесь{" "}
         <a href="/tools/prompt-formatter">Форматтером промптов BrowseryTools</a> — бесплатно,
@@ -206,6 +209,7 @@ Subject line + email body, under 150 words`}
         вывода убирают угадывание. Лучший промпт — не самый сложный, а тот, что оставляет
         меньше всего вопросов без ответа до начала генерации.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="card" />
     </div>
   );
 }

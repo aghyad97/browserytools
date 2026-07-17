@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         man keine Shell-Skripte schreibt. Man schreibt JavaScript, Python, Go oder Ruby und muss
         diesen cURL-Befehl in funktionierenden Code übersetzen, bevor man ihn verwenden kann.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         Diese Übersetzung ist mühsam und fehleranfällig. Header, Authentifizierungsschemata,
         Request-Bodies und URL-Kodierung müssen alle auf die richtigen Methodenaufrufe in der
@@ -189,6 +192,7 @@ const data = response.data;`}
         <a href="/tools/curl-converter">BrowseryTools cURL-Konverter</a> verwenden, um in Sekunden
         sauberen, ausführbaren Code zu erhalten.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

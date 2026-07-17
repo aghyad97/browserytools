@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         speicherte Zeitstempel in Ortszeit, und jetzt ist die Datenbank ein Durcheinander
         mehrdeutiger Einträge.
       </p>
+      <ToolCTA slug="timezone-converter" variant="inline" />
       <p>
         Zeitzonen sind eines jener Systeme, die intuitiv erscheinen — bis sie es nicht mehr sind, und
         die Sonderfälle verursachen echte Probleme. Dieser Leitfaden erklärt, wie das System
@@ -207,6 +210,7 @@ export default function Content() {
           Zeitzonenrechner öffnen →
         </a>
       </div>
+      <ToolCTA slug="timezone-converter" variant="card" />
     </div>
   );
 }

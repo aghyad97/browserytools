@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         resposta precisa e acionável. Se você já sentiu que uma ferramenta de IA não está à altura
         do seu potencial, o formato do seu prompt é a primeira coisa que vale examinar.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="inline" />
       <p>
         Você pode usar o{" "}
         <a href="/tools/prompt-formatter">Formatador de Prompts do BrowseryTools</a> — gratuito,
@@ -217,6 +220,7 @@ Linha de assunto + corpo do e-mail, menos de 150 palavras`}
         melhor prompt não é o mais elaborado — é aquele que deixa menos perguntas sem resposta
         antes que a geração comece.
       </p>
+      <ToolCTA slug="prompt-formatter" variant="card" />
     </div>
   );
 }

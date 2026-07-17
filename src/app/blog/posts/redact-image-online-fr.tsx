@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>masquer ou censurer l'image</strong> — la flouter, la pixéliser, ou la noircir —
         sans confier l'original à un site web.
       </p>
+      <ToolCTA slug="photo-censor" variant="inline" />
       <p>
         L'outil <a href="/tools/photo-censor">BrowseryTools Photo Censor</a> fait exactement cela,
         entièrement dans votre navigateur. Vous peignez sur les zones à masquer, choisissez flou,
@@ -130,6 +133,7 @@ export default function Content() {
         de recadrer ou d'ajouter un filigrane, lisez notre guide sur le{" "}
         <a href="/blog/crop-and-watermark-images-online">recadrage et l'ajout de filigrane en ligne</a>.
       </p>
+      <ToolCTA slug="photo-censor" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         gagal. Memahami apa yang sebenarnya dikandung JWT, cara membacanya, dan cara mendeteksi masalah umum
         membuat debugging autentikasi jauh lebih cepat.
       </p>
+      <ToolCTA slug="jwt-decoder" variant="inline" />
       <p>
         <a href="/tools/jwt-decoder">Decoder JWT BrowseryTools</a> memungkinkan Anda menempel token JWT apa
         pun dan langsung melihat header, payload, dan status kedaluwarsa yang telah didekode — semua di
@@ -330,6 +333,7 @@ export default function Content() {
           Buka Decoder JWT →
         </a>
       </div>
+      <ToolCTA slug="jwt-decoder" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         être mis en style avec CSS, animés avec JavaScript ou les transitions CSS, et intégrés directement
         dans du HTML. Bien comprendre SVG change la façon dont vous pensez aux graphiques sur le web.
       </p>
+      <ToolCTA slug="svg" variant="inline" />
       <p>
         Vous pouvez visualiser, inspecter et optimiser n'importe quel fichier SVG grâce à l'outil{" "}
         <a href="/tools/svg">SVG BrowseryTools</a> — gratuit, sans inscription, tout s'exécute dans
@@ -277,6 +280,7 @@ export default function Content() {
         Utilisez <code>currentColor</code> pour les icônes devant s'adapter à la couleur de texte de
         leur contexte.
       </div>
+      <ToolCTA slug="svg" variant="card" />
     </div>
   );
 }

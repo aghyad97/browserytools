@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -10,6 +12,7 @@ export default function Content() {
         من فكرة مركزية واحدة إلى مخطط كامل خلال دقيقتين.
       </p>
 
+      <ToolCTA slug="mind-map" variant="inline" />
       <h2>ما هي الخريطة الذهنية ولماذا تنجح؟</h2>
       <p>
         الخريطة الذهنية مخطط يبدأ من مفهوم مركزي واحد ويتشعّب نحو الخارج إلى فروع مرتبطة. كل فرع يمكن أن ينقسم إلى
@@ -111,6 +114,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">محرّر Markdown</a> لتحويل مخططك إلى مستند مكتمل. كلها مجانية، كلها داخل
         متصفحك، وبدون أي تسجيل.
       </p>
+      <ToolCTA slug="mind-map" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         sorprendentemente grande. Entender cómo funciona realmente el cambio de divisas te ahorrará
         dinero cada vez que viajes, envíes dinero internacionalmente o cobres en una moneda extranjera.
       </p>
+      <ToolCTA slug="currency-converter" variant="inline" />
       <p>
         Puedes usar el{" "}
         <a href="/tools/currency-converter">Convertidor de Divisas de BrowseryTools</a> — gratuito,
@@ -178,6 +181,7 @@ export default function Content() {
           Abrir Convertidor de Divisas →
         </a>
       </div>
+      <ToolCTA slug="currency-converter" variant="card" />
     </div>
   );
 }

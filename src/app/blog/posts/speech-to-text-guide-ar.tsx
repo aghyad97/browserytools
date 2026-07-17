@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -12,6 +14,7 @@ export default function Content() {
         على بُعد نقرة واحدة.
       </p>
 
+      <ToolCTA slug="speech-to-text" variant="inline" />
       <h2>ما هو تحويل الكلام إلى نص؟</h2>
       <p>
         تحويل الكلام إلى نص (ويُسمى أيضاً الكتابة الصوتية أو الإملاء أو التعرّف
@@ -133,6 +136,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">محرر Markdown</a> لتنقيحها. كل شيء مجاني،
         وكل شيء محلي، ولا شيء يطلب منك التسجيل.
       </p>
+      <ToolCTA slug="speech-to-text" variant="card" />
     </div>
   );
 }

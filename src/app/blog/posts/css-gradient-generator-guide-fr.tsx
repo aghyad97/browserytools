@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         statiques rigides et des mises en page qui se cassaient dès que quelqu'un changeait les couleurs de la marque. Aujourd'hui, une seule ligne
         de CSS remplace tout cela.
       </p>
+      <ToolCTA slug="css-gradient" variant="inline" />
       <p>
         Ce guide couvre tout ce que vous devez savoir sur les dégradés CSS — les trois types, le système d'angles,
         des cas d'usage concrets avec du code prêt à copier, les erreurs courantes et comment utiliser le{" "}
@@ -346,6 +349,7 @@ background: repeating-linear-gradient(
           Ouvrir le Générateur de dégradés CSS →
         </a>
       </div>
+      <ToolCTA slug="css-gradient" variant="card" />
     </div>
   );
 }

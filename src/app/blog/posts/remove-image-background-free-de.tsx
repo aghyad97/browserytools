@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Mal perfekte Ergebnisse erzielen.
       </p>
 
+      <ToolCTA slug="bg-removal" variant="inline" />
       <h2>Der alte Weg: Photoshop und GIMP</h2>
       <p>
         Jahrzehntelang bedeutete das Entfernen von Bildhintergründen eines von zwei Dingen: für Adobe Photoshop zu
@@ -337,6 +340,7 @@ export default function Content() {
           Tool zur Hintergrundentfernung öffnen →
         </a>
       </div>
+      <ToolCTA slug="bg-removal" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         warum die Anzahl wichtig ist, gehört zu den praktisch nützlichsten Dingen, die man lernen
         kann, bevor man ernsthaft auf einem LLM aufbaut.
       </p>
+      <ToolCTA slug="token-counter" variant="inline" />
       <p>
         Mit dem{" "}
         <a href="/tools/token-counter">BrowseryTools Token-Zähler</a> – kostenlos, keine Anmeldung,
@@ -218,6 +221,7 @@ export default function Content() {
           Token-Zähler öffnen →
         </a>
       </div>
+      <ToolCTA slug="token-counter" variant="card" />
     </div>
   );
 }

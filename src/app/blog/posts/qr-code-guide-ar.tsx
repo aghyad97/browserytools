@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -6,6 +8,7 @@ export default function Content() {
         من قوائم المطاعم إلى بوابات الدفع الإلكتروني، ومن تذاكر الطيران إلى بطاقات العمل الرقمية، يُحيط بنا
         QR Code في كل مكان. لكن كم منا يفهم حقًا كيف يعمل؟
       </p>
+      <ToolCTA slug="qr-generator" variant="inline" />
       <p>
         في هذا الدليل ستتعرف على تاريخ QR Code وكيف يخزّن البيانات وأنواعه وكيف تنشئه احترافيًا. وإذا أردت
         البدء فورًا، يمكنك استخدام{" "}
@@ -120,6 +123,7 @@ export default function Content() {
         <li><strong>هل QR Code يدعم العربية؟</strong> — نعم، عبر وضع الترميز الثنائي (Binary/Byte mode) الذي يدعم UTF-8 وبالتالي جميع الأحرف العربية.</li>
         <li><strong>ما الفرق بين QR Code الثابت والديناميكي؟</strong> — الثابت يخزّن البيانات مباشرةً وغير قابل للتعديل. الديناميكي يخزّن رابطًا قصيرًا يشير إلى بياناتك، ويمكن تعديل الوجهة لاحقًا.</li>
       </ul>
+      <ToolCTA slug="qr-generator" variant="card" />
     </div>
   );
 }

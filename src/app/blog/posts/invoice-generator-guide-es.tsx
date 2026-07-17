@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Hacerlo bien importa más de lo que la mayoría de las personas se da cuenta hasta que
         están persiguiendo una factura vencida de un cliente que ha desaparecido.
       </p>
+      <ToolCTA slug="invoice" variant="inline" />
       <p>
         Esta guía cubre todo lo que debe incluir una factura profesional, las convenciones de
         numeración y condiciones de pago, cómo varían los requisitos de facturación según el país,
@@ -221,6 +224,7 @@ export default function Content() {
           Crear Factura →
         </a>
       </div>
+      <ToolCTA slug="invoice" variant="card" />
     </div>
   );
 }

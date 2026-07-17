@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         README — без плеера и без клика. Загвоздка в том, что обычно всё начинается с MP4 или MOV,
         и нужно сначала <strong>конвертировать это видео в GIF</strong>.
       </p>
+      <ToolCTA slug="video" variant="inline" />
       <p>
         <a href="/tools/video">Видеоинструмент BrowseryTools</a> позволяет превратить клип в GIF
         прямо в браузере — без загрузки, без аккаунта, без водяного знака. Это руководство
@@ -112,6 +115,7 @@ export default function Content() {
         <a href="/blog/video-compression-guide">как сжать видео без потери качества</a>
         .
       </p>
+      <ToolCTA slug="video" variant="card" />
     </div>
   );
 }

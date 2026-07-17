@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         Konten still und unsichtbar, und nichts im typischen Finanzleben fordert Sie auf, darauf
         zu achten.
       </p>
+      <ToolCTA slug="expense-tracker" variant="inline" />
       <p>
         Die Lösung ist nicht kompliziert, erfordert aber eine Sache: die Zahlen tatsächlich
         anzuschauen. Dieser Leitfaden erklärt, warum die meisten Menschen den Überblick über ihre
@@ -209,6 +212,7 @@ export default function Content() {
           Ausgaben-Tracker öffnen →
         </a>
       </div>
+      <ToolCTA slug="expense-tracker" variant="card" />
     </div>
   );
 }

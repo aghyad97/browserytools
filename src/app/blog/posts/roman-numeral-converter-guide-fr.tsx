@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Ce guide explique exactement comment fonctionnent les chiffres romains, les règles qui
         piègent les gens, et comment convertir n'importe quel nombre dans les deux sens instantanément.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         Si vous avez juste besoin de la réponse, le{" "}
         <a href="/tools/roman-numeral">BrowseryTools Roman Numeral Converter</a> convertit des
@@ -143,6 +146,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/percentage-calculator">calculatrice de pourcentages</a> pour les
         calculs que les Romains n'ont jamais eu l'occasion de faire.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -13,6 +15,7 @@ export default function Content() {
         <a href="/tools/ascii-art">مولّد فن أسكي من BrowseryTools</a>.
       </p>
 
+      <ToolCTA slug="ascii-art" variant="inline" />
       <h2>ماذا يفعل مولّد فن أسكي فعلياً</h2>
       <p>
         تحويل <strong>الصورة إلى فن أسكي</strong> هو عملية تبسيط مدروسة. فالصورة تتكوّن
@@ -112,6 +115,7 @@ export default function Content() {
         <a href="/tools/ascii-art">مولّد فن أسكي</a> وحوّل صورتك التالية إلى نصّ
         يمكنك لصقه في أي مكان.
       </p>
+      <ToolCTA slug="ascii-art" variant="card" />
     </div>
   );
 }

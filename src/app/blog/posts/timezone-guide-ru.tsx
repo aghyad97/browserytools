@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         время, и она оказалась в неверное время для половины команды. Разработчик сохранял
         метки времени в местном времени, и теперь база данных полна неоднозначных записей.
       </p>
+      <ToolCTA slug="timezone-converter" variant="inline" />
       <p>
         Часовые пояса выглядят понятными — до тех пор, пока не возникают граничные случаи,
         которые создают реальные проблемы. В этом руководстве разбирается, как устроена эта
@@ -202,6 +205,7 @@ export default function Content() {
           Открыть конвертер часовых поясов →
         </a>
       </div>
+      <ToolCTA slug="timezone-converter" variant="card" />
     </div>
   );
 }

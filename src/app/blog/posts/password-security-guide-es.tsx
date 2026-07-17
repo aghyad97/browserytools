@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         personas. Según Google, el 65% de las personas reutiliza la misma contraseña en varios sitios. Este es el mayor
         error de seguridad que puedes cometer en internet.
       </p>
+      <ToolCTA slug="password-strength" variant="inline" />
       <p>
         Esta guía desglosa exactamente qué hace que una contraseña sea débil o fuerte, cómo la descifran los atacantes y
         cómo puedes protegerte, usando herramientas gratuitas que se ejecutan por completo en tu navegador sin enviar
@@ -341,6 +344,7 @@ export default function Content() {
         almacenan en ningún lugar fuera de tu propio dispositivo. Esa es la promesa de BrowseryTools — herramientas
         potentes que respetan de verdad tu privacidad.
       </p>
+      <ToolCTA slug="password-strength" variant="card" />
     </div>
   );
 }

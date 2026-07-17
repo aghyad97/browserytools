@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         erst verstanden, wie sie funktionieren, wird ein gut entworfener regulärer Ausdruck zu
         einem der mächtigsten Einzeiler-Werkzeuge im gesamten eigenen Werkzeugkasten.
       </p>
+      <ToolCTA slug="regex-tester" variant="inline" />
       <p>
         Dieser Leitfaden bricht das Wesentliche herunter. Statt jeden Regex-Feature zu katalogisieren,
         konzentriert er sich auf die 20 % der Syntax, die 80 % der realen Anwendungsfälle abdecken:
@@ -212,6 +215,7 @@ export default function Content() {
         aufbauen kann, sind vielfältig. Mit den Beispielen aus diesem Leitfaden beginnen, sie gegen
         eigene Zeichenketten testen, und die Syntax wird schneller intuitiv, als man erwartet.
       </p>
+      <ToolCTA slug="regex-tester" variant="card" />
     </div>
   );
 }

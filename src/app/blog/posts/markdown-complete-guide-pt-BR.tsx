@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         itálico e alguns níveis de cabeçalho — e perdem os recursos que tornam o Markdown genuinamente
         poderoso para escrita estruturada.
       </p>
+      <ToolCTA slug="markdown-editor" variant="inline" />
       <p>
         Você pode escrever e pré-visualizar Markdown instantaneamente usando o{" "}
         <a href="/tools/markdown-editor">Editor de Markdown do BrowseryTools</a> — gratuito, sem
@@ -209,6 +212,7 @@ function greet(name) {
         enquanto escreve, sem copiar o texto para outra ferramenta. Cole seu Markdown e veja a saída
         HTML renderizada lado a lado.
       </p>
+      <ToolCTA slug="markdown-editor" variant="card" />
     </div>
   );
 }

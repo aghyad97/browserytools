@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -10,6 +12,7 @@ export default function Content() {
         اصطناعي يعمل داخل متصفحك حدود الكائن بدقّة ويعيد إليك صورة PNG شفافة.
       </p>
 
+      <ToolCTA slug="object-cutout" variant="inline" />
       <h2>ماذا يعني &laquo;اقتطاع كائن من صورة&raquo; فعلاً</h2>
       <p>
         الاقتطاع هو شكل من أشكال <strong>تقطيع الصور (image segmentation)</strong>: يقرّر الحاسوب أي البكسلات
@@ -75,6 +78,7 @@ export default function Content() {
         جاهز للتجربة؟ افتح <a href="/tools/object-cutout">أداة اقتطاع الكائنات</a>، أفلِت صورة، وانقر على الكائن
         الذي تريده. ستكون قصاصة PNG لك خلال ثوانٍ — بلا رفع ولا علامة مائية ولا حساب.
       </p>
+      <ToolCTA slug="object-cutout" variant="card" />
     </div>
   );
 }

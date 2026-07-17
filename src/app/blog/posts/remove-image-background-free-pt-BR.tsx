@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         significativas e como obter resultados perfeitos sempre usando o BrowseryTools.
       </p>
 
+      <ToolCTA slug="bg-removal" variant="inline" />
       <h2>O jeito antigo: Photoshop e GIMP</h2>
       <p>
         Por décadas, remover o fundo de imagens significava uma de duas coisas: pagar pelo Adobe Photoshop (atualmente
@@ -323,6 +326,7 @@ export default function Content() {
           Abrir ferramenta de Remoção de Fundo →
         </a>
       </div>
+      <ToolCTA slug="bg-removal" variant="card" />
     </div>
   );
 }

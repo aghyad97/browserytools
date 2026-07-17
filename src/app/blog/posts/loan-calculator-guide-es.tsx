@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         realmente el capital, cuánto interés pagarán en total, qué ocurre si hacen pagos adicionales
         — siguen siendo opacos.
       </p>
+      <ToolCTA slug="loan-calculator" variant="inline" />
       <p>
         Esta guía explica con claridad la mecánica de la amortización de préstamos, incluyendo la
         matemática real detrás de las cuotas mensuales, qué significa la amortización y por qué
@@ -216,6 +219,7 @@ export default function Content() {
           Abrir Calculadora de Préstamos →
         </a>
       </div>
+      <ToolCTA slug="loan-calculator" variant="card" />
     </div>
   );
 }

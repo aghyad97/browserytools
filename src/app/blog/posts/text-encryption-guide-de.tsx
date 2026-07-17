@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         verschlüsselt, bevor sie Ihr Gerät verlassen, sodass selbst der Server, der sie speichert,
         sie nicht lesen kann.
       </p>
+      <ToolCTA slug="text-encryption" variant="inline" />
       <p>
         Sie können jeden Text direkt in Ihrem Browser mit dem{" "}
         <a href="/tools/text-encryption">BrowseryTools Text-Verschlüsselungs-Tool</a> verschlüsseln
@@ -187,6 +190,7 @@ export default function Content() {
         <li><strong>Kein Teilen ohne Schlüsselaustausch</strong> — verschlüsselte Daten mit jemandem zu teilen erfordert das sichere Weitergeben des Schlüssels, was ein separates Problem darstellt</li>
         <li><strong>Keine Suche oder Indizierung</strong> — verschlüsselte Daten können ohne vorherige Entschlüsselung nicht durchsucht, sortiert oder verarbeitet werden</li>
       </ul>
+      <ToolCTA slug="text-encryption" variant="card" />
     </div>
   );
 }

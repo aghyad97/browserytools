@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         principal, quanto pagarão em juros no total, o que acontece com pagamentos extras —
         permanecem opacos.
       </p>
+      <ToolCTA slug="loan-calculator" variant="inline" />
       <p>
         Este guia explica claramente a mecânica do pagamento de empréstimos, incluindo a
         matemática real por trás das prestações mensais, o que é amortização e por que ela
@@ -217,6 +220,7 @@ export default function Content() {
           Abrir Calculadora de Empréstimos →
         </a>
       </div>
+      <ToolCTA slug="loan-calculator" variant="card" />
     </div>
   );
 }

@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ToolCTA } from "@/components/blog/ToolCTA";
 
 export default function Content() {
   return (
@@ -11,6 +12,7 @@ export default function Content() {
         rekaman 5 menit dan mendorong semua orang ke paket berbayar. Dan setiap alat ini memerlukan
         instalasi, pembuatan akun, dan mempercayai aplikasi pihak ketiga dengan akses ke seluruh layar Anda.
       </p>
+      <ToolCTA slug="screen-recorder" variant="inline" />
       <p>
         Inilah yang kebanyakan orang tidak sadari: browser Anda sudah tahu cara merekam layar Anda.
         <strong>Screen Capture API</strong> (<code>getDisplayMedia</code>) adalah standar W3C yang telah
@@ -377,6 +379,7 @@ ffmpeg -i recording.webm -c:v libx264 -c:a aac output.mp4`}</code></pre>
         <Link href="/tools/image-converter">Konverter Gambar</Link> ·{" "}
         <Link href="/">Semua BrowseryTools</Link>
       </p>
+      <ToolCTA slug="screen-recorder" variant="card" />
     </div>
   );
 }

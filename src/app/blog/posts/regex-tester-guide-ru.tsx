@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         хорошо написанное регулярное выражение превращается в один из мощнейших однострочных
         инструментов во всём вашем арсенале.
       </p>
+      <ToolCTA slug="regex-tester" variant="inline" />
       <p>
         Это руководство отсекает лишнее. Вместо перечисления всех возможностей регулярных
         выражений оно сосредоточено на 20% синтаксиса, покрывающего 80% реальных задач:
@@ -211,6 +214,7 @@ export default function Content() {
         тестируйте их на собственных строках, и синтаксис станет интуитивным быстрее,
         чем вы ожидаете.
       </p>
+      <ToolCTA slug="regex-tester" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         membawa asisten coding AI ke codebase tanpa memberikan konteks ini, Anda mendapatkan saran
         generik yang melewatkan konvensi Anda, melanggar pola Anda, dan memerlukan koreksi konstan.
       </p>
+      <ToolCTA slug="claude-md-generator" variant="inline" />
       <p>
         File <code>CLAUDE.md</code> mengatasi ini. Anda dapat menggunakan{" "}
         <a href="/tools/claude-md-generator">BrowseryTools CLAUDE.md Generator</a> — gratis, tanpa
@@ -195,6 +198,7 @@ which wrap supabase-js queries. Never call supabase directly in components.
         yang sudah usang. Pertahankan kekiniannya dan perlakukan sebagai dokumentasi kelas satu —
         karena untuk pengembangan berbantuan AI, itu memang begitu adanya.
       </p>
+      <ToolCTA slug="claude-md-generator" variant="card" />
     </div>
   );
 }

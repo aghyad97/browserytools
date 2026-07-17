@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         Jadwal AWS EventBridge yang sudah tidak dipahami siapa pun di tim. Ekspresi cron ada di mana-mana — dan
         memang membingungkan jika Anda belum meluangkan waktu untuk mempelajari sistemnya.
       </p>
+      <ToolCTA slug="cron-parser" variant="inline" />
       <p>
         Panduan ini adalah referensi yang wajib Anda tandai. Mulai dari sejarah cron dan di mana ia muncul
         dalam infrastruktur modern, hingga setiap karakter khusus, 10 contoh dunia nyata dengan anotasi,
@@ -520,6 +523,7 @@ cron(0 0 1 * ? *)           # First day of every month at midnight`}</pre>
           Buka Cron Parser →
         </a>
       </div>
+      <ToolCTA slug="cron-parser" variant="card" />
     </div>
   );
 }

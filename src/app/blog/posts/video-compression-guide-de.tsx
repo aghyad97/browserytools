@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         nicht alle Komprimierung ist gleich, und die falschen Einstellungen können eine Datei erzeugen,
         die immer noch zu groß ist, sichtbar schlechter aussieht oder beides.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         Sie können jede Videodatei sofort mit dem{" "}
         <a href="/tools/compress-video">BrowseryTools Video-Kompressor</a> komprimieren — kostenlos,
@@ -225,6 +228,7 @@ export default function Content() {
         vorgesehene Bildschirmgröße anpassen und den CRF-Modus für qualitätsgesteuerte Komprimierung
         verwenden, statt eine willkürliche Bitrate anzustreben.
       </div>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

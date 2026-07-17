@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         wie römische Zahlen funktionieren, die Regeln, über die man stolpert, und wie man beliebige
         Zahlen in beide Richtungen sofort umrechnet.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         Wenn Sie nur die Antwort brauchen, wandelt der{" "}
         <a href="/tools/roman-numeral">BrowseryTools Römische-Zahlen-Umrechner</a> Zahlen in
@@ -143,6 +146,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/percentage-calculator">Prozentrechner</a> für die Mathematik, die die Römer
         nie entwickelt haben.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

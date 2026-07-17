@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         Browser zu erhalten.
       </p>
 
+      <ToolCTA slug="bmi-calculator" variant="inline" />
       <h2>Was ist der BMI?</h2>
       <p>
         Der BMI ist ein einfaches Verhältnis von Gewicht zu Körpergröße im Quadrat. Er wurde in den 1830er-Jahren von
@@ -323,6 +326,7 @@ Obergrenze = 24.9 × 3.0625 = 76.3 kg`}
           BMI-Rechner öffnen →
         </a>
       </div>
+      <ToolCTA slug="bmi-calculator" variant="card" />
     </div>
   );
 }

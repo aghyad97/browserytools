@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         <code>-u</code> и <code>-X</code> должен отображаться на правильный аргумент в вашем
         языке, и один пропущенный заголовок сломает запрос.
       </p>
+      <ToolCTA slug="curl-converter" variant="inline" />
       <p>
         <a href="/tools/curl-converter">Конвертер cURL от BrowseryTools</a> делает это мгновенно:
         вставьте cURL-команду и получите чистый код на JavaScript <code>fetch</code>, Python{" "}
@@ -130,6 +133,7 @@ requests.post(
         а чтобы разобраться в ответах — смотрите{" "}
         <a href="/blog/http-status-codes-guide">справочник по кодам состояния HTTP</a>.
       </p>
+      <ToolCTA slug="curl-converter" variant="card" />
     </div>
   );
 }

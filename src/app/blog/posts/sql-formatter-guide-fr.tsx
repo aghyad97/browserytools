@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         d'une chaîne concaténée unique. Dans tous ces cas, la requête brute est techniquement correcte mais
         pratiquement illisible.
       </p>
+      <ToolCTA slug="sql-formatter" variant="inline" />
       <p>
         Formater du SQL n'est pas une question d'esthétique. C'est une question de pouvoir comprendre ce
         que fait une requête en un coup d'œil — quelles tables elle lit, quelles conditions elle filtre et
@@ -439,6 +442,7 @@ LIMIT 20;`}
           Ouvrir le Formateur SQL →
         </a>
       </div>
+      <ToolCTA slug="sql-formatter" variant="card" />
     </div>
   );
 }

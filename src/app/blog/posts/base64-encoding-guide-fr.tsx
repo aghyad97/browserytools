@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         comment il fonctionne au niveau des octets, où il est utilisé dans les systèmes du monde réel, et quand vous devriez
         (et ne devriez pas) y avoir recours.
       </p>
+      <ToolCTA slug="base64" variant="inline" />
       <p>
         Vous pouvez encoder et décoder n'importe quelle chaîne Base64 instantanément à l'aide de l'{" "}
         <a href="/tools/base64">Encodeur/Décodeur Base64 de BrowseryTools</a> — gratuit, sans inscription, et rien
@@ -335,6 +338,7 @@ echo "SGVsbG8sIFdvcmxkIQ==" | base64 --decode`}
           Ouvrir l'outil Base64 →
         </a>
       </div>
+      <ToolCTA slug="base64" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         وهي من أكثر عناصر التصميم تأثيراً يمكنك إنجازها لأي مقال أو صفحة منتج أو صفحة هبوط. صورة مشاركة جيدة تجلب
         النقرات، وغيابها أو رداءتها يكلّفك زيارات في كل مرة تُشارك فيها الرابط.
       </p>
+      <ToolCTA slug="og-image-generator" variant="inline" />
       <p>
         الجزء المُحبط دائماً كان إنشاءها. يفتح المصممون Figma ويُعِدّون إطاراً بمقاس 1200×630 ويبنون التخطيط
         ويصدّرون ملف PNG. أما المطورون بلا أدوات تصميم فيلجؤون إلى لقطات الشاشة أو يتجاهلون الصورة كلياً. لهذا
@@ -104,6 +107,7 @@ export default function Content() {
         <a href="/tools/og-image-generator">مُنشئ صور Open Graph</a> في المتصفح، تستغرق خطوة التصميم التي كانت
         تتطلّب مصمّماً وملف Figma نحو ثلاثين ثانية فقط، وهي مجانية وخاصة وقابلة للتكرار لكل رابط تشاركه.
       </p>
+      <ToolCTA slug="og-image-generator" variant="card" />
     </div>
   );
 }

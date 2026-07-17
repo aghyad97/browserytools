@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         (Blobs): أشكال ناعمة ومغلقة وغير متماثلة تجلس خلف العناوين، وتؤطّر الصور الرمزية، وتكسر صرامة التخطيطات
         المنتظمة. المشكلة أن رسم شكل عضوي جيد يدوياً في محرّر متجهات أمرٌ مرهق، وغالباً ما يُنتج كوداً منتفخاً.
       </p>
+      <ToolCTA slug="svg-blob-generator" variant="inline" />
       <p>
         يحل <a href="/tools/svg-blob-generator">مولّد أشكال SVG العضوية من BrowseryTools</a> هذه المشكلة داخل
         متصفحك. إنه أداة لصنع الأشكال العضوية تُنتج مساراً منحنياً (بيزييه) ناعماً ومغلقاً انطلاقاً من مجموعة
@@ -70,6 +73,7 @@ export default function Content() {
         والمنحنيات والتدرّج، كلها تُحسب بلغة JavaScript على جهازك. لا شيء يُرفع، ولا شيء يُسجّل، ولا جدار تسجيل
         بينك وبين شكلٍ جاهز. افتح الأداة، ولّد شكلاً عضوياً أو موجة، وانسخ الكود، وعُد إلى التصميم.
       </p>
+      <ToolCTA slug="svg-blob-generator" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         sumber yang berbeda. Panduan ini membahas opsi utama: UUID (v1, v4, v7), NanoID, dan
         CUID, serta kapan harus menggunakan masing-masing.
       </p>
+      <ToolCTA slug="uuid-generator" variant="inline" />
       <p>
         Kamu bisa menghasilkan UUID dan ID unik lainnya secara instan dengan{" "}
         <a href="/tools/uuid-generator">BrowseryTools UUID Generator</a> — gratis, tanpa daftar,
@@ -190,6 +193,7 @@ nanoid(10);    // → "IRFa-VaY2b"  (custom length)`}
           Buka UUID Generator →
         </a>
       </div>
+      <ToolCTA slug="uuid-generator" variant="card" />
     </div>
   );
 }

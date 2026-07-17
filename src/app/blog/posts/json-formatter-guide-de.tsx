@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         gründlich zu verstehen – nicht nur das Parsen, sondern auch das Lesen, Validieren und
         Fehlersuchen – ist eine der wirkungsvollsten Fähigkeiten, die ein Entwickler haben kann.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         Dieser Leitfaden deckt alles von JSON-Syntax-Grundlagen bis zum Debuggen häufiger
         Parse-Fehler, Formatierungsstrategien und dem Arbeiten mit tief verschachtelten Strukturen
@@ -206,6 +209,7 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">BrowseryTools JSON-Formatierer</a> einfügen und der
         Fehler wird sofort mit der genauen hervorgehobenen Position sichtbar.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

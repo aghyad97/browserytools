@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         inconvénients, et comment obtenir des résultats parfaits à chaque fois avec BrowseryTools.
       </p>
 
+      <ToolCTA slug="bg-removal" variant="inline" />
       <h2>L'ancienne méthode : Photoshop et GIMP</h2>
       <p>
         Pendant des décennies, supprimer l'arrière-plan d'une image signifiait l'une de deux choses : payer pour Adobe Photoshop (actuellement
@@ -323,6 +326,7 @@ export default function Content() {
           Ouvrir l'outil de suppression d'arrière-plan →
         </a>
       </div>
+      <ToolCTA slug="bg-removal" variant="card" />
     </div>
   );
 }

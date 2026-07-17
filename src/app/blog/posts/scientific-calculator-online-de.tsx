@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         Potenzen und Konstanten — der sofort in einem Browser-Tab öffnet und auf jedem Gerät
         funktioniert.
       </p>
+      <ToolCTA slug="calculator" variant="inline" />
       <p>
         Der <a href="/tools/calculator">wissenschaftliche BrowseryTools-Taschenrechner</a> bietet
         genau das: einen kostenlosen, browserbasierten Taschenrechner mit den erweiterten Funktionen,
@@ -125,6 +128,7 @@ export default function Content() {
         entschlüsseln müssen, hat der{" "}
         <a href="/blog/roman-numeral-converter-guide">Römische-Zahlen-Leitfaden</a> die Antwort.
       </p>
+      <ToolCTA slug="calculator" variant="card" />
     </div>
   );
 }

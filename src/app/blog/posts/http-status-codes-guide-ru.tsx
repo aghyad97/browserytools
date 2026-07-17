@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         тот или иной код в своих API и что типичные коды говорят об ошибке, делает вас значительно
         быстрее при отладке и помогает создавать более качественные сервисы.
       </p>
+      <ToolCTA slug="http-status" variant="inline" />
       <p>
         Вы можете найти любой HTTP-код состояния с помощью{" "}
         <a href="/tools/http-status">справочника HTTP-кодов состояния BrowseryTools</a> — бесплатно,
@@ -191,6 +194,7 @@ Authorization: Bearer <действительный-токен-обычного-
           Открыть справочник HTTP-кодов →
         </a>
       </div>
+      <ToolCTA slug="http-status" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         не черта характера — это системная проблема. Деньги уходят со счётов беззвучно и невидимо,
         и в обычной финансовой жизни ничто не побуждает обращать на это внимание.
       </p>
+      <ToolCTA slug="expense-tracker" variant="inline" />
       <p>
         Решение не сложное, но требует одного: действительно посмотреть на цифры. В этом
         руководстве разбирается, почему большинство людей теряет контроль над расходами, какие
@@ -193,6 +196,7 @@ export default function Content() {
           Открыть трекер расходов →
         </a>
       </div>
+      <ToolCTA slug="expense-tracker" variant="card" />
     </div>
   );
 }

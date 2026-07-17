@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         <strong>сжать видео онлайн бесплатно</strong> прямо в браузере, не отправляя файл за
         пределы устройства.
       </p>
+      <ToolCTA slug="compress-video" variant="inline" />
       <p>
         Именно это делает инструмент <a href="/tools/compress-video">BrowseryTools «Сжать видео»</a>.
         Он уменьшает размер файла прямо во вкладке браузера — без загрузки на сервер, без аккаунта,
@@ -144,6 +147,7 @@ export default function Content() {
         <a href="/blog/video-compression-guide">как сжать видео без потери качества</a>
         .
       </p>
+      <ToolCTA slug="compress-video" variant="card" />
     </div>
   );
 }

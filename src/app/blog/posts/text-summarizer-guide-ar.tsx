@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         نموذج ذكاء اصطناعي إلى ملخّص قصير وسهل القراءة خلال ثوانٍ — دون أن ترسل كلمة واحدة إلى أي خادم.
       </p>
 
+      <ToolCTA slug="text-summarizer" variant="inline" />
       <h2>ما هو ملخّص النصوص؟</h2>
       <p>
         يأخذ ملخّص النصوص فقرة طويلة وينتج نسخة أقصر تحتفظ بالأفكار الرئيسية وتُسقط الحشو. هناك أسلوبان
@@ -97,6 +100,7 @@ export default function Content() {
         <a href="/tools/notepad">المفكرة</a> للملاحظات السريعة المحلية. كلها مجانية، وكلها في متصفحك، وبدون
         تسجيل.
       </p>
+      <ToolCTA slug="text-summarizer" variant="card" />
     </div>
   );
 }

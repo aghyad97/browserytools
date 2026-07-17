@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         verstehen. Die Lösung ist, <strong>SVG in PNG zu konvertieren</strong>: ein universelles
         Rasterformat, das überall funktioniert.
       </p>
+      <ToolCTA slug="svg-png" variant="inline" />
       <p>
         Der <a href="/tools/svg-png">BrowseryTools SVG-zu-PNG-Konverter</a> erledigt das in Ihrem
         Browser — SVG einfügen oder hochladen, Auflösung wählen und ein scharfes PNG herunterladen.
@@ -128,6 +131,7 @@ export default function Content() {
         und um das Vektorformat selbst zu verstehen, lesen Sie den{" "}
         <a href="/blog/svg-guide">vollständigen SVG-Leitfaden</a>.
       </p>
+      <ToolCTA slug="svg-png" variant="card" />
     </div>
   );
 }

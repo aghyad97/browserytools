@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -7,6 +9,7 @@ export default function Content() {
         الملف: أجهزة آيفون تحفظ الصور افتراضياً بصيغة <strong>HEIC</strong>، وعدد هائل من المواقع
         والنماذج والتطبيقات القديمة لا تعرف كيف تتعامل معها.
       </p>
+      <ToolCTA slug="heic-to-jpg" variant="inline" />
       <p>
         يمكنك حل هذا خلال ثوانٍ بدون تثبيت أي شيء. محوّل{" "}
         <a href="/tools/heic-to-jpg">HEIC إلى JPG</a> يحوّل الملف إلى صيغة يقبلها كل موقع وتطبيق، وكل
@@ -89,6 +92,7 @@ export default function Content() {
         وجودك هناك، تصفح بقية أدوات الصور في BrowseryTools، بما فيها{" "}
         <a href="/tools/compress-image-to-20kb">ضغط الصور</a> للنموذج التالي الذي يحدد حجم الرفع.
       </p>
+      <ToolCTA slug="heic-to-jpg" variant="card" />
     </div>
   );
 }

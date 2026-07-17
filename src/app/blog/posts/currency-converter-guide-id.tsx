@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -10,6 +12,7 @@ export default function Content() {
         uangmu setiap kali bepergian, mengirim uang ke luar negeri, atau menerima bayaran dalam
         mata uang asing.
       </p>
+      <ToolCTA slug="currency-converter" variant="inline" />
       <p>
         Kamu bisa menggunakan{" "}
         <a href="/tools/currency-converter">BrowseryTools Currency Converter</a> — gratis, tanpa
@@ -174,6 +177,7 @@ export default function Content() {
           Buka Konverter Mata Uang →
         </a>
       </div>
+      <ToolCTA slug="currency-converter" variant="card" />
     </div>
   );
 }

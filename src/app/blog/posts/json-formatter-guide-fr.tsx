@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         l'analyser, mais comment le lire, le valider et le déboguer — est l'une des compétences à plus
         fort levier qu'un développeur puisse avoir.
       </p>
+      <ToolCTA slug="json-formatter" variant="inline" />
       <p>
         Ce guide couvre tout, des fondamentaux de la syntaxe JSON au débogage des erreurs d'analyse
         courantes, en passant par les stratégies de formatage et le travail avec des structures
@@ -205,6 +208,7 @@ curl https://api.example.com/users | jq '.[] | select(.active == true) | .name'`
         <a href="/tools/json-formatter">Formateur JSON BrowseryTools</a> et l'erreur sera immédiatement
         visible avec la position exacte surlignée.
       </p>
+      <ToolCTA slug="json-formatter" variant="card" />
     </div>
   );
 }

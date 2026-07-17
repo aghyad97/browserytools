@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         de forma privada en tu navegador.
       </p>
 
+      <ToolCTA slug="bmi-calculator" variant="inline" />
       <h2>¿Qué es el IMC?</h2>
       <p>
         El IMC es una simple relación entre el peso y el cuadrado de la altura. Lo ideó en la década de 1830 el
@@ -323,6 +326,7 @@ Upper bound = 24.9 × 3.0625 = 76.3 kg`}
           Abrir Calculadora de IMC →
         </a>
       </div>
+      <ToolCTA slug="bmi-calculator" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         entende como funcionam, uma regex bem elaborada se torna uma das ferramentas de linha única
         mais poderosas em todo o seu conjunto de ferramentas.
       </p>
+      <ToolCTA slug="regex-tester" variant="inline" />
       <p>
         Este guia corta o ruído. Em vez de catalogar cada recurso de regex, ele se concentra nos
         20% da sintaxe que cobre 80% dos casos de uso do mundo real: classes de caracteres,
@@ -213,6 +216,7 @@ export default function Content() {
         guia, teste-os com suas próprias strings e a sintaxe se tornará intuitiva mais rapidamente
         do que você espera.
       </p>
+      <ToolCTA slug="regex-tester" variant="card" />
     </div>
   );
 }

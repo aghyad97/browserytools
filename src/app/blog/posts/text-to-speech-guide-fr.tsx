@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -11,6 +13,7 @@ export default function Content() {
         interface simple et gratuite que vous pouvez utiliser en quelques secondes.
       </p>
 
+      <ToolCTA slug="text-to-speech" variant="inline" />
       <h2>Ce que «&nbsp;synthèse vocale&nbsp;» signifie réellement</h2>
       <p>
         La synthèse vocale (TTS, text to speech) est le processus de conversion de mots écrits en audio parlé.
@@ -130,6 +133,7 @@ export default function Content() {
         <a href="/tools/markdown-editor">éditeur Markdown</a> — tous s&apos;exécutant entièrement dans votre
         navigateur, sans publicité, sans suivi et sans inscription.
       </p>
+      <ToolCTA slug="text-to-speech" variant="card" />
     </div>
   );
 }

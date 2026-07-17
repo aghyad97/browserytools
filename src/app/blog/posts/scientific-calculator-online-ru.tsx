@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         полной тригонометрией, логарифмами, степенями и константами — мгновенно открывающийся
         во вкладке браузера и работающий на любом устройстве.
       </p>
+      <ToolCTA slug="calculator" variant="inline" />
       <p>
         <a href="/tools/calculator">Научный калькулятор BrowseryTools</a> даёт именно это:
         бесплатный калькулятор в браузере с нужными функциями, без установки и без
@@ -121,6 +124,7 @@ export default function Content() {
         римские цифры, вам поможет{" "}
         <a href="/blog/roman-numeral-converter-guide">руководство по римским цифрам</a>.
       </p>
+      <ToolCTA slug="calculator" variant="card" />
     </div>
   );
 }

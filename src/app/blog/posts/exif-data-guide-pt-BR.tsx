@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Muitos não sabem o quão específicos são. Este guia explica o que os dados EXIF capturam, quais
         são as implicações para a privacidade e como visualizá-los ou removê-los.
       </p>
+      <ToolCTA slug="exif-viewer" variant="inline" />
       <p>
         Você pode inspecionar os metadados EXIF em qualquer foto usando o{" "}
         <a href="/tools/exif-viewer">Visualizador EXIF do BrowseryTools</a> — gratuito, sem cadastro,
@@ -199,6 +202,7 @@ export default function Content() {
         A chave é tomar uma decisão consciente sobre quando compartilhar dados EXIF e quando removê-los,
         em vez de deixá-los por padrão e esperar que o destinatário ou a plataforma lide com isso.
       </p>
+      <ToolCTA slug="exif-viewer" variant="card" />
     </div>
   );
 }

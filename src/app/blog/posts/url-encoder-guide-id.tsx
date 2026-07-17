@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         (yang umum disebut URL encoding) adalah mekanisme yang membuat data arbitrer aman untuk
         disematkan dalam URL.
       </p>
+      <ToolCTA slug="url-encoder" variant="inline" />
       <p>
         Kamu bisa mengkode dan mendekode URL secara instan dengan{" "}
         <a href="/tools/url-encoder">BrowseryTools URL Encoder/Decoder</a> — gratis, tanpa daftar,
@@ -199,6 +202,7 @@ new URLSearchParams({ q: "rock & roll" }).toString()
           Buka URL Encoder →
         </a>
       </div>
+      <ToolCTA slug="url-encoder" variant="card" />
     </div>
   );
 }

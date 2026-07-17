@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -8,6 +10,7 @@ export default function Content() {
         programación de AWS EventBridge que ya nadie del equipo entiende del todo. Las expresiones cron están por todas
         partes — y son realmente confusas si no te has tomado el tiempo de aprender el sistema que hay detrás.
       </p>
+      <ToolCTA slug="cron-parser" variant="inline" />
       <p>
         Esta guía es la referencia que deberías guardar en marcadores. Cubre todo, desde la historia de cron y dónde
         aparece en la infraestructura moderna, hasta cada carácter especial, 10 ejemplos reales anotados, errores
@@ -508,6 +511,7 @@ cron(0 0 1 * ? *)           # First day of every month at midnight`}</pre>
           Abrir el Analizador de cron →
         </a>
       </div>
+      <ToolCTA slug="cron-parser" variant="card" />
     </div>
   );
 }

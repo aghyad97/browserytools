@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         Modell, das man unterstützen möchte. Das Ergebnis war ein fragmentiertes Ökosystem, in dem
         jede KI-Anwendung dieselbe Infrastruktur von Grund auf neu erfand.
       </p>
+      <ToolCTA slug="mcp-config" variant="inline" />
       <p>
         Model Context Protocol (MCP) ist Anthropics Antwort auf dieses Problem: ein offener Standard,
         der KI-Modellen eine einheitliche, konsistente Schnittstelle zu Tools, Dateien, Datenbanken
@@ -218,6 +221,7 @@ claude mcp list`}
         dramatisch fähigeren KI-Assistenten, ohne die Art der Interaktion zu ändern – die Tools
         sind einfach da, bereit zur Verwendung.
       </p>
+      <ToolCTA slug="mcp-config" variant="card" />
     </div>
   );
 }

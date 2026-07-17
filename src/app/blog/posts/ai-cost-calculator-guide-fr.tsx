@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         volume de requêtes peut générer des factures des ordres de grandeur supérieures à ce qui était
         prévu. Quelques minutes d'estimation préalable peuvent éviter bien des mauvaises surprises.
       </p>
+      <ToolCTA slug="ai-cost-calculator" variant="inline" />
       <p>
         Vous pouvez utiliser le{" "}
         <a href="/tools/ai-cost-calculator">Calculateur de coûts IA BrowseryTools</a> — gratuit, sans
@@ -183,6 +186,7 @@ daily_cost = (800 × $0.003 + 300 × $0.015) par 1K tokens × 5000
           Ouvrir le Calculateur de coûts IA →
         </a>
       </div>
+      <ToolCTA slug="ai-cost-calculator" variant="card" />
     </div>
   );
 }

@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         guia explica exatamente como os algarismos romanos funcionam, as regras que pegam as
         pessoas de surpresa e como converter qualquer número em ambas as direções instantaneamente.
       </p>
+      <ToolCTA slug="roman-numeral" variant="inline" />
       <p>
         Se você só precisa da resposta, o{" "}
         <a href="/tools/roman-numeral">BrowseryTools Conversor de Algarismos Romanos</a> converte
@@ -139,6 +142,7 @@ IV   =    4   (5 - 1)
         <a href="/tools/percentage-calculator">calculadora de porcentagem</a> para a matemática
         que os romanos nunca chegaram a desenvolver.
       </p>
+      <ToolCTA slug="roman-numeral" variant="card" />
     </div>
   );
 }

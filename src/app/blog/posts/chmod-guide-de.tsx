@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div>
@@ -9,6 +11,7 @@ export default function Content() {
         <code>ls -la</code>-Ausgabe mit <code>-rwxr-xr--</code> — undurchsichtig wirken, bis man das
         zugrundeliegende Modell versteht. Dieser Leitfaden erklärt Unix-Dateiberechtigungen von Grund auf.
       </p>
+      <ToolCTA slug="chmod" variant="inline" />
       <p>
         Berechtigungswerte können Sie sofort berechnen und zwischen oktaler und symbolischer Notation
         umrechnen mit dem{" "}
@@ -178,6 +181,7 @@ chmod +x deploy.sh`}
           chmod-Rechner öffnen →
         </a>
       </div>
+      <ToolCTA slug="chmod" variant="card" />
     </div>
   );
 }

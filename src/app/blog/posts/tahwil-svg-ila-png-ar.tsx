@@ -1,3 +1,5 @@
+import { ToolCTA } from "@/components/blog/ToolCTA";
+
 export default function Content() {
   return (
     <div dir="rtl">
@@ -8,6 +10,7 @@ export default function Content() {
         استخدامها في تطبيقات لا تفهم المتجهات. الحل هو <strong>تحويل SVG إلى PNG</strong>: صيغة نقطية شاملة
         تعمل في كل مكان.
       </p>
+      <ToolCTA slug="svg-png" variant="inline" />
       <p>
         أداة <a href="/tools/svg-png">تحويل SVG إلى PNG من BrowseryTools</a> تفعل ذلك في متصفحك — الصق أو ارفع
         ملف SVG، اختر الدقة، ونزّل صورة PNG واضحة. بدون رفع، بدون حساب، بدون علامة مائية. يشرح هذا الدليل متى
@@ -95,6 +98,7 @@ export default function Content() {
         وإن احتجت تغيير حجم الصورة الناتجة أو قصّها، اطّلع على{" "}
         <a href="/blog/adawat-sour-arabi">دليل أدوات الصور</a>.
       </p>
+      <ToolCTA slug="svg-png" variant="card" />
     </div>
   );
 }
