@@ -242,6 +242,8 @@ const HAS_OWN_H1 = new Set([
   "word-unscrambler",
   // Wave 4 (W4) Task 11: Wordle Solver ships directly on ToolShell.
   "wordle-solver",
+  // Wave 4 (W4) Task 12: Anagram Solver ships directly on ToolShell.
+  "anagram-solver",
 ]);
 
 export function ToolTitle() {

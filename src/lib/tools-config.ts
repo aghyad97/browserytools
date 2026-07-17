@@ -103,6 +103,7 @@ import {
   UsersIcon,
   Clock4Icon,
   SquareStackIcon,
+  PuzzleIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -928,6 +929,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-17",
         description:
           "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word.",
+      },
+      {
+        name: "Anagram Solver",
+        href: "/tools/anagram-solver",
+        icon: PuzzleIcon,
+        available: true,
+        order: 21,
+        creationDate: "2026-07-17",
+        description:
+          "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length.",
       },
     ],
   },

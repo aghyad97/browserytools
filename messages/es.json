@@ -323,6 +323,10 @@
         "name": "Wordle Solver",
         "description": "Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word."
       },
+      "anagram-solver": {
+        "name": "Anagram Solver",
+        "description": "Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length."
+      },
       "notepad": {
         "name": "Bloc de notas",
         "description": "Un sencillo bloc de notas en el navegador que guarda tu texto automáticamente."
@@ -4981,6 +4985,21 @@
       "resultsTitle": "Possible Answers",
       "resultsDesc": "{count} words found",
       "noResults": "No matching words. Double-check your tile colors.",
+      "loadingDictionary": "Loading dictionary...",
+      "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
+      "retry": "Retry"
+    },
+    "AnagramSolver": {
+      "inputTitle": "Letters",
+      "inputDesc": "Enter the letters you want to find anagrams for.",
+      "inputPlaceholder": "e.g. cat",
+      "lettersLabel": "Letters",
+      "allowShorterLabel": "Include shorter words",
+      "solve": "Find Anagrams",
+      "resultsTitle": "Matches",
+      "resultsDesc": "{count} words found",
+      "groupLabel": "{length} letters",
+      "noResults": "No anagrams found. Try different letters.",
       "loadingDictionary": "Loading dictionary...",
       "errorMessage": "Couldn't load the dictionary. Check your connection and try again.",
       "retry": "Retry"
