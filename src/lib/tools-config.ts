@@ -98,6 +98,7 @@ import {
   FileOutputIcon,
   ListOrderedIcon,
   Disc3Icon,
+  UsersIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -1895,6 +1896,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-17",
         description:
           "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked.",
+      },
+      {
+        name: "Random Group Maker",
+        href: "/tools/group-maker",
+        icon: UsersIcon,
+        available: true,
+        order: 3,
+        creationDate: "2026-07-17",
+        description:
+          "Split a list of names into randomized groups. Choose a target number of groups or a group size, and get a print-friendly grid of balanced teams.",
       },
     ],
   },
