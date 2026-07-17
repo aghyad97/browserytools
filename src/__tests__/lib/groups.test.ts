@@ -31,4 +31,17 @@ describe("splitGroups", () => {
     const g = splitGroups(["a", "b", "c", "d"], { kind: "count", n: 2 });
     expect(g.flat().sort()).toEqual(["a", "b", "c", "d"]);
   });
+
+  it("count mode clamps group count to the number of names", () => {
+    const g = splitGroups(["a", "b", "c"], { kind: "count", n: 10 }, id);
+    expect(g).toHaveLength(3);
+    expect(g.every((group) => group.length > 0)).toBe(true);
+    expect(g.flat().sort()).toEqual(["a", "b", "c"]);
+  });
+
+  it("size mode never yields empty groups when size implies more groups than names", () => {
+    const g = splitGroups(["a", "b", "c"], { kind: "size", size: 0.1 }, id);
+    expect(g.every((group) => group.length > 0)).toBe(true);
+    expect(g.flat().sort()).toEqual(["a", "b", "c"]);
+  });
 });

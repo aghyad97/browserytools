@@ -29,10 +29,14 @@ export function splitGroups(
 ): string[][] {
   if (names.length === 0) return [];
 
-  const groupCount =
+  const rawGroupCount =
     mode.kind === "count"
       ? Math.max(1, Math.floor(mode.n))
       : Math.max(1, Math.ceil(names.length / Math.max(1, Math.floor(mode.size))));
+
+  // Never split into more groups than there are names — a non-empty input
+  // must never yield a zero-length group.
+  const groupCount = Math.min(rawGroupCount, names.length);
 
   const shuffled = shuffle(names, rng);
   const groups: string[][] = Array.from({ length: groupCount }, () => []);
