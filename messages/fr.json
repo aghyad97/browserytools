@@ -4732,7 +4732,13 @@
       "failed": "Could not transcribe the video. Please try again.",
       "modelNote": "Runs OpenAI Whisper entirely in your browser via WebGPU (with a WASM fallback). The model downloads once from a CDN on first use, then transcribes on-device — your video is never uploaded.",
       "cuesGenerated": "{count} cue(s) generated",
-      "startOver": "Start over"
+      "startOver": "Start over",
+      "noCues": "No cues yet — transcribe a video first.",
+      "seekToCue": "Jump to this cue",
+      "startLabel": "Start (seconds)",
+      "endLabel": "End (seconds)",
+      "split": "Split",
+      "mergeNext": "Merge with next"
     },
     "ImageUpscaler": {
       "title": "Agrandisseur d'image",
