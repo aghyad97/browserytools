@@ -97,6 +97,76 @@ export const toolContent: Record<string, ToolContent> = {
     },
   },
 
+  "subtitle-studio": {
+    related: ["audio-transcriber", "compress-video", "video", "screen-recorder"],
+    en: {
+      intro:
+        "Subtitle Studio auto-captions your videos for reels, shorts, and social clips — helping them reach more viewers and stay watchable with the sound off, and more accessible to viewers who are deaf or hard of hearing. Captions are burned directly onto the picture with no watermark.\n\nTranscription runs entirely on-device using an in-browser Whisper model, so your video is never uploaded to a server, and it works in any language Whisper supports — not just English.\n\nOnce the transcript comes back, you can edit the wording and timing of individual cues, then pick a caption style — including TikTok-style animated captions like word-highlight or karaoke — before exporting.",
+      faq: [
+        {
+          q: "Is my video uploaded anywhere?",
+          a: "No. Every step — transcription, editing, and the caption burn — runs locally in your browser. Your video file never leaves your device.",
+        },
+        {
+          q: "What can I export?",
+          a: "You can always download SRT and VTT subtitle files instantly. You can also export a burned-in MP4 with captions rendered onto the picture — that file is re-encoded to H.264, so it's not a byte-for-byte copy of your source quality.",
+        },
+        {
+          q: "How long a video can I burn in the browser?",
+          a: "The in-browser burn works best on short-form clips. It's blocked outright past a duration ceiling, and longer or higher-resolution clips can run slowly before that limit. SRT/VTT export has no such limit and is always available as a fallback.",
+        },
+        {
+          q: "Do I need to download anything?",
+          a: "The first time you transcribe or burn captions, the in-browser model and processing engine download once and are cached afterward, so later runs start faster. Nothing is installed on your system.",
+        },
+        {
+          q: "What languages are supported?",
+          a: "Any language the Whisper speech-recognition model supports — transcription is not limited to English.",
+        },
+      ],
+      steps: [
+        "Drop a video into the tool.",
+        "Let it auto-transcribe on-device.",
+        "Edit the cue text and timing as needed.",
+        "Pick a caption style or animation, such as TikTok-style word-highlight or karaoke.",
+        "Export SRT/VTT subtitles, or a burned-in MP4.",
+      ],
+    },
+    ar: {
+      intro:
+        "يضيف استوديو الترجمة ترجمات نصية تلقائية إلى مقاطع الفيديو — مثالية للريلز والمقاطع القصيرة — لتصل إلى جمهور أوسع وتبقى مفهومة عند المشاهدة بلا صوت، وأكثر إتاحة لمن يعانون ضعف السمع أو الصمم. تُحرق الترجمة مباشرة على الصورة دون أي علامة مائية.\n\nيعمل التفريغ الصوتي بالكامل على جهازك عبر نموذج Whisper يعمل داخل المتصفح، فلا يُرفع الفيديو إلى أي خادم أبدًا، وتدعم الأداة أي لغة يدعمها Whisper وليست مقتصرة على الإنجليزية.\n\nبعد ظهور النص، يمكنك تعديل صياغة كل مقطع وتوقيته، ثم اختيار نمط الترجمة — بما في ذلك أنماط متحركة على طريقة TikTok مثل تمييز الكلمة أثناء نطقها أو الكاريوكي — قبل التصدير.",
+      faq: [
+        {
+          q: "هل يُرفع الفيديو إلى أي مكان؟",
+          a: "لا. كل خطوة — من التفريغ الصوتي إلى التعديل وحرق الترجمة — تتم محليًا داخل متصفحك، ولا يغادر ملف الفيديو جهازك إطلاقًا.",
+        },
+        {
+          q: "ماذا يمكنني تصدير؟",
+          a: "يمكنك دائمًا تنزيل ملفي SRT وVTT فورًا. ويمكنك أيضًا تصدير فيديو MP4 بترجمة محروقة على الصورة، وهو معاد ترميزه بصيغة H.264، أي أنه ليس نسخة مطابقة تمامًا لجودة الفيديو الأصلي.",
+        },
+        {
+          q: "كم يمكن أن يكون طول الفيديو الذي يمكن حرق ترجمته في المتصفح؟",
+          a: "يعمل الحرق داخل المتصفح بأفضل شكل مع المقاطع القصيرة، وتُمنع العملية تمامًا بعد سقف زمني معين، وقد تكون أبطأ مع المقاطع الأطول أو عالية الدقة قبل بلوغ ذلك السقف. تصدير SRT/VTT لا يخضع لهذا القيد ويبقى متاحًا دائمًا كبديل.",
+        },
+        {
+          q: "هل أحتاج لتنزيل أي شيء؟",
+          a: "عند أول تفريغ صوتي أو حرق ترجمة، يُنزَّل نموذج المعالجة ومحركها داخل المتصفح مرة واحدة ثم يُخزَّنان مؤقتًا لتسريع المرات التالية. لا يُثبَّت أي برنامج على جهازك.",
+        },
+        {
+          q: "ما اللغات المدعومة؟",
+          a: "أي لغة يدعمها نموذج Whisper للتعرف على الكلام، فالتفريغ الصوتي غير مقتصر على الإنجليزية.",
+        },
+      ],
+      steps: [
+        "أسقط مقطع فيديو داخل الأداة.",
+        "دع الأداة تُفرّغه صوتيًا تلقائيًا على جهازك.",
+        "عدّل نص المقاطع وتوقيتها حسب الحاجة.",
+        "اختر نمط الترجمة أو الحركة، مثل تمييز الكلمة أو الكاريوكي على طريقة TikTok.",
+        "صدّر ملفات SRT/VTT أو فيديو MP4 بترجمة محروقة.",
+      ],
+    },
+  },
+
   "roman-numeral": {
     related: ["number-base-converter", "calculator", "text-binary", "unit-converter"],
     en: {
