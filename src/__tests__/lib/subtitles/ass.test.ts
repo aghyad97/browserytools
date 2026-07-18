@@ -83,4 +83,17 @@ describe("ass", () => {
     }
     expect(bStartCs).toBe(100); // word "b" starts at 1.0s = 100cs, not 50cs
   });
+
+  // Fix: editing a cue's text under a word-highlight/karaoke preset must not
+  // silently keep rendering the stale per-word `\k` runs. When `words` is
+  // absent (cleared by CueEditor on a text edit), dialogueText must fall
+  // back to the plain, current `cue.text` — not an empty line, not a throw.
+  it("word-highlight/karaoke falls back to plain cue.text when words is absent", () => {
+    const editedDoc: CueDoc = [{ id: "a", start: 0, end: 1, text: "edited line", words: undefined }];
+    const s = toAss(editedDoc, { ...PRESETS["tiktok-bold"], animation: "word-highlight" }, { w: 1080, h: 1920 });
+    const dialogueLine = s.split("\n").find((l) => l.startsWith("Dialogue:"));
+    expect(dialogueLine).toBeDefined();
+    expect(dialogueLine).toContain("edited line");
+    expect(dialogueLine).not.toMatch(/\\k\d+/);
+  });
 });

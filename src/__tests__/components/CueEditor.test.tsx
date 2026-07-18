@@ -3,6 +3,8 @@ import userEvent from "@testing-library/user-event";
 import { describe, it, expect, vi } from "vitest";
 import { CueEditor } from "@/components/subtitle-studio/CueEditor";
 import type { CueDoc } from "@/lib/subtitles/cues";
+import { toAss } from "@/lib/subtitles/ass";
+import { PRESETS } from "@/lib/subtitles/styles";
 
 function twoCueDoc(): CueDoc {
   return [
@@ -39,6 +41,46 @@ describe("CueEditor", () => {
     const updated = onChange.mock.calls.at(-1)![0] as CueDoc;
     expect(updated[0].text).toBe("hi world");
     expect(updated[1].text).toBe("general kenobi");
+  });
+
+  it("drops stale per-word timing when a cue's text is edited, so the default word-highlight preset renders the new text", async () => {
+    // Regression: the default preset (tiktok-bold) is "word-highlight",
+    // which builds its ASS dialogue from `cue.words` (per-word \k runs), not
+    // `cue.text`. Editing the text without clearing `words` left the burned
+    // MP4 / live preview silently rendering the stale, pre-edit line.
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    const wordHighlightDoc: CueDoc = [
+      {
+        id: "a",
+        start: 0,
+        end: 1,
+        text: "hello there",
+        words: [
+          { start: 0, end: 0.5, text: "hello" },
+          { start: 0.5, end: 1, text: "there" },
+        ],
+      },
+    ];
+    render(<CueEditor doc={wordHighlightDoc} onChange={onChange} onSeek={vi.fn()} />);
+
+    const textarea = screen.getByTestId("cue-text-input");
+    await user.clear(textarea);
+    await user.type(textarea, "goodbye now");
+    await user.tab();
+
+    expect(onChange).toHaveBeenCalled();
+    const updated = onChange.mock.calls.at(-1)![0] as CueDoc;
+    expect(updated[0].text).toBe("goodbye now");
+    expect(updated[0].words).toBeUndefined();
+
+    // End-to-end: the ASS the burn-in/preview actually consumes must now
+    // contain the edited text, not just the old per-word \k runs.
+    const ass = toAss(updated, PRESETS["tiktok-bold"], { w: 1080, h: 1920 });
+    const dialogueLine = ass.split("\n").find((l) => l.startsWith("Dialogue:"));
+    expect(dialogueLine).toContain("goodbye now");
+    expect(dialogueLine).not.toContain("hello");
+    expect(dialogueLine).not.toMatch(/\\k\d+/);
   });
 
   it("does not call onChange if the text is unchanged on blur", async () => {

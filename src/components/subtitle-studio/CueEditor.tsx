@@ -33,7 +33,15 @@ export function CueEditor({ doc, onChange, onSeek, currentTime }: CueEditorProps
 
   const handleTextCommit = useCallback(
     (id: string, text: string) => {
-      onChange(doc.map((c) => (c.id === id ? { ...c, text } : c)));
+      // Editing a cue's text invalidates its per-word `\k` timings (used by
+      // the karaoke/word-highlight animations) — they were transcribed for
+      // the OLD words, so keeping them would silently re-render the stale
+      // line instead of the edit (ass.ts falls back to plain `cue.text` when
+      // `words` is absent). Only clear it when the text actually changed, so
+      // an unrelated re-commit of the same text doesn't discard valid timing.
+      onChange(
+        doc.map((c) => (c.id === id && c.text !== text ? { ...c, text, words: undefined } : c))
+      );
     },
     [doc, onChange]
   );

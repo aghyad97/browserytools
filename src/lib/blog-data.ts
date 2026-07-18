@@ -2017,7 +2017,7 @@ const basePosts: BlogPost[] = [
     category: "أدوات الوسائط",
     tags: ["إضافة ترجمة للفيديو", "ترجمة تلقائية مجانية", "ترجمة بأسلوب tiktok", "تفريغ صوتي للفيديو", "بدون علامة مائية", "بدون رفع"],
     readTime: 9,
-    coverEmoji: "🎬",
+    coverEmoji: "🗣️",
     coverGradient: "from-indigo-500 to-violet-600",
   },
   {
@@ -2041,7 +2041,7 @@ const basePosts: BlogPost[] = [
     category: "أدوات الوسائط",
     tags: ["حرق الترجمة", "srt مقابل vtt", "ترجمة ثابتة", "ملف ترجمة جانبي", "ترجمة الفيديو"],
     readTime: 7,
-    coverEmoji: "📝",
+    coverEmoji: "📽️",
     coverGradient: "from-amber-500 to-red-600",
   }
 ];
