@@ -26,6 +26,25 @@ vi.mock("@/lib/media/decode-audio", () => ({
   decodeToMono16k: (...args: unknown[]) => decodeToMono16k(...args),
 }));
 
+// Mock JASSUB — once a transcript exists SubtitleStudio composes in
+// PreviewStage, which mounts a real JASSUB worker/wasm instance. happy-dom
+// can't run that, so stub it exactly like PreviewStage's own test does.
+const setAss = vi.fn();
+const destroy = vi.fn();
+const mountPreview = vi.fn(
+  (_video: HTMLVideoElement, _canvas: HTMLCanvasElement, _ass: string) => ({
+    setAss,
+    destroy,
+  })
+);
+vi.mock("@/lib/subtitles/jassub", () => ({
+  mountPreview: (
+    video: HTMLVideoElement,
+    canvas: HTMLCanvasElement,
+    ass: string
+  ) => mountPreview(video, canvas, ass),
+}));
+
 // Mock the offscreen <video> element TranscribePanel creates to read
 // videoWidth/videoHeight. happy-dom never fires loadedmetadata, so patch
 // createElement to return a stub that resolves it synchronously (next tick).
@@ -34,6 +53,16 @@ beforeEach(() => {
   getPipeline.mockClear();
   transcriber.mockClear();
   decodeToMono16k.mockClear();
+  mountPreview.mockClear();
+  setAss.mockClear();
+  destroy.mockClear();
+
+  // happy-dom's HTMLMediaElement has no play(); PreviewStage's transport
+  // controls call it, so stub it the same way PreviewStage's own test does.
+  Object.defineProperty(HTMLMediaElement.prototype, "play", {
+    configurable: true,
+    value: vi.fn().mockResolvedValue(undefined),
+  });
 
   vi.spyOn(document, "createElement").mockImplementation((tag: string) => {
     const el = realCreateElement(tag);
@@ -45,6 +74,10 @@ beforeEach(() => {
       Object.defineProperty(el, "videoHeight", {
         configurable: true,
         get: () => 1080,
+      });
+      Object.defineProperty(el, "duration", {
+        configurable: true,
+        get: () => 5,
       });
       Object.defineProperty(el, "src", {
         configurable: true,
@@ -80,7 +113,7 @@ describe("SubtitleStudio", () => {
     ).toBeDisabled();
   });
 
-  it("uploads a video, transcribes it, and produces a non-empty CueDoc", async () => {
+  it("uploads a video, transcribes it, and composes the full studio (preview, style, cue editor, export)", async () => {
     const user = userEvent.setup();
     render(<SubtitleStudio />);
 
@@ -93,7 +126,7 @@ describe("SubtitleStudio", () => {
 
     await waitFor(() =>
       expect(
-        screen.getByTestId("subtitle-studio-transcribed")
+        screen.getByTestId("subtitle-studio-editor")
       ).toBeInTheDocument()
     );
 
@@ -109,17 +142,45 @@ describe("SubtitleStudio", () => {
     );
 
     // The transcribe panel hands off to SubtitleStudio's own state: a
-    // non-empty CueDoc built via fromWhisperWords, plus the dims read from
-    // the offscreen <video>.
+    // non-empty CueDoc built via fromWhisperWords, the dims read from the
+    // offscreen <video>, and every downstream panel composed in.
     expect(
       screen.queryByTestId("transcribe-panel")
     ).not.toBeInTheDocument();
-    expect(screen.getByTestId("subtitle-studio-cue-count")).toHaveTextContent(
-      "1"
+    expect(screen.getAllByTestId("cue-row")).toHaveLength(1);
+    expect(screen.getByTestId("style-panel")).toBeInTheDocument();
+    expect(screen.getByTestId("export-panel")).toBeInTheDocument();
+
+    // Dims (1920x1080 from the offscreen <video> stub) reached PreviewStage
+    // and fed into the ASS it mounts (PlayResX/PlayResY are the dims).
+    expect(mountPreview).toHaveBeenCalledTimes(1);
+    const [, , ass] = mountPreview.mock.calls[0];
+    expect(ass).toContain("1920");
+    expect(ass).toContain("1080");
+  });
+
+  it("start over returns to the transcribe panel", async () => {
+    const user = userEvent.setup();
+    render(<SubtitleStudio />);
+
+    const input = screen.getByTestId(
+      "subtitle-video-input"
+    ) as HTMLInputElement;
+    await user.upload(input, makeVideoFile());
+    await user.click(screen.getByRole("button", { name: /transcribe/i }));
+
+    await waitFor(() =>
+      expect(
+        screen.getByTestId("subtitle-studio-editor")
+      ).toBeInTheDocument()
     );
+
+    await user.click(screen.getByRole("button", { name: /start over/i }));
+
+    expect(screen.getByTestId("transcribe-panel")).toBeInTheDocument();
     expect(
-      screen.getByTestId("subtitle-studio-transcribed")
-    ).toHaveTextContent("1920");
+      screen.queryByTestId("subtitle-studio-editor")
+    ).not.toBeInTheDocument();
   });
 
   it("renders exactly one h1 (the ToolShell title)", () => {

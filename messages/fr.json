@@ -4770,7 +4770,22 @@
       "animationWordHighlight": "Word highlight",
       "play": "Lecture",
       "pause": "Pause",
-      "seekLabel": "Position"
+      "seekLabel": "Position",
+      "exportTitle": "Export",
+      "exportDescription": "Download subtitles as a sidecar file, or burn them directly into the video.",
+      "exportSidecarLabel": "Subtitle file",
+      "exportSidecarHint": "Instant, no re-encoding",
+      "exportSrtButton": "Download SRT",
+      "exportVttButton": "Download VTT",
+      "exportMp4Label": "Burned-in video",
+      "exportMp4Note": "Burns the captions directly into the video and re-encodes it to H.264. This runs entirely on your device, is not instant, and the output is a re-encode (not a lossless copy).",
+      "exportWarnMessage": "This clip is long and/or high-resolution — burning it in your browser may be slow or use a lot of memory. Proceed at your own risk.",
+      "exportBlockedMessage": "This clip is past the in-browser burn-in limit. Download the SRT or VTT subtitle file instead and burn it in with a video editor.",
+      "exportMp4Button": "Burn & download MP4",
+      "exportProgressLabel": "Burn progress",
+      "burning": "Burning…",
+      "burnComplete": "Video exported",
+      "burnFailed": "Could not burn captions into the video. Please try again."
     },
     "ImageUpscaler": {
       "title": "Agrandisseur d'image",

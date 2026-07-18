@@ -28,10 +28,15 @@ type Transcriber = (
   options: Record<string, unknown>
 ) => Promise<{ text: string; chunks?: WordChunk[] }>;
 
-// Read the intrinsic pixel dimensions of a video file via an offscreen
-// <video> element. Falls back to a common 720p frame if the browser ever
-// reports zero (some codecs briefly report 0x0 before the first frame).
-function readVideoDims(file: File): Promise<{ w: number; h: number }> {
+// Read the intrinsic pixel dimensions AND true duration of a video file via
+// an offscreen <video> element. Falls back to a common 720p frame if the
+// browser ever reports zero (some codecs briefly report 0x0 before the
+// first frame). `duration` is read here (not derived from the transcript's
+// last cue) because the export step's MP4 burn uses `-shortest`: a duration
+// shorter than the real video would truncate the burned output.
+function readVideoDims(
+  file: File
+): Promise<{ w: number; h: number; duration: number }> {
   return new Promise((resolve, reject) => {
     const url = URL.createObjectURL(file);
     const video = document.createElement("video");
@@ -39,8 +44,9 @@ function readVideoDims(file: File): Promise<{ w: number; h: number }> {
     video.onloadedmetadata = () => {
       const w = video.videoWidth || 1280;
       const h = video.videoHeight || 720;
+      const duration = video.duration;
       URL.revokeObjectURL(url);
-      resolve({ w, h });
+      resolve({ w, h, duration });
     };
     video.onerror = () => {
       URL.revokeObjectURL(url);
@@ -67,7 +73,8 @@ export interface TranscribePanelProps {
   onTranscribed: (
     doc: CueDoc,
     file: File,
-    dims: { w: number; h: number }
+    dims: { w: number; h: number },
+    duration: number
   ) => void;
 }
 
@@ -93,10 +100,11 @@ export function TranscribePanel({ onTranscribed }: TranscribePanelProps) {
     setBusy(true);
     setTranscribing(false);
     try {
-      const [dims, audio] = await Promise.all([
+      const [videoMeta, audio] = await Promise.all([
         readVideoDims(file),
         decodeToMono16k(file),
       ]);
+      const dims = { w: videoMeta.w, h: videoMeta.h };
 
       const transcriber = await getPipeline<Transcriber>(
         "automatic-speech-recognition",
@@ -113,7 +121,14 @@ export function TranscribePanel({ onTranscribed }: TranscribePanelProps) {
 
       const words = chunksToWords(Array.isArray(out.chunks) ? out.chunks : []);
       const doc = fromWhisperWords(words);
-      onTranscribed(doc, file, dims);
+      // Guard: video.duration can be non-finite (e.g. Infinity for some
+      // streamed/live-style sources, or NaN before metadata is fully
+      // resolved) — fall back to the last cue's end rather than threading a
+      // bad duration into the export step's -shortest burn.
+      const duration = Number.isFinite(videoMeta.duration)
+        ? videoMeta.duration
+        : (doc[doc.length - 1]?.end ?? 0);
+      onTranscribed(doc, file, dims, duration);
       toast.success(t("done"));
     } catch (err) {
       console.error(err);
