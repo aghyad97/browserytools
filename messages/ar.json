@@ -4767,7 +4767,10 @@
       "animationNone": "None",
       "animationPopOn": "Pop-on",
       "animationKaraoke": "Karaoke",
-      "animationWordHighlight": "Word highlight"
+      "animationWordHighlight": "Word highlight",
+      "play": "تشغيل",
+      "pause": "إيقاف مؤقت",
+      "seekLabel": "شريط التقدم"
     },
     "ImageUpscaler": {
       "title": "مكبّر الصور",

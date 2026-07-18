@@ -4767,7 +4767,10 @@
       "animationNone": "None",
       "animationPopOn": "Pop-on",
       "animationKaraoke": "Karaoke",
-      "animationWordHighlight": "Word highlight"
+      "animationWordHighlight": "Word highlight",
+      "play": "播放",
+      "pause": "暂停",
+      "seekLabel": "进度"
     },
     "ImageUpscaler": {
       "title": "图片放大器",

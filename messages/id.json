@@ -4767,7 +4767,10 @@
       "animationNone": "None",
       "animationPopOn": "Pop-on",
       "animationKaraoke": "Karaoke",
-      "animationWordHighlight": "Word highlight"
+      "animationWordHighlight": "Word highlight",
+      "play": "Putar",
+      "pause": "Jeda",
+      "seekLabel": "Posisi"
     },
     "ImageUpscaler": {
       "title": "Penambah Resolusi Gambar",

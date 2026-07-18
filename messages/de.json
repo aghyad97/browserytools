@@ -4767,7 +4767,10 @@
       "animationNone": "None",
       "animationPopOn": "Pop-on",
       "animationKaraoke": "Karaoke",
-      "animationWordHighlight": "Word highlight"
+      "animationWordHighlight": "Word highlight",
+      "play": "Abspielen",
+      "pause": "Pause",
+      "seekLabel": "Position"
     },
     "ImageUpscaler": {
       "title": "Bild-Hochskalierer",
