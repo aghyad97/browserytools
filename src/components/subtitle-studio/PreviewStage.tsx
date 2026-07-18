@@ -1,0 +1,190 @@
+"use client";
+
+// Step 4 of Subtitle Studio: the live preview — a real <video> with the
+// SAME JASSUB renderer used by the burn pipeline overlaid on top, so what
+// plays here is (by construction, see ass.ts) what gets burned into the
+// exported file. Owns the JASSUB handle's lifecycle: one mountPreview() per
+// `file`, and setAss() (never a remount) whenever `doc` or `style` changes —
+// remounting on every edit would leak a JASSUB worker per keystroke.
+import { useEffect, useRef, useState } from "react";
+import { useTranslations } from "next-intl";
+import { PlayIcon, PauseIcon } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { mountPreview, type JassubHandle } from "@/lib/subtitles/jassub";
+import { toAss } from "@/lib/subtitles/ass";
+import type { CueDoc } from "@/lib/subtitles/cues";
+import type { CaptionStyle } from "@/lib/subtitles/styles";
+
+export interface PreviewStageProps {
+  file: File;
+  doc: CueDoc;
+  style: CaptionStyle;
+  dims: { w: number; h: number };
+}
+
+function formatTime(seconds: number): string {
+  const total = Number.isFinite(seconds) ? Math.max(0, seconds) : 0;
+  const mins = Math.floor(total / 60);
+  const secs = Math.floor(total % 60);
+  return `${mins}:${secs.toString().padStart(2, "0")}`;
+}
+
+export function PreviewStage({ file, doc, style, dims }: PreviewStageProps) {
+  const t = useTranslations("Tools.SubtitleStudio");
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasHostRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const handleRef = useRef<JassubHandle | null>(null);
+
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const [duration, setDuration] = useState(0);
+
+  // Issued in an effect (not useMemo) keyed on `file` alone, with the
+  // create and revoke paired inside the SAME effect. That pairing is what
+  // makes this StrictMode-safe: React's dev-mode double-invoke runs
+  // setup → cleanup → setup on one effect, so the cleanup's revoke and the
+  // next setup's createObjectURL are always matched, and the second setup
+  // issues a FRESH url that repoints <video src>. A useMemo version can't
+  // self-heal here — `file` is unchanged across the simulated remount, so
+  // the memo wouldn't recompute, leaving <video> pointed at an already
+  // -revoked blob URL (mirrors the ref-guard self-heal the JASSUB handle
+  // effect below already relies on).
+  const [objectUrl, setObjectUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    const url = URL.createObjectURL(file);
+    setObjectUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
+
+  // Resets playback state whenever `file` changes (including the initial
+  // mount, where it's a no-op against the defaults above).
+  useEffect(() => {
+    setCurrentTime(0);
+    setDuration(0);
+    setIsPlaying(false);
+  }, [file]);
+
+  // Mounts JASSUB the first time video+canvas exist for this `file`
+  // (handleRef.current is null right after the destroy effect below tears the
+  // previous instance down), then re-feeds the SAME handle via setAss() on
+  // every later doc/style change for that same file — never a remount (a
+  // remount per keystroke would leak a JASSUB worker every time).
+  //
+  // Each mount gets a BRAND-NEW <canvas> node created here (not a stable
+  // React-managed ref). `HTMLCanvasElement.transferControlToOffscreen()` —
+  // which JASSUB calls internally — is a permanent, once-per-node operation:
+  // a canvas can never be transferred a second time, even after the worker is
+  // destroyed. Reusing one node across the StrictMode destroy+remount (or any
+  // future file change) throws "Cannot transfer control from a canvas for more
+  // than one time" and blanks the preview. Minting a fresh node per mount and
+  // removing it in the destroy effect sidesteps that entirely.
+  useEffect(() => {
+    const video = videoRef.current;
+    const host = canvasHostRef.current;
+    if (!video || !host) return;
+
+    const ass = toAss(doc, style, dims);
+    if (!handleRef.current) {
+      const canvas = document.createElement("canvas");
+      canvas.className = "pointer-events-none absolute inset-0 h-full w-full";
+      canvas.setAttribute("data-testid", "preview-canvas");
+      canvas.setAttribute("aria-hidden", "true");
+      host.appendChild(canvas);
+      canvasRef.current = canvas;
+      handleRef.current = mountPreview(video, canvas, ass);
+    } else {
+      handleRef.current.setAss(ass);
+    }
+  }, [file, doc, style, dims]);
+
+  // Tears the handle down whenever `file` changes, or on unmount — deliberately
+  // keyed on `file` alone (not doc/style) so an edit never triggers a
+  // destroy+remount, only this effect's dependency does. Also removes the
+  // canvas node the mount created so the next mount starts from a fresh,
+  // never-transferred node (see above).
+  useEffect(() => {
+    return () => {
+      handleRef.current?.destroy();
+      handleRef.current = null;
+      canvasRef.current?.remove();
+      canvasRef.current = null;
+    };
+  }, [file]);
+
+  const handlePlayPause = () => {
+    const video = videoRef.current;
+    if (!video) return;
+    if (isPlaying) {
+      video.pause();
+    } else {
+      void video.play();
+    }
+  };
+
+  const handleSeek = (value: number) => {
+    const video = videoRef.current;
+    if (!video) return;
+    video.currentTime = value;
+    setCurrentTime(value);
+  };
+
+  return (
+    <div className="space-y-2" data-testid="preview-stage">
+      <div className="relative w-full overflow-hidden rounded-lg bg-black">
+        <video
+          ref={videoRef}
+          src={objectUrl ?? undefined}
+          className="block w-full"
+          data-testid="preview-video"
+          onPlay={() => setIsPlaying(true)}
+          onPause={() => setIsPlaying(false)}
+          onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
+          onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
+        />
+        {/* JASSUB's <canvas> is created imperatively into this host and
+            replaced on each mount — see the lifecycle effect above for why a
+            fresh node per mount is required. */}
+        <div
+          ref={canvasHostRef}
+          className="pointer-events-none absolute inset-0"
+          aria-hidden
+        />
+      </div>
+
+      <div className="flex items-center gap-2" dir="ltr">
+        <Button
+          type="button"
+          variant="outline"
+          size="icon"
+          className="h-8 w-8 shrink-0"
+          data-testid="preview-play-pause"
+          aria-label={isPlaying ? t("pause") : t("play")}
+          onClick={handlePlayPause}
+        >
+          {isPlaying ? <PauseIcon className="h-4 w-4" /> : <PlayIcon className="h-4 w-4" />}
+        </Button>
+
+        <input
+          type="range"
+          min={0}
+          max={duration || 0}
+          step={0.1}
+          value={currentTime}
+          data-testid="preview-seek"
+          aria-label={t("seekLabel")}
+          className="h-2 flex-1 accent-primary"
+          onChange={(e) => handleSeek(Number(e.target.value))}
+        />
+
+        <span
+          className="w-24 shrink-0 text-right text-xs text-muted-foreground"
+          data-testid="preview-time"
+        >
+          {formatTime(currentTime)} / {formatTime(duration)}
+        </span>
+      </div>
+    </div>
+  );
+}

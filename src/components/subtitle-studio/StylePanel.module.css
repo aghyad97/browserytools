@@ -1,0 +1,117 @@
+/* Caption style panel (Subtitle Studio, step 3). Colours via var(--bt-*);
+   logical properties; both themes; no single-edge borders. */
+
+.presetRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.presetButton {
+  appearance: none;
+  border: 1px solid var(--bt-line);
+  border-radius: 8px;
+  background: var(--bt-surface);
+  color: var(--bt-ink);
+  padding-inline: 12px;
+  padding-block: 7px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.presetButton:hover {
+  border-color: var(--bt-accent);
+}
+
+.presetButton:focus-visible {
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+.presetButton[data-active] {
+  background: var(--bt-ink);
+  border-color: var(--bt-ink);
+  color: var(--bt-bg);
+}
+
+.select {
+  display: flex;
+  inline-size: 100%;
+  block-size: 36px;
+  border: 1px solid var(--bt-line);
+  border-radius: 8px;
+  background: var(--bt-surface);
+  color: var(--bt-ink);
+  padding-inline: 10px;
+  font-size: 13px;
+  cursor: pointer;
+}
+
+.select:focus-visible {
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+/* Highlights the highlight-colour swatch while it visually matters (karaoke /
+   word-highlight animations) so the user notices the field that otherwise
+   reads as a stray extra colour. */
+.emphasized {
+  display: inline-flex;
+  border-radius: 10px;
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+.positionGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 6px;
+  inline-size: fit-content;
+}
+
+.positionButton {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 34px;
+  block-size: 34px;
+  border: 1px solid var(--bt-line);
+  border-radius: 8px;
+  background: var(--bt-surface);
+  cursor: pointer;
+  transition:
+    background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.positionButton:hover {
+  border-color: var(--bt-accent);
+}
+
+.positionButton:focus-visible {
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+.positionDot {
+  inline-size: 6px;
+  block-size: 6px;
+  border-radius: 999px;
+  background: var(--bt-muted);
+}
+
+.positionButton[data-active] {
+  border-color: var(--bt-accent);
+  background: var(--bt-fill);
+}
+
+.positionButton[data-active] .positionDot {
+  background: var(--bt-accent);
+}

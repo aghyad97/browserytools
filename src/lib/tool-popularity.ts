@@ -58,6 +58,7 @@ export const TOOL_POPULARITY: string[] = [
   "translator",
   "speech-to-text",
   "text-to-speech",
+  "subtitle-studio",     // "subtitle generator" / "add subtitles to video" — strong terms
   "invoice",
   "age-calculator",
   "bmi-calculator",

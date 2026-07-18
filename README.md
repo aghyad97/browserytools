@@ -103,6 +103,7 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Compress Video**: Compress videos in your browser using ffmpeg.wasm.
 - **Screen Recorder**: Record your screen, window, or tab directly in the browser using the Screen Capture API.
 - **GIF Maker**: Turn a series of images into an animated GIF. Reorder frames, set speed, loop, and resize.
+- **Subtitle Studio**: Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video.
 
 ### 📝 Text & Language Tools
 

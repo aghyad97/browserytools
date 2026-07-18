@@ -4,8 +4,9 @@
   "private": true,
   "license": "AGPL-3.0-only",
   "scripts": {
-    "copy-assets": "node scripts/copy-pdf-worker.js && node scripts/copy-ffmpeg.mjs && node scripts/copy-gif-worker.js && node scripts/copy-tesseract.js",
+    "copy-assets": "node scripts/copy-pdf-worker.js && node scripts/copy-ffmpeg.mjs && node scripts/copy-gif-worker.js && node scripts/copy-tesseract.js && bun scripts/copy-jassub.mjs",
     "copy-ffmpeg": "node scripts/copy-ffmpeg.mjs",
+    "copy-jassub": "bun scripts/copy-jassub.mjs",
     "copy-pdf-worker": "node scripts/copy-pdf-worker.js",
     "copy-gif-worker": "node scripts/copy-gif-worker.js",
     "copy-tesseract": "node scripts/copy-tesseract.js",
@@ -87,6 +88,7 @@
     "html-to-image": "^1.11.13",
     "html2canvas": "^1.4.1",
     "husky": "^9.1.7",
+    "jassub": "2.5.7",
     "js-yaml": "^4.1.1",
     "jsbarcode": "^3.12.1",
     "jspdf": "^3.0.2",
