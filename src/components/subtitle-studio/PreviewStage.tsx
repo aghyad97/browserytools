@@ -32,7 +32,8 @@ function formatTime(seconds: number): string {
 export function PreviewStage({ file, doc, style, dims }: PreviewStageProps) {
   const t = useTranslations("Tools.SubtitleStudio");
   const videoRef = useRef<HTMLVideoElement>(null);
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+  const canvasHostRef = useRef<HTMLDivElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const handleRef = useRef<JassubHandle | null>(null);
 
   const [isPlaying, setIsPlaying] = useState(false);
@@ -66,30 +67,49 @@ export function PreviewStage({ file, doc, style, dims }: PreviewStageProps) {
   }, [file]);
 
   // Mounts JASSUB the first time video+canvas exist for this `file`
-  // (handleRef.current is null right after the destroy effect below tears
-  // the previous instance down), then re-feeds the SAME handle via setAss()
-  // on every later doc/style change for that same file — never a remount
-  // (a remount per keystroke would leak a JASSUB worker every time).
+  // (handleRef.current is null right after the destroy effect below tears the
+  // previous instance down), then re-feeds the SAME handle via setAss() on
+  // every later doc/style change for that same file — never a remount (a
+  // remount per keystroke would leak a JASSUB worker every time).
+  //
+  // Each mount gets a BRAND-NEW <canvas> node created here (not a stable
+  // React-managed ref). `HTMLCanvasElement.transferControlToOffscreen()` —
+  // which JASSUB calls internally — is a permanent, once-per-node operation:
+  // a canvas can never be transferred a second time, even after the worker is
+  // destroyed. Reusing one node across the StrictMode destroy+remount (or any
+  // future file change) throws "Cannot transfer control from a canvas for more
+  // than one time" and blanks the preview. Minting a fresh node per mount and
+  // removing it in the destroy effect sidesteps that entirely.
   useEffect(() => {
     const video = videoRef.current;
-    const canvas = canvasRef.current;
-    if (!video || !canvas) return;
+    const host = canvasHostRef.current;
+    if (!video || !host) return;
 
     const ass = toAss(doc, style, dims);
     if (!handleRef.current) {
+      const canvas = document.createElement("canvas");
+      canvas.className = "pointer-events-none absolute inset-0 h-full w-full";
+      canvas.setAttribute("data-testid", "preview-canvas");
+      canvas.setAttribute("aria-hidden", "true");
+      host.appendChild(canvas);
+      canvasRef.current = canvas;
       handleRef.current = mountPreview(video, canvas, ass);
     } else {
       handleRef.current.setAss(ass);
     }
   }, [file, doc, style, dims]);
 
-  // Tears the handle down whenever `file` changes, or on unmount —
-  // deliberately keyed on `file` alone (not doc/style) so an edit never
-  // triggers a destroy+remount, only this effect's dependency does.
+  // Tears the handle down whenever `file` changes, or on unmount — deliberately
+  // keyed on `file` alone (not doc/style) so an edit never triggers a
+  // destroy+remount, only this effect's dependency does. Also removes the
+  // canvas node the mount created so the next mount starts from a fresh,
+  // never-transferred node (see above).
   useEffect(() => {
     return () => {
       handleRef.current?.destroy();
       handleRef.current = null;
+      canvasRef.current?.remove();
+      canvasRef.current = null;
     };
   }, [file]);
 
@@ -123,10 +143,12 @@ export function PreviewStage({ file, doc, style, dims }: PreviewStageProps) {
           onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)}
           onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)}
         />
-        <canvas
-          ref={canvasRef}
-          className="pointer-events-none absolute inset-0 h-full w-full"
-          data-testid="preview-canvas"
+        {/* JASSUB's <canvas> is created imperatively into this host and
+            replaced on each mount — see the lifecycle effect above for why a
+            fresh node per mount is required. */}
+        <div
+          ref={canvasHostRef}
+          className="pointer-events-none absolute inset-0"
           aria-hidden
         />
       </div>

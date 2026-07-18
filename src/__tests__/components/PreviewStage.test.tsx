@@ -9,8 +9,15 @@ import type { CaptionStyle } from "@/lib/subtitles/styles";
 // against these spies instead of the real (unmockable-in-happy-dom) API.
 const setAss = vi.fn();
 const destroy = vi.fn();
+// Every canvas node handed to JASSUB, captured to prove a fresh one is minted
+// per mount (the transferControlToOffscreen regression — see the dedicated
+// test below).
+const mountedCanvases: HTMLCanvasElement[] = [];
 const mountPreview = vi.fn(
-  (_video: HTMLVideoElement, _canvas: HTMLCanvasElement, _ass: string) => ({ setAss, destroy })
+  (_video: HTMLVideoElement, canvas: HTMLCanvasElement, _ass: string) => {
+    mountedCanvases.push(canvas);
+    return { setAss, destroy };
+  }
 );
 
 vi.mock("@/lib/subtitles/jassub", () => ({
@@ -57,6 +64,7 @@ const DIMS = { w: 1280, h: 720 };
 
 beforeEach(() => {
   mountPreview.mockClear();
+  mountedCanvases.length = 0;
   setAss.mockClear();
   destroy.mockClear();
   vi.mocked(toAss).mockClear();
@@ -198,5 +206,41 @@ describe("PreviewStage", () => {
 
     expect(destroy).toHaveBeenCalledTimes(1);
     expect(mountPreview).toHaveBeenCalledTimes(2);
+  });
+
+  it("mints a FRESH canvas node on the second mount when the file changes", () => {
+    // Regression: JASSUB calls HTMLCanvasElement.transferControlToOffscreen()
+    // on the canvas it's given, and that is a permanent, once-per-node browser
+    // operation. Reusing the same node across a destroy+remount throws
+    // "Cannot transfer control from a canvas for more than one time" in a real
+    // browser (observed live) and blanks the preview. Each mount must receive
+    // a brand-new node.
+    const doc = makeDoc();
+    const style = makeStyle();
+    const { rerender } = render(
+      <PreviewStage file={makeFile("a.mp4")} doc={doc} style={style} dims={DIMS} />
+    );
+    expect(mountedCanvases).toHaveLength(1);
+    const firstCanvas = mountedCanvases[0];
+
+    rerender(<PreviewStage file={makeFile("b.mp4")} doc={doc} style={style} dims={DIMS} />);
+
+    expect(mountedCanvases).toHaveLength(2);
+    expect(mountedCanvases[1]).not.toBe(firstCanvas);
+  });
+
+  it("uses distinct canvas nodes across a StrictMode cleanup+remount", () => {
+    // StrictMode dev double-invoke tears the handle down (destroy effect) then
+    // remounts. If the same canvas node were reused, transferControlToOffscreen
+    // would throw on the second mount — so each mount must get its own node.
+    render(
+      <StrictMode>
+        <PreviewStage file={makeFile()} doc={makeDoc()} style={makeStyle()} dims={DIMS} />
+      </StrictMode>
+    );
+
+    expect(mountedCanvases.length).toBeGreaterThanOrEqual(2);
+    expect(new Set(mountedCanvases).size).toBe(mountedCanvases.length);
+    expect(destroy).toHaveBeenCalled();
   });
 });
