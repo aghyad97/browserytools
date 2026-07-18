@@ -775,6 +775,10 @@
         "name": "Pembuat GIF",
         "description": "Ubah serangkaian gambar menjadi GIF animasi. Atur ulang bingkai, atur kecepatan, ulang, dan ubah ukuran."
       },
+      "subtitle-studio": {
+        "name": "Subtitle Studio",
+        "description": "Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video."
+      },
       "wheel-of-names": {
         "name": "Roda Nama",
         "description": "Putar roda yang bisa disesuaikan untuk memilih pemenang secara acak dari daftar nama. Tempel satu nama per baris, acak urutannya, dan opsional hapus setiap pemenang setelah terpilih."
@@ -4715,6 +4719,20 @@
       "copyFailed": "Tidak dapat menyalin ke papan klip",
       "downloaded": "Berkas diunduh",
       "modelNote": "Menjalankan OpenAI Whisper sepenuhnya di browser Anda melalui WebGPU (dengan cadangan WASM). Model diunduh satu kali dari CDN saat pertama digunakan, lalu mentranskripsikan di perangkat — audio Anda tidak pernah diunggah."
+    },
+    "SubtitleStudio": {
+      "dropHere": "Drop a video here, or click to choose",
+      "supportedFormats": "Supports MP4, WebM, MOV, and MKV. One file at a time.",
+      "transcribe": "Transcribe",
+      "transcribing": "Transcribing…",
+      "loadingModel": "Loading model…",
+      "longFilesNote": "Long videos take a while and run entirely on your device.",
+      "noFile": "Please choose a video file first",
+      "done": "Transcription complete",
+      "failed": "Could not transcribe the video. Please try again.",
+      "modelNote": "Runs OpenAI Whisper entirely in your browser via WebGPU (with a WASM fallback). The model downloads once from a CDN on first use, then transcribes on-device — your video is never uploaded.",
+      "cuesGenerated": "{count} cue(s) generated",
+      "startOver": "Start over"
     },
     "ImageUpscaler": {
       "title": "Penambah Resolusi Gambar",

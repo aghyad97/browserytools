@@ -775,6 +775,10 @@
         "name": "GIF 制作器",
         "description": "将一系列图片转换为动态 GIF。重新排序帧、设置速度、循环并调整大小。"
       },
+      "subtitle-studio": {
+        "name": "Subtitle Studio",
+        "description": "Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video."
+      },
       "wheel-of-names": {
         "name": "抽奖转盘",
         "description": "旋转可自定义的转盘，从姓名列表中随机抽取一位获胜者。每行输入一个姓名，可打乱顺序，也可设置获胜者被抽中后自动移除。"
@@ -4715,6 +4719,20 @@
       "copyFailed": "无法复制到剪贴板",
       "downloaded": "文件已下载",
       "modelNote": "通过 WebGPU（带 WASM 备用方案）在您的浏览器中完全运行 OpenAI Whisper。模型在首次使用时从 CDN 下载一次，然后在设备上转录 — 您的音频永远不会被上传。"
+    },
+    "SubtitleStudio": {
+      "dropHere": "Drop a video here, or click to choose",
+      "supportedFormats": "Supports MP4, WebM, MOV, and MKV. One file at a time.",
+      "transcribe": "Transcribe",
+      "transcribing": "Transcribing…",
+      "loadingModel": "Loading model…",
+      "longFilesNote": "Long videos take a while and run entirely on your device.",
+      "noFile": "Please choose a video file first",
+      "done": "Transcription complete",
+      "failed": "Could not transcribe the video. Please try again.",
+      "modelNote": "Runs OpenAI Whisper entirely in your browser via WebGPU (with a WASM fallback). The model downloads once from a CDN on first use, then transcribes on-device — your video is never uploaded.",
+      "cuesGenerated": "{count} cue(s) generated",
+      "startOver": "Start over"
     },
     "ImageUpscaler": {
       "title": "图片放大器",

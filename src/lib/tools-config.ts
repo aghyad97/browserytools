@@ -104,6 +104,7 @@ import {
   Clock4Icon,
   SquareStackIcon,
   PuzzleIcon,
+  CaptionsIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -729,6 +730,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-06-28",
         description:
           "Turn a series of images into an animated GIF right in your browser. Reorder frames, set the frame delay, loop or boomerang, resize, and pick quality. No uploads — runs entirely on-device.",
+      },
+      {
+        name: "Subtitle Studio",
+        href: "/tools/subtitle-studio",
+        icon: CaptionsIcon,
+        available: true,
+        order: 7,
+        creationDate: "2026-07-18",
+        description:
+          "Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video. No uploads — runs entirely on-device.",
       },
       // SEO landing variants of Mic & Camera Tester — hidden from grid/count/
       // related pools via `landingFor` (Task 2 infra).

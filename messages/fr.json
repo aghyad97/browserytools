@@ -775,6 +775,10 @@
         "name": "Créateur de GIF",
         "description": "Transformez une série d'images en GIF animé. Réorganisez les images, réglez la vitesse, bouclez et redimensionnez."
       },
+      "subtitle-studio": {
+        "name": "Subtitle Studio",
+        "description": "Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video."
+      },
       "wheel-of-names": {
         "name": "Roue des noms",
         "description": "Faites tourner une roue personnalisable pour tirer au sort un gagnant dans une liste de noms. Collez un nom par ligne, mélangez l'ordre et retirez chaque gagnant après son tirage si vous le souhaitez."
@@ -4715,6 +4719,20 @@
       "copyFailed": "Impossible de copier dans le presse-papiers",
       "downloaded": "Fichier téléchargé",
       "modelNote": "Exécute OpenAI Whisper entièrement dans votre navigateur via WebGPU (avec une solution de secours WASM). Le modèle se télécharge une seule fois depuis un CDN à la première utilisation, puis transcrit sur l'appareil — votre audio n'est jamais envoyé."
+    },
+    "SubtitleStudio": {
+      "dropHere": "Drop a video here, or click to choose",
+      "supportedFormats": "Supports MP4, WebM, MOV, and MKV. One file at a time.",
+      "transcribe": "Transcribe",
+      "transcribing": "Transcribing…",
+      "loadingModel": "Loading model…",
+      "longFilesNote": "Long videos take a while and run entirely on your device.",
+      "noFile": "Please choose a video file first",
+      "done": "Transcription complete",
+      "failed": "Could not transcribe the video. Please try again.",
+      "modelNote": "Runs OpenAI Whisper entirely in your browser via WebGPU (with a WASM fallback). The model downloads once from a CDN on first use, then transcribes on-device — your video is never uploaded.",
+      "cuesGenerated": "{count} cue(s) generated",
+      "startOver": "Start over"
     },
     "ImageUpscaler": {
       "title": "Agrandisseur d'image",
