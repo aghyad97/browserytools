@@ -6,7 +6,7 @@
 // exported file. Owns the JASSUB handle's lifecycle: one mountPreview() per
 // `file`, and setAss() (never a remount) whenever `doc` or `style` changes —
 // remounting on every edit would leak a JASSUB worker per keystroke.
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { PlayIcon, PauseIcon } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -39,18 +39,23 @@ export function PreviewStage({ file, doc, style, dims }: PreviewStageProps) {
   const [currentTime, setCurrentTime] = useState(0);
   const [duration, setDuration] = useState(0);
 
-  // Computed synchronously during render (not in an effect) so the <video>
-  // below always has a valid `src` on the very first paint for a given
-  // `file` — an effect-based version would need an extra render round-trip
-  // before the mount effect below could see it, which also risks racing
-  // against a same-string-back mock in tests.
-  const objectUrl = useMemo(() => URL.createObjectURL(file), [file]);
+  // Issued in an effect (not useMemo) keyed on `file` alone, with the
+  // create and revoke paired inside the SAME effect. That pairing is what
+  // makes this StrictMode-safe: React's dev-mode double-invoke runs
+  // setup → cleanup → setup on one effect, so the cleanup's revoke and the
+  // next setup's createObjectURL are always matched, and the second setup
+  // issues a FRESH url that repoints <video src>. A useMemo version can't
+  // self-heal here — `file` is unchanged across the simulated remount, so
+  // the memo wouldn't recompute, leaving <video> pointed at an already
+  // -revoked blob URL (mirrors the ref-guard self-heal the JASSUB handle
+  // effect below already relies on).
+  const [objectUrl, setObjectUrl] = useState<string | null>(null);
 
-  // Revokes the PREVIOUS render's object URL whenever `file` changes, and on
-  // unmount.
   useEffect(() => {
-    return () => URL.revokeObjectURL(objectUrl);
-  }, [objectUrl]);
+    const url = URL.createObjectURL(file);
+    setObjectUrl(url);
+    return () => URL.revokeObjectURL(url);
+  }, [file]);
 
   // Resets playback state whenever `file` changes (including the initial
   // mount, where it's a no-op against the defaults above).
@@ -110,7 +115,7 @@ export function PreviewStage({ file, doc, style, dims }: PreviewStageProps) {
       <div className="relative w-full overflow-hidden rounded-lg bg-black">
         <video
           ref={videoRef}
-          src={objectUrl}
+          src={objectUrl ?? undefined}
           className="block w-full"
           data-testid="preview-video"
           onPlay={() => setIsPlaying(true)}

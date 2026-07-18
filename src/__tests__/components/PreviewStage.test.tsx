@@ -1,4 +1,5 @@
-import { render } from "@testing-library/react";
+import { StrictMode } from "react";
+import { render, screen } from "@testing-library/react";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { PreviewStage } from "@/components/subtitle-studio/PreviewStage";
 import type { CueDoc } from "@/lib/subtitles/cues";
@@ -147,6 +148,41 @@ describe("PreviewStage", () => {
     unmount();
 
     expect(revokeSpy).toHaveBeenCalled();
+  });
+
+  it("re-issues a fresh object URL after a StrictMode simulated cleanup+remount", () => {
+    // Regression test for the StrictMode double-invoke bug: React's dev-mode
+    // simulated unmount runs the object-URL effect's cleanup (revoke) then
+    // immediately re-runs its setup (create) against the SAME `file` prop.
+    // A fix that recomputes the url only when `file` changes (e.g. a
+    // useMemo) would fail to reissue on the second setup, leaving <video>
+    // pointed at an already-revoked blob. test-setup.ts stubs
+    // createObjectURL to always return the same string, which would mask
+    // this bug — so this test overrides it locally with distinct URLs.
+    const file = makeFile();
+    const urls = ["blob:first", "blob:second"];
+    let call = 0;
+    const createSpy = vi
+      .spyOn(URL, "createObjectURL")
+      .mockImplementation(() => urls[call++] ?? "blob:overflow");
+    const revokeSpy = vi.spyOn(URL, "revokeObjectURL");
+
+    try {
+      render(
+        <StrictMode>
+          <PreviewStage file={file} doc={makeDoc()} style={makeStyle()} dims={DIMS} />
+        </StrictMode>
+      );
+
+      expect(createSpy).toHaveBeenCalledTimes(2);
+      expect(revokeSpy).toHaveBeenCalledWith("blob:first");
+
+      const video = screen.getByTestId("preview-video") as HTMLVideoElement;
+      expect(video.src).toContain("blob:second");
+    } finally {
+      createSpy.mockRestore();
+      revokeSpy.mockRestore();
+    }
   });
 
   it("destroys the old handle and mounts a fresh one when the file changes", () => {
