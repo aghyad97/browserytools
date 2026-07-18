@@ -133,6 +133,10 @@ function CueRow({
   };
 
   const commitStart = () => {
+    if (start.trim() === "") {
+      setStart(String(cue.start));
+      return;
+    }
     const value = Number(start);
     if (!Number.isNaN(value) && value !== cue.start) {
       onRetime(cue.id, { start: value });
@@ -142,6 +146,10 @@ function CueRow({
   };
 
   const commitEnd = () => {
+    if (end.trim() === "") {
+      setEnd(String(cue.end));
+      return;
+    }
     const value = Number(end);
     if (!Number.isNaN(value) && value !== cue.end) {
       onRetime(cue.id, { end: value });

@@ -11,6 +11,14 @@ function twoCueDoc(): CueDoc {
   ];
 }
 
+function threeCueDoc(): CueDoc {
+  return [
+    { id: "a", start: 0, end: 2, text: "hello there" },
+    { id: "b", start: 2, end: 4, text: "general kenobi" },
+    { id: "c", start: 4, end: 6, text: "you are a bold one" },
+  ];
+}
+
 describe("CueEditor", () => {
   it("renders one row per cue", () => {
     render(<CueEditor doc={twoCueDoc()} onChange={vi.fn()} onSeek={vi.fn()} />);
@@ -60,6 +68,34 @@ describe("CueEditor", () => {
     expect(updated[1].start).toBe(2.5);
   });
 
+  it("reverts a blank start field on blur instead of committing 0", async () => {
+    // Use the second cue (start=2, non-zero) so a wrongly-committed 0 is
+    // distinguishable from the cue's actual start.
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<CueEditor doc={twoCueDoc()} onChange={onChange} onSeek={vi.fn()} />);
+
+    const starts = screen.getAllByTestId("cue-start-input");
+    await user.clear(starts[1]);
+    await user.tab();
+
+    expect(onChange).not.toHaveBeenCalled();
+    expect(starts[1]).toHaveValue(2);
+  });
+
+  it("reverts a blank end field on blur instead of committing 0", async () => {
+    const user = userEvent.setup();
+    const onChange = vi.fn();
+    render(<CueEditor doc={twoCueDoc()} onChange={onChange} onSeek={vi.fn()} />);
+
+    const ends = screen.getAllByTestId("cue-end-input");
+    await user.clear(ends[0]);
+    await user.tab();
+
+    expect(onChange).not.toHaveBeenCalled();
+    expect(ends[0]).toHaveValue(2);
+  });
+
   it("splits a cue into two on 'split', going from 2 to 3 cues", async () => {
     const user = userEvent.setup();
     const onChange = vi.fn();
@@ -95,9 +131,12 @@ describe("CueEditor", () => {
   });
 
   it("does not offer 'merge with next' on the last cue", () => {
-    render(<CueEditor doc={twoCueDoc()} onChange={vi.fn()} onSeek={vi.fn()} />);
+    // 3 cues → exactly n-1 (2) merge buttons: one per row except the last.
+    render(<CueEditor doc={threeCueDoc()} onChange={vi.fn()} onSeek={vi.fn()} />);
+    const rows = screen.getAllByTestId("cue-row");
     const mergeButtons = screen.getAllByTestId("cue-merge-next");
-    expect(mergeButtons).toHaveLength(1);
+    expect(rows).toHaveLength(3);
+    expect(mergeButtons).toHaveLength(2);
   });
 
   it("calls onSeek with the cue's start time when a row is clicked", async () => {
