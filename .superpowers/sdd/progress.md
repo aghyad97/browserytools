@@ -19,7 +19,7 @@ Spikes (pre-plan, all measured): geometry beats AI decisively for digital-native
 - [x] T14 OG + e2e routes — complete (f17e5d6, 174 routes, only the 2 new slugs added, build green)
 - [x] T15 Blog cluster — complete (d224ff7, 4 routes 200 + sitemap, unused emoji verified, CTAs render-verified)
 - [x] T16 Locale fan-out — complete (8 locales, tsc parity ok, 0 placeholder mismatches, balanced value-only diffs, 1124 tests)
-- [ ] T17 Final gates + review + PR
+- [x] T17 Final gates + review + PR — complete. PR #49 https://github.com/aghyad97/browserytools/pull/49. All gates green (1130 tests, tsc, lint, validate 150/150, CI build, e2e:smoke 175/175). Final review found 2 Criticals (print chrome in output PDF; blog recommending impossible OCR workflow) + 5 Importants — all fixed in ddc5ba8. ALL 17 TASKS DONE.
 
 ## Minor findings (final-review triage)
 - Spike C follow-up: Granite-Docling's empty <otsl> table output MIGHT be prompt-fixable (task-specific prompt vs IBM demo's generic one). Does not change the reject call (1.17GB disqualifying regardless), but note if VLMs are revisited.
