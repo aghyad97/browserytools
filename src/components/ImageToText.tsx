@@ -13,7 +13,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Upload, Loader2, Download, Trash2 } from "lucide-react";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Upload, Loader2, Download, Trash2, FileText } from "lucide-react";
 import { toast } from "sonner";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
@@ -21,10 +22,27 @@ import { TwoPane } from "@/components/shared/TwoPane";
 import { OutputPanel } from "@/components/shared/OutputPanel";
 import { SettingsCard, OptionRow } from "@/components/shared/SettingsCard";
 import { downloadBlob } from "@/lib/download";
+import { openPdf } from "@/lib/pdf/pdfjs-doc";
+import { deskew, binarize, estimateSkew, toGrayscale } from "@/lib/ocr/preprocess";
+import { loadImage, drawToCanvas } from "@/lib/image/canvas";
 
 interface ImageInfo {
   url: string;
   name: string;
+  /** "pdf" files are rendered page-by-page to canvases before OCR; "image"
+   *  files keep the exact pre-existing behavior (recognize straight off the
+   *  object URL) when preprocessing is off. */
+  kind: "image" | "pdf";
+  file: File;
+}
+
+/** Skew-correct + binarize a canvas before handing it to tesseract. Isolated
+ *  so the component test can mock the whole `@/lib/ocr/preprocess` module
+ *  and assert this pipeline runs, without doing real canvas pixel math. */
+function applyPreprocessing(canvas: HTMLCanvasElement): HTMLCanvasElement {
+  const gray = toGrayscale(canvas);
+  const skewDeg = estimateSkew(gray);
+  return binarize(deskew(canvas, skewDeg));
 }
 
 const languageOptions = [
@@ -45,6 +63,8 @@ export default function ImageToText() {
   const [text, setText] = useState("");
   const [progress, setProgress] = useState(0);
   const [isRecognizing, setIsRecognizing] = useState(false);
+  const [preprocess, setPreprocess] = useState(false);
+  const [pdfPage, setPdfPage] = useState<{ current: number; total: number } | null>(null);
 
   const objectUrlRef = useRef<string | null>(null);
 
@@ -58,13 +78,19 @@ export default function ImageToText() {
         return;
       }
 
+      const kind: ImageInfo["kind"] =
+        file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf")
+          ? "pdf"
+          : "image";
+
       if (objectUrlRef.current) URL.revokeObjectURL(objectUrlRef.current);
       const url = URL.createObjectURL(file);
       objectUrlRef.current = url;
 
-      setImage({ url, name: file.name });
+      setImage({ url, name: file.name, kind, file });
       setText("");
       setProgress(0);
+      setPdfPage(null);
     },
     [t]
   );
@@ -82,6 +108,13 @@ export default function ImageToText() {
     setIsRecognizing(true);
     setProgress(0);
     setText("");
+    setPdfPage(null);
+
+    // Tracked outside React state so the tesseract logger (set up once, below)
+    // can fold per-page progress into one overall percentage without a stale
+    // closure — these are read/written synchronously within this run.
+    let currentPage = 1;
+    let totalPages = 1;
 
     try {
       const { createWorker } = await import("tesseract.js");
@@ -94,14 +127,55 @@ export default function ImageToText() {
         corePath: "/tesseract/",
         logger: (m: { status: string; progress: number }) => {
           if (m.status === "recognizing text") {
-            setProgress(Math.round(m.progress * 100));
+            const overall = ((currentPage - 1 + m.progress) / totalPages) * 100;
+            setProgress(Math.round(overall));
           }
         },
       });
 
-      const {
-        data: { text: recognized },
-      } = await worker.recognize(image.url);
+      let recognized: string;
+
+      if (image.kind === "pdf") {
+        const bytes = new Uint8Array(await image.file.arrayBuffer());
+        const doc = await openPdf(bytes);
+        totalPages = doc.numPages;
+
+        const pageTexts: string[] = [];
+        for (let i = 1; i <= doc.numPages; i++) {
+          currentPage = i;
+          setPdfPage({ current: i, total: doc.numPages });
+
+          const page = await doc.getPage(i);
+          const viewport = page.getViewport({ scale: 2 });
+          const canvas = document.createElement("canvas");
+          canvas.width = Math.max(1, Math.round(viewport.width));
+          canvas.height = Math.max(1, Math.round(viewport.height));
+          const ctx = canvas.getContext("2d");
+          if (!ctx) throw new Error("2D context unavailable");
+          await page.render({ canvasContext: ctx, viewport }).promise;
+
+          const source = preprocess ? applyPreprocessing(canvas) : canvas;
+          const {
+            data: { text: pageText },
+          } = await worker.recognize(source);
+
+          pageTexts.push(`${t("pdfPageSeparator", { number: i })}\n${pageText.trim()}`);
+        }
+
+        recognized = pageTexts.join("\n\n");
+      } else {
+        let source: string | HTMLCanvasElement = image.url;
+        if (preprocess) {
+          const img = await loadImage(image.file);
+          const canvas = drawToCanvas(img, img.naturalWidth, img.naturalHeight);
+          source = applyPreprocessing(canvas);
+        }
+
+        const {
+          data: { text: imageText },
+        } = await worker.recognize(source);
+        recognized = imageText;
+      }
 
       await worker.terminate();
 
@@ -118,6 +192,7 @@ export default function ImageToText() {
       toast.error(t("recognizeFailed"));
     } finally {
       setIsRecognizing(false);
+      setPdfPage(null);
     }
   };
 
@@ -139,6 +214,7 @@ export default function ImageToText() {
     setImage(null);
     setText("");
     setProgress(0);
+    setPdfPage(null);
   };
 
   return (
@@ -187,6 +263,7 @@ export default function ImageToText() {
                 onFiles={onDrop}
                 accept={{
                   "image/*": [".png", ".jpg", ".jpeg", ".webp", ".bmp", ".gif"],
+                  "application/pdf": [".pdf"],
                 }}
                 className={({ isDragActive }) =>
                   `h-64 rounded-lg border-2 border-dashed flex flex-col items-center justify-center space-y-4 p-8 cursor-pointer transition-[border-color,background-color] duration-150 ${
@@ -196,13 +273,23 @@ export default function ImageToText() {
                   }`
                 }
               >
-                {image ? (
+                {image && image.kind === "image" ? (
                   <div className="w-full h-full relative">
                     <img
                       src={image.url}
                       alt={image.name}
                       className="w-full h-full object-contain"
                     />
+                  </div>
+                ) : image ? (
+                  <div className="text-center">
+                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
+                      <FileText className="w-10 h-10 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-semibold mb-1 break-all px-2">
+                      {image.name}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">{t("pdfFile")}</p>
                   </div>
                 ) : (
                   <div className="text-center">
@@ -240,11 +327,32 @@ export default function ImageToText() {
                 </Select>
               </OptionRow>
 
+              <div className="flex items-start gap-2">
+                <Checkbox
+                  id="ocr-preprocess"
+                  data-testid="ocr-preprocess"
+                  checked={preprocess}
+                  onCheckedChange={(c) => setPreprocess(Boolean(c))}
+                  disabled={isRecognizing}
+                />
+                <div>
+                  <label htmlFor="ocr-preprocess" className="text-sm font-medium">
+                    {t("preprocess")}
+                  </label>
+                  <p className="text-xs text-muted-foreground">{t("preprocessHint")}</p>
+                </div>
+              </div>
+
               {isRecognizing && (
                 <div className="space-y-2">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    {t("recognizing")}
+                    {pdfPage
+                      ? t("pdfPageProgress", {
+                          current: pdfPage.current,
+                          total: pdfPage.total,
+                        })
+                      : t("recognizing")}
                   </div>
                   <Progress value={progress} />
                 </div>

@@ -4248,7 +4248,12 @@
       "noTextFound": "在此图片中未找到文字。",
       "copied": "已复制到剪贴板！",
       "copyFailed": "复制失败。",
-      "downloaded": "文本文件已下载！"
+      "downloaded": "文本文件已下载！",
+      "preprocess": "Enhance for OCR (deskew + binarize)",
+      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
+      "pdfPageProgress": "Page {current} of {total}",
+      "pdfPageSeparator": "— Page {number} —",
+      "pdfFile": "PDF document"
     },
     "TextToSpeech": {
       "title": "文字转语音",

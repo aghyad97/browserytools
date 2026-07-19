@@ -4248,7 +4248,12 @@
       "noTextFound": "Tidak ada teks ditemukan pada gambar ini.",
       "copied": "Tersalin ke papan klip!",
       "copyFailed": "Gagal menyalin.",
-      "downloaded": "Berkas teks diunduh!"
+      "downloaded": "Berkas teks diunduh!",
+      "preprocess": "Enhance for OCR (deskew + binarize)",
+      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
+      "pdfPageProgress": "Page {current} of {total}",
+      "pdfPageSeparator": "— Page {number} —",
+      "pdfFile": "PDF document"
     },
     "TextToSpeech": {
       "title": "Teks ke Suara",

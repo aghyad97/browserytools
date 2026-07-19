@@ -4233,7 +4233,7 @@
     },
     "ImageToText": {
       "dropImageHere": "Drop your image here",
-      "supportedFormats": "Supports PNG, JPG, WebP, BMP or GIF files",
+      "supportedFormats": "Supports PNG, JPG, WebP, BMP, GIF or PDF files",
       "imageTooLarge": "Image size should be less than 15MB",
       "language": "Language",
       "extractText": "Extract Text",
@@ -4248,7 +4248,12 @@
       "noTextFound": "No text was found in this image.",
       "copied": "Copied to clipboard!",
       "copyFailed": "Failed to copy.",
-      "downloaded": "Text file downloaded!"
+      "downloaded": "Text file downloaded!",
+      "preprocess": "Enhance for OCR (deskew + binarize)",
+      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
+      "pdfPageProgress": "Page {current} of {total}",
+      "pdfPageSeparator": "— Page {number} —",
+      "pdfFile": "PDF document"
     },
     "TextToSpeech": {
       "title": "Text to Speech",

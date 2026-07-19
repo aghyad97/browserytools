@@ -4248,7 +4248,12 @@
       "noTextFound": "Nenhum texto foi encontrado nesta imagem.",
       "copied": "Copiado para a área de transferência!",
       "copyFailed": "Falha ao copiar.",
-      "downloaded": "Arquivo de texto baixado!"
+      "downloaded": "Arquivo de texto baixado!",
+      "preprocess": "Enhance for OCR (deskew + binarize)",
+      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
+      "pdfPageProgress": "Page {current} of {total}",
+      "pdfPageSeparator": "— Page {number} —",
+      "pdfFile": "PDF document"
     },
     "TextToSpeech": {
       "title": "Texto para Fala",

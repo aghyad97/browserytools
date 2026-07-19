@@ -4248,7 +4248,12 @@
       "noTextFound": "No se encontró ningún texto en esta imagen.",
       "copied": "¡Copiado al portapapeles!",
       "copyFailed": "No se pudo copiar.",
-      "downloaded": "¡Archivo de texto descargado!"
+      "downloaded": "¡Archivo de texto descargado!",
+      "preprocess": "Enhance for OCR (deskew + binarize)",
+      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
+      "pdfPageProgress": "Page {current} of {total}",
+      "pdfPageSeparator": "— Page {number} —",
+      "pdfFile": "PDF document"
     },
     "TextToSpeech": {
       "title": "Texto a voz",
