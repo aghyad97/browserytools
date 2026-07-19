@@ -31,8 +31,29 @@ export interface DetectedTable {
   rows: string[][];
   /** True when the grid came from drawn ruling lines, false when inferred from alignment. */
   ruled: boolean;
-  /** Bounding box of the detected table in PDF user space. */
+  /**
+   * Bounding box of the detected table in PDF user space.
+   *
+   * For POSITIONING the table block in document order only. It is NOT a safe
+   * basis for deciding which text belongs to the table — use `segments`.
+   */
   box: Box;
+  /**
+   * The exact Segments consumed by this table.
+   *
+   * Downstream (block classification / the orchestrator) MUST exclude table
+   * text from paragraph flow by IDENTITY against this array, never by
+   * re-deriving a geometric test from `box`. Two concrete ways `box` gets it
+   * wrong:
+   *
+   * 1. A ruled table with NO outer border has a `box` spanning only its INNER
+   *    rules, so the first/last column and top/bottom row sit outside it. Any
+   *    box-based exclusion re-emits that text as loose paragraphs.
+   * 2. `box` is built from clustered rule CENTRE positions, so it sits about
+   *    half a rule-width inside the drawn border; a cell whose glyphs graze
+   *    the border falls outside it.
+   */
+  segments: Segment[];
 }
 
 /**
@@ -54,6 +75,17 @@ const RULE_CLUSTER_TOL = 2;
  * on a prose page from registering as a table.
  */
 const MIN_RULES_PER_AXIS = 2;
+
+/**
+ * ...but 2-and-2 is a ONE CELL grid, and a single closed rectangle is not a
+ * table. Bordered pull-quotes, framed code blocks, image frames and signature
+ * boxes are common in real documents, and each produces exactly 2 clustered
+ * h-rules and 2 v-rules; without this bar every one of them would come back as
+ * a 1x1 `{rows: [["..."]], ruled: true}` and its text would be yanked out of
+ * normal paragraph flow. Requiring >= 2 cells on at least one axis
+ * (rows + cols boundaries >= 5) demands a real grid.
+ */
+const MIN_TOTAL_BOUNDARIES = 5;
 
 /** A borderless table needs at least this many consecutive aligned rows. */
 const MIN_BORDERLESS_ROWS = 3;
@@ -124,10 +156,13 @@ function clusterPositions(values: number[], tol: number): number[] {
   let bucket: number[] = [sorted[0]];
   for (let i = 1; i < sorted.length; i++) {
     const value = sorted[i];
-    // Compare against the bucket's current mean rather than the previous raw
-    // value, so a long chain of 1pt-apart rules cannot drift into one cluster.
+    // Compare against BOTH the bucket's running mean and its first member.
+    // The mean alone bounds drift but does not eliminate it — 0, 2, 3, 3.6 all
+    // land in one cluster at tol = 2 — so the bucket[0] test makes the cluster
+    // width exactly `tol` and a long chain of sub-tolerance offsets provably
+    // cannot creep into one grid line.
     const mean = bucket.reduce((a, b) => a + b, 0) / bucket.length;
-    if (Math.abs(value - mean) <= tol) {
+    if (Math.abs(value - mean) <= tol && value - bucket[0] <= tol) {
       bucket.push(value);
     } else {
       out.push(mean);
@@ -157,7 +192,9 @@ function bandIndex(boundaries: number[], value: number): number {
  *    CTM would otherwise poison the grid with phantom bands.
  * 2. Cluster each axis within 2pt into logical grid lines (see
  *    RULE_CLUSTER_TOL — rules arrive one per cell edge, not per grid line).
- * 3. Require >= 2 clustered rules on each axis, else this is not a table.
+ * 3. Require >= 2 clustered rules on each axis AND >= 2 cells on at least one
+ *    of them, else this is not a table (see MIN_TOTAL_BOUNDARIES — a lone
+ *    closed rectangle is a bordered callout).
  * 4. Assign each segment to a cell by its CENTROID, and join multiple
  *    segments landing in one cell with a space, in reading order.
  *
@@ -177,6 +214,8 @@ export function detectRuledTable(
 
   if (rowBoundaries.length < MIN_RULES_PER_AXIS) return null;
   if (colBoundaries.length < MIN_RULES_PER_AXIS) return null;
+  // A single closed rectangle (2 + 2) is a bordered callout, not a table.
+  if (rowBoundaries.length + colBoundaries.length < MIN_TOTAL_BOUNDARIES) return null;
 
   const rowCount = rowBoundaries.length - 1;
   const colCount = colBoundaries.length - 1;
@@ -187,7 +226,9 @@ export function detectRuledTable(
     Array.from({ length: colCount }, () => [] as Segment[]),
   );
 
-  let placed = 0;
+  // The segments actually placed into cells, recorded so downstream can
+  // exclude table text by identity (see DetectedTable.segments).
+  const consumed: Segment[] = [];
   for (const s of segments) {
     // rowBoundaries ascend in y, but rows read top-to-bottom (y descending),
     // so band 0 is the BOTTOM row and the index has to be flipped.
@@ -195,24 +236,28 @@ export function detectRuledTable(
     const col = bandIndex(colBoundaries, centroidX(s));
     if (band < 0 || col < 0) continue;
     cells[rowCount - 1 - band][col].push(s);
-    placed++;
+    consumed.push(s);
   }
 
-  if (placed === 0) return null;
+  if (consumed.length === 0) return null;
 
   const rows = cells.map((row) =>
-    row.map((cell) =>
-      [...cell]
-        .sort((a, b) => centroidY(b) - centroidY(a) || a.x - b.x)
+    row.map((cell) => {
+      // An RTL cell's runs are laid out right-to-left, so joining them by
+      // ascending x would reverse logical reading order.
+      const rtl = cell.some((s) => s.dir === "rtl");
+      return [...cell]
+        .sort((a, b) => centroidY(b) - centroidY(a) || (rtl ? b.x - a.x : a.x - b.x))
         .map((s) => s.text.trim())
         .filter((t) => t.length > 0)
-        .join(" "),
-    ),
+        .join(" ");
+    }),
   );
 
   return {
     rows,
     ruled: true,
+    segments: consumed,
     box: {
       x0: colBoundaries[0],
       y0: rowBoundaries[0],
@@ -222,7 +267,26 @@ export function detectRuledTable(
   };
 }
 
-/** Group segments into visual rows by vertical overlap, ordered top-to-bottom. */
+/**
+ * Group segments into visual rows by vertical overlap, ordered top-to-bottom.
+ *
+ * A segment joins the current row when its CENTROID y is within half a line
+ * height of the row's running MEAN centroid — not when its vertical span
+ * overlaps the union of every segment admitted so far.
+ *
+ * The union version chain-merges. Three 12pt lines at 10pt leading each
+ * overlap the previous line's span, so 700-712 u 690-702 u 680-692 collapses
+ * into one pseudo-row carrying 3x the real column count; `rowsAlign` then
+ * fails on the segment-count check and a legitimate tight-leading table
+ * silently returns null. Comparing to a running mean bounds that drift, which
+ * is the same reason `clusterPositions` compares against a mean.
+ *
+ * Half a line height is the right bar because it is exactly the point at which
+ * two rows would visually collide: segments on one typeset line share a
+ * baseline to well within it, while the next line down is a full leading away.
+ * The tolerance uses the LARGER of the row's height and the candidate's, so a
+ * tall heading cell still pairs with the short cells beside it.
+ */
 function groupRows(segments: Segment[]): Segment[][] {
   const usable = segments.filter(
     (s) => Number.isFinite(s.x) && Number.isFinite(s.y) && Number.isFinite(s.h),
@@ -230,33 +294,35 @@ function groupRows(segments: Segment[]): Segment[][] {
   const sorted = [...usable].sort((a, b) => centroidY(b) - centroidY(a));
   const rows: Segment[][] = [];
   let current: Segment[] = [];
-  let top = 0;
-  let bottom = 0;
+  let sumCentroid = 0;
+  let maxHeight = 0;
 
   for (const s of sorted) {
-    const sTop = s.y + s.h;
-    const sBottom = s.y;
     if (current.length === 0) {
       current = [s];
-      top = sTop;
-      bottom = sBottom;
+      sumCentroid = centroidY(s);
+      maxHeight = s.h;
       continue;
     }
-    // Overlap of the two vertical spans; > 0 means they share a visual line.
-    const overlap = Math.min(top, sTop) - Math.max(bottom, sBottom);
-    if (overlap > 0) {
+    const mean = sumCentroid / current.length;
+    const tol = 0.5 * Math.max(maxHeight, s.h);
+    if (Math.abs(centroidY(s) - mean) <= tol) {
       current.push(s);
-      top = Math.max(top, sTop);
-      bottom = Math.min(bottom, sBottom);
+      sumCentroid += centroidY(s);
+      maxHeight = Math.max(maxHeight, s.h);
     } else {
       rows.push(current);
       current = [s];
-      top = sTop;
-      bottom = sBottom;
+      sumCentroid = centroidY(s);
+      maxHeight = s.h;
     }
   }
   if (current.length > 0) rows.push(current);
-  return rows.map((row) => [...row].sort((a, b) => a.x - b.x));
+  // An RTL row's leftmost column is its LAST column in logical reading order.
+  return rows.map((row) => {
+    const rtl = row.some((s) => s.dir === "rtl");
+    return [...row].sort((a, b) => (rtl ? b.x - a.x : a.x - b.x));
+  });
 }
 
 /** Do two candidate rows have the same column structure? */
@@ -336,5 +402,7 @@ export function detectBorderlessTable(segments: Segment[]): DetectedTable | null
     }
   }
 
-  return { rows, ruled: false, box: { x0, y0, x1, y1 } };
+  // Every segment of the winning run, so downstream excludes by identity
+  // rather than re-deriving geometry from `box` (see DetectedTable.segments).
+  return { rows, ruled: false, box: { x0, y0, x1, y1 }, segments: run.flat() };
 }
