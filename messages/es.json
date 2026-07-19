@@ -796,12 +796,12 @@
         "description": "Un temporizador de cuenta regresiva a pantalla completa pensado para el aula: elige los minutos, pulsa iniciar y mantén a toda la clase enfocada."
       },
       "pdf-to-word": {
-        "name": "PDF to Word",
-        "description": "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR."
+        "name": "PDF a Word",
+        "description": "Convierte un PDF en un documento de Word (.docx) editable: encabezados, párrafos, listas y tablas, todo desde tu navegador. Funciona mejor con PDF creados digitalmente; las páginas escaneadas necesitan OCR."
       },
       "word-to-pdf": {
-        "name": "Word to PDF",
-        "description": "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact."
+        "name": "Word a PDF",
+        "description": "Convierte un documento de Word (.docx) en PDF usando el diálogo de impresión de tu navegador: el texto sigue siendo seleccionable y buscable, todo desde tu navegador. El estilo se normaliza, no es exacto al píxel."
       }
     },
     "categoriesShort": {
@@ -4257,11 +4257,11 @@
       "copied": "¡Copiado al portapapeles!",
       "copyFailed": "No se pudo copiar.",
       "downloaded": "¡Archivo de texto descargado!",
-      "preprocess": "Enhance for OCR (deskew + binarize)",
-      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
-      "pdfPageProgress": "Page {current} of {total}",
-      "pdfPageSeparator": "— Page {number} —",
-      "pdfFile": "PDF document"
+      "preprocess": "Mejorar para OCR (enderezar + binarizar)",
+      "preprocessHint": "Endereza escaneos torcidos y aumenta el contraste en fotos con iluminación desigual antes del reconocimiento. Más lento: déjalo desactivado para imágenes digitales limpias.",
+      "pdfPageProgress": "Página {current} de {total}",
+      "pdfPageSeparator": "— Página {number} —",
+      "pdfFile": "Documento PDF"
     },
     "TextToSpeech": {
       "title": "Texto a voz",
@@ -5112,47 +5112,47 @@
       "errorPoolTooSmall": "Tu banco de palabras es demasiado pequeño para el tamaño de cartón elegido. Añade más palabras o usa un cartón más pequeño."
     },
     "PdfToWord": {
-      "dropHere": "Drop a PDF here, or click to choose",
-      "supportedFormats": "PDF files only, one at a time.",
-      "change": "Change",
-      "analyzing": "Analyzing…",
-      "extractFailed": "Could not read this PDF. Please try a different file.",
-      "statPages": "Pages",
-      "statHeadings": "Headings",
-      "statParagraphs": "Paragraphs",
-      "statLists": "Lists",
-      "statTables": "Tables",
-      "scannedNotice": "Page(s) {pages} have no text layer (scanned or image-only) and won't appear in the Word file.",
-      "scannedNoticeLink": "Try the OCR tool for those pages",
-      "honestyTitle": "Good to know",
-      "honestyDigital": "Works best on digitally-created PDFs (from Word, Google Docs, etc). Scanned PDFs need OCR and won't convert here.",
-      "honestyBorderless": "Borderless tables (no visible grid lines) are the weakest link — detection is a heuristic and can miss or mis-split them.",
-      "honestyMerged": "Merged or spanning cells, and multi-line cells, are not supported.",
-      "honestyMultiTable": "Two or more separate tables on the same page are read as one table, which produces extra columns and can pull a heading in as a table row. Split them onto separate pages for a clean result.",
-      "honestyRtlTables": "Right-to-left tables (Arabic, Hebrew) can come out wrong — columns may collapse together and cells are not marked right-to-left. Arabic paragraph text converts correctly; this affects tables only.",
-      "honestyImages": "Images are not carried over in this version — only text, headings, lists, and tables.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "convert": "Convert to Word",
-      "converting": "Converting…",
-      "downloaded": "Word document downloaded",
-      "convertFailed": "Could not build the Word document. Please try again."
+      "dropHere": "Suelta un PDF aquí o haz clic para elegirlo",
+      "supportedFormats": "Solo archivos PDF, de uno en uno.",
+      "change": "Cambiar",
+      "analyzing": "Analizando…",
+      "extractFailed": "No se pudo leer este PDF. Prueba con otro archivo.",
+      "statPages": "Páginas",
+      "statHeadings": "Encabezados",
+      "statParagraphs": "Párrafos",
+      "statLists": "Listas",
+      "statTables": "Tablas",
+      "scannedNotice": "La(s) página(s) {pages} no tienen capa de texto (son escaneadas o solo imagen) y no aparecerán en el archivo de Word.",
+      "scannedNoticeLink": "Prueba la herramienta de OCR para esas páginas",
+      "honestyTitle": "Bueno saberlo",
+      "honestyDigital": "Funciona mejor con PDF creados digitalmente (desde Word, Google Docs, etc). Los PDF escaneados necesitan OCR y no se pueden convertir aquí.",
+      "honestyBorderless": "Las tablas sin bordes (sin líneas de cuadrícula visibles) son el punto más débil: la detección es heurística y puede pasarlas por alto o dividirlas mal.",
+      "honestyMerged": "Las celdas combinadas o que abarcan varias columnas, y las celdas con varias líneas, no son compatibles.",
+      "honestyMultiTable": "Dos o más tablas separadas en la misma página se leen como una sola tabla, lo que genera columnas de más y puede convertir un encabezado en una fila de la tabla. Sepáralas en páginas distintas para obtener un resultado limpio.",
+      "honestyRtlTables": "Las tablas de derecha a izquierda (árabe, hebreo) pueden salir mal: las columnas pueden colapsar entre sí y las celdas no se marcan como de derecha a izquierda. El texto de párrafo en árabe se convierte correctamente; esto solo afecta a las tablas.",
+      "honestyImages": "Las imágenes no se conservan en esta versión: solo texto, encabezados, listas y tablas.",
+      "honestyPrivacy": "Todo se ejecuta en tu dispositivo. Tu archivo nunca se sube a ningún servidor.",
+      "convert": "Convertir a Word",
+      "converting": "Convirtiendo…",
+      "downloaded": "Documento de Word descargado",
+      "convertFailed": "No se pudo generar el documento de Word. Inténtalo de nuevo."
     },
     "WordToPdf": {
-      "dropHere": "Drop a Word document here, or click to choose",
-      "supportedFormats": ".docx files only, one at a time.",
-      "change": "Change",
-      "parsing": "Reading document…",
-      "parseFailed": "Could not read this Word document. Please try a different file.",
-      "warningsTitle": "Conversion notes",
-      "warningsIntro": "Some formatting couldn't be carried over from your Word document:",
-      "previewTitle": "Preview",
-      "honestyTitle": "Good to know",
-      "honestyNormalized": "Styling is normalized here — this produces clean, readable output, not a pixel-exact replica of your Word document's layout.",
-      "honestyComplex": "Complex layouts, floats, multi-column sections, headers/footers, and precise positioning won't survive.",
-      "honestyImages": "Images are embedded inline — large documents with many images may take a moment to render.",
-      "honestyPrint": "PDF generation uses your browser's print dialog, so the text stays selectable and searchable — choose \"Save as PDF\" as the destination.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "print": "Print / Save as PDF"
+      "dropHere": "Suelta un documento de Word aquí o haz clic para elegirlo",
+      "supportedFormats": "Solo archivos .docx, de uno en uno.",
+      "change": "Cambiar",
+      "parsing": "Leyendo documento…",
+      "parseFailed": "No se pudo leer este documento de Word. Prueba con otro archivo.",
+      "warningsTitle": "Notas de la conversión",
+      "warningsIntro": "Parte del formato no se pudo conservar desde tu documento de Word:",
+      "previewTitle": "Vista previa",
+      "honestyTitle": "Bueno saberlo",
+      "honestyNormalized": "El estilo se normaliza aquí: esto produce un resultado limpio y legible, no una réplica exacta al píxel del diseño de tu documento de Word.",
+      "honestyComplex": "Los diseños complejos, elementos flotantes, secciones de varias columnas, encabezados/pies de página y el posicionamiento preciso no se conservan.",
+      "honestyImages": "Las imágenes se incrustan en línea; los documentos grandes con muchas imágenes pueden tardar un momento en renderizarse.",
+      "honestyPrint": "La generación del PDF usa el diálogo de impresión de tu navegador, por lo que el texto sigue siendo seleccionable y buscable: elige \"Guardar como PDF\" como destino.",
+      "honestyPrivacy": "Todo se ejecuta en tu dispositivo. Tu archivo nunca se sube a ningún servidor.",
+      "print": "Imprimir / Guardar como PDF"
     }
   },
   "Blog": {

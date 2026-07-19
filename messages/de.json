@@ -796,12 +796,12 @@
         "description": "Ein Vollbild-Countdown-Timer für den Unterricht — Minuten einstellen, Start drücken und die ganze Klasse im Blick behalten."
       },
       "pdf-to-word": {
-        "name": "PDF to Word",
-        "description": "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR."
+        "name": "PDF zu Word",
+        "description": "Konvertiere eine PDF in ein bearbeitbares Word-Dokument (.docx) — mit Überschriften, Absätzen, Listen und Tabellen — vollständig in deinem Browser. Funktioniert am besten mit digital erstellten PDFs; gescannte Seiten benötigen OCR."
       },
       "word-to-pdf": {
-        "name": "Word to PDF",
-        "description": "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact."
+        "name": "Word zu PDF",
+        "description": "Konvertiere ein Word-Dokument (.docx) mithilfe des Druckdialogs deines Browsers in eine PDF — der Text bleibt auswählbar und durchsuchbar, vollständig in deinem Browser. Die Formatierung wird vereinheitlicht, nicht pixelgenau übernommen."
       }
     },
     "categoriesShort": {
@@ -4257,11 +4257,11 @@
       "copied": "In die Zwischenablage kopiert!",
       "copyFailed": "Kopieren fehlgeschlagen.",
       "downloaded": "Textdatei heruntergeladen!",
-      "preprocess": "Enhance for OCR (deskew + binarize)",
-      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
-      "pdfPageProgress": "Page {current} of {total}",
-      "pdfPageSeparator": "— Page {number} —",
-      "pdfFile": "PDF document"
+      "preprocess": "Für OCR optimieren (Entzerren + Binarisieren)",
+      "preprocessHint": "Begradigt schräg gescannte Vorlagen und verstärkt den Kontrast bei ungleichmäßig beleuchteten Fotos vor der Erkennung. Langsamer — bei sauberen digitalen Bildern deaktiviert lassen.",
+      "pdfPageProgress": "Seite {current} von {total}",
+      "pdfPageSeparator": "— Seite {number} —",
+      "pdfFile": "PDF-Dokument"
     },
     "TextToSpeech": {
       "title": "Text zu Sprache",
@@ -5112,47 +5112,47 @@
       "errorPoolTooSmall": "Dein Wortpool ist für die gewählte Kartengröße zu klein. Füge mehr Wörter hinzu oder wähle eine kleinere Karte."
     },
     "PdfToWord": {
-      "dropHere": "Drop a PDF here, or click to choose",
-      "supportedFormats": "PDF files only, one at a time.",
-      "change": "Change",
-      "analyzing": "Analyzing…",
-      "extractFailed": "Could not read this PDF. Please try a different file.",
-      "statPages": "Pages",
-      "statHeadings": "Headings",
-      "statParagraphs": "Paragraphs",
-      "statLists": "Lists",
-      "statTables": "Tables",
-      "scannedNotice": "Page(s) {pages} have no text layer (scanned or image-only) and won't appear in the Word file.",
-      "scannedNoticeLink": "Try the OCR tool for those pages",
-      "honestyTitle": "Good to know",
-      "honestyDigital": "Works best on digitally-created PDFs (from Word, Google Docs, etc). Scanned PDFs need OCR and won't convert here.",
-      "honestyBorderless": "Borderless tables (no visible grid lines) are the weakest link — detection is a heuristic and can miss or mis-split them.",
-      "honestyMerged": "Merged or spanning cells, and multi-line cells, are not supported.",
-      "honestyMultiTable": "Two or more separate tables on the same page are read as one table, which produces extra columns and can pull a heading in as a table row. Split them onto separate pages for a clean result.",
-      "honestyRtlTables": "Right-to-left tables (Arabic, Hebrew) can come out wrong — columns may collapse together and cells are not marked right-to-left. Arabic paragraph text converts correctly; this affects tables only.",
-      "honestyImages": "Images are not carried over in this version — only text, headings, lists, and tables.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "convert": "Convert to Word",
-      "converting": "Converting…",
-      "downloaded": "Word document downloaded",
-      "convertFailed": "Could not build the Word document. Please try again."
+      "dropHere": "PDF hier ablegen oder klicken, um eine Datei auszuwählen",
+      "supportedFormats": "Nur PDF-Dateien, jeweils eine auf einmal.",
+      "change": "Ändern",
+      "analyzing": "Wird analysiert …",
+      "extractFailed": "Diese PDF konnte nicht gelesen werden. Bitte versuche eine andere Datei.",
+      "statPages": "Seiten",
+      "statHeadings": "Überschriften",
+      "statParagraphs": "Absätze",
+      "statLists": "Listen",
+      "statTables": "Tabellen",
+      "scannedNotice": "Seite(n) {pages} haben keine Textebene (gescannt oder reines Bild) und erscheinen nicht in der Word-Datei.",
+      "scannedNoticeLink": "Für diese Seiten das OCR-Tool ausprobieren",
+      "honestyTitle": "Gut zu wissen",
+      "honestyDigital": "Funktioniert am besten mit digital erstellten PDFs (aus Word, Google Docs usw.). Gescannte PDFs benötigen OCR und lassen sich hier nicht konvertieren.",
+      "honestyBorderless": "Randlose Tabellen (ohne sichtbare Gitterlinien) sind der schwächste Punkt — die Erkennung basiert auf Heuristiken und kann sie übersehen oder falsch aufteilen.",
+      "honestyMerged": "Verbundene oder übergreifende Zellen sowie mehrzeilige Zellen werden nicht unterstützt.",
+      "honestyMultiTable": "Zwei oder mehr separate Tabellen auf derselben Seite werden als eine Tabelle gelesen, was zu zusätzlichen Spalten führt und eine Überschrift als Tabellenzeile einziehen kann. Teile sie auf separate Seiten auf, um ein sauberes Ergebnis zu erhalten.",
+      "honestyRtlTables": "Rechts-nach-links-Tabellen (Arabisch, Hebräisch) können fehlerhaft ausfallen — Spalten können ineinanderfallen und Zellen werden nicht als rechts-nach-links markiert. Arabischer Fließtext wird korrekt konvertiert; dies betrifft nur Tabellen.",
+      "honestyImages": "Bilder werden in dieser Version nicht übernommen — nur Text, Überschriften, Listen und Tabellen.",
+      "honestyPrivacy": "Alles läuft auf deinem Gerät. Deine Datei wird niemals hochgeladen.",
+      "convert": "In Word konvertieren",
+      "converting": "Wird konvertiert …",
+      "downloaded": "Word-Dokument heruntergeladen",
+      "convertFailed": "Das Word-Dokument konnte nicht erstellt werden. Bitte versuche es erneut."
     },
     "WordToPdf": {
-      "dropHere": "Drop a Word document here, or click to choose",
-      "supportedFormats": ".docx files only, one at a time.",
-      "change": "Change",
-      "parsing": "Reading document…",
-      "parseFailed": "Could not read this Word document. Please try a different file.",
-      "warningsTitle": "Conversion notes",
-      "warningsIntro": "Some formatting couldn't be carried over from your Word document:",
-      "previewTitle": "Preview",
-      "honestyTitle": "Good to know",
-      "honestyNormalized": "Styling is normalized here — this produces clean, readable output, not a pixel-exact replica of your Word document's layout.",
-      "honestyComplex": "Complex layouts, floats, multi-column sections, headers/footers, and precise positioning won't survive.",
-      "honestyImages": "Images are embedded inline — large documents with many images may take a moment to render.",
-      "honestyPrint": "PDF generation uses your browser's print dialog, so the text stays selectable and searchable — choose \"Save as PDF\" as the destination.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "print": "Print / Save as PDF"
+      "dropHere": "Word-Dokument hier ablegen oder klicken, um eine Datei auszuwählen",
+      "supportedFormats": "Nur .docx-Dateien, jeweils eine auf einmal.",
+      "change": "Ändern",
+      "parsing": "Dokument wird gelesen …",
+      "parseFailed": "Dieses Word-Dokument konnte nicht gelesen werden. Bitte versuche eine andere Datei.",
+      "warningsTitle": "Hinweise zur Konvertierung",
+      "warningsIntro": "Einige Formatierungen konnten aus deinem Word-Dokument nicht übernommen werden:",
+      "previewTitle": "Vorschau",
+      "honestyTitle": "Gut zu wissen",
+      "honestyNormalized": "Die Formatierung wird hier vereinheitlicht — das ergibt eine saubere, gut lesbare Ausgabe, aber keine pixelgenaue Nachbildung des Layouts deines Word-Dokuments.",
+      "honestyComplex": "Komplexe Layouts, Floats, mehrspaltige Abschnitte, Kopf-/Fußzeilen und präzise Positionierung bleiben nicht erhalten.",
+      "honestyImages": "Bilder werden inline eingebettet — bei umfangreichen Dokumenten mit vielen Bildern kann das Rendern einen Moment dauern.",
+      "honestyPrint": "Die PDF-Erstellung nutzt den Druckdialog deines Browsers, damit der Text auswählbar und durchsuchbar bleibt — wähle „Als PDF speichern“ als Ziel.",
+      "honestyPrivacy": "Alles läuft auf deinem Gerät. Deine Datei wird niemals hochgeladen.",
+      "print": "Drucken / Als PDF speichern"
     }
   },
   "Blog": {

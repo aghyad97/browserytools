@@ -796,12 +796,12 @@
         "description": "Un compte à rebours plein écran conçu pour la salle de classe : réglez les minutes, lancez le décompte et gardez toute la classe dans le rythme."
       },
       "pdf-to-word": {
-        "name": "PDF to Word",
-        "description": "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR."
+        "name": "PDF vers Word",
+        "description": "Convertissez un PDF en document Word (.docx) modifiable — titres, paragraphes, listes et tableaux — entièrement dans votre navigateur. Fonctionne mieux avec des PDF créés numériquement ; les pages scannées nécessitent l'OCR."
       },
       "word-to-pdf": {
-        "name": "Word to PDF",
-        "description": "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact."
+        "name": "Word vers PDF",
+        "description": "Convertissez un document Word (.docx) en PDF grâce à la boîte de dialogue d'impression de votre navigateur — le texte reste sélectionnable et consultable par recherche, entièrement dans votre navigateur. La mise en forme est normalisée, sans être pixel près."
       }
     },
     "categoriesShort": {
@@ -4257,11 +4257,11 @@
       "copied": "Copié dans le presse-papiers !",
       "copyFailed": "Échec de la copie.",
       "downloaded": "Fichier texte téléchargé !",
-      "preprocess": "Enhance for OCR (deskew + binarize)",
-      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
-      "pdfPageProgress": "Page {current} of {total}",
+      "preprocess": "Améliorer pour l'OCR (redressement + binarisation)",
+      "preprocessHint": "Redresse les scans inclinés et augmente le contraste des photos mal éclairées avant la reconnaissance. Plus lent — laissez désactivé pour des images numériques propres.",
+      "pdfPageProgress": "Page {current} sur {total}",
       "pdfPageSeparator": "— Page {number} —",
-      "pdfFile": "PDF document"
+      "pdfFile": "Document PDF"
     },
     "TextToSpeech": {
       "title": "Synthèse vocale",
@@ -5112,47 +5112,47 @@
       "errorPoolTooSmall": "Votre liste de mots est trop courte pour la taille de carte choisie. Ajoutez des mots ou choisissez une carte plus petite."
     },
     "PdfToWord": {
-      "dropHere": "Drop a PDF here, or click to choose",
-      "supportedFormats": "PDF files only, one at a time.",
-      "change": "Change",
-      "analyzing": "Analyzing…",
-      "extractFailed": "Could not read this PDF. Please try a different file.",
+      "dropHere": "Déposez un PDF ici, ou cliquez pour en choisir un",
+      "supportedFormats": "Fichiers PDF uniquement, un à la fois.",
+      "change": "Changer",
+      "analyzing": "Analyse…",
+      "extractFailed": "Impossible de lire ce PDF. Veuillez essayer un autre fichier.",
       "statPages": "Pages",
-      "statHeadings": "Headings",
-      "statParagraphs": "Paragraphs",
-      "statLists": "Lists",
-      "statTables": "Tables",
-      "scannedNotice": "Page(s) {pages} have no text layer (scanned or image-only) and won't appear in the Word file.",
-      "scannedNoticeLink": "Try the OCR tool for those pages",
-      "honestyTitle": "Good to know",
-      "honestyDigital": "Works best on digitally-created PDFs (from Word, Google Docs, etc). Scanned PDFs need OCR and won't convert here.",
-      "honestyBorderless": "Borderless tables (no visible grid lines) are the weakest link — detection is a heuristic and can miss or mis-split them.",
-      "honestyMerged": "Merged or spanning cells, and multi-line cells, are not supported.",
-      "honestyMultiTable": "Two or more separate tables on the same page are read as one table, which produces extra columns and can pull a heading in as a table row. Split them onto separate pages for a clean result.",
-      "honestyRtlTables": "Right-to-left tables (Arabic, Hebrew) can come out wrong — columns may collapse together and cells are not marked right-to-left. Arabic paragraph text converts correctly; this affects tables only.",
-      "honestyImages": "Images are not carried over in this version — only text, headings, lists, and tables.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "convert": "Convert to Word",
-      "converting": "Converting…",
-      "downloaded": "Word document downloaded",
-      "convertFailed": "Could not build the Word document. Please try again."
+      "statHeadings": "Titres",
+      "statParagraphs": "Paragraphes",
+      "statLists": "Listes",
+      "statTables": "Tableaux",
+      "scannedNotice": "La ou les pages {pages} n'ont pas de couche de texte (scannées ou image seule) et n'apparaîtront pas dans le fichier Word.",
+      "scannedNoticeLink": "Essayez l'outil OCR pour ces pages",
+      "honestyTitle": "Bon à savoir",
+      "honestyDigital": "Fonctionne mieux avec des PDF créés numériquement (depuis Word, Google Docs, etc.). Les PDF scannés nécessitent l'OCR et ne seront pas convertis ici.",
+      "honestyBorderless": "Les tableaux sans bordures (sans lignes de grille visibles) sont le maillon faible — la détection est heuristique et peut les manquer ou les mal découper.",
+      "honestyMerged": "Les cellules fusionnées ou fractionnées, ainsi que les cellules multi-lignes, ne sont pas prises en charge.",
+      "honestyMultiTable": "Deux tableaux distincts ou plus sur la même page sont lus comme un seul tableau, ce qui produit des colonnes supplémentaires et peut intégrer un titre en tant que ligne de tableau. Répartissez-les sur des pages séparées pour un résultat propre.",
+      "honestyRtlTables": "Les tableaux de droite à gauche (arabe, hébreu) peuvent être mal convertis — les colonnes peuvent se confondre et les cellules ne sont pas marquées de droite à gauche. Le texte des paragraphes en arabe se convertit correctement ; cela ne concerne que les tableaux.",
+      "honestyImages": "Les images ne sont pas conservées dans cette version — seuls le texte, les titres, les listes et les tableaux le sont.",
+      "honestyPrivacy": "Tout s'exécute sur votre appareil. Votre fichier n'est jamais envoyé sur un serveur.",
+      "convert": "Convertir en Word",
+      "converting": "Conversion…",
+      "downloaded": "Document Word téléchargé",
+      "convertFailed": "Impossible de générer le document Word. Veuillez réessayer."
     },
     "WordToPdf": {
-      "dropHere": "Drop a Word document here, or click to choose",
-      "supportedFormats": ".docx files only, one at a time.",
-      "change": "Change",
-      "parsing": "Reading document…",
-      "parseFailed": "Could not read this Word document. Please try a different file.",
-      "warningsTitle": "Conversion notes",
-      "warningsIntro": "Some formatting couldn't be carried over from your Word document:",
-      "previewTitle": "Preview",
-      "honestyTitle": "Good to know",
-      "honestyNormalized": "Styling is normalized here — this produces clean, readable output, not a pixel-exact replica of your Word document's layout.",
-      "honestyComplex": "Complex layouts, floats, multi-column sections, headers/footers, and precise positioning won't survive.",
-      "honestyImages": "Images are embedded inline — large documents with many images may take a moment to render.",
-      "honestyPrint": "PDF generation uses your browser's print dialog, so the text stays selectable and searchable — choose \"Save as PDF\" as the destination.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "print": "Print / Save as PDF"
+      "dropHere": "Déposez un document Word ici, ou cliquez pour en choisir un",
+      "supportedFormats": "Fichiers .docx uniquement, un à la fois.",
+      "change": "Changer",
+      "parsing": "Lecture du document…",
+      "parseFailed": "Impossible de lire ce document Word. Veuillez essayer un autre fichier.",
+      "warningsTitle": "Remarques sur la conversion",
+      "warningsIntro": "Certaines mises en forme n'ont pas pu être conservées depuis votre document Word :",
+      "previewTitle": "Aperçu",
+      "honestyTitle": "Bon à savoir",
+      "honestyNormalized": "La mise en forme est normalisée ici — cela produit un résultat propre et lisible, mais pas une réplique pixel près de la mise en page de votre document Word.",
+      "honestyComplex": "Les mises en page complexes, les flottants, les sections multi-colonnes, les en-têtes/pieds de page et le positionnement précis ne seront pas conservés.",
+      "honestyImages": "Les images sont intégrées en ligne — les documents volumineux contenant de nombreuses images peuvent prendre un moment à s'afficher.",
+      "honestyPrint": "La génération du PDF utilise la boîte de dialogue d'impression de votre navigateur, ainsi le texte reste sélectionnable et consultable par recherche — choisissez « Enregistrer au format PDF » comme destination.",
+      "honestyPrivacy": "Tout s'exécute sur votre appareil. Votre fichier n'est jamais envoyé sur un serveur.",
+      "print": "Imprimer / Enregistrer au format PDF"
     }
   },
   "Blog": {

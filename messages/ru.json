@@ -796,12 +796,12 @@
         "description": "Полноэкранный таймер обратного отсчёта для класса — задайте минуты, нажмите «Старт» и держите весь класс в едином темпе."
       },
       "pdf-to-word": {
-        "name": "PDF to Word",
-        "description": "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR."
+        "name": "PDF в Word",
+        "description": "Конвертируйте PDF в редактируемый документ Word (.docx) — заголовки, абзацы, списки и таблицы — полностью в браузере. Лучше всего работает с PDF, созданными в цифровом виде; для сканированных страниц нужен OCR."
       },
       "word-to-pdf": {
-        "name": "Word to PDF",
-        "description": "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact."
+        "name": "Word в PDF",
+        "description": "Конвертируйте документ Word (.docx) в PDF через диалог печати браузера — текст остаётся выделяемым и доступным для поиска, полностью в браузере. Оформление нормализуется, а не воспроизводится пиксель в пиксель."
       }
     },
     "categoriesShort": {
@@ -4257,11 +4257,11 @@
       "copied": "Скопировано в буфер обмена!",
       "copyFailed": "Не удалось скопировать.",
       "downloaded": "Текстовый файл скачан!",
-      "preprocess": "Enhance for OCR (deskew + binarize)",
-      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
-      "pdfPageProgress": "Page {current} of {total}",
-      "pdfPageSeparator": "— Page {number} —",
-      "pdfFile": "PDF document"
+      "preprocess": "Улучшить для OCR (выровнять и бинаризовать)",
+      "preprocessHint": "Выравнивает перекошенные сканы и повышает контраст на неравномерно освещённых фото перед распознаванием. Работает медленнее — отключите для чистых цифровых изображений.",
+      "pdfPageProgress": "Страница {current} из {total}",
+      "pdfPageSeparator": "— Страница {number} —",
+      "pdfFile": "PDF-документ"
     },
     "TextToSpeech": {
       "title": "Текст в речь",
@@ -5112,47 +5112,47 @@
       "errorPoolTooSmall": "Набор слов слишком мал для выбранного размера карточки. Добавьте больше слов или уменьшите размер карточки."
     },
     "PdfToWord": {
-      "dropHere": "Drop a PDF here, or click to choose",
-      "supportedFormats": "PDF files only, one at a time.",
-      "change": "Change",
-      "analyzing": "Analyzing…",
-      "extractFailed": "Could not read this PDF. Please try a different file.",
-      "statPages": "Pages",
-      "statHeadings": "Headings",
-      "statParagraphs": "Paragraphs",
-      "statLists": "Lists",
-      "statTables": "Tables",
-      "scannedNotice": "Page(s) {pages} have no text layer (scanned or image-only) and won't appear in the Word file.",
-      "scannedNoticeLink": "Try the OCR tool for those pages",
-      "honestyTitle": "Good to know",
-      "honestyDigital": "Works best on digitally-created PDFs (from Word, Google Docs, etc). Scanned PDFs need OCR and won't convert here.",
-      "honestyBorderless": "Borderless tables (no visible grid lines) are the weakest link — detection is a heuristic and can miss or mis-split them.",
-      "honestyMerged": "Merged or spanning cells, and multi-line cells, are not supported.",
-      "honestyMultiTable": "Two or more separate tables on the same page are read as one table, which produces extra columns and can pull a heading in as a table row. Split them onto separate pages for a clean result.",
-      "honestyRtlTables": "Right-to-left tables (Arabic, Hebrew) can come out wrong — columns may collapse together and cells are not marked right-to-left. Arabic paragraph text converts correctly; this affects tables only.",
-      "honestyImages": "Images are not carried over in this version — only text, headings, lists, and tables.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "convert": "Convert to Word",
-      "converting": "Converting…",
-      "downloaded": "Word document downloaded",
-      "convertFailed": "Could not build the Word document. Please try again."
+      "dropHere": "Перетащите сюда PDF-файл или нажмите, чтобы выбрать",
+      "supportedFormats": "Только PDF-файлы, по одному за раз.",
+      "change": "Изменить",
+      "analyzing": "Анализ…",
+      "extractFailed": "Не удалось прочитать этот PDF. Попробуйте другой файл.",
+      "statPages": "Страницы",
+      "statHeadings": "Заголовки",
+      "statParagraphs": "Абзацы",
+      "statLists": "Списки",
+      "statTables": "Таблицы",
+      "scannedNotice": "На странице(ах) {pages} нет текстового слоя (скан или изображение) — они не попадут в файл Word.",
+      "scannedNoticeLink": "Попробуйте инструмент OCR для этих страниц",
+      "honestyTitle": "Полезно знать",
+      "honestyDigital": "Лучше всего работает с PDF, созданными в цифровом виде (из Word, Google Docs и т. п.). Сканированные PDF требуют OCR и здесь не конвертируются.",
+      "honestyBorderless": "Таблицы без границ (без видимых линий сетки) — самое слабое место: их распознавание основано на эвристике и может пропустить таблицу или разбить её неверно.",
+      "honestyMerged": "Объединённые или растянутые ячейки, а также многострочные ячейки не поддерживаются.",
+      "honestyMultiTable": "Две и более отдельные таблицы на одной странице распознаются как одна, из-за чего появляются лишние столбцы, а заголовок может попасть в таблицу как строка. Для чистого результата разместите их на разных страницах.",
+      "honestyRtlTables": "Таблицы с письмом справа налево (арабский, иврит) могут отображаться некорректно — столбцы могут слипаться, а ячейки не помечаются как RTL. Арабский текст в абзацах конвертируется правильно; это касается только таблиц.",
+      "honestyImages": "В этой версии изображения не переносятся — только текст, заголовки, списки и таблицы.",
+      "honestyPrivacy": "Всё выполняется на вашем устройстве. Файл никогда не загружается на сервер.",
+      "convert": "Конвертировать в Word",
+      "converting": "Конвертация…",
+      "downloaded": "Документ Word скачан",
+      "convertFailed": "Не удалось создать документ Word. Попробуйте снова."
     },
     "WordToPdf": {
-      "dropHere": "Drop a Word document here, or click to choose",
-      "supportedFormats": ".docx files only, one at a time.",
-      "change": "Change",
-      "parsing": "Reading document…",
-      "parseFailed": "Could not read this Word document. Please try a different file.",
-      "warningsTitle": "Conversion notes",
-      "warningsIntro": "Some formatting couldn't be carried over from your Word document:",
-      "previewTitle": "Preview",
-      "honestyTitle": "Good to know",
-      "honestyNormalized": "Styling is normalized here — this produces clean, readable output, not a pixel-exact replica of your Word document's layout.",
-      "honestyComplex": "Complex layouts, floats, multi-column sections, headers/footers, and precise positioning won't survive.",
-      "honestyImages": "Images are embedded inline — large documents with many images may take a moment to render.",
-      "honestyPrint": "PDF generation uses your browser's print dialog, so the text stays selectable and searchable — choose \"Save as PDF\" as the destination.",
-      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
-      "print": "Print / Save as PDF"
+      "dropHere": "Перетащите сюда документ Word или нажмите, чтобы выбрать",
+      "supportedFormats": "Только файлы .docx, по одному за раз.",
+      "change": "Изменить",
+      "parsing": "Чтение документа…",
+      "parseFailed": "Не удалось прочитать этот документ Word. Попробуйте другой файл.",
+      "warningsTitle": "Примечания о конвертации",
+      "warningsIntro": "Часть форматирования не удалось перенести из вашего документа Word:",
+      "previewTitle": "Предпросмотр",
+      "honestyTitle": "Полезно знать",
+      "honestyNormalized": "Оформление здесь нормализуется — это даёт чистый, удобочитаемый результат, но не точную пиксельную копию макета вашего документа Word.",
+      "honestyComplex": "Сложные макеты, обтекание текстом, многоколоночные разделы, колонтитулы и точное позиционирование элементов не сохраняются.",
+      "honestyImages": "Изображения встраиваются прямо в текст — документы с большим количеством изображений могут рендериться чуть дольше.",
+      "honestyPrint": "PDF создаётся через диалог печати вашего браузера, поэтому текст остаётся выделяемым и доступным для поиска — в качестве места назначения выберите «Сохранить как PDF».",
+      "honestyPrivacy": "Всё выполняется на вашем устройстве. Файл никогда не загружается на сервер.",
+      "print": "Печать / Сохранить как PDF"
     }
   },
   "Blog": {
