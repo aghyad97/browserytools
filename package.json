@@ -79,6 +79,7 @@
     "cronstrue": "^2.52.0",
     "date-fns": "^4.1.0",
     "diff": "^8.0.3",
+    "docx": "^9.7.1",
     "framer-motion": "^12.4.3",
     "function-plot": "^1.25.4",
     "gif.js": "^0.2.0",
