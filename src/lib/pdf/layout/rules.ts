@@ -122,7 +122,7 @@ function segmentsFromConstructPath(opCodes: number[], coords: number[], ctm: Mat
           y1 = Math.max(y1, ty);
         }
         out.push({ x0, y0, x1, y1 });
-        current = [x + w, y + h];
+        current = [x, y];
         break;
       }
       case OPS.moveTo: {

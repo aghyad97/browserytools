@@ -250,6 +250,34 @@ describe("extractRules — synthetic operator lists (idiom + CTM coverage)", () 
     expect(v).toEqual([]);
   });
 
+  it("leaves the current point at the rectangle's origin corner, not its far corner (re + bare lineTo)", () => {
+    // Equivalent content stream: `100 100 300 1 re 50 100 l S` — a thin
+    // filled rect (x=100,y=100,w=300,h=1) immediately followed by a lineTo
+    // with no intervening moveTo. Per PDF semantics, `re` expands to
+    // `x y m; (x+w) y l; (x+w)(y+h) l; x (y+h) l; h` — the trailing
+    // closepath (`h`) returns the current point to the subpath's START,
+    // (x, y), not its far corner (x+w, y+h).
+    const rectThenLine: [number[], number[], number[]] = [
+      [OPS.rectangle, OPS.lineTo],
+      [100, 100, 300, 1, 50, 100],
+      [100, 100, 300, 1, 50, 100],
+    ];
+    const opList = makeOpList([OPS.constructPath, OPS.stroke], [rectThenLine, null]);
+    const { h } = extractRules(opList, viewport);
+    // Two horizontal rules come out: h[0] is the rectangle's own bbox line
+    // (x0=100,x1=400 — constant, unaffected by this bug, not under test).
+    // h[1] is the lineTo-derived rule, whose x-span depends on where the
+    // rectangle op left the current point. Bug: current wrongly lands at
+    // the far corner (400, 101), so the lineTo segment spans x0=50..x1=400.
+    // Fixed: current correctly resets to the rect's origin (100, 100), so
+    // it spans x0=50..x1=100.
+    expect(h).toHaveLength(2);
+    expect(h[1].x0).toBeCloseTo(50);
+    expect(h[1].x1).toBeCloseTo(100);
+    expect(h[1].y0).toBeCloseTo(100);
+    expect(h[1].y1).toBeCloseTo(100);
+  });
+
   it("ignores a malformed constructPath args shape instead of throwing (defensive, complements the shape-guard test)", () => {
     const opList = makeOpList([OPS.constructPath], [{ not: "the expected tuple" }]);
     expect(() => extractRules(opList, viewport)).not.toThrow();
