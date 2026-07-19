@@ -24,6 +24,13 @@ const MAX_GAP = 20; // pt — horizontal gap cap. CRITICAL: prevents merging acr
 // column separation — this breaks every downstream reading-order/table task.
 // Do not raise this without re-running the Wave 7 spike fixtures.
 
+const WORD_GAP_FONT_RATIO = 0.2; // Relative, not a fixed pt value: natural word spacing
+// scales with font size (a 30pt heading has a much wider natural word gap than 8pt body
+// text), so a fixed-pt threshold would either fail to space large headings or falsely
+// space tight small text. Gaps larger than 20% of the font size are treated as a real
+// word boundary and get a reconstructed space; smaller gaps are kerning/ligature noise
+// within a single word (near-zero, well under this threshold for any realistic font size).
+
 function normalizeDir(dir: string | undefined): "ltr" | "rtl" {
   return dir === "rtl" ? "rtl" : "ltr";
 }
@@ -64,6 +71,12 @@ function itemToRun(item: TextItem): Segment {
  *   columns sharing a baseline, so full-line merging would pull text across
  *   the gutter and destroy column separation. The 20pt gap cap is what
  *   prevents that.
+ * - Merging reconstructs the word-separating space that whitespace-only
+ *   items don't carry through (they're dropped, see the loop below): a gap
+ *   bigger than 20% of the font size gets a single inserted space; smaller
+ *   gaps (kerning/ligature splits) are concatenated directly. This matters
+ *   for producers that emit prose as per-word TextItems rather than one
+ *   TextItem per line.
  *
  * `viewport` is accepted for interface symmetry with the rest of the layout
  * pipeline (extractRules etc. also take a viewport) and as a defensive bound
@@ -122,8 +135,9 @@ export function toSegments(items: TextItem[], viewport: PageViewport): Segment[]
   const segments: Segment[] = [];
   for (const run of runs) {
     const prev = segments[segments.length - 1];
-    if (prev && canMerge(prev, run)) {
-      mergeInto(prev, run);
+    const gap = prev ? horizontalGap(prev, run) : 0;
+    if (prev && canMerge(prev, run, gap)) {
+      mergeInto(prev, run, gap);
     } else {
       segments.push({ ...run });
     }
@@ -131,15 +145,22 @@ export function toSegments(items: TextItem[], viewport: PageViewport): Segment[]
   return segments;
 }
 
-function canMerge(prev: Segment, next: Segment): boolean {
-  if (Math.abs(prev.y - next.y) >= MAX_BASELINE_DELTA) return false;
+// The horizontal gap between the facing edges of two runs on the same baseline.
+// Positive means a real gap; negative means slight overlap. Computed once per
+// pair and threaded through to both canMerge (gutter/cap decision) and
+// mergeInto (word-spacing decision) so the two never disagree about geometry.
+function horizontalGap(prev: Segment, next: Segment): number {
   const prevRight = prev.x + prev.w;
-  const gap = next.x - prevRight;
+  return next.x - prevRight;
+}
+
+function canMerge(prev: Segment, next: Segment, gap: number): boolean {
+  if (Math.abs(prev.y - next.y) >= MAX_BASELINE_DELTA) return false;
   // Allow slight overlap (negative gap) as well as a positive gap up to the cap.
   return gap < MAX_GAP;
 }
 
-function mergeInto(prev: Segment, next: Segment): void {
+function mergeInto(prev: Segment, next: Segment, gap: number): void {
   const prevRight = prev.x + prev.w;
   const nextRight = next.x + next.w;
   // dir is decided before mutating prev.text so the length comparison reflects
@@ -147,8 +168,15 @@ function mergeInto(prev: Segment, next: Segment): void {
   if (next.text.length > prev.text.length) {
     prev.dir = next.dir;
   }
-  prev.text += next.text;
+  const fontSize = Math.max(prev.fontSize, next.fontSize);
+  // Reconstruct the word-separating space that whitespace-only TextItems
+  // (dropped above) would otherwise have contributed. Use the absolute gap so
+  // this is symmetric for rtl runs, where the "facing" edge can put the next
+  // run's origin behind the previous run's right edge rather than ahead of it.
+  const isWordGap = Math.abs(gap) > WORD_GAP_FONT_RATIO * fontSize;
+  const alreadySpaced = /\s$/.test(prev.text) || /^\s/.test(next.text);
+  prev.text += isWordGap && !alreadySpaced ? ` ${next.text}` : next.text;
   prev.w = Math.max(prevRight, nextRight) - prev.x;
   prev.h = Math.max(prev.h, next.h);
-  prev.fontSize = Math.max(prev.fontSize, next.fontSize);
+  prev.fontSize = fontSize;
 }

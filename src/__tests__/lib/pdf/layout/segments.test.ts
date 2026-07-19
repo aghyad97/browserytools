@@ -7,6 +7,7 @@ import path from "path";
 import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
 import { toSegments, type Segment } from "@/lib/pdf/layout/segments";
 import type { TextItem } from "pdfjs-dist/types/src/display/api";
+import type { PageViewport } from "pdfjs-dist";
 
 const FIXTURES_DIR = path.join(process.cwd(), "src/__tests__/fixtures/pdf");
 
@@ -69,5 +70,69 @@ describe("toSegments", () => {
   it("returns no segments for the image-only doc1-simple-scanned.pdf (no text layer)", async () => {
     const { segments } = await segmentsForPage("doc1-simple-scanned.pdf");
     expect(segments).toHaveLength(0);
+  });
+
+  it("extracts correctly-spaced prose from doc1-simple.pdf (integration, real fixture)", async () => {
+    const { segments } = await segmentsForPage("doc1-simple.pdf");
+    const allText = segments.map((s) => s.text).join(" ");
+    expect(allText).toContain("Quarterly Operations Report");
+    expect(allText).toContain("logistics division");
+    // No two-letter concatenation artifact (lowercase immediately followed by
+    // uppercase with no space) anywhere a word boundary should have been.
+    expect(allText).not.toMatch(/[a-z][A-Z]/);
+  });
+
+  // Synthetic TextItem factory: real producers commonly decompose prose into
+  // one TextItem per word plus whitespace-only TextItems between them (unlike
+  // Chrome print-to-PDF, which happens to bake whole lines — including spaces
+  // — into a single TextItem). toSegments must reconstruct the missing space
+  // from geometry once the whitespace-only items are dropped.
+  function makeItem(
+    str: string,
+    x: number,
+    y: number,
+    width: number,
+    fontSize = 12,
+  ): TextItem {
+    return {
+      str,
+      dir: "ltr",
+      transform: [fontSize, 0, 0, fontSize, x, y],
+      width,
+      height: fontSize,
+      fontName: "F1",
+      hasEOL: false,
+    } as TextItem;
+  }
+
+  it("reconstructs word spacing when per-word TextItems are merged (pure toSegments, synthetic)", () => {
+    // "Hello brave world" as three word TextItems + whitespace-only items in
+    // between, with realistic ~3pt inter-word gaps (well under the 20pt cap,
+    // so they merge) and matching per-word widths.
+    const items: TextItem[] = [
+      makeItem("Hello", 100, 500, 30),
+      makeItem(" ", 130, 500, 3),
+      makeItem("brave", 133, 500, 30),
+      makeItem(" ", 163, 500, 3),
+      makeItem("world", 166, 500, 30),
+    ];
+    const viewport = { width: 612, height: 792 } as PageViewport;
+    const segments = toSegments(items, viewport);
+    expect(segments).toHaveLength(1);
+    expect(segments[0].text).toBe("Hello brave world");
+    expect(segments[0].text).not.toBe("Hellobraveworld");
+  });
+
+  it("does not insert a space for an intra-word (kerning) split (pure toSegments, synthetic)", () => {
+    // "Wor" + "ld" split mid-word with a near-zero gap, as a font kerning or
+    // ligature boundary might produce.
+    const items: TextItem[] = [
+      makeItem("Wor", 100, 500, 21),
+      makeItem("ld", 121.1, 500, 14),
+    ];
+    const viewport = { width: 612, height: 792 } as PageViewport;
+    const segments = toSegments(items, viewport);
+    expect(segments).toHaveLength(1);
+    expect(segments[0].text).toBe("World");
   });
 });
