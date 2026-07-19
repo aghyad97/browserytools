@@ -121,9 +121,16 @@ export function ToolShell({
         </span>
       </div>
 
-      {/* zone 2 · title + sub (sub always ends with the on-device promise) */}
-      <h1 className={s.title}>{title}</h1>
-      <p className={s.sub}>{subLine}</p>
+      {/* zone 2 · title + sub (sub always ends with the on-device promise).
+          Both carry stable test ids so a tool that prints its own stage (e.g.
+          WordToPdf) can hide the shell's own chrome from the printed page —
+          see the bt-print-word-doc block in globals.css. */}
+      <h1 className={s.title} data-testid="tool-shell-title">
+        {title}
+      </h1>
+      <p className={s.sub} data-testid="tool-shell-sub">
+        {subLine}
+      </p>
 
       {/* zone 3 · stage — the tool's primary surface */}
       <div className={s.stage}>{children}</div>
@@ -136,7 +143,7 @@ export function ToolShell({
       {/* zone 5 · related (SEO content block is rendered by the tools layout) */}
       {related.length > 0 && (
         <>
-          <div className={s.sectionLabel}>
+          <div className={s.sectionLabel} data-testid="tool-shell-related-label">
             {tt("related")} <span className={s.sectionRule} />
           </div>
           <div className={s.grid} data-testid="tool-shell-related">

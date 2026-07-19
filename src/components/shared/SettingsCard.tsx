@@ -41,7 +41,11 @@ export function SettingsCard({
   return (
     <div className={className ? `${s.card} ${className}` : s.card} data-testid={dataTestId}>
       {(title != null || description != null || action != null) && (
-        <div className={s.head}>
+        // `data-settings-card-head` is a stable styling hook for global
+        // stylesheets (the CSS-module class name is hashed and unreachable
+        // from globals.css). Used by the print rules that strip a card's
+        // heading chrome — see bt-print-word-doc in globals.css.
+        <div className={s.head} data-settings-card-head="">
           {(title != null || action != null) && (
             <div className={s.headRow}>
               {title != null && <div className={s.title}>{title}</div>}

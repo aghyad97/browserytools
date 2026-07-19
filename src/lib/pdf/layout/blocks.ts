@@ -105,6 +105,68 @@ const PARAGRAPH_BREAK_GAP_RATIO = 2.1;
  */
 const LIST_MARKER_RE = /^\s*([•·▪-]|\d+[.)]|[a-z][.)])\s+/i;
 
+/**
+ * A line ending in a letter followed by a hyphen — the shape a justified
+ * paragraph leaves behind when a word is broken across a line break
+ * ("Fixed-" / "layout"). The letter class is Unicode-aware (\p{L}) so this
+ * also catches non-Latin scripts that hyphenate.
+ */
+const SOFT_HYPHEN_END_RE = /\p{L}-$/u;
+
+/**
+ * The next line begins with a lowercase letter. Used as the corroborating
+ * signal for de-hyphenation: a broken word's tail is lowercase, whereas a
+ * genuine end-of-line compound ("state-" / "Of-the-art" is not a thing, but
+ * "Anglo-" / "Saxon" and "PDF-" / "Word" very much are) continues with a
+ * capital, a digit, or another script's uppercase form.
+ */
+const LOWERCASE_START_RE = /^\p{Ll}/u;
+
+/**
+ * Join a document's visual lines back into one run of text.
+ *
+ * PDF has no concept of a soft hyphen: a word broken across a line break is
+ * stored as a literal "-" at the end of one line and the remainder at the
+ * start of the next. Joining unconditionally with a space (which is what this
+ * did before) turns every such break into "word- rest" — visible in most
+ * real-world justified prose, not just one fixture.
+ *
+ * The rule, in two parts:
+ *
+ * 1. A line ending in letter+hyphen is NEVER followed by a space. A trailing
+ *    hyphen is always attached to what follows it — that is what makes it a
+ *    break rather than a dash. This holds for both cases below.
+ * 2. The hyphen itself is dropped only when the next line starts lowercase
+ *    (a broken word's tail is lowercase). When the tail is capitalized, the
+ *    hyphen is a genuine compound's own hyphen and is kept: doc2-twocol's
+ *    real title "…in Fixed-" / "Layout Documents" rejoins as
+ *    "…in Fixed-Layout Documents", hyphen intact, no stray space.
+ *
+ * Every other line pair joins with a single space, exactly as before.
+ *
+ * This is deliberately conservative but not lossless: a real hyphenated
+ * compound whose tail is lowercase ("well-" / "known") is indistinguishable
+ * from a soft break using geometry alone, and loses its hyphen — the same
+ * trade every de-hyphenating extractor makes. Rejoining broken words is by
+ * far the more common case in real prose.
+ */
+function joinLines(texts: string[]): string {
+  let out = "";
+  for (const text of texts) {
+    if (out.length === 0) {
+      out = text;
+      continue;
+    }
+    if (SOFT_HYPHEN_END_RE.test(out)) {
+      // No space either way; drop the hyphen only for a lowercase tail.
+      out = LOWERCASE_START_RE.test(text) ? `${out.slice(0, -1)}${text}` : `${out}${text}`;
+    } else {
+      out = `${out} ${text}`;
+    }
+  }
+  return out;
+}
+
 /** Column-alignment-style tolerance for grouping list items by indent, in pt (mirrors tables.ts colTol). */
 function indentTolerance(a: number, b: number): number {
   return Math.max(3, 0.3 * Math.max(a, b));
@@ -228,10 +290,7 @@ export function classify(regions: Segment[][], tables: DetectedTable[]): DocBloc
 
   const flushParagraph = () => {
     if (paragraphBuffer.length === 0) return;
-    const text = paragraphBuffer
-      .map((l) => l.text)
-      .join(" ")
-      .trim();
+    const text = joinLines(paragraphBuffer.map((l) => l.text)).trim();
     if (text.length > 0) {
       blocks.push({ type: "paragraph", text, ...rtlFlag(paragraphBuffer) });
     }
@@ -288,10 +347,7 @@ export function classify(regions: Segment[][], tables: DetectedTable[]): DocBloc
         group.push(next.line);
         j++;
       }
-      const text = group
-        .map((l) => l.text)
-        .join(" ")
-        .trim();
+      const text = joinLines(group.map((l) => l.text)).trim();
       blocks.push({
         type: "heading",
         level: levelOf(headingSizes, headingSize),

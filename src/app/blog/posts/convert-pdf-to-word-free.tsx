@@ -65,8 +65,11 @@ export default function Content() {
         common for signed contracts, old records, or anything run through a scanner — there is no
         positioned text to extract at all, just a picture of text. The tool detects this and flags
         affected pages rather than silently producing an empty result. If your document is scanned,
-        run it through <a href="/tools/image-to-text">the image-to-text OCR tool</a> first — it
-        accepts PDF input directly — to get an actual text layer, then convert that.
+        run it through <a href="/tools/image-to-text">the image-to-text OCR tool</a> — it accepts
+        PDF input directly and reads the text off each page, giving you a plain{" "}
+        <code>.txt</code> file you can paste into Word. Note that this extracts the words only, not
+        the layout: it does not add a text layer back into the PDF, so there is nothing to run
+        through the converter afterwards.
         <br />
         <strong>Borderless tables are heuristic.</strong> A table with no visible grid lines — just
         text aligned into columns by whitespace — has to be inferred from spacing alone. It usually
@@ -76,8 +79,10 @@ export default function Content() {
         <strong>Merged and multi-line cells are not supported.</strong> A cell that spans multiple
         columns or rows, or wraps across several lines, will not reconstruct correctly.
         <br />
-        <strong>Two separate ruled tables on the same page can merge into one</strong> in the output,
-        particularly when they sit close together vertically.
+        <strong>Two separate ruled tables on the same page are read as one table.</strong> This is
+        unconditional, not a near-miss: every rule line on a page is clustered into a single grid,
+        so the distance between the two tables makes no difference. The result has extra columns and
+        can pull a heading in as a table row. Put each table on its own page for a clean result.
         <br />
         <strong>Images are not carried over</strong> in this version — the output focuses on text,
         headings, lists, and tables. If your PDF is mostly a figure or a scanned diagram, that part
@@ -126,8 +131,10 @@ export default function Content() {
         images need a manual check.
       </p>
       <p>
-        <strong>Can it convert a scanned document?</strong> Not directly — a scan has no text layer to
-        extract. Run it through <a href="/tools/image-to-text">OCR</a> first, then convert the result.
+        <strong>Can it convert a scanned document?</strong> No — a scan has no text layer to
+        extract, and this tool cannot create one. Use{" "}
+        <a href="/tools/image-to-text">the OCR tool</a> to pull the text out as a{" "}
+        <code>.txt</code> file and paste it into Word; you will have to redo the formatting by hand.
       </p>
       <p>
         <strong>Is my PDF uploaded anywhere?</strong> No. It is read and converted entirely in your

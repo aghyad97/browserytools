@@ -127,8 +127,8 @@ export const toolContent: Record<string, ToolContent> = {
           a: "Yes, images are embedded inline in the output. Documents with many large images can produce a heavy PDF.",
         },
         {
-          q: "Will I be warned if something can't be converted properly?",
-          a: "Yes. When the document uses features that can't be mapped to the print pipeline, a warning is shown in the UI before you print.",
+          q: "Does it tell me anything about what it couldn't handle?",
+          a: "Partly. When the document uses styles the parser does not recognize, those are reported as conversion notes in the UI before you print. That list covers unrecognized styles only — it is not a completeness check, so review the preview yourself rather than treating an empty list as a guarantee.",
         },
       ],
       steps: [
@@ -159,8 +159,8 @@ export const toolContent: Record<string, ToolContent> = {
           a: "نعم، تُضمَّن الصور داخل الناتج مباشرة. المستندات التي تحتوي صورًا كبيرة وكثيرة قد تُنتج ملف PDF كبير الحجم.",
         },
         {
-          q: "هل سأُنبَّه إذا تعذّر تحويل شيء ما بشكل صحيح؟",
-          a: "نعم. عندما يستخدم المستند ميزات لا يمكن تحويلها إلى نظام الطباعة، يظهر تنبيه في الواجهة قبل الطباعة.",
+          q: "هل تخبرني الأداة بما لم تستطع التعامل معه؟",
+          a: "جزئيًا. عندما يستخدم المستند أنماطًا لا يتعرّف عليها المحلّل، تظهر هذه الأنماط كملاحظات تحويل في الواجهة قبل الطباعة. تغطي هذه القائمة الأنماط غير المتعرَّف عليها فقط، وليست فحصًا للاكتمال، لذا راجع المعاينة بنفسك ولا تعتبر خلوّ القائمة ضمانًا.",
         },
       ],
       steps: [

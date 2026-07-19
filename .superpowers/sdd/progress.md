@@ -12,13 +12,13 @@ Spikes (pre-plan, all measured): geometry beats AI decisively for digital-native
 - [x] T7 buildDocx — complete (6c60002, 8 tests, 1073 total). heading/paragraph/list/table mapped per spec; ordered lists share one numbering reference (Word restarts numbering per contiguous run, so this is safe across multiple lists); ruled/borderless tables get table-level `tblBorders` (single vs none on all edges + inside H/V) rather than per-cell borders — cells inherit from the table default in OOXML, confirmed against generated XML. Tests unzip the real Blob via `jszip` (already a dep) and assert on actual `word/document.xml`/`docProps/core.xml` content, not just Blob existence. `Blob.arrayBuffer()` works fine in happy-dom — no test-env workaround needed. `CI=true bun run build` confirmed `docx` bundles cleanly for the browser.
 - [x] T8 docxToHtml — complete (579a0e7..6d4b43f, review approved after messages-wiring test, 1082 tests)
 - [x] T9 OCR preprocess + PDF input — complete (e2ef4ba, 14 new tests, 1096 total). `estimateSkew`/`deskew`/`binarize` in `src/lib/ocr/preprocess.ts` (projection-profile skew search over -10..10 in 0.5deg steps; Sauvola-style adaptive threshold via summed-area tables). Recovered a synthetic +3deg skew to within 2-4deg and -5deg to within -6..-4deg. `ImageToText.tsx` now accepts PDF (renders pages via `openPdf` + pdf.js at scale 2, OCRs page-by-page on one reused worker, concatenates with a localized page separator, shows "Page X of Y" progress) and a default-OFF preprocessing toggle; `ara` untouched. Existing ImageToText tests pass byte-for-byte unmodified. `CI=true bun run build` green.
-- [ ] T10 PDF->Word tool
-- [ ] T11 Word->PDF tool
-- [ ] T12 E2E browser verification
-- [ ] T13 SEO content
-- [ ] T14 OG + e2e routes
-- [ ] T15 Blog cluster
-- [ ] T16 Locale fan-out
+- [x] T10 PDF->Word tool — complete (7e09fe0..582ccab, review approved after file-swap race fix, 1106 tests, route 200/h1=1)
+- [x] T11 Word->PDF tool — complete (fb2db31..e7860ce, review approved after real-DOMPurify jsdom test, 1120 tests)
+- [x] T12 E2E browser verification — complete (verify PARTIAL + fixes 7468917; font-metric divergence RESOLVED-none; Arabic "corruption" DISMISSED as PDF artifact; MAX_GAP now font-derived max(6,0.75*fs) w/ 5x separation; paragraph-break gap 2.1 added — my stated diagnosis was WRONG, real bug was NO vertical paragraph break at all; multi-table + RTL-table DISCLOSED; 1124 tests)
+- [x] T13 SEO content — complete (6a2845f, controller-verified: 0 overpromising phrases, all 5 caveats, real Arabic)
+- [x] T14 OG + e2e routes — complete (f17e5d6, 174 routes, only the 2 new slugs added, build green)
+- [x] T15 Blog cluster — complete (d224ff7, 4 routes 200 + sitemap, unused emoji verified, CTAs render-verified)
+- [x] T16 Locale fan-out — complete (8 locales, tsc parity ok, 0 placeholder mismatches, balanced value-only diffs, 1124 tests)
 - [ ] T17 Final gates + review + PR
 
 ## Minor findings (final-review triage)
@@ -56,3 +56,16 @@ Spikes (pre-plan, all measured): geometry beats AI decisively for digital-native
 - T7 (fixed, was a bug not a minor): ordered lists previously shared ONE numbering *instance* document-wide (reference+instance=0 for every list). Verified empirically: two ordered lists separated by a paragraph emitted `w:numId w:val="2"` on all four list paragraphs, so List B continued 3, 4 instead of restarting at 1, 2 — OOXML has no "restart per contiguous run" behavior; that was a wrong assumption in the original code comment. Fixed by giving each ordered-list block its own `instance`, incremented per ordered-list block encountered in `buildDocx`. Regression test added in `build.test.ts` (failed pre-fix, passes post-fix).
 - T8 -> T11: mammoth `Message[]` is flattened to `string[]` per the pinned interface, losing the warning/error type distinction. One-line change if T11's UI wants to separate them visually.
 - T8 -> T11: image handling not addressed — mammoth's default convertImage inlines base64 <img>. Confirm that's acceptable for Word->PDF (large embedded images could bloat the preview/PDF).
+- T9 -> T12: three untuned constants need REAL-scan verification — estimateSkew's stride-sampling bound (~250k px, untested on a full-res scan), Sauvola window/k/R (textbook defaults, not tuned on a degraded corpus), and the PDF-OCR render scale of 2 (no precedent in this codebase). Use the degraded fixture (doc1-degraded.png, 2deg skew + noise + blur) and a real phone photo if possible.
+
+## T12 real-browser verification — findings + triage (2026-07-19)
+- **FONT-METRIC DIVERGENCE: RESOLVED, no divergence.** doc3 extracted 12/12 ruled + 12/12 borderless in the REAL browser, identical to unit tests. The production-vs-test font-metric risk that shadowed the whole layout engine did NOT materialize. Console clean (0 errors) across all flows.
+- **DISMISSED (not our bug): "Arabic text corruption" (ل/م transposed).** Controller verified: poppler's pdftotext reproduces the IDENTICAL transposition on doc7, while doc4 (Arabic PROSE) extracts BYTE-IDENTICAL to source through poppler. Affected words all contain a lam-meem ligature — Chrome's print-to-PDF emits a wrong-order ToUnicode map for it. Two independent extractors agreeing => artifact is in the PDF, not our engine. Arabic prose conversion is CORRECT. Do not chase.
+- **FIX (broad, real): segments.ts MAX_GAP is a fixed 20pt.** doc6's header gap is 18.7pt (doc3's is 21.7pt), so "Region"+"Units" merge into ONE segment before tables.ts ever runs => **any single ruled table with a ~15-20pt column gap silently loses its header row.** Contradicts the codebase's own colTol principle ("tolerances MUST be font-derived, never fixed"). Must be re-derived by MEASUREMENT across all fixtures, not one sample.
+- **FIX: column-boundary paragraphs merge** into one <w:p> ("ALPHA-END BETA-START") on doc2/doc5. blocks.ts already has a region-boundary flush mechanism to extend.
+- **FIX (cheap): Word->PDF preview inherits page direction** — an LTR document renders tables right-to-left under the Arabic UI, so the printed PDF misrepresents the source.
+- **DISCLOSE, do not fix: doc6 two ruled tables on one page merge into one bogus grid** (5 phantom columns, 7 row bands, the "Q2 Product" heading swallowed as a table row). Proper fix = connected-component rule segmentation, which breaks detectRuledTable's single-table contract and ripples into index.ts/blocks.ts/tests. Too sprawling for this wave.
+- **DISCLOSE, do not fix: Arabic TABLES** — column collapse (Arabic segment widths understated: 11 chars report 29.6pt) + no <w:bidiVisual/> (DocBlock.table has no rtl field).
+- Minor: de-hyphenation yields "Fixed- Layout".
+- **NOT VERIFIED by T12 (carry to final review):** mammoth warnings path never rendered (only this app's own clean docx were available); actual print OUTPUT never rendered (print() was stubbed, @media print rules read but not emulated); no real Word/Google-Docs source file; OCR English-only; single-page fixtures only; whether output opens cleanly in real Microsoft Word.
+- T12-fix concern -> final review: PARAGRAPH_BREAK_GAP_RATIO=2.1 has only ~17% margin each side (binding sample = doc4's 1.79 leading), tighter than MAX_GAP's 2x. A document-adaptive threshold (modal leading x1.4) would be more robust; out of scope this wave.

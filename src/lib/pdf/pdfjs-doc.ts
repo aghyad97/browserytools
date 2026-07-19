@@ -31,6 +31,12 @@ export interface PdfJsDocument {
     }): { promise: Promise<void> };
     getTextContent(): Promise<{ items: Array<{ str: string }> }>;
   }>;
+  /** Releases pdf.js's worker and page caches. Optional for the same reason
+   *  as `rotate` above — hand-rolled fakes in unit tests don't implement it,
+   *  and real pdf.js documents always do. Callers should use `destroy?.()`
+   *  in a finally block; multi-page render/OCR loops in particular should not
+   *  wait for GC to reclaim the worker. */
+  destroy?(): Promise<void>;
 }
 
 /**

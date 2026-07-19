@@ -51,6 +51,16 @@ const MAX_BASELINE_DELTA = 1; // pt — runs sharing a baseline within this are 
  * only binds under an 8pt font, where a word gap is ~2.5pt and a column gap
  * ~12.5pt — so it keeps the same separation when the ratio term gets small.
  * Do not replace either constant with a fixed pt value.
+ *
+ * KNOWN SEAM (accepted, not a bug to fix here): this cap runs BEFORE
+ * tables.ts, so it decides table structure that tables.ts never gets to see.
+ * A borderless table whose column gap falls under 0.75x fontSize has its
+ * cells merged into one segment at this stage, and the table is simply gone
+ * by the time detection runs — silently, with no error anywhere. The measured
+ * minimum true column gap across the fixtures is 1.56em (doc6-twotables),
+ * roughly 2x the cap, so this is headroom rather than a live defect; but a
+ * tighter-set borderless table is a real layout, and it would be lost. Ruled
+ * tables are unaffected: their rule lines survive this stage regardless.
  */
 function maxMergeGap(fontSize: number): number {
   return Math.max(6, 0.75 * fontSize);

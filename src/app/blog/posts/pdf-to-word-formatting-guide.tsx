@@ -79,9 +79,10 @@ export default function Content() {
         Two more edge cases worth knowing about regardless of ruling: <strong>merged and multi-line
         cells</strong> — a cell that spans several columns, or wraps across more than one line — are
         not supported and will not reconstruct as a single cell. And <strong>two separate ruled
-        tables placed close together on the same page</strong> can be read as one continuous table in
-        the output, since there is no page-native signal distinguishing &ldquo;end of table
-        one&rdquo; from &ldquo;start of table two&rdquo; beyond the vertical gap between them.
+        tables on the same page are read as one continuous table</strong> in the output. This is not
+        a matter of them sitting too close: every rule line found on a page is clustered into one
+        grid, so two ruled tables anywhere on the same page merge regardless of the gap between
+        them. Expect extra columns, and sometimes a heading pulled in as a table row.
       </p>
 
       <h2>Scanned Pages Have Nothing to Reconstruct From</h2>
@@ -92,10 +93,12 @@ export default function Content() {
         pixels that happen to look like text to a human eye. No layout reconstruction is possible on
         a page like that because there is no layout data to reconstruct from. If you run a scanned
         document through a PDF-to-Word tool, expect either an empty result or an explicit warning —
-        which is exactly what a well-built converter should do rather than silently failing. The fix
-        is a separate step:{" "}
-        <a href="/tools/image-to-text">OCR the scan first</a> to generate an actual text layer, then
-        convert the OCR output.
+        which is exactly what a well-built converter should do rather than silently failing. The
+        workaround is a separate tool, not a preparatory step:{" "}
+        <a href="/tools/image-to-text">run the scan through OCR</a> to read the words off the page.
+        That gives you a plain <code>.txt</code> file to paste into Word — it recovers the text, not
+        the layout, and it does not put a text layer back into the PDF, so re-running the converter
+        afterwards has nothing extra to work with.
       </p>
 
       <h2>What Doesn't Survive the Round Trip At All</h2>
@@ -105,8 +108,9 @@ export default function Content() {
         output focuses on text, headings, lists, and tables, so a figure, logo, or scanned diagram in
         the source PDF will not appear in the converted document. For{" "}
         <strong>Arabic and other right-to-left text</strong>, paragraph text converts correctly, but
-        RTL tables can render with columns in the wrong order — worth a manual check if your document
-        has RTL tables. And no converter, this one included, claims pixel-identical formatting: fonts
+        RTL tables come out wrong in a specific way: columns can collapse together, and the cells are
+        not marked right-to-left in the Word file, so Word lays the table out left-to-right. Worth a
+        manual check — and a manual rebuild — if your document has RTL tables. And no converter, this one included, claims pixel-identical formatting: fonts
         get substituted, precise spacing shifts slightly, and anything relying on exact positioning
         (forms, diagrams with labels, decorative layout) should be treated as a starting point for
         editing, not a final artifact.
@@ -129,16 +133,16 @@ export default function Content() {
         <strong>Scroll the full document after converting</strong>, not just the top. Reading-order
         errors and merged tables show up mid-document far more often than on page one.
         <br />
-        <strong>Re-run scanned pages through OCR first.</strong> Use{" "}
+        <strong>For scanned pages, use OCR instead of this converter.</strong> Use{" "}
         <a href="/tools/image-to-text">the image-to-text tool</a>, which accepts PDF input directly,
-        to add a real text layer before converting.
+        to extract the text to a <code>.txt</code> file and rebuild the document in Word from there.
       </p>
 
       <h2>Frequently Asked Questions</h2>
       <p>
-        <strong>Why did my table split into two tables?</strong> Most likely it's a borderless table,
-        or two ruled tables sitting close enough together that the converter read them as one
-        continuous grid — check the gap between them.
+        <strong>Why did my table come out wrong?</strong> If it's borderless, detection is a
+        heuristic and can miss or mis-split it. If the page holds two ruled tables, they are always
+        read as one grid — put each on its own page.
       </p>
       <p>
         <strong>Why is text from two columns mixed together?</strong> The converter's column-gutter
@@ -148,7 +152,9 @@ export default function Content() {
       <p>
         <strong>My PDF has no selectable text — why is the conversion empty?</strong> It's a scanned
         page with no text layer.{" "}
-        <a href="/tools/image-to-text">Run OCR on it first</a>, then convert the result.
+        <a href="/tools/image-to-text">Run it through OCR</a> to extract the text as a{" "}
+        <code>.txt</code> file, then rebuild the document in Word — OCR does not add a text layer to
+        the PDF, so converting it again will not help.
       </p>
       <p>
         <strong>Are my images preserved?</strong> Not in this version — the converter focuses on text,

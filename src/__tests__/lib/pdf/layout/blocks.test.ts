@@ -372,3 +372,70 @@ describe("classify — heading merge does not join two distinct headings (regres
     expect(titleHeadings[0].text).toContain("Layout Documents");
   });
 });
+
+describe("classify — de-hyphenation across line breaks", () => {
+  // PDF has no soft hyphen: a word broken across a line break is stored as a
+  // literal "-" at the end of one line and the tail at the start of the next.
+  // Joining unconditionally with a space (the previous behavior) turned every
+  // such break into "word- rest" throughout ordinary justified prose.
+  //
+  // These use synthetic segments so the two populations can be exercised
+  // independently of any one fixture's wording. Body font 12pt, lines 15pt
+  // apart — inside line leading (< 2.1 x 12 = 25.2pt), so every line lands in
+  // ONE paragraph — all at the same x so nothing reads as a list indent.
+  function paragraphFrom(lines: string[]): string {
+    const segments = lines.map((text, i) => seg(text, 72, 700 - i * 15, 300));
+    const blocks = classify([segments], []);
+    const paragraphs = blocks.filter(
+      (b): b is Extract<DocBlock, { type: "paragraph" }> => b.type === "paragraph",
+    );
+    expect(paragraphs).toHaveLength(1);
+    return paragraphs[0].text;
+  }
+
+  it("rejoins a word broken across a line break, dropping the hyphen and the space", () => {
+    // The common case: a soft break mid-word. The tail is lowercase.
+    expect(paragraphFrom(["The converter has to recon-", "struct the structure."])).toBe(
+      "The converter has to reconstruct the structure.",
+    );
+  });
+
+  it("keeps the hyphen of a genuine compound broken at end-of-line, and adds no space", () => {
+    // A capitalized tail means the hyphen belongs to the compound itself, not
+    // to a soft break — so it survives. A trailing hyphen is never followed
+    // by a space either way.
+    expect(paragraphFrom(["Reading order in Fixed-", "Layout Documents is hard."])).toBe(
+      "Reading order in Fixed-Layout Documents is hard.",
+    );
+  });
+
+  it("still joins ordinary consecutive lines with a single space", () => {
+    expect(paragraphFrom(["A paragraph that simply wraps", "onto a second line."])).toBe(
+      "A paragraph that simply wraps onto a second line.",
+    );
+  });
+
+  it("leaves a dash that is not attached to a letter alone", () => {
+    // Only letter+hyphen is a break shape. An em-dash-style " - " at
+    // end-of-line is ordinary punctuation and keeps its space.
+    expect(paragraphFrom(["Two populations -", "merge and split."])).toBe(
+      "Two populations - merge and split.",
+    );
+  });
+
+  it("applies the same rule to merged multi-line headings (doc2-twocol.pdf)", async () => {
+    // The real two-line title: "On the Recovery of Reading Order in Fixed-" /
+    // "Layout Documents". Before de-hyphenation this merged as
+    // "Fixed- Layout Documents".
+    const { segments, pageBox } = await pageGeometry("doc2-twocol.pdf");
+    const regions = orderSegments(segments, pageBox);
+    const blocks = classify(regions, []);
+    const title = blocks.find(
+      (b): b is Extract<DocBlock, { type: "heading" }> =>
+        b.type === "heading" && b.text.includes("On the Recovery of Reading Order"),
+    );
+    expect(title).toBeDefined();
+    expect(title?.text).toContain("Fixed-Layout Documents");
+    expect(title?.text).not.toContain("Fixed- Layout");
+  });
+});

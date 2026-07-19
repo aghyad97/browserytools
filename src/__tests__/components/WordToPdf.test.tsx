@@ -87,11 +87,13 @@ describe("WordToPdf", () => {
     expect(preview.querySelector("h1")).not.toBeNull();
   });
 
-  it("pins the preview container to an explicit direction, independent of UI locale", async () => {
+  it("resolves the preview direction from the document, independent of UI locale", async () => {
     // Regression: the preview used to inherit the app's `dir`, so an LTR
     // .docx rendered right-to-left under the Arabic UI — and window.print()
-    // then produced a PDF that misrepresented the source document. The
-    // container must carry the CONVERTED DOCUMENT's direction explicitly.
+    // then produced a PDF that misrepresented the source document. The first
+    // fix hard-pinned `ltr`, which broke the mirror case (an Arabic .docx
+    // printing left-to-right). `auto` resolves first-strong from the
+    // document's OWN content, which is the only correct source.
     const user = userEvent.setup();
     render(<WordToPdf />);
 
@@ -99,7 +101,31 @@ describe("WordToPdf", () => {
     await user.upload(input, makeFile());
 
     const preview = await screen.findByTestId("word-to-pdf-preview");
-    expect(preview.getAttribute("dir")).toBe("ltr");
+    expect(preview.getAttribute("dir")).toBe("auto");
+  });
+
+  it("lets RTL document content resolve the preview right-to-left", async () => {
+    // The other polarity of the same defect: `dir="auto"` must let an
+    // Arabic/Hebrew .docx resolve RTL from its own first-strong character,
+    // rather than being pinned to the UI locale OR to a hard-coded `ltr`.
+    docxToHtml.mockResolvedValue({
+      html: "<h1>اتفاقية تقديم خدمات</h1><p>أُبرمت هذه الاتفاقية بين الطرفين.</p>",
+      messages: [],
+    });
+    const user = userEvent.setup();
+    render(<WordToPdf />);
+
+    const input = screen.getByTestId("word-to-pdf-input") as HTMLInputElement;
+    await user.upload(input, makeFile("عقد.docx"));
+
+    const preview = await screen.findByTestId("word-to-pdf-preview");
+    expect(preview.getAttribute("dir")).toBe("auto");
+    // Verified in a real browser (Chromium, print-media emulation): with
+    // dir="auto" this same RTL content resolves to computed direction "rtl",
+    // while the English fixture above resolves to "ltr" — both under an
+    // Arabic (dir="rtl") UI. happy-dom does not implement the first-strong
+    // bidi algorithm, so the resolution itself cannot be asserted here.
+    expect(preview.textContent).toContain("اتفاقية تقديم خدمات");
   });
 
   it("shows mammoth's messages as a conversion-warnings list when non-empty", async () => {

@@ -123,6 +123,10 @@ export default function ImageToText() {
     // Hoisted above the try so the finally block can always release it,
     // whether recognition succeeds, throws mid-PDF, or never gets created.
     let worker: Worker | null = null;
+    // Same for the pdf.js document: multi-page OCR renders every page, so its
+    // worker + page caches are worth releasing promptly rather than waiting
+    // for GC. Null for the image path, which never opens a document.
+    let pdfDoc: Awaited<ReturnType<typeof openPdf>> | null = null;
 
     try {
       const { createWorker } = await import("tesseract.js");
@@ -146,6 +150,7 @@ export default function ImageToText() {
       if (image.kind === "pdf") {
         const bytes = new Uint8Array(await image.file.arrayBuffer());
         const doc = await openPdf(bytes);
+        pdfDoc = doc;
         totalPages = doc.numPages;
 
         const pageTexts: string[] = [];
@@ -204,6 +209,14 @@ export default function ImageToText() {
         await worker?.terminate();
       } catch (terminateError) {
         console.error(terminateError);
+      }
+      // Release pdf.js's own worker and page caches on every exit path, for
+      // the same reason and with the same guard: destroy() can reject, and
+      // that must not mask whatever preceded it.
+      try {
+        await pdfDoc?.destroy?.();
+      } catch (destroyError) {
+        console.error(destroyError);
       }
       setIsRecognizing(false);
       setPdfPage(null);

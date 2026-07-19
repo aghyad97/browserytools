@@ -198,13 +198,17 @@ export default function WordToPdf() {
             <div
               className="prose dark:prose-invert max-w-none prose-img:max-w-full"
               data-testid="word-to-pdf-preview"
-              // Pinned to the CONVERTED DOCUMENT's direction, not the UI's.
-              // Without this the preview inherits the app's `dir`, so an LTR
-              // .docx renders right-to-left under the Arabic UI and the
-              // printed PDF misrepresents the source file. The preview is a
-              // rendering of someone else's document, so UI locale must not
-              // reach it.
-              dir="ltr"
+              // Resolved from the CONVERTED DOCUMENT's own content, not the
+              // UI's locale. Without an explicit dir the preview inherits the
+              // app's `dir`, so an LTR .docx renders right-to-left under the
+              // Arabic UI and the printed PDF misrepresents the source file.
+              // `auto` (first-strong) rather than a hard-coded `ltr`: pinning
+              // to ltr fixes the LTR-under-Arabic-UI case but breaks the
+              // mirror image of it — an Arabic or Hebrew .docx would then
+              // print left-to-right regardless of its own content. The
+              // preview is a rendering of someone else's document, so its
+              // direction must come from that document and nowhere else.
+              dir="auto"
               // biome-ignore lint/security/noDangerouslySetInnerHtml: sanitized above via DOMPurify before this ever reaches state.
               dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
             />
