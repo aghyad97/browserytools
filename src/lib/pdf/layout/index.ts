@@ -1,14 +1,11 @@
-// Node test env (vitest + happy-dom) needs the legacy pdf.js entry (the
-// browser build assumes a real DOM canvas/worker environment) — same
-// constraint documented in segments.test.ts / rules.test.ts / tables.test.ts /
-// blocks.test.ts, all of which load fixtures through this exact entry point
-// for getTextContent()/getOperatorList() (never render()). Using the same
-// entry point here — not just in tests — keeps the code path this module
-// runs under test identical to the one it runs in production; there is no
-// second "real" import to silently drift out of sync with what's tested.
-import { getDocument } from "pdfjs-dist/legacy/build/pdf.mjs";
+// No top-level pdf.js import here on purpose. `loadPdfJs` below resolves the
+// right build lazily, at call time inside `extractDocument`, so this module
+// stays safe to import from both Node (vitest) and the browser (Task 10's
+// PDF -> Word component) without either environment pulling in the other's
+// build. See `loadPdfJs` for the split and why it's necessary.
 import type { PageViewport } from "pdfjs-dist";
 import type { TextItem } from "pdfjs-dist/types/src/display/api";
+import type { DocumentInitParameters } from "pdfjs-dist/types/src/display/api";
 
 import { toSegments, type Segment } from "./segments";
 import { orderSegments } from "./reading-order";
@@ -114,6 +111,58 @@ function dedupeTables(tables: DetectedTable[]): DetectedTable[] {
 }
 
 /**
+ * Resolve pdf.js's `getDocument` for whichever environment this code is
+ * actually executing in, deferred to call time (not module scope) so
+ * bundlers only ever see the branch that runs.
+ *
+ * - Vitest (`process.env.VITEST`, set automatically by the test runner):
+ *   the legacy/Node build. happy-dom fakes `window` well enough for basic
+ *   DOM APIs, but not a real canvas/Worker environment, which the modern
+ *   build assumes — same constraint documented in segments.test.ts /
+ *   rules.test.ts / tables.test.ts / blocks.test.ts, all of which load
+ *   fixtures through this exact legacy entry for
+ *   getTextContent()/getOperatorList() (never render()). The webpackIgnore
+ *   magic comment on the dynamic import below keeps webpack from ever
+ *   resolving or chunking this specifier, so the legacy build is not merely
+ *   unreached in the browser — it is not present in the client output at
+ *   all. Vite (vitest's bundler) ignores that comment and resolves the
+ *   import normally, which is what the test run needs.
+ * - Everything else (the real browser, e.g. Task 10's PDF -> Word tool):
+ *   the modern build, with the worker configured the same way
+ *   pdf-preview.tsx / PDFTools.tsx / pdfjs-doc.ts already do it (honor an
+ *   existing workerSrc, else fall back to the self-hosted
+ *   "/pdf.worker.min.mjs"), plus `standardFontDataUrl`/`cMapUrl` pointing
+ *   at the assets `scripts/copy-pdf-worker.js` copies into public/ — a
+ *   spike measured that omitting these degrades the font metrics
+ *   (item.width/height) this layout engine depends on for table/column
+ *   geometry (wave spec §7).
+ */
+async function loadPdfJs(): Promise<{
+  getDocument: typeof import("pdfjs-dist").getDocument;
+  docOptions: Partial<DocumentInitParameters>;
+}> {
+  if (typeof process !== "undefined" && process.env?.VITEST) {
+    const legacy = await import(
+      /* webpackIgnore: true */ "pdfjs-dist/legacy/build/pdf.mjs"
+    );
+    return { getDocument: legacy.getDocument, docOptions: {} };
+  }
+
+  const pdfjsLib = await import("pdfjs-dist");
+  if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
+    pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
+  }
+  return {
+    getDocument: pdfjsLib.getDocument,
+    docOptions: {
+      standardFontDataUrl: "/standard_fonts/",
+      cMapUrl: "/cmaps/",
+      cMapPacked: true,
+    },
+  };
+}
+
+/**
  * Extract a semantic document model (headings/paragraphs/lists/tables) from a
  * PDF by pure geometry, page by page.
  *
@@ -131,12 +180,14 @@ export async function extractDocument(
   data: Uint8Array,
   opts?: { onProgress?: (p: number) => void },
 ): Promise<ExtractResult> {
+  const { getDocument, docOptions } = await loadPdfJs();
+
   // pdf.js DETACHES the buffer it is handed (the underlying ArrayBuffer is
   // transferred to the worker/decoder). Copying here is non-negotiable: this
   // exact bug — passing the caller's array directly — broke every PDF tool in
   // a previous wave (PR #46). `new Uint8Array(data)` copies the bytes into a
   // fresh, independent buffer; `data` itself is never touched.
-  const doc = await getDocument({ data: new Uint8Array(data) }).promise;
+  const doc = await getDocument({ data: new Uint8Array(data), ...docOptions }).promise;
   const pageCount: number = doc.numPages;
   const scannedPages: number[] = [];
   const blocks: DocBlock[] = [];

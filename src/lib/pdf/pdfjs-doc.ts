@@ -3,7 +3,11 @@ import * as pdfjsLib from "pdfjs-dist";
 // Initialize the PDF.js worker exactly as PDFTools.tsx does: honor whatever
 // workerSrc another module may have already set (CDN or self-hosted), and only
 // fall back to the self-hosted "/pdf.worker.min.mjs" if none is configured.
-// This is the ONLY file under src/lib/pdf/ that imports pdfjs-dist.
+// This is the ONLY file under src/lib/pdf/ that imports pdfjs-dist at module
+// scope. The one exception is layout/index.ts's `loadPdfJs`, which resolves
+// pdf.js lazily (Node/vitest vs. browser need different builds) and repeats
+// this exact workerSrc guard rather than importing this file for its side
+// effect, matching how pdf-preview.tsx / PDFTools.tsx already do it too.
 if (typeof window !== "undefined" && !pdfjsLib.GlobalWorkerOptions.workerSrc) {
   pdfjsLib.GlobalWorkerOptions.workerSrc = "/pdf.worker.min.mjs";
 }
