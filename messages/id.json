@@ -794,6 +794,14 @@
       "classroom-timer": {
         "name": "Timer Kelas",
         "description": "Timer hitung mundur layar penuh yang dirancang untuk kelas — atur menitnya, tekan mulai, dan jaga seluruh ruangan tetap fokus."
+      },
+      "pdf-to-word": {
+        "name": "PDF ke Word",
+        "description": "Konversi PDF menjadi dokumen Word (.docx) yang dapat diedit — judul, paragraf, daftar, dan tabel — sepenuhnya di browser Anda. Bekerja paling baik pada PDF yang dibuat secara digital; halaman hasil pindai memerlukan OCR."
+      },
+      "word-to-pdf": {
+        "name": "Word ke PDF",
+        "description": "Konversi dokumen Word (.docx) menjadi PDF menggunakan dialog cetak browser Anda — teks tetap dapat dipilih dan dicari, sepenuhnya di browser Anda. Gaya tampilan dinormalkan, bukan presisi piksel."
       }
     },
     "categoriesShort": {
@@ -4248,7 +4256,12 @@
       "noTextFound": "Tidak ada teks ditemukan pada gambar ini.",
       "copied": "Tersalin ke papan klip!",
       "copyFailed": "Gagal menyalin.",
-      "downloaded": "Berkas teks diunduh!"
+      "downloaded": "Berkas teks diunduh!",
+      "preprocess": "Tingkatkan untuk OCR (deskew + binarisasi)",
+      "preprocessHint": "Meluruskan hasil pindai yang miring dan meningkatkan kontras pada foto dengan pencahayaan tidak merata sebelum pengenalan. Lebih lambat — nonaktifkan untuk gambar digital yang bersih.",
+      "pdfPageProgress": "Halaman {current} dari {total}",
+      "pdfPageSeparator": "— Halaman {number} —",
+      "pdfFile": "Dokumen PDF"
     },
     "TextToSpeech": {
       "title": "Teks ke Suara",
@@ -5097,6 +5110,49 @@
       "resultsTitle": "Kartu Bingo",
       "resultsDesc": "{count} kartu",
       "errorPoolTooSmall": "Kumpulan katamu terlalu sedikit untuk ukuran kartu yang dipilih. Tambahkan lebih banyak kata atau gunakan kartu yang lebih kecil."
+    },
+    "PdfToWord": {
+      "dropHere": "Letakkan PDF di sini, atau klik untuk memilih",
+      "supportedFormats": "Hanya berkas PDF, satu per satu.",
+      "change": "Ganti",
+      "analyzing": "Menganalisis…",
+      "extractFailed": "Tidak dapat membaca PDF ini. Coba berkas lain.",
+      "statPages": "Halaman",
+      "statHeadings": "Judul",
+      "statParagraphs": "Paragraf",
+      "statLists": "Daftar",
+      "statTables": "Tabel",
+      "scannedNotice": "Halaman {pages} tidak memiliki lapisan teks (hasil pindai atau berupa gambar) dan tidak akan muncul di berkas Word.",
+      "scannedNoticeLink": "Coba alat OCR untuk halaman tersebut",
+      "honestyTitle": "Perlu diketahui",
+      "honestyDigital": "Bekerja paling baik pada PDF yang dibuat secara digital (dari Word, Google Docs, dll). PDF hasil pindai memerlukan OCR dan tidak dapat dikonversi di sini.",
+      "honestyBorderless": "Tabel tanpa garis (tanpa garis kisi yang terlihat) adalah titik terlemah — deteksinya bersifat heuristik dan bisa terlewat atau terpisah dengan tidak tepat.",
+      "honestyMerged": "Sel gabungan atau sel yang membentang, serta sel multibaris, tidak didukung.",
+      "honestyMultiTable": "Dua atau lebih tabel terpisah pada halaman yang sama akan terbaca sebagai satu tabel, sehingga menghasilkan kolom tambahan dan bisa menarik judul menjadi baris tabel. Pisahkan ke halaman berbeda untuk hasil yang bersih.",
+      "honestyRtlTables": "Tabel kanan-ke-kiri (Arab, Ibrani) bisa keliru — kolom dapat menyatu dan sel tidak ditandai sebagai kanan-ke-kiri. Teks paragraf berbahasa Arab dikonversi dengan benar; ini hanya memengaruhi tabel.",
+      "honestyImages": "Gambar tidak ikut dibawa dalam versi ini — hanya teks, judul, daftar, dan tabel.",
+      "honestyPrivacy": "Semuanya berjalan di perangkat Anda. Berkas Anda tidak pernah diunggah.",
+      "convert": "Konversi ke Word",
+      "converting": "Mengonversi…",
+      "downloaded": "Dokumen Word berhasil diunduh",
+      "convertFailed": "Tidak dapat membuat dokumen Word. Coba lagi."
+    },
+    "WordToPdf": {
+      "dropHere": "Letakkan dokumen Word di sini, atau klik untuk memilih",
+      "supportedFormats": "Hanya berkas .docx, satu per satu.",
+      "change": "Ganti",
+      "parsing": "Membaca dokumen…",
+      "parseFailed": "Tidak dapat membaca dokumen Word ini. Coba berkas lain.",
+      "warningsTitle": "Catatan konversi",
+      "warningsIntro": "Beberapa format tidak dapat dibawa dari dokumen Word Anda:",
+      "previewTitle": "Pratinjau",
+      "honestyTitle": "Perlu diketahui",
+      "honestyNormalized": "Gaya tampilan dinormalkan di sini — ini menghasilkan keluaran yang bersih dan mudah dibaca, bukan replika presisi piksel dari tata letak dokumen Word Anda.",
+      "honestyComplex": "Tata letak kompleks, elemen float, bagian multikolom, header/footer, dan posisi presisi tidak akan bertahan.",
+      "honestyImages": "Gambar disematkan sebaris — dokumen besar dengan banyak gambar mungkin butuh waktu sebentar untuk dirender.",
+      "honestyPrint": "Pembuatan PDF menggunakan dialog cetak browser Anda, sehingga teks tetap dapat dipilih dan dicari — pilih \"Simpan sebagai PDF\" sebagai tujuan.",
+      "honestyPrivacy": "Semuanya berjalan di perangkat Anda. Berkas Anda tidak pernah diunggah.",
+      "print": "Cetak / Simpan sebagai PDF"
     }
   },
   "Blog": {

@@ -37,6 +37,140 @@ export interface ToolContent {
 // Slug = the segment after /tools/, e.g. "json-formatter".
 export const toolContent: Record<string, ToolContent> = {
   // ── Newest tools ────────────────────────────────────────────────────────────
+  "pdf-to-word": {
+    related: ["pdf", "image-to-text", "compress-pdf", "merge-pdf"],
+    en: {
+      intro:
+        "PDF to Word converts a PDF into an editable .docx file entirely in your browser. Nothing is uploaded to a server — the PDF is parsed and rebuilt on your own device, and the file never leaves your computer.\n\nThe converter analyses the PDF's own text and vector geometry to recover headings, paragraphs, lists, and tables — there is no AI model and no external service involved. This works best on digitally-created PDFs (exported from Word, Google Docs, or similar), where the text and layout information is embedded directly in the file.\n\nBecause the conversion is structural rather than visual, the result is a genuinely editable Word document rather than an image pasted into a page.",
+      faq: [
+        {
+          q: "Is my PDF uploaded anywhere?",
+          a: "No. The entire conversion runs on-device in your browser. Your file is never sent to a server.",
+        },
+        {
+          q: "Does this work on scanned PDFs?",
+          a: "No. Scanned pages are images with no underlying text layer, so there is nothing for this tool to extract. Use Image to Text instead — it now accepts PDFs and can OCR scanned pages.",
+        },
+        {
+          q: "How good is the table extraction?",
+          a: "Tables with visible ruled lines convert reliably. Borderless tables are detected heuristically and can be missed or mis-split. Merged or spanning cells and multi-line cell content are not supported, and two separate ruled tables placed close together on the same page may be merged into one by mistake.",
+        },
+        {
+          q: "Are images from the PDF carried over into the Word file?",
+          a: "Not in this version. The converter currently reconstructs text, headings, lists, and tables only — embedded images are not included.",
+        },
+        {
+          q: "Does it handle Arabic or other right-to-left text?",
+          a: "Paragraph text converts correctly. Tables containing right-to-left content may render with incorrect column order or alignment.",
+        },
+      ],
+      steps: [
+        "Choose a PDF file.",
+        "Review the detected structure summary.",
+        "Convert the file.",
+        "Download the resulting .docx.",
+      ],
+    },
+    ar: {
+      intro:
+        "تحوّل أداة PDF to Word ملف PDF إلى مستند Word (.docx) قابل للتحرير، وكل ذلك داخل متصفحك. لا يُرفع أي شيء إلى خادم — يتم تحليل الملف وإعادة بنائه على جهازك، ولا يغادر الملف حاسوبك أبدًا.\n\nتعمل الأداة عبر تحليل نص PDF وهندسته المتجهية نفسها لاستخراج العناوين والفقرات والقوائم والجداول — دون أي نموذج ذكاء اصطناعي أو خدمة خارجية. تعطي أفضل النتائج مع ملفات PDF المُنشأة رقميًا (المُصدَّرة من Word أو Google Docs أو ما شابه)، حيث تكون معلومات النص والتخطيط مضمّنة مباشرة داخل الملف.\n\nولأن التحويل بنيوي وليس بصريًا، تحصل على مستند Word قابل للتحرير فعليًا، وليس صورة ملصقة داخل صفحة.",
+      faq: [
+        {
+          q: "هل يتم رفع ملف PDF الخاص بي إلى أي مكان؟",
+          a: "لا. تتم عملية التحويل بالكامل على جهازك داخل المتصفح، ولا يُرسل ملفك إلى أي خادم.",
+        },
+        {
+          q: "هل تعمل هذه الأداة مع ملفات PDF الممسوحة ضوئيًا؟",
+          a: "لا. الصفحات الممسوحة ضوئيًا هي صور بلا طبقة نص كامنة، فلا يوجد ما يمكن استخراجه. استخدم أداة Image to Text بدلًا من ذلك — فهي تقبل الآن ملفات PDF ويمكنها التعرف الضوئي (OCR) على الصفحات الممسوحة.",
+        },
+        {
+          q: "ما مدى دقة استخراج الجداول؟",
+          a: "الجداول ذات الخطوط الظاهرة تُحوَّل بموثوقية عالية. أما الجداول بلا حدود فيتم اكتشافها بطريقة تقديرية وقد تُفقد أو تُقسَّم بشكل خاطئ. الخلايا المدمجة أو الممتدة والخلايا متعددة الأسطر غير مدعومة، وقد يتم دمج جدولين منفصلين ذوي حدود إذا كانا متقاربين في نفس الصفحة عن طريق الخطأ.",
+        },
+        {
+          q: "هل تُنقل الصور من ملف PDF إلى مستند Word؟",
+          a: "ليس في هذا الإصدار. تعيد الأداة حاليًا بناء النصوص والعناوين والقوائم والجداول فقط، دون الصور المضمّنة.",
+        },
+        {
+          q: "هل تدعم النص العربي أو النصوص من اليمين إلى اليسار؟",
+          a: "نص الفقرات يُحوَّل بشكل صحيح. أما الجداول التي تحتوي محتوى من اليمين إلى اليسار فقد تظهر بترتيب أعمدة أو محاذاة غير صحيحة.",
+        },
+      ],
+      steps: [
+        "اختر ملف PDF.",
+        "راجع ملخص البنية المكتشفة.",
+        "حوّل الملف.",
+        "نزّل ملف .docx الناتج.",
+      ],
+    },
+  },
+  "word-to-pdf": {
+    related: ["pdf", "image-to-text", "compress-pdf", "merge-pdf"],
+    en: {
+      intro:
+        "Word to PDF converts a .docx file into a PDF directly in your browser using the browser's own print pipeline. Because the PDF is generated from real text rather than a flattened image, the result stays selectable and searchable — not a rasterized picture of the page.\n\nNothing is uploaded: the document is parsed and rendered entirely on your device, and the print dialog that produces the final PDF runs locally too.",
+      faq: [
+        {
+          q: "Is my document uploaded anywhere?",
+          a: "No. Parsing and rendering happen entirely in your browser, and the file is never sent to a server.",
+        },
+        {
+          q: "Will the PDF look identical to the original Word document?",
+          a: "No. Styling is normalized during conversion. Complex layouts, floating objects, multi-column text, and headers/footers will not survive the conversion.",
+        },
+        {
+          q: "How do I actually save the PDF?",
+          a: "Through your browser's print dialog. After the preview renders, open Print and choose \"Save as PDF\" as the destination.",
+        },
+        {
+          q: "Are images from the document kept in the PDF?",
+          a: "Yes, images are embedded inline in the output. Documents with many large images can produce a heavy PDF.",
+        },
+        {
+          q: "Does it tell me anything about what it couldn't handle?",
+          a: "Partly. When the document uses styles the parser does not recognize, those are reported as conversion notes in the UI before you print. That list covers unrecognized styles only — it is not a completeness check, so review the preview yourself rather than treating an empty list as a guarantee.",
+        },
+      ],
+      steps: [
+        "Choose a .docx file.",
+        "Review the preview and any conversion warnings.",
+        "Click Print / Save as PDF.",
+        "Choose \"Save as PDF\" as the destination in the print dialog.",
+      ],
+    },
+    ar: {
+      intro:
+        "تحوّل أداة Word to PDF ملف .docx إلى PDF مباشرة داخل متصفحك باستخدام نظام الطباعة الخاص بالمتصفح نفسه. ولأن ملف PDF يُولَّد من نص حقيقي وليس من صورة مسطّحة، تبقى النتيجة قابلة للتحديد والبحث — وليست صورة مصوَّرة للصفحة.\n\nلا يُرفع أي شيء: يتم تحليل المستند وعرضه بالكامل على جهازك، كما تعمل نافذة الطباعة التي تُنتج ملف PDF النهائي محليًا أيضًا.",
+      faq: [
+        {
+          q: "هل يتم رفع مستندي إلى أي مكان؟",
+          a: "لا. يتم التحليل والعرض بالكامل داخل متصفحك، ولا يُرسل الملف إلى أي خادم.",
+        },
+        {
+          q: "هل سيبدو ملف PDF مطابقًا تمامًا لمستند Word الأصلي؟",
+          a: "لا. يتم توحيد التنسيق أثناء التحويل. التخطيطات المعقدة والعناصر العائمة والنصوص متعددة الأعمدة والرؤوس والتذييلات لن تبقى كما هي بعد التحويل.",
+        },
+        {
+          q: "كيف أحفظ ملف PDF فعليًا؟",
+          a: "عبر نافذة الطباعة في متصفحك. بعد ظهور المعاينة، افتح خيار الطباعة واختر \"حفظ كملف PDF\" كوجهة.",
+        },
+        {
+          q: "هل تُحفظ صور المستند في ملف PDF؟",
+          a: "نعم، تُضمَّن الصور داخل الناتج مباشرة. المستندات التي تحتوي صورًا كبيرة وكثيرة قد تُنتج ملف PDF كبير الحجم.",
+        },
+        {
+          q: "هل تخبرني الأداة بما لم تستطع التعامل معه؟",
+          a: "جزئيًا. عندما يستخدم المستند أنماطًا لا يتعرّف عليها المحلّل، تظهر هذه الأنماط كملاحظات تحويل في الواجهة قبل الطباعة. تغطي هذه القائمة الأنماط غير المتعرَّف عليها فقط، وليست فحصًا للاكتمال، لذا راجع المعاينة بنفسك ولا تعتبر خلوّ القائمة ضمانًا.",
+        },
+      ],
+      steps: [
+        "اختر ملف .docx.",
+        "راجع المعاينة وأي تنبيهات تحويل.",
+        "اضغط طباعة / حفظ كـ PDF.",
+        "اختر \"حفظ كملف PDF\" كوجهة في نافذة الطباعة.",
+      ],
+    },
+  },
   "compress-video": {
     related: ["image-compression", "image-converter", "video", "svg-png"],
     en: {

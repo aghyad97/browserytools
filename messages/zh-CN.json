@@ -794,6 +794,14 @@
       "classroom-timer": {
         "name": "课堂计时器",
         "description": "专为课堂设计的全屏倒计时器——设置分钟数，点击开始，让全班同学都能掌握时间进度。"
+      },
+      "pdf-to-word": {
+        "name": "PDF 转 Word",
+        "description": "将 PDF 转换为可编辑的 Word（.docx）文档 — 保留标题、段落、列表和表格 — 全部在您的浏览器中完成。最适合数字化生成的 PDF；扫描页面需要 OCR。"
+      },
+      "word-to-pdf": {
+        "name": "Word 转 PDF",
+        "description": "通过浏览器的打印对话框将 Word（.docx）文档转换为 PDF — 文本仍可选中和搜索，全部在您的浏览器中完成。样式会被标准化，而非像素级精确还原。"
       }
     },
     "categoriesShort": {
@@ -4248,7 +4256,12 @@
       "noTextFound": "在此图片中未找到文字。",
       "copied": "已复制到剪贴板！",
       "copyFailed": "复制失败。",
-      "downloaded": "文本文件已下载！"
+      "downloaded": "文本文件已下载！",
+      "preprocess": "增强 OCR 效果（校正倾斜 + 二值化）",
+      "preprocessHint": "在识别前校正倾斜的扫描件，并增强光照不均照片的对比度。速度较慢 — 处理清晰的数字图像时可关闭。",
+      "pdfPageProgress": "第 {current} 页，共 {total} 页",
+      "pdfPageSeparator": "— 第 {number} 页 —",
+      "pdfFile": "PDF 文档"
     },
     "TextToSpeech": {
       "title": "文字转语音",
@@ -5097,6 +5110,49 @@
       "resultsTitle": "宾果卡",
       "resultsDesc": "{count} 张卡片",
       "errorPoolTooSmall": "词库数量不足，无法生成所选尺寸的卡片。请添加更多词语或选择更小的卡片尺寸。"
+    },
+    "PdfToWord": {
+      "dropHere": "将 PDF 拖放到此处，或点击选择",
+      "supportedFormats": "仅支持 PDF 文件，一次一个。",
+      "change": "更换",
+      "analyzing": "正在分析…",
+      "extractFailed": "无法读取此 PDF。请尝试其他文件。",
+      "statPages": "页数",
+      "statHeadings": "标题",
+      "statParagraphs": "段落",
+      "statLists": "列表",
+      "statTables": "表格",
+      "scannedNotice": "第 {pages} 页没有文本层（扫描件或纯图片），不会出现在 Word 文件中。",
+      "scannedNoticeLink": "对这些页面使用 OCR 工具",
+      "honestyTitle": "使用须知",
+      "honestyDigital": "最适合处理数字化生成的 PDF（来自 Word、Google Docs 等）。扫描版 PDF 需要 OCR，此处无法转换。",
+      "honestyBorderless": "无边框表格（没有可见网格线）是最薄弱的环节 — 检测采用启发式算法，可能出现遗漏或拆分错误。",
+      "honestyMerged": "不支持合并单元格、跨行/跨列单元格以及多行单元格。",
+      "honestyMultiTable": "同一页面上的两个或更多独立表格会被识别为一个表格，从而产生多余的列，甚至可能把标题误当作表格行。请将它们拆分到不同页面以获得干净的结果。",
+      "honestyRtlTables": "从右到左排列的表格（阿拉伯语、希伯来语）可能转换出错 — 列可能会合并在一起，且单元格不会被标记为从右到左。阿拉伯语段落文本可以正确转换；此问题仅影响表格。",
+      "honestyImages": "此版本不会保留图片 — 仅转换文本、标题、列表和表格。",
+      "honestyPrivacy": "一切都在您的设备上运行。您的文件永远不会被上传。",
+      "convert": "转换为 Word",
+      "converting": "正在转换…",
+      "downloaded": "Word 文档已下载",
+      "convertFailed": "无法生成 Word 文档。请重试。"
+    },
+    "WordToPdf": {
+      "dropHere": "将 Word 文档拖放到此处，或点击选择",
+      "supportedFormats": "仅支持 .docx 文件，一次一个。",
+      "change": "更换",
+      "parsing": "正在读取文档…",
+      "parseFailed": "无法读取此 Word 文档。请尝试其他文件。",
+      "warningsTitle": "转换说明",
+      "warningsIntro": "您的 Word 文档中有部分格式无法保留：",
+      "previewTitle": "预览",
+      "honestyTitle": "使用须知",
+      "honestyNormalized": "此处的样式已被标准化 — 生成的是清晰易读的输出，而非与您的 Word 文档布局完全一致的像素级复制品。",
+      "honestyComplex": "复杂布局、浮动元素、多栏分区、页眉/页脚以及精确定位都无法保留。",
+      "honestyImages": "图片会以内嵌方式嵌入 — 包含大量图片的大型文档渲染可能需要一些时间。",
+      "honestyPrint": "PDF 生成使用您浏览器的打印对话框，因此文本仍可选中和搜索 — 请将目标选择为“另存为 PDF”。",
+      "honestyPrivacy": "一切都在您的设备上运行。您的文件永远不会被上传。",
+      "print": "打印 / 另存为 PDF"
     }
   },
   "Blog": {

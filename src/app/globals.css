@@ -153,3 +153,55 @@ html[lang="ar"] input[type="number"] {
     display: none !important;
   }
 }
+
+/* Word to PDF print view: window.print() prints the whole document, so the
+   tool toggles this body class for the duration of the print (see
+   WordToPdf.tsx handlePrint) to hide site chrome around the converted-document
+   preview. Same reasoning as bt-print-cards-only above (kept as a distinct
+   class per tool rather than shared, so each tool's print scope stays
+   legible on its own) — lives here rather than in the component's CSS module
+   because CSS Modules' "pure selector" check rejects any rule whose selectors
+   are entirely :global(), and every one of these targets DOM outside the
+   component's own subtree. */
+@media print {
+  /* Site chrome AND the tool template's own chrome. The template zones matter
+     as much as the rail: without them the user's converted contract came out
+     with "Word to PDF", the marketing sub-line and a "Print / Save as PDF"
+     button printed above their document on page 1. Zone 2 (title + sub) and
+     zone 4 (controls bar, which holds the print button itself) are hidden by
+     their template test ids; zone 1/5 and the SEO block are hidden above. */
+  body.bt-print-word-doc aside,
+  body.bt-print-word-doc [data-testid="top-bar"],
+  body.bt-print-word-doc [data-testid="mobile-bar"],
+  body.bt-print-word-doc [data-testid="tool-shell-crumb"],
+  body.bt-print-word-doc [data-testid="tool-shell-title"],
+  body.bt-print-word-doc [data-testid="tool-shell-sub"],
+  body.bt-print-word-doc [data-testid="tool-shell-controls"],
+  body.bt-print-word-doc [data-testid="tool-shell-related-label"],
+  body.bt-print-word-doc [data-testid="tool-shell-related"],
+  body.bt-print-word-doc [data-testid="tool-seo-content"] {
+    display: none !important;
+  }
+
+  /* The shell's page padding (48px inline / 90px block-end) would otherwise
+     be added on top of the printer's own page margins. */
+  body.bt-print-word-doc [data-width] {
+    max-inline-size: none !important;
+    padding: 0 !important;
+  }
+
+  /* The preview is a card in the UI, but the card is OUR chrome, not the
+     user's document: its heading ("Preview"), border, background and padding
+     must not print. Only the document content inside it should. */
+  body.bt-print-word-doc [data-testid="word-to-pdf-preview-card"] {
+    border: 0 !important;
+    border-radius: 0 !important;
+    background: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+  body.bt-print-word-doc [data-testid="word-to-pdf-preview-card"] [data-settings-card-head] {
+    display: none !important;
+  }
+}

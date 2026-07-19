@@ -794,6 +794,14 @@
       "classroom-timer": {
         "name": "Classroom Timer",
         "description": "A full-screen countdown timer built for the classroom — set the minutes, hit start, and keep the whole room on track."
+      },
+      "pdf-to-word": {
+        "name": "PDF to Word",
+        "description": "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR."
+      },
+      "word-to-pdf": {
+        "name": "Word to PDF",
+        "description": "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact."
       }
     },
     "categoriesShort": {
@@ -4233,7 +4241,7 @@
     },
     "ImageToText": {
       "dropImageHere": "Drop your image here",
-      "supportedFormats": "Supports PNG, JPG, WebP, BMP or GIF files",
+      "supportedFormats": "Supports PNG, JPG, WebP, BMP, GIF or PDF files",
       "imageTooLarge": "Image size should be less than 15MB",
       "language": "Language",
       "extractText": "Extract Text",
@@ -4248,7 +4256,12 @@
       "noTextFound": "No text was found in this image.",
       "copied": "Copied to clipboard!",
       "copyFailed": "Failed to copy.",
-      "downloaded": "Text file downloaded!"
+      "downloaded": "Text file downloaded!",
+      "preprocess": "Enhance for OCR (deskew + binarize)",
+      "preprocessHint": "Straightens skewed scans and boosts contrast on unevenly-lit photos before recognition. Slower — leave off for clean digital images.",
+      "pdfPageProgress": "Page {current} of {total}",
+      "pdfPageSeparator": "— Page {number} —",
+      "pdfFile": "PDF document"
     },
     "TextToSpeech": {
       "title": "Text to Speech",
@@ -5097,6 +5110,49 @@
       "resultsTitle": "Bingo Cards",
       "resultsDesc": "{count} cards",
       "errorPoolTooSmall": "Your word pool is too small for the selected card size. Add more words or use a smaller card."
+    },
+    "PdfToWord": {
+      "dropHere": "Drop a PDF here, or click to choose",
+      "supportedFormats": "PDF files only, one at a time.",
+      "change": "Change",
+      "analyzing": "Analyzing…",
+      "extractFailed": "Could not read this PDF. Please try a different file.",
+      "statPages": "Pages",
+      "statHeadings": "Headings",
+      "statParagraphs": "Paragraphs",
+      "statLists": "Lists",
+      "statTables": "Tables",
+      "scannedNotice": "Page(s) {pages} have no text layer (scanned or image-only) and won't appear in the Word file.",
+      "scannedNoticeLink": "Try the OCR tool for those pages",
+      "honestyTitle": "Good to know",
+      "honestyDigital": "Works best on digitally-created PDFs (from Word, Google Docs, etc). Scanned PDFs need OCR and won't convert here.",
+      "honestyBorderless": "Borderless tables (no visible grid lines) are the weakest link — detection is a heuristic and can miss or mis-split them.",
+      "honestyMerged": "Merged or spanning cells, and multi-line cells, are not supported.",
+      "honestyMultiTable": "Two or more separate tables on the same page are read as one table, which produces extra columns and can pull a heading in as a table row. Split them onto separate pages for a clean result.",
+      "honestyRtlTables": "Right-to-left tables (Arabic, Hebrew) can come out wrong — columns may collapse together and cells are not marked right-to-left. Arabic paragraph text converts correctly; this affects tables only.",
+      "honestyImages": "Images are not carried over in this version — only text, headings, lists, and tables.",
+      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
+      "convert": "Convert to Word",
+      "converting": "Converting…",
+      "downloaded": "Word document downloaded",
+      "convertFailed": "Could not build the Word document. Please try again."
+    },
+    "WordToPdf": {
+      "dropHere": "Drop a Word document here, or click to choose",
+      "supportedFormats": ".docx files only, one at a time.",
+      "change": "Change",
+      "parsing": "Reading document…",
+      "parseFailed": "Could not read this Word document. Please try a different file.",
+      "warningsTitle": "Conversion notes",
+      "warningsIntro": "Some formatting couldn't be carried over from your Word document:",
+      "previewTitle": "Preview",
+      "honestyTitle": "Good to know",
+      "honestyNormalized": "Styling is normalized here — this produces clean, readable output, not a pixel-exact replica of your Word document's layout.",
+      "honestyComplex": "Complex layouts, floats, multi-column sections, headers/footers, and precise positioning won't survive.",
+      "honestyImages": "Images are embedded inline — large documents with many images may take a moment to render.",
+      "honestyPrint": "PDF generation uses your browser's print dialog, so the text stays selectable and searchable — choose \"Save as PDF\" as the destination.",
+      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
+      "print": "Print / Save as PDF"
     }
   },
   "Blog": {

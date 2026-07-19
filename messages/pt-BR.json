@@ -794,6 +794,14 @@
       "classroom-timer": {
         "name": "Cronômetro para Sala de Aula",
         "description": "Um cronômetro regressivo em tela cheia feito para a sala de aula — defina os minutos, aperte iniciar e mantenha a turma no ritmo."
+      },
+      "pdf-to-word": {
+        "name": "PDF para Word",
+        "description": "Converta um PDF em um documento Word (.docx) editável — títulos, parágrafos, listas e tabelas — tudo no seu navegador. Funciona melhor com PDFs criados digitalmente; páginas digitalizadas precisam de OCR."
+      },
+      "word-to-pdf": {
+        "name": "Word para PDF",
+        "description": "Converta um documento Word (.docx) em PDF usando a caixa de diálogo de impressão do seu navegador — o texto continua selecionável e pesquisável, tudo no seu navegador. A estilização é normalizada, não pixel a pixel."
       }
     },
     "categoriesShort": {
@@ -4248,7 +4256,12 @@
       "noTextFound": "Nenhum texto foi encontrado nesta imagem.",
       "copied": "Copiado para a área de transferência!",
       "copyFailed": "Falha ao copiar.",
-      "downloaded": "Arquivo de texto baixado!"
+      "downloaded": "Arquivo de texto baixado!",
+      "preprocess": "Otimizar para OCR (endireitar + binarizar)",
+      "preprocessHint": "Endireita digitalizações tortas e aumenta o contraste em fotos com iluminação irregular antes do reconhecimento. Mais lento — deixe desativado para imagens digitais limpas.",
+      "pdfPageProgress": "Página {current} de {total}",
+      "pdfPageSeparator": "— Página {number} —",
+      "pdfFile": "Documento PDF"
     },
     "TextToSpeech": {
       "title": "Texto para Fala",
@@ -5097,6 +5110,49 @@
       "resultsTitle": "Cartelas de Bingo",
       "resultsDesc": "{count} cartelas",
       "errorPoolTooSmall": "Seu banco de palavras é pequeno demais para o tamanho de cartela escolhido. Adicione mais palavras ou use uma cartela menor."
+    },
+    "PdfToWord": {
+      "dropHere": "Solte um PDF aqui ou clique para escolher",
+      "supportedFormats": "Apenas arquivos PDF, um de cada vez.",
+      "change": "Trocar",
+      "analyzing": "Analisando…",
+      "extractFailed": "Não foi possível ler este PDF. Tente outro arquivo.",
+      "statPages": "Páginas",
+      "statHeadings": "Títulos",
+      "statParagraphs": "Parágrafos",
+      "statLists": "Listas",
+      "statTables": "Tabelas",
+      "scannedNotice": "A(s) página(s) {pages} não têm camada de texto (são digitalizadas ou apenas imagem) e não vão aparecer no arquivo do Word.",
+      "scannedNoticeLink": "Experimente a ferramenta de OCR para essas páginas",
+      "honestyTitle": "Bom saber",
+      "honestyDigital": "Funciona melhor com PDFs criados digitalmente (a partir do Word, Google Docs etc). PDFs digitalizados precisam de OCR e não são convertidos aqui.",
+      "honestyBorderless": "Tabelas sem bordas (sem linhas de grade visíveis) são o ponto mais fraco — a detecção é heurística e pode não identificá-las ou dividi-las incorretamente.",
+      "honestyMerged": "Células mescladas ou que ocupam várias colunas, e células com múltiplas linhas, não são suportadas.",
+      "honestyMultiTable": "Duas ou mais tabelas separadas na mesma página são lidas como uma única tabela, o que gera colunas extras e pode transformar um título em linha de tabela. Coloque-as em páginas separadas para obter um resultado limpo.",
+      "honestyRtlTables": "Tabelas da direita para a esquerda (árabe, hebraico) podem sair incorretas — as colunas podem se sobrepor e as células não são marcadas como direita para a esquerda. O texto em parágrafos em árabe é convertido corretamente; isso afeta apenas as tabelas.",
+      "honestyImages": "As imagens não são transferidas nesta versão — apenas texto, títulos, listas e tabelas.",
+      "honestyPrivacy": "Tudo roda no seu dispositivo. Seu arquivo nunca é enviado.",
+      "convert": "Converter para Word",
+      "converting": "Convertendo…",
+      "downloaded": "Documento Word baixado",
+      "convertFailed": "Não foi possível criar o documento Word. Tente novamente."
+    },
+    "WordToPdf": {
+      "dropHere": "Solte um documento Word aqui ou clique para escolher",
+      "supportedFormats": "Apenas arquivos .docx, um de cada vez.",
+      "change": "Trocar",
+      "parsing": "Lendo documento…",
+      "parseFailed": "Não foi possível ler este documento Word. Tente outro arquivo.",
+      "warningsTitle": "Notas de conversão",
+      "warningsIntro": "Algumas formatações não puderam ser transferidas do seu documento Word:",
+      "previewTitle": "Pré-visualização",
+      "honestyTitle": "Bom saber",
+      "honestyNormalized": "A estilização é normalizada aqui — isso gera um resultado limpo e legível, não uma réplica pixel a pixel do layout do seu documento Word.",
+      "honestyComplex": "Layouts complexos, elementos flutuantes, seções em várias colunas, cabeçalhos/rodapés e posicionamento preciso não são preservados.",
+      "honestyImages": "As imagens são incorporadas em linha — documentos grandes com muitas imagens podem levar um momento para renderizar.",
+      "honestyPrint": "A geração do PDF usa a caixa de diálogo de impressão do seu navegador, então o texto continua selecionável e pesquisável — escolha \"Salvar como PDF\" como destino.",
+      "honestyPrivacy": "Tudo roda no seu dispositivo. Seu arquivo nunca é enviado.",
+      "print": "Imprimir / Salvar como PDF"
     }
   },
   "Blog": {

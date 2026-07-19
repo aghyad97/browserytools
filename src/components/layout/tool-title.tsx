@@ -246,6 +246,10 @@ const HAS_OWN_H1 = new Set([
   "anagram-solver",
   // Wave 5 (W5) Task 7: Subtitle Studio ships directly on ToolShell.
   "subtitle-studio",
+  // Wave 7 (W7) Task 10: PDF to Word ships directly on ToolShell.
+  "pdf-to-word",
+  // Wave 7 (W7) Task 11: Word to PDF ships directly on ToolShell.
+  "word-to-pdf",
 ]);
 
 export function ToolTitle() {

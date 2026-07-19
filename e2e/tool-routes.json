@@ -188,6 +188,14 @@
     "href": "/tools/file-converter"
   },
   {
+    "name": "PDF to Word",
+    "href": "/tools/pdf-to-word"
+  },
+  {
+    "name": "Word to PDF",
+    "href": "/tools/word-to-pdf"
+  },
+  {
     "name": "Video Editor",
     "href": "/tools/video"
   },
