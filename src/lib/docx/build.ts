@@ -22,11 +22,15 @@ import type { DocBlock } from "@/lib/pdf/layout";
  * component, never in Node.
  */
 
-// Reference id for the single ordered-list numbering definition every
-// `{ ordered: true }` DocBlock shares. One definition is enough: Word
-// restarts numbering per contiguous run of list paragraphs automatically,
-// so multiple unrelated ordered lists in the same document each still start
-// at 1 without needing per-list numbering instances.
+// Reference id for the shared ordered-list numbering *definition* (the
+// abstract level format: decimal, "%1.", etc). All ordered lists reuse this
+// definition, but each ordered-list DocBlock gets its own numbering
+// *instance* (see `instance` passed at the call site below) — in the `docx`
+// library the concrete numbering key is `${reference}-${instance}`, and
+// OOXML counts a given `w:numId`+level continuously across the whole
+// document. Without a distinct instance per list, two separate ordered
+// lists would share one `w:numId` and the second list would continue
+// numbering from the first (e.g. 3, 4 instead of restarting at 1, 2).
 const ORDERED_LIST_REFERENCE = "browserytools-ordered-list";
 
 const HEADING_LEVELS = {
@@ -78,7 +82,16 @@ function padRows(rows: string[][]): string[][] {
   });
 }
 
-function buildTable(block: Extract<DocBlock, { type: "table" }>): Table {
+/**
+ * `docx`'s `Table` constructor throws `RangeError: Array length must be a
+ * positive integer of safe magnitude` when given zero rows. The layout
+ * engine's detectors always emit at least one row today, but `buildDocx` is
+ * a public, independently-typed entry point — a zero-row `table` block
+ * should degrade gracefully rather than throw a cryptic library error, so
+ * it is skipped entirely (emits nothing) instead of being built.
+ */
+function buildTable(block: Extract<DocBlock, { type: "table" }>): Table | null {
+  if (block.rows.length === 0) return null;
   const rows = padRows(block.rows);
   return new Table({
     borders: block.ruled ? RULED_TABLE_BORDERS : BORDERLESS_TABLE_BORDERS,
@@ -96,7 +109,14 @@ function buildTable(block: Extract<DocBlock, { type: "table" }>): Table {
   });
 }
 
-function buildBlock(block: DocBlock): (Paragraph | Table)[] {
+/**
+ * @param orderedListInstance The numbering instance to use if `block` is an
+ * `{ ordered: true }` list. Ignored for every other block type. Each
+ * distinct value produces its own concrete `w:numId` (see the note on
+ * `ORDERED_LIST_REFERENCE` above), so callers must pass a fresh value per
+ * ordered-list block, not per list item.
+ */
+function buildBlock(block: DocBlock, orderedListInstance: number): (Paragraph | Table)[] {
   switch (block.type) {
     case "heading":
       return [textParagraph(block.text, block.rtl, { heading: HEADING_LEVELS[block.level] })];
@@ -108,17 +128,31 @@ function buildBlock(block: DocBlock): (Paragraph | Table)[] {
           item,
           block.rtl,
           block.ordered
-            ? { numbering: { reference: ORDERED_LIST_REFERENCE, level: 0 } }
+            ? {
+                numbering: {
+                  reference: ORDERED_LIST_REFERENCE,
+                  instance: orderedListInstance,
+                  level: 0,
+                },
+              }
             : { bullet: { level: 0 } },
         ),
       );
-    case "table":
-      return [buildTable(block)];
+    case "table": {
+      const table = buildTable(block);
+      return table ? [table] : [];
+    }
   }
 }
 
 export function buildDocx(blocks: DocBlock[], meta?: { title?: string }): Promise<Blob> {
-  const children = blocks.flatMap(buildBlock);
+  let orderedListInstance = 0;
+  const children = blocks.flatMap((block) => {
+    if (block.type === "list" && block.ordered) {
+      orderedListInstance += 1;
+    }
+    return buildBlock(block, orderedListInstance);
+  });
 
   const doc = new Document({
     title: meta?.title,

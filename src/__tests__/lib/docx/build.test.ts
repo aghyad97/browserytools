@@ -92,4 +92,76 @@ describe("buildDocx", () => {
     ];
     await expect(buildDocx(raggedBlocks)).resolves.toBeInstanceOf(Blob);
   });
+
+  it("emits w:numPr with a numId for an ordered list, and includes item texts", async () => {
+    const orderedBlocks: DocBlock[] = [
+      { type: "list", ordered: true, items: ["First step", "Second step"] },
+    ];
+    const xml = await extractDocumentXml(await buildDocx(orderedBlocks));
+    expect(xml).toMatch(/<w:numPr>\s*<w:ilvl w:val="0"\s*\/>\s*<w:numId w:val="\d+"\s*\/>\s*<\/w:numPr>/);
+    expect(xml).toContain("First step");
+    expect(xml).toContain("Second step");
+  });
+
+  it("gives two separate ordered lists in the same document different numId values so the second list restarts at 1", async () => {
+    const twoListBlocks: DocBlock[] = [
+      { type: "list", ordered: true, items: ["A-one", "A-two"] },
+      { type: "paragraph", text: "separator paragraph" },
+      { type: "list", ordered: true, items: ["B-one", "B-two"] },
+    ];
+    const xml = await extractDocumentXml(await buildDocx(twoListBlocks));
+
+    // Extract each <w:p>...</w:p> paragraph and read the numId (if any) it
+    // carries, so we associate a numId with the specific list item text
+    // rather than just checking "some numId appears somewhere".
+    const paragraphs = xml.match(/<w:p[ >][\s\S]*?<\/w:p>/g) ?? [];
+    const numIdForText = (text: string): string | null => {
+      const paragraph = paragraphs.find((p) => p.includes(text));
+      expect(paragraph).toBeDefined();
+      const match = paragraph!.match(/<w:numId w:val="(\d+)"/);
+      return match ? match[1] : null;
+    };
+
+    const aOne = numIdForText("A-one");
+    const aTwo = numIdForText("A-two");
+    const bOne = numIdForText("B-one");
+    const bTwo = numIdForText("B-two");
+
+    expect(aOne).not.toBeNull();
+    expect(bOne).not.toBeNull();
+    expect(aOne).toBe(aTwo);
+    expect(bOne).toBe(bTwo);
+    // The regression: without a distinct numbering instance per ordered-list
+    // block, both lists share one numId and List B continues counting from
+    // List A (3, 4) instead of restarting at 1, 2.
+    expect(aOne).not.toBe(bOne);
+  });
+
+  it("emits single borders on insideVertical for a ruled table", async () => {
+    const xml = await extractDocumentXml(await buildDocx(BLOCKS));
+    const bordersBlock = xml.match(/<w:tblBorders>[\s\S]*?<\/w:tblBorders>/);
+    expect(bordersBlock).not.toBeNull();
+    expect(bordersBlock![0]).toMatch(/<w:insideV w:val="single"/);
+  });
+
+  it("emits none on all six table edges for a borderless table", async () => {
+    const borderlessBlocks: DocBlock[] = [
+      {
+        type: "table",
+        ruled: false,
+        rows: [["A1", "B1"]],
+      },
+    ];
+    const xml = await extractDocumentXml(await buildDocx(borderlessBlocks));
+    const bordersBlock = xml.match(/<w:tblBorders>[\s\S]*?<\/w:tblBorders>/);
+    expect(bordersBlock).not.toBeNull();
+    for (const edge of ["top", "bottom", "left", "right", "insideH", "insideV"]) {
+      expect(bordersBlock![0]).toMatch(new RegExp(`<w:${edge} w:val="none"`));
+    }
+  });
+
+  it("resolves to a valid Blob for a zero-row table instead of throwing", async () => {
+    const zeroRowBlocks: DocBlock[] = [{ type: "table", ruled: true, rows: [] }];
+    await expect(buildDocx(zeroRowBlocks)).resolves.toBeInstanceOf(Blob);
+  });
 });
