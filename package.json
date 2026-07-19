@@ -80,6 +80,7 @@
     "date-fns": "^4.1.0",
     "diff": "^8.0.3",
     "docx": "^9.7.1",
+    "dompurify": "^3.4.12",
     "framer-motion": "^12.4.3",
     "function-plot": "^1.25.4",
     "gif.js": "^0.2.0",

@@ -95,6 +95,7 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **CSV/Excel Viewer**: View CSV and Excel files in your browser: sort, search, chart a column, and export to CSV.
 - **Data Format Converter**: Convert data between CSV, TSV, JSON, XML, and YAML.
 - **PDF to Word**: Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser.
+- **Word to PDF**: Convert a Word (.docx) document into a PDF via your browser's print dialog — text stays selectable and searchable.
 
 ### 🎵 Media Tools
 

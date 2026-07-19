@@ -106,6 +106,7 @@ import {
   PuzzleIcon,
   CaptionsIcon,
   FileType2Icon,
+  PrinterIcon,
 } from "lucide-react";
 
 export interface Tool {
@@ -673,6 +674,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-19",
         description:
           "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR.",
+      },
+      {
+        name: "Word to PDF",
+        href: "/tools/word-to-pdf",
+        icon: PrinterIcon,
+        available: true,
+        order: 6,
+        creationDate: "2026-07-19",
+        description:
+          "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact.",
       },
     ],
   },

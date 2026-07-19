@@ -153,3 +153,23 @@ html[lang="ar"] input[type="number"] {
     display: none !important;
   }
 }
+
+/* Word to PDF print view: window.print() prints the whole document, so the
+   tool toggles this body class for the duration of the print (see
+   WordToPdf.tsx handlePrint) to hide site chrome around the converted-document
+   preview. Same reasoning as bt-print-cards-only above (kept as a distinct
+   class per tool rather than shared, so each tool's print scope stays
+   legible on its own) — lives here rather than in the component's CSS module
+   because CSS Modules' "pure selector" check rejects any rule whose selectors
+   are entirely :global(), and every one of these targets DOM outside the
+   component's own subtree. */
+@media print {
+  body.bt-print-word-doc aside,
+  body.bt-print-word-doc [data-testid="top-bar"],
+  body.bt-print-word-doc [data-testid="mobile-bar"],
+  body.bt-print-word-doc [data-testid="tool-shell-crumb"],
+  body.bt-print-word-doc [data-testid="tool-shell-related"],
+  body.bt-print-word-doc [data-testid="tool-seo-content"] {
+    display: none !important;
+  }
+}

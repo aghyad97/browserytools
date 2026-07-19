@@ -798,6 +798,10 @@
       "pdf-to-word": {
         "name": "PDF to Word",
         "description": "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR."
+      },
+      "word-to-pdf": {
+        "name": "Word to PDF",
+        "description": "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact."
       }
     },
     "categoriesShort": {
@@ -5130,6 +5134,23 @@
       "converting": "Converting…",
       "downloaded": "Word document downloaded",
       "convertFailed": "Could not build the Word document. Please try again."
+    },
+    "WordToPdf": {
+      "dropHere": "Drop a Word document here, or click to choose",
+      "supportedFormats": ".docx files only, one at a time.",
+      "change": "Change",
+      "parsing": "Reading document…",
+      "parseFailed": "Could not read this Word document. Please try a different file.",
+      "warningsTitle": "Conversion notes",
+      "warningsIntro": "Some formatting couldn't be carried over from your Word document:",
+      "previewTitle": "Preview",
+      "honestyTitle": "Good to know",
+      "honestyNormalized": "Styling is normalized here — this produces clean, readable output, not a pixel-exact replica of your Word document's layout.",
+      "honestyComplex": "Complex layouts, floats, multi-column sections, headers/footers, and precise positioning won't survive.",
+      "honestyImages": "Images are embedded inline — large documents with many images may take a moment to render.",
+      "honestyPrint": "PDF generation uses your browser's print dialog, so the text stays selectable and searchable — choose \"Save as PDF\" as the destination.",
+      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
+      "print": "Print / Save as PDF"
     }
   },
   "Blog": {
