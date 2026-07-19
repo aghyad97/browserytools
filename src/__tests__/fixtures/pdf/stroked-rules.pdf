@@ -1,0 +1,49 @@
+%PDF-1.4
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [3 0 R] /Count 1 >>
+endobj
+3 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 5 0 R >> >> /Contents 4 0 R >>
+endobj
+4 0 obj
+<< /Length 527 >>
+stream
+0.5 w 0 G
+100 700 m 400 700 l S
+100 675 m 400 675 l S
+100 650 m 400 650 l S
+100 625 m 400 625 l S
+100 700 m 100 625 l S
+200 700 m 200 625 l S
+300 700 m 300 625 l S
+400 700 m 400 625 l S
+BT /F1 11 Tf 106 683 Td (Region) Tj ET
+BT /F1 11 Tf 206 683 Td (Units) Tj ET
+BT /F1 11 Tf 306 683 Td (Revenue) Tj ET
+BT /F1 11 Tf 106 658 Td (North) Tj ET
+BT /F1 11 Tf 206 658 Td (1240) Tj ET
+BT /F1 11 Tf 306 658 Td (48200) Tj ET
+BT /F1 11 Tf 106 633 Td (South) Tj ET
+BT /F1 11 Tf 206 633 Td (980) Tj ET
+BT /F1 11 Tf 306 633 Td (36150) Tj ET
+endstream
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+xref
+0 6
+0000000000 65535 f 
+0000000009 00000 n 
+0000000058 00000 n 
+0000000115 00000 n 
+0000000241 00000 n 
+0000000819 00000 n 
+trailer
+<< /Size 6 /Root 1 0 R >>
+startxref
+889
+%%EOF

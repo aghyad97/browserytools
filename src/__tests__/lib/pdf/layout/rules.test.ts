@@ -87,6 +87,59 @@ describe("extractRules — real fixtures", () => {
   });
 });
 
+describe("extractRules — real fixture, stroked idiom (LaTeX/Word style)", () => {
+  // stroked-rules.pdf is a hand-built fixture (see spike A) whose content
+  // stream draws a 3-column x 3-row grid entirely with moveTo/lineTo/stroke
+  // ("m"/"l"/"S") — the idiom LaTeX and Word emit, as opposed to doc3-tables
+  // .pdf's filled-rect idiom (what Chrome/CSS `border` emits). Before this
+  // fixture, the stroked path in segmentsFromConstructPath was only
+  // exercised by synthetic operator lists — never by a real PDF, which is
+  // the more likely place for a real regression to hide.
+  //
+  // Verified content stream (dumped from the fixture): 4 horizontal segments
+  // at y = 700, 675, 650, 625 (each x=100->400) and 4 vertical segments at
+  // x = 100, 200, 300, 400 (each y=625->700). It's a clean synthetic grid —
+  // no per-cell-edge duplication like Chrome's rect-per-border output — so
+  // exact counts and coordinates are safe to assert.
+
+  it("finds exactly 4 horizontal and 4 vertical rules", async () => {
+    const { rules } = await rulesForPage("stroked-rules.pdf");
+    expect(rules.h).toHaveLength(4);
+    expect(rules.v).toHaveLength(4);
+  });
+
+  it("recovers the correct h-line y-coordinates and v-line x-coordinates", async () => {
+    const { rules } = await rulesForPage("stroked-rules.pdf");
+    // Rules are unordered as extracted; sort before comparing. This is the
+    // real payoff of the fixture: it proves the CTM handling on the stroked
+    // path produces correct *coordinates*, not merely correct counts.
+    const hYs = rules.h.map((l) => l.y0).sort((a, b) => a - b);
+    const vXs = rules.v.map((l) => l.x0).sort((a, b) => a - b);
+    const expectedYs = [625, 650, 675, 700];
+    const expectedXs = [100, 200, 300, 400];
+    for (let i = 0; i < expectedYs.length; i++) {
+      expect(hYs[i]).toBeGreaterThan(expectedYs[i] - 1);
+      expect(hYs[i]).toBeLessThan(expectedYs[i] + 1);
+    }
+    for (let i = 0; i < expectedXs.length; i++) {
+      expect(vXs[i]).toBeGreaterThan(expectedXs[i] - 1);
+      expect(vXs[i]).toBeLessThan(expectedXs[i] + 1);
+    }
+  });
+
+  it("keeps every coordinate within the page box (inverted-CTM regression guard)", async () => {
+    const { rules, viewport } = await rulesForPage("stroked-rules.pdf");
+    const all = [...rules.h, ...rules.v];
+    expect(all.length).toBeGreaterThan(0);
+    for (const line of all) {
+      expect(line.x0).toBeGreaterThanOrEqual(0);
+      expect(line.x1).toBeLessThanOrEqual(viewport.width);
+      expect(line.y0).toBeGreaterThanOrEqual(0);
+      expect(line.y1).toBeLessThanOrEqual(viewport.height);
+    }
+  });
+});
+
 describe("composeCtm", () => {
   it("composes a scale+translate transform into a translated identity ctm (hand-computed)", () => {
     // m: scale x2, y3, then translate +5,+7. c: identity translated +10,+20.
