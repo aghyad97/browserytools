@@ -19,8 +19,14 @@ import type { Segment } from "./segments";
  *
  * A full-width title spans both columns and blocks the gutter, so the gutter
  * search is retried with the top k segments peeled off as a header band
- * (k = 0..6); the first k that yields >= 2 columns of >= 2 segments wins.
- * Only when no k produces a gutter do we fall back to horizontal bands.
+ * (k = 0..6). The same problem exists at the other end of the page: a centred
+ * page number, running footer or footnote marker sits squarely in the gutter's
+ * x-range and blocks the channel just as effectively — and a top-only peel can
+ * never reach it. The search is therefore symmetric, also peeling j segments
+ * off the bottom (j = 0..3). The first (k, j) that yields >= 2 columns of >= 2
+ * segments wins, searched by smallest total peel first so the existing
+ * "smallest peel wins" bias is preserved. Only when no (k, j) produces a gutter
+ * do we fall back to horizontal bands.
  *
  * All geometry is PDF user space: origin bottom-left, y increases UPWARD.
  * "Top of the page" therefore means LARGER y, and reading order within a
@@ -42,14 +48,24 @@ const MIN_GUTTER_WIDTH = 12;
  * splitter, where it landed within 0.001pt of the threshold. Requiring a clean
  * channel makes the peel do the job it exists for, deterministically.
  *
- * Full-width elements that a top-peel cannot reach (footers, mid-page figures)
- * are handled correctly by the band fallback, which separates them into their
- * own band; the gutter search then succeeds inside the body band.
+ * Full-width elements at the extremes of the region are reached by the header
+ * and footer peels. Anything a peel cannot reach (a mid-page figure caption,
+ * say) is handled by the band fallback, which separates it into its own band;
+ * the gutter search then succeeds inside the body band.
  */
 const MAX_GUTTER_CROSSINGS = 0;
 
 /** Max number of top segments peeled off as a header band while hunting a gutter. */
 const MAX_HEADER_PEEL = 6;
+
+/**
+ * Max number of bottom segments peeled off as a footer band while hunting a
+ * gutter. Smaller than the header peel because footers are structurally
+ * shallow — a page number, optionally with a running title or a rule — whereas
+ * a masthead can stack a logo, kicker, headline, byline and dateline. Keeping
+ * this tight also keeps the (k, j) search bounded at 7 x 4 = 28 attempts.
+ */
+const MAX_FOOTER_PEEL = 3;
 
 /** A gutter must leave at least this many segments on each side to be believable. */
 const MIN_COLUMN_SEGMENTS = 2;
@@ -117,25 +133,43 @@ function isUsable(s: Segment, pageBox: Box): boolean {
   );
 }
 
-/** Recursive cut: gutter first (with header peel), horizontal bands as fallback. */
+/**
+ * Recursive cut: gutter first (with symmetric header/footer peel), horizontal
+ * bands as fallback.
+ */
 function cut(segments: Segment[], out: Segment[][], depth: number): void {
   if (segments.length <= 1 || depth >= MAX_DEPTH) {
     out.push(sortRegion(segments));
     return;
   }
 
-  // Top-to-bottom order for the header peel. Ties on baseline are broken by x
-  // so the peel is deterministic.
+  // Top-to-bottom order for the peels. Ties on baseline are broken by x so the
+  // peel is deterministic. y descends, so the header is the head of this array
+  // and the footer is its tail.
   const byTop = [...segments].sort((a, b) => b.y - a.y || a.x - b.x);
+  const n = byTop.length;
 
-  for (let k = 0; k <= MAX_HEADER_PEEL && k < segments.length; k++) {
-    const rest = byTop.slice(k);
-    const split = findGutter(rest);
-    if (!split) continue;
+  // Search (k, j) by smallest total peel first, and within a total by smallest
+  // k — so k=0,j=0 is still tried first and the pre-existing "smallest peel
+  // wins" bias is preserved. Bounded at (MAX_HEADER_PEEL + 1) *
+  // (MAX_FOOTER_PEEL + 1) attempts regardless of segment count.
+  for (let total = 0; total <= MAX_HEADER_PEEL + MAX_FOOTER_PEEL; total++) {
+    for (let k = Math.max(0, total - MAX_FOOTER_PEEL); k <= Math.min(total, MAX_HEADER_PEEL); k++) {
+      const j = total - k;
+      // Leave at least enough segments behind for two believable columns.
+      if (k + j > n - MIN_COLUMN_SEGMENTS * 2) continue;
 
-    if (k > 0) cut(byTop.slice(0, k), out, depth + 1);
-    for (const column of split) cut(column, out, depth + 1);
-    return;
+      const rest = byTop.slice(k, n - j);
+      const split = findGutter(rest);
+      if (!split) continue;
+
+      // Emission order: header band, then the columns in reading order, then
+      // the footer band. Peeled segments are re-emitted, never dropped.
+      if (k > 0) cut(byTop.slice(0, k), out, depth + 1);
+      for (const column of split) cut(column, out, depth + 1);
+      if (j > 0) cut(byTop.slice(n - j), out, depth + 1);
+      return;
+    }
   }
 
   const bands = splitBands(segments);
@@ -168,8 +202,14 @@ function findGutter(segments: Segment[]): Segment[][] | null {
   const binCount = Math.ceil(width);
   const delta = new Int32Array(binCount + 1);
   for (const s of segments) {
+    // A zero-width segment (an Arabic combining mark, a stray positioning item)
+    // occupies no horizontal space and must not block a channel. This has to be
+    // an explicit skip: for w = 0 and a non-integer x — the normal case — the
+    // floor/ceil below collapse to from === to and would block one whole bin,
+    // which is enough to fragment a wide gutter into two sub-threshold pieces.
+    if (!(s.w > 0)) continue;
     const from = Math.max(0, Math.floor(s.x - bounds.x0));
-    const to = Math.min(binCount - 1, Math.ceil(s.x + Math.max(s.w, 0) - bounds.x0) - 1);
+    const to = Math.min(binCount - 1, Math.ceil(s.x + s.w - bounds.x0) - 1);
     if (to < from) continue;
     delta[from] += 1;
     delta[to + 1] -= 1;
@@ -231,15 +271,29 @@ function findGutter(segments: Segment[]): Segment[][] | null {
  * Returns null unless both sides carry enough content to be a real column —
  * this is what stops a ragged right margin (one long line reaching past all
  * the others) from reading as a gutter on a single-column page.
+ *
+ * Zero-width segments are assigned to a side (nothing is ever dropped) but do
+ * NOT count toward that believability threshold: they carry no horizontal
+ * evidence, exactly as they carry none in the crossing computation. Counting
+ * them lets a side holding one real line plus a stray combining mark pass as a
+ * two-segment column — measured on doc4-arabic, where two combining marks
+ * either side of a wide margin gap made a single-column RTL page split.
  */
 function splitAt(segments: Segment[], gutterCentre: number): [Segment[], Segment[]] | null {
   const left: Segment[] = [];
   const right: Segment[] = [];
+  let leftReal = 0;
+  let rightReal = 0;
   for (const s of segments) {
-    if (s.x + s.w / 2 < gutterCentre) left.push(s);
-    else right.push(s);
+    if (s.x + s.w / 2 < gutterCentre) {
+      left.push(s);
+      if (s.w > 0) leftReal++;
+    } else {
+      right.push(s);
+      if (s.w > 0) rightReal++;
+    }
   }
-  if (left.length < MIN_COLUMN_SEGMENTS || right.length < MIN_COLUMN_SEGMENTS) return null;
+  if (leftReal < MIN_COLUMN_SEGMENTS || rightReal < MIN_COLUMN_SEGMENTS) return null;
   return [left, right];
 }
 

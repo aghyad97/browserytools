@@ -72,6 +72,51 @@ describe("orderSegments", () => {
     expect(titleIndex).toBeLessThan(Math.min(...indices));
   });
 
+  it("recovers reading order of doc5-twocol-footer.pdf despite a centred page number", async () => {
+    // doc5 is two-column with a centred page number ("- 7 -") at the BOTTOM,
+    // sitting squarely inside the gutter's x-range. A top-only header peel can
+    // never reach it, so without a symmetric footer peel the gutter search
+    // fails at every k and the page falls through to band splitting, which
+    // interleaves the two columns.
+    const regions = await orderedRegionsFor("doc5-twocol-footer.pdf");
+    const text = joinRegions(regions);
+
+    // As with doc2, a marker-only assertion is NOT enough: under band splitting
+    // the GAMMA/DELTA markers still come out in sequence. The interleaving
+    // probes are the ones that expose the scramble — "A naive channel search"
+    // is low in the LEFT column and must precede "The consequence", which is
+    // high in the RIGHT column.
+    const probes = [
+      "GAMMA-START",
+      "Fixed-layout documents",
+      "numbers that sit directly beneath",
+      "Method",
+      "A naive channel search",
+      "The consequence is that a single centred",
+      "GAMMA-END",
+      "DELTA-START",
+      "Evaluation therefore must include",
+      "Results",
+      "Symmetric peeling",
+      "DELTA-END",
+    ];
+    const indices = probes.map((p) => text.indexOf(p));
+    for (let i = 0; i < probes.length; i++) {
+      expect(indices[i], `probe "${probes[i]}" missing from output`).toBeGreaterThanOrEqual(0);
+    }
+    for (let i = 1; i < probes.length; i++) {
+      expect(
+        indices[i],
+        `"${probes[i]}" must come after "${probes[i - 1]}"`,
+      ).toBeGreaterThan(indices[i - 1]);
+    }
+
+    // The peeled footer must still be emitted — exactly once, and after the
+    // column content rather than dropped or hoisted.
+    expect(text.split("7").length - 1, "page number emitted exactly once").toBe(1);
+    expect(text.indexOf("7")).toBeGreaterThan(indices[indices.length - 1]);
+  });
+
   it("keeps single-column doc1-simple.pdf as one region in document order", async () => {
     const regions = await orderedRegionsFor("doc1-simple.pdf");
     // No spurious column split: a one-column page is a single region.
