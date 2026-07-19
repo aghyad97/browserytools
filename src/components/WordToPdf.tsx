@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
-import DOMPurify from "dompurify";
 import { UploadIcon, FileTypeIcon, RefreshCwIcon, Loader2Icon } from "lucide-react";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
@@ -11,6 +10,7 @@ import { SettingsCard } from "@/components/shared/SettingsCard";
 import { Button } from "@/components/ui/button";
 import { formatBytes } from "@/lib/format";
 import { docxToHtml, type DocxParseResult } from "@/lib/docx/parse";
+import { sanitizeHtml } from "@/lib/sanitize-html";
 
 const DOCX_ACCEPT = {
   "application/vnd.openxmlformats-officedocument.wordprocessingml.document": [".docx"],
@@ -48,7 +48,7 @@ export default function WordToPdf() {
         setResult(parsed);
         // mammoth's output is derived from an untrusted uploaded file, so it
         // is never injected raw — sanitize before it ever reaches the DOM.
-        setSanitizedHtml(DOMPurify.sanitize(parsed.html));
+        setSanitizedHtml(sanitizeHtml(parsed.html));
       } catch (err) {
         console.error(err);
         toast.error(t("parseFailed"));

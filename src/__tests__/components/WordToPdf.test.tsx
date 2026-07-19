@@ -11,13 +11,17 @@ vi.mock("@/lib/docx/parse", () => ({
   docxToHtml: (...args: unknown[]) => docxToHtml(...args),
 }));
 
-// DOMPurify's tree-walking sanitizer relies on DOM internals (namespaceURI,
-// node creation checks) that happy-dom — this suite's test environment —
-// does not implement closely enough: verified directly with jsdom (works,
-// tags preserved) vs. happy-dom (strips every element, text-only output).
-// That's a test-environment gap, not a bug in the component; the component's
-// own sanitize call is exercised for real in a browser. Mocked here as an
-// identity passthrough so preview/markup assertions are deterministic.
+// DOMPurify's tree-walking sanitizer relies on DOM internals that happy-dom
+// — this suite's test environment — does not implement closely enough to be
+// trustworthy: under happy-dom it can leave a live <script> tag intact
+// depending on sibling order (e.g. '<p>x</p><script>...</script>' survives
+// unstripped), rather than merely over-stripping. That's a test-environment
+// gap, not a bug in the component. Mocked here as an identity passthrough so
+// this file only exercises UI wiring (preview rendering, warnings, print,
+// file-swap races) with deterministic markup. The real sanitizing behavior —
+// script/onerror/javascript: neutralization plus preservation of legitimate
+// document markup — is covered against the real DOMPurify library under
+// jsdom in src/__tests__/lib/sanitize-html.test.ts.
 vi.mock("dompurify", () => ({
   default: { sanitize: (html: string) => html },
 }));
