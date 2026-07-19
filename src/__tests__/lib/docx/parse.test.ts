@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import JSZip from "jszip";
 import { buildDocx } from "@/lib/docx/build";
 import { docxToHtml } from "@/lib/docx/parse";
 import type { DocBlock } from "@/lib/pdf/layout/blocks";
@@ -68,5 +69,47 @@ describe("docxToHtml", () => {
     const garbage = new TextEncoder().encode("this is definitely not a zip/docx file").buffer;
 
     await expect(docxToHtml(garbage)).rejects.toThrow();
+  });
+
+  it("forwards mammoth's conversion warnings through `messages` (not silently dropped)", async () => {
+    // `messages` exists specifically so Task 11's Word -> PDF UI can tell the
+    // user what didn't survive conversion. Nothing above proves the wiring
+    // (`result.messages.map(...)` in parse.ts) actually runs: the round-trip
+    // fixture produces zero mammoth warnings, so an empty array satisfies
+    // every prior assertion even if messages were hardcoded to `[]`.
+    //
+    // To force a real warning deterministically (without reaching into
+    // mammoth's internal `styleMap` option, which would mean changing
+    // `docxToHtml`'s public signature just to make this test easier), build
+    // a real .docx via `buildDocx`, then corrupt its `word/document.xml` so
+    // the heading paragraph's `w:pStyle` points at a style ID that is not
+    // defined anywhere in `styles.xml`. mammoth's body-reader unconditionally
+    // warns in that case (see `undefinedStyleWarning` in
+    // `mammoth/lib/docx/body-reader.js`) — this fires during ordinary
+    // parsing, with no options required, so it is a faithful stand-in for
+    // "a real Word document mammoth couldn't fully map."
+    const blob = await buildDocx(BLOCKS);
+    const zip = await JSZip.loadAsync(await blob.arrayBuffer());
+    const documentXmlPath = "word/document.xml";
+    const documentXml = await zip.file(documentXmlPath)?.async("string");
+    if (documentXml === undefined) {
+      throw new Error(`buildDocx output is missing ${documentXmlPath}`);
+    }
+    expect(documentXml).toContain('w:pStyle w:val="Heading1"');
+    const corruptedXml = documentXml.replace(
+      'w:pStyle w:val="Heading1"',
+      'w:pStyle w:val="NoSuchStyleZZZ"',
+    );
+    zip.file(documentXmlPath, corruptedXml);
+    const corruptedArrayBuffer = await zip.generateAsync({ type: "arraybuffer" });
+
+    const { messages } = await docxToHtml(corruptedArrayBuffer);
+
+    expect(messages.length).toBeGreaterThan(0);
+    expect(
+      messages.some((message) =>
+        message.includes("Paragraph style with ID NoSuchStyleZZZ was referenced but not defined"),
+      ),
+    ).toBe(true);
   });
 });
