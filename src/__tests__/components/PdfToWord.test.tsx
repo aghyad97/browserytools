@@ -1,6 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from "vitest";
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
+import { toast } from "sonner";
 import PdfToWord from "@/components/PdfToWord";
 import type { DocBlock } from "@/lib/pdf/layout";
 
@@ -19,6 +20,10 @@ vi.mock("@/lib/docx/build", () => ({
 const downloadBlob = vi.fn();
 vi.mock("@/lib/download", () => ({
   downloadBlob: (...args: unknown[]) => downloadBlob(...args),
+}));
+
+vi.mock("sonner", () => ({
+  toast: { error: vi.fn(), success: vi.fn() },
 }));
 
 function makeFile(name = "report.pdf") {
@@ -54,6 +59,8 @@ beforeEach(() => {
   extractDocument.mockReset();
   buildDocx.mockReset();
   downloadBlob.mockReset();
+  vi.mocked(toast.error).mockReset();
+  vi.mocked(toast.success).mockReset();
   extractDocument.mockResolvedValue(SAMPLE_RESULT);
   buildDocx.mockResolvedValue(new Blob(["fake-docx"]));
 });
@@ -189,5 +196,94 @@ describe("PdfToWord", () => {
 
     const summary = await screen.findByTestId("pdf-to-word-summary");
     expect(summary).toHaveTextContent("1"); // paragraphs, this time just one
+  });
+
+  it("recovers to a usable state when extractDocument rejects (toast + can pick another file)", async () => {
+    extractDocument.mockReset();
+    extractDocument.mockRejectedValueOnce(new Error("boom"));
+
+    const user = userEvent.setup();
+    render(<PdfToWord />);
+
+    const input = screen.getByTestId("pdf-to-word-input") as HTMLInputElement;
+    await user.upload(input, makeFile("bad.pdf"));
+
+    await waitFor(() => expect(toast.error).toHaveBeenCalledTimes(1));
+
+    // Not stuck in "extracting": the progress bar is gone and the file info
+    // (with its "Change" control) is showing instead of being frozen mid-load.
+    expect(screen.queryByTestId("pdf-to-word-progress")).not.toBeInTheDocument();
+    const changeBtn = screen.getByRole("button", { name: /change/i });
+    expect(changeBtn).not.toBeDisabled();
+
+    // The user can pick another file and it goes through normally.
+    extractDocument.mockResolvedValueOnce(SAMPLE_RESULT);
+    const changeInput = screen.getByTestId(
+      "pdf-to-word-change-input",
+    ) as HTMLInputElement;
+    await user.upload(changeInput, makeFile("good.pdf"));
+
+    const summary = await screen.findByTestId("pdf-to-word-summary");
+    expect(summary).toHaveTextContent("3"); // headings, from SAMPLE_RESULT
+  });
+
+  it("recovers to a usable state when buildDocx rejects (toast + Convert re-enabled)", async () => {
+    buildDocx.mockReset();
+    buildDocx.mockRejectedValueOnce(new Error("boom"));
+
+    const user = userEvent.setup();
+    render(<PdfToWord />);
+
+    const input = screen.getByTestId("pdf-to-word-input") as HTMLInputElement;
+    await user.upload(input, makeFile());
+
+    await waitFor(() =>
+      expect(screen.getByTestId("pdf-to-word-summary")).toBeInTheDocument(),
+    );
+
+    const convertBtn = screen.getByRole("button", { name: /convert to word/i });
+    await waitFor(() => expect(convertBtn).not.toBeDisabled());
+    await user.click(convertBtn);
+
+    await waitFor(() => expect(toast.error).toHaveBeenCalledTimes(1));
+    expect(downloadBlob).not.toHaveBeenCalled();
+
+    // "converting" reset: Convert is clickable again, not stuck disabled.
+    await waitFor(() => expect(convertBtn).not.toBeDisabled());
+  });
+
+  it("disables the Change button while converting, to prevent a file-swap race", async () => {
+    let resolveConvert: (value: Blob) => void = () => {};
+    buildDocx.mockReset();
+    buildDocx.mockImplementationOnce(
+      () =>
+        new Promise((resolve) => {
+          resolveConvert = resolve;
+        }),
+    );
+
+    const user = userEvent.setup();
+    render(<PdfToWord />);
+
+    const input = screen.getByTestId("pdf-to-word-input") as HTMLInputElement;
+    await user.upload(input, makeFile());
+
+    await waitFor(() =>
+      expect(screen.getByTestId("pdf-to-word-summary")).toBeInTheDocument(),
+    );
+
+    const convertBtn = screen.getByRole("button", { name: /convert to word/i });
+    await waitFor(() => expect(convertBtn).not.toBeDisabled());
+    await user.click(convertBtn);
+
+    // While buildDocx is still in flight, Change must be disabled — otherwise
+    // the user can swap in a new file whose extraction clears `result` out
+    // from under the in-flight convert() closure, and the stale conversion
+    // silently downloads under the new file's UI.
+    const changeBtn = await screen.findByRole("button", { name: /change/i });
+    expect(changeBtn).toBeDisabled();
+
+    resolveConvert(new Blob(["fake-docx"]));
+    await waitFor(() => expect(downloadBlob).toHaveBeenCalledTimes(1));
   });
 });

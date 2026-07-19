@@ -157,7 +157,7 @@ export default function PdfToWord() {
                 variant="outline"
                 size="sm"
                 onClick={() => fileInputRef.current?.click()}
-                disabled={extracting}
+                disabled={extracting || converting}
               >
                 <RefreshCwIcon className="w-4 h-4 me-1" />
                 {t("change")}
