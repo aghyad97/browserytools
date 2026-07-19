@@ -153,6 +153,22 @@ describe("ImageToText", () => {
     // First positional arg to createWorker is the language code.
     expect(createWorker.mock.calls[0][0]).toBe("eng");
   });
+
+  it("terminates the tesseract worker even when recognize() rejects", async () => {
+    recognize.mockRejectedValueOnce(new Error("recognize blew up"));
+
+    render(<ImageToText />);
+    const user = await uploadImage();
+
+    await user.click(screen.getByRole("button", { name: /extract text/i }));
+
+    await waitFor(() => expect(recognize).toHaveBeenCalledTimes(1));
+    // The worker must be released on the error path, not just the happy path.
+    await waitFor(() => expect(terminate).toHaveBeenCalledTimes(1));
+
+    const { toast } = await import("sonner");
+    expect(toast.error).toHaveBeenCalled();
+  });
 });
 
 describe("ImageToText — PDF input (Task 9)", () => {

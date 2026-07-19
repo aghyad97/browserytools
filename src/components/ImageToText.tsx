@@ -25,6 +25,10 @@ import { downloadBlob } from "@/lib/download";
 import { openPdf } from "@/lib/pdf/pdfjs-doc";
 import { deskew, binarize, estimateSkew, toGrayscale } from "@/lib/ocr/preprocess";
 import { loadImage, drawToCanvas } from "@/lib/image/canvas";
+// Type-only: erased at compile time, so this does not pull tesseract.js into
+// the main bundle — the runtime import stays the dynamic `await import(...)`
+// below.
+import type { Worker } from "tesseract.js";
 
 interface ImageInfo {
   url: string;
@@ -116,13 +120,17 @@ export default function ImageToText() {
     let currentPage = 1;
     let totalPages = 1;
 
+    // Hoisted above the try so the finally block can always release it,
+    // whether recognition succeeds, throws mid-PDF, or never gets created.
+    let worker: Worker | null = null;
+
     try {
       const { createWorker } = await import("tesseract.js");
 
       // Self-hosted engine: the worker + core WASM are copied into
       // public/tesseract/ by scripts/copy-tesseract.js. The language
       // traineddata still loads once from the official tessdata CDN.
-      const worker = await createWorker(language, 1, {
+      worker = await createWorker(language, 1, {
         workerPath: "/tesseract/worker.min.js",
         corePath: "/tesseract/",
         logger: (m: { status: string; progress: number }) => {
@@ -177,8 +185,6 @@ export default function ImageToText() {
         recognized = imageText;
       }
 
-      await worker.terminate();
-
       setText(recognized.trim());
       setProgress(100);
 
@@ -191,6 +197,14 @@ export default function ImageToText() {
       console.error(error);
       toast.error(t("recognizeFailed"));
     } finally {
+      // Always release the WASM worker — on success, on a mid-PDF failure,
+      // or on unmount-adjacent races. terminate() itself can reject; that
+      // must not mask whatever error (or success) preceded it.
+      try {
+        await worker?.terminate();
+      } catch (terminateError) {
+        console.error(terminateError);
+      }
       setIsRecognizing(false);
       setPdfPage(null);
     }
