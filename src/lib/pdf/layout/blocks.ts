@@ -1,3 +1,4 @@
+import { LINE_TOLERANCE_EM, MIN_LINE_TOLERANCE } from "./reading-order";
 import type { Segment } from "./segments";
 import type { DetectedTable } from "./tables";
 
@@ -25,10 +26,6 @@ const HEADING_SIZE_RATIO = 1.12;
 /** Tolerance for clustering "the same" font size across floating-point jitter, in pt. */
 const SIZE_CLUSTER_TOL = 0.5;
 
-/** Baseline tolerance for grouping segments into one visual line, in em (mirrors reading-order.ts). */
-const LINE_TOLERANCE_EM = 0.4;
-const MIN_LINE_TOLERANCE = 1.5; // pt
-
 /**
  * Minimum extra left indent (beyond the document's body indent) for a line
  * with NO leading marker to still count as a list-item candidate. Real-world
@@ -41,17 +38,39 @@ const MIN_LINE_TOLERANCE = 1.5; // pt
 const LIST_INDENT_THRESHOLD = 10; // pt
 
 /**
+ * Minimum run length for an INDENT-ONLY list (no marker on any line) to be
+ * emitted as a list at all, rather than demoted to ordinary paragraph
+ * line(s). Indent alone is a weak signal — a wrapped block quote or a run of
+ * indented captions keeps every line at the same left edge exactly as
+ * consistently as a real list does, and nothing here checks line-length
+ * variance, terminal punctuation, or capitalization continuity to tell them
+ * apart. Requiring 3 lines (not 2) closes the most common false-positive
+ * shape — a 2-line indented quotation — at zero cost to the fixtures:
+ * doc1-simple.pdf's only real indent-driven list run has exactly 3 items.
+ * Marker-detected lists (viaMarker) are exempt: a real bullet or number is
+ * strong enough evidence on its own, so a genuine 2-item marked list still
+ * emits as a list (see the `!candidate.viaMarker` guard at the call site).
+ */
+const MIN_INDENT_ONLY_LIST_RUN = 3;
+
+/**
  * Max vertical gap allowed between two heading-sized lines of the SAME
  * clustered size for them to merge into one heading block, expressed as a
- * multiple of the larger line's font size. Ordinary heading leading runs
- * ~1.2-1.5x font size; this is set generously above that (but still far below
- * the reading-order module's own band-split threshold, ~2.5x median line
- * height) so a genuine two-line title merges reliably without risking a false
- * merge of two unrelated same-sized headings separated by real content (those
- * are never immediately adjacent in the flattened item stream anyway — see
- * the merge loop below, which only ever considers literal neighbors).
+ * multiple of the larger line's font size.
+ *
+ * Measured against doc2-twocol.pdf's real two-line title ("On the Recovery
+ * of Reading Order in Fixed-" / "Layout Documents", both 19pt): the gap
+ * between the two baselines is 27.75pt, a ratio of 27.75 / 19 = 1.4605. 1.6
+ * clears that with a comfortable ~9.5% margin so the genuine continuation
+ * still merges, while sitting far below the gap between two genuinely
+ * distinct same-level headings with nothing between them (e.g. an empty
+ * first CV section: "Skills" immediately followed by "Experience") — that
+ * gap reflects normal paragraph/section spacing, well above tight
+ * line-to-line leading. The merge loop only ever considers literal
+ * neighbors in the flattened item stream, so this ratio is the only guard
+ * against merging two such headings.
  */
-const HEADING_MERGE_GAP_RATIO = 3;
+const HEADING_MERGE_GAP_RATIO = 1.6;
 
 /**
  * Leading-marker regex for list items: a bullet glyph, a numeric marker
@@ -194,6 +213,19 @@ export function classify(regions: Segment[][], tables: DetectedTable[]): DocBloc
     paragraphBuffer = [];
   };
 
+  // Single entry point for appending a line to the paragraph buffer.
+  // Paragraphs never span a region boundary (only headings do — see the
+  // cross-region merge above) — every caller that can hand a line to the
+  // paragraph buffer MUST go through this so that invariant can't be
+  // bypassed by a path that forgets the check (see the list-demotion branch
+  // below, which used to skip it).
+  const pushParagraphLine = (ln: LineInfo) => {
+    if (paragraphBuffer.length > 0 && paragraphBuffer[0].regionIndex !== ln.regionIndex) {
+      flushParagraph();
+    }
+    paragraphBuffer.push(ln);
+  };
+
   let i = 0;
   while (i < items.length) {
     const item = items[i];
@@ -257,12 +289,16 @@ export function classify(regions: Segment[][], tables: DetectedTable[]): DocBloc
         group.push({ line: next.line, info: nextCandidate });
         j++;
       }
-      if (group.length === 1 && !candidate.viaMarker) {
-        // A lone indent-only candidate is too weak a signal on its own —
-        // fall through and treat it as an ordinary paragraph line instead of
-        // emitting a spurious one-item list.
-        paragraphBuffer.push(line);
-        i++;
+      if (group.length < MIN_INDENT_ONLY_LIST_RUN && !candidate.viaMarker) {
+        // A short indent-only run is too weak a signal on its own — a
+        // wrapped block quote or a lone indented caption/footnote satisfies
+        // "consistently indented" exactly as well as a real list does.
+        // Demote every line in the run to ordinary paragraph line(s) instead
+        // of emitting a spurious list (each still goes through
+        // pushParagraphLine so a run that happens to open a new region can't
+        // splice its text onto the tail of the previous region's paragraph).
+        for (const g of group) pushParagraphLine(g.line);
+        i = j;
         continue;
       }
       flushParagraph();
@@ -277,10 +313,7 @@ export function classify(regions: Segment[][], tables: DetectedTable[]): DocBloc
     }
 
     // Plain line: paragraphs never span a region boundary (only headings do).
-    if (paragraphBuffer.length > 0 && paragraphBuffer[0].regionIndex !== line.regionIndex) {
-      flushParagraph();
-    }
-    paragraphBuffer.push(line);
+    pushParagraphLine(line);
     i++;
   }
   flushParagraph();

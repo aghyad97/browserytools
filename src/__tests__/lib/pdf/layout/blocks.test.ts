@@ -233,4 +233,103 @@ describe("classify — list detection (synthetic)", () => {
       items: ["First item", "Second item", "Third item"],
     });
   });
+
+  it("still emits a genuine 2-item MARKED list as a list (marker minimum unchanged)", () => {
+    const region = [seg("• Alpha item", 70, 700, 120, 12), seg("• Beta item", 70, 685, 120, 12)];
+    const blocks = classify([region], []);
+    expect(blocks).toHaveLength(1);
+    expect(blocks[0]).toMatchObject({
+      type: "list",
+      ordered: false,
+      items: ["Alpha item", "Beta item"],
+    });
+  });
+
+  it("does NOT emit a 2-line INDENT-ONLY run (no markers) as a list — e.g. a wrapped block quote", () => {
+    // Three body-margin lines establish bodyIndent = 60, then two consistently
+    // indented lines with no marker follow — the shape a wrapped block quote
+    // produces just as well as a real list. With MIN_INDENT_ONLY_LIST_RUN = 3
+    // a run of only 2 must be demoted to paragraph text, not emitted as a list.
+    const region = [
+      seg("Body line one establishing margin alpha", 60, 760, 260, 12),
+      seg("Body line two establishing margin beta", 60, 745, 260, 12),
+      seg("Body line three establishing margin gamma", 60, 730, 260, 12),
+      seg("Indented quotation line one", 80, 715, 200, 12),
+      seg("Indented quotation line two", 80, 700, 200, 12),
+    ];
+    const blocks = classify([region], []);
+    expect(blocks.some((b) => b.type === "list")).toBe(false);
+    const allText = blocks.map(textOf).join(" | ");
+    // Neither demoted line was silently dropped.
+    expect(allText).toContain("Indented quotation line one");
+    expect(allText).toContain("Indented quotation line two");
+  });
+});
+
+describe("classify — list demotion is region-safe (regression for cross-region splice bug)", () => {
+  it("does not splice a lone indented line from one region onto the previous region's paragraph", () => {
+    // Region 0: an ordinary two-line paragraph at the body margin (x=60).
+    // Region 1: starts with a LONE indented line (x=90, no marker — a
+    // caption/footnote/quote-opener shape), followed by a normal-margin
+    // line that breaks the indent run. The lone line is too weak a signal
+    // to be a list on its own (group length 1 < MIN_INDENT_ONLY_LIST_RUN)
+    // and must be demoted — but demotion must still respect the region
+    // boundary instead of appending straight onto region 0's paragraph.
+    const a1 = seg("First region opening line one", 60, 700, 220, 12);
+    const a2 = seg("First region closing line two", 60, 685, 220, 12);
+    const b1 = seg("Lone indented caption line", 90, 700, 200, 12);
+    const b2 = seg("Second region body line", 60, 685, 200, 12);
+
+    const blocks = classify([[a1, a2], [b1, b2]], []);
+
+    expect(blocks.every((b) => b.type !== "list")).toBe(true);
+
+    const texts = blocks.map(textOf);
+    const crossContaminated = texts.some(
+      (t) => t.includes("First region") && t.includes("Lone indented caption"),
+    );
+    expect(crossContaminated).toBe(false);
+
+    // Nothing was silently dropped either.
+    const allText = texts.join(" | ");
+    expect(allText).toContain("First region opening line one");
+    expect(allText).toContain("First region closing line two");
+    expect(allText).toContain("Lone indented caption line");
+    expect(allText).toContain("Second region body line");
+  });
+});
+
+describe("classify — heading merge does not join two distinct headings (regression)", () => {
+  it("emits TWO heading blocks for same-size headings separated by a normal (non-continuation) gap", () => {
+    // Mimics an empty first CV section: "Skills" immediately followed by
+    // "Experience" with nothing between them. Both are 20pt heading-sized
+    // lines with a 40pt gap — well above HEADING_MERGE_GAP_RATIO (1.6) * 20
+    // = 32pt, so they must NOT merge into "Skills Experience".
+    const region = [
+      seg("Skills", 60, 800, 60, 20),
+      seg("Experience", 60, 760, 100, 20),
+      seg("This is a plain body sentence with several words to anchor body size.", 60, 700, 300, 12),
+      seg(
+        "Another plain body sentence used only to establish the body font size baseline.",
+        60,
+        685,
+        320,
+        12,
+      ),
+    ];
+    const blocks = classify([region], []);
+    const headings = blocks.filter((b): b is Extract<DocBlock, { type: "heading" }> => b.type === "heading");
+    expect(headings).toHaveLength(2);
+    expect(headings.map((h) => h.text)).toEqual(["Skills", "Experience"]);
+  });
+
+  it("still merges doc2-twocol.pdf's genuine two-line title into ONE heading block (no regression)", async () => {
+    const { segments, pageBox } = await pageGeometry("doc2-twocol.pdf");
+    const regions = orderSegments(segments, pageBox);
+    const blocks = classify(regions, []);
+    const headings = blocks.filter((b): b is Extract<DocBlock, { type: "heading" }> => b.type === "heading");
+    const titleHeadings = headings.filter((h) => h.text.includes("On the Recovery of Reading Order"));
+    expect(titleHeadings).toHaveLength(1);
+    expect(titleHeadings[0].text).toContain("Layout Documents");
+  });
 });

@@ -86,9 +86,13 @@ const MIN_COLUMN_SEGMENTS = 2;
 const BAND_GAP_LINE_HEIGHTS = 2.5;
 const MIN_BAND_GAP = 20; // pt — floor for tiny-font pages
 
-/** Baseline tolerance for grouping segments into one visual line, in em. */
-const LINE_TOLERANCE_EM = 0.4;
-const MIN_LINE_TOLERANCE = 1.5; // pt
+/**
+ * Baseline tolerance for grouping segments into one visual line, in em.
+ * Exported so blocks.ts's line-grouping (groupLines) can share it exactly
+ * instead of maintaining its own copy that could silently drift out of sync.
+ */
+export const LINE_TOLERANCE_EM = 0.4;
+export const MIN_LINE_TOLERANCE = 1.5; // pt
 
 /** Recursion guard. Real layouts nest a handful of levels at most. */
 const MAX_DEPTH = 12;
