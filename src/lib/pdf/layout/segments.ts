@@ -18,11 +18,43 @@ export interface Segment {
 }
 
 const MAX_BASELINE_DELTA = 1; // pt — runs sharing a baseline within this are mergeable
-const MAX_GAP = 20; // pt — horizontal gap cap. CRITICAL: prevents merging across a
-// column gutter. Columns in a two-column layout share baselines, so merging
-// runs into full lines (no gap cap) pulls text across the gutter and destroys
-// column separation — this breaks every downstream reading-order/table task.
-// Do not raise this without re-running the Wave 7 spike fixtures.
+
+/**
+ * Horizontal merge gap cap — the largest gap between two same-baseline runs
+ * that still counts as "one piece of text". CRITICAL: this is what prevents
+ * merging across a column gutter or a table's column gap. Columns in a
+ * two-column layout share baselines, so merging runs into full lines (no gap
+ * cap) pulls text across the gutter and destroys column separation, which
+ * breaks every downstream reading-order/table task.
+ *
+ * MUST be derived from the font size, never fixed — same rule as tables.ts's
+ * `colTol`, and for the same reason. A fixed 20pt cap SILENTLY DESTROYS THE
+ * HEADER ROW of any ruled table whose column gap happens to fall under it:
+ * the header cells merge into a single segment before tables.ts ever runs, so
+ * the table comes back headerless with no error anywhere. This is not a
+ * fixture-specific quirk — a 12pt table with ~1.5em column gaps (18.75pt in
+ * doc6-twotables.pdf) is an entirely ordinary layout.
+ *
+ * Constants measured across every layout fixture (doc1-simple, doc2-twocol,
+ * doc3-tables, doc4-arabic, doc5-twocol-footer, stroked-rules,
+ * doc6-twotables, doc7-arabic-table), by collecting every same-baseline
+ * adjacent run pair and splitting them into the two populations:
+ *
+ *   MUST merge (intra-line word/kerning gaps)  — max ratio 0.31 (doc4-arabic,
+ *     4.05pt at 13pt font); most are ~0.00 (ligature/kerning splits).
+ *   MUST NOT merge (table column gaps, gutters) — min ratio 1.56
+ *     (doc6-twotables, 18.75pt at 12pt font); next 1.75 (doc3-tables, 21.0pt),
+ *     then 3.14 (doc2-twocol gutter) and above.
+ *
+ * 0.75 sits between those populations with ~2.4x headroom below the smallest
+ * true column gap and ~2.4x above the largest true word gap. The 6pt floor
+ * only binds under an 8pt font, where a word gap is ~2.5pt and a column gap
+ * ~12.5pt — so it keeps the same separation when the ratio term gets small.
+ * Do not replace either constant with a fixed pt value.
+ */
+function maxMergeGap(fontSize: number): number {
+  return Math.max(6, 0.75 * fontSize);
+}
 
 const WORD_GAP_FONT_RATIO = 0.2; // Relative, not a fixed pt value: natural word spacing
 // scales with font size (a 30pt heading has a much wider natural word gap than 8pt body
@@ -66,11 +98,12 @@ function itemToRun(item: TextItem): Segment {
  * - w from item.width; h from item.height, falling back to fontSize when 0.
  * - dir from item.dir, defaulting to "ltr".
  * - Adjacent runs merge into one segment ONLY when they share a baseline
- *   (|Δy| < 1pt) AND the horizontal gap between them is < 20pt.
+ *   (|Δy| < 1pt) AND the horizontal gap between them is under the
+ *   font-size-derived cap (see maxMergeGap).
  * - Runs are NEVER merged into full lines: a two-column layout has both
  *   columns sharing a baseline, so full-line merging would pull text across
- *   the gutter and destroy column separation. The 20pt gap cap is what
- *   prevents that.
+ *   the gutter and destroy column separation. The gap cap is what prevents
+ *   that — and, at table scale, what keeps a header row's cells apart.
  * - Merging reconstructs the word-separating space that whitespace-only
  *   items don't carry through (they're dropped, see the loop below): a gap
  *   bigger than 20% of the font size gets a single inserted space; smaller
@@ -95,7 +128,7 @@ export function toSegments(items: TextItem[], viewport: PageViewport): Segment[]
     // adjacent cells look like they overlap ("gap" goes negative) and chains
     // into merging an entire table row into one segment. Dropping the item
     // outright makes the merge decision below compare the real endpoints of
-    // the two content-bearing runs, which is what the 20pt cap is measured
+    // the two content-bearing runs, which is what the merge cap is measured
     // against.
     const transform = item.transform as number[] | undefined;
     if (!transform || transform.length < 6) continue;
@@ -156,8 +189,11 @@ function horizontalGap(prev: Segment, next: Segment): number {
 
 function canMerge(prev: Segment, next: Segment, gap: number): boolean {
   if (Math.abs(prev.y - next.y) >= MAX_BASELINE_DELTA) return false;
-  // Allow slight overlap (negative gap) as well as a positive gap up to the cap.
-  return gap < MAX_GAP;
+  // Allow slight overlap (negative gap) as well as a positive gap up to the
+  // cap. The cap scales with the larger of the two runs' font sizes, so a
+  // heading's naturally wider word spacing is not mistaken for a column gap
+  // and small-font table columns are not mistaken for word spacing.
+  return gap < maxMergeGap(Math.max(prev.fontSize, next.fontSize));
 }
 
 function mergeInto(prev: Segment, next: Segment, gap: number): void {

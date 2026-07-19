@@ -73,6 +73,31 @@ const MIN_INDENT_ONLY_LIST_RUN = 3;
 const HEADING_MERGE_GAP_RATIO = 1.6;
 
 /**
+ * Vertical gap between two consecutive body lines, as a multiple of the larger
+ * line's font size, above which they belong to DIFFERENT paragraphs.
+ *
+ * Without this, every consecutive paragraph inside one reading-order region
+ * merges into a single `<w:p>`. That is what produced the "ALPHA-END
+ * BETA-START" defect found in real-browser verification of doc2-twocol.pdf:
+ * a paragraph that ends at the bottom of column A continues at the top of
+ * column B, and the NEXT paragraph (starting mid-column-B) was spliced onto
+ * its tail. The region split was correct — both lines genuinely live in the
+ * same column region — so a region-boundary check alone cannot catch it.
+ *
+ * Measured across the layout fixtures, over consecutive non-heading lines
+ * within a single region:
+ *
+ *   SAME paragraph (line leading)  — 1.43, 1.50 (doc1/doc2/doc5 body),
+ *     max 1.79 (doc4-arabic, 23.25pt at 13pt font).
+ *   DIFFERENT paragraphs           — min 2.43 (doc2-twocol, 25.5pt at 10.5pt),
+ *     then 2.50 (doc1, doc5) and 2.83 (doc4-arabic).
+ *
+ * 2.1 sits almost exactly midway between the two populations (~17% margin on
+ * each side). Headings are handled separately and never reach this check.
+ */
+const PARAGRAPH_BREAK_GAP_RATIO = 2.1;
+
+/**
  * Leading-marker regex for list items: a bullet glyph, a numeric marker
  * (`12)`, `3.`), or a single-letter marker (`a.`, `b)`), followed by
  * whitespace. Per spec — do not add more marker shapes without re-checking
@@ -213,14 +238,19 @@ export function classify(regions: Segment[][], tables: DetectedTable[]): DocBloc
     paragraphBuffer = [];
   };
 
-  // Single entry point for appending a line to the paragraph buffer.
-  // Paragraphs never span a region boundary (only headings do — see the
-  // cross-region merge above) — every caller that can hand a line to the
-  // paragraph buffer MUST go through this so that invariant can't be
-  // bypassed by a path that forgets the check (see the list-demotion branch
-  // below, which used to skip it).
+  // Single entry point for appending a line to the paragraph buffer, enforcing
+  // both paragraph-break invariants:
+  //
+  // 1. Paragraphs never span a region boundary (only headings do — see the
+  //    cross-region merge above).
+  // 2. Paragraphs break on a vertical gap larger than normal line leading.
+  //
+  // Every caller that can hand a line to the paragraph buffer MUST go through
+  // this so neither invariant can be bypassed by a path that forgets the check
+  // (see the list-demotion branch below, which used to skip it).
   const pushParagraphLine = (ln: LineInfo) => {
-    if (paragraphBuffer.length > 0 && paragraphBuffer[0].regionIndex !== ln.regionIndex) {
+    const prev = paragraphBuffer[paragraphBuffer.length - 1];
+    if (prev && (prev.regionIndex !== ln.regionIndex || isParagraphBreak(prev, ln))) {
       flushParagraph();
     }
     paragraphBuffer.push(ln);
@@ -425,6 +455,18 @@ function computeBodyIndent(
     }
   }
   return bestKey;
+}
+
+/**
+ * Do two consecutive body lines sit far enough apart vertically to be separate
+ * paragraphs? y decreases down the page, so `prev.y - next.y` is the drop from
+ * one baseline to the next. A non-positive drop means the lines share a
+ * baseline (or the caller handed them out of order) and is never a break.
+ */
+function isParagraphBreak(prev: LineInfo, next: LineInfo): boolean {
+  const gap = prev.y - next.y;
+  if (!(gap > 0)) return false;
+  return gap > PARAGRAPH_BREAK_GAP_RATIO * Math.max(prev.fontSize, next.fontSize);
 }
 
 function rtlFlag(lines: LineInfo[]): { rtl?: true } {

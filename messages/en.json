@@ -5128,6 +5128,8 @@
       "honestyDigital": "Works best on digitally-created PDFs (from Word, Google Docs, etc). Scanned PDFs need OCR and won't convert here.",
       "honestyBorderless": "Borderless tables (no visible grid lines) are the weakest link — detection is a heuristic and can miss or mis-split them.",
       "honestyMerged": "Merged or spanning cells, and multi-line cells, are not supported.",
+      "honestyMultiTable": "Two or more separate tables on the same page are read as one table, which produces extra columns and can pull a heading in as a table row. Split them onto separate pages for a clean result.",
+      "honestyRtlTables": "Right-to-left tables (Arabic, Hebrew) can come out wrong — columns may collapse together and cells are not marked right-to-left. Arabic paragraph text converts correctly; this affects tables only.",
       "honestyImages": "Images are not carried over in this version — only text, headings, lists, and tables.",
       "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
       "convert": "Convert to Word",

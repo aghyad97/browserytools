@@ -198,6 +198,13 @@ export default function WordToPdf() {
             <div
               className="prose dark:prose-invert max-w-none prose-img:max-w-full"
               data-testid="word-to-pdf-preview"
+              // Pinned to the CONVERTED DOCUMENT's direction, not the UI's.
+              // Without this the preview inherits the app's `dir`, so an LTR
+              // .docx renders right-to-left under the Arabic UI and the
+              // printed PDF misrepresents the source file. The preview is a
+              // rendering of someone else's document, so UI locale must not
+              // reach it.
+              dir="ltr"
               // biome-ignore lint/security/noDangerouslySetInnerHtml: sanitized above via DOMPurify before this ever reaches state.
               dangerouslySetInnerHTML={{ __html: sanitizedHtml }}
             />

@@ -141,6 +141,45 @@ describe("classify — doc2-twocol.pdf (multi-region heading merge)", () => {
     );
     expect(strayRemainder).toHaveLength(0);
   });
+
+  it("never merges two distinct paragraphs into one block across a column boundary", async () => {
+    // Regression (found in real-browser verification): the .docx contained
+    // "ALPHA-END BETA-START" inside a SINGLE <w:p>. The ALPHA paragraph ends
+    // at the top of column B and the BETA paragraph starts below it — both
+    // genuinely in the same reading-order region, so the region-boundary
+    // guard alone could not catch it. classify() now also breaks a paragraph
+    // on a vertical gap larger than normal line leading.
+    const { segments, pageBox } = await pageGeometry("doc2-twocol.pdf");
+    const regions = orderSegments(segments, pageBox);
+    const blocks = classify(regions, []);
+
+    const merged = blocks.filter(
+      (b) => textOf(b).includes("ALPHA-END") && textOf(b).includes("BETA-START"),
+    );
+    expect(merged).toHaveLength(0);
+
+    // Not vacuous: both markers must actually be present, in separate blocks,
+    // and ALPHA-END must still precede BETA-START in document order.
+    const alphaEnd = blocks.findIndex((b) => textOf(b).includes("ALPHA-END"));
+    const betaStart = blocks.findIndex((b) => textOf(b).includes("BETA-START"));
+    expect(alphaEnd).toBeGreaterThanOrEqual(0);
+    expect(betaStart).toBeGreaterThanOrEqual(0);
+    expect(alphaEnd).toBeLessThan(betaStart);
+  });
+
+  it("keeps a paragraph's own wrapped lines together (paragraph break is not per-line)", async () => {
+    // Guard against over-breaking: the vertical-gap rule must not split every
+    // line into its own paragraph. doc2's opening paragraph wraps over four
+    // lines and must stay a single block.
+    const { segments, pageBox } = await pageGeometry("doc2-twocol.pdf");
+    const regions = orderSegments(segments, pageBox);
+    const blocks = classify(regions, []);
+
+    const opening = blocks.filter((b) => textOf(b).includes("ALPHA-START"));
+    expect(opening).toHaveLength(1);
+    expect(textOf(opening[0])).toContain("visual fidelity");
+    expect(textOf(opening[0])).toContain("than a narrative order.");
+  });
 });
 
 describe("classify — doc4-arabic.pdf (rtl propagation)", () => {

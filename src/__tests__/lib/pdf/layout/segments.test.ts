@@ -62,6 +62,27 @@ describe("toSegments", () => {
     expect(allText).toContain("BETA-START");
   });
 
+  it("keeps doc6-twotables.pdf's header cells apart despite an 18.7pt column gap", async () => {
+    // Regression: the merge cap used to be a fixed 20pt, so this table's
+    // 18.75pt header gap merged "Region" and "Units" into ONE segment before
+    // tables.ts ever ran — the header row vanished with no error anywhere.
+    // The cap is now font-size-derived (0.75em => 9pt at this 12pt font), so
+    // the two header cells survive as separate segments.
+    //
+    // NOTE: doc6's TABLE DETECTION is still wrong (two ruled tables on one
+    // page merge into a single page-wide grid — a documented limitation, see
+    // the PdfToWord honesty panel). This asserts only the segmentation fix.
+    const { segments } = await segmentsForPage("doc6-twotables.pdf");
+    const region = segments.filter((s) => s.text.trim() === "Region");
+    const units = segments.filter((s) => s.text.trim() === "Units");
+    expect(region).toHaveLength(1);
+    expect(units).toHaveLength(1);
+    // And nothing merged them into a single combined segment.
+    expect(
+      segments.filter((s) => s.text.includes("Region") && s.text.includes("Units")),
+    ).toHaveLength(0);
+  });
+
   it("flags at least one rtl segment on doc4-arabic.pdf", async () => {
     const { segments } = await segmentsForPage("doc4-arabic.pdf");
     expect(segments.some((s) => s.dir === "rtl")).toBe(true);
@@ -107,8 +128,8 @@ describe("toSegments", () => {
 
   it("reconstructs word spacing when per-word TextItems are merged (pure toSegments, synthetic)", () => {
     // "Hello brave world" as three word TextItems + whitespace-only items in
-    // between, with realistic ~3pt inter-word gaps (well under the 20pt cap,
-    // so they merge) and matching per-word widths.
+    // between, with realistic ~3pt inter-word gaps (well under the merge cap
+    // of 0.75 * 12pt = 9pt, so they merge) and matching per-word widths.
     const items: TextItem[] = [
       makeItem("Hello", 100, 500, 30),
       makeItem(" ", 130, 500, 3),

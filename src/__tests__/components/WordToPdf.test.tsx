@@ -87,6 +87,21 @@ describe("WordToPdf", () => {
     expect(preview.querySelector("h1")).not.toBeNull();
   });
 
+  it("pins the preview container to an explicit direction, independent of UI locale", async () => {
+    // Regression: the preview used to inherit the app's `dir`, so an LTR
+    // .docx rendered right-to-left under the Arabic UI — and window.print()
+    // then produced a PDF that misrepresented the source document. The
+    // container must carry the CONVERTED DOCUMENT's direction explicitly.
+    const user = userEvent.setup();
+    render(<WordToPdf />);
+
+    const input = screen.getByTestId("word-to-pdf-input") as HTMLInputElement;
+    await user.upload(input, makeFile());
+
+    const preview = await screen.findByTestId("word-to-pdf-preview");
+    expect(preview.getAttribute("dir")).toBe("ltr");
+  });
+
   it("shows mammoth's messages as a conversion-warnings list when non-empty", async () => {
     docxToHtml.mockResolvedValue({
       html: "<p>Body text</p>",

@@ -222,6 +222,8 @@ export default function PdfToWord() {
             <li>{t("honestyDigital")}</li>
             <li>{t("honestyBorderless")}</li>
             <li>{t("honestyMerged")}</li>
+            <li>{t("honestyMultiTable")}</li>
+            <li>{t("honestyRtlTables")}</li>
             <li>{t("honestyImages")}</li>
             <li>{t("honestyPrivacy")}</li>
           </ul>
