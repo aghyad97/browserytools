@@ -35,7 +35,10 @@ export const TOOL_POPULARITY: string[] = [
   "password-generator",
   // PDF operations — each a large head-term query ("merge pdf", "jpg to pdf",
   // "compress pdf", …). Surfaced as their own cards (Tool.inGrid) and kept
-  // contiguous here so they read as a cluster in the grid.
+  // contiguous here so they read as a cluster in the grid. "pdf-to-word" leads
+  // the cluster: "pdf to word" is a top-tier standalone search query, at least
+  // as large as "merge pdf".
+  "pdf-to-word",
   "merge-pdf",
   "jpg-to-pdf",
   "compress-pdf",

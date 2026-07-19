@@ -105,6 +105,7 @@ import {
   SquareStackIcon,
   PuzzleIcon,
   CaptionsIcon,
+  FileType2Icon,
 } from "lucide-react";
 
 export interface Tool {
@@ -662,6 +663,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2025-08-20",
         description:
           "Convert data between CSV, TSV, JSON, XML, and YAML. Paste text, pick a target format, copy the result.",
+      },
+      {
+        name: "PDF to Word",
+        href: "/tools/pdf-to-word",
+        icon: FileType2Icon,
+        available: true,
+        order: 5,
+        creationDate: "2026-07-19",
+        description:
+          "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR.",
       },
     ],
   },

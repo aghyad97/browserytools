@@ -794,6 +794,10 @@
       "classroom-timer": {
         "name": "Cronômetro para Sala de Aula",
         "description": "Um cronômetro regressivo em tela cheia feito para a sala de aula — defina os minutos, aperte iniciar e mantenha a turma no ritmo."
+      },
+      "pdf-to-word": {
+        "name": "PDF to Word",
+        "description": "Convert a PDF into an editable Word (.docx) document — headings, paragraphs, lists, and tables — entirely in your browser. Works best on digitally-created PDFs; scanned pages need OCR."
       }
     },
     "categoriesShort": {
@@ -5102,6 +5106,30 @@
       "resultsTitle": "Cartelas de Bingo",
       "resultsDesc": "{count} cartelas",
       "errorPoolTooSmall": "Seu banco de palavras é pequeno demais para o tamanho de cartela escolhido. Adicione mais palavras ou use uma cartela menor."
+    },
+    "PdfToWord": {
+      "dropHere": "Drop a PDF here, or click to choose",
+      "supportedFormats": "PDF files only, one at a time.",
+      "change": "Change",
+      "analyzing": "Analyzing…",
+      "extractFailed": "Could not read this PDF. Please try a different file.",
+      "statPages": "Pages",
+      "statHeadings": "Headings",
+      "statParagraphs": "Paragraphs",
+      "statLists": "Lists",
+      "statTables": "Tables",
+      "scannedNotice": "Page(s) {pages} have no text layer (scanned or image-only) and won't appear in the Word file.",
+      "scannedNoticeLink": "Try the OCR tool for those pages",
+      "honestyTitle": "Good to know",
+      "honestyDigital": "Works best on digitally-created PDFs (from Word, Google Docs, etc). Scanned PDFs need OCR and won't convert here.",
+      "honestyBorderless": "Borderless tables (no visible grid lines) are the weakest link — detection is a heuristic and can miss or mis-split them.",
+      "honestyMerged": "Merged or spanning cells, and multi-line cells, are not supported.",
+      "honestyImages": "Images are not carried over in this version — only text, headings, lists, and tables.",
+      "honestyPrivacy": "Everything runs on your device. Your file is never uploaded.",
+      "convert": "Convert to Word",
+      "converting": "Converting…",
+      "downloaded": "Word document downloaded",
+      "convertFailed": "Could not build the Word document. Please try again."
     }
   },
   "Blog": {
