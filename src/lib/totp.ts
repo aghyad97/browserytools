@@ -101,7 +101,12 @@ export function parseOtpauthUri(uri: string): ParsedOtpauth {
   if (!secret) throw new Error("missing-secret");
   base32Decode(secret); // validate early — throws invalid-base32
 
-  const rawLabel = decodeURIComponent(url.pathname.replace(/^\//, ""));
+  let rawLabel: string;
+  try {
+    rawLabel = decodeURIComponent(url.pathname.replace(/^\//, ""));
+  } catch {
+    throw new Error("not-otpauth");
+  }
   const colonIdx = rawLabel.indexOf(":");
   const labelIssuer = colonIdx >= 0 ? rawLabel.slice(0, colonIdx).trim() : undefined;
   const label = (colonIdx >= 0 ? rawLabel.slice(colonIdx + 1) : rawLabel).trim();

@@ -106,4 +106,7 @@ describe("parseOtpauthUri", () => {
     expect(() => parseOtpauthUri("https://example.com")).toThrow("not-otpauth");
     expect(() => parseOtpauthUri("otpauth://totp/x")).toThrow("missing-secret");
   });
+  it("normalizes malformed percent-encoding to not-otpauth", () => {
+    expect(() => parseOtpauthUri("otpauth://totp/%E0%A4%A?secret=MZXW6YTBOI")).toThrow("not-otpauth");
+  });
 });
