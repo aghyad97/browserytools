@@ -18,7 +18,7 @@ export interface ParsedOtpauth extends TotpParams {
 
 const BASE32_ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZ234567";
 
-export function base32Decode(input: string): Uint8Array {
+export function base32Decode(input: string): Uint8Array<ArrayBuffer> {
   const clean = input.toUpperCase().replace(/[\s-]/g, "").replace(/=+$/, "");
   if (clean.length === 0) throw new Error("invalid-base32");
   let bits = 0;
