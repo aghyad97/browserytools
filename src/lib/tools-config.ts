@@ -22,6 +22,7 @@ import {
   QrCodeIcon,
   CalculatorIcon,
   ShieldIcon,
+  ShieldCheckIcon,
   ReceiptIcon,
   SmartphoneIcon,
   BarcodeIcon,
@@ -1547,6 +1548,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-02-20",
         description:
           "Encrypt and decrypt text using AES-256-GCM via the Web Crypto API. Your data never leaves the browser. Use a passphrase or generate a random key.",
+      },
+      {
+        name: "TOTP Generator",
+        href: "/tools/totp-generator",
+        icon: ShieldCheckIcon,
+        available: true,
+        order: 6,
+        creationDate: "2026-07-30",
+        description:
+          "Generate 2FA codes from your TOTP secrets, 100% offline in your browser. Add accounts by secret, otpauth link, or QR screenshot — codes never leave your device.",
       },
     ],
   },
