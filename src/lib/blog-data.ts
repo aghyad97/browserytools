@@ -2091,6 +2091,34 @@ const basePosts: BlogPost[] = [
     readTime: 9,
     coverEmoji: "🗒️",
     coverGradient: "from-lime-500 to-green-600",
+  },
+  {
+    slug: "video-to-audio-guide",
+    title: "Convert Video to Audio Free — Extract MP3 from MP4 in Your Browser",
+    description:
+      "Extract audio from MP4, MOV, MKV, AVI or WebM videos free, with no upload. Batch convert to MP3, M4A, OGG or WAV, pick the bitrate, and trim — all in your browser.",
+    date: "2026-07-30",
+    author: "BrowseryTools Team",
+    category: "Media Tools",
+    tags: ["video to audio", "mp4 to mp3", "extract audio from video", "video to mp3 converter", "mkv to mp3", "convert video to wav"],
+    readTime: 6,
+    featured: true,
+    coverEmoji: "🎵",
+    coverGradient: "from-violet-500 to-fuchsia-500",
+  },
+  {
+    slug: "video-to-audio-guide-ar",
+    title: "حوّل الفيديو إلى صوت مجاناً — استخرج MP3 من MP4 في متصفحك",
+    description:
+      "استخرج الصوت من فيديوهات MP4 وMOV وMKV وAVI وWebM مجاناً ودون رفع أي ملف. حوّل دفعة كاملة إلى MP3 أو M4A أو OGG أو WAV مع اختيار معدل البت والقصّ — كل ذلك داخل متصفحك.",
+    date: "2026-07-30",
+    author: "BrowseryTools Team",
+    category: "Media Tools",
+    tags: ["تحويل فيديو إلى صوت", "MP4 إلى MP3", "استخراج الصوت من الفيديو"],
+    readTime: 6,
+    featured: false,
+    coverEmoji: "🎵",
+    coverGradient: "from-violet-500 to-fuchsia-500",
   }
 ];
 
