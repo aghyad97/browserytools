@@ -94,6 +94,7 @@
     "js-yaml": "^4.1.1",
     "jsbarcode": "^3.12.1",
     "jspdf": "^3.0.2",
+    "jsqr": "^1.4.0",
     "jszip": "^3.10.1",
     "lexical": "^0.34.0",
     "lucide-react": "^0.544.0",

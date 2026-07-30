@@ -806,6 +806,10 @@
       "word-to-pdf": {
         "name": "Word 转 PDF",
         "description": "通过浏览器的打印对话框将 Word（.docx）文档转换为 PDF — 文本仍可选中和搜索，全部在您的浏览器中完成。样式会被标准化，而非像素级精确还原。"
+      },
+      "totp-generator": {
+        "name": "TOTP 生成器",
+        "description": "根据您的 TOTP 密钥生成 2FA 验证码，完全在浏览器中运行。通过密钥、otpauth 链接或二维码截图添加账户——验证码永远不会离开您的设备。"
       }
     },
     "categoriesShort": {
@@ -5183,6 +5187,50 @@
       "honestyPrint": "PDF 生成使用您浏览器的打印对话框，因此文本仍可选中和搜索 — 请将目标选择为“另存为 PDF”。",
       "honestyPrivacy": "一切都在您的设备上运行。您的文件永远不会被上传。",
       "print": "打印 / 另存为 PDF"
+    },
+    "TotpGenerator": {
+      "trustBanner": "完全在您的浏览器中运行——密钥永远不会离开此设备。只要此页面保持打开，就能持续离线使用。",
+      "emptyTitle": "暂无账户",
+      "emptyHint": "使用密钥、otpauth 链接或二维码截图在下方添加一个 2FA 账户。",
+      "addAccount": "添加账户",
+      "tabManual": "手动输入",
+      "tabUri": "otpauth 链接",
+      "tabQr": "二维码图片",
+      "labelLabel": "账户",
+      "labelPlaceholder": "user@example.com",
+      "issuerLabel": "发行方（可选）",
+      "issuerPlaceholder": "GitHub",
+      "secretLabel": "密钥",
+      "secretPlaceholder": "JBSWY3DPEHPK3PXP",
+      "advanced": "高级选项",
+      "digits": "位数",
+      "period": "周期（秒）",
+      "algorithm": "算法",
+      "uriLabel": "otpauth:// 链接",
+      "uriPlaceholder": "otpauth://totp/GitHub:you?secret=…",
+      "qrHint": "上传 2FA 设置过程中显示的二维码截图。",
+      "chooseImage": "选择图片",
+      "add": "添加",
+      "copied": "验证码已复制",
+      "accountAdded": "账户已添加",
+      "invalidSecret": "该密钥不是有效的 base32 格式，请检查是否有拼写错误。",
+      "errNotOtpauth": "这不是有效的 otpauth:// 链接。",
+      "errHotp": "不支持基于计数器的（HOTP）账户，仅支持基于时间的（TOTP）账户。",
+      "errMigration": "这是 Google Authenticator 的导出二维码，请改为逐个导出账户。",
+      "errMissingSecret": "该链接缺少 secret 参数。",
+      "errNoQr": "在该图片中未找到二维码。",
+      "errImageDecode": "无法读取该图片文件。",
+      "errCopy": "无法复制到剪贴板。",
+      "persistToggle": "保存到此设备",
+      "persistWarning": "已保存的密钥会以未加密方式存储在此浏览器配置文件中——任何能访问此设备的人都能读取它们。共享设备请勿开启此选项。",
+      "deleteAccount": "删除",
+      "deleteConfirm": "删除此账户？",
+      "confirm": "确认",
+      "cancel": "取消",
+      "duplicatePrompt": "已存在具有相同密钥和名称的账户。",
+      "replace": "替换",
+      "keepBoth": "两者都保留",
+      "secondsLeft": "秒后刷新"
     }
   },
   "Blog": {

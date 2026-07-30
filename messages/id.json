@@ -806,6 +806,10 @@
       "word-to-pdf": {
         "name": "Word ke PDF",
         "description": "Konversi dokumen Word (.docx) menjadi PDF menggunakan dialog cetak browser Anda — teks tetap dapat dipilih dan dicari, sepenuhnya di browser Anda. Gaya tampilan dinormalkan, bukan presisi piksel."
+      },
+      "totp-generator": {
+        "name": "Generator TOTP",
+        "description": "Hasilkan kode 2FA dari kode rahasia TOTP Anda, sepenuhnya di browser Anda. Tambahkan akun melalui kode rahasia, tautan otpauth, atau tangkapan layar QR — kode tidak pernah meninggalkan perangkat Anda."
       }
     },
     "categoriesShort": {
@@ -5183,6 +5187,50 @@
       "honestyPrint": "Pembuatan PDF menggunakan dialog cetak browser Anda, sehingga teks tetap dapat dipilih dan dicari — pilih \"Simpan sebagai PDF\" sebagai tujuan.",
       "honestyPrivacy": "Semuanya berjalan di perangkat Anda. Berkas Anda tidak pernah diunggah.",
       "print": "Cetak / Simpan sebagai PDF"
+    },
+    "TotpGenerator": {
+      "trustBanner": "Berjalan sepenuhnya di browser Anda — kode rahasia tidak pernah meninggalkan perangkat ini. Tetap berfungsi secara offline selama halaman ini masih terbuka.",
+      "emptyTitle": "Belum ada akun",
+      "emptyHint": "Tambahkan akun 2FA di bawah menggunakan kunci rahasianya, tautan otpauth, atau tangkapan layar kode QR.",
+      "addAccount": "Tambah akun",
+      "tabManual": "Manual",
+      "tabUri": "Tautan otpauth",
+      "tabQr": "Gambar QR",
+      "labelLabel": "Akun",
+      "labelPlaceholder": "user@contoh.com",
+      "issuerLabel": "Penerbit (opsional)",
+      "issuerPlaceholder": "GitHub",
+      "secretLabel": "Kunci rahasia",
+      "secretPlaceholder": "JBSWY3DPEHPK3PXP",
+      "advanced": "Lanjutan",
+      "digits": "Digit",
+      "period": "Periode (detik)",
+      "algorithm": "Algoritma",
+      "uriLabel": "Tautan otpauth://",
+      "uriPlaceholder": "otpauth://totp/GitHub:anda?secret=…",
+      "qrHint": "Unggah tangkapan layar kode QR yang ditampilkan saat pengaturan 2FA.",
+      "chooseImage": "Pilih gambar",
+      "add": "Tambah",
+      "copied": "Kode disalin",
+      "accountAdded": "Akun ditambahkan",
+      "invalidSecret": "Kode rahasia itu bukan base32 yang valid. Periksa kembali kesalahan ketik.",
+      "errNotOtpauth": "Itu bukan tautan otpauth://.",
+      "errHotp": "Akun berbasis penghitung (HOTP) tidak didukung — hanya akun berbasis waktu (TOTP).",
+      "errMigration": "Itu adalah QR ekspor Google Authenticator. Ekspor akun satu per satu sebagai gantinya.",
+      "errMissingSecret": "Tautan ini tidak memiliki parameter secret.",
+      "errNoQr": "Tidak ada kode QR yang ditemukan pada gambar itu.",
+      "errImageDecode": "Tidak dapat membaca file gambar itu.",
+      "errCopy": "Tidak dapat menyalin ke clipboard.",
+      "persistToggle": "Simpan di perangkat ini",
+      "persistWarning": "Kode rahasia yang disimpan tersimpan tanpa enkripsi di profil browser ini — siapa pun yang memiliki akses ke perangkat ini dapat membacanya. Biarkan nonaktif di perangkat bersama.",
+      "deleteAccount": "Hapus",
+      "deleteConfirm": "Hapus akun ini?",
+      "confirm": "Konfirmasi",
+      "cancel": "Batal",
+      "duplicatePrompt": "Akun dengan kode rahasia dan nama ini sudah ada.",
+      "replace": "Ganti",
+      "keepBoth": "Simpan keduanya",
+      "secondsLeft": "detik tersisa"
     }
   },
   "Blog": {
