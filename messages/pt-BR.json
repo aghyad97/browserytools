@@ -779,6 +779,10 @@
         "name": "Estúdio de Legendas",
         "description": "Transcreva um vídeo em legendas sincronizadas por palavra com um modelo Whisper local, estilize as legendas e grave-as diretamente no seu vídeo."
       },
+      "video-to-audio": {
+        "name": "Vídeo para Áudio",
+        "description": "Extraia o áudio de vídeos direto no navegador — MP4, MOV, MKV, AVI ou WebM na entrada, MP3, M4A, OGG ou WAV na saída. Converta em lote, escolha a taxa de bits e corte se quiser. Sem upload de arquivos."
+      },
       "wheel-of-names": {
         "name": "Roleta de Nomes",
         "description": "Gire uma roleta personalizável para sortear um vencedor de uma lista de nomes. Cole um nome por linha, embaralhe a ordem e, se quiser, remova cada vencedor após ser sorteado."
@@ -4097,6 +4101,33 @@
       "compressFailed": "Falha ao comprimir o vídeo. Tente novamente.",
       "downloadedSuccess": "Vídeo baixado!",
       "change": "Alterar"
+    },
+    "VideoToAudio": {
+      "dropVideosHere": "Solte seus vídeos aqui",
+      "supportedFormats": "MP4, MOV, WebM, MKV, AVI — você pode adicionar vários arquivos",
+      "addMore": "Adicionar mais",
+      "videoTooLarge": "Arquivo muito grande (máx. 500 MB) — ignorado",
+      "format": "Formato de áudio",
+      "bitrate": "Taxa de bits",
+      "convertAll": "Converter tudo",
+      "converting": "Convertendo…",
+      "cancel": "Cancelar",
+      "finishingCurrent": "Terminando o arquivo atual e depois parando…",
+      "statusQueued": "Na fila",
+      "statusConverting": "Convertendo",
+      "statusDone": "Concluído",
+      "statusError": "Falhou",
+      "trim": "Cortar",
+      "trimStart": "Início",
+      "trimEnd": "Fim",
+      "trimPlaceholder": "mm:ss",
+      "invalidTrim": "Corte inválido — verifique os tempos (o início deve ser antes do fim).",
+      "noAudio": "Nenhuma faixa de áudio encontrada ou formato não suportado.",
+      "convertFailed": "Falha na conversão deste arquivo.",
+      "engineLoadFailed": "Não foi possível carregar o mecanismo de conversão. Verifique sua conexão e tente novamente.",
+      "remove": "Remover",
+      "download": "Baixar",
+      "emptyQueueHint": "Os arquivos que você adicionar aparecerão aqui."
     },
     "CurlConverter": {
       "selectLanguage": "Selecione o idioma",

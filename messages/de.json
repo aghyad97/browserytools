@@ -779,6 +779,10 @@
         "name": "Subtitle Studio",
         "description": "Transkribiere ein Video in wortgenau getimte Untertitel mit einem Whisper-Modell auf dem Gerät, gestalte die Untertitel im Stil und brenne sie in dein Video ein."
       },
+      "video-to-audio": {
+        "name": "Video zu Audio",
+        "description": "Extrahiere Audio aus Videos direkt im Browser — MP4, MOV, MKV, AVI oder WebM als Eingabe, MP3, M4A, OGG oder WAV als Ausgabe. Konvertiere im Batch, wähle die Bitrate und schneide bei Bedarf zu. Kein Datei-Upload."
+      },
       "wheel-of-names": {
         "name": "Namensrad",
         "description": "Drehe ein anpassbares Glücksrad, um zufällig einen Gewinner aus einer Namensliste zu ziehen. Ein Name pro Zeile, Reihenfolge mischen und Gewinner nach der Ziehung optional entfernen."
@@ -4097,6 +4101,33 @@
       "compressFailed": "Video konnte nicht komprimiert werden. Bitte versuche es erneut.",
       "downloadedSuccess": "Video heruntergeladen!",
       "change": "Ändern"
+    },
+    "VideoToAudio": {
+      "dropVideosHere": "Lege deine Videos hier ab",
+      "supportedFormats": "MP4, MOV, WebM, MKV, AVI — mehrere Dateien möglich",
+      "addMore": "Weitere hinzufügen",
+      "videoTooLarge": "Datei zu groß (max. 500 MB) — übersprungen",
+      "format": "Audioformat",
+      "bitrate": "Bitrate",
+      "convertAll": "Alle konvertieren",
+      "converting": "Wird konvertiert…",
+      "cancel": "Abbrechen",
+      "finishingCurrent": "Aktuelle Datei wird fertiggestellt, danach Stopp…",
+      "statusQueued": "Wartet",
+      "statusConverting": "Wird konvertiert",
+      "statusDone": "Fertig",
+      "statusError": "Fehlgeschlagen",
+      "trim": "Zuschneiden",
+      "trimStart": "Start",
+      "trimEnd": "Ende",
+      "trimPlaceholder": "mm:ss",
+      "invalidTrim": "Ungültiger Zuschnitt — prüfe die Zeiten (Start muss vor Ende liegen).",
+      "noAudio": "Keine Audiospur gefunden oder Format nicht unterstützt.",
+      "convertFailed": "Konvertierung dieser Datei fehlgeschlagen.",
+      "engineLoadFailed": "Die Konvertierungs-Engine konnte nicht geladen werden. Prüfe deine Verbindung und versuche es erneut.",
+      "remove": "Entfernen",
+      "download": "Herunterladen",
+      "emptyQueueHint": "Hinzugefügte Dateien erscheinen hier."
     },
     "CurlConverter": {
       "selectLanguage": "Sprache auswählen",

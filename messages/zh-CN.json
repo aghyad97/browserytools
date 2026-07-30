@@ -779,6 +779,10 @@
         "name": "字幕工坊",
         "description": "通过设备端 Whisper 模型将视频转录为逐词对齐的字幕，为字幕设置样式，并将其烧录进您的视频。"
       },
+      "video-to-audio": {
+        "name": "视频转音频",
+        "description": "直接在浏览器中从视频提取音频 — 输入 MP4、MOV、MKV、AVI 或 WebM，输出 MP3、M4A、OGG 或 WAV。支持批量转换、选择比特率，还可按需剪辑。无需上传文件。"
+      },
       "wheel-of-names": {
         "name": "抽奖转盘",
         "description": "旋转可自定义的转盘，从姓名列表中随机抽取一位获胜者。每行输入一个姓名，可打乱顺序，也可设置获胜者被抽中后自动移除。"
@@ -4097,6 +4101,33 @@
       "compressFailed": "视频压缩失败，请重试。",
       "downloadedSuccess": "视频已下载！",
       "change": "更换"
+    },
+    "VideoToAudio": {
+      "dropVideosHere": "将视频拖放到此处",
+      "supportedFormats": "支持 MP4、MOV、WebM、MKV、AVI — 可添加多个文件",
+      "addMore": "添加更多",
+      "videoTooLarge": "文件过大（最大 500MB）— 已跳过",
+      "format": "音频格式",
+      "bitrate": "比特率",
+      "convertAll": "全部转换",
+      "converting": "转换中…",
+      "cancel": "取消",
+      "finishingCurrent": "正在完成当前文件，随后停止…",
+      "statusQueued": "排队中",
+      "statusConverting": "转换中",
+      "statusDone": "已完成",
+      "statusError": "失败",
+      "trim": "剪辑",
+      "trimStart": "开始",
+      "trimEnd": "结束",
+      "trimPlaceholder": "mm:ss",
+      "invalidTrim": "剪辑无效 — 请检查时间（开始时间必须早于结束时间）。",
+      "noAudio": "未找到音轨或格式不受支持。",
+      "convertFailed": "此文件转换失败。",
+      "engineLoadFailed": "无法加载转换引擎。请检查网络连接后重试。",
+      "remove": "移除",
+      "download": "下载",
+      "emptyQueueHint": "添加的文件将显示在此处。"
     },
     "CurlConverter": {
       "selectLanguage": "选择语言",
