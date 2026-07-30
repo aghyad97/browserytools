@@ -779,6 +779,10 @@
         "name": "Studio de sous-titres",
         "description": "Transcrivez une vidéo en sous-titres synchronisés mot à mot avec un modèle Whisper embarqué, personnalisez le style des sous-titres, puis incrustez-les dans votre vidéo."
       },
+      "video-to-audio": {
+        "name": "Vidéo vers audio",
+        "description": "Extrayez l'audio de vos vidéos directement dans le navigateur — MP4, MOV, MKV, AVI ou WebM en entrée, MP3, M4A, OGG ou WAV en sortie. Convertissez en lot, choisissez le débit binaire et rognez si besoin. Aucun envoi de fichier."
+      },
       "wheel-of-names": {
         "name": "Roue des noms",
         "description": "Faites tourner une roue personnalisable pour tirer au sort un gagnant dans une liste de noms. Collez un nom par ligne, mélangez l'ordre et retirez chaque gagnant après son tirage si vous le souhaitez."
@@ -4097,6 +4101,32 @@
       "compressFailed": "Échec de la compression de la vidéo. Veuillez réessayer.",
       "downloadedSuccess": "Vidéo téléchargée !",
       "change": "Changer"
+    },
+    "VideoToAudio": {
+      "dropVideosHere": "Déposez vos vidéos ici",
+      "supportedFormats": "MP4, MOV, WebM, MKV, AVI — plusieurs fichiers acceptés",
+      "addMore": "Ajouter d'autres fichiers",
+      "videoTooLarge": "Fichier trop volumineux (max. 500 Mo) — ignoré",
+      "format": "Format audio",
+      "bitrate": "Débit binaire",
+      "convertAll": "Tout convertir",
+      "cancel": "Annuler",
+      "finishingCurrent": "Fin du fichier en cours, puis arrêt…",
+      "statusQueued": "En attente",
+      "statusConverting": "Conversion",
+      "statusDone": "Terminé",
+      "statusError": "Échec",
+      "trim": "Rogner",
+      "trimStart": "Début",
+      "trimEnd": "Fin",
+      "trimPlaceholder": "mm:ss",
+      "invalidTrim": "Rognage non valide — vérifiez les temps (le début doit précéder la fin).",
+      "noAudio": "Aucune piste audio trouvée ou format non pris en charge.",
+      "convertFailed": "Échec de la conversion de ce fichier.",
+      "engineLoadFailed": "Impossible de charger le moteur de conversion. Vérifiez votre connexion et réessayez.",
+      "remove": "Retirer",
+      "download": "Télécharger",
+      "emptyQueueHint": "Les fichiers que vous ajoutez apparaîtront ici."
     },
     "CurlConverter": {
       "selectLanguage": "Sélectionner un langage",

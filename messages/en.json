@@ -779,6 +779,10 @@
         "name": "Subtitle Studio",
         "description": "Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video."
       },
+      "video-to-audio": {
+        "name": "Video to Audio",
+        "description": "Extract audio from videos in your browser — MP4, MOV, MKV, AVI or WebM in, MP3, M4A, OGG or WAV out. Batch convert, pick the bitrate, optionally trim. No uploads."
+      },
       "wheel-of-names": {
         "name": "Wheel of Names",
         "description": "Spin a customizable wheel to randomly pick a winner from a list of names. Paste one name per line, shuffle the order, and optionally remove each winner after they're picked."
@@ -4097,6 +4101,32 @@
       "compressFailed": "Failed to compress video. Please try again.",
       "downloadedSuccess": "Video downloaded!",
       "change": "Change"
+    },
+    "VideoToAudio": {
+      "dropVideosHere": "Drop your videos here",
+      "supportedFormats": "MP4, MOV, WebM, MKV, AVI — multiple files welcome",
+      "addMore": "Add more",
+      "videoTooLarge": "File too large (max 500 MB) — skipped",
+      "format": "Audio format",
+      "bitrate": "Bitrate",
+      "convertAll": "Convert all",
+      "cancel": "Cancel",
+      "finishingCurrent": "Finishing the current file, then stopping…",
+      "statusQueued": "Queued",
+      "statusConverting": "Converting",
+      "statusDone": "Done",
+      "statusError": "Failed",
+      "trim": "Trim",
+      "trimStart": "Start",
+      "trimEnd": "End",
+      "trimPlaceholder": "mm:ss",
+      "invalidTrim": "Invalid trim — check the times (start must be before end).",
+      "noAudio": "No audio track found or unsupported format.",
+      "convertFailed": "Conversion failed for this file.",
+      "engineLoadFailed": "Couldn't load the conversion engine. Check your connection and try again.",
+      "remove": "Remove",
+      "download": "Download",
+      "emptyQueueHint": "Files you add will appear here."
     },
     "CurlConverter": {
       "selectLanguage": "Select language",

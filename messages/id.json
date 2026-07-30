@@ -779,6 +779,10 @@
         "name": "Studio Subtitle",
         "description": "Transkripsikan video menjadi subtitle dengan waktu per kata menggunakan model Whisper di perangkat, sesuaikan gaya caption, lalu bakar ke dalam video Anda."
       },
+      "video-to-audio": {
+        "name": "Video ke Audio",
+        "description": "Ekstrak audio dari video langsung di browser Anda — MP4, MOV, MKV, AVI, atau WebM sebagai input, MP3, M4A, OGG, atau WAV sebagai output. Konversi banyak berkas sekaligus, pilih bitrate, dan potong jika perlu. Tanpa unggah berkas."
+      },
       "wheel-of-names": {
         "name": "Roda Nama",
         "description": "Putar roda yang bisa disesuaikan untuk memilih pemenang secara acak dari daftar nama. Tempel satu nama per baris, acak urutannya, dan opsional hapus setiap pemenang setelah terpilih."
@@ -4097,6 +4101,32 @@
       "compressFailed": "Gagal mengompres video. Silakan coba lagi.",
       "downloadedSuccess": "Video diunduh!",
       "change": "Ubah"
+    },
+    "VideoToAudio": {
+      "dropVideosHere": "Letakkan video Anda di sini",
+      "supportedFormats": "MP4, MOV, WebM, MKV, AVI — bisa tambahkan beberapa berkas",
+      "addMore": "Tambah lagi",
+      "videoTooLarge": "Berkas terlalu besar (maks. 500 MB) — dilewati",
+      "format": "Format audio",
+      "bitrate": "Bitrate",
+      "convertAll": "Konversi semua",
+      "cancel": "Batal",
+      "finishingCurrent": "Menyelesaikan berkas saat ini, lalu berhenti…",
+      "statusQueued": "Antre",
+      "statusConverting": "Mengonversi",
+      "statusDone": "Selesai",
+      "statusError": "Gagal",
+      "trim": "Potong",
+      "trimStart": "Mulai",
+      "trimEnd": "Akhir",
+      "trimPlaceholder": "mm:ss",
+      "invalidTrim": "Pemotongan tidak valid — periksa waktunya (mulai harus sebelum akhir).",
+      "noAudio": "Tidak ditemukan trek audio atau format tidak didukung.",
+      "convertFailed": "Konversi berkas ini gagal.",
+      "engineLoadFailed": "Gagal memuat mesin konversi. Periksa koneksi Anda dan coba lagi.",
+      "remove": "Hapus",
+      "download": "Unduh",
+      "emptyQueueHint": "Berkas yang Anda tambahkan akan muncul di sini."
     },
     "CurlConverter": {
       "selectLanguage": "Pilih bahasa",

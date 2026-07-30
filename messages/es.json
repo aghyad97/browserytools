@@ -779,6 +779,10 @@
         "name": "Estudio de subtítulos",
         "description": "Transcribe un video en subtítulos sincronizados palabra por palabra con un modelo Whisper en el dispositivo, dale estilo a los subtítulos e incrústalos en tu video."
       },
+      "video-to-audio": {
+        "name": "Video a audio",
+        "description": "Extrae el audio de tus videos directamente en el navegador — MP4, MOV, MKV, AVI o WebM de entrada, MP3, M4A, OGG o WAV de salida. Convierte en lote, elige la tasa de bits y recorta si lo necesitas. Sin subir archivos."
+      },
       "wheel-of-names": {
         "name": "Ruleta de nombres",
         "description": "Gira una ruleta personalizable para elegir al azar un ganador de una lista de nombres. Pega un nombre por línea, mezcla el orden y, si quieres, elimina a cada ganador tras el sorteo."
@@ -4097,6 +4101,32 @@
       "compressFailed": "No se pudo comprimir el video. Inténtalo de nuevo.",
       "downloadedSuccess": "¡Video descargado!",
       "change": "Cambiar"
+    },
+    "VideoToAudio": {
+      "dropVideosHere": "Suelta tus videos aquí",
+      "supportedFormats": "MP4, MOV, WebM, MKV, AVI — puedes añadir varios archivos",
+      "addMore": "Añadir más",
+      "videoTooLarge": "Archivo demasiado grande (máx. 500 MB) — omitido",
+      "format": "Formato de audio",
+      "bitrate": "Tasa de bits",
+      "convertAll": "Convertir todo",
+      "cancel": "Cancelar",
+      "finishingCurrent": "Terminando el archivo actual y luego se detendrá…",
+      "statusQueued": "En cola",
+      "statusConverting": "Convirtiendo",
+      "statusDone": "Listo",
+      "statusError": "Error",
+      "trim": "Recortar",
+      "trimStart": "Inicio",
+      "trimEnd": "Fin",
+      "trimPlaceholder": "mm:ss",
+      "invalidTrim": "Recorte no válido — revisa los tiempos (el inicio debe ser anterior al fin).",
+      "noAudio": "No se encontró pista de audio o el formato no es compatible.",
+      "convertFailed": "Error al convertir este archivo.",
+      "engineLoadFailed": "No se pudo cargar el motor de conversión. Verifica tu conexión e inténtalo de nuevo.",
+      "remove": "Quitar",
+      "download": "Descargar",
+      "emptyQueueHint": "Los archivos que añadas aparecerán aquí."
     },
     "CurlConverter": {
       "selectLanguage": "Selecciona el lenguaje",
