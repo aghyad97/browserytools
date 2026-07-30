@@ -141,6 +141,57 @@ describe("VideoToAudio", () => {
     );
   });
 
+  it("retries a row after fixing an invalid trim and re-clicking Convert all", async () => {
+    const { container } = render(<VideoToAudio />);
+    const user = await uploadFiles(container, ["fix-me.mp4"]);
+    await user.click(screen.getByRole("button", { name: /trim/i }));
+    await user.type(screen.getByLabelText(/start/i), "2:00");
+    await user.type(screen.getByLabelText(/end/i), "1:00");
+    await user.click(screen.getByRole("button", { name: /convert all/i }));
+    await waitFor(() =>
+      expect(screen.getByText(/invalid trim/i)).toBeInTheDocument()
+    );
+    expect(exec).not.toHaveBeenCalled();
+    // The errored row leaves "Convert all" with nothing processable — it
+    // shouldn't boot the engine for a no-op.
+    expect(screen.getByRole("button", { name: /convert all/i })).toBeDisabled();
+
+    // Fixing the trim value on an errored row requeues it automatically.
+    const endInput = screen.getByLabelText(/end/i);
+    await user.clear(endInput);
+    await user.type(endInput, "3:00");
+    await waitFor(() =>
+      expect(screen.queryByText(/invalid trim/i)).not.toBeInTheDocument()
+    );
+    expect(screen.getByRole("button", { name: /convert all/i })).toBeEnabled();
+
+    await user.click(screen.getByRole("button", { name: /convert all/i }));
+    await waitFor(() => expect(exec).toHaveBeenCalledTimes(1));
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: /download/i })).toBeInTheDocument()
+    );
+  });
+
+  it("retries a conversion-failure row automatically on the next Convert all", async () => {
+    exec.mockImplementationOnce(async () => {
+      throw new Error("demux failed");
+    });
+    const { container } = render(<VideoToAudio />);
+    const user = await uploadFiles(container, ["retry-me.mp4"]);
+    await user.click(screen.getByRole("button", { name: /convert all/i }));
+    await waitFor(() => expect(exec).toHaveBeenCalledTimes(1));
+    expect(await screen.findByText(/conversion failed/i)).toBeInTheDocument();
+    // Unlike a trim error, a conversion failure is retryable without editing
+    // anything — the button stays enabled and the next click reprocesses it.
+    expect(screen.getByRole("button", { name: /convert all/i })).toBeEnabled();
+
+    await user.click(screen.getByRole("button", { name: /convert all/i }));
+    await waitFor(() => expect(exec).toHaveBeenCalledTimes(2));
+    await waitFor(() =>
+      expect(screen.getByRole("button", { name: /download/i })).toBeInTheDocument()
+    );
+  });
+
   it("disables bitrate select when WAV is chosen", async () => {
     const { container } = render(<VideoToAudio />);
     await uploadFiles(container, ["a.mp4"]);

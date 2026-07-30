@@ -4110,7 +4110,6 @@
       "format": "Audio format",
       "bitrate": "Bitrate",
       "convertAll": "Convert all",
-      "converting": "Converting…",
       "cancel": "Cancel",
       "finishingCurrent": "Finishing the current file, then stopping…",
       "statusQueued": "Queued",

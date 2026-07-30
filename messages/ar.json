@@ -4110,7 +4110,6 @@
       "format": "صيغة الصوت",
       "bitrate": "معدل البت",
       "convertAll": "تحويل الكل",
-      "converting": "جارٍ التحويل…",
       "cancel": "إلغاء",
       "finishingCurrent": "سيتوقف التحويل بعد إنهاء الملف الحالي…",
       "statusQueued": "في الانتظار",

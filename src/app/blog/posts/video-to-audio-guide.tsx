@@ -40,12 +40,12 @@ export default function Content() {
 
       <h2>How the Batch Conversion Works</h2>
       <p>
-        Drop in one file or a whole folder of videos — the converter queues them all. For each file,
+        Drop in one file or a batch of videos — the converter queues them all. For each file,
         or for the whole batch at once, pick your output format and bitrate. If you only need the
         sound from part of a clip, set a start and end time to trim it before converting, so you are
         not waiting on the whole file to encode for a ten-second clip. Click convert, and the tool
-        works through the queue, encoding each file locally. When a file finishes, download it — or
-        let the whole batch finish and grab everything at once.
+        works through the queue, encoding each file locally. As soon as a file finishes, its download
+        button appears — grab it right away, or keep going and download each one as it's ready.
       </p>
 
       <h2>Choosing a Format</h2>

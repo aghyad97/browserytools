@@ -4110,7 +4110,6 @@
       "format": "音频格式",
       "bitrate": "比特率",
       "convertAll": "全部转换",
-      "converting": "转换中…",
       "cancel": "取消",
       "finishingCurrent": "正在完成当前文件，随后停止…",
       "statusQueued": "排队中",

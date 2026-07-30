@@ -61,6 +61,14 @@ function fileExtension(name: string): string {
   return idx >= 0 && idx < name.length - 1 ? name.slice(idx + 1) : "bin";
 }
 
+/** A row "Convert all" will act on: fresh queue entries, and error rows from
+ * a conversion failure (retryable) — but not trim-error rows, which need the
+ * user to actually fix the trim value first (updateTrimField requeues those
+ * itself once edited). */
+function isProcessable(it: QueueItem): boolean {
+  return it.status === "queued" || (it.status === "error" && it.errorKey !== null);
+}
+
 export default function VideoToAudio() {
   const t = useTranslations("Tools.VideoToAudio");
   const tc = useTranslations("ToolsConfig");
@@ -82,7 +90,6 @@ export default function VideoToAudio() {
   // Every object URL ever handed out, so unmount can revoke whatever wasn't
   // already revoked by a manual row removal.
   const liveUrlsRef = useRef<Set<string>>(new Set());
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     return () => {
@@ -155,7 +162,21 @@ export default function VideoToAudio() {
   const updateTrimField = useCallback(
     (id: string, field: "trimStart" | "trimEnd", value: string) => {
       applyItems((prev) =>
-        prev.map((it) => (it.id === id ? { ...it, [field]: value } : it))
+        prev.map((it) => {
+          if (it.id !== id) return it;
+          const next = { ...it, [field]: value };
+          // Editing a trim value on an errored row is the user's signal that
+          // they're retrying it — put it back in the queue so the next
+          // "Convert all" picks it up (otherwise a fixed trim is a dead end:
+          // idsToProcess only ever looks at "queued" rows).
+          if (it.status === "error") {
+            next.status = "queued";
+            next.trimError = false;
+            next.errorKey = null;
+            next.progress = 0;
+          }
+          return next;
+        })
       );
     },
     [applyItems]
@@ -167,7 +188,7 @@ export default function VideoToAudio() {
   }, []);
 
   const handleConvertAll = useCallback(async () => {
-    if (converting || itemsRef.current.length === 0) return;
+    if (converting || !itemsRef.current.some(isProcessable)) return;
 
     cancelRef.current = false;
     setCancelling(false);
@@ -189,9 +210,7 @@ export default function VideoToAudio() {
     }
 
     const fmt = FORMAT_OPTIONS.find((f) => f.value === format) ?? FORMAT_OPTIONS[0];
-    const idsToProcess = itemsRef.current
-      .filter((it) => it.status === "queued")
-      .map((it) => it.id);
+    const idsToProcess = itemsRef.current.filter(isProcessable).map((it) => it.id);
     // A stale run (superseded by a newer convert-all) must never write into a
     // cleared/reloaded queue — every state write below checks this first,
     // mirroring CompressVideo's activeVideoTokenRef guard.
@@ -223,7 +242,11 @@ export default function VideoToAudio() {
 
       if (!isCurrentRun()) return;
       applyItems((prev) =>
-        prev.map((it) => (it.id === id ? { ...it, status: "converting", progress: 0 } : it))
+        prev.map((it) =>
+          it.id === id
+            ? { ...it, status: "converting", progress: 0, errorKey: null, trimError: false }
+            : it
+        )
       );
 
       const onProgress = ({ progress: p }: { progress: number }) => {
@@ -316,6 +339,10 @@ export default function VideoToAudio() {
 
   const fmtOption = FORMAT_OPTIONS.find((f) => f.value === format) ?? FORMAT_OPTIONS[0];
 
+  // "Convert all" is a no-op (and shouldn't boot the ~31 MB ffmpeg engine for
+  // nothing) unless there's at least one queued row or a retryable error row.
+  const hasProcessableRows = items.some(isProcessable);
+
   function statusLabel(status: ItemStatus): string {
     switch (status) {
       case "queued":
@@ -370,18 +397,6 @@ export default function VideoToAudio() {
             )}
           </div>
         </FileDropzone>
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="video/*"
-          multiple
-          className="hidden"
-          onChange={(e) => {
-            const files = Array.from(e.target.files ?? []);
-            if (files.length > 0) handleFiles(files);
-            e.target.value = "";
-          }}
-        />
 
         <SettingsCard>
           <OptionRow label={t("format")} htmlFor="vta-format">
@@ -486,6 +501,7 @@ export default function VideoToAudio() {
                       <OptionRow label={t("trimStart")} htmlFor={`trim-start-${item.id}`}>
                         <Input
                           id={`trim-start-${item.id}`}
+                          dir="ltr"
                           value={item.trimStart}
                           placeholder={t("trimPlaceholder")}
                           disabled={item.status === "converting" || item.status === "done"}
@@ -497,6 +513,7 @@ export default function VideoToAudio() {
                       <OptionRow label={t("trimEnd")} htmlFor={`trim-end-${item.id}`}>
                         <Input
                           id={`trim-end-${item.id}`}
+                          dir="ltr"
                           value={item.trimEnd}
                           placeholder={t("trimPlaceholder")}
                           disabled={item.status === "converting" || item.status === "done"}
@@ -515,7 +532,7 @@ export default function VideoToAudio() {
 
         <Button
           onClick={converting ? handleCancel : handleConvertAll}
-          disabled={converting ? false : items.length === 0}
+          disabled={converting ? false : !hasProcessableRows}
           className="w-full"
         >
           {converting && <Loader2 className="w-4 h-4 me-2 animate-spin" />}
