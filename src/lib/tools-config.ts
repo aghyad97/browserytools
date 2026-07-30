@@ -107,6 +107,7 @@ import {
   CaptionsIcon,
   FileType2Icon,
   PrinterIcon,
+  Music4Icon,
 } from "lucide-react";
 
 export interface Tool {
@@ -762,6 +763,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-18",
         description:
           "Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video. No uploads — runs entirely on-device.",
+      },
+      {
+        name: "Video to Audio",
+        href: "/tools/video-to-audio",
+        icon: Music4Icon,
+        available: true,
+        order: 8,
+        creationDate: "2026-07-30",
+        description:
+          "Extract audio from videos in your browser — MP4, MOV, MKV, AVI or WebM in, MP3, M4A, OGG or WAV out. Batch convert, pick the bitrate, optionally trim. No uploads.",
       },
       // SEO landing variants of Mic & Camera Tester — hidden from grid/count/
       // related pools via `landingFor` (Task 2 infra).
