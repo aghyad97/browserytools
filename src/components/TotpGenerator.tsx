@@ -183,7 +183,13 @@ export default function TotpGenerator() {
 
   function resolveReplace() {
     if (!pendingDuplicate) return;
-    replaceAccount(pendingDuplicate.existingId, pendingDuplicate.next);
+    const existing = accounts.find(
+      (a) => a.id === pendingDuplicate.existingId
+    );
+    replaceAccount(pendingDuplicate.existingId, {
+      ...pendingDuplicate.next,
+      persisted: existing?.persisted ?? pendingDuplicate.next.persisted,
+    });
     toast.success(t("accountAdded"));
     finishDuplicate();
   }
@@ -377,7 +383,7 @@ export default function TotpGenerator() {
                             onCheckedChange={(checked) =>
                               setPersisted(account.id, checked)
                             }
-                            data-testid="totp-persist-toggle"
+                            data-testid={`totp-persist-toggle-${account.id}`}
                           />
                           <label
                             htmlFor={`totp-persist-${account.id}`}

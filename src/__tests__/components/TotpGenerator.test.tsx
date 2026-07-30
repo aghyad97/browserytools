@@ -97,10 +97,10 @@ describe("TotpGenerator", () => {
     const user = userEvent.setup();
     render(<TotpGenerator />);
     await addManualAccount(user);
-    await user.click(screen.getByTestId("totp-persist-toggle"));
+    await user.click(screen.getByTestId(/^totp-persist-toggle-/));
     const stored = JSON.parse(localStorage.getItem("totp-storage") as string);
     expect(stored.state.accounts).toHaveLength(1);
-    await user.click(screen.getByTestId("totp-persist-toggle"));
+    await user.click(screen.getByTestId(/^totp-persist-toggle-/));
     const stored2 = JSON.parse(localStorage.getItem("totp-storage") as string);
     expect(stored2.state.accounts).toHaveLength(0);
   });
@@ -123,5 +123,22 @@ describe("TotpGenerator", () => {
     expect(await screen.findByText(/already exists/i)).toBeInTheDocument();
     await user.click(screen.getByRole("button", { name: /keep both/i }));
     expect(useTotpStore.getState().accounts).toHaveLength(2);
+  });
+
+  it("Replace preserves a persisted account's persisted flag", async () => {
+    const user = userEvent.setup();
+    render(<TotpGenerator />);
+    await addManualAccount(user);
+    await user.click(screen.getByTestId(/^totp-persist-toggle-/));
+    expect(useTotpStore.getState().accounts[0].persisted).toBe(true);
+
+    await addManualAccount(user);
+    expect(await screen.findByText(/already exists/i)).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /^replace$/i }));
+
+    expect(useTotpStore.getState().accounts).toHaveLength(1);
+    expect(useTotpStore.getState().accounts[0].persisted).toBe(true);
+    const stored = JSON.parse(localStorage.getItem("totp-storage") as string);
+    expect(stored.state.accounts).toHaveLength(1);
   });
 });
