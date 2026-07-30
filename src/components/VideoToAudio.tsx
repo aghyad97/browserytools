@@ -192,6 +192,10 @@ export default function VideoToAudio() {
     const idsToProcess = itemsRef.current
       .filter((it) => it.status === "queued")
       .map((it) => it.id);
+    // A stale run (superseded by a newer convert-all) must never write into a
+    // cleared/reloaded queue — every state write below checks this first,
+    // mirroring CompressVideo's activeVideoTokenRef guard.
+    const isCurrentRun = () => token === runTokenRef.current;
 
     for (let i = 0; i < idsToProcess.length; i++) {
       if (cancelRef.current) break;
@@ -208,6 +212,7 @@ export default function VideoToAudio() {
       const rangeInvalid = start !== null && end !== null && start >= end;
 
       if (startInvalid || endInvalid || rangeInvalid) {
+        if (!isCurrentRun()) return;
         applyItems((prev) =>
           prev.map((it) =>
             it.id === id ? { ...it, status: "error", trimError: true, errorKey: null } : it
@@ -216,6 +221,7 @@ export default function VideoToAudio() {
         continue;
       }
 
+      if (!isCurrentRun()) return;
       applyItems((prev) =>
         prev.map((it) => (it.id === id ? { ...it, status: "converting", progress: 0 } : it))
       );
@@ -266,6 +272,7 @@ export default function VideoToAudio() {
         const base = item.name.replace(/\.[^.]+$/, "");
         const downloadName = `${base}.${fmt.value}`;
 
+        if (!isCurrentRun()) return;
         applyItems((prev) =>
           prev.map((it) =>
             it.id === id
@@ -282,6 +289,7 @@ export default function VideoToAudio() {
         );
       } catch (err) {
         console.error(err);
+        if (!isCurrentRun()) return;
         const errorKey = err instanceof NoAudioError ? "noAudio" : "convertFailed";
         applyItems((prev) =>
           prev.map((it) => (it.id === id ? { ...it, status: "error", errorKey } : it))
@@ -301,6 +309,7 @@ export default function VideoToAudio() {
       }
     }
 
+    if (!isCurrentRun()) return;
     setConverting(false);
     setCancelling(false);
   }, [applyItems, bitrate, converting, format, t]);
@@ -424,18 +433,16 @@ export default function VideoToAudio() {
                     <p className="text-xs text-muted-foreground" dir="ltr">
                       {formatBytes(item.size)}
                     </p>
+                    {item.status === "error" && !item.trimError && item.errorKey && (
+                      <p className="text-xs text-destructive">
+                        {item.errorKey === "noAudio" ? t("noAudio") : t("convertFailed")}
+                      </p>
+                    )}
                   </div>
-                  <Badge
-                    variant={statusVariant(item.status)}
-                    title={
-                      item.status === "error" && !item.trimError && item.errorKey
-                        ? t(item.errorKey)
-                        : undefined
-                    }
-                  >
+                  <Badge variant={statusVariant(item.status)}>
                     {statusLabel(item.status)}
                   </Badge>
-                  {item.status === "queued" && (
+                  {item.status !== "converting" && !converting && (
                     <Button
                       variant="ghost"
                       size="sm"

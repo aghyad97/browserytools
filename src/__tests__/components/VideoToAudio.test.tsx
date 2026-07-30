@@ -130,7 +130,12 @@ describe("VideoToAudio", () => {
     const user = await uploadFiles(container, ["broken.avi", "fine.mp4"]);
     await user.click(screen.getByRole("button", { name: /convert all/i }));
     await waitFor(() => expect(exec).toHaveBeenCalledTimes(2));
-    expect(await screen.findByText(/failed/i)).toBeInTheDocument();
+    // The failed row shows both a "Failed" status chip and a visible inline
+    // failure reason — both match /failed/i, so assert on the full set
+    // rather than a single element (adjusted per review, controller-approved).
+    await waitFor(() =>
+      expect(screen.getAllByText(/failed/i)).toHaveLength(2)
+    );
     await waitFor(() =>
       expect(screen.getAllByRole("button", { name: /download/i })).toHaveLength(1)
     );
