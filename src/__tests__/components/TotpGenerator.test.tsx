@@ -125,6 +125,21 @@ describe("TotpGenerator", () => {
     expect(useTotpStore.getState().accounts).toHaveLength(2);
   });
 
+  it("detects a duplicate when the secret differs only in case/spacing", async () => {
+    const user = userEvent.setup();
+    render(<TotpGenerator />);
+    await addManualAccount(user);
+    await user.type(screen.getByLabelText(/account/i), "user@x.com");
+    await user.type(
+      screen.getByLabelText(/secret key/i),
+      "jbswy3dp ehpk3pxp"
+    );
+    await user.click(screen.getByRole("button", { name: /^add$/i }));
+    expect(await screen.findByText(/already exists/i)).toBeInTheDocument();
+    await user.click(screen.getByRole("button", { name: /keep both/i }));
+    expect(useTotpStore.getState().accounts).toHaveLength(2);
+  });
+
   it("Replace preserves a persisted account's persisted flag", async () => {
     const user = userEvent.setup();
     render(<TotpGenerator />);

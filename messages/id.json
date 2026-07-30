@@ -805,7 +805,7 @@
       },
       "totp-generator": {
         "name": "Generator TOTP",
-        "description": "Hasilkan kode 2FA dari kode rahasia TOTP Anda, 100% offline di browser. Tambahkan akun melalui kode rahasia, tautan otpauth, atau tangkapan layar QR — kode tidak pernah meninggalkan perangkat Anda."
+        "description": "Hasilkan kode 2FA dari kode rahasia TOTP Anda, sepenuhnya di browser Anda. Tambahkan akun melalui kode rahasia, tautan otpauth, atau tangkapan layar QR — kode tidak pernah meninggalkan perangkat Anda."
       }
     },
     "categoriesShort": {
@@ -5159,7 +5159,7 @@
       "print": "Cetak / Simpan sebagai PDF"
     },
     "TotpGenerator": {
-      "trustBanner": "Berjalan sepenuhnya di browser Anda — kode rahasia tidak pernah meninggalkan perangkat ini. Bekerja secara offline setelah pemuatan pertama.",
+      "trustBanner": "Berjalan sepenuhnya di browser Anda — kode rahasia tidak pernah meninggalkan perangkat ini. Tetap berfungsi secara offline selama halaman ini masih terbuka.",
       "emptyTitle": "Belum ada akun",
       "emptyHint": "Tambahkan akun 2FA di bawah menggunakan kunci rahasianya, tautan otpauth, atau tangkapan layar kode QR.",
       "addAccount": "Tambah akun",
@@ -5190,6 +5190,7 @@
       "errMissingSecret": "Tautan ini tidak memiliki parameter secret.",
       "errNoQr": "Tidak ada kode QR yang ditemukan pada gambar itu.",
       "errImageDecode": "Tidak dapat membaca file gambar itu.",
+      "errCopy": "Tidak dapat menyalin ke clipboard.",
       "persistToggle": "Simpan di perangkat ini",
       "persistWarning": "Kode rahasia yang disimpan tersimpan tanpa enkripsi di profil browser ini — siapa pun yang memiliki akses ke perangkat ini dapat membacanya. Biarkan nonaktif di perangkat bersama.",
       "deleteAccount": "Hapus",

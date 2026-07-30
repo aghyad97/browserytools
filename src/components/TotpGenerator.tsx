@@ -158,9 +158,15 @@ export default function TotpGenerator() {
     }
   }
 
+  function normalizeSecret(secret: string): string {
+    return secret.toUpperCase().replace(/[\s\-=]/g, "");
+  }
+
   function tryAddAccount(next: NewAccount, source: AddSource) {
     const existing = accounts.find(
-      (a) => a.secret === next.secret && a.label === next.label
+      (a) =>
+        normalizeSecret(a.secret) === normalizeSecret(next.secret) &&
+        a.label === next.label
     );
     if (existing) {
       setPendingDuplicate({ existingId: existing.id, next, source });
@@ -267,6 +273,11 @@ export default function TotpGenerator() {
     }
   }
 
+  // ---- Tabs ----
+  const [activeTab, setActiveTab] = useState<"manual" | "uri" | "qr">(
+    "manual"
+  );
+
   // ---- QR tab ----
   const [qrError, setQrError] = useState<string | null>(null);
   const qrInputRef = useRef<HTMLInputElement>(null);
@@ -295,6 +306,24 @@ export default function TotpGenerator() {
       setQrError(mapOtpauthError(err));
     }
   }
+
+  useEffect(() => {
+    if (activeTab !== "qr") return;
+    function onPaste(e: ClipboardEvent) {
+      const items = e.clipboardData?.items;
+      if (!items) return;
+      for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        if (item.type.startsWith("image/")) {
+          const file = item.getAsFile();
+          if (file) handleQrFile(file);
+          break;
+        }
+      }
+    }
+    document.addEventListener("paste", onPaste);
+    return () => document.removeEventListener("paste", onPaste);
+  }, [activeTab, handleQrFile]);
 
   return (
     <ToolShell
@@ -413,8 +442,11 @@ export default function TotpGenerator() {
                     size="icon"
                     aria-label={tCommon("copy")}
                     onClick={() => {
-                      navigator.clipboard.writeText(code);
-                      toast.success(t("copied"));
+                      if (!code) return;
+                      navigator.clipboard
+                        .writeText(code)
+                        .then(() => toast.success(t("copied")))
+                        .catch(() => toast.error(t("errCopy")));
                     }}
                   >
                     <Copy className="w-4 h-4" />
@@ -440,7 +472,10 @@ export default function TotpGenerator() {
             </div>
           )}
 
-          <Tabs defaultValue="manual">
+          <Tabs
+            value={activeTab}
+            onValueChange={(v) => setActiveTab(v as "manual" | "uri" | "qr")}
+          >
             <TabsList>
               <TabsTrigger value="manual">{t("tabManual")}</TabsTrigger>
               <TabsTrigger value="uri">{t("tabUri")}</TabsTrigger>
@@ -576,7 +611,16 @@ export default function TotpGenerator() {
               </form>
             </TabsContent>
 
-            <TabsContent value="qr" className="space-y-4">
+            <TabsContent
+              value="qr"
+              className="space-y-4"
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={(e) => {
+                e.preventDefault();
+                const file = e.dataTransfer.files?.[0];
+                if (file) handleQrFile(file);
+              }}
+            >
               <p className="text-sm text-muted-foreground">{t("qrHint")}</p>
               <input
                 ref={qrInputRef}

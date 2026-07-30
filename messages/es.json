@@ -805,7 +805,7 @@
       },
       "totp-generator": {
         "name": "Generador TOTP",
-        "description": "Genera códigos 2FA a partir de tus secretos TOTP, 100% sin conexión en tu navegador. Añade cuentas por secreto, enlace otpauth o captura del QR: los códigos nunca salen de tu dispositivo."
+        "description": "Genera códigos 2FA a partir de tus secretos TOTP, totalmente en tu navegador. Añade cuentas por secreto, enlace otpauth o captura del QR: los códigos nunca salen de tu dispositivo."
       }
     },
     "categoriesShort": {
@@ -5159,7 +5159,7 @@
       "print": "Imprimir / Guardar como PDF"
     },
     "TotpGenerator": {
-      "trustBanner": "Funciona completamente en tu navegador: los secretos nunca salen de este dispositivo. Funciona sin conexión tras la primera carga.",
+      "trustBanner": "Funciona completamente en tu navegador: los secretos nunca salen de este dispositivo. Sigue funcionando sin conexión mientras esta página permanezca abierta.",
       "emptyTitle": "Aún no hay cuentas",
       "emptyHint": "Añade una cuenta 2FA abajo usando su clave secreta, un enlace otpauth o una captura del código QR.",
       "addAccount": "Añadir cuenta",
@@ -5190,6 +5190,7 @@
       "errMissingSecret": "Este enlace no tiene parámetro secret.",
       "errNoQr": "No se encontró ningún código QR en esa imagen.",
       "errImageDecode": "No se pudo leer ese archivo de imagen.",
+      "errCopy": "No se pudo copiar al portapapeles.",
       "persistToggle": "Guardar en este dispositivo",
       "persistWarning": "Los secretos guardados se almacenan sin cifrar en este perfil del navegador: cualquiera con acceso a este dispositivo puede leerlos. Desactívalo en equipos compartidos.",
       "deleteAccount": "Eliminar",

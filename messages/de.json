@@ -805,7 +805,7 @@
       },
       "totp-generator": {
         "name": "TOTP-Generator",
-        "description": "Erzeuge 2FA-Codes aus deinen TOTP-Geheimnissen, zu 100 % offline im Browser. Füge Konten per Geheimnis, otpauth-Link oder QR-Screenshot hinzu — Codes verlassen dein Gerät nie."
+        "description": "Erzeuge 2FA-Codes aus deinen TOTP-Geheimnissen, vollständig in deinem Browser. Füge Konten per Geheimnis, otpauth-Link oder QR-Screenshot hinzu — Codes verlassen dein Gerät nie."
       }
     },
     "categoriesShort": {
@@ -5159,7 +5159,7 @@
       "print": "Drucken / Als PDF speichern"
     },
     "TotpGenerator": {
-      "trustBanner": "Läuft vollständig in deinem Browser — Geheimnisse verlassen dieses Gerät nie. Funktioniert nach dem ersten Laden auch offline.",
+      "trustBanner": "Läuft vollständig in deinem Browser — Geheimnisse verlassen dieses Gerät nie. Funktioniert weiterhin offline, solange diese Seite geöffnet bleibt.",
       "emptyTitle": "Noch keine Konten",
       "emptyHint": "Füge unten ein 2FA-Konto anhand seines geheimen Schlüssels, eines otpauth-Links oder eines QR-Code-Screenshots hinzu.",
       "addAccount": "Konto hinzufügen",
@@ -5190,6 +5190,7 @@
       "errMissingSecret": "Dieser Link enthält keinen secret-Parameter.",
       "errNoQr": "In diesem Bild wurde kein QR-Code gefunden.",
       "errImageDecode": "Diese Bilddatei konnte nicht gelesen werden.",
+      "errCopy": "Kopieren in die Zwischenablage fehlgeschlagen.",
       "persistToggle": "Auf diesem Gerät speichern",
       "persistWarning": "Gespeicherte Geheimnisse werden unverschlüsselt in diesem Browserprofil abgelegt — jeder mit Zugriff auf dieses Gerät kann sie lesen. Auf gemeinsam genutzten Geräten deaktiviert lassen.",
       "deleteAccount": "Löschen",

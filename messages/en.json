@@ -485,7 +485,7 @@
       },
       "totp-generator": {
         "name": "TOTP Generator",
-        "description": "Generate 2FA codes from your TOTP secrets, 100% offline in your browser. Add accounts by secret, otpauth link, or QR screenshot — codes never leave your device."
+        "description": "Generate 2FA codes from your TOTP secrets, entirely in your browser. Add accounts by secret, otpauth link, or QR screenshot — codes never leave your device."
       },
       "http-status": {
         "name": "HTTP Status Codes",
@@ -2899,7 +2899,7 @@
       "failedToCopy": "Failed to copy"
     },
     "TotpGenerator": {
-      "trustBanner": "Runs entirely in your browser — secrets never leave this device. Works offline after first load.",
+      "trustBanner": "Runs entirely in your browser — secrets never leave this device. Keeps working offline while this page stays open.",
       "emptyTitle": "No accounts yet",
       "emptyHint": "Add a 2FA account below using its secret key, otpauth link, or a QR code screenshot.",
       "addAccount": "Add account",
@@ -2918,7 +2918,7 @@
       "algorithm": "Algorithm",
       "uriLabel": "otpauth:// link",
       "uriPlaceholder": "otpauth://totp/GitHub:you?secret=…",
-      "qrHint": "Upload a screenshot of the QR code shown during 2FA setup.",
+      "qrHint": "Upload, drag in, or paste a screenshot of the QR code shown during 2FA setup.",
       "chooseImage": "Choose image",
       "add": "Add",
       "copied": "Code copied",
@@ -2930,6 +2930,7 @@
       "errMissingSecret": "This link has no secret parameter.",
       "errNoQr": "No QR code found in that image.",
       "errImageDecode": "Couldn't read that image file.",
+      "errCopy": "Couldn't copy to clipboard.",
       "persistToggle": "Save on this device",
       "persistWarning": "Saved secrets are stored unencrypted in this browser profile — anyone with access to this device can read them. Leave off on shared machines.",
       "deleteAccount": "Delete",

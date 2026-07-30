@@ -805,7 +805,7 @@
       },
       "totp-generator": {
         "name": "TOTP 生成器",
-        "description": "根据您的 TOTP 密钥生成 2FA 验证码，在浏览器中 100% 离线运行。通过密钥、otpauth 链接或二维码截图添加账户——验证码永远不会离开您的设备。"
+        "description": "根据您的 TOTP 密钥生成 2FA 验证码，完全在浏览器中运行。通过密钥、otpauth 链接或二维码截图添加账户——验证码永远不会离开您的设备。"
       }
     },
     "categoriesShort": {
@@ -5159,7 +5159,7 @@
       "print": "打印 / 另存为 PDF"
     },
     "TotpGenerator": {
-      "trustBanner": "完全在您的浏览器中运行——密钥永远不会离开此设备。首次加载后可离线使用。",
+      "trustBanner": "完全在您的浏览器中运行——密钥永远不会离开此设备。只要此页面保持打开，就能持续离线使用。",
       "emptyTitle": "暂无账户",
       "emptyHint": "使用密钥、otpauth 链接或二维码截图在下方添加一个 2FA 账户。",
       "addAccount": "添加账户",
@@ -5190,6 +5190,7 @@
       "errMissingSecret": "该链接缺少 secret 参数。",
       "errNoQr": "在该图片中未找到二维码。",
       "errImageDecode": "无法读取该图片文件。",
+      "errCopy": "无法复制到剪贴板。",
       "persistToggle": "保存到此设备",
       "persistWarning": "已保存的密钥会以未加密方式存储在此浏览器配置文件中——任何能访问此设备的人都能读取它们。共享设备请勿开启此选项。",
       "deleteAccount": "删除",

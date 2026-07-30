@@ -124,8 +124,8 @@ export default function Content() {
       <h2>Try It Now</h2>
       <p>
         Open the <a href="/tools/totp-generator">TOTP Generator</a>, add your first account by secret,
-        link, or QR screenshot, and watch the code roll over every 30 seconds. It works offline once the
-        page has loaded, and nothing you type into it ever leaves your device. While you are there,
+        link, or QR screenshot, and watch the code roll over every 30 seconds. It keeps working offline
+        while the page stays open, and nothing you type into it ever leaves your device. While you are there,
         check out the rest of BrowseryTools&apos; security utilities, including a{" "}
         <a href="/tools/password-strength">password strength checker</a> and a{" "}
         <a href="/tools/text-encryption">text encryption tool</a>.
