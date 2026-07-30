@@ -196,6 +196,7 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Hash Generator**: Generate cryptographic hashes from text input.
 - **Password Strength**: Analyze the strength of any password in real time.
 - **Text Encryption**: Encrypt and decrypt text using AES-256-GCM via the Web Crypto API.
+- **TOTP Generator**: Generate 2FA codes from your TOTP secrets, entirely in your browser — add accounts by secret, otpauth link, or QR screenshot.
 
 ### 🎨 Design Tools
 
