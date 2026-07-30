@@ -2091,6 +2091,34 @@ const basePosts: BlogPost[] = [
     readTime: 9,
     coverEmoji: "🗒️",
     coverGradient: "from-lime-500 to-green-600",
+  },
+  {
+    slug: "totp-generator-guide",
+    title: "Free Offline TOTP Generator — 2FA Codes Without an App",
+    description:
+      "Generate two-factor authentication codes 100% offline in your browser. No app, no account, no upload — add accounts by secret key, otpauth link, or QR screenshot.",
+    date: "2026-07-30",
+    author: "BrowseryTools Team",
+    category: "Security Tools",
+    tags: ["totp generator", "2fa codes online", "offline authenticator", "two factor authentication", "otpauth", "google authenticator alternative"],
+    readTime: 7,
+    featured: true,
+    coverEmoji: "🔐",
+    coverGradient: "from-emerald-500 to-teal-500",
+  },
+  {
+    slug: "totp-generator-guide-ar",
+    title: "مولّد رموز TOTP مجاني يعمل دون إنترنت — رموز التحقق بخطوتين بلا تطبيق",
+    description:
+      "أنشئ رموز التحقق بخطوتين داخل متصفحك دون إنترنت بالكامل — بلا تطبيق ولا حساب ولا رفع ملفات. أضف حساباتك عبر المفتاح السري أو رابط otpauth أو لقطة QR.",
+    date: "2026-07-30",
+    author: "BrowseryTools Team",
+    category: "Security Tools",
+    tags: ["مولد TOTP", "رموز التحقق بخطوتين", "مصادقة ثنائية", "بديل Google Authenticator"],
+    readTime: 7,
+    featured: false,
+    coverEmoji: "🔐",
+    coverGradient: "from-emerald-500 to-teal-500",
   }
 ];
 
