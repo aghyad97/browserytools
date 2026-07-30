@@ -781,7 +781,7 @@
       },
       "video-to-audio": {
         "name": "视频转音频",
-        "description": "直接在浏览器中从视频提取音频 — 输入 MP4、MOV、MKV、AVI 或 WebM，输出 MP3、M4A、OGG 或 WAV。支持批量转换、选择比特率，还可按需剪辑。无需上传文件。"
+        "description": "直接在浏览器中从视频提取音频 — 输入 MP4、MOV、MKV、AVI 或 WebM，输出 MP3、M4A、OGG 或 WAV。支持批量转换、选择比特率，还可按需裁剪。无需上传文件。"
       },
       "wheel-of-names": {
         "name": "抽奖转盘",
@@ -4117,11 +4117,11 @@
       "statusConverting": "转换中",
       "statusDone": "已完成",
       "statusError": "失败",
-      "trim": "剪辑",
+      "trim": "裁剪",
       "trimStart": "开始",
       "trimEnd": "结束",
       "trimPlaceholder": "mm:ss",
-      "invalidTrim": "剪辑无效 — 请检查时间（开始时间必须早于结束时间）。",
+      "invalidTrim": "裁剪无效 — 请检查时间（开始时间必须早于结束时间）。",
       "noAudio": "未找到音轨或格式不受支持。",
       "convertFailed": "此文件转换失败。",
       "engineLoadFailed": "无法加载转换引擎。请检查网络连接后重试。",
