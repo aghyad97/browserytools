@@ -802,6 +802,10 @@
       "word-to-pdf": {
         "name": "Word zu PDF",
         "description": "Konvertiere ein Word-Dokument (.docx) mithilfe des Druckdialogs deines Browsers in eine PDF — der Text bleibt auswählbar und durchsuchbar, vollständig in deinem Browser. Die Formatierung wird vereinheitlicht, nicht pixelgenau übernommen."
+      },
+      "totp-generator": {
+        "name": "TOTP-Generator",
+        "description": "Erzeuge 2FA-Codes aus deinen TOTP-Geheimnissen, zu 100 % offline im Browser. Füge Konten per Geheimnis, otpauth-Link oder QR-Screenshot hinzu — Codes verlassen dein Gerät nie."
       }
     },
     "categoriesShort": {
@@ -5153,6 +5157,49 @@
       "honestyPrint": "Die PDF-Erstellung nutzt den Druckdialog deines Browsers, damit der Text auswählbar und durchsuchbar bleibt — wähle „Als PDF speichern“ als Ziel.",
       "honestyPrivacy": "Alles läuft auf deinem Gerät. Deine Datei wird niemals hochgeladen.",
       "print": "Drucken / Als PDF speichern"
+    },
+    "TotpGenerator": {
+      "trustBanner": "Läuft vollständig in deinem Browser — Geheimnisse verlassen dieses Gerät nie. Funktioniert nach dem ersten Laden auch offline.",
+      "emptyTitle": "Noch keine Konten",
+      "emptyHint": "Füge unten ein 2FA-Konto anhand seines geheimen Schlüssels, eines otpauth-Links oder eines QR-Code-Screenshots hinzu.",
+      "addAccount": "Konto hinzufügen",
+      "tabManual": "Manuell",
+      "tabUri": "otpauth-Link",
+      "tabQr": "QR-Bild",
+      "labelLabel": "Konto",
+      "labelPlaceholder": "nutzer@beispiel.de",
+      "issuerLabel": "Aussteller (optional)",
+      "issuerPlaceholder": "GitHub",
+      "secretLabel": "Geheimer Schlüssel",
+      "secretPlaceholder": "JBSWY3DPEHPK3PXP",
+      "advanced": "Erweitert",
+      "digits": "Ziffern",
+      "period": "Periode (Sekunden)",
+      "algorithm": "Algorithmus",
+      "uriLabel": "otpauth://-Link",
+      "uriPlaceholder": "otpauth://totp/GitHub:du?secret=…",
+      "qrHint": "Lade einen Screenshot des QR-Codes hoch, der bei der 2FA-Einrichtung angezeigt wurde.",
+      "chooseImage": "Bild wählen",
+      "add": "Hinzufügen",
+      "copied": "Code kopiert",
+      "accountAdded": "Konto hinzugefügt",
+      "invalidSecret": "Dieser Schlüssel ist kein gültiges base32. Prüfe auf Tippfehler.",
+      "errNotOtpauth": "Das ist kein otpauth://-Link.",
+      "errHotp": "Zählerbasierte (HOTP) Konten werden nicht unterstützt — nur zeitbasierte (TOTP).",
+      "errMigration": "Das ist ein Google-Authenticator-Export-QR-Code. Exportiere Konten stattdessen einzeln.",
+      "errMissingSecret": "Dieser Link enthält keinen secret-Parameter.",
+      "errNoQr": "In diesem Bild wurde kein QR-Code gefunden.",
+      "errImageDecode": "Diese Bilddatei konnte nicht gelesen werden.",
+      "persistToggle": "Auf diesem Gerät speichern",
+      "persistWarning": "Gespeicherte Geheimnisse werden unverschlüsselt in diesem Browserprofil abgelegt — jeder mit Zugriff auf dieses Gerät kann sie lesen. Auf gemeinsam genutzten Geräten deaktiviert lassen.",
+      "deleteAccount": "Löschen",
+      "deleteConfirm": "Dieses Konto löschen?",
+      "confirm": "Bestätigen",
+      "cancel": "Abbrechen",
+      "duplicatePrompt": "Ein Konto mit diesem Geheimnis und Namen existiert bereits.",
+      "replace": "Ersetzen",
+      "keepBoth": "Beide behalten",
+      "secondsLeft": "Sekunden verbleibend"
     }
   },
   "Blog": {
