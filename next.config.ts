@@ -55,6 +55,9 @@ const nextConfig: NextConfig = {
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
+    // Vercel's default build container OOMs on this site's webpack compile;
+    // trades some build speed for a lower memory ceiling.
+    webpackMemoryOptimizations: true,
   },
 };
 
