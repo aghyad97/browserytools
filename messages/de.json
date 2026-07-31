@@ -46,7 +46,8 @@
     "removeFromFavorites": "Aus Favoriten entfernen",
     "siteName": "BrowseryTools",
     "siteTagline": "Unverzichtbare browserbasierte Produktivitätstools",
-    "siteDescription": "Unverzichtbare browserbasierte Tools für mehr Produktivität. Keine Server. Volle Privatsphäre."
+    "siteDescription": "Unverzichtbare browserbasierte Tools für mehr Produktivität. Keine Server. Volle Privatsphäre.",
+    "modelDownloadSize": "Lädt beim ersten Einsatz dieses Tools ein {size} großes KI-Modell herunter — danach im Browser zwischengespeichert."
   },
   "Header": {
     "requestTool": "Tool anfragen",
@@ -5291,6 +5292,7 @@
     "demoSmaller": "{pct}% kleiner",
     "apps": "Apps",
     "popular": "Beliebt",
+    "startHere": "Hier starten",
     "all": "Alle",
     "allTools": "Alle {count} Tools",
     "viewAll": "Alle Tools anzeigen",

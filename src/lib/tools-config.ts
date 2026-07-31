@@ -2052,6 +2052,26 @@ export const tools: ToolCategory[] = [
   },
 ];
 
+/**
+ * Hand-curated "Start here" homepage section (spec Task 6.2). NOT computed
+ * from usage analytics — this repo has none, and displaying a fabricated
+ * "used by N people" count would be dishonest. Picked by hand for breadth
+ * across the catalog (an on-device AI flagship, PDF, image, dev, and
+ * everyday-utility tool) so a first-time visitor sees the range of what's
+ * here, not just one category. Slugs, not hrefs, so this stays independent
+ * of route shape; resolved against the live catalog by getStartHereTools().
+ */
+export const START_HERE_SLUGS: string[] = [
+  "bg-removal",
+  "pdf",
+  "image-compression",
+  "audio-transcriber",
+  "json-formatter",
+  "password-generator",
+  "qr-generator",
+  "text-counter",
+];
+
 // Helper function to get all tools as a flat array
 export const getAllTools = (): (Tool & { category: string })[] => {
   return tools.flatMap((category) =>
@@ -2074,6 +2094,18 @@ export const isHiddenVariant = (tool: Tool): boolean =>
 // e2e generation keep every landing variant visible.
 export const getCatalogTools = (): (Tool & { category: string })[] =>
   getAllTools().filter((tool) => !isHiddenVariant(tool));
+
+// Resolves START_HERE_SLUGS against the live catalog, in curated order.
+// Silently drops a slug if it's ever renamed/removed rather than throwing —
+// this is a homepage nicety, not a build-breaking invariant.
+export const getStartHereTools = (): (Tool & { category: string })[] => {
+  const bySlug = new Map(
+    getCatalogTools().map((tool) => [tool.href.split("/").pop(), tool]),
+  );
+  return START_HERE_SLUGS.map((slug) => bySlug.get(slug)).filter(
+    (tool): tool is Tool & { category: string } => !!tool,
+  );
+};
 
 // Related-tile resolution shared by the ToolShell (spec §3, zone 5). Pure so it
 // can be unit-tested against a synthetic pool; defaults to the live catalog.

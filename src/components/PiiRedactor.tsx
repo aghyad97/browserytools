@@ -12,6 +12,8 @@ import { ToolShell } from "@/components/template/tool-shell";
 import { SettingsCard } from "@/components/shared/SettingsCard";
 import { OutputPanel } from "@/components/shared/OutputPanel";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
+import { formatBytes } from "@/lib/format";
 
 const MODEL = "Xenova/bert-base-NER";
 
@@ -143,6 +145,8 @@ function buildRedacted(
 export default function PiiRedactor() {
   const t = useTranslations("Tools.PiiRedactor");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
+  const modelBytes = useEstimatedModelSize("bert-base-ner");
 
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -327,7 +331,16 @@ export default function PiiRedactor() {
         <Card className="p-4">
           <div className="flex items-start gap-3">
             <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-            <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+              {modelBytes !== null && (
+                <p className="text-xs text-muted-foreground">
+                  {tCommon("modelDownloadSize", {
+                    size: formatBytes(modelBytes),
+                  })}
+                </p>
+              )}
+            </div>
           </div>
         </Card>
       </div>

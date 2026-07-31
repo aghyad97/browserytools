@@ -12,7 +12,8 @@ import { InfoIcon, XIcon, PlusIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
-import { formatPercent } from "@/lib/format";
+import { formatPercent, formatBytes } from "@/lib/format";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
 
 const MODEL = "Xenova/nli-deberta-v3-xsmall";
 
@@ -33,6 +34,8 @@ type Result = { label: string; score: number };
 export default function ZeroShotClassifier() {
   const t = useTranslations("Tools.ZeroShotClassifier");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
+  const modelBytes = useEstimatedModelSize("nli-deberta-v3-xsmall");
 
   const [text, setText] = useState("");
   const [labels, setLabels] = useState<string[]>([]);
@@ -247,7 +250,16 @@ export default function ZeroShotClassifier() {
         <Card className="p-4">
           <div className="flex items-start gap-3">
             <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-            <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+              {modelBytes !== null && (
+                <p className="text-xs text-muted-foreground">
+                  {tCommon("modelDownloadSize", {
+                    size: formatBytes(modelBytes),
+                  })}
+                </p>
+              )}
+            </div>
           </div>
         </Card>
       </div>

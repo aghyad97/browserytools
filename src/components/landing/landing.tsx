@@ -21,7 +21,12 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { tools, getAllTools, isHiddenVariant } from "@/lib/tools-config";
+import {
+  tools,
+  getAllTools,
+  isHiddenVariant,
+  START_HERE_SLUGS,
+} from "@/lib/tools-config";
 import { FEATURED_APPS, type FeaturedApp } from "@/lib/featured-apps";
 import { routeFile, extOf, type RouteMatch } from "@/lib/file-router";
 import { playCue } from "@/lib/ui-sound";
@@ -539,6 +544,17 @@ export default function Landing() {
     [category, catalog],
   );
 
+  /* Hand-curated "Start here" strip (spec Task 6.2) — a small, fixed set of
+     slugs from tools-config.ts, NOT computed from usage data (this repo has
+     no analytics). Resolved against the translated `catalog` so names/labels
+     stay locale-aware like every other grid on this page. */
+  const startHere = useMemo(() => {
+    const bySlug = new Map(catalog.map((c) => [c.slug, c]));
+    return START_HERE_SLUGS.map((slug) => bySlug.get(slug)).filter(
+      Boolean,
+    ) as typeof catalog;
+  }, [catalog]);
+
   /* Favorites / recent — client-only (persisted stores) to avoid a mismatch. */
   const rows = useMemo(() => {
     if (!mounted) return { favorites: [], recent: [] };
@@ -564,6 +580,11 @@ export default function Landing() {
       </div>
 
       <LiveDemo />
+
+      {/* Hand-curated "Start here" strip — always visible, above the flat
+          catalog grid. See START_HERE_SLUGS in tools-config.ts: fixed by
+          hand, not computed from usage data (no analytics in this repo). */}
+      <ToolRow label={t("startHere")} items={startHere} />
 
       {/* Favorites / recently used (client-only, non-empty only). */}
       <ToolRow label={t("favorites")} items={rows.favorites} />
