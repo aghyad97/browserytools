@@ -4,6 +4,9 @@ import { Badge } from "@/components/ui/badge";
 import { getBlogPost, blogPosts, getPostsByLocale, getPostLocale } from "@/lib/blog-data";
 import { Clock, Calendar, Tag, ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
+import { JsonLdScript } from "@/components/JsonLdScript";
+
+const BASE_URL = "https://browserytools.com";
 
 // Dynamically import blog post content
 async function getBlogContent(slug: string): Promise<React.ComponentType | null> {
@@ -24,7 +27,6 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const post = getBlogPost(slug);
   if (!post) return { title: "Post Not Found" };
 
-  const baseUrl = "https://browserytools.com";
   return {
     title: `${post.title} | BrowseryTools Blog`,
     description: post.description,
@@ -38,7 +40,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       authors: [post.author],
       tags: post.tags,
       siteName: "BrowseryTools",
-      url: `${baseUrl}/blog/${slug}`,
+      url: `${BASE_URL}/blog/${slug}`,
     },
     twitter: {
       card: "summary_large_image",
@@ -46,23 +48,31 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
       description: post.description,
     },
     alternates: {
-      canonical: `${baseUrl}/blog/${slug}`,
+      canonical: `${BASE_URL}/blog/${slug}`,
     },
-    other: {
-      "application/ld+json": JSON.stringify({
-        "@context": "https://schema.org",
-        "@type": "BlogPosting",
-        headline: post.title,
-        description: post.description,
-        datePublished: post.date,
-        dateModified: post.date,
-        author: { "@type": "Organization", name: post.author, url: baseUrl },
-        publisher: { "@type": "Organization", name: "BrowseryTools", url: baseUrl },
-        keywords: post.tags.join(", "),
-        url: `${baseUrl}/blog/${slug}`,
-        mainEntityOfPage: { "@type": "WebPage", "@id": `${baseUrl}/blog/${slug}` },
-      }),
-    },
+  };
+}
+
+/**
+ * BlogPosting JSON-LD for this post. Rendered via <JsonLdScript> in the page
+ * body — NOT through `metadata.other`, which Next.js emits as a <meta
+ * name="application/ld+json" content="..."> tag rather than a real
+ * <script type="application/ld+json"> block, so no crawler parses it.
+ */
+function buildBlogPostingJsonLd(post: ReturnType<typeof getBlogPost>, slug: string) {
+  if (!post) return null;
+  return {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    headline: post.title,
+    description: post.description,
+    datePublished: post.date,
+    dateModified: post.date,
+    author: { "@type": "Organization", name: post.author, url: BASE_URL },
+    publisher: { "@type": "Organization", name: "BrowseryTools", url: BASE_URL },
+    keywords: post.tags.join(", "),
+    url: `${BASE_URL}/blog/${slug}`,
+    mainEntityOfPage: { "@type": "WebPage", "@id": `${BASE_URL}/blog/${slug}` },
   };
 }
 
@@ -81,8 +91,11 @@ export default async function BlogPostPage({ params }: { params: Promise<{ slug:
       ? sameLangPosts[postIndex + 1]
       : null;
 
+  const jsonLd = buildBlogPostingJsonLd(post, slug);
+
   return (
     <article className="max-w-4xl mx-auto px-4 py-10">
+      {jsonLd && <JsonLdScript data={jsonLd} />}
       {/* Cover */}
       <div className={`rounded-2xl h-48 md:h-64 bg-gradient-to-br ${post.coverGradient} flex items-center justify-center mb-8`}>
         <span className="text-8xl" role="img" aria-label={post.category}>{post.coverEmoji}</span>

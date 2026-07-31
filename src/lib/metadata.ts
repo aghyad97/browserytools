@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { findToolByHref } from "./tools-config";
-import { hreflangLanguages, ogAlternateLocales } from "./locales";
+import { ogAlternateLocales } from "./locales";
 
 export function generateToolMetadata(href: string): Metadata {
   const tool = findToolByHref(href);
@@ -15,23 +15,25 @@ export function generateToolMetadata(href: string): Metadata {
   const baseUrl = "https://browserytools.com";
   const toolUrl = `${baseUrl}${href}`;
 
-  // Enhanced SEO-optimized title and description
-  const seoTitle = `${tool.name} - 100% Free ${tool.category} Tool | No Ads, No Registration, No Servers`;
-  const seoDescription = `${tool.description} Completely free forever - no hidden fees, no ads, no registration required. Runs entirely in your browser with full privacy. Open source and updated weekly with new features.`;
+  // Short, natural title: tool name + a genuine differentiator (client-side,
+  // no signup needed). The site-name suffix is appended by the root layout's
+  // title template, so this stays well under typical SERP truncation.
+  const seoTitle = `${tool.name} - Free Browser Tool`;
+
+  // Description is the tool's own copy plus one brief, honest clause. Kept
+  // short and distinct from common description wording ("browser", "runs
+  // entirely...") so it doesn't repeat what the tool's own copy already
+  // says. Not every tool runs fully offline (e.g. Currency Converter
+  // fetches live exchange rates), so the claim is conditioned on
+  // `onDevice` rather than asserted uniformly.
+  const runsOnDevice = tool.onDevice !== false;
+  const seoDescription = runsOnDevice
+    ? `${tool.description} Free, with no signup or uploads.`
+    : `${tool.description} Free, with no signup required.`;
 
   return {
     title: seoTitle,
     description: seoDescription,
-    keywords: [
-      tool.name.toLowerCase(),
-      tool.category.toLowerCase(),
-      "free",
-      "online",
-      "browser tool",
-      "no signup",
-      "privacy",
-      "client side",
-    ],
     authors: [{ name: "Browser Tools" }],
     creator: "Browser Tools",
     publisher: "Browser Tools",
@@ -68,7 +70,6 @@ export function generateToolMetadata(href: string): Metadata {
     },
     alternates: {
       canonical: toolUrl,
-      languages: hreflangLanguages(toolUrl),
     },
     category: "technology",
   };
@@ -82,27 +83,15 @@ export function generatePageMetadata(
   const baseUrl = "https://browserytools.com";
   const pageUrl = `${baseUrl}${path}`;
 
-  // Enhanced SEO-optimized page metadata
-  const seoPageTitle = title.includes("100% Free")
-    ? title
-    : `${title} | 100% Free Online Tools - No Ads, No Registration`;
-  const seoPageDescription = description.includes("free forever")
-    ? description
-    : `${description} Completely free forever - no hidden fees, no ads, no registration required. Open source browser-based tools with complete privacy.`;
+  // Callers already pass a complete, page-specific title/description (see
+  // src/app/gh, /coffee, /x, /privacy, /terms) — no boilerplate appended
+  // here. The root layout's title template still adds the site-name suffix.
+  const seoPageTitle = title;
+  const seoPageDescription = description;
 
   return {
     title: seoPageTitle,
     description: seoPageDescription,
-    keywords: [
-      "browser tools",
-      "online tools",
-      "free tools",
-      "no signup",
-      "privacy",
-      "client side",
-      "open source",
-      "productivity",
-    ],
     authors: [{ name: "Browser Tools" }],
     creator: "Browser Tools",
     publisher: "Browser Tools",
@@ -144,7 +133,6 @@ export function generatePageMetadata(
     },
     alternates: {
       canonical: pageUrl,
-      languages: hreflangLanguages(pageUrl),
     },
     category: "technology",
   };

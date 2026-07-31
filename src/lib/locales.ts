@@ -111,7 +111,17 @@ export function matchLocale(browserLang: string | undefined | null): Locale | nu
   return byPrefix ?? null;
 }
 
-/** Build the hreflang `alternates.languages` map for a given URL (Option A: same URL per locale). */
+/**
+ * Build the hreflang `alternates.languages` map for a given URL.
+ *
+ * NOT currently wired into any page's `alternates` — i18n on this site is
+ * client-side only (no `[locale]` route segment, no middleware), so there
+ * are no distinct per-locale URLs to point hreflang at yet. Emitting this
+ * map today would tell search engines every locale lives at the same URL,
+ * which is an invalid, self-referential alternate set and gets discarded
+ * (or worse, misread) by crawlers. Kept here, unused, for a follow-up branch
+ * that introduces real locale-prefixed URLs and can wire this back up.
+ */
 export function hreflangLanguages(url: string): Record<string, string> {
   return {
     "x-default": url,

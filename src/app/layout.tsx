@@ -9,7 +9,6 @@ import {
   defaultLocale,
   getDir,
   isLocale,
-  hreflangLanguages,
   ogAlternateLocales,
 } from "@/lib/locales";
 
@@ -77,7 +76,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://browserytools.com"),
   alternates: {
     canonical: "/",
-    languages: hreflangLanguages("https://browserytools.com"),
   },
   openGraph: {
     type: "website",
