@@ -126,6 +126,7 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Text to Speech**: Read text aloud in your browser for free.
 - **Live Dictation (mic)**: Convert speech to text online for free.
 - **Word Unscrambler**: Unscramble letters into valid words. Filter by minimum length or a required letter, and browse matches grouped by word length.
+- **Grammar Checker**: Free AI-powered grammar, spelling, and style checker with no signup or data collection.
 - **Wordle Solver**: Solve Wordle puzzles fast. Mark each tile gray, yellow, or green and instantly see every valid candidate word.
 - **Anagram Solver**: Find every anagram of a set of letters. Optionally include shorter sub-anagrams, grouped by word length.
 
@@ -189,6 +190,8 @@ A comprehensive collection of **130+ browser-based tools** built with Next.js, T
 - **Code Formatter**: Format and beautify your code with proper indentation and syntax highlighting.
 - **HTML Formatter**: Format, prettify, or minify HTML code.
 - **JSON Formatter**: Format, validate, and minify JSON.
+- **Binary Translator**: Free binary-to-text converter with hex, decimal, octal, and ASCII support.
+- **Bitwise Calculator**: Free calculator for AND, OR, XOR, NOT, left shift, and right shift operations.
 
 ### 🔐 Security Tools
 
