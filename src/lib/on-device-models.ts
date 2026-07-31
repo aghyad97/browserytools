@@ -7,11 +7,18 @@
  * size BEFORE the download starts (src/lib/hf-pipeline.ts already exposes a
  * progress_callback for showing it DURING the download — see LoadProgress).
  *
- * Every byte count below was read directly from the HuggingFace Hub API:
- *   https://huggingface.co/api/models/<repo>?blobs=true
- * (each entry's `source` field is the exact URL used). NEVER replace a real
- * count with a guess — mark it `TODO(verify)` instead (none needed here; all
- * ten models resolved cleanly).
+ * Every byte count below was read directly from a real, fetchable source
+ * (each entry's `source` field is the exact URL used) — mostly the
+ * HuggingFace Hub API (`https://huggingface.co/api/models/<repo>?blobs=true`).
+ * NEVER replace a real count with a guess — mark it `TODO(verify)` instead
+ * (none needed here; all eleven models resolved cleanly).
+ *
+ * BgRemoval is the one exception to "HuggingFace repo": `@imgly/background-
+ * removal` hosts its own model+runtime bundle on IMG.LY's CDN rather than the
+ * HF Hub. Its `publicPath` (pinned to the installed package version in
+ * BgRemoval.tsx) serves a `resources.json` manifest with exact chunked byte
+ * sizes per asset — fetched directly to source `bg-removal-isnet-fp16` below,
+ * same rigor as the HF-sourced entries, just a different registry.
  *
  * Why webgpu/wasm can differ for the SAME model: when a component doesn't
  * pin a `dtype`, @huggingface/transformers resolves one from the device (see
@@ -62,7 +69,8 @@ export type OnDeviceModelKey =
   | "nli-deberta-v3-xsmall"
   | "distilbart-cnn-6-6"
   | "distilbert-sst2"
-  | "slimsam-77-uniform";
+  | "slimsam-77-uniform"
+  | "bg-removal-isnet-fp16";
 
 export const ON_DEVICE_MODELS: Record<OnDeviceModelKey, OnDeviceModelEntry> = {
   // AudioTranscriber + subtitle-studio/TranscribePanel — device: "auto".
@@ -176,6 +184,31 @@ export const ON_DEVICE_MODELS: Record<OnDeviceModelKey, OnDeviceModelEntry> = {
     ],
     forceDevice: "wasm",
     source: "https://huggingface.co/api/models/Xenova/slimsam-77-uniform?blobs=true",
+  },
+  // BgRemoval — @imgly/background-removal, NOT Transformers.js. The model
+  // itself (`isnet_fp16`, @imgly's default "medium" quality tier — BgRemoval.tsx
+  // doesn't override `model`) is fixed regardless of device. Only the
+  // onnxruntime-web runtime bundle @imgly loads alongside it differs: its own
+  // device check (`config.device === "gpu" && webgpu-available`, see
+  // node_modules/@imgly/background-removal/dist/index.mjs createOnnxSession)
+  // picks the JSEP/WebGPU wasm build vs the plain wasm build — config.device is
+  // hardcoded to "gpu" in BgRemoval.tsx, so this collapses to the same "does
+  // this browser have WebGPU" question hasWebGPU() answers, reused here for
+  // consistency with the rest of this registry.
+  "bg-removal-isnet-fp16": {
+    repo: "imgly/background-removal-data (CDN — not a HuggingFace repo, see source)",
+    webgpu: [
+      { session: "models/isnet_fp16", bytes: 88_152_708 },
+      { session: "onnxruntime-web/ort-wasm-simd-threaded.jsep.wasm", bytes: 23_013_109 },
+      { session: "onnxruntime-web/ort-wasm-simd-threaded.jsep.mjs", bytes: 49_241 },
+    ],
+    wasm: [
+      { session: "models/isnet_fp16", bytes: 88_152_708 },
+      { session: "onnxruntime-web/ort-wasm-simd-threaded.wasm", bytes: 11_819_815 },
+      { session: "onnxruntime-web/ort-wasm-simd-threaded.mjs", bytes: 25_539 },
+    ],
+    source:
+      "https://staticimgly.com/@imgly/background-removal-data/1.7.0/dist/resources.json",
   },
 };
 

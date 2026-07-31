@@ -12,6 +12,8 @@ import { Upload, Loader2, Download, Trash2, Eye, EyeOff } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import JSZip from "jszip";
 import { Config, removeBackground } from "@imgly/background-removal";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
+import { formatBytes } from "@/lib/format";
 
 // The AI model + wasm are downloaded once from imgly's CDN. We pin publicPath to the
 // installed package version so the assets can never drift from the API we ship against.
@@ -26,6 +28,7 @@ export default function BgRemoval() {
   const t = useTranslations("Tools.BgRemoval");
   const tCommon = useTranslations("Common");
   const tc = useTranslations("ToolsConfig");
+  const modelBytes = useEstimatedModelSize("bg-removal-isnet-fp16");
 
   type ImageItem = {
     id: string;
@@ -95,8 +98,32 @@ export default function BgRemoval() {
           `Processing ${item.name}, original size: ${blob.size} bytes`
         );
 
+        // @imgly/background-removal reports download progress per resource
+        // (the model, plus the onnxruntime-web wasm runtime) as
+        // `(key, current, total) => void` — see node_modules/@imgly/
+        // background-removal/dist/src/resource.ts. Aggregate across whatever
+        // resources are in flight into one overall percentage so `it.progress`
+        // actually moves during the (first-use, cached after) download instead
+        // of sitting at 0 and snapping to 100. Built fresh per call so
+        // sequential images (processOne runs one at a time — see the
+        // auto-process effect below) never share accumulator state.
+        const resourceProgress: Record<string, { current: number; total: number }> = {};
+        const callConfig: Config = {
+          ...config,
+          progress: (key, current, total) => {
+            resourceProgress[key] = { current, total };
+            const entries = Object.values(resourceProgress);
+            const sumCurrent = entries.reduce((sum, r) => sum + r.current, 0);
+            const sumTotal = entries.reduce((sum, r) => sum + r.total, 0);
+            const percent = sumTotal > 0 ? Math.round((sumCurrent / sumTotal) * 100) : 0;
+            setItems((prev) =>
+              prev.map((it) => (it.id === itemId ? { ...it, progress: percent } : it))
+            );
+          },
+        };
+
         // Remove background
-        const resultBlob = await removeBackground(blob, config);
+        const resultBlob = await removeBackground(blob, callConfig);
 
         console.log(
           `Processed ${item.name}, result size: ${resultBlob.size} bytes`
@@ -368,6 +395,11 @@ export default function BgRemoval() {
               <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
                 {t("privacyNote")}
               </p>
+              {modelBytes !== null && (
+                <p className="text-muted-foreground text-xs mt-1 max-w-md mx-auto">
+                  {tCommon("modelDownloadSize", { size: formatBytes(modelBytes) })}
+                </p>
+              )}
               {items.length > 0 && (
                 <p className="text-xs text-muted-foreground mt-2">
                   {items.length === 1
