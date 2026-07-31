@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getAllTools } from "@/lib/tools-config";
 import { blogPosts } from "@/lib/blog-data";
+import { TOOL_CLUSTERS } from "@/lib/tool-clusters";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://browserytools.com";
@@ -66,5 +67,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...toolRoutes, ...blogRoutes];
+  // Cluster hub routes (/collections/*) — sit between the homepage and the
+  // individual tool pages, so they rank above tools and below the index.
+  const clusterRoutes: MetadataRoute.Sitemap = TOOL_CLUSTERS.map((cluster) => ({
+    url: `${baseUrl}${cluster.href}`,
+    lastModified: newestToolDate.getTime() > 0 ? newestToolDate : currentDate,
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
+
+  return [...staticRoutes, ...clusterRoutes, ...toolRoutes, ...blogRoutes];
 }
