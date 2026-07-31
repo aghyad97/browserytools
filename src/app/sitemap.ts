@@ -1,9 +1,26 @@
 import { MetadataRoute } from "next";
 import { getAllTools } from "@/lib/tools-config";
 import { blogPosts } from "@/lib/blog-data";
+import { blogHreflang } from "@/lib/blog-alternates";
+import {
+  SITE_URL,
+  hreflangLanguages,
+  localeCodes,
+  localePath,
+} from "@/lib/locales";
 
+/**
+ * Generated entirely from LOCALES × the tool registry × the blog data, so it
+ * cannot drift from what the app actually serves: adding a locale to
+ * `src/lib/locales.ts` or a tool to `tools-config.ts` extends this sitemap with
+ * no edit here.
+ *
+ * Size: ~180 localizable paths × 9 locales + ~170 blog posts ≈ 1.8k URLs, an
+ * order of magnitude under the 50,000-URL / 50 MB single-file limits, so no
+ * sitemap index is needed. If the tool count or locale count grows ~25×, split
+ * this into per-locale sitemaps behind an index.
+ */
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://browserytools.com";
   const currentDate = new Date();
 
   // Get all available tools
@@ -22,49 +39,68 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const newestOverall =
     newestToolDate > newestBlogDate ? newestToolDate : newestBlogDate;
 
-  // Static routes
+  /**
+   * One entry per locale for a path that exists in every language, each
+   * carrying the same reciprocal hreflang set. `hreflangLanguages` builds the
+   * alternates from the same registry the URLs come from.
+   */
+  const localized = (
+    path: string,
+    lastModified: Date,
+    changeFrequency: MetadataRoute.Sitemap[number]["changeFrequency"],
+    priority: number
+  ): MetadataRoute.Sitemap => {
+    const languages = hreflangLanguages(path);
+    return localeCodes.map((locale) => ({
+      url: `${SITE_URL}${localePath(path, locale)}`,
+      lastModified,
+      changeFrequency,
+      priority,
+      alternates: { languages },
+    }));
+  };
+
+  const homeDate = newestOverall.getTime() > 0 ? newestOverall : currentDate;
+  const blogDate = newestBlogDate.getTime() > 0 ? newestBlogDate : currentDate;
+
+  // Home and blog index exist in every locale.
   const staticRoutes: MetadataRoute.Sitemap = [
+    ...localized("/", homeDate, "daily", 1),
+    ...localized("/blog", blogDate, "weekly", 0.9),
+    // Legal pages are English-only; no locale routes, so no alternates.
     {
-      url: baseUrl,
-      lastModified: newestOverall.getTime() > 0 ? newestOverall : currentDate,
-      changeFrequency: "daily",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: newestBlogDate.getTime() > 0 ? newestBlogDate : currentDate,
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/privacy`,
+      url: `${SITE_URL}/privacy`,
       lastModified: currentDate,
       changeFrequency: "yearly",
       priority: 0.3,
     },
     {
-      url: `${baseUrl}/terms`,
+      url: `${SITE_URL}/terms`,
       lastModified: currentDate,
       changeFrequency: "yearly",
       priority: 0.3,
     },
   ];
 
-  // Tool routes — lastModified reflects each tool's own creation date
-  const toolRoutes: MetadataRoute.Sitemap = allTools.map((tool) => ({
-    url: `${baseUrl}${tool.href}`,
-    lastModified: new Date(tool.creationDate),
-    changeFrequency: "weekly" as const,
-    priority: 0.8,
-  }));
+  // Tool routes — every tool in every locale, lastModified from its own
+  // creation date. English stays at the unprefixed URL.
+  const toolRoutes: MetadataRoute.Sitemap = allTools.flatMap((tool) =>
+    localized(tool.href, new Date(tool.creationDate), "weekly", 0.8)
+  );
 
-  // Blog post routes — lastModified reflects each post's publish date
-  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => ({
-    url: `${baseUrl}/blog/${post.slug}`,
-    lastModified: new Date(post.date),
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  }));
+  // Blog posts keep their existing top-level URLs (translations use a
+  // `-<locale>` slug suffix rather than a path prefix), with hreflang linking
+  // each translation family together.
+  const blogRoutes: MetadataRoute.Sitemap = blogPosts.map((post) => {
+    const languages = blogHreflang(post.slug);
+    return {
+      url: `${SITE_URL}/blog/${post.slug}`,
+      lastModified: new Date(post.date),
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+      ...(languages ? { alternates: { languages } } : {}),
+    };
+  });
 
   return [...staticRoutes, ...toolRoutes, ...blogRoutes];
 }

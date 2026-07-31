@@ -111,21 +111,64 @@ export function matchLocale(browserLang: string | undefined | null): Locale | nu
   return byPrefix ?? null;
 }
 
+export const SITE_URL = "https://browserytools.com";
+
 /**
- * Build the hreflang `alternates.languages` map for a given URL.
- *
- * NOT currently wired into any page's `alternates` — i18n on this site is
- * client-side only (no `[locale]` route segment, no middleware), so there
- * are no distinct per-locale URLs to point hreflang at yet. Emitting this
- * map today would tell search engines every locale lives at the same URL,
- * which is an invalid, self-referential alternate set and gets discarded
- * (or worse, misread) by crawlers. Kept here, unused, for a follow-up branch
- * that introduces real locale-prefixed URLs and can wire this back up.
+ * Request headers the middleware sets so server components (which cannot see
+ * the URL directly) know which locale to render. `LOCALE_SOURCE_HEADER` is
+ * "path" when the locale came from a `/{locale}/…` prefix and "cookie"
+ * otherwise — a path locale is pinned and must not be overridden by client
+ * state after hydration.
  */
-export function hreflangLanguages(url: string): Record<string, string> {
+export const LOCALE_HEADER = "x-browsery-locale";
+export const LOCALE_SOURCE_HEADER = "x-browsery-locale-source";
+export const LOCALE_COOKIE = "browsery-locale";
+
+/**
+ * Prefix an app-relative path with a locale segment.
+ *
+ * English is the unprefixed default — `/tools/x` stays `/tools/x` — because
+ * those URLs are already indexed and must never move. Every other locale gets
+ * `/{code}` in front: `localePath("/tools/x", "es") === "/es/tools/x"`.
+ */
+export function localePath(path: string, locale: Locale): string {
+  const clean = path === "" ? "/" : path.startsWith("/") ? path : `/${path}`;
+  if (locale === defaultLocale) return clean;
+  return clean === "/" ? `/${locale}` : `/${locale}${clean}`;
+}
+
+/**
+ * Split a pathname into its locale prefix (if any) and the remaining path.
+ * `/es/tools/x` -> { locale: "es", path: "/tools/x" }
+ * `/tools/x`    -> { locale: "en", path: "/tools/x" }
+ */
+export function splitLocalePath(pathname: string): { locale: Locale; path: string } {
+  const segments = pathname.split("/");
+  const first = segments[1];
+  if (isLocale(first)) {
+    const rest = `/${segments.slice(2).join("/")}`;
+    return { locale: first, path: rest === "/" ? "/" : rest.replace(/\/$/, "") || "/" };
+  }
+  return { locale: defaultLocale, path: pathname || "/" };
+}
+
+/**
+ * Build the hreflang `alternates.languages` map for an app-relative path.
+ *
+ * Each entry is a genuinely distinct, resolvable URL: English at the
+ * unprefixed path and every other locale at its `/{code}` prefix. `x-default`
+ * points at the English URL, which is the one served when no locale is
+ * negotiated. Pass the *unprefixed* path (e.g. "/tools/json-formatter") — the
+ * same map is correct for every locale variant of that page, since hreflang
+ * sets must be identical and reciprocal across the whole cluster.
+ */
+export function hreflangLanguages(path: string): Record<string, string> {
+  const canonicalEn = `${SITE_URL}${localePath(path, defaultLocale)}`;
   return {
-    "x-default": url,
-    ...Object.fromEntries(localeCodes.map((c) => [c, url])),
+    "x-default": canonicalEn,
+    ...Object.fromEntries(
+      localeCodes.map((c) => [c, `${SITE_URL}${localePath(path, c)}`])
+    ),
   };
 }
 

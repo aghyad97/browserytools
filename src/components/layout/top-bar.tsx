@@ -55,6 +55,9 @@ export function TopBar() {
             <LanguageSwitcher />
           </span>
         </div>
+        {/* Plain <a>: /coffee server-redirects off-site to Stripe. See the
+            matching note in rail.tsx. */}
+        {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
         <a className={s.coffee} href="/coffee">
           <CoffeeIcon size={13} className={s.coffeeIcon} />
           {t("coffee")}

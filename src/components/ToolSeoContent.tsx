@@ -40,8 +40,9 @@ interface ResolvedTool {
 }
 
 function resolveTool(pathname: string): ResolvedTool | null {
-  // pathname looks like /tools/<slug> (ignore trailing slash / nested)
-  const match = pathname.match(/^\/tools\/([^/]+)/);
+  // pathname looks like /tools/<slug>, or /<locale>/tools/<slug> on the
+  // locale-prefixed routes (ignore trailing slash / nested).
+  const match = pathname.match(/^(?:\/[a-z]{2}(?:-[A-Za-z]{2,4})?)?\/tools\/([^/]+)/);
   if (!match) return null;
   const slug = match[1];
   const href = `/tools/${slug}`;
@@ -168,6 +169,13 @@ export default function ToolSeoContent() {
 
   const tool = resolveTool(pathname);
   if (!tool) return null;
+
+  // On a locale-prefixed URL, only render this block when the SEO registry
+  // actually has prose in that language. English copy under /es/ or /fr/ would
+  // be duplicate content on a page that exists precisely to be a distinct
+  // localized URL — better to render nothing than the wrong language.
+  const isLocalePrefixed = /^\/[a-z]{2}(-[A-Za-z]{2,4})?\//.test(pathname);
+  if (isLocalePrefixed && seoLocale !== locale) return null;
 
   // Bespoke content if present, otherwise templated (non-fabricated) fallback.
   const bespoke = toolContent[tool.slug];

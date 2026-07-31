@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 import { findToolByHref } from "./tools-config";
-import { ogAlternateLocales } from "./locales";
+import { hreflangLanguages, ogAlternateLocales } from "./locales";
 
 export function generateToolMetadata(href: string): Metadata {
   const tool = findToolByHref(href);
@@ -70,6 +70,10 @@ export function generateToolMetadata(href: string): Metadata {
     },
     alternates: {
       canonical: toolUrl,
+      // Real, reciprocal hreflang: English at this unprefixed URL and every
+      // other locale at its own `/{code}/tools/…` URL. Each alternate is a
+      // distinct page that returns 200.
+      languages: hreflangLanguages(href),
     },
     category: "technology",
   };
