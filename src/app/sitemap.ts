@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getAllTools } from "@/lib/tools-config";
 import { blogPosts } from "@/lib/blog-data";
+import { comparisons } from "@/lib/comparisons";
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const baseUrl = "https://browserytools.com";
@@ -66,5 +67,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.7,
   }));
 
-  return [...staticRoutes, ...toolRoutes, ...blogRoutes];
+  // Comparison ("alternative to X") routes — lastModified is the date each
+  // page's competitor claims were last checked against their public pages.
+  const comparisonRoutes: MetadataRoute.Sitemap = comparisons.map((c) => ({
+    url: `${baseUrl}/alternatives/${c.slug}`,
+    lastModified: new Date(c.checkedOn),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [...staticRoutes, ...toolRoutes, ...comparisonRoutes, ...blogRoutes];
 }

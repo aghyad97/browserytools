@@ -5357,5 +5357,25 @@
       "contactHeading": "Вопросы",
       "contactBody": "Будем рады вопросам об этих условиях — напишите нам на GitHub."
     }
+  },
+  "Comparisons": {
+    "sectionLabel": "Сравнение",
+    "tableCaption": "{competitor} в сравнении с BrowseryTools",
+    "colAspect": "Что важно",
+    "colUs": "BrowseryTools",
+    "colThem": "{competitor}",
+    "edgeUs": "Преимущество: BrowseryTools",
+    "edgeThem": "Преимущество: {competitor}",
+    "edgeMixed": "Зависит от задачи",
+    "theirEdgeTitle": "В чём {competitor} действительно лучше",
+    "ourLimitsTitle": "В чём наши инструменты уступают",
+    "verdictTitle": "Что выбрать?",
+    "faqTitle": "Частые вопросы",
+    "toolsTitle": "Сравниваемые инструменты",
+    "sourcesTitle": "Источники",
+    "checkedOn": "Данные о конкуренте взяты с его собственных публичных страниц {date}. Цены и лимиты бесплатного тарифа часто меняются — проверьте их перед решением.",
+    "trademark": "{competitor} — товарный знак его правообладателя. Это независимое сравнение. Мы не аффилированы с ними, не спонсируемся и не одобрены ими.",
+    "relatedTitle": "Другие сравнения",
+    "openTool": "Открыть {tool}"
   }
 }

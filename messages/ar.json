@@ -5357,5 +5357,25 @@
       "contactHeading": "أسئلة",
       "contactBody": "أسئلتك حول هذه الشروط مرحّب بها — تواصل معنا عبر GitHub."
     }
+  },
+  "Comparisons": {
+    "sectionLabel": "مقارنة",
+    "tableCaption": "مقارنة بين {competitor} وBrowseryTools",
+    "colAspect": "ما الذي يهم",
+    "colUs": "BrowseryTools",
+    "colThem": "{competitor}",
+    "edgeUs": "الأفضلية: BrowseryTools",
+    "edgeThem": "الأفضلية: {competitor}",
+    "edgeMixed": "يعتمد على المهمة",
+    "theirEdgeTitle": "أين تتفوّق {competitor} فعلياً",
+    "ourLimitsTitle": "أين تُقصِّر أدواتنا",
+    "verdictTitle": "أيهما تختار؟",
+    "faqTitle": "أسئلة شائعة",
+    "toolsTitle": "الأدوات التي تشملها المقارنة",
+    "sourcesTitle": "المصادر",
+    "checkedOn": "قُرِئت تفاصيل المنافس من صفحاته العامة بتاريخ {date}. الأسعار وحدود الخطة المجانية تتغيّر باستمرار — تحقّق منها بنفسك قبل أن تقرّر.",
+    "trademark": "{competitor} علامة تجارية مملوكة لأصحابها. هذه مقارنة مستقلة، ولا تربطنا بهم أي علاقة انتساب أو رعاية أو تأييد.",
+    "relatedTitle": "مقارنات أخرى",
+    "openTool": "افتح {tool}"
   }
 }
