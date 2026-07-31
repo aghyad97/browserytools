@@ -13,6 +13,7 @@ import {
 import { findToolByHref, getAllTools } from "@/lib/tools-config";
 import {
   buildFallbackContent,
+  getToolDataProfile,
   toolContent,
   type ToolContentLocale,
 } from "@/lib/tool-content";
@@ -76,9 +77,14 @@ function resolveTool(pathname: string): ResolvedTool | null {
 // NOTE: `content.limitations` is deliberately NOT represented in any JSON-LD
 // graph below. It is honest on-page prose for readers, not a structured claim,
 // and schema.org has no honest type for it. Keep it that way.
+//
+// `isBespoke` gates FAQPage. Templated fallback questions are not evidence that
+// anyone frequently asks them about that specific tool, so asserting them as
+// structured FAQ data would be a claim we can't support. The prose still renders.
 function buildJsonLd(
   tool: ResolvedTool,
-  content: ToolContentLocale
+  content: ToolContentLocale,
+  isBespoke: boolean
 ): Record<string, unknown>[] {
   const toolUrl = `${BASE_URL}${tool.href}`;
   const graphs: Record<string, unknown>[] = [];
@@ -132,8 +138,8 @@ function buildJsonLd(
     ],
   });
 
-  // 3) FAQPage — from the FAQ content.
-  if (content.faq.length > 0) {
+  // 3) FAQPage — hand-authored FAQ only.
+  if (isBespoke && content.faq.length > 0) {
     graphs.push({
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -186,11 +192,13 @@ export default function ToolSeoContent() {
           name: tool.name,
           description: tool.description,
           category: tool.category,
+          // The fallback may only make the privacy claim the tool has earned.
+          dataProfile: getToolDataProfile(tool.slug),
         },
         seoLocale
       );
 
-  const jsonLd = buildJsonLd(tool, content);
+  const jsonLd = buildJsonLd(tool, content, Boolean(bespoke));
 
   // Related tools (only those that exist & are available).
   const relatedSlugs = bespoke?.related ?? [];

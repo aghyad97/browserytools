@@ -3834,16 +3834,127 @@ export const toolContent: Record<string, ToolContent> = {
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
+// Tool data profiles.
+//
+// The fallback used to assert "runs entirely in your browser, your data is never
+// uploaded" on EVERY tool page. That is false for the tools that fetch model or
+// language files from a third-party CDN, and flatly wrong for the ones where a
+// browser API ships the user's own content off the device. A privacy claim that
+// isn't true is worse than no claim at all, so the fallback now branches on what
+// the tool actually does.
+//
+// This map is enforced by src/__tests__/lib/tool-data-profile.test.ts, which
+// walks each tool page's local import graph and cross-checks the classification
+// against the code. Adding an AI tool that uses an existing loader, or any
+// absolute-URL fetch, fails that test until this map is updated — so this is not
+// a hand-maintained list that silently rots.
+// ──────────────────────────────────────────────────────────────────────────────
+
+export type ToolDataProfile =
+  /** Default. User content is processed locally; no runtime network requests. */
+  | "on-device"
+  /**
+   * User content is still processed locally, but model / language / voice files
+   * are fetched from a third-party CDN on first use and cached by the browser.
+   * "Works fully offline" is false for these until those files are cached.
+   */
+  | "model-download"
+  /**
+   * Calls a third-party API for reference data (rates, lookups). What the user
+   * types stays on the device, but the tool needs a connection to function.
+   */
+  | "remote-data"
+  /**
+   * Part of the user's own content leaves the device to be processed — e.g. the
+   * Web Speech API, which in Chrome and Edge streams recorded audio to the
+   * browser vendor's servers. The on-device claim must NOT be made here.
+   */
+  | "remote-processing"
+  /**
+   * Takes no user content at all (timers, hardware testers, reference tables).
+   * The privacy paragraph is irrelevant rather than wrong, so it is omitted.
+   */
+  | "no-user-data";
+
+/**
+ * Slugs whose profile is anything other than the "on-device" default.
+ *
+ * Everything except `no-user-data` is mechanically verifiable from the import
+ * graph and is asserted by the test. `no-user-data` is a judgement call the test
+ * cannot make — but misclassifying there only omits an accurate paragraph, it
+ * never produces a false claim, so it is the one category left to review.
+ */
+export const TOOL_DATA_PROFILES: Record<string, ToolDataProfile> = {
+  // ── Model / language files fetched from a third-party CDN on first use ──────
+  // Transformers.js via @/lib/hf-pipeline (Hugging Face Hub CDN).
+  "audio-transcriber": "model-download",
+  "depth-map": "model-download",
+  "image-captioner": "model-download",
+  "image-upscaler": "model-download",
+  "object-cutout": "model-download",
+  "pii-redactor": "model-download",
+  "sentiment-analyzer": "model-download",
+  "subtitle-studio": "model-download",
+  "text-summarizer": "model-download",
+  translator: "model-download",
+  "zero-shot-classifier": "model-download",
+  // @imgly/background-removal (staticimgly.com).
+  "bg-removal": "model-download",
+  // @diffusionstudio/vits-web — Piper voice models (~20-60MB) from a CDN.
+  "text-to-speech": "model-download",
+  // tesseract.js: worker + wasm core are self-hosted from /public/tesseract,
+  // but the language traineddata still loads once from the tessdata CDN.
+  "image-to-text": "model-download",
+
+  // ── Third-party API for reference data ─────────────────────────────────────
+  // api.frankfurter.app, falling back to api.exchangerate-api.com.
+  "currency-converter": "remote-data",
+
+  // ── User content leaves the device ─────────────────────────────────────────
+  // Web Speech API (SpeechRecognition / webkitSpeechRecognition). Chrome and
+  // Edge implement this server-side: the recorded audio is sent to the browser
+  // vendor for transcription. Nothing we can do about that except say so.
+  "speech-to-text": "remote-processing",
+
+  // ── No user content at all ─────────────────────────────────────────────────
+  // Verified as holding nothing and persisting nothing. Note that pomodoro and
+  // emoji-picker DO persist to localStorage, and mic-test / webcam-test handle a
+  // live camera or microphone stream, so none of those belong here.
+  stopwatch: "no-user-data",
+  timer: "no-user-data",
+  "world-clock": "no-user-data",
+  "keyboard-tester": "no-user-data",
+  "gamepad-tester": "no-user-data",
+  "periodic-table": "no-user-data",
+  "http-status": "no-user-data",
+  "typing-test": "no-user-data",
+};
+
+export function getToolDataProfile(slug: string): ToolDataProfile {
+  return TOOL_DATA_PROFILES[slug] ?? "on-device";
+}
+
+// ──────────────────────────────────────────────────────────────────────────────
 // Templated fallback. For tools without a bespoke entry we derive accurate,
 // non-fabricated copy from the tool's name, description, and category. No fake
-// specifics, no invented stats — just a clear, indexable About + a couple of
-// generic, true FAQ entries that hold for every client-side tool on the site.
+// specifics, no invented stats — just a clear, indexable About whose privacy
+// claim matches what the tool actually does.
+//
+// The FAQ is deliberately sparse. For "on-device" and "no-user-data" tools the
+// only questions a template can ask are ones nobody asked, so none are emitted.
+// The three network-touching profiles get a single question that carries a real,
+// non-obvious fact ("does this work offline?"), which is worth a reader's time.
+//
+// Fallback content never feeds FAQPage JSON-LD — see ToolSeoContent. A templated
+// Q&A is not evidence that anyone frequently asks it about that specific tool.
 // ──────────────────────────────────────────────────────────────────────────────
 
 export interface FallbackInput {
   name: string;
   description: string;
   category: string;
+  /** Drives which privacy claim (if any) the fallback is allowed to make. */
+  dataProfile?: ToolDataProfile;
 }
 
 export function buildFallbackContent(
@@ -3851,42 +3962,69 @@ export function buildFallbackContent(
   locale: "en" | "ar"
 ): ToolContentLocale {
   const { name, description, category } = input;
+  const profile = input.dataProfile ?? "on-device";
 
   if (locale === "ar") {
-    return {
-      intro: `${description}\n\n${name} أداة مجانية ضمن فئة «${category}» على BrowseryTools. تعمل بالكامل داخل متصفحك — دون رفع بياناتك إلى خادم ودون تسجيل أو إعلانات أو علامات مائية، مع الحفاظ على خصوصيتك التامة.`,
-      faq: [
+    const introAr: Record<ToolDataProfile, string> = {
+      "on-device": `${name} أداة مجانية ضمن فئة «${category}» على BrowseryTools. تعمل بالكامل داخل متصفحك: ما تعطيه لها يُعالَج على جهازك ولا يُرفع إلى أي خادم، ولا تسجيل ولا إعلانات ولا علامات مائية، وتبقى تعمل بلا اتصال بعد تحميل الصفحة.`,
+      "model-download": `${name} أداة مجانية ضمن فئة «${category}» على BrowseryTools، وتشغّل نموذجها على جهازك أنت — فما تعطيه لها يُعالَج محليًا ولا يُرفع إلى أي خادم. لكنها ليست مكتفية بذاتها تمامًا: تُنزَّل ملفات النموذج التي تحتاجها من شبكة توصيل محتوى تابعة لطرف ثالث عند أول استخدام، ثم يحفظها متصفحك. لذا يحتاج التشغيل الأول إلى اتصال بالإنترنت ويستغرق وقتًا أطول بوضوح من المرات التالية، ولا تعمل الأداة دون اتصال إلا بعد حفظ تلك الملفات. ولا تسجيل ولا إعلانات ولا علامات مائية.`,
+      "remote-data": `${name} أداة مجانية ضمن فئة «${category}» على BrowseryTools. وخلافًا لمعظم الأدوات هنا فهي ليست مكتفية بذاتها: تطلب بيانات من خدمة تابعة لطرف ثالث لتعمل، فتحتاج اتصالًا بالإنترنت وترى تلك الخدمة الطلب. أما كل ما عدا ذلك — الحساب والنتيجة — فيجري في متصفحك على جهازك. ولا تسجيل ولا إعلانات ولا علامات مائية.`,
+      "remote-processing": `${name} أداة مجانية ضمن فئة «${category}» على BrowseryTools، وهي الاستثناء من طريقة عمل بقية الموقع: جزء من المعالجة يجري خارج جهازك. فما تعطيه لها يُرسَل إلى خدمة تابعة لطرف ثالث لتتولّاه، أي أنها تحتاج اتصالًا بالإنترنت، ولا ينبغي أن تستخدمها لأي شيء سرّي. ولا يخزّن BrowseryTools شيئًا بنفسه، ولا تسجيل ولا إعلانات ولا علامات مائية.`,
+      "no-user-data": `${name} أداة مجانية ضمن فئة «${category}» على BrowseryTools. تعمل في متصفحك دون تثبيت ودون تسجيل، وبلا إعلانات أو علامات مائية. وهي لا تطلب منك أي محتوى، فلا يوجد هنا ما يمكن رفعه أو تخزينه أصلًا.`,
+    };
+
+    const faqAr: Partial<Record<ToolDataProfile, FaqItem[]>> = {
+      "model-download": [
         {
-          q: `هل أداة ${name} مجانية فعلًا؟`,
-          a: "نعم. جميع أدوات BrowseryTools مجانية بالكامل دون رسوم خفية أو تسجيل أو اشتراك.",
+          q: `هل تعمل ${name} دون اتصال بالإنترنت؟`,
+          a: "بعد أول استخدام فقط. تُنزَّل ملفات النموذج من شبكة توصيل محتوى تابعة لطرف ثالث في المرة الأولى ثم يحفظها متصفحك؛ وبعد ذلك تجري المعالجة كلها على جهازك. أما محتواك أنت فلا يُرفع في أي مرحلة.",
         },
+      ],
+      "remote-data": [
         {
-          q: "هل تُرفع بياناتي إلى خادم؟",
-          a: "لا. تعمل الأداة بالكامل في متصفحك على جهازك، فتبقى بياناتك خاصة ولا تُرسَل إلى أي خادم.",
+          q: `هل تعمل ${name} دون اتصال بالإنترنت؟`,
+          a: "لا. تحتاج هذه الأداة إلى جلب بيانات محدّثة من خدمة خارجية في كل مرة، فلا تعمل دون اتصال. أما ما تدخله أنت فيبقى في متصفحك.",
         },
+      ],
+      "remote-processing": [
         {
-          q: "هل أحتاج إلى تثبيت أي برنامج؟",
-          a: "لا. كل ما تحتاجه هو متصفح حديث؛ افتح الصفحة وابدأ الاستخدام فورًا.",
+          q: `هل تُعالَج بياناتي على جهازي؟`,
+          a: "لا. هذه الأداة ترسل ما تعطيها إلى خدمة خارجية لتعالجه، بخلاف بقية أدوات الموقع. تحتاج اتصالًا بالإنترنت، ولا ينبغي استخدامها لمحتوى سرّي.",
         },
       ],
     };
+
+    return { intro: `${description}\n\n${introAr[profile]}`, faq: faqAr[profile] ?? [] };
   }
 
-  return {
-    intro: `${description}\n\n${name} is a free tool in the ${category} category on BrowseryTools. It runs entirely in your browser — your data is never uploaded to a server, and there's no registration, no ads, and no watermarks, so your privacy is fully preserved.`,
-    faq: [
+  const introEn: Record<ToolDataProfile, string> = {
+    "on-device": `${name} is a free tool in the ${category} category on BrowseryTools. It runs entirely in your browser: what you give it is processed on your own device and is never uploaded to a server, there's no registration, no ads and no watermarks, and it keeps working with no connection once the page has loaded.`,
+    "model-download": `${name} is a free tool in the ${category} category on BrowseryTools, and it runs its model on your own device — what you feed it is processed locally and is never uploaded to a server. It isn't fully self-contained, though: the model files it needs are downloaded from a third-party CDN the first time you use it, then cached by your browser. So the first run needs an internet connection and takes noticeably longer than later ones, and the tool only works offline once those files are cached. There's no registration, no ads and no watermarks.`,
+    "remote-data": `${name} is a free tool in the ${category} category on BrowseryTools. Unlike most tools here it isn't fully self-contained: it requests data from a third-party service in order to work, so it needs an internet connection and that service sees the request. Everything else — the calculation and the result — happens in your browser on your own device. There's no registration, no ads and no watermarks.`,
+    "remote-processing": `${name} is a free tool in the ${category} category on BrowseryTools, and it's the exception to how the rest of this site works: part of its processing happens off your device. What you give it is sent to a third-party service to be handled, so it needs an internet connection and you shouldn't use it for anything confidential. BrowseryTools itself stores nothing, and there's no registration, no ads and no watermarks.`,
+    "no-user-data": `${name} is a free tool in the ${category} category on BrowseryTools. It runs in your browser with no installation and no registration, and no ads or watermarks. It doesn't ask you for any content, so there's nothing here to upload or store in the first place.`,
+  };
+
+  const faqEn: Partial<Record<ToolDataProfile, FaqItem[]>> = {
+    "model-download": [
       {
-        q: `Is ${name} really free?`,
-        a: "Yes. Every BrowseryTools tool is completely free with no hidden fees, no registration, and no subscription.",
+        q: `Does ${name} work offline?`,
+        a: "Only after the first use. The model files are downloaded from a third-party CDN the first time you run it and cached by your browser; after that everything happens on your device. Your own content is never uploaded at any point.",
       },
+    ],
+    "remote-data": [
       {
-        q: "Is my data uploaded to a server?",
-        a: "No. The tool runs entirely in your browser on your device, so your data stays private and is never sent to a server.",
+        q: `Does ${name} work offline?`,
+        a: "No. This tool has to fetch up-to-date data from an external service each time, so it needs a connection. What you type stays in your browser.",
       },
+    ],
+    "remote-processing": [
       {
-        q: "Do I need to install anything?",
-        a: "No. All you need is a modern browser — open the page and start using it right away.",
+        q: "Is my data processed on my device?",
+        a: "No. Unlike the rest of the tools on this site, this one sends what you give it to an external service to be processed. It needs an internet connection, and you shouldn't use it for confidential material.",
       },
     ],
   };
+
+  return { intro: `${description}\n\n${introEn[profile]}`, faq: faqEn[profile] ?? [] };
 }

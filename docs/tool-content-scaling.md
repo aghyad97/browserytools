@@ -11,9 +11,45 @@ and the authoring of eight pilot entries. This is an assessment, not a plan of r
 | Slugs with a hand-authored entry in `tool-content.ts` | 54 |
 | Slugs falling back to `buildFallbackContent` | 122 |
 
-The fallback emits one paragraph of the tool's own config description, one paragraph of
-site boilerplate, and three questions that are byte-identical across all 122 pages except
-for the tool name.
+The fallback emits one paragraph of the tool's own config description plus one paragraph of
+site boilerplate. It used to append three questions that were byte-identical across all 122
+pages except for the tool name; that FAQ and the privacy claim above it have since been
+made conditional on a tool data profile — see "What has been fixed" below.
+
+## What has been fixed
+
+The fallback's blanket privacy claim was not merely thin, it was false on 16 pages. It is
+now branched on a `ToolDataProfile` discriminant in `tool-content.ts`:
+
+| profile | claim the fallback is allowed to make | slugs |
+|---|---|---|
+| `on-device` (default) | processed locally, never uploaded, works offline | the majority |
+| `model-download` | content stays local, **but** model files come from a third-party CDN on first use and it is not offline-capable until cached | 14 |
+| `remote-data` | needs a connection; the third party sees the request; input stays local | `currency-converter` |
+| `remote-processing` | **not** on-device — content is sent away to be processed; don't use it for anything confidential | `speech-to-text` |
+| `no-user-data` | no privacy paragraph at all, because there is no data | 8 |
+
+Two findings worth recording:
+
+- **`speech-to-text` was the serious one.** It uses the Web Speech API, which Chrome and
+  Edge implement server-side — the browser streams the user's recorded audio to the vendor.
+  The page was telling people their data never left their device while their voice was
+  being uploaded. No `fetch()` scan catches this, because there is no fetch; it is pinned
+  by an explicit test instead.
+- **Tesseract is a partial case.** `scripts/copy-tesseract.js` self-hosts the worker and
+  wasm core under `/public/tesseract`, so those are genuinely local — but the language
+  `traineddata` still loads once from the tessdata CDN. "Fully offline" is false for
+  `image-to-text`; "your image is never uploaded" remains true. The `model-download` copy is
+  written to hold exactly that line.
+
+The classification is enforced by `src/__tests__/lib/tool-data-profile.test.ts`, which walks
+each tool page's local import graph and cross-checks the map against the code in both
+directions. Adding an AI tool through an existing loader, or any absolute-URL `fetch`, fails
+the suite until the map is updated. The one thing it cannot infer is a brand-new
+model-loading library, so `MODEL_ASSET_SOURCES` in that test is the list to extend.
+
+`no-user-data` is the only category the test cannot verify, and deliberately so: getting it
+wrong omits an accurate paragraph rather than publishing a false one.
 
 ## Where templated content reads as thin — and worse
 
@@ -23,10 +59,11 @@ for the tool name.
 `webcam-test`, `mic-test`, `typing-test`, `emoji-picker`, `random-picker`,
 `wheel-of-names`, `periodic-table`.
 
-The fallback tells the reader that "your data is never uploaded to a server" on a page
-whose tool has no data. It isn't false, it's non-responsive — the textual equivalent of
-answering a question nobody asked. A human reading `/tools/stopwatch` learns nothing;
-an LLM summarising the page has nothing to extract but the site's marketing line.
+The fallback used to tell the reader that "your data is never uploaded to a server" on a
+page whose tool has no data — not false, but non-responsive, the textual equivalent of
+answering a question nobody asked. Eight of these are now on the `no-user-data` profile and
+say so instead. The rest of the cluster is still on the default profile and would benefit
+from the same treatment; extending that list is cheap and low-risk.
 
 ### 2. Local-storage apps, where the template omits the one thing that matters
 
@@ -48,11 +85,13 @@ closest to being a user-harm issue rather than an SEO issue.
 
 Every one of these downloads model weights from a third-party CDN on first use, runs a
 model materially smaller than the hosted equivalent, is slow or fails outright when it
-falls back from WebGPU to WASM, and can exhaust memory on a phone. The fallback says
-"runs entirely in your browser — your data is never uploaded to a server." That is
-defensible but incomplete: the page is silent about a several-hundred-megabyte download
-from `huggingface.co`, and a careful reader will notice the gap and trust the rest of the
-page less. This is the highest-priority cluster after the pilot.
+falls back from WebGPU to WASM, and can exhaust memory on a phone.
+
+The download is now disclosed by the `model-download` fallback copy. The rest is not: the
+template still cannot say that this model is small, that WASM fallback may be slower than
+real time, or that a phone will run out of memory. Those are per-tool facts and they are
+the whole story of the page. This remains the highest-priority cluster for hand-written
+copy after the pilot.
 
 ### 4. ffmpeg.wasm / codec-bound media tools
 
@@ -146,17 +185,22 @@ But "lighter" should mean *different*, not *the same but shorter*:
    which is strictly worse than silence. The current implementation enforces this — the
    fallback emits no `limitations` and the component renders nothing when the array is
    absent.
-2. **Split the fallback in two.** Tools that process user data get the current privacy
-   paragraph. Tools that process nothing — a stopwatch, a colour picker, a keyboard tester
-   — should get a fallback that says what the tool does and stops, instead of a privacy
-   assurance about data that does not exist.
-3. **Stop emitting `FAQPage` JSON-LD for fallback content.** 122 URLs currently carry
-   near-identical `FAQPage` markup — same three questions, same three answers, one
-   substituted noun. Google has been suppressing FAQ rich results for non-authoritative
-   sites since 2023, so the upside is close to zero, while near-duplicate structured data
-   across 122 URLs is a real pattern-detection risk. Keep `SoftwareApplication` and
-   `BreadcrumbList`, which are accurate and non-duplicative. This is the single cheapest
-   improvement available and it is a deletion.
+2. **Split the fallback by data profile.** *Done* — see "What has been fixed".
+3. **Stop emitting `FAQPage` JSON-LD for fallback content.** *Done*, but decided on
+   correctness rather than on ranking folklore. Duplicate FAQPage markup across 122 URLs
+   mostly just fails to earn rich results; it is not a penalty, and that was the wrong
+   argument to make. The right one is that `FAQPage` asserts these are questions
+   frequently asked *about this specific tool*, and for a template that assertion is
+   simply not true. `SoftwareApplication` and `BreadcrumbList` are accurate and are still
+   emitted for every page.
+
+   The on-page FAQ prose got the same test applied to it. For `on-device` and
+   `no-user-data` tools every templated question was one nobody asked, so the fallback now
+   emits none at all — the About paragraph already carries the content. The three
+   network-touching profiles keep a single question ("does this work offline?") because the
+   answer is a real, non-obvious fact that changes how the reader uses the tool. That is
+   profile-aware rather than genuinely tool-aware, which is why it earns one question and
+   not three.
 
 ## Cost of expanding `ToolContentLocale` from `{en, ar}` to all 9 locales
 

@@ -113,11 +113,54 @@ describe("ToolSeoContent", () => {
     mockedUsePathname.mockReturnValue("/tools/todo");
     render(<ToolSeoContent />);
     expect(screen.getByTestId("tool-seo-content")).toBeInTheDocument();
-    // Fallback FAQ always asks the "really free" question.
-    expect(screen.getByText(/really free/i)).toBeInTheDocument();
-    // Still emits a FAQPage.
+    // The on-device fallback still describes the tool and its privacy posture.
+    expect(screen.getByText(/never uploaded to a server/i)).toBeInTheDocument();
+    // SoftwareApplication is still emitted for fallback pages.
+    const app = getJsonLdScripts().find(
+      (s) => s["@type"] === "SoftwareApplication"
+    );
+    expect(app).toBeDefined();
+  });
+
+  it("emits no FAQPage for templated fallback content", () => {
+    mockedUsePathname.mockReturnValue("/tools/todo");
+    render(<ToolSeoContent />);
+    // A templated question is not evidence anyone asks it about this tool.
     const faq = getJsonLdScripts().find((s) => s["@type"] === "FAQPage");
-    expect(faq).toBeDefined();
+    expect(faq).toBeUndefined();
+    // ...but the accurate SoftwareApplication/Breadcrumb graphs remain.
+    expect(getJsonLdScripts().length).toBeGreaterThan(0);
+  });
+
+  it("discloses the first-use model download on AI tool fallbacks", () => {
+    // image-upscaler has no bespoke entry and pulls weights from a CDN.
+    mockedUsePathname.mockReturnValue("/tools/image-upscaler");
+    render(<ToolSeoContent />);
+    expect(
+      screen.getByText(/downloaded from a third-party CDN/i)
+    ).toBeInTheDocument();
+    expect(screen.getByText(/Does .* work offline\?/i)).toBeInTheDocument();
+  });
+
+  it("does not claim on-device processing for speech-to-text", () => {
+    // Chrome and Edge implement the Web Speech API server-side.
+    mockedUsePathname.mockReturnValue("/tools/speech-to-text");
+    render(<ToolSeoContent />);
+    expect(screen.getByText(/off your device/i)).toBeInTheDocument();
+    expect(
+      screen.queryByText(/never uploaded to a server/i)
+    ).not.toBeInTheDocument();
+  });
+
+  it("omits the privacy paragraph for tools that take no user content", () => {
+    mockedUsePathname.mockReturnValue("/tools/stopwatch");
+    render(<ToolSeoContent />);
+    expect(
+      screen.getByText(/nothing here to upload or store/i)
+    ).toBeInTheDocument();
+    expect(
+      screen.queryByText(/never uploaded to a server/i)
+    ).not.toBeInTheDocument();
   });
 
   it("renders nothing outside of a /tools/ path", () => {
