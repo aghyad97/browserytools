@@ -111,7 +111,7 @@ const ilovepdf: Comparison = {
   slug: "ilovepdf",
   competitor: "iLovePDF",
   metaTitle:
-    "A free iLovePDF alternative that doesn't upload your files | BrowseryTools",
+    "A free iLovePDF alternative that doesn't upload your files",
   metaDescription:
     "An honest comparison: our PDF tools run in your browser tab and never upload the document, but iLovePDF wins on OCR, batch, an API and e-signatures. Where each one is genuinely better.",
   tools: [
@@ -359,7 +359,7 @@ const smallpdf: Comparison = {
   slug: "smallpdf",
   competitor: "Smallpdf",
   metaTitle:
-    "A free Smallpdf alternative with no upload and no account | BrowseryTools",
+    "A free Smallpdf alternative with no upload and no account",
   metaDescription:
     "Our PDF tools run in your browser and never upload the file. Smallpdf uploads to audited EU servers and deletes after an hour — and beats us on OCR, compression quality and batch. The honest comparison.",
   tools: [
@@ -605,7 +605,7 @@ const tinypng: Comparison = {
   slug: "tinypng",
   competitor: "TinyPNG",
   metaTitle:
-    "A free TinyPNG alternative that compresses images without uploading | BrowseryTools",
+    "A free TinyPNG alternative that compresses images without uploading",
   metaDescription:
     "Our image compressor runs on a canvas in your browser, so the photo is never uploaded. TinyPNG's quantization engine will usually produce a smaller file than ours. Here is exactly where each one wins.",
   tools: [
@@ -856,7 +856,7 @@ const removebg: Comparison = {
   slug: "remove-bg",
   competitor: "remove.bg",
   metaTitle:
-    "A free remove.bg alternative with full-resolution output | BrowseryTools",
+    "A free remove.bg alternative with full-resolution output",
   metaDescription:
     "Our background remover runs on your device and returns your image at full size for free, where remove.bg's free preview is capped at 0.25 megapixels. But their edge quality on hair beats ours. The honest comparison.",
   tools: ["bg-removal", "crop-image", "image-resizer", "image-compression"],
@@ -1084,7 +1084,7 @@ const otter: Comparison = {
   slug: "otter-ai",
   competitor: "Otter.ai",
   metaTitle:
-    "A free Otter.ai alternative that transcribes without uploading audio | BrowseryTools",
+    "A free Otter.ai alternative that transcribes without uploading audio",
   metaDescription:
     "Our transcriber runs Whisper in your browser with no minute limit and no account, but it is the base model with no speaker labels. Otter.ai wins on accuracy, diarisation and meeting features. Honest comparison.",
   tools: ["audio-transcriber", "subtitle-studio", "video-to-audio", "text-summarizer"],
@@ -1342,7 +1342,7 @@ const photoshop: Comparison = {
   slug: "photoshop",
   competitor: "Photoshop",
   metaTitle:
-    "Free browser tools for four jobs people open Photoshop for | BrowseryTools",
+    "Free browser tools for four jobs people open Photoshop for",
   metaDescription:
     "Not a Photoshop replacement. An honest look at four narrow jobs — background removal, resizing, export compression and format conversion — where a free browser tool is enough, and where Photoshop is plainly better.",
   tools: [
