@@ -2,14 +2,27 @@
 // Per-tool on-page SEO content registry.
 //
 // Each tool slug (the path segment after /tools/) maps to bilingual content:
-//   - intro:    1–2 paragraph "About / how it works" copy
-//   - faq:      3–6 question/answer pairs (feeds FAQPage JSON-LD)
-//   - steps:    optional "how to use" steps (feeds HowTo JSON-LD)
-//   - related:  related tool slugs (internal links — strong for SEO)
+//   - intro:          1–2 paragraph "About / how it works" copy
+//   - whyClientSide:  optional single paragraph on why THIS tool running
+//                     on-device matters. Must be tool-specific. If a tool has no
+//                     real privacy angle, say so honestly instead of inventing
+//                     one — omit the field rather than writing filler.
+//   - limitations:    optional 2–4 plain-language honest limitations. Deliberately
+//                     unflattering where the client-side build is genuinely weaker
+//                     than a server-side competitor. NEVER fed to JSON-LD — this
+//                     is prose for humans, not a structured claim. Omit the field
+//                     entirely when the real limitations aren't known; do not
+//                     generate filler.
+//   - faq:            3–6 question/answer pairs (feeds FAQPage JSON-LD)
+//   - steps:          optional "how to use" steps (feeds HowTo JSON-LD)
+//   - related:        related tool slugs (internal links — strong for SEO)
 //
 // All content is hand-authored and factual. Tools without a bespoke entry get a
 // templated fallback derived from their name/description/category (see
 // buildFallbackContent) so EVERY tool page still gets indexable on-page content.
+// The fallback intentionally emits NO whyClientSide and NO limitations: a
+// templated "limitation" would be an invented claim about a tool nobody has
+// reviewed.
 //
 // This is a pure static data module — no client fetching, no runtime cost.
 // ──────────────────────────────────────────────────────────────────────────────
@@ -22,6 +35,20 @@ export interface FaqItem {
 export interface ToolContentLocale {
   /** 1–2 paragraphs. Plain text; rendered as <p> blocks split on "\n\n". */
   intro: string;
+  /**
+   * Optional. One short paragraph on why running THIS tool on-device matters.
+   * Must be specific to the tool — a generic "your files never leave your
+   * device" repeated across the catalogue is worse than omitting the field.
+   * Where a tool has no genuine privacy stake, say that plainly and lead with
+   * the real benefit (instant, offline, no upload wait) instead.
+   */
+  whyClientSide?: string;
+  /**
+   * Optional. 2–4 honest, plain-language limitations. Rendered as prose only —
+   * deliberately excluded from FAQPage and every other JSON-LD graph.
+   * Omit rather than invent: an empty list renders nothing.
+   */
+  limitations?: string[];
   faq: FaqItem[];
   /** Optional ordered "how to" steps. Emits HowTo JSON-LD when present. */
   steps?: string[];
@@ -414,39 +441,59 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["yaml-json", "json-csv", "json-to-ts", "base64"],
     en: {
       intro:
-        "The JSON Formatter pretty-prints, validates, and minifies JSON. Paste raw or messy JSON and it re-indents the structure with consistent spacing and syntax highlighting, making nested objects and arrays easy to read.\n\nIf the JSON is invalid, it points out the error so you can fix it quickly. You can also sort object keys for consistent diffs, or minify the output to remove all whitespace before shipping to production. Everything runs in your browser — your data is never sent to a server.",
+        "The JSON Formatter pretty-prints, validates and minifies JSON. Paste a raw or mangled payload and it re-indents the structure at two or four spaces, so nested objects and arrays become readable again.\n\nIf the JSON won't parse, the exact parser message is shown along with the line it gave up on — usually enough to spot the trailing comma or unclosed bracket in a few seconds. There's also a sort-keys switch that recursively alphabetises every object, which turns two differently-ordered API responses into a clean diff, and a minify button that strips all whitespace back out.\n\nIt uses the browser's own JSON parser, so what it accepts is exactly what your code will accept — no more forgiving, no less. Everything happens in the tab; the payload is never sent anywhere.",
+      whyClientSide:
+        "The JSON people need to format is usually a live API response, which means it routinely contains a bearer token, a session cookie, a Stripe object, an internal user record, or a customer's address and phone number. Pasting that into a formatter that posts to a server is a small data-leak you perform on yourself, and a surprising number of popular online formatters do exactly that. Here JSON.parse runs in your tab and the string never leaves it — which also means the tool keeps working on a locked-down corporate network, or on a plane.",
+      limitations: [
+        "It accepts strict JSON only, because it is the browser's own parser. Comments, trailing commas, single-quoted strings, unquoted keys and other JSON5 or JSONC conveniences are all rejected — handy if you're validating what a strict server will accept, frustrating if you're editing a tsconfig.",
+        "Numbers pass through JavaScript's number type. Integer IDs beyond 9,007,199,254,740,991 — Discord and Twitter snowflakes, some database keys — and high-precision decimals will come back subtly changed after formatting. If your payload has large IDs, don't round-trip it through here.",
+        "Duplicate keys in the same object are silently collapsed to the last one, and keys that look like integers get reordered ahead of the rest by JavaScript's own property ordering. Both are standard parser behaviour, and both mean the formatted output is not always a byte-faithful reordering of your input.",
+        "It's a formatter, not an editor: no collapsible tree view, no JSONPath or query support, no schema validation, and no diff. The input is a plain text area, so multi-megabyte documents will make typing sluggish.",
+      ],
       faq: [
         {
           q: "Is my JSON sent to a server?",
-          a: "No. Parsing, formatting, and validation all happen locally in your browser, so sensitive payloads stay on your machine.",
+          a: "No. Parsing, formatting and validation all run locally in your browser, so payloads containing tokens or customer data stay on your machine. There's no account and no signup.",
         },
         {
           q: "What does minifying JSON do?",
-          a: "Minifying removes all unnecessary whitespace and line breaks, producing the smallest valid JSON. This reduces payload size for APIs and production builds.",
+          a: "Minifying removes all unnecessary whitespace and line breaks, producing the smallest valid JSON. That reduces payload size for APIs and production builds.",
         },
         {
           q: "Why does it say my JSON is invalid?",
-          a: "Common causes are trailing commas, single quotes instead of double quotes, unquoted keys, or missing brackets. The validator highlights where parsing fails.",
+          a: "Most often a trailing comma, single quotes instead of double quotes, an unquoted key, or a missing bracket. The tool shows the parser's own message and the line it failed on.",
+        },
+        {
+          q: "Can it handle comments or trailing commas?",
+          a: "No. It uses the browser's strict JSON parser, so anything JSON5/JSONC-style is rejected. Strip comments first, or use a JSON5-aware editor.",
         },
         {
           q: "Can it sort object keys?",
-          a: "Yes. Sorting keys alphabetically produces a canonical order, which is handy for comparing two JSON documents in a diff.",
+          a: "Yes. The sort-keys switch alphabetises every object recursively, which gives two JSON documents a canonical order and makes them comparable in a diff.",
         },
       ],
       steps: [
         "Paste your JSON into the input area.",
-        "Choose Format to pretty-print, or Minify to compact it.",
-        "Review any validation errors and fix them.",
-        "Copy or download the result.",
+        "Set the indent to 2 or 4 spaces, and turn on sort keys if you need a canonical order.",
+        "Choose Format to pretty-print, Minify to compact it, or Validate to just check it.",
+        "Fix any reported parse error, then copy or download the result.",
       ],
     },
     ar: {
       intro:
-        "تقوم أداة تنسيق JSON بتجميل وتحقق وتصغير بيانات JSON. الصق بيانات JSON الخام أو غير المرتبة، فتعيد الأداة ترتيب البنية بمسافات بادئة متناسقة وتظليل لبناء الجملة، ما يسهّل قراءة الكائنات والمصفوفات المتداخلة.\n\nوإذا كانت البيانات غير صالحة، تشير الأداة إلى موضع الخطأ لتصلحه بسرعة. يمكنك أيضًا ترتيب مفاتيح الكائن للحصول على فروقات متناسقة، أو تصغير الخرج بإزالة كل المسافات قبل النشر للإنتاج. تعمل كل العمليات في متصفحك ولا تُرسَل بياناتك إلى أي خادم.",
+        "تجمّل أداة تنسيق JSON بياناتك وتتحقق منها وتصغّرها. الصق حمولة خام أو مشوّشة، فتعيد الأداة ترتيب البنية بمسافة بادئة من مسافتين أو أربع، لتعود الكائنات والمصفوفات المتداخلة قابلة للقراءة.\n\nوإن تعذّر تحليل البيانات، تعرض الأداة رسالة المحلّل نفسها مع رقم السطر الذي توقف عنده — وهذا يكفي عادةً لاكتشاف الفاصلة الزائدة أو القوس غير المغلق خلال ثوانٍ. وهناك أيضًا مفتاح لترتيب المفاتيح يرتّب كل كائن أبجديًا وبشكل متكرر، فيحوّل استجابتَي واجهة برمجة مختلفتَي الترتيب إلى فرق نظيف، وزر تصغير يزيل كل المسافات.\n\nتستخدم الأداة محلّل JSON الخاص بالمتصفح، فما تقبله هو تمامًا ما ستقبله شفرتك — لا أكثر تسامحًا ولا أقل. كل شيء يجري داخل التبويب، ولا تغادر الحمولة متصفحك.",
+      whyClientSide:
+        "بيانات JSON التي يحتاج الناس إلى تنسيقها هي غالبًا استجابة واجهة برمجة حيّة، أي أنها تحتوي عادةً على رمز وصول، أو كوكي جلسة، أو كائن دفع، أو سجل مستخدم داخلي، أو عنوان عميل ورقم هاتفه. ولصق ذلك في أداة تنسيق ترسل البيانات إلى خادم هو تسريب صغير تُنفّذه بنفسك على نفسك، وعدد مفاجئ من أدوات التنسيق الشائعة يفعل ذلك بالضبط. هنا يعمل JSON.parse داخل تبويبك ولا يغادره النص — وهذا يعني أيضًا أن الأداة تبقى تعمل على شبكة شركة مقيّدة، أو على متن طائرة.",
+      limitations: [
+        "تقبل الأداة JSON الصارم فقط، لأنها تستخدم محلّل المتصفح نفسه. فالتعليقات والفواصل الزائدة والنصوص بعلامات اقتباس مفردة والمفاتيح غير المقتبسة وسائر تسهيلات JSON5 وJSONC مرفوضة كلها — وهذا مفيد إن كنت تتحقق مما سيقبله خادم صارم، ومزعج إن كنت تحرّر ملف tsconfig.",
+        "تمر الأرقام عبر نوع الأعداد في جافاسكربت. لذا معرّفات الأعداد الصحيحة التي تتجاوز 9,007,199,254,740,991 — مثل معرّفات Discord وTwitter وبعض مفاتيح قواعد البيانات — والأعداد العشرية عالية الدقة تعود متغيّرة قليلًا بعد التنسيق. إن كانت حمولتك تحوي معرّفات كبيرة، فلا تمرّرها عبر هذه الأداة ذهابًا وإيابًا.",
+        "المفاتيح المكرّرة داخل الكائن نفسه تُختزل بصمت إلى آخر واحد، والمفاتيح التي تبدو أعدادًا صحيحة تتقدّم على البقية بحكم ترتيب الخصائص في جافاسكربت. وكلاهما سلوك قياسي للمحلّل، وكلاهما يعني أن الخرج المنسّق ليس دائمًا إعادة ترتيب مطابقة تمامًا لمدخلك.",
+        "هذه أداة تنسيق لا محرّر: لا عرض شجري قابل للطي، ولا دعم لـ JSONPath أو الاستعلامات، ولا تحقق من المخطط، ولا مقارنة فروقات. وحقل الإدخال نص عادي، لذا تصبح الكتابة بطيئة مع المستندات التي تبلغ عدة ميغابايتات.",
+      ],
       faq: [
         {
           q: "هل تُرسَل بيانات JSON إلى خادم؟",
-          a: "لا. يتم التحليل والتنسيق والتحقق محليًا في متصفحك، لذا تبقى البيانات الحساسة على جهازك.",
+          a: "لا. يجري التحليل والتنسيق والتحقق محليًا في متصفحك، فتبقى الحمولات التي تحوي رموز وصول أو بيانات عملاء على جهازك. ولا حساب ولا تسجيل.",
         },
         {
           q: "ماذا يفعل تصغير JSON؟",
@@ -454,18 +501,22 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "لماذا تظهر رسالة أن JSON غير صالح؟",
-          a: "الأسباب الشائعة هي الفواصل الزائدة، أو علامات اقتباس مفردة بدل المزدوجة، أو مفاتيح غير محاطة باقتباس، أو أقواس ناقصة. يبيّن المدقق موضع فشل التحليل.",
+          a: "غالبًا بسبب فاصلة زائدة، أو علامات اقتباس مفردة بدل المزدوجة، أو مفتاح غير مقتبس، أو قوس ناقص. تعرض الأداة رسالة المحلّل نفسه والسطر الذي فشل عنده.",
+        },
+        {
+          q: "هل تتعامل مع التعليقات أو الفواصل الزائدة؟",
+          a: "لا. تستخدم الأداة محلّل JSON الصارم في المتصفح، فيُرفض كل ما هو على نمط JSON5 أو JSONC. أزل التعليقات أولًا، أو استخدم محرّرًا يدعم JSON5.",
         },
         {
           q: "هل يمكنها ترتيب مفاتيح الكائن؟",
-          a: "نعم. ترتيب المفاتيح أبجديًا ينتج ترتيبًا موحّدًا، وهو مفيد عند مقارنة وثيقتي JSON.",
+          a: "نعم. يرتّب مفتاح ترتيب المفاتيح كل كائن أبجديًا وبشكل متكرر، فيمنح وثيقتَي JSON ترتيبًا موحّدًا ويجعل مقارنتهما ممكنة.",
         },
       ],
       steps: [
         "الصق بيانات JSON في حقل الإدخال.",
-        "اختر التنسيق للتجميل أو التصغير لضغطها.",
-        "راجع أي أخطاء تحقق وصححها.",
-        "انسخ النتيجة أو نزّلها.",
+        "اضبط المسافة البادئة على مسافتين أو أربع، وفعّل ترتيب المفاتيح إن احتجت ترتيبًا موحّدًا.",
+        "اختر «تنسيق» للتجميل، أو «تصغير» للضغط، أو «تحقق» للفحص فقط.",
+        "صحّح أي خطأ تحليل معروض، ثم انسخ النتيجة أو نزّلها.",
       ],
     },
   },
@@ -526,6 +577,362 @@ export const toolContent: Record<string, ToolContent> = {
         "اختر صيغة الخرج.",
         "حوّل وعاين النتيجة.",
         "نزّل الصور المحوّلة.",
+      ],
+    },
+  },
+
+  "bg-removal": {
+    related: [
+      "object-cutout",
+      "image-compression",
+      "image-converter",
+      "photo-collage",
+    ],
+    en: {
+      intro:
+        "Background Removal cuts the subject out of a photo and hands back a PNG with a transparent background. It's the step before a product goes onto a white marketplace listing, a headshot goes into a slide deck, or a shot of a logo gets dropped onto a coloured banner.\n\nThe cutout is produced by an ISNet segmentation model running inside your browser — on WebGPU where the browser supports it, and on WebAssembly where it doesn't. Drop in one image or a whole batch; each is processed in turn, and you can save them one by one or download the lot as a ZIP. A before/after toggle lets you check the edges before you commit to the result.\n\nNo account, no credits, no per-image charge, and no watermark on the output.",
+      whyClientSide:
+        "Two things change when the model runs on your machine instead of someone's GPU cluster. The first is money: hosted background removers meter you because every cutout costs them GPU time, which is why the free tier hands back a low-resolution preview and the full-size file sits behind credits. There's no bill to pass on here, so you get the full resolution of whatever you put in, as often as you like. The second is that these photos are frequently personal or not yet public — ID and passport photos, a child's picture for a school project, product shots under embargo before a launch. Those stay in the tab. The one thing that does cross the network is the model itself, fetched from the imgly CDN the first time you use the tool.",
+      limitations: [
+        "Fine detail is where this loses to a paid service. Segmentation runs at a fixed 1024×1024 internally and the resulting mask is scaled back up to your image's real dimensions, so wispy hair, fur, chain-link, netting, motion blur and semi-transparent things like glass or a veil come back rough or partly eaten. Feeding it a bigger photo doesn't buy a more detailed edge — the model never sees those extra pixels.",
+        "The output is a transparent PNG and nothing else. There's no background replacement: no solid colour, no new backdrop, no drop shadow, no re-cropping. You'll need a second tool to composite the cutout onto something.",
+        "The first run downloads the model from a CDN, so the tool needs a connection the first time and the download is noticeable on a slow link. The files land in the ordinary browser HTTP cache rather than durable storage, so clearing site data means downloading them again.",
+        "Everything runs on the page's main thread and the per-image progress bar doesn't actually move — it sits at zero until an image finishes. A batch of large photos will make the tab unresponsive with no useful indication of how far along it is, and there's no cancel.",
+      ],
+      faq: [
+        {
+          q: "Is there a free background remover with no signup and no watermark?",
+          a: "This is one. There's no account, no credits and no watermark, and you get the full resolution of the image you put in rather than a downscaled preview.",
+        },
+        {
+          q: "Are my photos uploaded to remove the background?",
+          a: "No. The image is processed inside the browser tab and never sent anywhere. The only network request is the one-time download of the AI model files from a CDN.",
+        },
+        {
+          q: "Is it as good as a paid service like remove.bg?",
+          a: "On clean subjects with defined edges — products, people against a plain wall, objects on a table — the results are comparable. On hair, fur, fine mesh, motion blur or anything semi-transparent, a paid service running a larger model at higher resolution will usually cut more accurately. Check the before/after toggle before you use the result.",
+        },
+        {
+          q: "Can I replace the background with a colour or another image?",
+          a: "Not here. The tool gives you a transparent PNG; putting something behind it is a separate step in an image editor or collage tool.",
+        },
+        {
+          q: "Can I do several images at once?",
+          a: "Yes. Drop in a batch and they're processed one after another, then download them individually or all together as a ZIP.",
+        },
+      ],
+      steps: [
+        "Drop in one or more PNG or JPG images.",
+        "Wait while the subject is cut out — the first run also downloads the model.",
+        "Use the before/after toggle to check the edges.",
+        "Download the transparent PNGs individually, or the whole batch as a ZIP.",
+      ],
+    },
+    ar: {
+      intro:
+        "تقتطع أداة «إزالة الخلفية» الموضوع من الصورة وتعيده لك بصيغة PNG بخلفية شفافة. إنها الخطوة التي تسبق نشر منتج في قائمة تسوّق بخلفية بيضاء، أو إدراج صورة شخصية في عرض تقديمي، أو وضع لقطة شعار فوق لافتة ملوّنة.\n\nيُنتَج القَص بنموذج تجزئة من عائلة ISNet يعمل داخل متصفحك — على WebGPU حيث يدعمه المتصفح، وعلى WebAssembly حيث لا يدعمه. أسقط صورة واحدة أو دفعة كاملة؛ تُعالَج كل صورة بدورها، ويمكنك حفظها واحدة تلو الأخرى أو تنزيلها كلها في ملف ZIP. وهناك مفتاح «قبل/بعد» لتفحص الحواف قبل اعتماد النتيجة.\n\nلا حساب ولا أرصدة ولا رسوم لكل صورة ولا علامة مائية على الناتج.",
+      whyClientSide:
+        "يتغيّر أمران حين يعمل النموذج على جهازك بدل عنقود معالجات رسومية عند طرف آخر. الأول هو المال: خدمات إزالة الخلفية المستضافة تحسب عليك مقابلًا لأن كل عملية قص تكلّفها وقت معالجة، ولهذا تعيد لك الخطة المجانية معاينة منخفضة الدقة بينما يبقى الملف بحجمه الكامل خلف الأرصدة. لا توجد هنا فاتورة تُمرَّر إليك، فتحصل على الدقة الكاملة لما أدخلته، وبقدر ما تشاء. والثاني أن هذه الصور شخصية أو غير منشورة بعد في الغالب — صور هوية وجواز سفر، أو صورة طفل لمشروع مدرسي، أو لقطات منتج قبل إطلاقه. هذه كلها تبقى داخل التبويب. الشيء الوحيد الذي يعبر الشبكة هو النموذج نفسه، ويُجلَب من شبكة توصيل محتوى تابعة لـ imgly عند أول استخدام.",
+      limitations: [
+        "التفاصيل الدقيقة هي موضع تفوّق الخدمات المدفوعة. تجري التجزئة داخليًا بدقة ثابتة 1024×1024 ثم يُكبَّر القناع الناتج إلى أبعاد صورتك الحقيقية، لذا تعود خصلات الشعر الرفيعة والفراء والشِّباك والحواف الضبابية والأشياء شبه الشفافة كالزجاج أو الطرحة خشنة أو منقوصة. وإدخال صورة أكبر لا يمنحك حافة أدق — فالنموذج لا يرى تلك البكسلات الزائدة أصلًا.",
+        "الناتج صورة PNG شفافة ولا شيء غير ذلك. لا استبدال للخلفية: لا لون ثابت، ولا خلفية جديدة، ولا ظل، ولا إعادة قص. ستحتاج أداة ثانية لتركيب القَص فوق شيء آخر.",
+        "التشغيل الأول ينزّل النموذج من شبكة توصيل محتوى، فتحتاج الأداة إلى اتصال في المرة الأولى، ويكون التنزيل ملحوظًا على وصلة بطيئة. وتُحفَظ الملفات في ذاكرة المتصفح المؤقتة العادية لا في تخزين دائم، فمسح بيانات الموقع يعني تنزيلها من جديد.",
+        "كل شيء يجري على الخيط الرئيسي للصفحة، وشريط التقدّم لكل صورة لا يتحرك فعليًا — يبقى عند الصفر حتى تنتهي الصورة. لذا تجعل دفعة من الصور الكبيرة التبويب لا يستجيب دون مؤشر مفيد على مدى التقدّم، ولا يوجد زر إلغاء.",
+      ],
+      faq: [
+        {
+          q: "هل توجد أداة مجانية لإزالة الخلفية بلا تسجيل وبلا علامة مائية؟",
+          a: "هذه واحدة منها. لا حساب ولا أرصدة ولا علامة مائية، وتحصل على الدقة الكاملة للصورة التي أدخلتها بدل معاينة مصغّرة.",
+        },
+        {
+          q: "هل تُرفع صوري لإزالة الخلفية؟",
+          a: "لا. تُعالَج الصورة داخل تبويب المتصفح ولا تُرسَل إلى أي مكان. الطلب الوحيد عبر الشبكة هو تنزيل ملفات نموذج الذكاء الاصطناعي مرة واحدة من شبكة توصيل محتوى.",
+        },
+        {
+          q: "هل هي بجودة خدمة مدفوعة مثل remove.bg؟",
+          a: "مع المواضيع النظيفة ذات الحواف الواضحة — منتجات، أو أشخاص أمام جدار سادة، أو أغراض على طاولة — تكون النتائج متقاربة. أما مع الشعر والفراء والشِّباك الدقيقة والحواف الضبابية وأي شيء شبه شفاف، فالخدمة المدفوعة التي تشغّل نموذجًا أكبر بدقة أعلى تقصّ عادةً بدقة أفضل. راجع مفتاح «قبل/بعد» قبل اعتماد النتيجة.",
+        },
+        {
+          q: "هل يمكنني استبدال الخلفية بلون أو بصورة أخرى؟",
+          a: "ليس هنا. تعطيك الأداة صورة PNG شفافة، ووضع شيء خلفها خطوة منفصلة في محرّر صور أو أداة تجميع.",
+        },
+        {
+          q: "هل يمكنني معالجة عدة صور دفعة واحدة؟",
+          a: "نعم. أسقط دفعة من الصور فتُعالَج واحدة بعد الأخرى، ثم نزّلها فرادى أو مجتمعة في ملف ZIP.",
+        },
+      ],
+      steps: [
+        "أسقط صورة أو أكثر بصيغة PNG أو JPG.",
+        "انتظر اقتطاع الموضوع — التشغيل الأول ينزّل النموذج أيضًا.",
+        "استخدم مفتاح «قبل/بعد» لتفحص الحواف.",
+        "نزّل صور PNG الشفافة فرادى، أو الدفعة كاملة في ملف ZIP.",
+      ],
+    },
+  },
+
+  "image-compression": {
+    related: [
+      "image-converter",
+      "image-resizer",
+      "compress-image-to-100kb",
+      "exif-remover",
+    ],
+    en: {
+      intro:
+        "Image Compression shrinks a photo until it fits wherever it has to go — under an email attachment limit, past a form that rejects anything over 500 KB, or into a page that's loading too slowly. Drop in a PNG, JPG or WebP up to 25 MB and choose how you want to trade quality for size.\n\nThere are four ways to do it. Auto picks a quality based on how big the source is. Aggressive goes hard and doesn't ask. Custom hands you the quality slider. Target size is the interesting one: name a number in kilobytes and the tool searches for a quality that lands under it, then starts reducing the width if quality alone can't get there. You can also cap the output width directly, which is usually the single biggest saving for a photo headed to a web page.\n\nEncoding uses the browser's own image encoder, so there's no upload, no queue, no account and no watermark.",
+      whyClientSide:
+        "Be honest about the stakes: most of the time you're shrinking a holiday photo and nobody cares who sees it. But this tool's most common real job is getting a scanned ID, a signature or a passport photo under a government portal's kilobyte limit — and those are documents you'd rather not hand to a free web service in exchange for a smaller copy of them. The other reason is plain speed. Uploading 20 MB so a server can hand back 200 KB is the slowest possible way to do something your own laptop finishes in about a second, and it fails outright on a weak connection — which is exactly the situation you're usually in when a file is too big to send.",
+      limitations: [
+        "This uses the browser's built-in encoder, which is a blunt instrument next to a dedicated one. A tool built on MozJPEG or oxipng will typically reach a smaller file at the same visual quality. For production assets where the last few percent matter, use a build-time optimiser instead.",
+        "PNG barely benefits, and can come out larger. The image is redrawn from raw pixels with no knowledge of the original's palette or filter choices, so an indexed PNG returns as full RGBA. That's also why PNG isn't offered in target-size mode. To genuinely shrink a PNG, resize it or convert it to WebP or JPEG.",
+        "Every mode redraws the image onto a canvas, which discards all metadata: EXIF, GPS coordinates, camera settings, ICC colour profiles and XMP. Usually that's a privacy bonus, occasionally it's a problem — a wide-gamut photo can shift colour once its profile is gone, and you lose the capture date.",
+        "One image at a time: no batch, no ZIP, a 25 MB ceiling, and no AVIF for either input or output. Encoding runs on the main thread, so a large image briefly freezes the page — and if you pick an output format your browser can't encode, it quietly writes a PNG under the wrong file extension.",
+      ],
+      faq: [
+        {
+          q: "Can I compress an image to an exact size, like 100 KB?",
+          a: "Close to it. Target size mode accepts anything from 5 KB to 5 MB and searches for a quality that fits, dropping the width if quality alone isn't enough. It stops as soon as it's under your number, so results land at or just below the target. If the image can't reach it without becoming unusable, the tool says so and gives you the smallest version it managed.",
+        },
+        {
+          q: "Are my images uploaded to compress them?",
+          a: "No. The file is read and re-encoded inside the browser tab. Nothing is transmitted, there's no account and no signup, and the tool keeps working with no connection at all.",
+        },
+        {
+          q: "Why didn't my PNG get any smaller?",
+          a: "PNG is lossless, so there's no quality dial to turn — the browser simply re-encodes the same pixels, and a palette-based PNG can even grow because it comes back as full colour. Reduce the width, or switch the output format to WebP or JPEG.",
+        },
+        {
+          q: "Does compressing remove the location data from my photo?",
+          a: "Yes, as a side effect. Redrawing through a canvas drops all EXIF, including GPS coordinates and camera details. If stripping metadata is the actual goal, the dedicated EXIF remover is the more direct tool.",
+        },
+        {
+          q: "Which output format should I pick?",
+          a: "WebP for the web — it's usually meaningfully smaller than JPEG at the same quality and is supported everywhere that matters now. JPEG when you need something that any old system will open. Keep the original format when the file has to stay recognisably the same type.",
+        },
+      ],
+      steps: [
+        "Drop in a PNG, JPG or WebP up to 25 MB.",
+        "Choose Auto, Aggressive, Custom quality, or a target size in KB.",
+        "Optionally set the output format and cap the maximum width.",
+        "Compare the original with the compressed version, then download it.",
+      ],
+    },
+    ar: {
+      intro:
+        "تصغّر أداة «ضغط الصور» الصورة حتى تناسب المكان الذي يجب أن تذهب إليه — تحت حد مرفقات البريد، أو عبر نموذج يرفض ما يزيد على 500 كيلوبايت، أو داخل صفحة تحمّلها بطيء. أسقط صورة PNG أو JPG أو WebP حتى 25 ميغابايت، واختر كيف تقايض الجودة بالحجم.\n\nهناك أربع طرق. «تلقائي» يختار جودة بحسب حجم المصدر. و«قوي» يضغط بشدة دون سؤال. و«مخصص» يسلّمك مؤشر الجودة. أما «الحجم المستهدف» فهو الطريقة اللافتة: اكتب رقمًا بالكيلوبايت، فتبحث الأداة عن جودة تنزل تحته، ثم تبدأ بتقليل العرض إن لم تكفِ الجودة وحدها. ويمكنك أيضًا تحديد حد أقصى للعرض مباشرة، وهو عادةً أكبر توفير منفرد لصورة متجهة إلى صفحة ويب.\n\nيستخدم الترميز مرمّز الصور المدمج في المتصفح، فلا رفع ولا طابور ولا حساب ولا علامة مائية.",
+      whyClientSide:
+        "لنكن صريحين بشأن ما هو على المحك: في أغلب الأحيان تصغّر صورة إجازة ولا يعنى أحد بمن يراها. لكن أكثر مهمة حقيقية لهذه الأداة هي إنزال هوية ممسوحة أو توقيع أو صورة جواز سفر تحت حد الكيلوبايت في بوابة حكومية — وهذه مستندات تفضّل ألّا تسلّمها لخدمة ويب مجانية مقابل نسخة أصغر منها. والسبب الآخر هو السرعة ببساطة. فرفع 20 ميغابايت ليعيد لك خادم 200 كيلوبايت هو أبطأ طريقة ممكنة لأمر ينجزه حاسوبك في نحو ثانية، وهو يفشل تمامًا على اتصال ضعيف — وهذا بالضبط وضعك المعتاد حين يكون الملف أكبر من أن يُرسَل.",
+      limitations: [
+        "تستخدم الأداة مرمّز المتصفح المدمج، وهو أداة فظّة مقارنةً بمرمّز متخصص. فأداة مبنية على MozJPEG أو oxipng تصل عادةً إلى ملف أصغر بالجودة البصرية نفسها. ولأصول الإنتاج التي تهمّ فيها النسب الأخيرة، استخدم أداة تحسين ضمن مرحلة البناء.",
+        "صيغة PNG بالكاد تستفيد، وقد تخرج أكبر. فالصورة تُرسَم من جديد من البكسلات الخام دون معرفة بلوحة ألوان الأصل أو خياراته، لذا تعود صورة PNG المفهرسة بألوان RGBA كاملة. ولهذا السبب أيضًا لا تُتاح PNG في وضع الحجم المستهدف. ولتصغير ملف PNG فعليًا، قلّل أبعاده أو حوّله إلى WebP أو JPEG.",
+        "كل الأوضاع تعيد رسم الصورة على لوحة رسم، وهذا يتخلص من كل البيانات الوصفية: EXIF، وإحداثيات الموقع، وإعدادات الكاميرا، وملفات تعريف الألوان ICC وXMP. وهذا مكسب للخصوصية عادةً، ومشكلة أحيانًا — إذ قد تنزاح ألوان صورة واسعة النطاق اللوني بعد فقد ملف تعريفها، وتفقد تاريخ الالتقاط.",
+        "صورة واحدة في كل مرة: لا معالجة دفعات، ولا ملف ZIP، وسقف 25 ميغابايت، ولا دعم لصيغة AVIF دخلًا أو خرجًا. ويجري الترميز على الخيط الرئيسي، فتتجمد الصفحة للحظات مع صورة كبيرة — وإن اخترت صيغة خرج لا يستطيع متصفحك ترميزها، كتبت الأداة ملف PNG بامتداد خاطئ بصمت.",
+      ],
+      faq: [
+        {
+          q: "هل يمكنني ضغط صورة إلى حجم محدد مثل 100 كيلوبايت؟",
+          a: "قريبًا من ذلك. يقبل وضع الحجم المستهدف أي رقم بين 5 كيلوبايت و5 ميغابايت، ويبحث عن جودة تناسبه، ويقلّل العرض إن لم تكفِ الجودة وحدها. ويتوقف فور نزوله تحت رقمك، فتأتي النتيجة عند الهدف أو أقل منه بقليل. وإن تعذّر بلوغه دون أن تصبح الصورة غير صالحة، أخبرتك الأداة وأعطتك أصغر نسخة تمكّنت منها.",
+        },
+        {
+          q: "هل تُرفع صوري لضغطها؟",
+          a: "لا. يُقرأ الملف ويُعاد ترميزه داخل تبويب المتصفح. لا شيء يُرسَل، ولا حساب ولا تسجيل، وتبقى الأداة تعمل بلا اتصال بالإنترنت إطلاقًا.",
+        },
+        {
+          q: "لماذا لم يصغر ملف PNG لدي؟",
+          a: "صيغة PNG غير فاقدة، فلا يوجد مؤشر جودة يمكن خفضه — يعيد المتصفح ترميز البكسلات نفسها، وقد تكبر صورة PNG المعتمدة على لوحة ألوان لأنها تعود بألوان كاملة. قلّل العرض، أو بدّل صيغة الخرج إلى WebP أو JPEG.",
+        },
+        {
+          q: "هل يزيل الضغط بيانات الموقع من صورتي؟",
+          a: "نعم، كأثر جانبي. إعادة الرسم عبر لوحة الرسم تُسقط كل بيانات EXIF، بما فيها إحداثيات الموقع وتفاصيل الكاميرا. وإن كان إزالة البيانات الوصفية هو هدفك الفعلي، فأداة إزالة EXIF المخصصة أنسب.",
+        },
+        {
+          q: "أي صيغة خرج أختار؟",
+          a: "WebP للويب — فهي أصغر بفارق ملموس عن JPEG بالجودة نفسها ومدعومة اليوم في كل ما يهم. وJPEG حين تحتاج ملفًا يفتحه أي نظام قديم. وأبقِ الصيغة الأصلية حين يجب أن يبقى الملف من النوع نفسه.",
+        },
+      ],
+      steps: [
+        "أسقط صورة PNG أو JPG أو WebP حتى 25 ميغابايت.",
+        "اختر «تلقائي» أو «قوي» أو جودة مخصصة أو حجمًا مستهدفًا بالكيلوبايت.",
+        "اضبط صيغة الخرج وحدًا أقصى للعرض إن أردت.",
+        "قارن الأصل بالنسخة المضغوطة ثم نزّلها.",
+      ],
+    },
+  },
+
+  "token-counter": {
+    related: [
+      "context-window",
+      "ai-cost-calculator",
+      "model-comparison",
+      "text-counter",
+    ],
+    en: {
+      intro:
+        "Token Counter tells you how many tokens a piece of text will cost before you send it to a model. Paste a prompt, a document, a system message or a chat transcript, pick a model, and the count updates as you type alongside the character and word counts and a rough price for sending it as input.\n\nTokens are the unit language models actually bill and budget in, and they don't line up with words. Whitespace, punctuation, code, emoji and non-Latin scripts all shift the ratio, which is why a 1,000-word prompt can be anywhere from 1,100 to well over 2,000 tokens depending on what's in it. Guessing four characters per token is fine until you're near a context limit or a per-request budget, at which point you want the real number.\n\nCounting happens in the page. No API key, no account, no request to anyone.",
+      whyClientSide:
+        "There is nothing confidential about the act of counting tokens, and it would be silly to pretend otherwise. What running locally actually buys you is different: the count updates as you type because there's no round trip, you don't need an API key or a billing relationship with anyone to find out how big your prompt is, and it works with no connection at all. The one genuine privacy note is about the text rather than the number — what people paste in tends to be a production system prompt or a real customer transcript, and that's not material you want to post to a stranger's server just to get an integer back.",
+      limitations: [
+        "Only one real tokenizer runs here: OpenAI's o200k_base. That makes the GPT-4o and GPT-4o mini counts exact. The Claude, Llama 3.3 and Gemini figures are that same count multiplied by a fixed adjustment factor — an approximation, not those vendors' own tokenizers. Treat non-OpenAI numbers as a ballpark, and expect the gap to widen on code, emoji, and non-Latin scripts, which is exactly where tokenizers disagree most.",
+        "The model list is short and current-generation. Older OpenAI models such as GPT-4 and GPT-3.5 use a different encoding (cl100k_base) that isn't selectable here, so counting them against this list will be off.",
+        "The cost figure comes from a price table stored in the app, so it's only as current as the last time that table was updated — providers change prices, and this will not notice. It's also text-only: images, audio, cached-input discounts, batch pricing and fine-tuned rates are not modelled.",
+        "It counts the text you paste and nothing else. A real API call also spends tokens on the system prompt, tool and function definitions, prior conversation turns, and the model's own response — so your actual bill will be higher, often much higher for a long chat.",
+      ],
+      faq: [
+        {
+          q: "How many tokens is my prompt?",
+          a: "Paste it in and the number appears immediately, along with characters and words. For English prose a token is roughly three-quarters of a word, but that ratio falls apart on code, structured data, emoji and non-Latin scripts — which is the reason to count rather than estimate.",
+        },
+        {
+          q: "Do I need an API key or an account?",
+          a: "No. The tokenizer runs in your browser, so there's no key, no signup and no request to any provider. It also works offline once the page has loaded.",
+        },
+        {
+          q: "Is the Claude or Gemini count exact?",
+          a: "No. Only the OpenAI count is exact. Anthropic and Google don't publish browser-runnable tokenizers, so those figures are the OpenAI count adjusted by a fixed factor. Close enough for planning a prompt, not close enough to reconcile an invoice.",
+        },
+        {
+          q: "Is the text I paste sent anywhere?",
+          a: "No. Counting happens entirely in the page — nothing is uploaded, logged or stored, which matters more than it sounds when the thing you're measuring is a production system prompt.",
+        },
+        {
+          q: "Why does my API bill show more tokens than this?",
+          a: "Because a request carries more than the text you measured: the system prompt, tool definitions, the conversation history you're replaying, and the tokens the model generates in reply — output tokens usually cost several times more than input ones.",
+        },
+      ],
+      steps: [
+        "Choose the model you're targeting.",
+        "Paste or type your text into the box.",
+        "Read the token, character and word counts.",
+        "Check the estimated input and output cost for that model.",
+      ],
+    },
+    ar: {
+      intro:
+        "تخبرك أداة «عدّاد الرموز» بعدد الرموز (tokens) التي سيكلّفها نص ما قبل إرساله إلى نموذج. الصق موجّهًا أو مستندًا أو رسالة نظام أو محادثة، واختر نموذجًا، فيتحدّث العدّ أثناء الكتابة إلى جانب عدد الأحرف والكلمات وتقدير تقريبي لسعر إرساله كمدخل.\n\nالرموز هي الوحدة التي تحاسب بها نماذج اللغة فعليًا، وهي لا تطابق الكلمات. فالمسافات وعلامات الترقيم والشفرة البرمجية والرموز التعبيرية والكتابات غير اللاتينية تغيّر النسبة كلها، ولهذا قد يتراوح موجّه من 1,000 كلمة بين 1,100 رمز وأكثر من 2,000 بحسب محتواه. وتقدير أربعة أحرف لكل رمز يكفي حتى تقترب من حد نافذة السياق أو من ميزانية لكل طلب، وعندها تحتاج الرقم الحقيقي.\n\nيجري العدّ داخل الصفحة. لا مفتاح واجهة برمجة، ولا حساب، ولا طلب يُرسَل إلى أحد.",
+      whyClientSide:
+        "لا شيء سرّي في عدّ الرموز، ومن السخف ادّعاء غير ذلك. ما يمنحك إياه التشغيل المحلي هنا شيء آخر: يتحدّث العدّ أثناء الكتابة لأنه لا توجد رحلة ذهاب وإياب، ولا تحتاج مفتاح واجهة برمجة ولا علاقة فوترة مع أحد لتعرف حجم موجّهك، والأداة تعمل بلا اتصال إطلاقًا. أما الملاحظة الوحيدة الحقيقية بشأن الخصوصية فتخص النص لا الرقم — فما يلصقه الناس عادةً هو موجّه نظام في الإنتاج أو محادثة عميل حقيقية، وهذه ليست مادة تودّ إرسالها إلى خادم طرف غريب لتستعيد عددًا صحيحًا.",
+      limitations: [
+        "يعمل هنا مُرمِّز حقيقي واحد فقط: o200k_base من OpenAI. وهذا يجعل عدّ GPT-4o وGPT-4o mini دقيقًا تمامًا. أما أرقام Claude وLlama 3.3 وGemini فهي العدّ نفسه مضروبًا في معامل تعديل ثابت — أي تقدير تقريبي لا مُرمِّزات تلك الجهات. تعامل مع الأرقام غير الخاصة بـ OpenAI كتقدير عام، وتوقّع اتساع الفارق مع الشفرة البرمجية والرموز التعبيرية والكتابات غير اللاتينية، وهي بالضبط مواضع أكبر اختلاف بين المُرمِّزات.",
+        "قائمة النماذج قصيرة وتغطي الجيل الحالي. أما نماذج OpenAI الأقدم مثل GPT-4 وGPT-3.5 فتستخدم ترميزًا مختلفًا (cl100k_base) غير متاح للاختيار هنا، لذا سيكون عدّها مقابل هذه القائمة غير دقيق.",
+        "رقم التكلفة يأتي من جدول أسعار مخزّن داخل التطبيق، فهو محدَّث بقدر آخر تحديث لذلك الجدول — والمزوّدون يغيّرون أسعارهم، ولن تلاحظ الأداة ذلك. كما أنه يغطي النص فقط: فالصور والصوت وخصومات المدخلات المخزّنة وأسعار الدفعات والنماذج المخصَّصة غير محسوبة.",
+        "تعدّ الأداة النص الذي تلصقه ولا شيء غيره. أما الطلب الحقيقي فينفق رموزًا أيضًا على موجّه النظام وتعريفات الأدوات والدوال وأدوار المحادثة السابقة ورد النموذج نفسه — لذا ستكون فاتورتك الفعلية أعلى، وأعلى بكثير غالبًا في محادثة طويلة.",
+      ],
+      faq: [
+        {
+          q: "كم عدد الرموز في موجّهي؟",
+          a: "الصقه فيظهر الرقم فورًا مع عدد الأحرف والكلمات. وفي النثر الإنجليزي يعادل الرمز نحو ثلاثة أرباع الكلمة، لكن هذه النسبة تنهار مع الشفرة البرمجية والبيانات المهيكلة والرموز التعبيرية والكتابات غير اللاتينية — وهذا سبب العدّ بدل التقدير.",
+        },
+        {
+          q: "هل أحتاج مفتاح واجهة برمجة أو حسابًا؟",
+          a: "لا. يعمل المُرمِّز في متصفحك، فلا مفتاح ولا تسجيل ولا طلب يُرسَل إلى أي مزوّد. وتعمل الأداة بلا اتصال بعد تحميل الصفحة.",
+        },
+        {
+          q: "هل عدّ Claude أو Gemini دقيق؟",
+          a: "لا. العدّ الدقيق هو عدّ OpenAI وحده. فشركتا Anthropic وGoogle لا تنشران مُرمِّزات قابلة للتشغيل في المتصفح، لذا تكون تلك الأرقام عدّ OpenAI معدَّلًا بمعامل ثابت. وهذا يكفي لتخطيط موجّه، لا لمطابقة فاتورة.",
+        },
+        {
+          q: "هل يُرسَل النص الذي ألصقه إلى أي مكان؟",
+          a: "لا. يجري العدّ بالكامل داخل الصفحة — لا رفع ولا تسجيل ولا تخزين، وهذا أهم مما يبدو حين يكون ما تقيسه موجّه نظام في الإنتاج.",
+        },
+        {
+          q: "لماذا تُظهر فاتورتي رموزًا أكثر من هذا الرقم؟",
+          a: "لأن الطلب يحمل أكثر من النص الذي قِسته: موجّه النظام، وتعريفات الأدوات، وسجل المحادثة الذي تعيد إرساله، والرموز التي يولّدها النموذج في رده — ورموز الخرج تكلّف عادةً أضعاف رموز الدخل.",
+        },
+      ],
+      steps: [
+        "اختر النموذج الذي تستهدفه.",
+        "الصق نصك أو اكتبه في الحقل.",
+        "اقرأ عدد الرموز والأحرف والكلمات.",
+        "راجع التكلفة التقديرية للدخل والخرج لذلك النموذج.",
+      ],
+    },
+  },
+
+  "audio-transcriber": {
+    related: [
+      "subtitle-studio",
+      "speech-to-text",
+      "video-to-audio",
+      "text-summarizer",
+    ],
+    en: {
+      intro:
+        "Audio/Video Transcriber turns a recording into text on your own machine. Drop in an MP3, WAV, M4A, OGG, MP4 or WebM file and it produces a full transcript plus timestamped segments you can export as SRT or VTT subtitles, or as plain text.\n\nThe speech recognition is Whisper — specifically the base checkpoint — running through Transformers.js in the browser. The first time you use it, the model files download and are cached; after that they're reused. The audio itself is decoded to 16 kHz mono in the page and fed to the model in thirty-second chunks with a five-second overlap so words that fall on a chunk boundary aren't lost.\n\nNo API key, no per-minute charge, no upload of the recording.",
+      whyClientSide:
+        "This is the tool in the catalogue where on-device processing genuinely changes what you're allowed to do. The recordings people want transcribed are therapy sessions, medical dictation, HR investigations, legal depositions, journalists' interviews with sources who were promised confidentiality, and internal all-hands calls. Sending any of those to a hosted transcription API means a copy on someone else's infrastructure, governed by a retention policy and terms you probably haven't read — and in several professions, that alone is a compliance problem regardless of what the vendor promises. Here the audio never leaves the tab. The model travels to your recording instead of your recording travelling to the model.",
+      limitations: [
+        "It runs Whisper base, the small end of the family. A hosted API is almost certainly running something far larger, and the difference shows: expect more errors on strong accents, background noise, crosstalk, proper nouns and technical vocabulary. There are no speaker labels — overlapping speakers come out as one undifferentiated stream of text.",
+        "The first run downloads the model from a CDN. Your audio isn't uploaded, but the tool isn't usable offline until those files are cached, and on a slow connection the wait before transcription even starts is real.",
+        "Speed depends entirely on your hardware. On a browser with WebGPU it's reasonably quick; falling back to WebAssembly can be slower than real time, meaning an hour of audio can take more than an hour. There's no progress indicator during transcription itself and no way to cancel — only the model download shows progress.",
+        "The whole file is decoded into memory before transcription starts, so long recordings can exhaust the tab on a modest machine. There's also no language selector and no translate mode — Whisper detects the language itself and you can't override it — and the segment timestamps are approximate, so subtitles usually need a nudge in a subtitle editor before use.",
+      ],
+      faq: [
+        {
+          q: "Can I transcribe audio to text for free without uploading it?",
+          a: "Yes. The recording is decoded and transcribed inside the browser tab — no upload, no account, no API key and no per-minute charge. The only network activity is downloading the model the first time.",
+        },
+        {
+          q: "How accurate is it compared with a paid transcription service?",
+          a: "Good on clear speech recorded close to the microphone; noticeably worse than a paid service on strong accents, noisy rooms, several people talking at once, and specialist vocabulary. It's running a small model on your laptop rather than a large one on a datacentre GPU, and that gap is real. Plan on editing the output.",
+        },
+        {
+          q: "Can it tell speakers apart?",
+          a: "No. There's no speaker diarisation, so an interview or a meeting comes out as one continuous transcript with no indication of who said what.",
+        },
+        {
+          q: "Can I get subtitles out of it?",
+          a: "Yes. Transcription produces timestamped segments, which you can download as SRT or VTT, or copy as SRT. The timings are approximate, so check them in a subtitle editor before burning them into a video.",
+        },
+        {
+          q: "How long can the recording be?",
+          a: "There's no fixed limit, but the whole file is decoded into memory first and processing is not instant, so hour-long recordings are slow and can run a modest machine out of memory. Splitting a long recording into shorter pieces is more reliable.",
+        },
+      ],
+      steps: [
+        "Drop in an audio or video file.",
+        "Press Transcribe — the first run downloads the Whisper model, with a progress bar.",
+        "Wait for the transcript and its timestamped segments to appear.",
+        "Copy the text, or download it as TXT, SRT or VTT.",
+      ],
+    },
+    ar: {
+      intro:
+        "تحوّل أداة «تفريغ الصوت والفيديو» تسجيلًا إلى نص على جهازك أنت. أسقط ملف MP3 أو WAV أو M4A أو OGG أو MP4 أو WebM، فتنتج نصًا كاملًا ومقاطع موقّتة يمكنك تصديرها ترجماتٍ بصيغة SRT أو VTT، أو نصًا عاديًا.\n\nالتعرّف على الكلام يجري بنموذج Whisper — تحديدًا النسخة base — عبر Transformers.js داخل المتصفح. في أول استخدام تُنزَّل ملفات النموذج وتُحفظ مؤقتًا، ثم يُعاد استخدامها بعد ذلك. أما الصوت نفسه فيُفكّ ترميزه إلى قناة واحدة بتردد 16 كيلوهرتز داخل الصفحة، ويُمرَّر إلى النموذج في مقاطع من ثلاثين ثانية بتداخل خمس ثوانٍ حتى لا تضيع الكلمات الواقعة عند حدود المقاطع.\n\nلا مفتاح واجهة برمجة، ولا رسوم بالدقيقة، ولا رفع للتسجيل.",
+      whyClientSide:
+        "هذه هي الأداة التي تغيّر فيها المعالجة على الجهاز ما يُسمح لك بفعله فعلًا. فالتسجيلات التي يريد الناس تفريغها هي جلسات علاج نفسي، وإملاء طبي، وتحقيقات موارد بشرية، وإفادات قانونية، ومقابلات صحفيين مع مصادر وُعدت بالسرية، ومكالمات داخلية للشركة. وإرسال أي منها إلى خدمة تفريغ مستضافة يعني نسخة على بنية طرف آخر، تحكمها سياسة احتفاظ وشروط لم تقرأها على الأرجح — وفي عدة مهن يمثّل ذلك وحده مخالفة امتثال مهما وعد المزوّد. هنا لا يغادر الصوت التبويب أبدًا. النموذج هو الذي ينتقل إلى تسجيلك، لا تسجيلك الذي ينتقل إلى النموذج.",
+      limitations: [
+        "تشغّل الأداة نموذج Whisper base، وهو الطرف الصغير من العائلة. أما الخدمة المستضافة فتشغّل شبه المؤكد نموذجًا أكبر بكثير، والفارق ظاهر: توقّع أخطاء أكثر مع اللهجات الثقيلة والضجيج الخلفي وتداخل الأصوات وأسماء الأعلام والمصطلحات التقنية. ولا توجد تسميات للمتحدثين — فالمتحدثون المتداخلون يخرجون تيارًا نصيًا واحدًا غير مميَّز.",
+        "التشغيل الأول ينزّل النموذج من شبكة توصيل محتوى. صوتك لا يُرفع، لكن الأداة غير صالحة للعمل دون اتصال حتى تُحفَظ تلك الملفات، وعلى وصلة بطيئة يكون الانتظار قبل بدء التفريغ ملموسًا.",
+        "السرعة تعتمد كليًا على عتادك. فمع متصفح يدعم WebGPU تكون سريعة إلى حد معقول، أما الرجوع إلى WebAssembly فقد يكون أبطأ من الزمن الحقيقي، أي أن ساعة صوت قد تستغرق أكثر من ساعة. ولا يوجد مؤشر تقدّم أثناء التفريغ نفسه ولا طريقة لإلغائه — فالتقدّم يظهر لتنزيل النموذج فقط.",
+        "يُفكّ ترميز الملف كاملًا في الذاكرة قبل بدء التفريغ، لذا قد تستنفد التسجيلات الطويلة ذاكرة التبويب على جهاز متواضع. ولا يوجد أيضًا اختيار للغة ولا وضع ترجمة — يكتشف Whisper اللغة بنفسه ولا يمكنك تجاوز ذلك — كما أن توقيتات المقاطع تقريبية، فتحتاج الترجمات عادةً إلى ضبط في محرّر ترجمات قبل الاستخدام.",
+      ],
+      faq: [
+        {
+          q: "هل يمكنني تفريغ صوت إلى نص مجانًا دون رفعه؟",
+          a: "نعم. يُفكّ ترميز التسجيل ويُفرَّغ داخل تبويب المتصفح — بلا رفع ولا حساب ولا مفتاح واجهة برمجة ولا رسوم بالدقيقة. والنشاط الشبكي الوحيد هو تنزيل النموذج في المرة الأولى.",
+        },
+        {
+          q: "ما مدى دقتها مقارنةً بخدمة تفريغ مدفوعة؟",
+          a: "جيدة مع كلام واضح مسجَّل قرب الميكروفون، وأضعف بوضوح من خدمة مدفوعة مع اللهجات الثقيلة والغرف الصاخبة وتحدّث عدة أشخاص معًا والمصطلحات المتخصصة. فهي تشغّل نموذجًا صغيرًا على حاسوبك بدل نموذج كبير على معالج رسومي في مركز بيانات، وهذا فارق حقيقي. خطّط لتحرير الناتج.",
+        },
+        {
+          q: "هل تميّز بين المتحدثين؟",
+          a: "لا. لا يوجد فصل للمتحدثين، فتخرج المقابلة أو الاجتماع نصًا متصلًا واحدًا دون إشارة إلى قائل كل جملة.",
+        },
+        {
+          q: "هل أحصل منها على ترجمات؟",
+          a: "نعم. ينتج التفريغ مقاطع موقّتة يمكنك تنزيلها بصيغة SRT أو VTT أو نسخها بصيغة SRT. والتوقيتات تقريبية، فراجعها في محرّر ترجمات قبل دمجها في فيديو.",
+        },
+        {
+          q: "ما أقصى طول للتسجيل؟",
+          a: "لا يوجد حد ثابت، لكن الملف كاملًا يُفكّ ترميزه في الذاكرة أولًا والمعالجة ليست فورية، لذا تكون التسجيلات بطول ساعة بطيئة وقد تستنفد ذاكرة جهاز متواضع. تقسيم التسجيل الطويل إلى أجزاء أقصر أكثر موثوقية.",
+        },
+      ],
+      steps: [
+        "أسقط ملف صوت أو فيديو.",
+        "اضغط «تفريغ» — التشغيل الأول ينزّل نموذج Whisper مع شريط تقدّم.",
+        "انتظر ظهور النص والمقاطع الموقّتة.",
+        "انسخ النص أو نزّله بصيغة TXT أو SRT أو VTT.",
       ],
     },
   },
@@ -654,58 +1061,82 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["barcode-generator", "qr-scanner", "url-encoder", "base64"],
     en: {
       intro:
-        "The QR Code Generator turns text, URLs, contact details, Wi-Fi credentials, and more into a scannable QR code. Customize the size, colors, and error-correction level, then download the result as PNG or SVG.\n\nHigher error-correction levels let the code still scan even if part of it is damaged or covered by a logo, at the cost of a denser pattern. Generation is fully client-side, so the data you encode never leaves your browser.",
+        "The QR Code Generator turns text, a URL, a phone number, an email address, an SMS or a Wi-Fi network into a scannable code. The preview redraws as you type, so you can see the pattern get denser as the payload grows and shorten the URL before it becomes a wall of pixels.\n\nTwo settings matter. Size sets the pixel dimensions of the preview and the raster download, from 128 to 512 px. Error correction (L, M, Q or H) adds redundant data so the code still reads when part of it is scratched, creased or smudged — higher levels survive more damage but make the pattern denser for the same payload. Download as PNG, JPEG, or SVG.\n\nThe code is generated in your browser from the text you typed. Nothing is submitted, nothing is registered, and there's no account.",
+      whyClientSide:
+        "The real hazard with free QR generators isn't usually privacy — it's the business model. Many of them hand you a dynamic code that points at their own short domain and redirects to your link, which means your poster, menu or business card depends on a third party staying online and staying free. People have had printed codes go dark, or start demanding a subscription, months after the print run. A code generated here has your data baked directly into the pattern: nobody is in the middle, nothing expires, and nothing can be revoked. The privacy point is real but smaller — a Wi-Fi password or a personal phone number typed into the box does stay in the tab.",
+      limitations: [
+        "Static codes only. The data is encoded directly into the pattern, so there's no scan tracking or analytics, and you can't repoint a printed code at a new URL later — you'd have to generate and reprint. If you need to change the destination after printing, you want a dynamic-QR service, and this isn't one.",
+        "The code is always black on white with a fixed quiet-zone margin. There's no colour picker, no logo in the centre, no rounded modules or branded corner styles. If your brand guidelines demand a styled code, use a design tool.",
+        "Rasters are capped at 512 px, which is too small for large-format print. Use the SVG download for posters and signage — it scales cleanly to any size. Avoid the JPEG option for anything you'll print: JPEG compression puts soft halos around the modules, which is exactly the kind of noise a scanner struggles with. PNG or SVG scan more reliably.",
+        "One code at a time, and the text is encoded exactly as typed with no validation. A typo inside a Wi-Fi or vCard string produces a code that scans perfectly and then does nothing useful, so always test the finished code with a phone before printing it.",
+      ],
       faq: [
         {
+          q: "Is there a free QR code generator with no signup and no watermark?",
+          a: "This one. There's no account, no sign-in, no watermark and no limit on how many codes you make — the code is generated in your browser from the text you type.",
+        },
+        {
           q: "What can I encode in a QR code?",
-          a: "Any text, including URLs, plain text, contact cards (vCard), Wi-Fi network details, email addresses, and phone numbers.",
+          a: "Any text. Common uses are a URL, plain text, an email address (mailto:), a phone number (tel:), an SMS, a contact card (vCard), or a Wi-Fi network string that joins the network when scanned.",
         },
         {
           q: "What is error correction and which level should I use?",
-          a: "Error correction adds redundancy so the code still scans when partly obscured. Higher levels (Q or H) survive more damage but produce a denser code. Use H if you overlay a logo.",
+          a: "It adds redundant data so the code still reads when part of it is damaged or dirty. L recovers about 7%, M about 15%, Q about 25%, H about 30%. M is a sensible default; go higher for a code that will be printed on something that gets handled, folded or rained on.",
         },
         {
-          q: "Should I download PNG or SVG?",
-          a: "PNG is a ready-to-use image; SVG is vector and scales to any size without blur — ideal for print and large displays.",
+          q: "Should I download PNG, JPEG, or SVG?",
+          a: "PNG for screens and normal printing. SVG for anything large — it's vector, so it stays sharp at poster size. Skip JPEG for QR codes: its compression artefacts blur the edges of the modules and can make scanning less reliable.",
         },
         {
-          q: "Do QR codes expire?",
-          a: "No. A static QR code encodes the data directly and works forever, as long as the destination (e.g., a URL) still exists.",
+          q: "Will this QR code expire or stop working?",
+          a: "The code itself never expires — the data is inside the pattern, not on a server. It stops being useful only if what it points to stops existing, for example a URL whose page is taken down.",
         },
       ],
       steps: [
-        "Enter the text or URL to encode.",
-        "Customize size, colors, and error-correction level.",
-        "Preview the QR code.",
-        "Download it as PNG or SVG.",
+        "Type the text or URL to encode, or start from one of the URL / email / phone / Wi-Fi samples.",
+        "Set the size and the error-correction level; the preview updates as you go.",
+        "Choose PNG, JPEG or SVG and name the file.",
+        "Download it, then scan the result with a phone to confirm it works.",
       ],
     },
     ar: {
       intro:
-        "يحوّل مولّد رمز QR النصوص والروابط وبيانات جهات الاتصال وبيانات Wi-Fi وغيرها إلى رمز QR قابل للمسح. خصّص الحجم والألوان ومستوى تصحيح الأخطاء، ثم نزّل النتيجة بصيغة PNG أو SVG.\n\nتتيح مستويات تصحيح الأخطاء الأعلى مسح الرمز حتى لو تضرر جزء منه أو غطّاه شعار، مقابل نمط أكثر كثافة. ويتم التوليد بالكامل من جهة العميل، فلا تغادر البيانات التي ترمّزها متصفحك.",
+        "يحوّل مولّد رمز QR نصًا أو رابطًا أو رقم هاتف أو بريدًا إلكترونيًا أو رسالة نصية أو شبكة Wi-Fi إلى رمز قابل للمسح. تُعاد المعاينة مع كل حرف تكتبه، فترى النمط يزداد كثافة كلما كبرت الحمولة، وتختصر الرابط قبل أن يتحول إلى جدار من النقاط.\n\nهناك إعدادان مهمان. الحجم يحدّد أبعاد المعاينة والملف النقطي بالبكسل، من 128 إلى 512 بكسل. وتصحيح الأخطاء (L أو M أو Q أو H) يضيف بيانات زائدة ليبقى الرمز مقروءًا حين يُخدَش جزء منه أو يُثنى أو يتلطّخ — والمستويات الأعلى تتحمّل ضررًا أكبر لكنها تجعل النمط أكثف للحمولة نفسها. نزّل النتيجة بصيغة PNG أو JPEG أو SVG.\n\nيُولَّد الرمز في متصفحك من النص الذي كتبته. لا شيء يُرسَل، ولا شيء يُسجَّل، ولا حساب مطلوب.",
+      whyClientSide:
+        "الخطر الحقيقي في مولّدات QR المجانية ليس الخصوصية عادةً، بل نموذج العمل. كثير منها يمنحك رمزًا ديناميكيًا يشير إلى نطاقه المختصر ثم يحوّلك إلى رابطك، ما يعني أن ملصقك أو قائمة طعامك أو بطاقتك تعتمد على بقاء طرف ثالث متصلًا ومجانيًا. وقد توقّفت رموز مطبوعة عن العمل فعلًا، أو بدأت تطلب اشتراكًا، بعد أشهر من الطباعة. أما الرمز المولَّد هنا فبياناتك مخبوزة داخل النمط مباشرةً: لا وسيط، ولا صلاحية تنتهي، ولا شيء يمكن إلغاؤه. أما نقطة الخصوصية فحقيقية لكنها أصغر — كلمة مرور Wi-Fi أو رقم هاتف شخصي تكتبه في الحقل يبقى داخل التبويب.",
+      limitations: [
+        "رموز ثابتة فقط. البيانات مرمّزة مباشرة داخل النمط، فلا تتبّع للمسح ولا إحصاءات، ولا يمكنك توجيه رمز مطبوع إلى رابط جديد لاحقًا — ستضطر إلى توليده وطباعته من جديد. وإن كنت تحتاج تغيير الوجهة بعد الطباعة، فأنت تحتاج خدمة رموز ديناميكية، وهذه ليست منها.",
+        "الرمز أسود على أبيض دائمًا، بهامش ثابت حول النمط. لا منتقي ألوان، ولا شعار في المنتصف، ولا وحدات دائرية أو زوايا بأنماط تجارية. وإن كانت هوية علامتك تفرض رمزًا منسّقًا، فاستخدم أداة تصميم.",
+        "الصور النقطية محدودة بـ 512 بكسل، وهذا أصغر من أن يكفي للطباعة كبيرة الحجم. استخدم تنزيل SVG للملصقات واللوحات — فهو متجهي ويتكبّر بنظافة إلى أي حجم. وتجنّب خيار JPEG لأي شيء ستطبعه: فضغط JPEG يترك هالات ناعمة حول الوحدات، وهو بالضبط نوع التشويش الذي يربك الماسح. صيغتا PNG وSVG أكثر موثوقية في المسح.",
+        "رمز واحد في كل مرة، ويُرمَّز النص كما كتبته تمامًا دون أي تحقق. فخطأ إملائي داخل نص Wi-Fi أو vCard ينتج رمزًا يُمسَح بنجاح ثم لا يفعل شيئًا مفيدًا، لذا جرّب الرمز النهائي بهاتف قبل طباعته دائمًا.",
+      ],
       faq: [
         {
+          q: "هل يوجد مولّد رموز QR مجاني بلا تسجيل وبلا علامة مائية؟",
+          a: "هذا هو. لا حساب ولا تسجيل دخول ولا علامة مائية ولا حد لعدد الرموز التي تنشئها — يُولَّد الرمز في متصفحك من النص الذي تكتبه.",
+        },
+        {
           q: "ماذا يمكنني أن أرمّز في رمز QR؟",
-          a: "أي نص، بما في ذلك الروابط والنص العادي وبطاقات التعريف (vCard) وبيانات شبكة Wi-Fi والبريد الإلكتروني وأرقام الهاتف.",
+          a: "أي نص. والاستخدامات الشائعة هي رابط، أو نص عادي، أو بريد إلكتروني (mailto:)، أو رقم هاتف (tel:)، أو رسالة نصية، أو بطاقة تعريف (vCard)، أو نص شبكة Wi-Fi يوصل الجهاز بالشبكة عند مسحه.",
         },
         {
           q: "ما تصحيح الأخطاء وأي مستوى أستخدم؟",
-          a: "يضيف تصحيح الأخطاء تكرارًا ليبقى الرمز قابلًا للمسح عند حجب جزء منه. المستويات الأعلى (Q أو H) تتحمل ضررًا أكبر لكنها تنتج رمزًا أكثف. استخدم H إذا وضعت شعارًا فوق الرمز.",
+          a: "يضيف بيانات زائدة ليبقى الرمز مقروءًا حين يتضرر جزء منه أو يتّسخ. المستوى L يستعيد نحو 7%، وM نحو 15%، وQ نحو 25%، وH نحو 30%. المستوى M افتراضي معقول، وارفعه لرمز سيُطبع على شيء يُتداوَل أو يُطوى أو يتعرض للمطر.",
         },
         {
-          q: "هل أنزّل PNG أم SVG؟",
-          a: "PNG صورة جاهزة للاستخدام، أما SVG فمتجهي يتكبّر إلى أي حجم دون تشوّش — مثالي للطباعة والشاشات الكبيرة.",
+          q: "هل أنزّل PNG أم JPEG أم SVG؟",
+          a: "PNG للشاشات والطباعة العادية، وSVG لأي حجم كبير لأنه متجهي يبقى حادًا بحجم الملصق. وتجنّب JPEG لرموز QR: فتشوّهات ضغطه تُموّه حواف الوحدات وقد تجعل المسح أقل موثوقية.",
         },
         {
-          q: "هل تنتهي صلاحية رموز QR؟",
-          a: "لا. يرمّز رمز QR الثابت البيانات مباشرة ويعمل دائمًا طالما بقي المقصد (مثل رابط) موجودًا.",
+          q: "هل تنتهي صلاحية رمز QR أو يتوقف عن العمل؟",
+          a: "الرمز نفسه لا تنتهي صلاحيته أبدًا — فالبيانات داخل النمط لا على خادم. ويتوقف عن النفع فقط إذا زال ما يشير إليه، كرابط أُزيلت صفحته.",
         },
       ],
       steps: [
-        "أدخل النص أو الرابط المراد ترميزه.",
-        "خصّص الحجم والألوان ومستوى تصحيح الأخطاء.",
-        "عاين رمز QR.",
-        "نزّله بصيغة PNG أو SVG.",
+        "اكتب النص أو الرابط المراد ترميزه، أو ابدأ من أحد الأمثلة الجاهزة: رابط أو بريد أو هاتف أو Wi-Fi.",
+        "اضبط الحجم ومستوى تصحيح الأخطاء؛ تتحدّث المعاينة أثناء ذلك.",
+        "اختر PNG أو JPEG أو SVG وسمِّ الملف.",
+        "نزّله، ثم امسحه بهاتف للتأكد من عمله.",
       ],
     },
   },
@@ -898,64 +1329,80 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["split-pdf", "reorder-pdf-pages", "compress-pdf", "pdf"],
     en: {
       intro:
-        "Merge PDF combines several PDF files into a single document, in the order you arrange them. It's the fix for the everyday mess of a report that arrived as three separate exports, a contract whose signature page came back as its own file, or a stack of scanned receipts you need to submit as one attachment.\n\nYou add the files, drag them into the sequence you want, and the tool stitches them end to end into one PDF — the pages keep their original content and quality. Because everything is assembled in your browser, the documents you're combining never leave your device.\n\nThere's no page or file-count ceiling imposed by a server; the practical limit is your device's memory. Combine two files or twenty into one tidy PDF you can email, print, or upload in a single go.",
+        "Merge PDF combines several PDF files into a single document, in the order you put them. It's the fix for the everyday mess of a report that arrived as three separate exports, a contract whose signature page came back as its own file, or a stack of scanned receipts you need to submit as one attachment.\n\nAdd at least two files, use the move-up and move-down buttons beside each one to set the sequence, and the tool stitches them end to end. Pages are copied across untouched — text stays selectable, images keep their original resolution, and nothing is re-encoded or re-compressed on the way through.\n\nBecause the whole job is assembled in your browser there's no upload step, no account, no daily file cap and no watermark on the result. The practical ceiling is your own device's memory rather than someone's server policy.",
+      whyClientSide:
+        "The documents people merge are rarely throwaway: signed contracts, bank statements, medical results, passport scans, a finished tax return. A hosted merge service has to hold a complete copy of every one of those files on its disks to do the work, however briefly, and you have to take its retention policy on faith. Doing it locally removes that step altogether — the tab reads the bytes, joins them, and hands you back a download. There is no copy on anyone else's machine to be retained, indexed, subpoenaed or leaked.",
+      limitations: [
+        "Merging joins whole files. You can't pick individual pages while merging — split or extract the pages you want first, then merge the pieces.",
+        "Only the pages are copied. A source PDF's bookmarks and outline (its clickable table of contents), its document-level form definition, and any embedded file attachments are not rebuilt in the merged document, so interactive forms may stop working. TODO(verify): confirm exact annotation behaviour against pdf-lib's copyPages on a form-heavy sample.",
+        "Password-protected PDFs can't be opened at all, and the tool reports them with a generic \"Invalid PDF file\" message rather than saying a password is the problem. Remove the protection in your PDF reader first.",
+        "The merge runs on the page's main thread with every file held in memory at once, and there's no progress bar for it. A very large batch — hundreds of megabytes of scans — can make the tab unresponsive or run out of memory on a phone or a low-RAM laptop.",
+      ],
       faq: [
         {
-          q: "Can I choose the order of the files?",
-          a: "Yes. Add every PDF, then drag them into the sequence you want before merging; the pages appear in exactly that order.",
+          q: "Can I merge PDFs without uploading them anywhere?",
+          a: "Yes. The merge runs entirely inside the browser tab — there's no upload, no account and no signup, and confidential reports and contracts stay on your device.",
+        },
+        {
+          q: "How do I change the order of the files?",
+          a: "Add every PDF first, then use the move-up and move-down buttons next to each file in the list. The pages appear in exactly the top-to-bottom order you leave them in.",
         },
         {
           q: "Does merging reduce the quality of the pages?",
-          a: "No. Merging copies each page as-is into the new file, so text stays selectable and images keep their original resolution. If the combined file is large, compress it afterward.",
+          a: "No. Each page is copied as-is into the new file, so text stays selectable and images keep their original resolution. Nothing is re-compressed. If the combined file ends up too big, compress it as a separate step.",
+        },
+        {
+          q: "Can I merge a password-protected PDF?",
+          a: "No. An encrypted PDF fails to open and is rejected as an invalid file. Open it in a PDF reader, save an unprotected copy, and merge that.",
         },
         {
           q: "Is there a limit on how many PDFs I can combine?",
-          a: "No server-imposed limit. You can merge many files at once; very large batches are only bounded by your device's available memory.",
-        },
-        {
-          q: "Are my documents uploaded to combine them?",
-          a: "No. Merging happens entirely in your browser, so confidential reports and contracts stay on your device.",
-        },
-        {
-          q: "Can I merge only some pages from each file?",
-          a: "Merge joins whole files. To pull specific pages first, split or extract them, then merge the pieces you want.",
+          a: "You need at least two, and after that there's no server-imposed file count or file-size cap. The real limit is how much your device can hold in memory at once.",
         },
       ],
       steps: [
-        "Add the PDF files you want to combine.",
-        "Drag them into the order the pages should appear.",
+        "Add at least two PDF files.",
+        "Use the move-up and move-down buttons to set the order.",
         "Merge them into a single document.",
         "Download the combined PDF.",
       ],
     },
     ar: {
       intro:
-        "يدمج «دمج PDF» عدة ملفات PDF في مستند واحد بالترتيب الذي ترتّبه أنت. إنه الحل للفوضى اليومية: تقرير وصلك في ثلاث تصديرات منفصلة، أو عقد عادت صفحة توقيعه كملف مستقل، أو مجموعة إيصالات ممسوحة تحتاج تقديمها كمرفق واحد.\n\nتضيف الملفات، وتسحبها إلى التسلسل الذي تريده، فتخيّطها الأداة طرفًا لطرف في ملف PDF واحد — تحتفظ الصفحات بمحتواها وجودتها الأصلية. ولأن كل شيء يُجمَّع في متصفحك، لا تغادر المستندات التي تدمجها جهازك.\n\nلا يوجد حد للصفحات أو لعدد الملفات يفرضه خادم؛ الحد العملي هو ذاكرة جهازك. ادمج ملفين أو عشرين في ملف PDF واحد مرتّب ترسله أو تطبعه أو ترفعه دفعة واحدة.",
+        "يدمج «دمج PDF» عدة ملفات PDF في مستند واحد بالترتيب الذي تضعه أنت. إنه الحل للفوضى اليومية: تقرير وصلك في ثلاث تصديرات منفصلة، أو عقد عادت صفحة توقيعه كملف مستقل، أو مجموعة إيصالات ممسوحة تحتاج تقديمها كمرفق واحد.\n\nأضف ملفين على الأقل، واستخدم زرَّي «للأعلى» و«للأسفل» بجانب كل ملف لضبط التسلسل، فتخيّط الأداة الملفات طرفًا لطرف. تُنسخ الصفحات كما هي دون مساس — يبقى النص قابلًا للتحديد، وتحتفظ الصور بدقتها الأصلية، ولا يُعاد ترميز أو ضغط أي شيء في الطريق.\n\nولأن العمل كله يجري داخل متصفحك، لا توجد خطوة رفع ولا حساب ولا حد يومي للملفات ولا علامة مائية على النتيجة. السقف العملي هو ذاكرة جهازك، لا سياسة خادم ما.",
+      whyClientSide:
+        "المستندات التي يدمجها الناس نادرًا ما تكون عابرة: عقود موقّعة، وكشوف حسابات بنكية، ونتائج طبية، وصور جواز سفر، وإقرار ضريبي مكتمل. أي خدمة دمج على خادم تحتاج نسخة كاملة من كل ملف من هذه على أقراصها لتنجز العمل، ولو للحظات، وعليك أن تثق بسياسة الاحتفاظ لديها. الدمج محليًا يلغي هذه الخطوة تمامًا — يقرأ المتصفح البايتات، ويضمّها، ويعيدها إليك كملف تنزيل. لا توجد نسخة على جهاز أحد آخر يمكن الاحتفاظ بها أو فهرستها أو تسريبها.",
+      limitations: [
+        "الدمج يضم الملفات كاملة. لا يمكنك انتقاء صفحات مفردة أثناء الدمج — قسّم الصفحات التي تريدها أو استخرجها أولًا، ثم ادمج القطع.",
+        "تُنسخ الصفحات فقط. أما الإشارات المرجعية والفهرس القابل للنقر في ملف المصدر، وتعريف النماذج على مستوى المستند، والملفات المرفقة المضمّنة، فلا يُعاد بناؤها في الملف المدموج، وقد تتوقف النماذج التفاعلية عن العمل. TODO(verify): تأكيد سلوك التعليقات التوضيحية بدقة مع copyPages في pdf-lib على ملف غني بالنماذج.",
+        "ملفات PDF المحمية بكلمة مرور لا تُفتح أصلًا، وتعرض الأداة رسالة عامة «ملف PDF غير صالح» بدل الإشارة إلى أن السبب كلمة المرور. أزل الحماية من قارئ PDF لديك أولًا.",
+        "يجري الدمج على الخيط الرئيسي للصفحة مع الاحتفاظ بكل الملفات في الذاكرة دفعة واحدة، ولا يوجد شريط تقدّم له. الدفعة الكبيرة جدًا — مئات الميغابايتات من المستندات الممسوحة — قد تجعل التبويب لا يستجيب أو تستنفد الذاكرة على هاتف أو حاسوب بذاكرة محدودة.",
+      ],
       faq: [
         {
-          q: "هل يمكنني اختيار ترتيب الملفات؟",
-          a: "نعم. أضف كل ملفات PDF ثم اسحبها إلى التسلسل الذي تريده قبل الدمج؛ فتظهر الصفحات بهذا الترتيب تمامًا.",
+          q: "هل يمكنني دمج ملفات PDF دون رفعها إلى أي مكان؟",
+          a: "نعم. يجري الدمج بالكامل داخل تبويب المتصفح — لا رفع ولا حساب ولا تسجيل، وتبقى التقارير والعقود السرية على جهازك.",
+        },
+        {
+          q: "كيف أغيّر ترتيب الملفات؟",
+          a: "أضف كل ملفات PDF أولًا، ثم استخدم زرَّي «للأعلى» و«للأسفل» بجانب كل ملف في القائمة. تظهر الصفحات بترتيب القائمة من الأعلى إلى الأسفل تمامًا.",
         },
         {
           q: "هل يقلّل الدمج جودة الصفحات؟",
-          a: "لا. ينسخ الدمج كل صفحة كما هي إلى الملف الجديد، فيبقى النص قابلًا للتحديد وتحتفظ الصور بدقتها الأصلية. وإن كان الملف المدموج كبيرًا، اضغطه بعد ذلك.",
+          a: "لا. تُنسخ كل صفحة كما هي إلى الملف الجديد، فيبقى النص قابلًا للتحديد وتحتفظ الصور بدقتها الأصلية، ولا يُعاد ضغط أي شيء. وإن جاء الملف المدموج كبيرًا، اضغطه في خطوة منفصلة.",
+        },
+        {
+          q: "هل يمكنني دمج ملف PDF محمي بكلمة مرور؟",
+          a: "لا. الملف المشفّر يفشل في الفتح وتُرفضه الأداة كملف غير صالح. افتحه في قارئ PDF، واحفظ نسخة بلا حماية، ثم ادمج تلك النسخة.",
         },
         {
           q: "هل هناك حد لعدد ملفات PDF التي أدمجها؟",
-          a: "لا حد يفرضه خادم. يمكنك دمج ملفات كثيرة دفعة واحدة؛ الدفعات الكبيرة جدًا محدودة فقط بذاكرة جهازك المتاحة.",
-        },
-        {
-          q: "هل تُرفع مستنداتي لدمجها؟",
-          a: "لا. يتم الدمج بالكامل في متصفحك، فتبقى التقارير والعقود السرية على جهازك.",
-        },
-        {
-          q: "هل يمكنني دمج بعض الصفحات فقط من كل ملف؟",
-          a: "الدمج يضم الملفات كاملة. لسحب صفحات محددة أولًا، قسّمها أو استخرجها ثم ادمج القطع التي تريدها.",
+          a: "تحتاج ملفين على الأقل، وبعد ذلك لا يوجد حد لعدد الملفات أو لحجمها يفرضه خادم. الحد الحقيقي هو ما يستطيع جهازك حمله في الذاكرة دفعة واحدة.",
         },
       ],
       steps: [
-        "أضف ملفات PDF التي تريد دمجها.",
-        "اسحبها إلى الترتيب الذي يجب أن تظهر به الصفحات.",
+        "أضف ملفَّي PDF على الأقل.",
+        "استخدم زرَّي «للأعلى» و«للأسفل» لضبط الترتيب.",
         "ادمجها في مستند واحد.",
         "نزّل ملف PDF المدموج.",
       ],
@@ -1034,66 +1481,82 @@ export const toolContent: Record<string, ToolContent> = {
     related: ["split-pdf", "merge-pdf", "reorder-pdf-pages", "pdf"],
     en: {
       intro:
-        "Compress PDF reduces a document's file size so it clears the limits that keep bouncing it back — the attachment ceiling on an email, the upload cap on a job-application or government portal, the size a messaging app will accept. Instead of re-exporting from the original app, you shrink the finished PDF directly.\n\nTo reach a smaller size this tool re-encodes the pages as images at a lower quality. That's the tradeoff to understand plainly: the compressed pages become pictures, so the text on them is no longer selectable or searchable, and very fine detail softens. For a scanned document that's already an image you lose almost nothing; for a crisp text PDF, weigh whether you still need the text layer.\n\nThe whole process runs in your browser, so a confidential invoice or contract is never uploaded to a compression server. Try a setting, check the result, and re-compress until it fits.",
+        "Compress PDF reduces a document's file size so it clears the limits that keep bouncing it back — the attachment ceiling on an email, the upload cap on a job-application or government portal, the size a messaging app will accept. Instead of re-exporting from the original app, you shrink the finished PDF directly.\n\nThere is one compression method and it's worth understanding before you use it: every page is rendered to an image, re-encoded as a JPEG, and placed back on a page of the original dimensions. Three presets pick the trade-off — High quality, Balanced, or Small file — trading render resolution and JPEG quality against size. For a scanned document, which is already a picture, that costs you almost nothing. For a crisp text PDF it costs you the text layer.\n\nThe whole process runs in your browser, so a confidential invoice or contract is never uploaded to a compression server. The tool shows the before and after sizes, so you can try a preset, look at the numbers, and pick a stronger one if it still doesn't fit.",
+      whyClientSide:
+        "You rarely compress a PDF for your own benefit — you compress it because someone else's upload form has a limit. Which means the file in question is usually a passport scan, a payslip, a medical report, a signed lease or a tax return, and the alternative is putting that document through a stranger's processing queue purely to shave a few megabytes off it. Doing it locally also skips two transfers: you don't push 40 MB of scans up a slow connection just to pull a smaller file back down.",
+      limitations: [
+        "Rasterizing is the only mode. Once compressed, the text can't be selected, copied or searched, screen readers can no longer read the document, and links, form fields and annotations on the page are gone. There is no option to keep the text layer, and no OCR to put one back.",
+        "On a lean text or vector PDF the output can be larger than the input — a page of type becomes a full-page photograph. The tool still reports that as a success and simply shows a negative reduction percentage, so check the before/after numbers rather than assuming it worked.",
+        "Three fixed presets, nothing else. There's no target file size, no custom quality or DPI control, and no image-only recompression — the Ghostscript-style server tools that shrink embedded photos while leaving the text layer intact are doing something this tool cannot do.",
+        "One file at a time, on the page's main thread, with no progress bar and no cancel button. A long document will lock the tab up while it works. Transparency is flattened too, since every page is re-encoded as JPEG, and password-protected PDFs are rejected outright.",
+      ],
       faq: [
         {
+          q: "Can I compress a PDF for free without uploading it?",
+          a: "Yes. Compression runs locally in the browser tab — no upload, no account, no signup, no watermark — so sensitive documents never leave your device.",
+        },
+        {
           q: "How does the compression actually work?",
-          a: "The pages are re-encoded as images at a reduced quality, which is what brings the size down. Heavier compression means a smaller file and softer detail.",
+          a: "Each page is rendered to an image and saved back into the PDF as a JPEG at reduced resolution and quality. That is what brings the size down, and it is the only method available here.",
         },
         {
           q: "Will the text still be selectable after compressing?",
-          a: "No. Because the pages are rasterized into images, the text layer is lost — the words stay visible but can't be selected, copied, or searched. Keep an original if you need that.",
+          a: "No. Because the pages are rasterized into images, the text layer is lost — the words stay visible but can't be selected, copied or searched. Keep the original if you need that.",
         },
         {
-          q: "What size can I get down to?",
-          a: "It depends on the content; stronger settings shrink more at the cost of clarity. Aim for the smallest setting that still looks legible for your purpose.",
+          q: "Why did my PDF get bigger instead of smaller?",
+          a: "Because it was already efficient. A text-only PDF stores letters as instructions, which is far more compact than a photograph of those letters. Turning each page into an image can easily cost more than it saves. Check the before/after figures; if the result grew, keep the original.",
         },
         {
-          q: "Are my PDFs uploaded to compress them?",
-          a: "No. Compression happens locally in your browser, so sensitive documents never leave your device.",
-        },
-        {
-          q: "My file needs to fit an email or portal limit — will this help?",
-          a: "Yes. Compressing is the usual way to bring a PDF under an attachment or upload cap. Re-compress harder if the first result is still over the limit.",
+          q: "Which preset should I choose?",
+          a: "Balanced is the default and is usually the right starting point. Move to Small file if you're still over an upload limit, or High quality if the compressed pages look too soft to read.",
         },
       ],
       steps: [
-        "Upload the PDF you need to shrink.",
-        "Choose how hard to compress it.",
-        "Let the tool re-encode the pages.",
-        "Check it's legible, then download the smaller file.",
+        "Open the PDF you need to shrink.",
+        "Pick High quality, Balanced, or Small file.",
+        "Compress and wait for the pages to be re-encoded.",
+        "Check the before/after sizes and that it's still legible, then download.",
       ],
     },
     ar: {
       intro:
-        "يقلّل «ضغط PDF» حجم المستند ليتجاوز الحدود التي تعيده مرارًا — سقف المرفقات في البريد، وحد الرفع في بوابة توظيف أو بوابة حكومية، والحجم الذي يقبله تطبيق مراسلة. فبدل إعادة التصدير من التطبيق الأصلي، تصغّر ملف PDF النهائي مباشرة.\n\nللوصول إلى حجم أصغر تعيد هذه الأداة ترميز الصفحات كصور بجودة أقل. وهذا هو التنازل الذي يجب فهمه بوضوح: تصبح الصفحات المضغوطة صورًا، فلا يعود النص فيها قابلًا للتحديد أو البحث، وتنعم التفاصيل الدقيقة. بالنسبة لمستند ممسوح هو أصلًا صورة، لا تخسر شيئًا يُذكر؛ أما ملف نصي واضح فوازن بين حاجتك إلى طبقة النص وبين حجم الملف الأصغر.\n\nتجري العملية كلها في متصفحك، فلا تُرفع فاتورة أو عقد سري إلى خادم ضغط. جرّب إعدادًا، وتحقق من النتيجة، وأعد الضغط حتى يناسب.",
+        "يقلّل «ضغط PDF» حجم المستند ليتجاوز الحدود التي تعيده مرارًا — سقف المرفقات في البريد، وحد الرفع في بوابة توظيف أو بوابة حكومية، والحجم الذي يقبله تطبيق مراسلة. فبدل إعادة التصدير من التطبيق الأصلي، تصغّر ملف PDF النهائي مباشرة.\n\nهناك طريقة ضغط واحدة، ويستحق فهمها قبل الاستخدام: تُرسم كل صفحة كصورة، ويُعاد ترميزها بصيغة JPEG، ثم تُوضع على صفحة بالأبعاد الأصلية. وتحدّد ثلاثة إعدادات جاهزة — جودة عالية، أو متوازن، أو ملف صغير — المقايضة بين دقة الرسم وجودة JPEG من جهة والحجم من جهة أخرى. بالنسبة لمستند ممسوح ضوئيًا، وهو صورة أصلًا، لا يكلّفك ذلك شيئًا يُذكر. أما ملف نصي واضح فيكلّفك طبقة النص.\n\nتجري العملية كلها في متصفحك، فلا تُرفع فاتورة أو عقد سري إلى خادم ضغط. وتعرض الأداة الحجم قبل الضغط وبعده، فجرّب إعدادًا، وانظر إلى الأرقام، واختر إعدادًا أقوى إن لم يناسب بعد.",
+      whyClientSide:
+        "نادرًا ما تضغط ملف PDF لمصلحتك أنت — بل لأن نموذج رفع عند جهة أخرى يضع حدًا. وهذا يعني أن الملف المقصود غالبًا صورة جواز سفر، أو كشف راتب، أو تقرير طبي، أو عقد إيجار موقّع، أو إقرار ضريبي، وأن البديل هو تمرير هذا المستند عبر طابور معالجة عند طرف غريب لمجرد اقتطاع بضعة ميغابايتات. والعمل محليًا يوفّر أيضًا عمليتَي نقل: لا ترفع 40 ميغابايت من المستندات الممسوحة عبر اتصال بطيء لتنزّل بعدها ملفًا أصغر.",
+      limitations: [
+        "التحويل إلى صور هو الأسلوب الوحيد. بعد الضغط لا يمكن تحديد النص أو نسخه أو البحث فيه، ولا تستطيع قارئات الشاشة قراءة المستند، وتختفي الروابط وحقول النماذج والتعليقات التوضيحية من الصفحة. ولا يوجد خيار للإبقاء على طبقة النص، ولا تعرّف ضوئي (OCR) يعيدها.",
+        "مع ملف نصي أو متجهي خفيف قد يخرج الملف أكبر من الأصل — إذ تتحول صفحة النص إلى صورة فوتوغرافية كاملة. ومع ذلك تعتبر الأداة العملية ناجحة وتعرض نسبة تقليص سالبة، لذا راجع الحجم قبل وبعد بدل افتراض أن الضغط نجح.",
+        "ثلاثة إعدادات ثابتة فقط. لا يوجد حجم مستهدف، ولا تحكّم مخصص بالجودة أو بدقة النقاط، ولا ضغط للصور وحدها — أدوات الخوادم المبنية على Ghostscript تصغّر الصور المضمّنة مع الإبقاء على طبقة النص، وهذا ما لا تستطيع هذه الأداة فعله.",
+        "ملف واحد في كل مرة، على الخيط الرئيسي للصفحة، بلا شريط تقدّم وبلا زر إلغاء، فيتوقف التبويب عن الاستجابة أثناء معالجة مستند طويل. كما تُسطَّح الشفافية لأن كل صفحة يُعاد ترميزها بصيغة JPEG، وتُرفض ملفات PDF المحمية بكلمة مرور تمامًا.",
+      ],
       faq: [
         {
+          q: "هل يمكنني ضغط ملف PDF مجانًا دون رفعه؟",
+          a: "نعم. يجري الضغط محليًا داخل تبويب المتصفح — بلا رفع ولا حساب ولا تسجيل ولا علامة مائية — فلا تغادر المستندات الحساسة جهازك.",
+        },
+        {
           q: "كيف يعمل الضغط فعليًا؟",
-          a: "يُعاد ترميز الصفحات كصور بجودة أقل، وهذا ما يخفض الحجم. الضغط الأقوى يعني ملفًا أصغر وتفاصيل أنعم.",
+          a: "تُرسم كل صفحة كصورة وتُحفظ داخل الملف بصيغة JPEG بدقة وجودة أقل. هذا ما يخفض الحجم، وهو الأسلوب الوحيد المتاح هنا.",
         },
         {
           q: "هل يبقى النص قابلًا للتحديد بعد الضغط؟",
-          a: "لا. لأن الصفحات تُحوَّل إلى صور، تُفقد طبقة النص — تبقى الكلمات مرئية لكن لا يمكن تحديدها أو نسخها أو البحث فيها. احتفظ بنسخة أصلية إن احتجت ذلك.",
+          a: "لا. لأن الصفحات تتحول إلى صور، تُفقد طبقة النص — تبقى الكلمات مرئية لكن لا يمكن تحديدها أو نسخها أو البحث فيها. احتفظ بالنسخة الأصلية إن احتجت ذلك.",
         },
         {
-          q: "إلى أي حجم يمكنني الوصول؟",
-          a: "يعتمد على المحتوى؛ الإعدادات الأقوى تصغّر أكثر على حساب الوضوح. استهدف أصغر إعداد يبقى واضحًا لغرضك.",
+          q: "لماذا كبر حجم ملفي بدل أن يصغر؟",
+          a: "لأنه كان موفّرًا أصلًا. الملف النصي يخزّن الحروف كتعليمات، وهذا أصغر بكثير من صورة لتلك الحروف، فتحويل كل صفحة إلى صورة قد يكلّف أكثر مما يوفّر. راجع الحجم قبل وبعد، وإن زاد فاحتفظ بالأصل.",
         },
         {
-          q: "هل تُرفع ملفات PDF لضغطها؟",
-          a: "لا. يجري الضغط محليًا في متصفحك، فلا تغادر المستندات الحساسة جهازك.",
-        },
-        {
-          q: "ملفي يجب أن يناسب حد بريد أو بوابة — هل يساعد هذا؟",
-          a: "نعم. الضغط هو الطريقة المعتادة لإنزال ملف PDF تحت سقف المرفقات أو الرفع. أعد الضغط بقوة أكبر إن بقيت النتيجة الأولى فوق الحد.",
+          q: "أي إعداد أختار؟",
+          a: "«متوازن» هو الافتراضي وعادةً نقطة البداية الصحيحة. انتقل إلى «ملف صغير» إن بقيت فوق حد الرفع، أو إلى «جودة عالية» إن بدت الصفحات المضغوطة غير واضحة للقراءة.",
         },
       ],
       steps: [
-        "ارفع ملف PDF الذي تريد تصغيره.",
-        "اختر مدى قوة الضغط.",
-        "دع الأداة تعيد ترميز الصفحات.",
-        "تحقق من الوضوح ثم نزّل الملف الأصغر.",
+        "افتح ملف PDF الذي تريد تصغيره.",
+        "اختر «جودة عالية» أو «متوازن» أو «ملف صغير».",
+        "اضغط الملف وانتظر إعادة ترميز الصفحات.",
+        "راجع الحجم قبل وبعد وتأكد من وضوح القراءة ثم نزّل الملف.",
       ],
     },
   },

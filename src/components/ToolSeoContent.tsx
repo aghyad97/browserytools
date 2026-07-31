@@ -3,7 +3,12 @@
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { ArrowRightIcon, HelpCircleIcon, ListChecksIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  HelpCircleIcon,
+  ListChecksIcon,
+  ScaleIcon,
+} from "lucide-react";
 
 import { findToolByHref, getAllTools } from "@/lib/tools-config";
 import {
@@ -68,6 +73,9 @@ function resolveTool(pathname: string): ResolvedTool | null {
   };
 }
 
+// NOTE: `content.limitations` is deliberately NOT represented in any JSON-LD
+// graph below. It is honest on-page prose for readers, not a structured claim,
+// and schema.org has no honest type for it. Keep it that way.
 function buildJsonLd(
   tool: ResolvedTool,
   content: ToolContentLocale
@@ -219,6 +227,20 @@ export default function ToolSeoContent() {
             {introParagraphs.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
+
+            {/* Why this one runs on your device. Nested surface for emphasis —
+                no single-edge accent rules. */}
+            {content.whyClientSide && (
+              <div
+                className="rounded-lg bg-muted/50 p-4"
+                data-testid="tool-seo-why-client-side"
+              >
+                <h3 className="mb-1.5 text-sm font-medium text-foreground">
+                  {t("whyClientSideTitle")}
+                </h3>
+                <p>{content.whyClientSide}</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -239,6 +261,27 @@ export default function ToolSeoContent() {
                   </li>
                 ))}
               </ol>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Limitations — prose only, never structured data. */}
+        {content.limitations && content.limitations.length > 0 && (
+          <Card data-testid="tool-seo-limitations">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <ScaleIcon className="size-5 shrink-0 text-muted-foreground" />
+                {t("limitationsTitle")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="flex list-disc flex-col gap-2 ps-5 text-sm leading-relaxed text-muted-foreground marker:text-muted-foreground/70">
+                {content.limitations.map((item, i) => (
+                  <li key={i} className="ps-1">
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
         )}

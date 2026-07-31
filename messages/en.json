@@ -5254,6 +5254,8 @@
     "aboutTitle": "About {tool}",
     "howToTitle": "How to use {tool}",
     "faqTitle": "Frequently asked questions",
+    "whyClientSideTitle": "Why this runs on your device",
+    "limitationsTitle": "Limitations and trade-offs",
     "relatedTitle": "Related tools"
   },
   "Rail": {
