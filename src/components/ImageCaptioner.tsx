@@ -11,6 +11,8 @@ import { toast } from "sonner";
 import { Upload, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
+import { formatBytes } from "@/lib/format";
 
 const MODEL = "Xenova/vit-gpt2-image-captioning";
 
@@ -21,6 +23,8 @@ type Captioner = (
 export default function ImageCaptioner() {
   const t = useTranslations("Tools.ImageCaptioner");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
+  const modelBytes = useEstimatedModelSize("vit-gpt2-captioning");
 
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
@@ -165,7 +169,16 @@ export default function ImageCaptioner() {
           <Card className="p-4">
             <div className="flex items-start gap-3">
               <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+              <div className="space-y-1">
+                <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+                {modelBytes !== null && (
+                  <p className="text-xs text-muted-foreground">
+                    {tCommon("modelDownloadSize", {
+                      size: formatBytes(modelBytes),
+                    })}
+                  </p>
+                )}
+              </div>
             </div>
           </Card>
       </div>

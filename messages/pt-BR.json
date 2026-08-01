@@ -46,7 +46,8 @@
     "removeFromFavorites": "Remover dos favoritos",
     "siteName": "BrowseryTools",
     "siteTagline": "Ferramentas essenciais de produtividade direto no navegador",
-    "siteDescription": "Ferramentas essenciais de produtividade no navegador. Sem servidores. Privacidade total."
+    "siteDescription": "Ferramentas essenciais de produtividade no navegador. Sem servidores. Privacidade total.",
+    "modelDownloadSize": "Baixa um modelo de IA de {size} na primeira vez que você usa esta ferramenta — depois fica salvo no seu navegador."
   },
   "Header": {
     "requestTool": "Solicitar uma ferramenta",
@@ -5293,6 +5294,7 @@
     "demoSmaller": "{pct}% menor",
     "apps": "Apps",
     "popular": "Populares",
+    "startHere": "Comece aqui",
     "all": "Todas",
     "allTools": "Todas as {count} ferramentas",
     "viewAll": "Ver todas as ferramentas",

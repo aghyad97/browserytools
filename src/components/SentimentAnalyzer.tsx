@@ -9,7 +9,8 @@ import { SmileIcon, FrownIcon, InfoIcon } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { ToolShell } from "@/components/template/tool-shell";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
-import { formatPercent } from "@/lib/format";
+import { formatPercent, formatBytes } from "@/lib/format";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
 
 const MODEL = "Xenova/distilbert-base-uncased-finetuned-sst-2-english";
 
@@ -22,6 +23,8 @@ type Result = { label: string; score: number };
 export default function SentimentAnalyzer() {
   const t = useTranslations("Tools.SentimentAnalyzer");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
+  const modelBytes = useEstimatedModelSize("distilbert-sst2");
 
   const [text, setText] = useState("");
   const [busy, setBusy] = useState(false);
@@ -113,7 +116,16 @@ export default function SentimentAnalyzer() {
         <Card className="p-4">
           <div className="flex items-start gap-3">
             <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-            <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+              {modelBytes !== null && (
+                <p className="text-xs text-muted-foreground">
+                  {tCommon("modelDownloadSize", {
+                    size: formatBytes(modelBytes),
+                  })}
+                </p>
+              )}
+            </div>
           </div>
         </Card>
       </div>

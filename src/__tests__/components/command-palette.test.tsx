@@ -50,6 +50,16 @@ describe("CommandPalette", () => {
     expect(screen.queryByText("Background Removal")).toBeNull();
   });
 
+  it("finds a tool via a curated keyword phrase that isn't in its name", async () => {
+    const user = userEvent.setup();
+    render(<CommandPalette open onClose={() => {}} />);
+
+    // "transparent png" doesn't appear in "Background Removal" — only reachable
+    // via the tool's curated `keywords` (see tools-config.ts / Task 6.1).
+    await user.type(screen.getByRole("combobox"), "transparent png");
+    expect(screen.getByText("Background Removal")).toBeInTheDocument();
+  });
+
   it("shows the translated empty state for a gibberish query", async () => {
     const user = userEvent.setup();
     render(<CommandPalette open onClose={() => {}} />);

@@ -46,7 +46,8 @@
     "removeFromFavorites": "Remove from favorites",
     "siteName": "BrowseryTools",
     "siteTagline": "Essential Browser-Based Productivity Tools",
-    "siteDescription": "Essential browser-based tools for productivity. No servers. Full privacy."
+    "siteDescription": "Essential browser-based tools for productivity. No servers. Full privacy.",
+    "modelDownloadSize": "Downloads a {size} AI model the first time you use this tool — cached in your browser afterward."
   },
   "Header": {
     "requestTool": "Request a tool",
@@ -5293,6 +5294,7 @@
     "demoSmaller": "{pct}% smaller",
     "apps": "Apps",
     "popular": "Popular",
+    "startHere": "Start here",
     "all": "All",
     "allTools": "All {count} tools",
     "viewAll": "View all tools",

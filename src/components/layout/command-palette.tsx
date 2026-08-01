@@ -28,21 +28,29 @@ import { useRouter } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { tools, roundedToolCount, isHiddenVariant } from "@/lib/tools-config";
 import { playCue } from "@/lib/ui-sound";
+import { matchesToolQuery } from "@/lib/tool-search-match";
+import { synonymsFor } from "@/lib/tool-synonyms";
 import s from "./command-palette.module.css";
 
 /* Locale-independent flat index — names/labels resolve via i18n at render.
    Excludes hidden SEO landing variants so the palette stays consistent with the
    homepage grid and tool count; `inGrid` variants (PDF operations) are searchable
-   like any other card. */
+   like any other card. `keywords` (curated alternative phrasings, e.g. "remove
+   background" for bg-removal — see src/lib/tool-synonyms.ts) ride along so
+   matchesToolQuery can search them — they are never displayed. */
 const TOOL_INDEX = tools.flatMap((c) =>
   c.items
     .filter((t) => !isHiddenVariant(t))
-    .map((t) => ({
-      slug: t.href.split("/").pop() as string,
-      href: t.href,
-      icon: t.icon,
-      categoryId: c.id,
-    })),
+    .map((t) => {
+      const slug = t.href.split("/").pop() as string;
+      return {
+        slug,
+        href: t.href,
+        icon: t.icon,
+        categoryId: c.id,
+        keywords: synonymsFor(slug),
+      };
+    }),
 );
 
 const TOOL_COUNT = roundedToolCount();
@@ -147,12 +155,7 @@ export function CommandPalette({
     const query = q.trim().toLowerCase();
     if (!query) return catalog.slice(0, MAX_RESULTS);
     return catalog
-      .filter(
-        (tool) =>
-          tool.name.toLowerCase().includes(query) ||
-          tool.category.toLowerCase().includes(query) ||
-          tool.slug.includes(query),
-      )
+      .filter((tool) => matchesToolQuery(tool, query))
       .slice(0, MAX_RESULTS);
   }, [q, catalog]);
 

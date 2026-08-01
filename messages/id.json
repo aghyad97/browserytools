@@ -46,7 +46,8 @@
     "removeFromFavorites": "Hapus dari favorit",
     "siteName": "BrowseryTools",
     "siteTagline": "Alat Produktivitas Berbasis Browser yang Penting",
-    "siteDescription": "Alat berbasis browser yang penting untuk produktivitas. Tanpa server. Privasi penuh."
+    "siteDescription": "Alat berbasis browser yang penting untuk produktivitas. Tanpa server. Privasi penuh.",
+    "modelDownloadSize": "Mengunduh model AI berukuran {size} saat pertama kali menggunakan alat ini — lalu tersimpan di cache browser."
   },
   "Header": {
     "requestTool": "Minta alat baru",
@@ -5293,6 +5294,7 @@
     "demoSmaller": "{pct}% lebih kecil",
     "apps": "Aplikasi",
     "popular": "Populer",
+    "startHere": "Mulai di sini",
     "all": "Semua",
     "allTools": "Semua {count} alat",
     "viewAll": "Lihat semua alat",

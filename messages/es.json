@@ -46,7 +46,8 @@
     "removeFromFavorites": "Quitar de favoritos",
     "siteName": "BrowseryTools",
     "siteTagline": "Herramientas de productividad esenciales que funcionan en tu navegador",
-    "siteDescription": "Herramientas esenciales basadas en el navegador para tu productividad. Sin servidores. Privacidad total."
+    "siteDescription": "Herramientas esenciales basadas en el navegador para tu productividad. Sin servidores. Privacidad total.",
+    "modelDownloadSize": "Descarga un modelo de IA de {size} la primera vez que usas esta herramienta; luego queda guardado en tu navegador."
   },
   "Header": {
     "requestTool": "Solicitar una herramienta",
@@ -5293,6 +5294,7 @@
     "demoSmaller": "{pct}% más pequeño",
     "apps": "Apps",
     "popular": "Populares",
+    "startHere": "Empieza aquí",
     "all": "Todas",
     "allTools": "Las {count} herramientas",
     "viewAll": "Ver todas las herramientas",
