@@ -18,7 +18,12 @@
 
 ![BrowseryTools](https://github.com/aghyad97/browserytools/blob/main/public/og-image.png?raw=true)
 
-A comprehensive collection of **130+ browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Every tool runs entirely in your browser — no uploads, no servers, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
+A comprehensive collection of **152 browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Your files and text are processed in your browser — no uploads, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
+
+Two caveats worth stating plainly, since "everything is local" is the headline claim:
+
+- Tools that run an AI model download the model weights from a third-party CDN the first time you use them. Your content still stays on your device; the model files come over the network.
+- Two tools genuinely need the network. **Live Dictation** uses the browser's Web Speech API, which in Chrome and Edge sends your audio to the browser vendor for recognition — don't use it for anything confidential. **Currency Converter** fetches exchange rates from an external API.
 
 ## 📚 Table of Contents
 
