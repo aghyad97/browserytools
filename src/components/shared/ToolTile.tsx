@@ -24,6 +24,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { isToolNew } from "@/lib/tools-config";
+import { useLocaleHref } from "@/lib/use-locale-href";
 import s from "./ToolTile.module.css";
 
 export interface ToolTileProps {
@@ -72,6 +73,9 @@ export function ToolTile({
   creationDate,
 }: ToolTileProps) {
   const tCommon = useTranslations("Common");
+  // Stay inside the current locale section: on /es the whole tool grid links to
+  // /es/tools/…, which is what lets a crawler walk the Spanish catalog.
+  const localeHref = useLocaleHref();
 
   /* isToolNew() reads the clock, so it can disagree between the build that
      prerendered this page and the browser rendering it — a page built inside a
@@ -85,7 +89,7 @@ export function ToolTile({
 
   const tile = (
     <Link
-      href={href}
+      href={localeHref(href)}
       data-slug={slug}
       data-testid={testId}
       className={className ? `${s.tile} ${className}` : s.tile}
