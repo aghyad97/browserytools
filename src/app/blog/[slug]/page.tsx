@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Badge } from "@/components/ui/badge";
 import { getBlogPost, blogPosts, getPostsByLocale, getPostLocale } from "@/lib/blog-data";
+import { blogHreflang } from "@/lib/blog-alternates";
 import { Clock, Calendar, Tag, ArrowLeft, ArrowRight } from "lucide-react";
 import type { Metadata } from "next";
 import { JsonLdScript } from "@/components/JsonLdScript";
@@ -49,6 +50,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     },
     alternates: {
       canonical: `${BASE_URL}/blog/${slug}`,
+      // Translated posts live at sibling `-<locale>` slugs, not locale-prefixed
+      // URLs; link the family together so each translation is understood as an
+      // alternate rather than a near-duplicate. Undefined when the post has no
+      // known translations.
+      languages: blogHreflang(slug),
     },
   };
 }
