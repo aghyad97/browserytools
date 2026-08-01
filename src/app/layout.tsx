@@ -1,15 +1,17 @@
 import type { Metadata, Viewport } from "next";
 import { Inter, IBM_Plex_Sans_Arabic } from "next/font/google";
 import localFont from "next/font/local";
-import { cookies } from "next/headers";
+import { cookies, headers } from "next/headers";
 import "./globals.css";
 import { Providers } from "@/providers/providers";
 import {
   type Locale,
+  LOCALE_COOKIE,
+  LOCALE_HEADER,
+  LOCALE_SOURCE_HEADER,
   defaultLocale,
   getDir,
   isLocale,
-  hreflangLanguages,
   ogAlternateLocales,
 } from "@/lib/locales";
 
@@ -77,7 +79,6 @@ export const metadata: Metadata = {
   metadataBase: new URL("https://browserytools.com"),
   alternates: {
     canonical: "/",
-    languages: hreflangLanguages("https://browserytools.com"),
   },
   openGraph: {
     type: "website",
@@ -164,9 +165,22 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const localeCookie = cookieStore.get("browsery-locale")?.value;
-  const initialLocale: Locale = isLocale(localeCookie) ? localeCookie : defaultLocale;
+  // The middleware resolves the locale from the URL prefix (`/es/tools/x`) and
+  // falls back to the cookie, so `<html lang>`/`dir` and the SSR'd translations
+  // are correct for locale-prefixed URLs — which is what makes them indexable.
+  // The cookie read stays as a fallback for any request that bypasses the
+  // middleware matcher.
+  const headerList = await headers();
+  const headerLocale = headerList.get(LOCALE_HEADER);
+  const localePinned = headerList.get(LOCALE_SOURCE_HEADER) === "path";
+
+  let initialLocale: Locale = defaultLocale;
+  if (isLocale(headerLocale)) {
+    initialLocale = headerLocale;
+  } else {
+    const localeCookie = (await cookies()).get(LOCALE_COOKIE)?.value;
+    if (isLocale(localeCookie)) initialLocale = localeCookie;
+  }
 
   return (
     <html
@@ -176,7 +190,7 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={inter.className}>
-        <Providers initialLocale={initialLocale}>
+        <Providers initialLocale={initialLocale} localePinned={localePinned}>
           {children}
         </Providers>
       </body>
