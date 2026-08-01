@@ -5360,6 +5360,26 @@
       "contactBody": "欢迎就这些条款提出问题——在 GitHub 上联系我们。"
     }
   },
+  "Comparisons": {
+    "sectionLabel": "对比",
+    "tableCaption": "{competitor} 与 BrowseryTools 对比",
+    "colAspect": "关注点",
+    "colUs": "BrowseryTools",
+    "colThem": "{competitor}",
+    "edgeUs": "优势：BrowseryTools",
+    "edgeThem": "优势：{competitor}",
+    "edgeMixed": "视具体任务而定",
+    "theirEdgeTitle": "{competitor} 确实更强的地方",
+    "ourLimitsTitle": "我们的工具不足之处",
+    "verdictTitle": "该用哪一个？",
+    "faqTitle": "常见问题",
+    "toolsTitle": "参与对比的工具",
+    "sourcesTitle": "来源",
+    "checkedOn": "竞品信息于 {date} 取自其官方公开页面。价格与免费额度经常变动，决定前请自行核对。",
+    "trademark": "{competitor} 是其所有者的商标。本页为独立对比，我们与其没有隶属、赞助或背书关系。",
+    "relatedTitle": "其他对比",
+    "openTool": "打开 {tool}"
+  },
   "Clusters": {
     "collectionLabel": "合集",
     "allToolsLink": "全部工具",

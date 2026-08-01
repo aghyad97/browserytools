@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getAllTools } from "@/lib/tools-config";
 import { blogPosts } from "@/lib/blog-data";
+import { comparisons } from "@/lib/comparisons";
 import { TOOL_CLUSTERS } from "@/lib/tool-clusters";
 import { blogHreflang } from "@/lib/blog-alternates";
 import {
@@ -114,5 +115,21 @@ export default function sitemap(): MetadataRoute.Sitemap {
     priority: 0.85,
   }));
 
-  return [...staticRoutes, ...clusterRoutes, ...toolRoutes, ...blogRoutes];
+  // Comparison ("alternative to X") routes — lastModified is the date each
+  // page's competitor claims were last checked against their public pages.
+  // English-only, like the cluster hubs: no `[locale]/alternatives` segment.
+  const comparisonRoutes: MetadataRoute.Sitemap = comparisons.map((c) => ({
+    url: `${SITE_URL}/alternatives/${c.slug}`,
+    lastModified: new Date(c.checkedOn),
+    changeFrequency: "monthly" as const,
+    priority: 0.6,
+  }));
+
+  return [
+    ...staticRoutes,
+    ...clusterRoutes,
+    ...comparisonRoutes,
+    ...toolRoutes,
+    ...blogRoutes,
+  ];
 }

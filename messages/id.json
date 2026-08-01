@@ -5360,6 +5360,26 @@
       "contactBody": "Pertanyaan seputar ketentuan ini sangat kami sambut — hubungi kami di GitHub."
     }
   },
+  "Comparisons": {
+    "sectionLabel": "Perbandingan",
+    "tableCaption": "{competitor} dibandingkan dengan BrowseryTools",
+    "colAspect": "Yang penting",
+    "colUs": "BrowseryTools",
+    "colThem": "{competitor}",
+    "edgeUs": "Unggul: BrowseryTools",
+    "edgeThem": "Unggul: {competitor}",
+    "edgeMixed": "Tergantung kebutuhan",
+    "theirEdgeTitle": "Hal yang benar-benar lebih baik di {competitor}",
+    "ourLimitsTitle": "Di mana alat kami masih kalah",
+    "verdictTitle": "Mana yang sebaiknya dipakai?",
+    "faqTitle": "Pertanyaan umum",
+    "toolsTitle": "Alat yang dibandingkan",
+    "sourcesTitle": "Sumber",
+    "checkedOn": "Detail kompetitor dibaca dari halaman publik mereka sendiri pada {date}. Harga dan batas paket gratis sering berubah — periksa sendiri sebelum memutuskan.",
+    "trademark": "{competitor} adalah merek dagang milik pemiliknya. Ini perbandingan independen. Kami tidak berafiliasi, disponsori, maupun didukung oleh mereka.",
+    "relatedTitle": "Perbandingan lainnya",
+    "openTool": "Buka {tool}"
+  },
   "Clusters": {
     "collectionLabel": "Koleksi",
     "allToolsLink": "Semua alat",

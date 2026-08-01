@@ -5360,6 +5360,26 @@
       "contactBody": "Questions about these terms are welcome — reach us on GitHub."
     }
   },
+  "Comparisons": {
+    "sectionLabel": "Comparison",
+    "tableCaption": "{competitor} compared with BrowseryTools",
+    "colAspect": "What matters",
+    "colUs": "BrowseryTools",
+    "colThem": "{competitor}",
+    "edgeUs": "Edge: BrowseryTools",
+    "edgeThem": "Edge: {competitor}",
+    "edgeMixed": "Depends on the job",
+    "theirEdgeTitle": "Where {competitor} is genuinely better",
+    "ourLimitsTitle": "Where our tools fall short",
+    "verdictTitle": "Which one should you use?",
+    "faqTitle": "Frequently asked questions",
+    "toolsTitle": "The tools this compares",
+    "sourcesTitle": "Sources",
+    "checkedOn": "Competitor details were read from their own public pages on {date}. Prices and free-tier limits change often — check theirs before you decide.",
+    "trademark": "{competitor} is a trademark of its owner. This is an independent comparison. We are not affiliated with, sponsored by, or endorsed by them.",
+    "relatedTitle": "Other comparisons",
+    "openTool": "Open {tool}"
+  },
   "Clusters": {
     "collectionLabel": "Collection",
     "allToolsLink": "All tools",

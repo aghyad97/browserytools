@@ -1,0 +1,313 @@
+/* Comparison ("alternative to X") page layout.
+   Tokens only, logical properties throughout so the whole page mirrors for
+   free under dir="rtl" — same discipline as legal-document.module.css.
+
+   Design rule (repo owner, non-negotiable): NO single-edge stroke on any card.
+   Emphasis here comes from a nested surface, an all-around hairline ring, and
+   text colour — never a left/right accent bar. */
+
+.wrap {
+  max-width: 820px;
+  margin-inline: auto;
+  padding-block: 40px 96px;
+  padding-inline: 48px;
+}
+
+@media (max-width: 640px) {
+  .wrap {
+    padding-inline: 20px;
+    padding-block: 28px 64px;
+  }
+}
+
+.eyebrow {
+  font-family: var(--mono, ui-monospace, "SF Mono", "Cascadia Mono", monospace);
+  font-size: 11px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+  margin-block-end: 14px;
+}
+
+.title {
+  font-size: 30px;
+  font-weight: 650;
+  letter-spacing: -0.015em;
+  line-height: 1.2;
+  color: var(--bt-ink);
+  margin-block-end: 18px;
+  text-wrap: balance;
+}
+
+.intro {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--bt-muted);
+  margin-block-end: 32px;
+}
+
+.intro strong {
+  color: var(--bt-ink);
+  font-weight: 600;
+}
+
+/* Freshness / verification notice. Nested surface, ring on all sides. */
+.notice {
+  border: 1px solid var(--bt-line);
+  border-radius: 10px;
+  background: var(--bt-surface);
+  padding: 14px 16px;
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--bt-muted);
+  margin-block-end: 44px;
+}
+
+.section {
+  margin-block-end: 44px;
+}
+.section:last-child {
+  margin-block-end: 0;
+}
+
+.heading {
+  font-size: 20px;
+  font-weight: 620;
+  letter-spacing: -0.01em;
+  line-height: 1.3;
+  color: var(--bt-ink);
+  margin-block-end: 16px;
+}
+
+.lead {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--bt-muted);
+  margin-block-end: 18px;
+}
+
+/* ── Comparison table ─────────────────────────────────────────────────────
+   Scrolls horizontally inside its own container on narrow screens so the
+   page body never scrolls sideways. */
+.tableScroll {
+  overflow-x: auto;
+  border: 1px solid var(--bt-line);
+  border-radius: 12px;
+  background: var(--bt-surface);
+}
+
+.table {
+  width: 100%;
+  min-width: 640px;
+  border-collapse: collapse;
+  font-size: 14px;
+  line-height: 1.6;
+  text-align: start;
+}
+
+.table caption {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.table th,
+.table td {
+  padding: 14px 16px;
+  vertical-align: top;
+  text-align: start;
+}
+
+.table thead th {
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bt-muted);
+  font-family: var(--mono, ui-monospace, "SF Mono", "Cascadia Mono", monospace);
+  white-space: nowrap;
+}
+
+.table tbody tr {
+  border-block-start: 1px solid var(--bt-line);
+}
+
+.aspect {
+  font-weight: 600;
+  color: var(--bt-ink);
+  width: 24%;
+}
+
+.cellUs,
+.cellThem {
+  color: var(--bt-muted);
+  width: 38%;
+}
+
+/* Emphasis by text colour only — never an accent bar. */
+.edge {
+  display: block;
+  margin-block-start: 8px;
+  font-family: var(--mono, ui-monospace, "SF Mono", "Cascadia Mono", monospace);
+  font-size: 10px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--bt-ink);
+}
+.edgeMuted {
+  color: var(--bt-muted);
+}
+
+/* ── Bullet lists ─────────────────────────────────────────────────────── */
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 0;
+  padding-inline-start: 20px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--bt-muted);
+}
+.list li {
+  padding-inline-start: 4px;
+}
+.list li::marker {
+  color: var(--bt-muted);
+}
+
+/* Honest-limitations block: nested surface, ring all around. */
+.limitsPanel {
+  border: 1px solid var(--bt-line);
+  border-radius: 12px;
+  background: var(--bt-surface);
+  padding: 20px 22px;
+}
+
+@media (max-width: 640px) {
+  .limitsPanel {
+    padding: 16px;
+  }
+}
+
+/* ── Verdict ──────────────────────────────────────────────────────────── */
+.verdict {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--bt-muted);
+}
+.verdict strong {
+  color: var(--bt-ink);
+  font-weight: 600;
+}
+
+/* ── FAQ ──────────────────────────────────────────────────────────────── */
+.faqItem {
+  padding-block: 16px;
+  border-block-start: 1px solid var(--bt-line);
+}
+.faqItem:first-child {
+  border-block-start: none;
+  padding-block-start: 0;
+}
+.faqQ {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--bt-ink);
+  margin-block-end: 6px;
+}
+.faqA {
+  font-size: 15px;
+  line-height: 1.65;
+  color: var(--bt-muted);
+}
+
+/* ── Tool + comparison links ──────────────────────────────────────────── */
+.linkGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 10px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.linkTile {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid var(--bt-line);
+  border-radius: 10px;
+  background: var(--bt-surface);
+  padding: 12px 14px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--bt-ink);
+  text-decoration: none;
+  transition: background 140ms var(--bt-ease-out, ease);
+}
+@media (hover: hover) and (pointer: fine) {
+  .linkTile:hover {
+    background: var(--bt-fill-hover, var(--bt-fill));
+  }
+}
+
+.linkTileDesc {
+  display: block;
+  margin-block-start: 2px;
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--bt-muted);
+}
+
+.arrow {
+  margin-inline-start: auto;
+  color: var(--bt-muted);
+  flex-shrink: 0;
+}
+[dir="rtl"] .arrow {
+  transform: scaleX(-1);
+}
+
+/* ── Sources + trademark footer ───────────────────────────────────────── */
+.sources {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.sourceLink {
+  color: var(--bt-muted);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  overflow-wrap: anywhere;
+}
+@media (hover: hover) and (pointer: fine) {
+  .sourceLink:hover {
+    color: var(--bt-ink);
+  }
+}
+
+.trademark {
+  margin-block-start: 44px;
+  padding-block-start: 24px;
+  border-block-start: 1px solid var(--bt-line);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--bt-muted);
+}
