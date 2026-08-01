@@ -5254,6 +5254,8 @@
     "aboutTitle": "О {tool}",
     "howToTitle": "Как пользоваться {tool}",
     "faqTitle": "Частые вопросы",
+    "whyClientSideTitle": "Почему это работает на вашем устройстве",
+    "limitationsTitle": "Ограничения и компромиссы",
     "relatedTitle": "Похожие инструменты"
   },
   "Rail": {

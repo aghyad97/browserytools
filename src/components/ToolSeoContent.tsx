@@ -3,11 +3,17 @@
 import { usePathname } from "next/navigation";
 import { useLocale, useTranslations } from "next-intl";
 import Link from "next/link";
-import { ArrowRightIcon, HelpCircleIcon, ListChecksIcon } from "lucide-react";
+import {
+  ArrowRightIcon,
+  HelpCircleIcon,
+  ListChecksIcon,
+  ScaleIcon,
+} from "lucide-react";
 
 import { findToolByHref, getAllTools } from "@/lib/tools-config";
 import {
   buildFallbackContent,
+  getToolDataProfile,
   toolContent,
   type ToolContentLocale,
 } from "@/lib/tool-content";
@@ -69,9 +75,17 @@ function resolveTool(pathname: string): ResolvedTool | null {
   };
 }
 
+// NOTE: `content.limitations` is deliberately NOT represented in any JSON-LD
+// graph below. It is honest on-page prose for readers, not a structured claim,
+// and schema.org has no honest type for it. Keep it that way.
+//
+// `isBespoke` gates FAQPage. Templated fallback questions are not evidence that
+// anyone frequently asks them about that specific tool, so asserting them as
+// structured FAQ data would be a claim we can't support. The prose still renders.
 function buildJsonLd(
   tool: ResolvedTool,
-  content: ToolContentLocale
+  content: ToolContentLocale,
+  isBespoke: boolean
 ): Record<string, unknown>[] {
   const toolUrl = `${BASE_URL}${tool.href}`;
   const graphs: Record<string, unknown>[] = [];
@@ -125,8 +139,8 @@ function buildJsonLd(
     ],
   });
 
-  // 3) FAQPage — from the FAQ content.
-  if (content.faq.length > 0) {
+  // 3) FAQPage — hand-authored FAQ only.
+  if (isBespoke && content.faq.length > 0) {
     graphs.push({
       "@context": "https://schema.org",
       "@type": "FAQPage",
@@ -186,11 +200,13 @@ export default function ToolSeoContent() {
           name: tool.name,
           description: tool.description,
           category: tool.category,
+          // The fallback may only make the privacy claim the tool has earned.
+          dataProfile: getToolDataProfile(tool.slug),
         },
         seoLocale
       );
 
-  const jsonLd = buildJsonLd(tool, content);
+  const jsonLd = buildJsonLd(tool, content, Boolean(bespoke));
 
   // Related tools (only those that exist & are available).
   const relatedSlugs = bespoke?.related ?? [];
@@ -227,6 +243,20 @@ export default function ToolSeoContent() {
             {introParagraphs.map((p, i) => (
               <p key={i}>{p}</p>
             ))}
+
+            {/* Why this one runs on your device. Nested surface for emphasis —
+                no single-edge accent rules. */}
+            {content.whyClientSide && (
+              <div
+                className="rounded-lg bg-muted/50 p-4"
+                data-testid="tool-seo-why-client-side"
+              >
+                <h3 className="mb-1.5 text-sm font-medium text-foreground">
+                  {t("whyClientSideTitle")}
+                </h3>
+                <p>{content.whyClientSide}</p>
+              </div>
+            )}
           </CardContent>
         </Card>
 
@@ -247,6 +277,27 @@ export default function ToolSeoContent() {
                   </li>
                 ))}
               </ol>
+            </CardContent>
+          </Card>
+        )}
+
+        {/* Limitations — prose only, never structured data. */}
+        {content.limitations && content.limitations.length > 0 && (
+          <Card data-testid="tool-seo-limitations">
+            <CardHeader>
+              <CardTitle className="flex items-center gap-2 text-xl">
+                <ScaleIcon className="size-5 shrink-0 text-muted-foreground" />
+                {t("limitationsTitle")}
+              </CardTitle>
+            </CardHeader>
+            <CardContent>
+              <ul className="flex list-disc flex-col gap-2 ps-5 text-sm leading-relaxed text-muted-foreground marker:text-muted-foreground/70">
+                {content.limitations.map((item, i) => (
+                  <li key={i} className="ps-1">
+                    {item}
+                  </li>
+                ))}
+              </ul>
             </CardContent>
           </Card>
         )}
