@@ -1,6 +1,7 @@
 import { MetadataRoute } from "next";
 import { getAllTools } from "@/lib/tools-config";
 import { blogPosts } from "@/lib/blog-data";
+import { TOOL_CLUSTERS } from "@/lib/tool-clusters";
 import { blogHreflang } from "@/lib/blog-alternates";
 import {
   SITE_URL,
@@ -102,5 +103,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     };
   });
 
-  return [...staticRoutes, ...toolRoutes, ...blogRoutes];
+  // Cluster hub routes (/collections/*) — sit between the homepage and the
+  // individual tool pages, so they rank above tools and below the index.
+  // English-only for now: there is no `[locale]/collections` segment, so these
+  // get no locale variants and no alternates, same as the legal pages.
+  const clusterRoutes: MetadataRoute.Sitemap = TOOL_CLUSTERS.map((cluster) => ({
+    url: `${SITE_URL}${cluster.href}`,
+    lastModified: newestToolDate.getTime() > 0 ? newestToolDate : currentDate,
+    changeFrequency: "weekly" as const,
+    priority: 0.85,
+  }));
+
+  return [...staticRoutes, ...clusterRoutes, ...toolRoutes, ...blogRoutes];
 }

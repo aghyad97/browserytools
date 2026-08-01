@@ -5357,5 +5357,45 @@
       "contactHeading": "Questions",
       "contactBody": "Questions about these terms are welcome — reach us on GitHub."
     }
+  },
+  "Clusters": {
+    "collectionLabel": "Collection",
+    "allToolsLink": "All tools",
+    "openTool": "Open tool",
+    "relatedHeading": "Related collections",
+    "toolCount": "{count} tools",
+    "englishFallbackNote": "The in-depth guide on this page is written in English and Arabic. Other languages show the English text.",
+    "names": {
+      "ai-developer-tools": {
+        "title": "AI and LLM developer tools",
+        "tagline": "Token budgets, prompt shaping, and the config files you end up writing when you build on top of a language model.",
+        "metaTitle": "AI & LLM Developer Tools — Token Counting, Cost Estimates, Prompt Formats, MCP and Agent Config",
+        "metaDescription": "Thirteen browser-based utilities for building on language models: count tokens, size a context window, estimate API spend, format prompts for ChatML or Claude XML, draft JSON Schema tool definitions, generate MCP config, and diff agent instruction files."
+      },
+      "privacy-first-tools": {
+        "title": "Privacy-first tools",
+        "tagline": "Metadata, credentials, redaction and signatures — handled in the tab instead of on someone else's server.",
+        "metaTitle": "Privacy-First Browser Tools — Process Files Locally Without Uploading Them",
+        "metaDescription": "Sixteen tools for work you should not hand to a stranger's server: strip EXIF and GPS from photos, redact personal data, censor faces, encrypt notes, generate passwords and TOTP codes, and sign or read PDFs — all inside your own browser."
+      },
+      "pdf-tools": {
+        "title": "PDF tools",
+        "tagline": "Merge, split, rotate, stamp and extract — with a straight account of what compression and Word conversion really cost.",
+        "metaTitle": "Browser PDF Tools — Merge, Split, Rotate, Compress, Sign and Extract Without Uploading",
+        "metaDescription": "Thirteen PDF operations that run in your own browser with pdf-lib and pdf.js: merge, split, reorder, rotate, compress, watermark, stamp a signature, extract text, build a PDF from images, and convert between PDF and Word."
+      },
+      "image-tools": {
+        "title": "Image tools",
+        "tagline": "Eighteen canvas utilities for the four things people actually do to images: make them smaller, change the format, change the shape, make them presentable.",
+        "metaTitle": "Browser Image Tools — Compress to a Target Size, Convert AVIF and HEIC, Crop, Resize, Censor",
+        "metaDescription": "Eighteen image utilities that run on canvas in your own browser: hit an exact file-size budget, convert between PNG, JPEG, WebP, AVIF and HEIC, crop and resize, strip metadata, censor sensitive regions, and build favicons, mockups and collages."
+      },
+      "on-device-ai": {
+        "title": "On-device AI tools",
+        "tagline": "Whisper, translation, OCR, segmentation and neural speech, executed on your own CPU or GPU — with the download sizes stated up front.",
+        "metaTitle": "On-Device AI Tools — Whisper, Translation, OCR and Image Models Running in Your Browser",
+        "metaDescription": "Thirteen tools that download a machine-learning model into your browser and run it there: Whisper transcription, translation with no API, summarisation, classification, PII detection, neural text-to-speech, background removal, upscaling and depth estimation."
+      }
+    }
   }
 }
