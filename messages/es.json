@@ -5377,5 +5377,45 @@
     "trademark": "{competitor} es una marca de su propietario. Esta es una comparativa independiente. No estamos afiliados, patrocinados ni respaldados por ellos.",
     "relatedTitle": "Otras comparativas",
     "openTool": "Abrir {tool}"
+  },
+  "Clusters": {
+    "collectionLabel": "Colección",
+    "allToolsLink": "Todas las herramientas",
+    "openTool": "Abrir herramienta",
+    "relatedHeading": "Colecciones relacionadas",
+    "toolCount": "{count} herramientas",
+    "englishFallbackNote": "La guía detallada de esta página está escrita en inglés y árabe. En los demás idiomas se muestra el texto en inglés.",
+    "names": {
+      "ai-developer-tools": {
+        "title": "Herramientas de IA para desarrolladores",
+        "tagline": "Presupuesto de tokens, formato de prompts y los archivos de configuración que acabas escribiendo al construir sobre un modelo de lenguaje.",
+        "metaTitle": "Herramientas de IA y LLM para desarrolladores — tokens, costes, prompts y configuración de MCP",
+        "metaDescription": "Trece utilidades que funcionan en el navegador para quien construye sobre modelos de lenguaje: contar tokens, medir la ventana de contexto, estimar el coste de la API, dar formato a prompts, crear esquemas JSON de herramientas y generar configuración de MCP."
+      },
+      "privacy-first-tools": {
+        "title": "Herramientas que respetan la privacidad",
+        "tagline": "Metadatos, credenciales, censura y firmas: todo dentro de la pestaña y no en el servidor de un desconocido.",
+        "metaTitle": "Herramientas que respetan la privacidad — procesa tus archivos sin subirlos",
+        "metaDescription": "Dieciséis herramientas para tareas que no conviene entregar al servidor de un desconocido: borrar EXIF y GPS de las fotos, ocultar datos personales, censurar caras, cifrar notas, generar contraseñas y códigos TOTP, y firmar o leer PDF, todo en tu propio navegador."
+      },
+      "pdf-tools": {
+        "title": "Herramientas PDF",
+        "tagline": "Unir, dividir, rotar, sellar y extraer, con una explicación honesta de lo que cuestan la compresión y la conversión a Word.",
+        "metaTitle": "Herramientas PDF en el navegador — unir, dividir, rotar, comprimir, firmar y extraer sin subir nada",
+        "metaDescription": "Trece operaciones sobre PDF que se ejecutan en tu propio navegador con pdf-lib y pdf.js: unir, dividir, reordenar, rotar, comprimir, poner marca de agua, estampar una firma, extraer texto, crear un PDF a partir de imágenes y convertir entre PDF y Word."
+      },
+      "image-tools": {
+        "title": "Herramientas de imagen",
+        "tagline": "Dieciocho utilidades basadas en canvas para las cuatro cosas que de verdad se hacen con una imagen: reducirla, cambiar su formato, cambiar su forma y dejarla presentable.",
+        "metaTitle": "Herramientas de imagen en el navegador — comprimir a un tamaño exacto, convertir AVIF y HEIC, recortar y censurar",
+        "metaDescription": "Dieciocho utilidades de imagen que funcionan sobre canvas en tu propio navegador: alcanzar un tamaño de archivo exacto, convertir entre PNG, JPEG, WebP, AVIF y HEIC, recortar y redimensionar, borrar metadatos, censurar zonas sensibles y crear favicons, mockups y collages."
+      },
+      "on-device-ai": {
+        "title": "IA que se ejecuta en tu dispositivo",
+        "tagline": "Whisper, traducción, OCR, segmentación y voz neuronal, ejecutados en tu propia CPU o GPU, con los tamaños de descarga dichos de antemano.",
+        "metaTitle": "IA en el dispositivo — Whisper, traducción, OCR y modelos de imagen dentro de tu navegador",
+        "metaDescription": "Trece herramientas que descargan un modelo de aprendizaje automático a tu navegador y lo ejecutan ahí: transcripción con Whisper, traducción sin API, resumen, clasificación, detección de datos personales, voz neuronal, eliminación de fondo, escalado y estimación de profundidad."
+      }
+    }
   }
 }

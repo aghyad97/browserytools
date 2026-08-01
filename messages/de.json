@@ -5377,5 +5377,45 @@
     "trademark": "{competitor} ist eine Marke des jeweiligen Inhabers. Dies ist ein unabhängiger Vergleich. Es besteht keine Verbindung, kein Sponsoring und keine Empfehlung.",
     "relatedTitle": "Weitere Vergleiche",
     "openTool": "{tool} öffnen"
+  },
+  "Clusters": {
+    "collectionLabel": "Sammlung",
+    "allToolsLink": "Alle Tools",
+    "openTool": "Tool öffnen",
+    "relatedHeading": "Verwandte Sammlungen",
+    "toolCount": "{count} Tools",
+    "englishFallbackNote": "Der ausführliche Leitfaden auf dieser Seite ist auf Englisch und Arabisch verfasst. In anderen Sprachen wird der englische Text angezeigt.",
+    "names": {
+      "ai-developer-tools": {
+        "title": "KI-Tools für Entwickler",
+        "tagline": "Token-Budgets, Prompt-Formate und die Konfigurationsdateien, die man schreibt, wenn man auf einem Sprachmodell aufbaut.",
+        "metaTitle": "KI- und LLM-Entwicklertools — Tokens zählen, Kosten schätzen, Prompts formatieren, MCP konfigurieren",
+        "metaDescription": "Dreizehn Werkzeuge, die im Browser laufen, für alle, die auf Sprachmodellen aufbauen: Tokens zählen, Kontextfenster messen, API-Kosten schätzen, Prompts formatieren, JSON-Schema-Tooldefinitionen erstellen und MCP-Konfigurationen generieren."
+      },
+      "privacy-first-tools": {
+        "title": "Datenschutzfreundliche Tools",
+        "tagline": "Metadaten, Zugangsdaten, Schwärzungen und Unterschriften — im Tab erledigt statt auf fremden Servern.",
+        "metaTitle": "Datenschutzfreundliche Browser-Tools — Dateien lokal verarbeiten, ohne sie hochzuladen",
+        "metaDescription": "Sechzehn Tools für Aufgaben, die man keinem fremden Server überlässt: EXIF und GPS aus Fotos entfernen, personenbezogene Daten schwärzen, Gesichter unkenntlich machen, Notizen verschlüsseln, Passwörter und TOTP-Codes erzeugen sowie PDFs signieren oder auslesen — alles im eigenen Browser."
+      },
+      "pdf-tools": {
+        "title": "PDF-Tools",
+        "tagline": "Zusammenfügen, teilen, drehen, stempeln und extrahieren — mit einer ehrlichen Rechnung, was Komprimierung und Word-Konvertierung kosten.",
+        "metaTitle": "PDF-Tools im Browser — zusammenfügen, teilen, drehen, komprimieren, signieren und extrahieren ohne Upload",
+        "metaDescription": "Dreizehn PDF-Operationen, die mit pdf-lib und pdf.js im eigenen Browser laufen: zusammenfügen, teilen, neu sortieren, drehen, komprimieren, mit Wasserzeichen versehen, eine Unterschrift aufbringen, Text extrahieren, ein PDF aus Bildern erstellen und zwischen PDF und Word konvertieren."
+      },
+      "image-tools": {
+        "title": "Bild-Tools",
+        "tagline": "Achtzehn Canvas-Werkzeuge für die vier Dinge, die man wirklich mit Bildern macht: verkleinern, Format ändern, Ausschnitt ändern, präsentabel machen.",
+        "metaTitle": "Bild-Tools im Browser — auf eine exakte Dateigröße komprimieren, AVIF und HEIC konvertieren, zuschneiden, unkenntlich machen",
+        "metaDescription": "Achtzehn Bildwerkzeuge, die im eigenen Browser auf Canvas laufen: eine exakte Dateigröße treffen, zwischen PNG, JPEG, WebP, AVIF und HEIC konvertieren, zuschneiden und skalieren, Metadaten entfernen, sensible Bereiche unkenntlich machen sowie Favicons, Mockups und Collagen erstellen."
+      },
+      "on-device-ai": {
+        "title": "KI direkt auf dem Gerät",
+        "tagline": "Whisper, Übersetzung, OCR, Segmentierung und neuronale Sprache — ausgeführt auf Ihrer eigenen CPU oder GPU, mit vorab genannten Downloadgrößen.",
+        "metaTitle": "KI auf dem Gerät — Whisper, Übersetzung, OCR und Bildmodelle im Browser",
+        "metaDescription": "Dreizehn Tools, die ein Machine-Learning-Modell in den Browser laden und dort ausführen: Whisper-Transkription, Übersetzung ohne API, Zusammenfassung, Klassifikation, Erkennung personenbezogener Daten, neuronale Sprachausgabe, Freistellen, Hochskalieren und Tiefenschätzung."
+      }
+    }
   }
 }

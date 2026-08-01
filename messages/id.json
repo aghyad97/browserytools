@@ -5377,5 +5377,45 @@
     "trademark": "{competitor} adalah merek dagang milik pemiliknya. Ini perbandingan independen. Kami tidak berafiliasi, disponsori, maupun didukung oleh mereka.",
     "relatedTitle": "Perbandingan lainnya",
     "openTool": "Buka {tool}"
+  },
+  "Clusters": {
+    "collectionLabel": "Koleksi",
+    "allToolsLink": "Semua alat",
+    "openTool": "Buka alat",
+    "relatedHeading": "Koleksi terkait",
+    "toolCount": "{count} alat",
+    "englishFallbackNote": "Panduan lengkap di halaman ini ditulis dalam bahasa Inggris dan Arab. Bahasa lain menampilkan teks bahasa Inggris.",
+    "names": {
+      "ai-developer-tools": {
+        "title": "Alat AI untuk pengembang",
+        "tagline": "Anggaran token, penyusunan prompt, dan berkas konfigurasi yang akhirnya Anda tulis saat membangun di atas model bahasa.",
+        "metaTitle": "Alat AI dan LLM untuk pengembang — hitung token, perkirakan biaya, format prompt, dan konfigurasi MCP",
+        "metaDescription": "Tiga belas utilitas yang berjalan di peramban untuk siapa pun yang membangun di atas model bahasa: menghitung token, mengukur jendela konteks, memperkirakan biaya API, memformat prompt, membuat JSON Schema untuk pemanggilan alat, dan membuat konfigurasi MCP."
+      },
+      "privacy-first-tools": {
+        "title": "Alat yang menjaga privasi",
+        "tagline": "Metadata, kredensial, penyensoran, dan tanda tangan — diselesaikan di tab, bukan di server orang lain.",
+        "metaTitle": "Alat peramban yang menjaga privasi — olah berkas secara lokal tanpa mengunggahnya",
+        "metaDescription": "Enam belas alat untuk pekerjaan yang sebaiknya tidak diserahkan ke server orang asing: menghapus EXIF dan GPS dari foto, menyensor data pribadi, mengaburkan wajah, mengenkripsi catatan, membuat kata sandi dan kode TOTP, serta menandatangani atau membaca PDF — semuanya di peramban Anda sendiri."
+      },
+      "pdf-tools": {
+        "title": "Alat PDF",
+        "tagline": "Menggabungkan, memisah, memutar, membubuhkan, dan mengekstrak — dengan penjelasan jujur tentang harga kompresi dan konversi ke Word.",
+        "metaTitle": "Alat PDF di peramban — gabung, pisah, putar, kompres, tanda tangani, dan ekstrak tanpa mengunggah",
+        "metaDescription": "Tiga belas operasi PDF yang berjalan di peramban Anda sendiri dengan pdf-lib dan pdf.js: menggabungkan, memisah, menata ulang, memutar, mengompres, memberi tanda air, membubuhkan tanda tangan, mengekstrak teks, membuat PDF dari gambar, dan mengonversi antara PDF dan Word."
+      },
+      "image-tools": {
+        "title": "Alat gambar",
+        "tagline": "Delapan belas utilitas berbasis canvas untuk empat hal yang benar-benar dilakukan orang pada gambar: memperkecil, mengubah format, mengubah bingkai, dan membuatnya layak tampil.",
+        "metaTitle": "Alat gambar di peramban — kompres ke ukuran tepat, konversi AVIF dan HEIC, potong, dan sensor",
+        "metaDescription": "Delapan belas utilitas gambar yang berjalan di atas canvas dalam peramban Anda sendiri: mencapai ukuran berkas yang tepat, mengonversi antara PNG, JPEG, WebP, AVIF, dan HEIC, memotong dan mengubah ukuran, menghapus metadata, menyensor area sensitif, serta membuat favicon, mockup, dan kolase."
+      },
+      "on-device-ai": {
+        "title": "AI yang berjalan di perangkat Anda",
+        "tagline": "Whisper, terjemahan, OCR, segmentasi, dan suara neural, dijalankan pada CPU atau GPU Anda sendiri, dengan ukuran unduhan disebutkan di awal.",
+        "metaTitle": "AI di perangkat — Whisper, terjemahan, OCR, dan model gambar di dalam peramban Anda",
+        "metaDescription": "Tiga belas alat yang mengunduh model pembelajaran mesin ke peramban Anda dan menjalankannya di sana: transkripsi Whisper, terjemahan tanpa API, peringkasan, klasifikasi, deteksi data pribadi, suara neural, penghapusan latar, peningkatan resolusi, dan estimasi kedalaman."
+      }
+    }
   }
 }

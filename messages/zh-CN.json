@@ -5377,5 +5377,45 @@
     "trademark": "{competitor} 是其所有者的商标。本页为独立对比，我们与其没有隶属、赞助或背书关系。",
     "relatedTitle": "其他对比",
     "openTool": "打开 {tool}"
+  },
+  "Clusters": {
+    "collectionLabel": "合集",
+    "allToolsLink": "全部工具",
+    "openTool": "打开工具",
+    "relatedHeading": "相关合集",
+    "toolCount": "{count} 个工具",
+    "englishFallbackNote": "本页的深度指南以英文和阿拉伯文撰写。其他语言显示英文原文。",
+    "names": {
+      "ai-developer-tools": {
+        "title": "AI 与大模型开发者工具",
+        "tagline": "在语言模型之上做开发时真正要处理的事：token 预算、提示词格式，以及各种配置文件。",
+        "metaTitle": "AI 与大模型开发者工具 — token 计数、成本估算、提示词格式与 MCP 配置",
+        "metaDescription": "十三个在浏览器中运行的实用工具，面向在语言模型之上做开发的人：统计 token、测算上下文窗口、估算 API 费用、格式化提示词、编写 JSON Schema 工具定义、生成 MCP 配置，并比对智能体指令文件。"
+      },
+      "privacy-first-tools": {
+        "title": "隐私优先的工具",
+        "tagline": "元数据、凭据、打码与签名——在标签页里完成，而不是交给别人的服务器。",
+        "metaTitle": "隐私优先的浏览器工具 — 在本地处理文件，无需上传",
+        "metaDescription": "十六个不适合交给陌生服务器处理的任务：清除照片中的 EXIF 与 GPS 信息、遮蔽个人数据、给人脸打码、加密笔记、生成密码与 TOTP 验证码、签署或读取 PDF——全部在你自己的浏览器中完成。"
+      },
+      "pdf-tools": {
+        "title": "PDF 工具",
+        "tagline": "合并、拆分、旋转、盖章与提取——并如实说明压缩和转 Word 各自的代价。",
+        "metaTitle": "浏览器 PDF 工具 — 合并、拆分、旋转、压缩、签名与提取，无需上传",
+        "metaDescription": "十三项在你自己的浏览器中运行的 PDF 操作，基于 pdf-lib 与 pdf.js：合并、拆分、重排页序、旋转、压缩、加水印、盖签名、提取文字、由图片生成 PDF，以及在 PDF 与 Word 之间转换。"
+      },
+      "image-tools": {
+        "title": "图片工具",
+        "tagline": "十八个基于 canvas 的工具，覆盖人们真正会对图片做的四件事：变小、改格式、改构图、变得拿得出手。",
+        "metaTitle": "浏览器图片工具 — 压缩到指定大小、转换 AVIF 与 HEIC、裁剪与打码",
+        "metaDescription": "十八个在你自己的浏览器中基于 canvas 运行的图片工具：精确压到指定文件大小，在 PNG、JPEG、WebP、AVIF 与 HEIC 之间转换，裁剪与缩放，清除元数据，遮蔽敏感区域，并制作网站图标、设备样机与拼图。"
+      },
+      "on-device-ai": {
+        "title": "在本机运行的 AI 工具",
+        "tagline": "Whisper、翻译、OCR、分割与神经语音，全部跑在你自己的 CPU 或 GPU 上，下载体积事先讲清楚。",
+        "metaTitle": "端侧 AI 工具 — 在浏览器里运行 Whisper、翻译、OCR 与图像模型",
+        "metaDescription": "十三个把机器学习模型下载到浏览器并在本地运行的工具：Whisper 转写、无需 API 的翻译、摘要、文本分类、个人信息识别、神经语音合成、抠图去背景、超分辨率放大与深度估计。"
+      }
+    }
   }
 }

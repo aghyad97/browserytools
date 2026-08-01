@@ -5377,5 +5377,45 @@
     "trademark": "{competitor} est une marque de son propriétaire. Ce comparatif est indépendant. Nous ne sommes ni affiliés, ni sponsorisés, ni approuvés par eux.",
     "relatedTitle": "Autres comparatifs",
     "openTool": "Ouvrir {tool}"
+  },
+  "Clusters": {
+    "collectionLabel": "Collection",
+    "allToolsLink": "Tous les outils",
+    "openTool": "Ouvrir l'outil",
+    "relatedHeading": "Collections associées",
+    "toolCount": "{count} outils",
+    "englishFallbackNote": "Le guide détaillé de cette page est rédigé en anglais et en arabe. Les autres langues affichent le texte anglais.",
+    "names": {
+      "ai-developer-tools": {
+        "title": "Outils IA pour développeurs",
+        "tagline": "Budget de tokens, mise en forme des prompts et les fichiers de configuration qu'on finit par écrire quand on construit sur un modèle de langage.",
+        "metaTitle": "Outils IA et LLM pour développeurs — tokens, coûts, prompts et configuration MCP",
+        "metaDescription": "Treize utilitaires qui s'exécutent dans le navigateur pour celles et ceux qui construisent sur des modèles de langage : compter les tokens, mesurer la fenêtre de contexte, estimer le coût d'une API, mettre en forme des prompts, créer des schémas JSON d'outils et générer une configuration MCP."
+      },
+      "privacy-first-tools": {
+        "title": "Outils respectueux de la vie privée",
+        "tagline": "Métadonnées, identifiants, caviardage et signatures : traités dans l'onglet plutôt que sur le serveur d'un inconnu.",
+        "metaTitle": "Outils respectueux de la vie privée — traitez vos fichiers sans les téléverser",
+        "metaDescription": "Seize outils pour les tâches qu'on ne confie pas au serveur d'un inconnu : supprimer les EXIF et le GPS des photos, masquer des données personnelles, flouter des visages, chiffrer des notes, générer des mots de passe et des codes TOTP, signer ou lire des PDF — le tout dans votre navigateur."
+      },
+      "pdf-tools": {
+        "title": "Outils PDF",
+        "tagline": "Fusionner, diviser, pivoter, tamponner et extraire — avec un compte rendu honnête du prix de la compression et de la conversion vers Word.",
+        "metaTitle": "Outils PDF dans le navigateur — fusionner, diviser, pivoter, compresser, signer et extraire sans téléversement",
+        "metaDescription": "Treize opérations PDF qui s'exécutent dans votre navigateur avec pdf-lib et pdf.js : fusionner, diviser, réordonner, pivoter, compresser, filigraner, apposer une signature, extraire le texte, créer un PDF à partir d'images et convertir entre PDF et Word."
+      },
+      "image-tools": {
+        "title": "Outils d'image",
+        "tagline": "Dix-huit utilitaires fondés sur canvas pour les quatre choses qu'on fait vraiment à une image : l'alléger, changer son format, changer son cadrage, la rendre présentable.",
+        "metaTitle": "Outils d'image dans le navigateur — compresser à une taille précise, convertir AVIF et HEIC, recadrer, flouter",
+        "metaDescription": "Dix-huit utilitaires d'image qui s'exécutent sur canvas dans votre navigateur : atteindre une taille de fichier précise, convertir entre PNG, JPEG, WebP, AVIF et HEIC, recadrer et redimensionner, supprimer les métadonnées, masquer des zones sensibles et créer favicons, maquettes et collages."
+      },
+      "on-device-ai": {
+        "title": "IA exécutée sur votre appareil",
+        "tagline": "Whisper, traduction, OCR, segmentation et voix neuronale, exécutés sur votre propre processeur ou carte graphique, avec les tailles de téléchargement annoncées d'emblée.",
+        "metaTitle": "IA sur l'appareil — Whisper, traduction, OCR et modèles d'image dans votre navigateur",
+        "metaDescription": "Treize outils qui téléchargent un modèle d'apprentissage automatique dans votre navigateur et l'y exécutent : transcription Whisper, traduction sans API, résumé, classification, détection de données personnelles, voix neuronale, détourage, agrandissement et estimation de profondeur."
+      }
+    }
   }
 }

@@ -9,6 +9,7 @@ export default function robots(): MetadataRoute.Robots {
     "/_next/",
     "/admin/",
     "/private/",
+    "/preview", // internal design-prototype route, not real content
     "/coffee",
     "/gh",
     "/x",
@@ -21,9 +22,11 @@ export default function robots(): MetadataRoute.Robots {
     "GPTBot", // OpenAI training crawler
     "OAI-SearchBot", // OpenAI / ChatGPT search
     "ChatGPT-User", // ChatGPT browsing on user request
-    "ClaudeBot", // Anthropic crawler
-    "Claude-Web", // Anthropic Claude browsing
-    "anthropic-ai", // Anthropic
+    "ClaudeBot", // Anthropic crawler (current)
+    "Claude-User", // Anthropic Claude browsing on user request (current)
+    "Claude-SearchBot", // Anthropic Claude search (current)
+    "Claude-Web", // Anthropic — legacy token, kept for older deployments
+    "anthropic-ai", // Anthropic — legacy token, kept for older deployments
     "PerplexityBot", // Perplexity
     "Perplexity-User", // Perplexity browsing on user request
     "Google-Extended", // Google Gemini / Vertex AI training

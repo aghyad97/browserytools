@@ -17,6 +17,7 @@ import {
   useCommandPalette,
 } from "./command-palette";
 import { useCategoryFilterStore } from "@/store/category-filter-store";
+import { localePath, splitLocalePath } from "@/lib/locales";
 
 export function AppShell() {
   const { open, setOpen, animated } = useCommandPalette();
@@ -28,12 +29,15 @@ export function AppShell() {
   const router = useRouter();
   const { category, setCategory } = useCategoryFilterStore();
 
-  // The chip filter only has meaning on the landing grid — off "/" there's
-  // no active category to show, and picking one navigates home first.
-  const activeCategory = pathname === "/" ? category : null;
+  // The chip filter only has meaning on the landing grid — off the home route
+  // there's no active category to show, and picking one navigates home first.
+  // Compared against the locale-stripped path so /es behaves exactly like /,
+  // and the navigation stays inside the visitor's locale section.
+  const { locale, path } = splitLocalePath(pathname || "/");
+  const activeCategory = path === "/" ? category : null;
   const onCategory = (id: string | null) => {
     setCategory(id);
-    if (pathname !== "/") router.push("/");
+    if (path !== "/") router.push(localePath("/", locale));
   };
 
   return (
