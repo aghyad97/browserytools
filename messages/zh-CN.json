@@ -5254,6 +5254,8 @@
     "aboutTitle": "关于 {tool}",
     "howToTitle": "如何使用 {tool}",
     "faqTitle": "常见问题",
+    "whyClientSideTitle": "为什么它在你的设备上运行",
+    "limitationsTitle": "局限与取舍",
     "relatedTitle": "相关工具"
   },
   "Rail": {

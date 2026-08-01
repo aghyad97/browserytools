@@ -179,6 +179,12 @@ export function Rail({
             and the top bar is hidden <900px. */}
         {variant === "sheet" && (
         <div className={s.railUtilities}>
+          {/* A plain <a> on purpose: /coffee is a server route whose only job
+              is to redirect off-site to Stripe, which the client router cannot
+              follow. The rule only fires now because the new root-level
+              [locale] segment makes every single-segment path look like an
+              internal page. */}
+          {/* eslint-disable-next-line @next/next/no-html-link-for-pages */}
           <a className={s.railCoffee} href="/coffee">
             <CoffeeIcon size={13} className={s.coffeeIcon} />
             {tLanding("coffee")}

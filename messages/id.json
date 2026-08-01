@@ -5254,6 +5254,8 @@
     "aboutTitle": "Tentang {tool}",
     "howToTitle": "Cara menggunakan {tool}",
     "faqTitle": "Pertanyaan yang sering diajukan",
+    "whyClientSideTitle": "Mengapa ini berjalan di perangkat Anda",
+    "limitationsTitle": "Batasan dan kompromi",
     "relatedTitle": "Alat terkait"
   },
   "Rail": {
