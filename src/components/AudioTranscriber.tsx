@@ -21,6 +21,8 @@ import { downloadText } from "@/lib/download";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 import { decodeToMono16k } from "@/lib/media/decode-audio";
 import { srtTime, buildSrt, buildVtt, type CueDoc } from "@/lib/subtitles/cues";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
+import { formatBytes } from "@/lib/format";
 
 const MODEL = "Xenova/whisper-base";
 
@@ -47,6 +49,8 @@ function chunksToCueDoc(chunks: Chunk[]): CueDoc {
 export default function AudioTranscriber() {
   const t = useTranslations("Tools.AudioTranscriber");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
+  const modelBytes = useEstimatedModelSize("whisper-base");
 
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
@@ -273,7 +277,16 @@ export default function AudioTranscriber() {
         <Card className="p-4">
           <div className="flex items-start gap-3">
             <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-            <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+              {modelBytes !== null && (
+                <p className="text-xs text-muted-foreground">
+                  {tCommon("modelDownloadSize", {
+                    size: formatBytes(modelBytes),
+                  })}
+                </p>
+              )}
+            </div>
           </div>
         </Card>
       </div>

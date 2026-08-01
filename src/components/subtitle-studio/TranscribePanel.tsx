@@ -16,6 +16,8 @@ import { UploadIcon, VideoIcon, InfoIcon } from "lucide-react";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
 import { decodeToMono16k } from "@/lib/media/decode-audio";
 import { fromWhisperWords, type CueDoc, type Word } from "@/lib/subtitles/cues";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
+import { formatBytes } from "@/lib/format";
 
 const MODEL = "Xenova/whisper-base";
 
@@ -80,6 +82,8 @@ export interface TranscribePanelProps {
 
 export function TranscribePanel({ onTranscribed }: TranscribePanelProps) {
   const t = useTranslations("Tools.SubtitleStudio");
+  const tCommon = useTranslations("Common");
+  const modelBytes = useEstimatedModelSize("whisper-base");
 
   const [file, setFile] = useState<File | null>(null);
   const [busy, setBusy] = useState(false);
@@ -195,7 +199,14 @@ export function TranscribePanel({ onTranscribed }: TranscribePanelProps) {
 
       <div className="flex items-start gap-3 border-t pt-4">
         <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-        <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+        <div className="space-y-1">
+          <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+          {modelBytes !== null && (
+            <p className="text-xs text-muted-foreground">
+              {tCommon("modelDownloadSize", { size: formatBytes(modelBytes) })}
+            </p>
+          )}
+        </div>
       </div>
 
       <div className="flex justify-end">

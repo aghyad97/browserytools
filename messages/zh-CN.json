@@ -46,7 +46,8 @@
     "removeFromFavorites": "从收藏中移除",
     "siteName": "BrowseryTools",
     "siteTagline": "基于浏览器的必备生产力工具",
-    "siteDescription": "基于浏览器的必备生产力工具。无需服务器。完全隐私。"
+    "siteDescription": "基于浏览器的必备生产力工具。无需服务器。完全隐私。",
+    "modelDownloadSize": "首次使用此工具时会下载一个 {size} 的 AI 模型——之后会缓存在浏览器中。"
   },
   "Header": {
     "requestTool": "请求添加新工具",
@@ -5293,6 +5294,7 @@
     "demoSmaller": "缩小 {pct}%",
     "apps": "应用",
     "popular": "热门",
+    "startHere": "从这里开始",
     "all": "全部",
     "allTools": "全部 {count} 个工具",
     "viewAll": "查看所有工具",

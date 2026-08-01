@@ -46,7 +46,8 @@
     "removeFromFavorites": "Retirer des favoris",
     "siteName": "BrowseryTools",
     "siteTagline": "Outils de productivité essentiels directement dans votre navigateur",
-    "siteDescription": "Outils essentiels de productivité directement dans le navigateur. Sans serveur. Confidentialité totale."
+    "siteDescription": "Outils essentiels de productivité directement dans le navigateur. Sans serveur. Confidentialité totale.",
+    "modelDownloadSize": "Télécharge un modèle d'IA de {size} lors de la première utilisation de cet outil, puis reste en cache dans votre navigateur."
   },
   "Header": {
     "requestTool": "Proposer un outil",
@@ -5293,6 +5294,7 @@
     "demoSmaller": "{pct}% plus léger",
     "apps": "Applis",
     "popular": "Populaires",
+    "startHere": "Commencez ici",
     "all": "Tous",
     "allTools": "Les {count} outils",
     "viewAll": "Voir tous les outils",

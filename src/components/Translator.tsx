@@ -19,6 +19,8 @@ import { ToolShell } from "@/components/template/tool-shell";
 import { TwoPane } from "@/components/shared/TwoPane";
 import { OutputPanel } from "@/components/shared/OutputPanel";
 import { getPipeline, type LoadProgress } from "@/lib/hf-pipeline";
+import { useEstimatedModelSize } from "@/lib/use-model-size";
+import { formatBytes } from "@/lib/format";
 
 const MODEL = "Xenova/m2m100_418M";
 
@@ -49,6 +51,8 @@ type TranslatorPipe = (
 export default function Translator() {
   const t = useTranslations("Tools.Translator");
   const tc = useTranslations("ToolsConfig");
+  const tCommon = useTranslations("Common");
+  const modelBytes = useEstimatedModelSize("m2m100-418m");
 
   const [input, setInput] = useState("");
   const [output, setOutput] = useState("");
@@ -210,7 +214,16 @@ export default function Translator() {
         <Card className="p-4">
           <div className="flex items-start gap-3">
             <InfoIcon className="h-4 w-4 shrink-0 text-muted-foreground mt-0.5" />
-            <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+            <div className="space-y-1">
+              <p className="text-sm text-muted-foreground">{t("modelNote")}</p>
+              {modelBytes !== null && (
+                <p className="text-xs text-muted-foreground">
+                  {tCommon("modelDownloadSize", {
+                    size: formatBytes(modelBytes),
+                  })}
+                </p>
+              )}
+            </div>
           </div>
         </Card>
       </div>
