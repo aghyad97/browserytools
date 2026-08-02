@@ -10,10 +10,12 @@ import {
   ScaleIcon,
 } from "lucide-react";
 
-import { findToolByHref, getAllTools } from "@/lib/tools-config";
+import { findToolByHref, getAllTools, tools } from "@/lib/tools-config";
+import { isLocale, type Locale } from "@/lib/locales";
 import {
   buildFallbackContent,
   getToolDataProfile,
+  hasFallbackProse,
   toolContent,
   type ToolContentLocale,
 } from "@/lib/tool-content";
@@ -43,7 +45,17 @@ interface ResolvedTool {
   name: string;
   description: string;
   category: string;
+  /** Message-file key for the category label, when the tool is catalogued. */
+  categoryId: string | null;
 }
+
+// tools-config stores the English category label on each flattened tool, but
+// the translated labels are keyed by category id. Map href -> id once.
+const CATEGORY_ID_BY_HREF = new Map<string, string>(
+  tools.flatMap((cat) =>
+    cat.items.map((tool) => [tool.href, cat.id] as [string, string])
+  )
+);
 
 function resolveTool(pathname: string): ResolvedTool | null {
   // pathname looks like /tools/<slug>, or /<locale>/tools/<slug> on the
@@ -61,6 +73,7 @@ function resolveTool(pathname: string): ResolvedTool | null {
       name: tool.name,
       description: tool.description,
       category: tool.category,
+      categoryId: CATEGORY_ID_BY_HREF.get(href) ?? null,
     };
   }
 
@@ -72,6 +85,7 @@ function resolveTool(pathname: string): ResolvedTool | null {
     name: humanizeSlug(slug),
     description: "",
     category: "Browser Tools",
+    categoryId: null,
   };
 }
 
@@ -174,46 +188,80 @@ function buildJsonLd(
 
 export default function ToolSeoContent() {
   const pathname = usePathname() || "";
-  // The bespoke SEO-content registry (toolContent) and buildFallbackContent are
-  // bilingual (en/ar) only. Map every other UI locale (es/fr/de/ru/id/…) to the
-  // English SEO content so these pages still render valid structured content.
+  // The SEO locale is whatever the locale registry recognises — the templated
+  // fallback has hand-written prose for every code in it. (The bespoke registry
+  // `toolContent` is still en/ar; see the content selection below.)
   const locale = useLocale();
-  const seoLocale: "en" | "ar" = locale === "ar" ? "ar" : "en";
+  const seoLocale: Locale = isLocale(locale) ? locale : "en";
   const t = useTranslations("ToolSeo");
+  const tc = useTranslations("ToolsConfig");
 
-  const tool = resolveTool(pathname);
-  if (!tool) return null;
+  const resolved = resolveTool(pathname);
+  if (!resolved) return null;
 
-  // On a locale-prefixed URL, only render this block when the SEO registry
-  // actually has prose in that language. English copy under /es/ or /fr/ would
-  // be duplicate content on a page that exists precisely to be a distinct
-  // localized URL — better to render nothing than the wrong language.
+  // On a locale-prefixed URL, only render this block when we can write it in
+  // that language. English copy under /es/ or /fr/ would be duplicate content
+  // on a page that exists precisely to be a distinct localized URL — better to
+  // render nothing than the wrong language. Every registered locale has prose
+  // today, so this suppresses nothing; it stays as the guard for the next
+  // language that ships before its copy does.
   const isLocalePrefixed = /^\/[a-z]{2}(-[A-Za-z]{2,4})?\//.test(pathname);
-  if (isLocalePrefixed && seoLocale !== locale) return null;
+  if (isLocalePrefixed && !hasFallbackProse(seoLocale)) return null;
 
-  // Bespoke content if present, otherwise templated (non-fabricated) fallback.
+  // tools-config is the English build-time source of truth (routes, metadata,
+  // validation). The catalogue's display strings live in the message files, so
+  // take the name / description / category label from there and fall back to
+  // the config for anything not yet translated.
+  const nameKey = `tools.${resolved.slug}.name` as never;
+  const descKey = `tools.${resolved.slug}.description` as never;
+  const catKey = resolved.categoryId
+    ? (`categories.${resolved.categoryId}` as never)
+    : null;
+  const tool: ResolvedTool = {
+    ...resolved,
+    name: tc.has(nameKey) ? (tc(nameKey) as string) : resolved.name,
+    description: tc.has(descKey)
+      ? (tc(descKey) as string)
+      : resolved.description,
+    category: catKey && tc.has(catKey) ? (tc(catKey) as string) : resolved.category,
+  };
+
+  // Bespoke content only when it exists IN THIS LANGUAGE — the hand-authored
+  // registry is still en/ar. For every other locale the templated fallback is
+  // both accurate and correctly localized, which beats English bespoke prose
+  // under a non-English URL.
   const bespoke = toolContent[tool.slug];
-  const content: ToolContentLocale = bespoke
-    ? bespoke[seoLocale] ?? bespoke.en
-    : buildFallbackContent(
-        {
-          name: tool.name,
-          description: tool.description,
-          category: tool.category,
-          // The fallback may only make the privacy claim the tool has earned.
-          dataProfile: getToolDataProfile(tool.slug),
-        },
-        seoLocale
-      );
+  const authored =
+    seoLocale === "en"
+      ? bespoke?.en
+      : seoLocale === "ar"
+        ? bespoke?.ar
+        : undefined;
+  const content: ToolContentLocale =
+    authored ??
+    buildFallbackContent(
+      {
+        name: tool.name,
+        description: tool.description,
+        category: tool.category,
+        // The fallback may only make the privacy claim the tool has earned.
+        dataProfile: getToolDataProfile(tool.slug),
+      },
+      seoLocale
+    );
 
-  const jsonLd = buildJsonLd(tool, content, Boolean(bespoke));
+  const jsonLd = buildJsonLd(tool, content, Boolean(authored));
 
   // Related tools (only those that exist & are available).
   const relatedSlugs = bespoke?.related ?? [];
   const allTools = getAllTools();
   const related = relatedSlugs
     .map((slug) => allTools.find((tl) => tl.href === `/tools/${slug}`))
-    .filter((tl): tl is NonNullable<typeof tl> => Boolean(tl && tl.available));
+    .filter((tl): tl is NonNullable<typeof tl> => Boolean(tl && tl.available))
+    .map((tl) => {
+      const key = `tools.${tl.href.split("/").pop()}.name` as never;
+      return { ...tl, name: tc.has(key) ? (tc(key) as string) : tl.name };
+    });
 
   const introParagraphs = content.intro
     .split("\n\n")
