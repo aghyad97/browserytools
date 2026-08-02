@@ -14,6 +14,7 @@ import {
   isLocale,
   ogAlternateLocales,
 } from "@/lib/locales";
+import { loadMessages } from "@/lib/messages";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -182,6 +183,12 @@ export default async function RootLayout({
     if (isLocale(localeCookie)) initialLocale = localeCookie;
   }
 
+  // Read the active locale's messages here, on the server, and hand them to the
+  // client provider as a prop. A client component cannot import them without
+  // bundling all of them, and the SSR'd HTML has to be translated — that prose
+  // is what crawlers index.
+  const initialMessages = await loadMessages(initialLocale);
+
   return (
     <html
       lang={initialLocale}
@@ -190,7 +197,11 @@ export default async function RootLayout({
       suppressHydrationWarning
     >
       <body className={inter.className}>
-        <Providers initialLocale={initialLocale} localePinned={localePinned}>
+        <Providers
+          initialLocale={initialLocale}
+          initialMessages={initialMessages}
+          localePinned={localePinned}
+        >
           {children}
         </Providers>
       </body>
