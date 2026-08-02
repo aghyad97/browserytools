@@ -252,7 +252,7 @@ Two caveats worth stating plainly, since "everything is local" is the headline c
 
 ## 🌍 Supported Languages
 
-BrowseryTools is fully localized. The entire UI — homepage, all tools, and navigation — is available in:
+BrowseryTools is fully localized in **17 languages**, two of them right-to-left. The entire UI — homepage, all tools, and navigation — is available in:
 
 | Language | Code | Direction |
 | --- | --- | --- |
@@ -265,16 +265,25 @@ BrowseryTools is fully localized. The entire UI — homepage, all tools, and nav
 | Русский (Russian) | `ru` | LTR |
 | Bahasa Indonesia (Indonesian) | `id` | LTR |
 | 简体中文 (Simplified Chinese) | `zh-CN` | LTR |
+| Türkçe (Turkish) | `tr` | LTR |
+| हिन्दी (Hindi) | `hi` | LTR |
+| Tiếng Việt (Vietnamese) | `vi` | LTR |
+| 日本語 (Japanese) | `ja` | LTR |
+| فارسی (Persian) | `fa` | RTL |
+| 한국어 (Korean) | `ko` | LTR |
+| Polski (Polish) | `pl` | LTR |
+| Italiano (Italian) | `it` | LTR |
 
 Language is detected from the browser on first visit and can be changed anytime via the in-app language switcher (preference is remembered).
 
-**Adding a new language** is intentionally simple — all locale wiring derives from one registry:
+Each language has its own indexable URLs — English stays at `/tools/<slug>`, every other locale sits under `/<code>/tools/<slug>` — with reciprocal `hreflang` alternates. Only the active locale's messages are sent to the browser, so adding a language does not grow anyone else's download.
+
+**Adding a new language** is two steps — all locale wiring derives from one registry:
 
 1. Add an entry to `LOCALES` in [`src/lib/locales.ts`](src/lib/locales.ts).
 2. Add a `messages/<code>.json` file (a full translation of `messages/en.json`).
-3. Register its import in the messages map in [`src/providers/language-provider.tsx`](src/providers/language-provider.tsx).
 
-The switcher, `<html lang/dir>`, hreflang tags, and OpenGraph locales all update automatically.
+The switcher, `<html lang/dir>`, hreflang tags, sitemap entries, OpenGraph locales, and message loading all derive from that registry. A test fails if a registered locale has no on-page prose, so a language cannot ship half-wired.
 
 ## 📋 Prerequisites
 
