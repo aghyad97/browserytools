@@ -20,7 +20,7 @@
 
 import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   tools,
   getAllTools,
@@ -497,6 +497,7 @@ function ToolRow({
 export default function Landing() {
   const t = useTranslations("Landing");
   const tc = useTranslations("ToolsConfig");
+  const locale = useLocale();
   const { category, setCategory } = useCategoryFilterStore();
   const [mounted, setMounted] = useState(false);
 
@@ -531,9 +532,11 @@ export default function Landing() {
       })).sort(
         (a, b) =>
           popularityRank(a.slug) - popularityRank(b.slug) ||
-          a.name.localeCompare(b.name),
+          // Collate in the active locale: an unqualified localeCompare() sorts
+          // non-English alphabets wrong (Turkish ç/ğ/ı/i/ö/ş/ü, for one).
+          a.name.localeCompare(b.name, locale),
       ),
-    [tc],
+    [tc, locale],
   );
 
   const popular = useMemo(

@@ -17,20 +17,63 @@ export interface SearchableTool {
 }
 
 /**
- * True if the (already-lowercased-by-caller-agnostic) `query` matches this
- * tool. Pass the raw query — matching is case-insensitive internally.
+ * Letters that carry no combining mark to strip, so NFD leaves them alone.
+ * Each is folded to the base letter a user is likely to type on a keyboard
+ * that lacks it.
+ *
+ * `ı` (Turkish dotless i) is the important one: `"İmza".toLowerCase()` yields
+ * `i` + U+0307 COMBINING DOT ABOVE, so a Turkish user typing `imza` matched
+ * nothing at all and the tool was unreachable from search. Stripping combining
+ * marks fixes that direction; this table fixes the reverse, where the tool
+ * name contains `ı` and the query contains `i`.
+ */
+const NON_DECOMPOSING_FOLDS: Record<string, string> = {
+  ı: "i",
+  ł: "l",
+  đ: "d",
+  ð: "d",
+  ø: "o",
+  æ: "ae",
+  œ: "oe",
+  ß: "ss",
+  "ẞ": "ss",
+};
+
+/**
+ * Fold a string for search comparison: decompose, drop combining marks, lower
+ * case, then fold the letters that decomposition cannot reach.
+ *
+ * Deliberately locale-independent. A locale-aware `toLocaleLowerCase(locale)`
+ * would fix Turkish only for Turkish users, but the catalogue is searched in
+ * 17 languages and a visitor may type a query in one script against a tool
+ * name in another. Diacritic-insensitive folding means `imza` finds `İmza`,
+ * `isik` finds `ışık`, `tep` finds `tệp`, and `grosse` finds `größe`.
+ */
+export function foldForSearch(value: string): string {
+  return value
+    .normalize("NFD")
+    .replace(/\p{M}/gu, "")
+    .toLowerCase()
+    .replace(/[ıłđðøæœßẞ]/g, (c) => NON_DECOMPOSING_FOLDS[c] ?? c);
+}
+
+/**
+ * True if `query` matches this tool. Pass the raw query — matching is
+ * case- and diacritic-insensitive internally.
  */
 export function matchesToolQuery(tool: SearchableTool, query: string): boolean {
-  const q = query.trim().toLowerCase();
+  const q = foldForSearch(query.trim());
   if (!q) return true;
 
   if (
-    tool.name.toLowerCase().includes(q) ||
-    tool.category.toLowerCase().includes(q) ||
-    tool.slug.toLowerCase().includes(q)
+    foldForSearch(tool.name).includes(q) ||
+    foldForSearch(tool.category).includes(q) ||
+    foldForSearch(tool.slug).includes(q)
   ) {
     return true;
   }
 
-  return (tool.keywords ?? []).some((keyword) => keyword.toLowerCase().includes(q));
+  return (tool.keywords ?? []).some((keyword) =>
+    foldForSearch(keyword).includes(q)
+  );
 }
