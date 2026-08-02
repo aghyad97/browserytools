@@ -99,13 +99,14 @@ const CHECKED = "2026-07-31";
 //   https://www.ilovepdf.com
 //   https://www.ilovepdf.com/compress_pdf
 //   https://developer.ilovepdf.com  (301 → https://www.iloveapi.com/)
-// TODO(verify): https://www.ilovepdf.com/faq and /privacy_policy both returned
-//   404 on 2026-07-31, so iLovePDF's own wording on server-side processing and
-//   file retention could NOT be read. The page below therefore never states a
-//   retention window and hedges the upload claim on their own homepage copy
-//   ("Work offline with Desktop … manage documents locally, with no internet"),
-//   which implies the web tools are the online/server path. Confirm against a
-//   working privacy-policy URL before hardening that wording.
+//   https://www.ilovepdf.com/help/faq  (read 2026-08-02)
+// Retention RESOLVED 2026-08-02: /faq and /privacy_policy 404'd on 2026-07-31,
+//   but /help/faq is live and states, in their own words: "We just keep them
+//   for a maximum of 2 hours so you can download them. Right after, they are
+//   completely removed forever from our servers." That confirms the web tools
+//   upload to their servers and gives a first-party retention window, quoted
+//   verbatim below rather than paraphrased. The FAQ still says nothing about
+//   free-tier file-size or task limits, so none are claimed here.
 // ──────────────────────────────────────────────────────────────────────────────
 const ilovepdf: Comparison = {
   slug: "ilovepdf",
@@ -141,18 +142,18 @@ const ilovepdf: Comparison = {
         key: "processing",
         aspect: "Where your document is processed",
         us: "In the browser tab, on your machine. The PDF is parsed and rewritten locally and is never sent anywhere. You can confirm it yourself in your browser's network panel.",
-        // Hedged deliberately: their privacy/FAQ URLs 404'd, so we cite only
-        // their homepage's own framing of Desktop as the offline/local option.
-        them: "Through their web service. Their own homepage positions the separate Desktop app as the way to \"work offline\" and \"manage documents locally, with no internet\", which is what the browser tools are not.",
+        // Retention quoted verbatim from their own /help/faq (read 2026-08-02).
+        them: "On their servers. Their FAQ states that uploaded files are kept \"for a maximum of 2 hours so you can download them\" and are then \"completely removed forever from our servers\". Their homepage separately positions the Desktop app as the way to \"work offline\" and \"manage documents locally, with no internet\" — which is what the browser tools are not.",
         edge: "us",
       },
       {
         key: "price",
         aspect: "Price and account",
         us: "Free, with no plan and no sign-in. We never ask for an email or a card, because there is no server bill to cover.",
-        // TODO(verify): prices read from ilovepdf.com/pricing on 2026-07-31.
-        // Re-check before relying on them; subscription pricing moves often.
-        them: "A free tier, plus a Premium subscription listed at $7/month billed monthly or $48/year, and a custom-priced Business plan for 25+ users (prices read from their pricing page on the date shown above).",
+        // Re-read from ilovepdf.com/pricing on 2026-08-02 and unchanged: $7/mo
+        // monthly, $48/yr (shown as $4/mo), Premium 1-25 users, Business 25+
+        // custom. Subscription pricing moves — re-check periodically.
+        them: "A free tier, plus a Premium subscription listed at $7/month billed monthly or $48/year (shown as $4/month), covering 1–25 users, and a custom-priced Business plan for 25+ users (prices read from their pricing page on the date shown above).",
         edge: "us",
       },
       {
@@ -247,14 +248,14 @@ const ilovepdf: Comparison = {
         key: "processing",
         aspect: "أين تُعالَج المستندات",
         us: "داخل تبويب المتصفح على جهازك. يُحلَّل ملف PDF ويُعاد بناؤه محلياً ولا يُرسل إلى أي مكان. يمكنك التأكد بنفسك من لوحة الشبكة في المتصفح.",
-        them: "عبر خدمتهم على الويب. صفحتهم الرئيسية نفسها تقدّم تطبيق سطح المكتب المنفصل بوصفه الطريقة «للعمل دون اتصال» و«إدارة المستندات محلياً بلا إنترنت» — وهو ما لا تفعله أدوات المتصفح لديهم.",
+        them: "على خوادمهم. تنصّ صفحة الأسئلة الشائعة لديهم على أنّ الملفات المرفوعة تُحفَظ «لمدة ساعتين كحدّ أقصى كي تتمكّن من تنزيلها»، ثم «تُحذَف نهائياً وإلى الأبد من خوادمنا». كما تقدّم صفحتهم الرئيسية تطبيق سطح المكتب المنفصل بوصفه الطريقة «للعمل دون اتصال» و«إدارة المستندات محلياً بلا إنترنت» — وهو ما لا تفعله أدوات المتصفح لديهم.",
         edge: "us",
       },
       {
         key: "price",
         aspect: "السعر والحساب",
         us: "مجاني بالكامل، بلا خطة وبلا تسجيل دخول. لا نطلب بريداً إلكترونياً ولا بطاقة، لأنه لا توجد فاتورة خوادم نغطّيها.",
-        them: "طبقة مجانية، إضافة إلى اشتراك Premium مُدرَج بسعر 7 دولارات شهرياً أو 48 دولاراً سنوياً، وخطة Business بسعر مخصّص لـ 25 مستخدماً فأكثر (أسعار مقروءة من صفحة أسعارهم بالتاريخ المذكور أعلاه).",
+        them: "طبقة مجانية، إضافة إلى اشتراك Premium مُدرَج بسعر 7 دولارات شهرياً أو 48 دولاراً سنوياً (أي ما يعادل 4 دولارات شهرياً) ويغطي من مستخدم واحد إلى 25 مستخدماً، وخطة Business بسعر مخصّص لـ 25 مستخدماً فأكثر (أسعار مقروءة من صفحة أسعارهم بالتاريخ المذكور أعلاه).",
         edge: "us",
       },
       {
@@ -348,8 +349,10 @@ const ilovepdf: Comparison = {
 //   https://smallpdf.com/blog/is-smallpdf-safe   (their own blog, first-party)
 // TODO(verify): Smallpdf's pricing page renders its numbers client-side — the
 //   static HTML contains only a "{{price}}/year" template placeholder, so NO
-//   price or currency could be read. This page therefore states no Smallpdf
-//   price at all. Do not add one without reading it off their live page.
+//   price or currency could be read. Re-attempted 2026-08-02 (both /pricing and
+//   /pricing?ref=plans): still no figures in the served text. This page
+//   therefore states no Smallpdf price at all, which is the correct outcome —
+//   do not add one without reading it off their live page in a real browser.
 // TODO(verify): the free tier's numeric caps (daily downloads, file size, page
 //   count) are labelled on the pricing table but carry no disclosed values in
 //   the static page. The page below says only that the free plan is described
@@ -595,8 +598,9 @@ const smallpdf: Comparison = {
 // Note: tinypng.com/developers, /pricing and /privacy 307-redirect to tinify.com;
 //   tinify.com/pricing and /privacy return 404. The working API pricing URL is
 //   https://tinypng.com/pricing/api.
-// TODO(verify): per-compression API prices below were read on 2026-07-31 and are
-//   the highest-churn claim on this page. Re-read before relying on them.
+// Per-compression API prices re-read from tinify.com/pricing on 2026-08-02 and
+//   confirmed: first 500/month free, $0.009 each for 501–10,000, $0.002 beyond.
+//   Highest-churn claim on this page — re-read periodically.
 // TODO(verify): no Photoshop, Shopify or Magento plugin is mentioned on either
 //   tinypng.com or tinify.com — this page therefore claims only the WordPress
 //   and Figma plugins and the official client libraries, which are listed there.
@@ -681,7 +685,7 @@ const tinypng: Comparison = {
         key: "price",
         aspect: "Price",
         us: "Free, with no account, no counter and no per-image charge.",
-        them: "The web tool is free within the batch limits. The API is 500 free compressions a month, then charged per compression on a sliding scale (read from their pricing page on the date shown above).",
+        them: "The web tool is free within the batch limits. The API gives 500 free compressions a month, then charges $0.009 per compression from 501 to 10,000 and $0.002 beyond that, with prepaid credit bundles as an alternative (read from their pricing page on the date shown above).",
         edge: "us",
       },
     ],
@@ -786,7 +790,7 @@ const tinypng: Comparison = {
         key: "price",
         aspect: "السعر",
         us: "مجاني، بلا حساب وبلا عدّاد وبلا رسوم لكل صورة.",
-        them: "الأداة على الويب مجانية ضمن حدود الدفعة. والواجهة البرمجية تمنح 500 عملية ضغط مجانية شهرياً، ثم تُحتسب لكل عملية بتسعيرة متدرّجة (مقروءة من صفحة أسعارهم بالتاريخ المذكور أعلاه).",
+        them: "الأداة على الويب مجانية ضمن حدود الدفعة. والواجهة البرمجية تمنح 500 عملية ضغط مجانية شهرياً، ثم 0.009 دولار لكل عملية من 501 إلى 10,000، و0.002 دولار لما بعدها، مع إمكانية شراء حزم أرصدة مسبقة الدفع (مقروءة من صفحة أسعارهم بالتاريخ المذكور أعلاه).",
         edge: "us",
       },
     ],
@@ -1073,8 +1077,10 @@ const removebg: Comparison = {
 //   https://otter.ai/privacy-security (AES-256 SSE, 30-day trash deletion, SOC 2 Type 2)
 //   https://help.otter.ai/hc/en-us/articles/360048258953-Data-security-and-privacy-policies
 //   https://help.otter.ai/hc/en-us/articles/26660468516631-...  (six languages)
-// TODO(verify): prices below were read on 2026-07-31. Per-seat SaaS pricing moves
-//   often — re-read before relying on them.
+// Prices re-read from otter.ai/pricing on 2026-08-02 and unchanged: Basic free
+//   (300 min/month), Pro $16.99/user/mo monthly or $8.33 annually (1,200 min),
+//   Business $30 monthly or $19.99 annually (unlimited), Enterprise custom.
+//   Per-seat SaaS pricing moves often — re-read periodically.
 // TODO(verify): Otter publishes no numeric accuracy figure on any own-domain page
 //   we could read, so this page makes NO accuracy percentage claim for either side.
 //   The "Otter will beat us on accuracy" statement is grounded in our own model
@@ -1327,7 +1333,9 @@ const otter: Comparison = {
 //   https://helpx.adobe.com/creative-cloud/kb/internet-connection-creative-cloud-apps.html
 //   https://helpx.adobe.com/photoshop/desktop/save-and-export/export-files-to-different-formats/export-your-work-using-the-quick-export-as-option.html
 // TODO(verify): adobe.com/products/photoshop/plans.html and the Adobe pricing
-//   pages could NOT be fetched directly (every attempt timed out). Indexed
+//   pages could NOT be fetched directly (every attempt timed out; re-attempted
+//   2026-08-02 against /creativecloud/plans.html — timed out again, and a
+//   domain-scoped search surfaced the pages but not the figures). Indexed
 //   figures suggested roughly $22.99/month on an annual commitment and
 //   $34.49/month month-to-month for the Photoshop single-app plan, but those
 //   were NOT read off Adobe's live page, so NO Photoshop price appears anywhere
