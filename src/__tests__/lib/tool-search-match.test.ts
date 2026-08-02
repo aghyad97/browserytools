@@ -53,4 +53,33 @@ describe("matchesToolQuery()", () => {
     expect(matchesToolQuery(emptyKeywords, "transparent png")).toBe(false);
     expect(matchesToolQuery(emptyKeywords, "background")).toBe(true);
   });
+  // Regression: `"İmza".toLowerCase()` yields "i" + U+0307 COMBINING DOT ABOVE,
+  // so a Turkish user typing "imza" matched nothing and the tool was
+  // unreachable from search entirely.
+  describe("diacritic- and case-insensitive folding", () => {
+    it("finds a Turkish dotted-capital name from an ASCII query", () => {
+      const tr = { name: "İmza", category: "PDF Araçları", slug: "sign-pdf" };
+      expect(matchesToolQuery(tr, "imza")).toBe(true);
+    });
+
+    it("finds a Turkish dotless-i name from an ASCII query", () => {
+      const tr = { name: "Işık Ayarı", category: "Görsel", slug: "brightness" };
+      expect(matchesToolQuery(tr, "isik")).toBe(true);
+    });
+
+    it("finds a Vietnamese diacritic name from an unaccented query", () => {
+      const vi = { name: "Nén tệp", category: "Công cụ", slug: "zip" };
+      expect(matchesToolQuery(vi, "nen tep")).toBe(true);
+    });
+
+    it("finds a German umlaut/eszett name from an ASCII query", () => {
+      const de = { name: "Bildgröße", category: "Bilder", slug: "image-resizer" };
+      expect(matchesToolQuery(de, "bildgrosse")).toBe(true);
+    });
+
+    it("still rejects an unrelated query after folding", () => {
+      const tr = { name: "İmza", category: "PDF Araçları", slug: "sign-pdf" };
+      expect(matchesToolQuery(tr, "kahve")).toBe(false);
+    });
+  });
 });
