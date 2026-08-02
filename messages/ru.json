@@ -5252,8 +5252,8 @@
   },
   "ToolSeo": {
     "sectionLabel": "Об этом инструменте",
-    "aboutTitle": "О {tool}",
-    "howToTitle": "Как пользоваться {tool}",
+    "aboutTitle": "Об инструменте «{tool}»",
+    "howToTitle": "Как пользоваться инструментом «{tool}»",
     "faqTitle": "Частые вопросы",
     "whyClientSideTitle": "Почему это работает на вашем устройстве",
     "limitationsTitle": "Ограничения и компромиссы",
