@@ -5252,8 +5252,8 @@
   },
   "ToolSeo": {
     "sectionLabel": "Sobre esta ferramenta",
-    "aboutTitle": "Sobre o {tool}",
-    "howToTitle": "Como usar o {tool}",
+    "aboutTitle": "Sobre {tool}",
+    "howToTitle": "Como usar {tool}",
     "faqTitle": "Perguntas frequentes",
     "whyClientSideTitle": "Por que isto roda no seu dispositivo",
     "limitationsTitle": "Limitações e compromissos",

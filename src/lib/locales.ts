@@ -4,9 +4,9 @@
  * To add a new language:
  *   1. Add one entry to LOCALES below.
  *   2. Add the matching `messages/<code>.json` file (full translation of en.json).
- *   3. Register its import in `src/providers/language-provider.tsx` (messages map).
- * Everything else (switcher, html dir/lang, hreflang, openGraph, cookie handling)
- * derives from this registry automatically.
+ * That is the whole checklist — message files are loaded by path from the code
+ * below (`src/lib/messages.ts`), and everything else (switcher, html dir/lang,
+ * hreflang, openGraph, cookie handling) derives from this registry too.
  */
 
 export type Dir = "ltr" | "rtl";
