@@ -1,13 +1,14 @@
 /**
  * Metadata for the locale-prefixed routes (`/{locale}/…`).
  *
- * Kept out of `src/lib/metadata.ts` on purpose: this module imports every
- * `messages/*.json` bundle, and metadata.ts is imported by all 176 English
- * tool pages — pulling ~2.3 MB of translations into each of those server
- * bundles for no reason. Only the `[locale]` route segment imports this.
+ * Kept out of `src/lib/metadata.ts` on purpose: this module reads the
+ * `messages/*.json` bundles, and metadata.ts is imported by all 176 English
+ * tool pages — no reason to pull translation loading into each of those
+ * server bundles. Only the `[locale]` route segment imports this.
  */
 import type { Metadata } from "next";
 
+import { loadMessages } from "./messages";
 import { findToolByHref } from "./tools-config";
 import {
   SITE_URL,
@@ -18,15 +19,6 @@ import {
   type Locale,
 } from "./locales";
 
-import enMessages from "../../messages/en.json";
-import arMessages from "../../messages/ar.json";
-import esMessages from "../../messages/es.json";
-import ptBRMessages from "../../messages/pt-BR.json";
-import frMessages from "../../messages/fr.json";
-import deMessages from "../../messages/de.json";
-import ruMessages from "../../messages/ru.json";
-import idMessages from "../../messages/id.json";
-import zhCNMessages from "../../messages/zh-CN.json";
 
 interface ToolStrings {
   name?: string;
@@ -40,30 +32,23 @@ interface MessageBundle {
   ToolsConfig?: { tools?: Record<string, ToolStrings> };
 }
 
-const MESSAGES: Record<Locale, MessageBundle> = {
-  en: enMessages,
-  ar: arMessages,
-  es: esMessages,
-  "pt-BR": ptBRMessages,
-  fr: frMessages,
-  de: deMessages,
-  ru: ruMessages,
-  id: idMessages,
-  "zh-CN": zhCNMessages,
-};
-
-function bundle(locale: Locale): MessageBundle {
-  return MESSAGES[locale] ?? MESSAGES.en;
+/**
+ * Read one locale's bundle through the shared lazy loader rather than a
+ * hardcoded map. `src/lib/locales.ts` stays the only place a locale is
+ * registered — adding a language needs no edit here.
+ */
+async function bundle(locale: Locale): Promise<MessageBundle> {
+  return (await loadMessages(locale)) as MessageBundle;
 }
 
 /** Localized tool name/description from the `ToolsConfig` namespace. */
-export function localizedTool(
+export async function localizedTool(
   slug: string,
   locale: Locale
-): { name: string; description: string } | null {
+): Promise<{ name: string; description: string } | null> {
   const tool = findToolByHref(`/tools/${slug}`);
   if (!tool) return null;
-  const strings = bundle(locale).ToolsConfig?.tools?.[slug];
+  const strings = (await bundle(locale)).ToolsConfig?.tools?.[slug];
   return {
     name: strings?.name || tool.name,
     description: strings?.description || tool.description,
@@ -101,12 +86,12 @@ function openGraphFor(
   };
 }
 
-export function generateLocalizedToolMetadata(
+export async function generateLocalizedToolMetadata(
   slug: string,
   locale: Locale
-): Metadata {
+): Promise<Metadata> {
   const path = `/tools/${slug}`;
-  const strings = localizedTool(slug, locale);
+  const strings = await localizedTool(slug, locale);
 
   if (!strings) {
     return { title: "Tool Not Found", robots: { index: false, follow: false } };
@@ -148,8 +133,8 @@ export function generateLocalizedToolMetadata(
   };
 }
 
-export function generateLocalizedHomeMetadata(locale: Locale): Metadata {
-  const home = bundle(locale).Home;
+export async function generateLocalizedHomeMetadata(locale: Locale): Promise<Metadata> {
+  const home = (await bundle(locale)).Home;
   const title = home?.hero || "Free Browser-Based Productivity Tools";
   const description =
     home?.subtitle || "No servers. Full privacy. Everything runs in your browser.";
@@ -171,8 +156,8 @@ export function generateLocalizedHomeMetadata(locale: Locale): Metadata {
   };
 }
 
-export function generateLocalizedBlogMetadata(locale: Locale): Metadata {
-  const blog = bundle(locale).Blog;
+export async function generateLocalizedBlogMetadata(locale: Locale): Promise<Metadata> {
+  const blog = (await bundle(locale)).Blog;
   const title = blog?.blogTitle || "BrowseryTools Blog";
   const description =
     blog?.privacyDesc ||

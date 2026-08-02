@@ -75,6 +75,64 @@ export const LOCALES = [
     dir: "ltr",
     ogLocale: "zh_CN",
   },
+  {
+    code: "tr",
+    label: "Türkçe",
+    short: "TR",
+    dir: "ltr",
+    ogLocale: "tr_TR",
+  },
+  {
+    code: "hi",
+    label: "हिन्दी",
+    short: "HI",
+    dir: "ltr",
+    ogLocale: "hi_IN",
+  },
+  {
+    code: "vi",
+    label: "Tiếng Việt",
+    short: "VI",
+    dir: "ltr",
+    ogLocale: "vi_VN",
+  },
+  {
+    code: "ja",
+    label: "日本語",
+    short: "JA",
+    dir: "ltr",
+    ogLocale: "ja_JP",
+  },
+  {
+    // Second RTL locale after Arabic. Everything directional already derives
+    // from `dir`, so this needs no separate handling.
+    code: "fa",
+    label: "فارسی",
+    short: "FA",
+    dir: "rtl",
+    ogLocale: "fa_IR",
+  },
+  {
+    code: "ko",
+    label: "한국어",
+    short: "KO",
+    dir: "ltr",
+    ogLocale: "ko_KR",
+  },
+  {
+    code: "pl",
+    label: "Polski",
+    short: "PL",
+    dir: "ltr",
+    ogLocale: "pl_PL",
+  },
+  {
+    code: "it",
+    label: "Italiano",
+    short: "IT",
+    dir: "ltr",
+    ogLocale: "it_IT",
+  },
 ] as const;
 
 export type LocaleConfig = (typeof LOCALES)[number];

@@ -4316,6 +4316,305 @@ const FALLBACK_COPY = {
       ],
     },
   },
+
+  // Turkish is agglutinative: a case suffix on a tool name is unpredictable
+  // ("Cron Parser'ı" vs "Cron Parser'i"), so every sentence below is built so
+  // the interpolated name stays in the bare nominative.
+  tr: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name}, BrowseryTools üzerinde ${category} kategorisinde yer alan ücretsiz bir araçtır. Tamamen tarayıcınızda çalışır: verdiğiniz içerik kendi cihazınızda işlenir ve hiçbir sunucuya yüklenmez. Kayıt yok, reklam yok, filigran yok; sayfa bir kez yüklendikten sonra bağlantı olmadan da çalışmayı sürdürür.`,
+      "model-download": (name, category) =>
+        `${name}, BrowseryTools üzerinde ${category} kategorisinde yer alan ücretsiz bir araçtır ve modelini kendi cihazınızda çalıştırır — verdiğiniz içerik yerel olarak işlenir ve hiçbir sunucuya yüklenmez. Yine de tümüyle kendi kendine yeten bir araç değildir: ihtiyaç duyduğu model dosyaları ilk kullanımda üçüncü taraf bir CDN üzerinden indirilir, ardından tarayıcınız tarafından önbelleğe alınır. Bu yüzden ilk çalıştırma internet bağlantısı gerektirir ve sonrakilere göre gözle görülür biçimde uzun sürer; araç ancak bu dosyalar önbelleğe alındıktan sonra çevrimdışı çalışır. Kayıt yok, reklam yok, filigran yok.`,
+      "remote-data": (name, category) =>
+        `${name}, BrowseryTools üzerinde ${category} kategorisinde yer alan ücretsiz bir araçtır. Buradaki araçların çoğundan farklı olarak kendi kendine yetmez: çalışabilmek için üçüncü taraf bir hizmetten veri ister, dolayısıyla internet bağlantısına ihtiyaç duyar ve o hizmet bu isteği görür. Geri kalan her şey — hesaplama ve sonuç — kendi cihazınızdaki tarayıcıda gerçekleşir. Kayıt yok, reklam yok, filigran yok.`,
+      "remote-processing": (name, category) =>
+        `${name}, BrowseryTools üzerinde ${category} kategorisinde yer alan ücretsiz bir araçtır ve sitenin geri kalanının çalışma biçiminin istisnasıdır: işlemenin bir bölümü cihazınızın dışında gerçekleşir. Verdiğiniz içerik, işlenmek üzere üçüncü taraf bir hizmete gönderilir; bu nedenle internet bağlantısı gerekir ve aracı gizli hiçbir şey için kullanmamalısınız. BrowseryTools'un kendisi hiçbir şey saklamaz; kayıt yok, reklam yok, filigran yok.`,
+      "no-user-data": (name, category) =>
+        `${name}, BrowseryTools üzerinde ${category} kategorisinde yer alan ücretsiz bir araçtır. Tarayıcınızda, kurulum ve kayıt gerektirmeden, reklamsız ve filigransız çalışır. Sizden herhangi bir içerik istemez; dolayısıyla burada yüklenecek ya da saklanacak bir şey zaten yoktur.`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `${name} çevrimdışı çalışır mı?`,
+          a: "Yalnızca ilk kullanımdan sonra. Model dosyaları ilk çalıştırmada üçüncü taraf bir CDN üzerinden indirilir ve tarayıcınız tarafından önbelleğe alınır; sonrasında her şey kendi cihazınızda olup biter. Kendi içeriğiniz ise hiçbir aşamada yüklenmez.",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `${name} çevrimdışı çalışır mı?`,
+          a: "Hayır. Bu aracın her seferinde harici bir hizmetten güncel veri alması gerekir, dolayısıyla bağlantı şarttır. Yazdıklarınız tarayıcınızda kalır.",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "Verilerim kendi cihazımda mı işleniyor?",
+          a: "Hayır. Bu araç, sitedeki diğer araçların aksine, verdiğiniz içeriği işlenmek üzere harici bir hizmete gönderir. İnternet bağlantısı gerektirir ve gizli materyaller için kullanılmamalıdır.",
+        },
+      ],
+    },
+  },
+
+  // Hindi: the copula agrees with "टूल", never with the interpolated name, so a
+  // tool name of either grammatical gender reads correctly.
+  hi: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name}, BrowseryTools पर ${category} श्रेणी का एक मुफ़्त टूल है। यह पूरी तरह आपके ब्राउज़र में चलता है: आप जो कुछ इसे देते हैं, वह आपके अपने डिवाइस पर ही प्रोसेस होता है और कभी किसी सर्वर पर अपलोड नहीं होता। न रजिस्ट्रेशन, न विज्ञापन, न वॉटरमार्क — और पेज एक बार लोड हो जाने के बाद यह बिना इंटरनेट कनेक्शन के भी काम करता रहता है।`,
+      "model-download": (name, category) =>
+        `${name}, BrowseryTools पर ${category} श्रेणी का एक मुफ़्त टूल है और अपना मॉडल आपके अपने डिवाइस पर चलाता है — आप जो कुछ इसे देते हैं, वह लोकल स्तर पर प्रोसेस होता है और कभी किसी सर्वर पर अपलोड नहीं होता। फिर भी यह पूरी तरह आत्मनिर्भर नहीं है: इसे जिन मॉडल फ़ाइलों की ज़रूरत होती है, वे पहली बार इस्तेमाल करने पर एक थर्ड-पार्टी CDN से डाउनलोड होती हैं और उसके बाद आपका ब्राउज़र उन्हें कैश में रख लेता है। इसीलिए पहली बार चलाने पर इंटरनेट कनेक्शन ज़रूरी है और इसमें बाद की बार से काफ़ी ज़्यादा समय लगता है; ये फ़ाइलें कैश हो जाने के बाद ही यह टूल ऑफ़लाइन काम करता है। न रजिस्ट्रेशन, न विज्ञापन, न वॉटरमार्क।`,
+      "remote-data": (name, category) =>
+        `${name}, BrowseryTools पर ${category} श्रेणी का एक मुफ़्त टूल है। यहाँ के ज़्यादातर टूल्स से अलग, यह आत्मनिर्भर नहीं है: काम करने के लिए यह एक थर्ड-पार्टी सेवा से डेटा माँगता है, इसलिए इसे इंटरनेट कनेक्शन चाहिए और वह सेवा इस अनुरोध को देखती है। बाकी सब कुछ — गणना और नतीजा — आपके अपने डिवाइस पर, आपके ब्राउज़र में ही होता है। न रजिस्ट्रेशन, न विज्ञापन, न वॉटरमार्क।`,
+      "remote-processing": (name, category) =>
+        `${name}, BrowseryTools पर ${category} श्रेणी का एक मुफ़्त टूल है और यह बाकी साइट के तरीके का अपवाद है: इसकी कुछ प्रोसेसिंग आपके डिवाइस के बाहर होती है। आप जो कुछ इसे देते हैं, वह प्रोसेस होने के लिए एक थर्ड-पार्टी सेवा को भेजा जाता है, इसलिए इंटरनेट कनेक्शन ज़रूरी है और आपको इसे किसी भी गोपनीय चीज़ के लिए इस्तेमाल नहीं करना चाहिए। BrowseryTools खुद कुछ भी स्टोर नहीं करता; न रजिस्ट्रेशन, न विज्ञापन, न वॉटरमार्क।`,
+      "no-user-data": (name, category) =>
+        `${name}, BrowseryTools पर ${category} श्रेणी का एक मुफ़्त टूल है। यह आपके ब्राउज़र में चलता है — न कुछ इंस्टॉल करना पड़ता है, न रजिस्ट्रेशन, और न ही कोई विज्ञापन या वॉटरमार्क। यह आपसे किसी तरह का कोई कंटेंट माँगता ही नहीं, इसलिए यहाँ अपलोड या स्टोर करने के लिए कुछ है ही नहीं।`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `क्या ${name} टूल ऑफ़लाइन काम करता है?`,
+          a: "पहली बार इस्तेमाल करने के बाद ही। मॉडल फ़ाइलें पहली बार चलाने पर एक थर्ड-पार्टी CDN से डाउनलोड होती हैं और आपका ब्राउज़र उन्हें कैश कर लेता है; उसके बाद सब कुछ आपके डिवाइस पर ही होता है। आपका अपना कंटेंट किसी भी चरण में अपलोड नहीं होता।",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `क्या ${name} टूल ऑफ़लाइन काम करता है?`,
+          a: "नहीं। इस टूल को हर बार किसी बाहरी सेवा से ताज़ा डेटा लाना पड़ता है, इसलिए कनेक्शन ज़रूरी है। आप जो टाइप करते हैं, वह आपके ब्राउज़र में ही रहता है।",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "क्या मेरा डेटा मेरे डिवाइस पर प्रोसेस होता है?",
+          a: "नहीं। इस साइट के बाकी टूल्स से अलग, यह टूल आपके दिए हुए कंटेंट को प्रोसेस करने के लिए एक बाहरी सेवा को भेजता है। इसे इंटरनेट कनेक्शन चाहिए, और गोपनीय सामग्री के लिए इसका इस्तेमाल नहीं करना चाहिए।",
+        },
+      ],
+    },
+  },
+
+  vi: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name} là công cụ miễn phí thuộc danh mục ${category} trên BrowseryTools. Công cụ này chạy hoàn toàn trong trình duyệt của bạn: những gì bạn đưa vào đều được xử lý ngay trên thiết bị của bạn và không bao giờ được tải lên máy chủ. Không cần đăng ký, không quảng cáo, không hình mờ, và sau khi trang đã tải xong thì công cụ vẫn chạy được dù không có kết nối.`,
+      "model-download": (name, category) =>
+        `${name} là công cụ miễn phí thuộc danh mục ${category} trên BrowseryTools, và nó chạy mô hình ngay trên thiết bị của bạn — những gì bạn đưa vào được xử lý cục bộ và không bao giờ được tải lên máy chủ. Tuy vậy, công cụ này không hoàn toàn khép kín: các tệp mô hình mà nó cần sẽ được tải xuống từ một CDN của bên thứ ba trong lần dùng đầu tiên, rồi được trình duyệt lưu vào bộ nhớ đệm. Vì thế lần chạy đầu tiên cần có kết nối internet và mất nhiều thời gian hơn hẳn những lần sau; công cụ chỉ hoạt động ngoại tuyến sau khi các tệp đó đã nằm trong bộ nhớ đệm. Không cần đăng ký, không quảng cáo, không hình mờ.`,
+      "remote-data": (name, category) =>
+        `${name} là công cụ miễn phí thuộc danh mục ${category} trên BrowseryTools. Khác với hầu hết công cụ ở đây, nó không khép kín: để hoạt động, nó phải yêu cầu dữ liệu từ một dịch vụ của bên thứ ba, nên cần kết nối internet và dịch vụ đó nhìn thấy yêu cầu. Mọi phần còn lại — việc tính toán và kết quả — đều diễn ra trong trình duyệt trên thiết bị của bạn. Không cần đăng ký, không quảng cáo, không hình mờ.`,
+      "remote-processing": (name, category) =>
+        `${name} là công cụ miễn phí thuộc danh mục ${category} trên BrowseryTools, và đây là ngoại lệ so với cách hoạt động của phần còn lại trên trang: một phần việc xử lý diễn ra bên ngoài thiết bị của bạn. Những gì bạn đưa vào sẽ được gửi tới một dịch vụ của bên thứ ba để xử lý, nên công cụ cần kết nối internet và bạn không nên dùng nó cho bất cứ nội dung nào cần giữ kín. Bản thân BrowseryTools không lưu trữ gì cả, và không cần đăng ký, không quảng cáo, không hình mờ.`,
+      "no-user-data": (name, category) =>
+        `${name} là công cụ miễn phí thuộc danh mục ${category} trên BrowseryTools. Công cụ chạy trong trình duyệt, không cần cài đặt, không cần đăng ký, không quảng cáo và không hình mờ. Nó không hỏi bạn bất kỳ nội dung nào, nên ở đây vốn dĩ chẳng có gì để tải lên hay lưu lại.`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `${name} có dùng được khi không có mạng không?`,
+          a: "Chỉ sau lần dùng đầu tiên. Các tệp mô hình được tải xuống từ một CDN của bên thứ ba trong lần chạy đầu và được trình duyệt lưu vào bộ nhớ đệm; sau đó mọi thứ đều diễn ra trên thiết bị của bạn. Nội dung của riêng bạn không bao giờ được tải lên, ở bất kỳ giai đoạn nào.",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `${name} có dùng được khi không có mạng không?`,
+          a: "Không. Công cụ này phải lấy dữ liệu mới nhất từ một dịch vụ bên ngoài mỗi lần dùng, nên bắt buộc phải có kết nối. Những gì bạn nhập vẫn nằm trong trình duyệt của bạn.",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "Dữ liệu của tôi có được xử lý trên thiết bị của tôi không?",
+          a: "Không. Khác với các công cụ còn lại trên trang này, công cụ này gửi những gì bạn đưa vào tới một dịch vụ bên ngoài để xử lý. Nó cần kết nối internet, và bạn không nên dùng nó cho tài liệu cần giữ kín.",
+        },
+      ],
+    },
+  },
+
+  // Japanese: は is invariant, so it can follow the interpolated name safely.
+  // No space is inserted before it because a tool name may already be Japanese.
+  ja: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name}は BrowseryTools の「${category}」カテゴリにある無料ツールです。処理はすべてブラウザ内で完結し、渡した内容はお使いの端末で処理されます。サーバーにアップロードされることはありません。登録も広告もウォーターマークもなく、ページの読み込みが終われば接続がなくても使い続けられます。`,
+      "model-download": (name, category) =>
+        `${name}は BrowseryTools の「${category}」カテゴリにある無料ツールで、モデルをお使いの端末上で実行します。渡した内容はローカルで処理され、サーバーにアップロードされることはありません。ただし、完全に自己完結しているわけではありません。必要なモデルファイルは初回利用時にサードパーティの CDN からダウンロードされ、その後はブラウザにキャッシュされます。そのため初回の実行にはインターネット接続が必要で、二回目以降よりもはっきりと時間がかかります。オフラインで使えるようになるのは、これらのファイルがキャッシュされたあとです。登録も広告もウォーターマークもありません。`,
+      "remote-data": (name, category) =>
+        `${name}は BrowseryTools の「${category}」カテゴリにある無料ツールです。ここにあるほとんどのツールとは違い、これは自己完結していません。動作するためにサードパーティのサービスへデータを要求するので、インターネット接続が必要で、そのサービスにはこのリクエストが見えます。それ以外、つまり計算と結果の表示は、お使いの端末のブラウザ内で行われます。登録も広告もウォーターマークもありません。`,
+      "remote-processing": (name, category) =>
+        `${name}は BrowseryTools の「${category}」カテゴリにある無料ツールですが、このサイトのほかのツールの仕組みとは異なり、処理の一部が端末の外で行われます。渡した内容は処理のためサードパーティのサービスへ送信されるので、インターネット接続が必要です。機密性のある内容には使わないでください。BrowseryTools 自体は何も保存しません。登録も広告もウォーターマークもありません。`,
+      "no-user-data": (name, category) =>
+        `${name}は BrowseryTools の「${category}」カテゴリにある無料ツールです。インストールも登録も不要で、広告もウォーターマークもなく、ブラウザ内で動作します。このツールは内容の入力を求めないため、そもそもアップロードしたり保存したりするものがありません。`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `${name}はオフラインでも使えますか。`,
+          a: "初回の利用のあとであれば使えます。モデルファイルは最初の実行時にサードパーティの CDN からダウンロードされ、ブラウザにキャッシュされます。それ以降の処理はすべてお使いの端末で行われます。ご自身の内容がアップロードされることは、どの段階でもありません。",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `${name}はオフラインでも使えますか。`,
+          a: "いいえ。このツールは毎回、外部サービスから最新のデータを取得する必要があるため、接続が欠かせません。入力した内容はブラウザ内に留まります。",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "データは自分の端末で処理されますか。",
+          a: "いいえ。このサイトのほかのツールとは異なり、このツールは渡された内容を処理のため外部サービスへ送信します。インターネット接続が必要で、機密性のある資料には使わないでください。",
+        },
+      ],
+    },
+  },
+
+  // Persian uses ک (U+06A9) and ی (U+06CC), never their Arabic lookalikes, and
+  // ZWNJ inside compounds (می‌شود, فایل‌ها, ثبت‌نام).
+  fa: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name} ابزاری رایگان در دستهٔ «${category}» در BrowseryTools است. این ابزار کاملاً در مرورگر شما اجرا می‌شود: هرچه به آن بدهید روی دستگاه خودتان پردازش می‌شود و هرگز روی سروری آپلود نمی‌شود. نه ثبت‌نامی لازم است، نه تبلیغی هست و نه واترمارکی؛ و پس از بارگذاری صفحه، بدون اتصال هم به کار خود ادامه می‌دهد.`,
+      "model-download": (name, category) =>
+        `${name} ابزاری رایگان در دستهٔ «${category}» در BrowseryTools است و مدل خود را روی دستگاه شما اجرا می‌کند — هرچه به آن بدهید به‌صورت محلی پردازش می‌شود و هرگز روی سروری آپلود نمی‌شود. با این حال کاملاً خودبسنده نیست: فایل‌های مدلی که به آن‌ها نیاز دارد، در نخستین استفاده از یک CDN شخص ثالث دانلود می‌شوند و سپس مرورگر شما آن‌ها را در حافظهٔ نهان نگه می‌دارد. به همین دلیل اجرای نخست به اتصال اینترنت نیاز دارد و به‌طور محسوسی بیشتر از دفعات بعد طول می‌کشد؛ این ابزار تنها پس از ذخیره شدن آن فایل‌ها در حافظهٔ نهان به‌صورت آفلاین کار می‌کند. نه ثبت‌نامی لازم است، نه تبلیغی هست و نه واترمارکی.`,
+      "remote-data": (name, category) =>
+        `${name} ابزاری رایگان در دستهٔ «${category}» در BrowseryTools است. برخلاف بیشتر ابزارهای اینجا خودبسنده نیست: برای کار کردن از یک سرویس شخص ثالث داده می‌خواهد، پس به اتصال اینترنت نیاز دارد و آن سرویس این درخواست را می‌بیند. باقی کار — محاسبه و نتیجه — در مرورگر و روی دستگاه خودتان انجام می‌شود. نه ثبت‌نامی لازم است، نه تبلیغی هست و نه واترمارکی.`,
+      "remote-processing": (name, category) =>
+        `${name} ابزاری رایگان در دستهٔ «${category}» در BrowseryTools است و استثنای شیوهٔ کار بقیهٔ این سایت به شمار می‌رود: بخشی از پردازش بیرون از دستگاه شما انجام می‌شود. هرچه به آن بدهید برای پردازش به یک سرویس شخص ثالث فرستاده می‌شود، بنابراین به اتصال اینترنت نیاز دارد و نباید آن را برای هیچ چیز محرمانه‌ای به کار ببرید. خودِ BrowseryTools چیزی ذخیره نمی‌کند؛ نه ثبت‌نامی لازم است، نه تبلیغی هست و نه واترمارکی.`,
+      "no-user-data": (name, category) =>
+        `${name} ابزاری رایگان در دستهٔ «${category}» در BrowseryTools است. بدون نصب، بدون ثبت‌نام و بدون تبلیغات و واترمارک در مرورگر شما اجرا می‌شود. این ابزار هیچ محتوایی از شما نمی‌خواهد، پس اصلاً چیزی برای آپلود یا ذخیره کردن وجود ندارد.`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `آیا ${name} بدون اینترنت کار می‌کند؟`,
+          a: "فقط پس از نخستین استفاده. فایل‌های مدل در اولین اجرا از یک CDN شخص ثالث دانلود می‌شوند و مرورگر آن‌ها را در حافظهٔ نهان نگه می‌دارد؛ پس از آن همه چیز روی دستگاه شما انجام می‌شود. محتوای خودتان در هیچ مرحله‌ای آپلود نمی‌شود.",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `آیا ${name} بدون اینترنت کار می‌کند؟`,
+          a: "خیر. این ابزار هر بار باید داده‌های به‌روز را از یک سرویس بیرونی بگیرد، پس اتصال ضروری است. آنچه می‌نویسید در مرورگر شما می‌ماند.",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "آیا داده‌های من روی دستگاه خودم پردازش می‌شود؟",
+          a: "خیر. برخلاف بقیهٔ ابزارهای این سایت، این ابزار آنچه را به آن می‌دهید برای پردازش به یک سرویس بیرونی می‌فرستد. به اتصال اینترنت نیاز دارد و نباید برای مطالب محرمانه از آن استفاده کرد.",
+        },
+      ],
+    },
+  },
+
+  // Korean: 은/는, 이/가 and 을/를 alternate on the final consonant of the word
+  // before them, which an interpolated tool name does not fix. Every sentence
+  // below therefore sets the name off with a comma instead of a particle.
+  ko: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name}, BrowseryTools의 ${category} 카테고리에 있는 무료 도구입니다. 이 도구는 전적으로 브라우저 안에서 실행됩니다. 입력한 내용은 사용자의 기기에서 처리되며 서버로 업로드되지 않습니다. 가입도, 광고도, 워터마크도 없고 페이지가 한 번 로드된 뒤에는 연결이 없어도 계속 사용할 수 있습니다.`,
+      "model-download": (name, category) =>
+        `${name}, BrowseryTools의 ${category} 카테고리에 있는 무료 도구입니다. 모델은 사용자의 기기에서 직접 실행되므로 입력한 내용은 로컬에서 처리되며 서버로 업로드되지 않습니다. 다만 완전히 독립적이지는 않습니다. 필요한 모델 파일은 처음 사용할 때 제3자 CDN에서 내려받은 뒤 브라우저에 캐시됩니다. 그래서 첫 실행에는 인터넷 연결이 필요하고 이후 실행보다 눈에 띄게 오래 걸리며, 이 파일들이 캐시된 뒤에야 오프라인으로 쓸 수 있습니다. 가입도, 광고도, 워터마크도 없습니다.`,
+      "remote-data": (name, category) =>
+        `${name}, BrowseryTools의 ${category} 카테고리에 있는 무료 도구입니다. 여기 있는 대부분의 도구와 달리 이 도구는 독립적이지 않습니다. 작동하려면 제3자 서비스에 데이터를 요청해야 하므로 인터넷 연결이 필요하고, 그 서비스는 이 요청을 보게 됩니다. 나머지, 즉 계산과 결과는 모두 사용자의 기기 브라우저 안에서 이루어집니다. 가입도, 광고도, 워터마크도 없습니다.`,
+      "remote-processing": (name, category) =>
+        `${name}, BrowseryTools의 ${category} 카테고리에 있는 무료 도구이며 이 사이트의 다른 도구들과는 다르게 동작합니다. 처리의 일부가 기기 바깥에서 이루어지기 때문입니다. 입력한 내용은 처리를 위해 제3자 서비스로 전송되므로 인터넷 연결이 필요하고, 기밀에 해당하는 자료에는 사용하지 마세요. BrowseryTools 자체는 아무것도 저장하지 않으며 가입도, 광고도, 워터마크도 없습니다.`,
+      "no-user-data": (name, category) =>
+        `${name}, BrowseryTools의 ${category} 카테고리에 있는 무료 도구입니다. 설치도 가입도 필요 없고 광고나 워터마크도 없이 브라우저에서 실행됩니다. 이 도구는 어떤 내용도 입력받지 않으므로 애초에 업로드하거나 저장할 것이 없습니다.`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `${name}, 오프라인에서도 쓸 수 있나요?`,
+          a: "처음 한 번 사용한 뒤에는 쓸 수 있습니다. 모델 파일은 첫 실행 때 제3자 CDN에서 내려받아 브라우저에 캐시되며, 그 뒤로는 모든 처리가 기기에서 이루어집니다. 사용자의 콘텐츠는 어느 단계에서도 업로드되지 않습니다.",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `${name}, 오프라인에서도 쓸 수 있나요?`,
+          a: "아니요. 이 도구는 매번 외부 서비스에서 최신 데이터를 받아와야 하므로 연결이 반드시 필요합니다. 입력한 내용은 브라우저 안에 그대로 남습니다.",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "제 데이터가 제 기기에서 처리되나요?",
+          a: "아니요. 이 사이트의 다른 도구들과 달리 이 도구는 입력한 내용을 처리하기 위해 외부 서비스로 전송합니다. 인터넷 연결이 필요하며, 기밀 자료에는 사용하지 않는 것이 좋습니다.",
+        },
+      ],
+    },
+  },
+
+  // Polish has seven cases, so neither interpolated value is ever asked to
+  // inflect: the name opens the sentence in the nominative ("X to …") and the
+  // category sits in quotation marks as a cited form.
+  pl: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name} to bezpłatne narzędzie z kategorii „${category}” w serwisie BrowseryTools. Działa w całości w Twojej przeglądarce: to, co mu przekażesz, jest przetwarzane na Twoim własnym urządzeniu i nigdy nie trafia na serwer. Nie ma rejestracji, reklam ani znaków wodnych, a po wczytaniu strony narzędzie działa dalej nawet bez połączenia.`,
+      "model-download": (name, category) =>
+        `${name} to bezpłatne narzędzie z kategorii „${category}” w serwisie BrowseryTools, które uruchamia swój model na Twoim własnym urządzeniu — to, co mu przekażesz, jest przetwarzane lokalnie i nigdy nie trafia na serwer. Nie jest jednak w pełni samowystarczalne: potrzebne pliki modelu są przy pierwszym użyciu pobierane z zewnętrznej sieci CDN, a następnie zapisywane w pamięci podręcznej przeglądarki. Dlatego pierwsze uruchomienie wymaga połączenia z internetem i trwa wyraźnie dłużej niż kolejne, a bez sieci narzędzie działa dopiero wtedy, gdy te pliki są już w pamięci podręcznej. Nie ma rejestracji, reklam ani znaków wodnych.`,
+      "remote-data": (name, category) =>
+        `${name} to bezpłatne narzędzie z kategorii „${category}” w serwisie BrowseryTools. W odróżnieniu od większości narzędzi w tym serwisie nie jest samowystarczalne: do działania pobiera dane z usługi zewnętrznej, potrzebuje więc połączenia z internetem, a ta usługa widzi zapytanie. Cała reszta — obliczenia i wynik — dzieje się w przeglądarce, na Twoim własnym urządzeniu. Nie ma rejestracji, reklam ani znaków wodnych.`,
+      "remote-processing": (name, category) =>
+        `${name} to bezpłatne narzędzie z kategorii „${category}” w serwisie BrowseryTools i wyjątek od zasady, na jakiej działa reszta serwisu: część przetwarzania odbywa się poza Twoim urządzeniem. To, co mu przekażesz, jest wysyłane do przetworzenia do usługi zewnętrznej, narzędzie wymaga więc połączenia z internetem i nie należy używać go do niczego poufnego. Sam BrowseryTools niczego nie przechowuje, nie ma też rejestracji, reklam ani znaków wodnych.`,
+      "no-user-data": (name, category) =>
+        `${name} to bezpłatne narzędzie z kategorii „${category}” w serwisie BrowseryTools. Działa w przeglądarce, bez instalacji i bez rejestracji, bez reklam i bez znaków wodnych. Nie prosi Cię o żadną treść, więc nie ma tu czego wysyłać ani przechowywać.`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `Czy ${name} działa bez internetu?`,
+          a: "Dopiero po pierwszym użyciu. Pliki modelu są przy pierwszym uruchomieniu pobierane z zewnętrznej sieci CDN i zapisywane w pamięci podręcznej przeglądarki; potem wszystko dzieje się na Twoim urządzeniu. Twoje własne treści nie są wysyłane na żadnym etapie.",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `Czy ${name} działa bez internetu?`,
+          a: "Nie. To narzędzie za każdym razem musi pobrać aktualne dane z usługi zewnętrznej, więc połączenie jest niezbędne. To, co wpiszesz, zostaje w Twojej przeglądarce.",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "Czy moje dane są przetwarzane na moim urządzeniu?",
+          a: "Nie. W odróżnieniu od pozostałych narzędzi w serwisie to narzędzie wysyła przekazane treści do przetworzenia w usłudze zewnętrznej. Wymaga połączenia z internetem i nie należy używać go do materiałów poufnych.",
+        },
+      ],
+    },
+  },
+
+  // Italian: every adjective and participle agrees with the head noun
+  // "strumento", never with the interpolated name, and no article is ever
+  // hard-coded in front of an interpolated value. "file" and "server" are
+  // invariable loanwords and take no plural -s.
+  it: {
+    intro: {
+      "on-device": (name, category) =>
+        `${name} è uno strumento gratuito della categoria ${category} su BrowseryTools. Funziona interamente nel browser: quello che gli dai viene elaborato sul tuo dispositivo e non viene mai caricato su un server, non ci sono registrazione, pubblicità né filigrane, e una volta caricata la pagina continua a funzionare anche senza connessione.`,
+      "model-download": (name, category) =>
+        `${name} è uno strumento gratuito della categoria ${category} su BrowseryTools ed esegue il suo modello direttamente sul tuo dispositivo: quello che gli dai viene elaborato in locale e non viene mai caricato su un server. Non è però del tutto autosufficiente: i file del modello di cui ha bisogno vengono scaricati da una CDN di terze parti al primo utilizzo e poi conservati nella cache del browser. Per questo la prima esecuzione richiede una connessione a internet e dura molto più a lungo delle successive, e lo strumento funziona offline soltanto dopo che quei file sono in cache. Non ci sono registrazione, pubblicità né filigrane.`,
+      "remote-data": (name, category) =>
+        `${name} è uno strumento gratuito della categoria ${category} su BrowseryTools. A differenza della maggior parte degli strumenti presenti qui non è autosufficiente: per funzionare richiede dati a un servizio di terze parti, quindi ha bisogno di una connessione a internet e quel servizio vede la richiesta. Tutto il resto — il calcolo e il risultato — avviene nel browser, sul tuo dispositivo. Non ci sono registrazione, pubblicità né filigrane.`,
+      "remote-processing": (name, category) =>
+        `${name} è uno strumento gratuito della categoria ${category} su BrowseryTools ed è l'eccezione al modo in cui funziona il resto del sito: una parte dell'elaborazione avviene fuori dal tuo dispositivo. Quello che gli dai viene inviato a un servizio di terze parti che se ne occupa, quindi serve una connessione a internet e non dovresti usarlo per niente di riservato. BrowseryTools di suo non conserva nulla, e non ci sono registrazione, pubblicità né filigrane.`,
+      "no-user-data": (name, category) =>
+        `${name} è uno strumento gratuito della categoria ${category} su BrowseryTools. Funziona nel browser senza installazione e senza registrazione, senza pubblicità né filigrane. Non ti chiede alcun contenuto, quindi qui non c'è nulla da caricare o da conservare.`,
+    },
+    faq: {
+      "model-download": (name) => [
+        {
+          q: `${name} funziona offline?`,
+          a: "Solo dopo il primo utilizzo. I file del modello vengono scaricati da una CDN di terze parti alla prima esecuzione e conservati nella cache del browser; da lì in poi tutto avviene sul tuo dispositivo. I tuoi contenuti non vengono caricati in nessun momento.",
+        },
+      ],
+      "remote-data": (name) => [
+        {
+          q: `${name} funziona offline?`,
+          a: "No. Questo strumento deve richiedere ogni volta dati aggiornati a un servizio esterno, quindi la connessione è indispensabile. Quello che scrivi resta nel browser.",
+        },
+      ],
+      "remote-processing": () => [
+        {
+          q: "I miei dati vengono elaborati sul mio dispositivo?",
+          a: "No. A differenza degli altri strumenti del sito, questo invia quello che gli dai a un servizio esterno che lo elabora. Richiede una connessione a internet e non dovresti usarlo per materiale riservato.",
+        },
+      ],
+    },
+  },
 } satisfies Partial<Record<Locale, FallbackCopy>>;
 
 /** Locales the templated fallback can actually speak. Derived, not declared. */
