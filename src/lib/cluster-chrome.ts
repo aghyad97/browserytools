@@ -12,12 +12,13 @@
 // parity across every locale, which is the same guarantee the MISSING_MESSAGE
 // runtime error gives on the client, moved to build time.
 //
-// Message files are loaded with a dynamic import so only the requested locale's
-// JSON ends up being evaluated per request, rather than all nine.
+// Message files come from `src/lib/messages.ts`, which loads one locale's JSON
+// lazily rather than all of them.
 // ──────────────────────────────────────────────────────────────────────────────
 
 import { cookies } from "next/headers";
 import { defaultLocale, isLocale, type Locale } from "./locales";
+import { loadMessages } from "./messages";
 import type { ClusterId } from "./tool-clusters";
 
 export interface ClusterName {
@@ -41,21 +42,8 @@ export interface ClusterChrome {
   names: Record<ClusterId, ClusterName>;
 }
 
-const loaders: Record<Locale, () => Promise<{ default: unknown }>> = {
-  en: () => import("../../messages/en.json"),
-  ar: () => import("../../messages/ar.json"),
-  es: () => import("../../messages/es.json"),
-  "pt-BR": () => import("../../messages/pt-BR.json"),
-  fr: () => import("../../messages/fr.json"),
-  de: () => import("../../messages/de.json"),
-  ru: () => import("../../messages/ru.json"),
-  id: () => import("../../messages/id.json"),
-  "zh-CN": () => import("../../messages/zh-CN.json"),
-};
-
 export async function getClusterChrome(locale: Locale): Promise<ClusterChrome> {
-  const load = loaders[locale] ?? loaders[defaultLocale];
-  const messages = (await load()).default as { Clusters?: ClusterChrome };
+  const messages = (await loadMessages(locale)) as unknown as { Clusters?: ClusterChrome };
   if (!messages.Clusters) {
     throw new Error(
       `messages/${locale}.json is missing the "Clusters" namespace. ` +
