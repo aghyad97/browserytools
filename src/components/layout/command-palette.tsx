@@ -25,7 +25,7 @@
 
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { tools, roundedToolCount, isHiddenVariant } from "@/lib/tools-config";
 import { playCue } from "@/lib/ui-sound";
 import { matchesToolQuery } from "@/lib/tool-search-match";
@@ -133,6 +133,7 @@ export function CommandPalette({
   animated?: boolean;
 }) {
   const router = useRouter();
+  const locale = useLocale();
   const t = useTranslations("Landing");
   const tRail = useTranslations("Rail");
   const tc = useTranslations("ToolsConfig");
@@ -147,8 +148,11 @@ export function CommandPalette({
         ...tool,
         name: tc(`tools.${tool.slug}.name` as never) as string,
         category: tc(`categoriesShort.${tool.categoryId}` as never) as string,
-      })).sort((a, b) => a.name.localeCompare(b.name)),
-    [tc],
+      // Sort in the active locale's collation — Turkish orders ç/ğ/ı/i/ö/ş/ü
+      // differently from the default, and an unqualified localeCompare() gets
+      // it wrong for every non-English alphabet on the site.
+      })).sort((a, b) => a.name.localeCompare(b.name, locale)),
+    [tc, locale],
   );
 
   const results = useMemo(() => {
