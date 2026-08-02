@@ -313,6 +313,14 @@ const CDN_TERM: Record<Locale, RegExp> = {
   ru: /стороннего CDN/,
   id: /CDN pihak ketiga/,
   "zh-CN": /第三方 CDN/,
+  tr: /üçüncü taraf bir CDN/,
+  hi: /थर्ड-पार्टी CDN/,
+  vi: /CDN của bên thứ ba/,
+  ja: /サードパーティの CDN/,
+  fa: /CDN شخص ثالث/,
+  ko: /제3자 CDN/,
+  pl: /zewnętrznej sieci CDN/,
+  it: /CDN di terze parti/,
 };
 
 describe("templated fallback locale coverage", () => {
