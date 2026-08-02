@@ -19,6 +19,7 @@ import {
 } from "@/lib/locales";
 import { useTranslations } from "next-intl";
 import { cn } from "@/lib/utils";
+import { loadMessages } from "@/lib/messages";
 import { playCue } from "@/lib/ui-sound";
 
 interface LanguageSwitcherProps {
@@ -73,6 +74,15 @@ export function LanguageSwitcher({
         {LOCALES.map(({ code, label }) => (
           <DropdownMenuItem
             key={code}
+            // Each locale's messages are a separate lazy chunk now, so warm the
+            // one the pointer is on: by the time the click lands the switch is
+            // already instant. Cheap — the chunk is fetched at most once.
+            onPointerEnter={() => {
+              void loadMessages(code);
+            }}
+            onFocus={() => {
+              void loadMessages(code);
+            }}
             onClick={() => {
               setLocale(code);
               playCue("toggle");

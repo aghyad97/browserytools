@@ -268,12 +268,20 @@ vi.mock("next-intl", async () => {
   }
 
   function makeT(namespace?: string) {
-    return (key: string, values?: Record<string, unknown>): string => {
+    const t = (key: string, values?: Record<string, unknown>): string => {
       const fullPath = namespace ? `${namespace}.${key}` : key;
       const translation = lookup(enMessages as unknown as Record<string, unknown>, fullPath) ?? key;
       if (!values) return translation;
       return translation.replace(/\{(\w+)\}/g, (_, k) => String(values[k] ?? `{${k}}`));
     };
+    // next-intl's translator exposes `has()` for optional keys — components use
+    // it to fall back gracefully instead of rendering a raw message path.
+    t.has = (key: string): boolean =>
+      lookup(
+        enMessages as unknown as Record<string, unknown>,
+        namespace ? `${namespace}.${key}` : key
+      ) !== undefined;
+    return t;
   }
 
   return {

@@ -1,35 +1,26 @@
 "use client";
 
-import { NextIntlClientProvider } from "next-intl";
+import { NextIntlClientProvider, type Messages } from "next-intl";
 import { useLanguageStore } from "@/store/language-store";
 import { getDir, matchLocale, type Locale } from "@/lib/locales";
+import { loadMessages } from "@/lib/messages";
 import { useEffect, useRef, useState } from "react";
 import { Toaster } from "sonner";
-import enMessages from "../../messages/en.json";
-import arMessages from "../../messages/ar.json";
-import esMessages from "../../messages/es.json";
-import ptBRMessages from "../../messages/pt-BR.json";
-import frMessages from "../../messages/fr.json";
-import deMessages from "../../messages/de.json";
-import ruMessages from "../../messages/ru.json";
-import idMessages from "../../messages/id.json";
-import zhCNMessages from "../../messages/zh-CN.json";
-
-const messages: Record<Locale, typeof enMessages> = {
-  en: enMessages,
-  ar: arMessages,
-  es: esMessages,
-  "pt-BR": ptBRMessages,
-  fr: frMessages,
-  de: deMessages,
-  ru: ruMessages,
-  id: idMessages,
-  "zh-CN": zhCNMessages,
-};
 
 interface LanguageProviderProps {
   children: React.ReactNode;
   initialLocale: Locale;
+  /**
+   * `initialLocale`'s messages, resolved on the server. They arrive as a prop
+   * rather than being imported here on purpose: this is a client component, so
+   * an import would bundle *every* locale's JSON (~2.4 MB) into the chunk each
+   * visitor downloads to use exactly one of them. The server can read the
+   * message files without shipping them, and passing the resolved locale's
+   * messages down keeps the SSR'd HTML fully translated with no async gap and
+   * therefore no hydration mismatch. Other locales are fetched lazily, and
+   * only if the visitor actually switches language.
+   */
+  initialMessages: Messages;
   /**
    * True when `initialLocale` came from a `/{locale}/…` URL. A URL locale is
    * an explicit, shareable, indexable declaration — it must beat whatever
@@ -43,15 +34,24 @@ interface LanguageProviderProps {
 export function LanguageProvider({
   children,
   initialLocale,
+  initialMessages,
   localePinned = false,
 }: LanguageProviderProps) {
-  const { locale, dir, setLocale } = useLanguageStore();
+  const { locale, setLocale } = useLanguageStore();
   const initialized = useRef(false);
 
-  // Use server-resolved locale for the first render to avoid flash.
-  // After mount, follow Zustand (which rehydrates from localStorage) — unless
-  // the URL pinned the locale, in which case the URL stays authoritative.
-  const [currentLocale, setCurrentLocale] = useState<Locale>(initialLocale);
+  // Locale and messages move as one unit. Keeping them in a single state means
+  // the tree is never rendered with a locale whose messages have not arrived,
+  // so switching language shows the previous language until the new one is
+  // ready rather than flashing untranslated keys or English.
+  const [active, setActive] = useState<{ locale: Locale; messages: Messages }>({
+    locale: initialLocale,
+    messages: initialMessages,
+  });
+
+  // The locale that *should* be showing: the URL when it pinned one, otherwise
+  // whatever Zustand holds (rehydrated from localStorage, or set by the switcher).
+  const desiredLocale: Locale = localePinned ? initialLocale : locale;
 
   // A URL locale is also a preference change: persist it so the cookie, the
   // store and the switcher all agree with the address bar.
@@ -86,22 +86,35 @@ export function LanguageProvider({
     }
   }, [setLocale, localePinned]);
 
-  // Sync currentLocale with Zustand after it rehydrates from localStorage.
-  // A pinned (URL) locale is authoritative and never yields to the store.
+  // Bring `active` in line with `desiredLocale`, fetching that locale's chunk
+  // first. Nothing is committed until the messages resolve, and a switch that
+  // is superseded mid-flight is dropped.
   useEffect(() => {
-    setCurrentLocale(localePinned ? initialLocale : locale);
-  }, [locale, localePinned, initialLocale]);
+    if (desiredLocale === active.locale) return;
+    // Going back to the server-rendered locale needs no network at all.
+    if (desiredLocale === initialLocale) {
+      setActive({ locale: initialLocale, messages: initialMessages });
+      return;
+    }
+    let cancelled = false;
+    loadMessages(desiredLocale).then((messages) => {
+      if (!cancelled) setActive({ locale: desiredLocale, messages });
+    });
+    return () => {
+      cancelled = true;
+    };
+  }, [desiredLocale, active.locale, initialLocale, initialMessages]);
 
-  // Keep html dir/lang in sync with React state
+  // Keep html dir/lang in sync with the locale actually being rendered.
   useEffect(() => {
-    document.documentElement.lang = currentLocale;
-    document.documentElement.dir = getDir(currentLocale);
-  }, [currentLocale]);
+    document.documentElement.lang = active.locale;
+    document.documentElement.dir = getDir(active.locale);
+  }, [active.locale]);
 
   return (
-    <NextIntlClientProvider locale={currentLocale} messages={messages[currentLocale]} timeZone="UTC">
+    <NextIntlClientProvider locale={active.locale} messages={active.messages} timeZone="UTC">
       {children}
-      <Toaster richColors position={dir === "rtl" ? "top-left" : "top-right"} />
+      <Toaster richColors position={getDir(active.locale) === "rtl" ? "top-left" : "top-right"} />
     </NextIntlClientProvider>
   );
 }

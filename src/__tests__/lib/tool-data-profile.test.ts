@@ -6,7 +6,10 @@ import {
   TOOL_DATA_PROFILES,
   getToolDataProfile,
   buildFallbackContent,
+  hasFallbackProse,
+  FALLBACK_PROSE_LOCALES,
 } from "@/lib/tool-content";
+import { localeCodes, type Locale } from "@/lib/locales";
 
 // ──────────────────────────────────────────────────────────────────────────────
 // Guards the tool data profile map in src/lib/tool-content.ts against drift.
@@ -268,4 +271,144 @@ describe("buildFallbackContent privacy claims", () => {
     ).toEqual([]);
     expect(buildFallbackContent(base, "en").faq).toEqual([]);
   });
+});
+
+// ──────────────────────────────────────────────────────────────────────────────
+// Locale coverage for the templated fallback.
+//
+// A locale that reaches the registry without fallback prose renders a BLANK
+// "About" section on every /{locale}/tools/… page. That failure is silent: the
+// page still builds, still returns 200, and nobody notices until the pages have
+// been indexed empty. So ship the copy, or list the locale below on purpose.
+// ──────────────────────────────────────────────────────────────────────────────
+
+/**
+ * Locales knowingly shipped WITHOUT templated fallback prose. Empty on purpose —
+ * adding a code here is a deliberate decision to publish blank SEO sections for
+ * that language, not a way to get the suite green.
+ */
+const LOCALES_WITHOUT_FALLBACK_PROSE: Locale[] = [];
+
+const DATA_PROFILES = [
+  "on-device",
+  "model-download",
+  "remote-data",
+  "remote-processing",
+  "no-user-data",
+] as const;
+
+/**
+ * How each language names the third-party delivery network the model files come
+ * from. The model-download paragraph must contain it and the on-device
+ * paragraph must not: that is the line between "your content stays here" and
+ * "nothing is ever fetched", and blurring it makes the privacy claim false.
+ */
+const CDN_TERM: Record<Locale, RegExp> = {
+  en: /third-party CDN/,
+  ar: /شبكة توصيل محتوى تابعة لطرف ثالث/,
+  es: /CDN de terceros/,
+  "pt-BR": /CDN de terceiros/,
+  fr: /CDN tiers/,
+  de: /Drittanbieter-CDN/,
+  ru: /стороннего CDN/,
+  id: /CDN pihak ketiga/,
+  "zh-CN": /第三方 CDN/,
+};
+
+describe("templated fallback locale coverage", () => {
+  const base = {
+    name: "Test Tool",
+    description: "Does a thing.",
+    category: "Widgets",
+  };
+
+  it("has prose for every locale in the registry", () => {
+    const missing = localeCodes.filter(
+      (code) =>
+        !hasFallbackProse(code) &&
+        !LOCALES_WITHOUT_FALLBACK_PROSE.includes(code)
+    );
+    expect(missing).toEqual([]);
+  });
+
+  it("does not list a locale as unsupported while shipping prose for it", () => {
+    expect(LOCALES_WITHOUT_FALLBACK_PROSE.filter(hasFallbackProse)).toEqual([]);
+  });
+
+  it("carries no prose for codes outside the registry", () => {
+    expect(
+      FALLBACK_PROSE_LOCALES.filter((code) => !localeCodes.includes(code))
+    ).toEqual([]);
+  });
+
+  for (const locale of localeCodes) {
+    if (LOCALES_WITHOUT_FALLBACK_PROSE.includes(locale)) continue;
+
+    describe(locale, () => {
+      it("writes a distinct paragraph for every data profile", () => {
+        const seen = new Set<string>();
+
+        for (const profile of DATA_PROFILES) {
+          const { intro } = buildFallbackContent(
+            { ...base, dataProfile: profile },
+            locale
+          );
+          // The tool's own description, then the templated paragraph.
+          const paragraphs = intro.split("\n\n").filter(Boolean);
+          expect(paragraphs).toHaveLength(2);
+
+          const prose = paragraphs[1];
+          // Long enough to be real copy rather than a stub. CJK says the same
+          // thing in far fewer characters, hence the modest floor.
+          expect(prose.length).toBeGreaterThan(60);
+          expect(prose).toContain(base.name);
+          expect(prose).toContain(base.category);
+          seen.add(prose);
+        }
+
+        // Each profile makes a different claim; sharing a paragraph would mean
+        // one of them is being made about a tool that hasn't earned it.
+        expect(seen.size).toBe(DATA_PROFILES.length);
+      });
+
+      it("asks a question only for the profiles that touch the network", () => {
+        for (const profile of DATA_PROFILES) {
+          const { faq } = buildFallbackContent(
+            { ...base, dataProfile: profile },
+            locale
+          );
+          const expected =
+            profile === "on-device" || profile === "no-user-data" ? 0 : 1;
+          expect(faq).toHaveLength(expected);
+
+          for (const item of faq) {
+            expect(item.q.trim().length).toBeGreaterThan(0);
+            expect(item.a.trim().length).toBeGreaterThan(40);
+          }
+        }
+      });
+
+      it("discloses the first-use model download without dropping the local-processing claim", () => {
+        const modelDownload = buildFallbackContent(
+          { ...base, dataProfile: "model-download" },
+          locale
+        );
+        const onDevice = buildFallbackContent(
+          { ...base, dataProfile: "on-device" },
+          locale
+        );
+
+        expect(modelDownload.intro).toMatch(CDN_TERM[locale]);
+        expect(modelDownload.faq[0].a).toMatch(CDN_TERM[locale]);
+        // The on-device copy promises no network at all, so it must never
+        // mention a download it doesn't make.
+        expect(onDevice.intro).not.toMatch(CDN_TERM[locale]);
+        // The caveat is extra information, so the paragraph carrying it is
+        // necessarily the longer of the two.
+        expect(modelDownload.intro.length).toBeGreaterThan(
+          onDevice.intro.length
+        );
+      });
+    });
+  }
 });
