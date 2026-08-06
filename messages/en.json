@@ -5304,7 +5304,10 @@
     "favorites": "Your favorites",
     "recent": "Recently used",
     "dropAnyFile": "Drop any file here",
-    "dropSuggest": "We'll match it to the right tool — images compress on-device."
+    "dropSuggest": "We'll match it to the right tool — images compress on-device.",
+    "starLead": "{count}+ tools. No ads. No account. Nothing uploaded.",
+    "starBody": "BrowseryTools is free and stays free. If it saved you time, the fastest way to help is a star on GitHub.",
+    "starCta": "Star on GitHub"
   },
   "Template": {
     "onDevicePromise": "Runs on your device — nothing is uploaded, nothing is stored.",
@@ -5314,6 +5317,15 @@
     "download": "Download",
     "dropTitle": "Drop a file, or click to choose",
     "staysOnDevice": "stays on your device"
+  },
+  "Receipt": {
+    "saved": "Saved",
+    "noUpload": "0 bytes uploaded",
+    "pitch": "No ads, no account, nothing uploaded.",
+    "pitchNetwork": "No ads, no account, no sign-up.",
+    "star": "Star on GitHub",
+    "coffee": "Buy me a coffee",
+    "dismiss": "Dismiss"
   },
   "Legal": {
     "nav": {

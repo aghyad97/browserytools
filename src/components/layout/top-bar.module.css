@@ -78,6 +78,14 @@
   flex-shrink: 0;
 }
 
+/* One coffee CTA per screen. When the support receipt is showing its earned
+   ask (tool-receipt.tsx stamps this attribute on <html>), that ask owns the
+   coffee slot and this ambient pill stands down. The two components are
+   unrelated siblings, so the shared signal rides on the root element. */
+:global(html[data-support-asking="true"]) .coffee {
+  display: none;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .coffee {
     transition: none;

@@ -35,6 +35,7 @@ import { useFavoritesStore } from "@/store/favorites-store";
 import { useRecentToolsStore } from "@/store/recent-tools-store";
 import { useCategoryFilterStore } from "@/store/category-filter-store";
 import HomeFAQ from "@/components/HomeFAQ";
+import { LandingSupport } from "@/components/support/landing-support";
 import { ToolTile } from "@/components/shared/ToolTile";
 import { CHIP } from "@/lib/category-chips";
 import { popularityRank } from "@/lib/tool-popularity";
@@ -702,6 +703,10 @@ export default function Landing() {
       </div>
 
       <HomeFAQ />
+
+      {/* Closing block — the direct tier of the support ask (star only; the
+          top bar already carries the one-per-screen coffee CTA). */}
+      <LandingSupport count={ROUNDED_COUNT} />
     </div>
   );
 }

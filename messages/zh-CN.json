@@ -5304,7 +5304,10 @@
     "favorites": "你的收藏",
     "recent": "最近使用",
     "dropAnyFile": "拖放任意文件到这里",
-    "dropSuggest": "我们会为你匹配合适的工具——图片直接在设备上压缩。"
+    "dropSuggest": "我们会为你匹配合适的工具——图片直接在设备上压缩。",
+    "starLead": "{count}+ 款工具。无广告，无账号，不上传。",
+    "starBody": "BrowseryTools 免费，而且会一直免费。如果它帮你省了时间，最快的支持方式就是在 GitHub 上点个星。",
+    "starCta": "在 GitHub 上加星"
   },
   "Template": {
     "onDevicePromise": "在你的设备上运行——不上传、不存储任何内容。",
@@ -5314,6 +5317,15 @@
     "download": "下载",
     "dropTitle": "拖入文件，或点击选择",
     "staysOnDevice": "留在你的设备上"
+  },
+  "Receipt": {
+    "saved": "已保存",
+    "noUpload": "上传 0 字节",
+    "pitch": "无广告，无账号，不上传。",
+    "pitchNetwork": "无广告，无账号，无需注册。",
+    "star": "在 GitHub 上加星",
+    "coffee": "请我喝杯咖啡",
+    "dismiss": "关闭"
   },
   "Legal": {
     "nav": {

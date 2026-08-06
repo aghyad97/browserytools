@@ -5304,7 +5304,10 @@
     "favorites": "Favorileriniz",
     "recent": "Son kullanılanlar",
     "dropAnyFile": "Herhangi bir dosyayı buraya bırakın",
-    "dropSuggest": "Doğru araçla eşleştirelim — görseller cihazınızda sıkıştırılır."
+    "dropSuggest": "Doğru araçla eşleştirelim — görseller cihazınızda sıkıştırılır.",
+    "starLead": "{count}+ araç. Reklam yok, hesap yok, yükleme yok.",
+    "starBody": "BrowseryTools ücretsiz ve öyle kalacak. Zamanınızı kazandırdıysa, en hızlı yardım GitHub'da yıldız vermek.",
+    "starCta": "GitHub'da yıldız ver"
   },
   "Template": {
     "onDevicePromise": "Cihazınızda çalışır — hiçbir şey yüklenmez, hiçbir şey saklanmaz.",
@@ -5314,6 +5317,15 @@
     "download": "İndir",
     "dropTitle": "Bir dosya bırakın veya seçmek için tıklayın",
     "staysOnDevice": "cihazınızda kalır"
+  },
+  "Receipt": {
+    "saved": "Kaydedildi",
+    "noUpload": "0 bayt yüklendi",
+    "pitch": "Reklam yok, hesap yok, yükleme yok.",
+    "pitchNetwork": "Reklam yok, hesap yok, kayıt yok.",
+    "star": "GitHub'da yıldız ver",
+    "coffee": "Bana bir kahve ısmarla",
+    "dismiss": "Kapat"
   },
   "Legal": {
     "nav": {

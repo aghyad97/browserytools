@@ -2,6 +2,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { TopBar } from "@/components/layout/top-bar";
 import NavigationTracker from "@/components/NavigationTracker";
 import ToolSeoContent from "@/components/ToolSeoContent";
+import { ToolReceipt } from "@/components/support/tool-receipt";
 import s from "@/components/layout/app-shell.module.css";
 
 /**
@@ -36,6 +37,9 @@ export default function LocaleToolsLayout({
         <TopBar />
         <main className="py-2">
           {children}
+          {/* Earned support ask — listens to the download pathway, renders
+              nothing until a tool actually delivers something. */}
+          <ToolReceipt />
           <div className={s.toolSeoZone}>
             <ToolSeoContent />
           </div>

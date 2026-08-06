@@ -20,6 +20,11 @@
   --bt-new-pink: #d6409f;
   --bt-star: #f5b301;
   --bt-coffee: #a26b3c;
+  /* Thermal-paper tone for the support receipt. Deliberately NOT --bt-surface
+     (#ffffff): the receipt's torn edge is cut with a mask, so it only reads if
+     the paper is visibly distinct from the page behind it. #ffffff on a #fcfcfb
+     page is ~1% apart and the teeth vanish. */
+  --bt-paper: #f6f5f1;
   --bt-hover: rgba(22, 22, 21, 0.05);
   --bt-overlay: rgba(22, 22, 21, 0.16);
   --bt-shadow-pop: 0 24px 70px -24px rgba(22, 22, 21, 0.35);
@@ -64,6 +69,8 @@
   --bt-new-pink: #e15bb0;
   --bt-star: #f5b301;
   --bt-coffee: #c08654;
+  /* Lifted off --bt-surface (#161615) so the torn edge reads in dark too. */
+  --bt-paper: #1c1c1a;
   --bt-hover: rgba(241, 241, 239, 0.07);
   --bt-overlay: rgba(0, 0, 0, 0.45);
   --bt-shadow-pop: 0 24px 70px -24px rgba(0, 0, 0, 0.7);

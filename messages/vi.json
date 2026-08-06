@@ -5304,7 +5304,10 @@
     "favorites": "Yêu thích",
     "recent": "Dùng gần đây",
     "dropAnyFile": "Thả tệp bất kỳ vào đây",
-    "dropSuggest": "Chúng tôi sẽ tìm đúng công cụ phù hợp — hình ảnh được nén trên thiết bị."
+    "dropSuggest": "Chúng tôi sẽ tìm đúng công cụ phù hợp — hình ảnh được nén trên thiết bị.",
+    "starLead": "{count}+ công cụ. Không quảng cáo, không tài khoản, không tải lên.",
+    "starBody": "BrowseryTools miễn phí và sẽ luôn miễn phí. Nếu nó giúp bạn tiết kiệm thời gian, cách nhanh nhất để ủng hộ là gắn sao trên GitHub.",
+    "starCta": "Gắn sao trên GitHub"
   },
   "Template": {
     "onDevicePromise": "Chạy trên thiết bị — không có gì được tải lên, không có gì được lưu trữ.",
@@ -5314,6 +5317,15 @@
     "download": "Tải xuống",
     "dropTitle": "Thả tệp vào đây, hoặc nhấn để chọn",
     "staysOnDevice": "ở lại trên thiết bị"
+  },
+  "Receipt": {
+    "saved": "Đã lưu",
+    "noUpload": "0 byte được tải lên",
+    "pitch": "Không quảng cáo, không tài khoản, không tải lên.",
+    "pitchNetwork": "Không quảng cáo, không tài khoản, không đăng ký.",
+    "star": "Gắn sao trên GitHub",
+    "coffee": "Mời tôi một ly cà phê",
+    "dismiss": "Đóng"
   },
   "Legal": {
     "nav": {
