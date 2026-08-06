@@ -52,6 +52,41 @@ const nextConfig: NextConfig = {
       },
     ],
   },
+  /**
+   * Pin @imgly/background-removal to the onnxruntime-web version it declares.
+   *
+   * imgly 1.7.0 declares `peerDependencies: { "onnxruntime-web": "1.21.0" }`,
+   * and downloads its wasm + model from
+   * `staticimgly.com/@imgly/background-removal-data/1.7.0/dist/` — assets built
+   * against that same 1.21.0. But the installed peer resolved to 1.26.0-dev
+   * (deduped with the copy @huggingface/transformers pulls), so the newer JS
+   * called wasm exports the 1.21-era binary does not have. That surfaced as
+   * `webgpuInit is not a function` where WebGPU is available, and as
+   * `_OrtGetInputOutputMetadata is not a function` on the plain session path
+   * where it is not — both fatal, so the tool was broken for everyone.
+   *
+   * Fixed by scope, not by force: `onnxruntime-web-imgly` is an npm alias of
+   * onnxruntime-web@1.21.0, and only requests issued from inside imgly are
+   * redirected to it. A global override was the alternative and is wrong here:
+   * @huggingface/transformers needs 1.26.0-dev and @diffusionstudio/vits-web
+   * needs 1.18.0, so all three consumers must keep their own version.
+   */
+  webpack: (config, { webpack }) => {
+    config.plugins.push(
+      new webpack.NormalModuleReplacementPlugin(
+        /^onnxruntime-web(\/.*)?$/,
+        (resource: { request: string; contextInfo?: { issuer?: string } }) => {
+          const issuer = resource.contextInfo?.issuer ?? "";
+          if (!issuer.includes("@imgly/background-removal")) return;
+          resource.request = resource.request.replace(
+            /^onnxruntime-web/,
+            "onnxruntime-web-imgly",
+          );
+        },
+      ),
+    );
+    return config;
+  },
   // Enable experimental features for better performance
   experimental: {
     optimizePackageImports: ["lucide-react", "@radix-ui/react-icons"],
