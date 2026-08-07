@@ -5304,7 +5304,10 @@
     "favorites": "Ulubione",
     "recent": "Ostatnio używane",
     "dropAnyFile": "Upuść tutaj dowolny plik",
-    "dropSuggest": "Dopasujemy go do właściwego narzędzia — obrazy są kompresowane na urządzeniu."
+    "dropSuggest": "Dopasujemy go do właściwego narzędzia — obrazy są kompresowane na urządzeniu.",
+    "starLead": "{count}+ narzędzi. Bez reklam, bez konta, bez wysyłania.",
+    "starBody": "BrowseryTools jest darmowy i taki pozostanie. Jeśli oszczędził Ci czas, najszybszą pomocą jest gwiazdka na GitHubie.",
+    "starCta": "Dodaj gwiazdkę na GitHubie"
   },
   "Template": {
     "onDevicePromise": "Działa na urządzeniu — nic nie jest wysyłane ani zapisywane.",
@@ -5314,6 +5317,15 @@
     "download": "Pobierz",
     "dropTitle": "Upuść plik lub kliknij, aby wybrać",
     "staysOnDevice": "zostaje na urządzeniu"
+  },
+  "Receipt": {
+    "saved": "Zapisano",
+    "noUpload": "Wysłano 0 bajtów",
+    "pitch": "Bez reklam, bez konta, bez wysyłania.",
+    "pitchNetwork": "Bez reklam, bez konta, bez rejestracji.",
+    "star": "Dodaj gwiazdkę na GitHubie",
+    "coffee": "Postaw mi kawę",
+    "dismiss": "Zamknij"
   },
   "Legal": {
     "nav": {

@@ -5304,7 +5304,10 @@
     "favorites": "Favorit Anda",
     "recent": "Baru digunakan",
     "dropAnyFile": "Letakkan file apa pun di sini",
-    "dropSuggest": "Kami arahkan ke alat yang tepat — gambar dikompresi langsung di perangkat Anda."
+    "dropSuggest": "Kami arahkan ke alat yang tepat — gambar dikompresi langsung di perangkat Anda.",
+    "starLead": "{count}+ alat. Tanpa iklan, tanpa akun, tanpa unggahan.",
+    "starBody": "BrowseryTools gratis dan akan tetap gratis. Kalau ini menghemat waktu Anda, cara tercepat membantu adalah memberi bintang di GitHub.",
+    "starCta": "Beri bintang di GitHub"
   },
   "Template": {
     "onDevicePromise": "Berjalan di perangkat Anda — tidak ada yang diunggah, tidak ada yang disimpan.",
@@ -5314,6 +5317,15 @@
     "download": "Unduh",
     "dropTitle": "Jatuhkan berkas, atau klik untuk memilih",
     "staysOnDevice": "tetap di perangkat Anda"
+  },
+  "Receipt": {
+    "saved": "Tersimpan",
+    "noUpload": "0 byte diunggah",
+    "pitch": "Tanpa iklan, tanpa akun, tanpa unggahan.",
+    "pitchNetwork": "Tanpa iklan, tanpa akun, tanpa pendaftaran.",
+    "star": "Beri bintang di GitHub",
+    "coffee": "Traktir saya kopi",
+    "dismiss": "Tutup"
   },
   "Legal": {
     "nav": {

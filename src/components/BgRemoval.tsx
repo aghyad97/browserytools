@@ -8,7 +8,7 @@ import { FileDropzone } from "@/components/shared/FileDropzone";
 import { downloadBlob } from "@/lib/download";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Upload, Loader2, Download, Trash2, Eye, EyeOff } from "lucide-react";
+import { Upload, Loader2, Download, Trash2, Eye, EyeOff, X } from "lucide-react";
 import { Progress } from "@/components/ui/progress";
 import JSZip from "jszip";
 import { Config, removeBackground } from "@imgly/background-removal";
@@ -436,6 +436,27 @@ export default function BgRemoval() {
                             className="w-full h-full object-contain"
                           />
 
+                          {/* Remove — an overlay on the thumbnail rather than a
+                              third item in the caption row. The card is 184px
+                              wide with 12px padding, so status + Download +
+                              delete never fit on one line. Always visible, not
+                              hover-gated: hiding an affordance this central
+                              means most people never find it, and it would be
+                              unreachable on touch. It stays quiet through
+                              weight instead. */}
+                          <button
+                            type="button"
+                            onClick={() => handleDeleteOne(it.id)}
+                            aria-label={tCommon("remove")}
+                            title={tCommon("remove")}
+                            className="absolute top-1.5 end-1.5 grid h-7 w-7 place-items-center rounded-full
+                                       bg-background/80 backdrop-blur-sm text-muted-foreground
+                                       transition-colors duration-150 hover:text-destructive
+                                       focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
+                          >
+                            <X className="h-3.5 w-3.5" />
+                          </button>
+
                           {/* Processing Overlay */}
                           {it.status === "processing" && (
                             <div className="absolute inset-0 bg-background/70 backdrop-blur-sm flex flex-col items-center justify-center gap-2">
@@ -460,43 +481,62 @@ export default function BgRemoval() {
                           )}
                         </div>
 
-                        {/* Image Info and Actions */}
+                        {/* Caption + single action.
+                            Two rows instead of one crowded row: the name line
+                            carries state as a dot, and the foot carries exactly
+                            one action. "Ready" is dropped from view once the
+                            Download button exists — the button's presence
+                            already says it — so the visible label only appears
+                            while it still tells the user something. */}
                         <div className="mt-3 space-y-2">
-                          <div className="text-xs truncate" title={it.name}>
-                            {it.name}
+                          <div className="flex items-center gap-1.5 min-w-0">
+                            <span
+                              aria-hidden
+                              className={`h-1.5 w-1.5 shrink-0 rounded-full ${
+                                it.status === "done"
+                                  ? "bg-[var(--bt-green)]"
+                                  : it.status === "processing"
+                                  ? "bg-[var(--bt-accent)] animate-pulse"
+                                  : it.status === "error"
+                                  ? "bg-destructive"
+                                  : "bg-muted-foreground/40"
+                              }`}
+                            />
+                            <span className="truncate text-xs" title={it.name}>
+                              {it.name}
+                            </span>
+                            {/* Only when the status has no visible label below,
+                                so "done" is still announced but the other
+                                states are not read out twice. */}
+                            {it.processedBlob && (
+                              <span className="sr-only">{t("statusReady")}</span>
+                            )}
                           </div>
-                          <div className="flex items-center justify-between gap-2">
-                            <div className="text-xs text-muted-foreground">
-                              {it.status === "done"
-                                ? t("statusReady")
-                                : it.status === "processing"
+
+                          {it.processedBlob ? (
+                            <Button
+                              size="sm"
+                              variant="secondary"
+                              onClick={() => handleDownloadOne(it)}
+                              /* buttonVariants forces [&_svg]:size-4 on every
+                                 button; at this 28px height a 16px glyph
+                                 crowds the label, so the variant is overridden
+                                 rather than the svg's own classes, which lose
+                                 to the parent selector. */
+                              className="h-7 w-full px-2 text-[11px] [&_svg]:size-3"
+                            >
+                              <Download className="me-1.5" />
+                              {tCommon("download")}
+                            </Button>
+                          ) : (
+                            <div className="text-[11px] text-muted-foreground">
+                              {it.status === "processing"
                                 ? t("statusProcessing")
                                 : it.status === "error"
                                 ? t("statusError")
                                 : t("statusWaiting")}
                             </div>
-                            <div className="flex items-center gap-1">
-                              {it.processedBlob && (
-                                <Button
-                                  size="sm"
-                                  variant="secondary"
-                                  onClick={() => handleDownloadOne(it)}
-                                  className="h-7 px-2"
-                                >
-                                  <Download className="w-3 h-3 me-1" />
-                                  {tCommon("download")}
-                                </Button>
-                              )}
-                              <Button
-                                size="sm"
-                                variant="ghost"
-                                onClick={() => handleDeleteOne(it.id)}
-                                className="h-7 px-2"
-                              >
-                                <Trash2 className="w-3 h-3" />
-                              </Button>
-                            </div>
-                          </div>
+                          )}
                         </div>
                       </Card>
                     </motion.div>

@@ -1,0 +1,143 @@
+/* Landing closing block. Tokens only, logical properties throughout, and no
+   card: the landing is already a page of tiles, so another bordered box would
+   be the fifth repeat of the same container. This is boxless, separated by the
+   same hairline rule the section labels use, and carries its weight through
+   type scale instead. */
+
+.block {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-block: 56px 8px;
+}
+
+.rule {
+  inline-size: 100%;
+  block-size: 1px;
+  background: var(--bt-divider);
+  margin-block-end: 26px;
+}
+
+/* The page's one deliberate scale break: everything above tops out at 21px
+   (.statement in landing.module.css). */
+.lead {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: 1.2;
+  color: var(--bt-ink);
+  /* Measure chosen so the lead breaks at a sentence boundary rather than
+     stranding a determiner ("No ads. No" / "account."). `balance` was tried
+     first and made it worse: it evens line lengths, which is exactly the
+     break that splits the phrase. `pretty` keeps greedy wrapping and only
+     guards against a runt final line. */
+  max-inline-size: 34ch;
+  text-wrap: pretty;
+}
+
+.body {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--bt-muted);
+  max-inline-size: 58ch;
+  text-wrap: pretty;
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-block-start: 8px;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  background: var(--bt-pill-active-bg);
+  color: var(--bt-pill-active-fg);
+  font-size: 13px;
+  font-weight: 550;
+  padding-block: 9px;
+  padding-inline: 16px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 160ms var(--bt-ease-out), opacity 140ms ease;
+}
+.cta:active {
+  transform: scale(0.98);
+}
+@media (hover: hover) and (pointer: fine) {
+  .cta:hover {
+    opacity: 0.9;
+  }
+  .cta:hover .starIcon {
+    transform: rotate(-12deg) scale(1.12);
+  }
+}
+.cta:focus-visible {
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+.starIcon {
+  flex-shrink: 0;
+  fill: var(--bt-star);
+  color: var(--bt-star);
+  transition: transform 200ms var(--bt-ease-out);
+}
+
+.count {
+  font-family: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  opacity: 0.7;
+  /* Always a Latin numeral run; isolate it so an RTL line cannot reorder it. */
+  direction: ltr;
+  unicode-bidi: isolate;
+}
+
+/* Negative tracking pulls apart Arabic and Persian letters that must stay
+   joined. Same rule as tool-receipt.module.css — see the note there. */
+:global(html:lang(ar)) .lead,
+:global(html:lang(fa)) .lead {
+  letter-spacing: normal;
+}
+
+/* CJK and Devanagari set roughly twice as wide per glyph as a `ch` unit (which
+   measures the Latin "0"), so they need a larger cap to hold the same sentence. */
+:global(html:lang(ja)) .lead,
+:global(html:lang(ko)) .lead,
+:global(html:lang(zh)) .lead,
+:global(html:lang(hi)) .lead {
+  max-inline-size: 44ch;
+}
+
+/* Japanese and Chinese have no spaces, so the default rule breaks between any
+   two characters — it split アカウントなし across lines mid-word. `auto-phrase`
+   moves breaks to phrase boundaries. Korean does use spaces, so `keep-all` is
+   the correct tool there instead. Both degrade to the default on engines that
+   don't support them yet, which is exactly today's behaviour. */
+:global(html:lang(ja)) .lead,
+:global(html:lang(zh)) .lead {
+  word-break: auto-phrase;
+}
+:global(html:lang(ko)) .lead {
+  word-break: keep-all;
+}
+
+@media (max-width: 900px) {
+  .lead {
+    font-size: 24px;
+    max-inline-size: none;
+  }
+  .block {
+    margin-block-start: 44px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cta,
+  .starIcon {
+    transition: none;
+  }
+}

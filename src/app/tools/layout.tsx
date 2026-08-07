@@ -3,6 +3,7 @@ import { TopBar } from "@/components/layout/top-bar";
 import { ToolTitle } from "@/components/layout/tool-title";
 import NavigationTracker from "@/components/NavigationTracker";
 import ToolSeoContent from "@/components/ToolSeoContent";
+import { ToolReceipt } from "@/components/support/tool-receipt";
 import s from "@/components/layout/app-shell.module.css";
 
 export default function ToolsLayout({
@@ -23,6 +24,9 @@ export default function ToolsLayout({
               height; the SEO content below appears beneath the fold and
               scrolls within this same container. */}
           {children}
+          {/* Earned support ask — listens to the download pathway, renders
+              nothing until a tool actually delivers something. */}
+          <ToolReceipt />
           {/* Zone 5 of the five-zone template (spec §3): the programmatic
               on-page SEO content + JSON-LD, for every tool. Rendered exactly
               once here — the single source — so <ToolShell> never duplicates

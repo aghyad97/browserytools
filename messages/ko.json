@@ -5304,7 +5304,10 @@
     "favorites": "즐겨찾기",
     "recent": "최근 사용",
     "dropAnyFile": "여기에 아무 파일이나 끌어다 놓으세요",
-    "dropSuggest": "알맞은 도구를 찾아 드립니다 — 이미지는 기기 안에서 압축됩니다."
+    "dropSuggest": "알맞은 도구를 찾아 드립니다 — 이미지는 기기 안에서 압축됩니다.",
+    "starLead": "{count}+개 도구. 광고 없음, 계정 없음, 업로드 없음.",
+    "starBody": "BrowseryTools는 무료이며 앞으로도 무료입니다. 시간을 아꼈다면 GitHub에서 스타를 눌러 주시는 것이 가장 큰 도움이 됩니다.",
+    "starCta": "GitHub에서 스타 누르기"
   },
   "Template": {
     "onDevicePromise": "기기에서 실행됩니다 — 업로드되지도, 저장되지도 않습니다.",
@@ -5314,6 +5317,15 @@
     "download": "다운로드",
     "dropTitle": "파일을 끌어다 놓거나 클릭해 선택하세요",
     "staysOnDevice": "기기 안에만 남습니다"
+  },
+  "Receipt": {
+    "saved": "저장됨",
+    "noUpload": "업로드 0바이트",
+    "pitch": "광고 없음, 계정 없음, 업로드 없음.",
+    "pitchNetwork": "광고 없음, 계정 없음, 가입 없음.",
+    "star": "GitHub에서 스타 누르기",
+    "coffee": "커피 한 잔 사주기",
+    "dismiss": "닫기"
   },
   "Legal": {
     "nav": {

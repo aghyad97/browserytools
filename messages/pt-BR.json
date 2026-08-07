@@ -5304,7 +5304,10 @@
     "favorites": "Seus favoritos",
     "recent": "Usadas recentemente",
     "dropAnyFile": "Solte qualquer arquivo aqui",
-    "dropSuggest": "Indicamos a ferramenta certa — imagens são comprimidas no seu dispositivo."
+    "dropSuggest": "Indicamos a ferramenta certa — imagens são comprimidas no seu dispositivo.",
+    "starLead": "{count}+ ferramentas. Sem anúncios, sem conta, nada enviado.",
+    "starBody": "O BrowseryTools é gratuito e vai continuar assim. Se economizou seu tempo, a forma mais rápida de ajudar é uma estrela no GitHub.",
+    "starCta": "Dar uma estrela no GitHub"
   },
   "Template": {
     "onDevicePromise": "Funciona no seu dispositivo — nada é enviado, nada é armazenado.",
@@ -5314,6 +5317,15 @@
     "download": "Baixar",
     "dropTitle": "Solte um arquivo ou clique para escolher",
     "staysOnDevice": "permanece no seu dispositivo"
+  },
+  "Receipt": {
+    "saved": "Salvo",
+    "noUpload": "0 bytes enviados",
+    "pitch": "Sem anúncios, sem conta, nada enviado.",
+    "pitchNetwork": "Sem anúncios, sem conta, sem cadastro.",
+    "star": "Dar uma estrela no GitHub",
+    "coffee": "Me paga um café",
+    "dismiss": "Fechar"
   },
   "Legal": {
     "nav": {

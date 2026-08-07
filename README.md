@@ -20,6 +20,8 @@
 
 A comprehensive collection of **152 browser-based tools** built with Next.js, TypeScript, and Tailwind CSS. Your files and text are processed in your browser — no uploads, no accounts required. Includes on-device AI tools (transcription, translation, summarization, image upscaling, and more) powered by Transformers.js.
 
+**Free, no accounts, no ads, no tracking.** If it saves you time, [star the repo](https://github.com/aghyad97/browserytools/stargazers). That is the fastest way to help other people find it.
+
 Two caveats worth stating plainly, since "everything is local" is the headline claim:
 
 - Tools that run an AI model download the model weights from a third-party CDN the first time you use them. Your content still stays on your device; the model files come over the network.

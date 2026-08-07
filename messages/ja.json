@@ -5304,7 +5304,10 @@
     "favorites": "お気に入り",
     "recent": "最近使ったツール",
     "dropAnyFile": "ファイルをここにドロップ",
-    "dropSuggest": "適したツールを判別します。画像はデバイス上で圧縮されます。"
+    "dropSuggest": "適したツールを判別します。画像はデバイス上で圧縮されます。",
+    "starLead": "{count}+ のツール。広告なし、アカウントなし、アップロードなし。",
+    "starBody": "BrowseryTools は無料で、これからも無料です。時間の節約になったなら、GitHub でスターを付けるのがいちばん早い応援になります。",
+    "starCta": "GitHub でスターを付ける"
   },
   "Template": {
     "onDevicePromise": "お使いのデバイス上で動作します。アップロードも保存もありません。",
@@ -5314,6 +5317,15 @@
     "download": "ダウンロード",
     "dropTitle": "ファイルをドロップ、またはクリックして選択",
     "staysOnDevice": "デバイス上に留まります"
+  },
+  "Receipt": {
+    "saved": "保存しました",
+    "noUpload": "アップロード 0 バイト",
+    "pitch": "広告なし、アカウントなし、アップロードなし。",
+    "pitchNetwork": "広告なし、アカウントなし、登録なし。",
+    "star": "GitHub でスターを付ける",
+    "coffee": "コーヒーをおごる",
+    "dismiss": "閉じる"
   },
   "Legal": {
     "nav": {

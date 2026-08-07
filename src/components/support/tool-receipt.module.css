@@ -1,0 +1,303 @@
+/* Support receipt. Tokens only (light + dark come free), logical properties
+   throughout so the gutter mirrors under dir="rtl", and an all-around hairline
+   ring — never a single-edge accent bar (spec §3). Radius 11px matches the
+   dominant card radius in the shell and tile modules. */
+
+/* Viewport-anchored at every width.
+   This was originally in-flow below the tool, promoted into the dead column
+   only above 1500px. Measured, that was wrong twice over: at 1440px there are
+   307px of unused column going begging, and below the promotion threshold the
+   in-flow position landed at y=943 in a 900px viewport — 43px under the fold,
+   where it auto-hid after six seconds without ever being seen. An ask nobody
+   can see is not a subtle ask, it is a broken one. So the receipt is always
+   fixed; the only thing that changes with width is whether it can sit fully
+   clear of the content (see the dead-column rules below). */
+.receipt {
+  --mono: ui-monospace, "SF Mono", "Cascadia Mono", "Roboto Mono", monospace;
+  /* torn-paper edge geometry */
+  --tooth: 11px; /* width of one zigzag tooth */
+  --tear: 6px; /* how deep the teeth bite in */
+
+  position: fixed;
+  z-index: 30; /* above content, below the command palette overlay */
+  inset-block-end: 20px;
+  inset-inline-end: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  inline-size: min(340px, calc(100vw - 40px));
+  /* Vertical padding clears the torn edge so no glyph sits in a notch. */
+  padding: calc(12px + var(--tear)) 14px;
+  background: var(--bt-paper);
+  color: var(--bt-ink);
+
+  /* Deliberate break from the 11px card radius: this is paper, not a card.
+     Straight sides, torn top and bottom. No border either — a 1px ring would
+     survive the mask only on the left and right and read as a broken box.
+     Depth comes from drop-shadow, which follows the masked silhouette;
+     box-shadow would trace the un-torn rectangle instead. */
+  border-radius: 0;
+  /* The mask destroyed the ring, and drop-shadow is the only thing that follows
+     a masked silhouette (box-shadow traces the un-torn rectangle). A single
+     halo cannot stroke a shape, so the edge is drawn with four 1px offsets —
+     the standard outline trick. Without it the teeth were invisible in light
+     mode: paper is #ffffff on a #fcfcfb page, about 1% apart, so only dark mode
+     ever showed the effect. The last layer is the lift. */
+  filter: drop-shadow(1px 0 0 var(--bt-line-strong))
+    drop-shadow(-1px 0 0 var(--bt-line-strong))
+    drop-shadow(0 1px 0 var(--bt-line-strong))
+    drop-shadow(0 -1px 0 var(--bt-line-strong))
+    drop-shadow(0 4px 12px var(--bt-overlay));
+
+  -webkit-mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% 0 /
+      var(--tooth) var(--tear) repeat-x,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50%
+      100% / var(--tooth) var(--tear) repeat-x,
+    linear-gradient(#000 0 0) 50% 50% / 100% calc(100% - 2 * var(--tear))
+      no-repeat;
+  mask:
+    conic-gradient(from 135deg at top, #0000, #000 1deg 89deg, #0000 90deg) 50% 0 /
+      var(--tooth) var(--tear) repeat-x,
+    conic-gradient(from -45deg at bottom, #0000, #000 1deg 89deg, #0000 90deg) 50%
+      100% / var(--tooth) var(--tear) repeat-x,
+    linear-gradient(#000 0 0) 50% 50% / 100% calc(100% - 2 * var(--tear))
+      no-repeat;
+
+  animation: receipt-in 220ms var(--bt-ease-out);
+}
+
+/* A plain rise-and-fade, deliberately not a clip-path "paper feed".
+   The feed version animated `clip-path: inset()` on an element that is already
+   carrying a mask (the torn edge) and a multi-layer drop-shadow. Stacking a
+   third rasterised effect on top of those two made the receipt flicker during
+   the transition, so the metaphor lost to the artefact. Transform and opacity
+   only — both composited, neither interacts with the mask. */
+@keyframes receipt-in {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 10px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* ---------- facts line ---------- */
+
+.facts {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  /* Only the facts row clears the corner dismiss button. The pitch below gets
+     the full width: CJK breaks between any two characters, so a reserved
+     column there orphaned the last glyphs of the Japanese pitch onto their
+     own line. Facts are short tokens that wrap cleanly instead. */
+  padding-inline-end: 22px;
+  font-family: var(--mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.4;
+}
+.saved {
+  letter-spacing: 0.09em;
+  text-transform: uppercase;
+  color: var(--bt-green);
+}
+
+/* Non-Latin scripts opt out of the mono/uppercase/tracked treatment.
+   Three separate reasons, all real:
+     - the mono stack (SF Mono, Cascadia, Roboto Mono) has no Arabic, Persian,
+       CJK or Devanagari coverage, so those locales silently fall back to an
+       arbitrary system face mid-line;
+     - `text-transform: uppercase` is a no-op on caseless scripts;
+     - letter-spacing on Arabic and Persian pulls apart letters that must stay
+       joined, which is a correctness bug, not a style preference.
+   Cyrillic (ru) and Latin-with-diacritics (vi, tr, pl) are covered by the mono
+   stack and case correctly, so they keep the receipt treatment. */
+:global(html:lang(ar)) .facts,
+:global(html:lang(fa)) .facts,
+:global(html:lang(hi)) .facts,
+:global(html:lang(ja)) .facts,
+:global(html:lang(ko)) .facts,
+:global(html:lang(zh)) .facts {
+  font-family: inherit;
+  font-size: 12px;
+}
+:global(html:lang(ar)) .saved,
+:global(html:lang(fa)) .saved,
+:global(html:lang(hi)) .saved,
+:global(html:lang(ja)) .saved,
+:global(html:lang(ko)) .saved,
+:global(html:lang(zh)) .saved {
+  letter-spacing: normal;
+  text-transform: none;
+}
+/* Filenames and byte counts are Latin/numeric runs. Inside an RTL line the
+   bidi algorithm reorders them ("60 B" renders as "B 60"), so each is isolated
+   as its own LTR run. The surrounding line still flows RTL. */
+.file {
+  min-inline-size: 0;
+  max-inline-size: 22ch;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  color: var(--bt-ink);
+  direction: ltr;
+  unicode-bidi: isolate;
+  /* Stated explicitly, not inherited: filenames and byte counts stay monospaced
+     and tabular in every locale, including the ones whose .facts drops mono. */
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+.metric {
+  color: var(--bt-muted);
+  direction: ltr;
+  unicode-bidi: isolate;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+/* The claim no competitor can print. Ink, not muted — it is the point. */
+.zero {
+  color: var(--bt-ink);
+}
+
+/* ---------- ask ---------- */
+
+/* Deliberately not `position: relative`: the dismiss button lives in this
+   subtree but anchors to the receipt's own corner. */
+.ask {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-block-start: 10px;
+  border-block-start: 1px solid var(--bt-line);
+}
+.pitch {
+  margin: 0;
+  font-size: 12px;
+  line-height: 1.5;
+  color: var(--bt-muted);
+}
+/* Column, not a row: at the 300px gutter width the two links cannot sit on one
+   line, and a wrapped row left an orphaned separator dangling at the end of the
+   first line. Stacking makes the wrap intentional and removes the separator. */
+.links {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  font-size: 12px;
+}
+.link {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--bt-ink);
+  font-weight: 500;
+  text-decoration: none;
+  border-radius: 999px;
+  transition: opacity 140ms ease;
+}
+.link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.starIcon {
+  flex-shrink: 0;
+  fill: var(--bt-star);
+  color: var(--bt-star);
+}
+.coffeeIcon {
+  flex-shrink: 0;
+  color: var(--bt-coffee);
+  transition: transform 200ms var(--bt-ease-out);
+}
+@media (hover: hover) and (pointer: fine) {
+  .link:hover .coffeeIcon {
+    transform: rotate(-8deg) scale(1.12);
+  }
+}
+.count {
+  font-family: var(--mono);
+  font-size: 11px;
+  font-variant-numeric: tabular-nums;
+  color: var(--bt-muted);
+}
+.dismiss {
+  position: absolute;
+  /* Clears the torn top edge — at 8px it sat inside a notch and got masked. */
+  inset-block-start: calc(6px + var(--tear));
+  inset-inline-end: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 22px;
+  block-size: 22px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: var(--bt-faint);
+  cursor: pointer;
+  transition: color 140ms ease, background 140ms ease;
+}
+.dismiss:hover {
+  color: var(--bt-ink);
+  background: var(--bt-hover);
+}
+.dismiss:focus-visible {
+  outline: 2px solid var(--bt-accent);
+  outline-offset: 2px;
+}
+
+/* ---------- dead-column mode ----------
+   Measured geometry (rail offset 253px + shell 880px): the tool shell always
+   ends at x=1133, so the unused column is viewport width minus 1133 —
+   147px at 1280, 233px at 1366, 307px at 1440, 547px at 1680.
+
+   A 260px card pinned 20px past the shell ends at x=1413, so it clears content
+   entirely from 1440 up. Below that the base rule keeps it at the viewport
+   corner, overlapping the page's bottom margin rather than hiding under the
+   fold — being seen matters more there than being perfectly clear of content.
+
+   The wide shell (1180px) ends at x=1433, so it needs 1760px before the same
+   card fits beside it. */
+
+@media (min-width: 1440px) {
+  .receipt:not([data-wide="true"]) {
+    inset-inline-start: calc(253px + 880px + 20px);
+    inset-inline-end: auto;
+    inline-size: 260px;
+  }
+}
+
+@media (min-width: 1760px) {
+  .receipt[data-wide="true"] {
+    inset-inline-start: calc(253px + 1180px + 20px);
+    inset-inline-end: auto;
+    inline-size: 260px;
+  }
+}
+
+@media (max-width: 900px) {
+  .receipt {
+    inset-block-end: 12px;
+    inset-inline-end: 12px;
+    inline-size: min(340px, calc(100vw - 24px));
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .receipt {
+    animation: none;
+  }
+  .coffeeIcon,
+  .link,
+  .dismiss {
+    transition: none;
+  }
+}
