@@ -385,8 +385,8 @@ Open an issue with a clear description, steps to reproduce, and browser/OS info.
 
 ## ⭐ Star History
 
-<a href="https://www.star-history.com/#aghyad97/browserytools&Date">
-  <img src="https://api.star-history.com/svg?repos=aghyad97/browserytools&type=Date" alt="Star History Chart" />
+<a href="https://star-history.dera.page/#aghyad97/browserytools&type=date">
+  <img src="https://star-history.dera.page/svg?repos=aghyad97/browserytools&type=Date" alt="Star History Chart" />
 </a>
 
 ## 📄 License
