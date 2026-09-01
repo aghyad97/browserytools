@@ -131,6 +131,7 @@ const HAS_OWN_H1 = new Set([
   // loan-calculator, percentage-calculator, roman-numeral, tip-calculator) had
   // their own h1 before and are unchanged here.
   "age-calculator",
+  "airgap-transfer",
   "calculator",
   "number-base-converter",
   "unit-converter",

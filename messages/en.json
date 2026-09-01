@@ -352,6 +352,10 @@
         "name": "QR Scanner",
         "description": "Scan and decode QR codes from your camera or uploaded images."
       },
+      "airgap-transfer": {
+        "name": "Airgap QR Transfer",
+        "description": "Stream and transfer files securely between offline devices via animated QR codes."
+      },
       "barcode-generator": {
         "name": "Barcode Generator",
         "description": "Generate barcodes in multiple formats: EAN, UPC, Code128, and more."

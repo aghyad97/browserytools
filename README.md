@@ -143,6 +143,7 @@ Two caveats worth stating plainly, since "everything is local" is the headline c
 - **QR Code Generator**: Generate QR codes from text, URLs, contact information, and more.
 - **Barcode Generator**: Generate various barcode types including CODE128, EAN-13, UPC-A, CODE39, and more.
 - **QR Code Scanner**: Scan QR codes using your camera or upload an image.
+- **Airgap QR Transfer**: Stream and transfer files securely between devices using animated QR codes without internet, local network, or cables.
 - **Barcode Scanner**: Scan barcodes using your camera or upload an image.
 - **Charts**: Create beautiful, customizable charts with full control over every detail.
 - **YAML ↔ JSON**: Convert between YAML and JSON formats instantly.

@@ -1059,6 +1059,54 @@ export const toolContent: Record<string, ToolContent> = {
     },
   },
 
+  "airgap-transfer": {
+    related: ["qr-generator", "qr-scanner", "text-encryption", "file-converter"],
+    en: {
+      intro:
+        "Airgap QR Transfer lets you move files securely between two offline devices using animated QR code streams. By converting file data into compressed base64 packets and streaming them optically from screen to camera, files can be transferred without internet access, Wi-Fi, Bluetooth, or physical cables.",
+      whyClientSide:
+        "Traditional file transfer tools require cloud relays, local network socket connections, or Bluetooth pairing. Airgap QR Transfer is 100% optical and air-gapped — your data is compressed and rendered as QR frames right on your display, leaving zero network trace.",
+      steps: [
+        "Select Send mode and drop the file you wish to transfer.",
+        "On the receiving device, select Receive mode and grant camera access (or scan the Pair QR).",
+        "Point the receiving camera at the sender screen and click 'Start Streaming'.",
+        "The receiving client reconstructs the file packets in real time and automatically saves the completed file.",
+      ],
+      limitations: [
+        "Optimal transfer speeds range between 5 KB/s to 30 KB/s depending on screen brightness, camera refresh rate, and resolution.",
+        "Best suited for documents, cryptographic keys, small archives, seeds, and certificates rather than large multi-gigabyte video files.",
+      ],
+      faq: [
+        {
+          q: "How does air-gapped QR file transfer work?",
+          a: "The tool splits your file into compressed chunks and encodes them sequentially into animated QR codes. The receiving device's camera scans these QR frames in real time, buffers each packet, and reassembles the original file once all parts are received.",
+        },
+        {
+          q: "Does this require any internet or Wi-Fi connection?",
+          a: "No. Once the web app page is loaded, the transfer operates 100% locally and optically via screen and camera.",
+        },
+      ],
+    },
+    ar: {
+      intro:
+        "تتيح لك أداة نقل البيانات المعزولة (Airgap QR Transfer) نقل الملفات بأمان بين جهازين غير متصلين بالإنترنت عبر بث متحرك لرموز QR. يتم ضغط البيانات وتمريرها ضوئياً من الشاشة إلى الكاميرا دون شبكة أو بلوتوث أو كابلات.",
+      whyClientSide:
+        "تعمل الأداة بالكامل داخل المتصفح وبشكل معزول تماماً عن أي شبكة أو خادم، مما يجعلها مثالية للملفات الحساسة والمفاتيح المشفرة.",
+      steps: [
+        "اختر وضع الإرسال واسحب الملف المراد نقله.",
+        "في الجهاز المستلم، افتح وضع الاستلام وشغّل الكاميرا.",
+        "وجّه الكاميرا نحو الشاشة لبدء قراءة حزم البيانات ضوئياً.",
+        "يتم تجميع الملف وفك ضغطه تلقائياً فور اكتمال جميع الحزم.",
+      ],
+      faq: [
+        {
+          q: "هل تتطلب الأداة اتصالاً بالإنترنت؟",
+          a: "كلا، بمجرد تحميل الصفحة تعمل الأداة بشكل معزول كلياً عبر الكاميرا والشاشة دون أي اتصال شبكي.",
+        },
+      ],
+    },
+  },
+
   "qr-generator": {
     related: ["barcode-generator", "qr-scanner", "url-encoder", "base64"],
     en: {

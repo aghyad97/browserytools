@@ -26,6 +26,8 @@
  */
 export const TOOL_SYNONYMS: Record<string, string[]> = {
   // --- AI Tools cluster ---
+  "qr-generator": ["make qr code", "create qr code", "qr code maker", "url to qr"],
+  "airgap-transfer": ["airgap transfer", "qr file transfer", "offline file transfer", "airqa", "optical file transfer", "screen to camera transfer"],
   "audio-transcriber": ["speech to text", "audio to text", "transcribe audio", "convert voice to text", "whisper transcription", "captions from audio"],
   "text-summarizer": ["summarize text", "tldr generator", "shorten an article", "condense text", "summary tool"],
   translator: ["translate text", "language translator", "translate offline", "on-device translation"],
