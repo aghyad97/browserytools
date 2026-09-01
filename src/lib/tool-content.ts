@@ -66,6 +66,98 @@ export interface ToolContent {
 // Slug = the segment after /tools/, e.g. "json-formatter".
 export const toolContent: Record<string, ToolContent> = {
   // ── Newest tools ────────────────────────────────────────────────────────────
+  "video-converter": {
+    related: ["compress-video", "video-to-audio", "video", "gif-maker"],
+    en: {
+      intro:
+        "Video Converter changes a video's container and codecs entirely in your browser. Drop in an MP4, MOV, MKV, AVI, WebM, FLV, WMV, M4V or TS file and get back MP4 (H.264 + AAC), WebM (VP9 + Opus), MKV, AVI, MOV or an animated GIF — nothing is uploaded, and the file never leaves your device.\n\nThe encoder is ffmpeg compiled to WebAssembly (ffmpeg.wasm), the same engine behind the Compress Video and Video to Audio tools. Before converting you can scale the output to 1080p, 720p or 480p, pick a High / Medium / Low quality preset, keep, re-encode or strip the audio track, and trim to a start and end time. While it runs you see the percentage, encoding speed and an estimated time remaining, and you can cancel at any point.",
+      whyClientSide:
+        "Video is the file type people are least happy to hand to a stranger's server: it is large, slow to upload, and often personal — a phone recording of your kids, a screen capture of an internal dashboard, a clip from a client shoot under NDA. Hosted converters also tend to queue you, cap the file size, or watermark the free tier. Here the conversion starts the instant you press Convert, there is no upload at all, and the only limit is your own machine's memory and patience.",
+      limitations: [
+        "It is slow compared with a desktop encoder. ffmpeg.wasm runs on a single thread without hardware acceleration, so H.264 typically encodes at a fraction of real time and VP9 (WebM) is slower still. Long or high-resolution clips can take many minutes; the ETA readout is there so you can decide whether to wait.",
+        "Files are capped at 500 MB and the whole input plus the output must fit in the tab's memory. Very large sources can fail with an out-of-memory error instead of finishing.",
+        "Every conversion re-encodes the video, even when the source codec already matches the target container, so there is a small generation loss and no true lossless remux mode.",
+        "MKV, AVI and some source formats (FLV, WMV, TS) cannot be previewed by the browser's video player. The conversion still works; you just download the result instead of watching it in the page.",
+      ],
+      faq: [
+        {
+          q: "Is my video uploaded anywhere?",
+          a: "No. ffmpeg runs as WebAssembly inside your browser tab. The file is read from your disk into the page's memory, converted there, and the result is offered as a download — no network request carries your video.",
+        },
+        {
+          q: "Which output format should I pick?",
+          a: "MP4 (H.264 + AAC) plays almost everywhere and is the safe default. WebM (VP9 + Opus) is smaller at the same quality and ideal for the web but is slower to encode here. MOV suits Apple workflows, MKV is a flexible archive container, AVI is for legacy players, and GIF is for short, silent loops.",
+        },
+        {
+          q: "What do the quality presets mean?",
+          a: "They map to the encoder's constant-quality setting: High keeps the most detail at a larger size, Medium is a balanced default, and Low prioritises a small file. For GIF the presets change the frame rate and palette size instead.",
+        },
+        {
+          q: "Can I convert a video to GIF?",
+          a: "Yes. Choose GIF as the output, ideally with 480p and a short trim range — GIF has no audio, is limited to 256 colours and grows very large for long clips. The tool builds a custom palette for the clip so colours look better than a default GIF export.",
+        },
+        {
+          q: "Why can't I preview the MKV or AVI result?",
+          a: "Browsers' built-in video players don't decode MKV or AVI containers, so the page can't show them inline. The file itself is fine — download it and open it in VLC or any desktop player.",
+        },
+        {
+          q: "What happens when I press Cancel?",
+          a: "The encoding worker is stopped immediately and the partial output is discarded. Your settings and the loaded file stay in place, so you can adjust the trim or quality and try again.",
+        },
+      ],
+      steps: [
+        "Drop a video file into the tool or click to choose one.",
+        "Pick the output format, then optionally a resolution, quality preset, audio option and trim range.",
+        "Press Convert and watch the live progress, speed and ETA — cancel any time.",
+        "Preview the result where the browser can play it, then download the converted file.",
+      ],
+    },
+    ar: {
+      intro:
+        "تُغيّر أداة تحويل الفيديو الحاوية والترميز للفيديو بالكامل داخل متصفحك. أسقط ملف MP4 أو MOV أو MKV أو AVI أو WebM أو FLV أو WMV أو M4V أو TS واحصل على MP4 ‏(H.264 + AAC) أو WebM ‏(VP9 + Opus) أو MKV أو AVI أو MOV أو صورة GIF متحركة — لا يُرفع أي شيء، ولا يغادر الملف جهازك أبدًا.\n\nالمحرّك هو ffmpeg مترجَمًا إلى WebAssembly ‏(ffmpeg.wasm)، وهو المحرّك نفسه خلف أداتَي ضغط الفيديو وتحويل الفيديو إلى صوت. قبل التحويل يمكنك تصغير الخرج إلى 1080p أو 720p أو 480p، واختيار جودة عالية أو متوسطة أو منخفضة، والإبقاء على مسار الصوت أو إعادة ترميزه أو إزالته، وقصّ المقطع بين وقتَي بداية ونهاية. وأثناء التنفيذ ترى النسبة المئوية وسرعة الترميز والوقت المتبقي تقديريًا، ويمكنك الإلغاء في أي لحظة.",
+      whyClientSide:
+        "الفيديو هو نوع الملفات الذي يتردد الناس أكثر في تسليمه إلى خادم غريب: فهو كبير الحجم وبطيء الرفع وغالبًا شخصي — تسجيل بالهاتف لأطفالك، أو تسجيل شاشة للوحة تحكم داخلية، أو لقطة من تصوير لعميل تحت اتفاقية سرية. كما أن المحوّلات المستضافة تُدخلك في طابور انتظار أو تحدّ حجم الملف أو تضع علامة مائية في الخطة المجانية. هنا يبدأ التحويل فور الضغط على «تحويل»، ولا يوجد رفع إطلاقًا، والحد الوحيد هو ذاكرة جهازك وصبرك.",
+      limitations: [
+        "الأداة بطيئة مقارنة بمُرمِّز سطح المكتب، لأن ffmpeg.wasm يعمل على نواة واحدة دون تسريع عتادي؛ فترميز H.264 يجري عادةً بجزء من الزمن الحقيقي، وVP9 ‏(WebM) أبطأ منه. قد تستغرق المقاطع الطويلة أو عالية الدقة دقائق كثيرة، ولهذا يظهر الوقت المتبقي لتقرر إن كنت ستنتظر.",
+        "الحد الأقصى لحجم الملف 500 ميغابايت، ويجب أن يتّسع الملف الأصلي والخرج معًا في ذاكرة التبويب. قد تفشل المصادر الضخمة بخطأ نفاد الذاكرة بدل أن تكتمل.",
+        "كل تحويل يعيد ترميز الفيديو حتى عندما يطابق ترميز المصدر الحاوية الهدف، لذا هناك فقد بسيط في الجودة ولا يوجد وضع إعادة تغليف بلا خسارة.",
+        "لا يستطيع مشغّل الفيديو في المتصفح معاينة MKV وAVI وبعض صيغ المصدر (FLV وWMV وTS). يعمل التحويل بشكل طبيعي، لكنك تنزّل النتيجة بدل مشاهدتها في الصفحة.",
+      ],
+      faq: [
+        {
+          q: "هل يُرفع الفيديو إلى أي مكان؟",
+          a: "لا. يعمل ffmpeg كـ WebAssembly داخل تبويب متصفحك. يُقرأ الملف من قرصك إلى ذاكرة الصفحة، ويُحوَّل هناك، ثم تُعرض النتيجة للتنزيل — لا يحمل أي طلب شبكة فيديوك.",
+        },
+        {
+          q: "أي صيغة خرج أختار؟",
+          a: "MP4 ‏(H.264 + AAC) يعمل في كل مكان تقريبًا وهو الخيار الآمن. WebM ‏(VP9 + Opus) أصغر حجمًا بالجودة نفسها ومثالي للويب لكنه أبطأ في الترميز هنا. MOV يناسب بيئة Apple، وMKV حاوية أرشيفية مرنة، وAVI للمشغّلات القديمة، وGIF للمقاطع القصيرة الصامتة المتكررة.",
+        },
+        {
+          q: "ماذا تعني إعدادات الجودة؟",
+          a: "تقابل إعداد الجودة الثابتة في المُرمِّز: «عالية» تحافظ على أكبر قدر من التفاصيل بحجم أكبر، و«متوسطة» خيار متوازن افتراضي، و«منخفضة» تعطي الأولوية لصغر الحجم. أما في GIF فتغيّر الإعدادات معدل الإطارات وحجم لوحة الألوان.",
+        },
+        {
+          q: "هل يمكنني تحويل فيديو إلى GIF؟",
+          a: "نعم. اختر GIF كصيغة الخرج، ويُفضَّل مع دقة 480p ونطاق قصّ قصير — فصيغة GIF بلا صوت ومحدودة بـ256 لونًا ويتضخم حجمها كثيرًا مع المقاطع الطويلة. تبني الأداة لوحة ألوان مخصصة للمقطع فتبدو الألوان أفضل من تصدير GIF الافتراضي.",
+        },
+        {
+          q: "لماذا لا يمكنني معاينة نتيجة MKV أو AVI؟",
+          a: "مشغّلات الفيديو المدمجة في المتصفحات لا تفكّ حاويات MKV أو AVI، لذا لا تستطيع الصفحة عرضها مباشرة. الملف نفسه سليم — نزّله وافتحه في VLC أو أي مشغّل سطح مكتب.",
+        },
+        {
+          q: "ماذا يحدث عند الضغط على «إلغاء»؟",
+          a: "يتوقف عامل الترميز فورًا ويُتجاهل الخرج الجزئي. تبقى إعداداتك والملف المحمّل كما هي، فيمكنك تعديل القصّ أو الجودة والمحاولة مجددًا.",
+        },
+      ],
+      steps: [
+        "أسقط ملف الفيديو في الأداة أو انقر لاختياره.",
+        "اختر صيغة الخرج، ثم اختياريًا الدقة وإعداد الجودة وخيار الصوت ونطاق القصّ.",
+        "اضغط «تحويل» وتابع التقدم والسرعة والوقت المتبقي مباشرة — ويمكنك الإلغاء في أي وقت.",
+        "عاين النتيجة حيث يستطيع المتصفح تشغيلها، ثم نزّل الملف المحوَّل.",
+      ],
+    },
+  },
+
   "pdf-to-word": {
     related: ["pdf", "image-to-text", "compress-pdf", "merge-pdf"],
     en: {

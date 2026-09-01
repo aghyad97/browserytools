@@ -1,4 +1,5 @@
 import {
+  FileVideoIcon,
   ShuffleIcon,
   BrainIcon,
   BookMinusIcon,
@@ -774,6 +775,16 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-07-30",
         description:
           "Extract audio from videos in your browser — MP4, MOV, MKV, AVI or WebM in, MP3, M4A, OGG or WAV out. Batch convert, pick the bitrate, optionally trim. No uploads.",
+      },
+      {
+        name: "Video Converter",
+        href: "/tools/video-converter",
+        icon: FileVideoIcon,
+        available: true,
+        order: 9,
+        creationDate: "2026-09-01",
+        description:
+          "Convert videos between MP4, WebM, MKV, AVI, MOV and GIF in your browser with ffmpeg.wasm. Pick the resolution, quality and audio, trim a range, and watch live progress with cancel. No uploads.",
       },
       // SEO landing variants of Mic & Camera Tester — hidden from grid/count/
       // related pools via `landingFor` (Task 2 infra).

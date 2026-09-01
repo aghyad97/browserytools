@@ -87,6 +87,7 @@ export const TOOL_SYNONYMS: Record<string, string[]> = {
 
   // --- On-device AI extras (Media / Text categories) ---
   "subtitle-studio": ["auto generate subtitles", "add captions to video", "burn subtitles into video", "srt generator from video"],
+  "video-converter": ["convert video", "mov to mp4", "mkv to mp4", "mp4 to webm", "avi to mp4", "video to gif", "change video format"],
   "speech-to-text": ["live dictation", "voice typing", "talk to text", "microphone transcription"],
   "text-to-speech": ["read text aloud", "convert text to voice", "tts generator", "text to audio"],
   "image-to-text": ["ocr", "scan text from photo", "extract text from image", "picture to text", "read text from screenshot"],
