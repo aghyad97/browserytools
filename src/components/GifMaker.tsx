@@ -415,7 +415,7 @@ export default function GifMaker() {
           {/* Right: result */}
           <div className="space-y-4">
             <Card className="p-6">
-              <div className="min-h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center p-4">
+              <div className="min-h-48 sm:min-h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center p-4">
                 {result ? (
                   <div className="w-full text-center space-y-2">
                     <img

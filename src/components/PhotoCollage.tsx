@@ -570,7 +570,7 @@ export default function PhotoCollage() {
 
           {/* Preview column */}
           <div className="space-y-4">
-            <Card className="p-6 flex items-center justify-center min-h-64">
+            <Card className="p-4 sm:p-6 flex items-center justify-center min-h-48 sm:min-h-64">
               {images.length > 0 ? (
                 <canvas
                   ref={canvasRef}
