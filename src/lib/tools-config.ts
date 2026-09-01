@@ -1054,6 +1054,16 @@ export const tools: ToolCategory[] = [
           "Scan QR codes using your camera or upload an image. Get instant results with copy and download options. Perfect for quickly accessing URLs, contact info, and other QR data.",
       },
       {
+        name: "Airgap QR Transfer",
+        href: "/tools/airgap-transfer",
+        icon: QrCodeIcon,
+        available: true,
+        order: 5.5,
+        creationDate: "2026-08-16",
+        description:
+          "Stream and transfer files securely between devices using animated QR codes without internet, local network, or cables.",
+      },
+      {
         name: "Barcode Scanner",
         href: "/tools/barcode-scanner",
         icon: CameraIcon,
