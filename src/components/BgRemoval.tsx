@@ -358,7 +358,7 @@ export default function BgRemoval() {
     >
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Upload Area */}
-        <Card className="min-h-[16rem] col-span-1 md:col-span-2">
+        <Card className="min-h-48 sm:min-h-[16rem] col-span-1 md:col-span-2">
           <FileDropzone
             onFiles={onDrop}
             accept={{
@@ -383,16 +383,16 @@ export default function BgRemoval() {
               exit={{ opacity: 0, y: -10 }}
               className="text-center"
             >
-              <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                <Upload className="w-10 h-10 text-primary" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">
+              <h3 className="text-base sm:text-lg font-semibold mb-1 sm:mb-2">
                 {t("dropImagesHere")}
               </h3>
-              <p className="text-muted-foreground text-sm">
+              <p className="text-muted-foreground text-xs sm:text-sm">
                 {t("supportedFormats")}
               </p>
-              <p className="text-muted-foreground text-xs mt-2 max-w-md mx-auto">
+              <p className="text-muted-foreground text-xs mt-1 sm:mt-2 max-w-md mx-auto">
                 {t("privacyNote")}
               </p>
               {modelBytes !== null && (

@@ -26,13 +26,8 @@
   }
 }
 
-/* Fallback for engines without container-query support: viewport stack. Applied
-   only where @container is unsupported (older browsers) — modern engines honour
-   the container rule above and ignore this being overridden at wide widths. */
-@supports not (container-type: inline-size) {
-  @media (max-width: 720px) {
-    .pane {
-      grid-template-columns: 1fr;
-    }
+@media (max-width: 720px) {
+  .pane {
+    grid-template-columns: 1fr;
   }
 }

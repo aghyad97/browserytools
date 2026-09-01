@@ -229,8 +229,8 @@ export default function ColorCorrection() {
                   }
                 `}
               >
-                <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Upload className="w-10 h-10 text-primary" />
+                <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                 </div>
                 <div className="text-center">
                   <h3 className="text-lg font-semibold mb-1">
