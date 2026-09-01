@@ -56,7 +56,7 @@ import {
 import { downloadUrl } from "@/lib/download";
 import { formatBytes } from "@/lib/format";
 
-const MAX_FILE_SIZE = 500 * 1024 * 1024;
+const MAX_FILE_SIZE = 250 * 1024 * 1024;
 
 interface VideoInfo {
   file: File;
@@ -252,7 +252,6 @@ export default function VideoConverter() {
     };
 
     try {
-      const { fetchFile } = await import("@ffmpeg/util");
       try {
         ffmpeg = await getFFmpeg();
       } catch (err) {
@@ -269,7 +268,8 @@ export default function VideoConverter() {
       ffmpeg.on("log", onLog);
       ffmpeg.on("progress", onProgress);
 
-      await ffmpeg.writeFile(inputName, await fetchFile(video.file));
+      const fileBytes = new Uint8Array(await video.file.arrayBuffer());
+      await ffmpeg.writeFile(inputName, fileBytes);
 
       const args = buildConvertArgs(inputName, outputName, {
         format,
@@ -280,7 +280,10 @@ export default function VideoConverter() {
         trimStart: start,
         trimEnd: end,
       });
+
+      console.log("Running ffmpeg with args:", args);
       const code = await ffmpeg.exec(args);
+      console.log("ffmpeg exec return code:", code);
       if (typeof code === "number" && code !== 0) {
         throw new FfmpegExitError(code);
       }
@@ -457,10 +460,7 @@ export default function VideoConverter() {
                 <FileDropzone
                   onFiles={onDrop}
                   accept={{
-                    "video/*": [...INPUT_EXTENSIONS],
-                    "video/mp2t": [".ts"],
-                    "video/x-flv": [".flv"],
-                    "video/x-ms-wmv": [".wmv"],
+                    "video/*": [".mp4", ".mov", ".webm", ".mkv", ".avi", ".m4v", ".flv", ".wmv", ".ts"],
                   }}
                   multiple={false}
                   className={({ isDragActive }) => `
@@ -581,14 +581,14 @@ export default function VideoConverter() {
                 </Select>
               </OptionRow>
 
-              {audioMode === "bitrate" && spec.hasAudio && (
-                <OptionRow label={t("bitrate")} htmlFor="vc-bitrate">
+              {spec.hasAudio && audioMode === "bitrate" && (
+                <OptionRow label={t("bitrate")} htmlFor="vc-audio-bitrate">
                   <Select
                     value={audioBitrate}
                     onValueChange={setAudioBitrate}
                     disabled={converting}
                   >
-                    <SelectTrigger id="vc-bitrate">
+                    <SelectTrigger id="vc-audio-bitrate">
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
@@ -637,6 +637,21 @@ export default function VideoConverter() {
               >
                 {trimError ? t("invalidTrim") : t("trimHint")}
               </p>
+
+              <Button
+                onClick={converting ? handleCancel : handleConvert}
+                className="w-full mt-4"
+                disabled={converting ? cancelling : !video}
+              >
+                {converting && (
+                  <Loader2 className="w-4 h-4 me-2 animate-spin" />
+                )}
+                {converting
+                  ? cancelling
+                    ? t("cancelling")
+                    : t("cancel")
+                  : t("convert")}
+              </Button>
             </SettingsCard>
           </div>
         }

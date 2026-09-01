@@ -107,7 +107,7 @@ function videoArgs(opts: ConvertOptions): string[] {
         "-c:v",
         "libx264",
         "-preset",
-        "veryfast",
+        "ultrafast",
         "-crf",
         String(X264_CRF[opts.quality]),
         "-pix_fmt",
@@ -115,8 +115,6 @@ function videoArgs(opts: ConvertOptions): string[] {
         ...(scale ? ["-vf", scale] : []),
       ];
     case "webm":
-      // realtime deadline + cpu-used 8 is the only VP9 speed that is usable
-      // single-threaded in wasm; CRF with -b:v 0 keeps it constant-quality.
       return [
         "-c:v",
         "libvpx-vp9",
@@ -128,8 +126,6 @@ function videoArgs(opts: ConvertOptions): string[] {
         "realtime",
         "-cpu-used",
         "8",
-        "-pix_fmt",
-        "yuv420p",
         ...(scale ? ["-vf", scale] : []),
       ];
     case "avi":

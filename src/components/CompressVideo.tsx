@@ -121,18 +121,19 @@ export default function CompressVideo() {
     };
 
     try {
-      const { fetchFile } = await import("@ffmpeg/util");
       ffmpeg = await getFFmpeg();
       ffmpeg.on("progress", onProgress);
 
       const inputName = "input";
       const outputName = "output.mp4";
-      await ffmpeg.writeFile(inputName, await fetchFile(video.file));
+      const fileBytes = new Uint8Array(await video.file.arrayBuffer());
+      await ffmpeg.writeFile(inputName, fileBytes);
 
       const scale = resolutionOptions.find(
         (r) => r.value === resolution
       )?.scale;
       const args = [
+        "-y",
         "-i",
         inputName,
         "-c:v",
@@ -140,7 +141,7 @@ export default function CompressVideo() {
         "-crf",
         String(crf),
         "-preset",
-        preset,
+        "ultrafast",
         ...(scale ? ["-vf", scale] : []),
         "-c:a",
         "aac",

@@ -197,10 +197,7 @@ export default function VideoToAudio() {
     setConverting(true);
 
     let ffmpeg: Awaited<ReturnType<typeof getFFmpeg>>;
-    let fetchFile: typeof import("@ffmpeg/util").fetchFile;
     try {
-      const utilMod = await import("@ffmpeg/util");
-      fetchFile = utilMod.fetchFile;
       ffmpeg = await getFFmpeg();
     } catch (err) {
       console.error(err);
@@ -262,7 +259,8 @@ export default function VideoToAudio() {
       const outputName = `output_${i}.${fmt.value}`;
 
       try {
-        await ffmpeg.writeFile(inputName, await fetchFile(item.file));
+        const fileBytes = new Uint8Array(await item.file.arrayBuffer());
+        await ffmpeg.writeFile(inputName, fileBytes);
 
         const args = [
           "-i",
