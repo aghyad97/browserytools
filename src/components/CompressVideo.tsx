@@ -223,7 +223,7 @@ export default function CompressVideo() {
             )}
             <Card className="p-6 shadow-none">
               {video ? (
-                <div className="w-full h-64 relative">
+                <div className="w-full h-52 sm:h-64 relative">
                   <video
                     src={video.url}
                     controls
@@ -238,8 +238,8 @@ export default function CompressVideo() {
                   }}
                   multiple={false}
                   className={({ isDragActive }) => `
-                    h-64 rounded-lg border-2 border-dashed
-                    flex flex-col items-center justify-center space-y-4 p-8
+                    min-h-48 sm:h-64 rounded-lg border-2 border-dashed
+                    flex flex-col items-center justify-center space-y-3 sm:space-y-4 p-4 sm:p-8
                     cursor-pointer transition-[border-color,background-color] duration-150
                     ${
                       isDragActive
@@ -249,13 +249,13 @@ export default function CompressVideo() {
                   `}
                 >
                   <div className="text-center">
-                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                      <Upload className="w-10 h-10 text-primary" />
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                      <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                     </div>
-                    <h3 className="text-lg font-semibold mb-1">
+                    <h3 className="text-base sm:text-lg font-semibold mb-1">
                       {t("dropVideoHere")}
                     </h3>
-                    <p className="text-sm text-muted-foreground">
+                    <p className="text-xs sm:text-sm text-muted-foreground max-w-xs mx-auto">
                       {t("supportedFormats")}
                     </p>
                   </div>
@@ -353,8 +353,8 @@ export default function CompressVideo() {
           </div>
 
           <div className="space-y-4">
-            <Card className="p-6">
-              <div className="h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center overflow-hidden">
+            <Card className="p-4 sm:p-6">
+              <div className="h-52 sm:h-64 rounded-lg border-2 border-dashed border-muted-foreground flex items-center justify-center overflow-hidden">
                 {outputUrl ? (
                   <video
                     src={outputUrl}

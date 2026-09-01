@@ -382,8 +382,8 @@ export default function ScreenshotBeautifier() {
                   }
                 >
                   <div className="text-center">
-                    <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                      <Upload className="w-10 h-10 text-primary" />
+                    <div className="w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-3 sm:mb-4">
+                      <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
                     </div>
                     <h3 className="text-lg font-semibold mb-1">{t("dropImageHere")}</h3>
                     <p className="text-sm text-muted-foreground">{t("supportedFormats")}</p>
