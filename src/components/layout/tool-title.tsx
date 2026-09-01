@@ -251,6 +251,8 @@ const HAS_OWN_H1 = new Set([
   "pdf-to-word",
   // Wave 7 (W7) Task 11: Word to PDF ships directly on ToolShell.
   "word-to-pdf",
+  // Video Converter ships directly on ToolShell (the shell owns the h1).
+  "video-converter",
 ]);
 
 export function ToolTitle() {

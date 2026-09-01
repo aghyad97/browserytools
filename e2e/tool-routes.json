@@ -224,6 +224,14 @@
     "href": "/tools/subtitle-studio"
   },
   {
+    "name": "Video to Audio",
+    "href": "/tools/video-to-audio"
+  },
+  {
+    "name": "Video Converter",
+    "href": "/tools/video-converter"
+  },
+  {
     "name": "Mic Test",
     "href": "/tools/mic-test"
   },
@@ -518,6 +526,10 @@
   {
     "name": "Text Encryption",
     "href": "/tools/text-encryption"
+  },
+  {
+    "name": "TOTP Generator",
+    "href": "/tools/totp-generator"
   },
   {
     "name": "CSS clip-path Generator",

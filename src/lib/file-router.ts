@@ -109,7 +109,7 @@ export const FILE_ROUTES: RouteRule[] = [
   {
     kind: "video",
     mimePrefixes: ["video/"],
-    slugs: ["video", "compress-video", "audio-transcriber"],
+    slugs: ["video", "video-converter", "compress-video", "audio-transcriber"],
   },
 ];
 

@@ -47,6 +47,22 @@ export function getFFmpeg(): Promise<FFmpeg> {
   return instancePromise;
 }
 
+/**
+ * Cancel support: kills the worker behind the cached instance (which rejects
+ * every in-flight exec/load with "called FFmpeg.terminate()") and drops the
+ * cache so the next getFFmpeg() boots a fresh engine. Safe to call while a
+ * load is still in flight — the doomed instance is terminated once it lands.
+ * No-op when nothing has been loaded.
+ */
+export function terminateFFmpeg(): void {
+  const doomed = instancePromise;
+  instancePromise = null;
+  if (!doomed) return;
+  doomed.then((ffmpeg) => ffmpeg.terminate()).catch(() => {
+    // The load itself failed (or was torn down) — nothing left to terminate.
+  });
+}
+
 /** Test seam — clears the cached instance. */
 export function __resetForTests(): void {
   instancePromise = null;

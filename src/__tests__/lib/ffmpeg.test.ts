@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from "vitest";
 
 const load = vi.fn().mockResolvedValue(undefined);
+const terminate = vi.fn();
 // FFmpeg is used with `new`, so the mock must be constructable — a `class`
 // (matching the repo's CompressVideo test) rather than an arrow-returning
 // vi.fn(), which is not a valid constructor under vitest v4.
@@ -9,6 +10,7 @@ vi.mock("@ffmpeg/ffmpeg", () => ({
     load = load;
     on = vi.fn();
     off = vi.fn();
+    terminate = terminate;
     loaded = false;
   },
 }));
@@ -16,7 +18,29 @@ vi.mock("@ffmpeg/util", () => ({
   toBlobURL: vi.fn().mockResolvedValue("blob:mock-core"),
 }));
 
-import { getFFmpeg, __resetForTests } from "@/lib/media/ffmpeg";
+import { getFFmpeg, terminateFFmpeg, __resetForTests } from "@/lib/media/ffmpeg";
+
+describe("terminateFFmpeg", () => {
+  it("terminates the cached worker and drops the cache so the next call reloads", async () => {
+    __resetForTests();
+    load.mockClear();
+    terminate.mockClear();
+    const first = await getFFmpeg();
+    terminateFFmpeg();
+    await Promise.resolve(); // let the .then(terminate) settle
+    expect(terminate).toHaveBeenCalledTimes(1);
+    const second = await getFFmpeg();
+    expect(second).not.toBe(first);
+    expect(load).toHaveBeenCalledTimes(2);
+  });
+
+  it("is a no-op when nothing has been loaded", () => {
+    __resetForTests();
+    terminate.mockClear();
+    expect(() => terminateFFmpeg()).not.toThrow();
+    expect(terminate).not.toHaveBeenCalled();
+  });
+});
 
 describe("getFFmpeg", () => {
   it("loads once and returns the same instance on repeat calls", async () => {
