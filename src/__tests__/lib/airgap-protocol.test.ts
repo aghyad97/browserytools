@@ -49,6 +49,15 @@ describe("airgap-protocol", () => {
     expect(new TextDecoder().decode(reconstructed)).toBe(content);
   });
 
+  it("rejects a packet with a damaged payload", async () => {
+    const file = new File(["payload"], "x.txt");
+    const { packets } = await prepareFileForAirgap(file, 200);
+    const packet = packets[0];
+    const parts = packet.split("|");
+    const damaged = `${parts.slice(0, -1).join("|")}|${parts.at(-1)!.slice(0, -1)}A`;
+    expect(parseAirgapPacket(damaged)).toBeNull();
+  });
+
   it("computes 8-character checksum correctly", async () => {
     const data = new Uint8Array([1, 2, 3, 4, 5]);
     const hash = await computeChecksum(data);

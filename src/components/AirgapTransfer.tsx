@@ -37,6 +37,7 @@ import {
   prepareFileForAirgap,
   parseAirgapPacket,
   decompressBytes,
+  computeChecksum,
   type AirgapMeta,
 } from "@/lib/airgap-protocol";
 
@@ -65,6 +66,7 @@ export default function AirgapTransfer() {
     fileSize: number;
     totalChunks: number;
     isCompressed: boolean;
+    checksum: string;
   } | null>(null);
   const [cameraStream, setCameraStream] = useState<MediaStream | null>(null);
   const [cameraError, setCameraError] = useState<string | null>(null);
@@ -241,6 +243,7 @@ export default function AirgapTransfer() {
                       fileSize: packet.fileSize,
                       totalChunks: packet.totalChunks,
                       isCompressed: packet.isCompressed,
+                      checksum: packet.checksum,
                     };
                   }
                   return prev;
@@ -314,6 +317,14 @@ export default function AirgapTransfer() {
         let finalBytes: Uint8Array = merged;
         if (incomingMeta.isCompressed) {
           finalBytes = await decompressBytes(merged);
+        }
+
+        // Never save a completed transfer until both decompression and the
+        // complete-file SHA-256 agree with the sender metadata.
+        if (finalBytes.length !== incomingMeta.fileSize ||
+            (await computeChecksum(finalBytes)).toLowerCase() !== incomingMeta.checksum.toLowerCase()) {
+          setCameraError("Transfer integrity check failed. Keep the sender still and retry.");
+          return;
         }
 
         const blob = new Blob([finalBytes.buffer as ArrayBuffer]);
