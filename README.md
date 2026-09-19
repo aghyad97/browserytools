@@ -113,6 +113,7 @@ Two caveats worth stating plainly, since "everything is local" is the headline c
 - **Screen Recorder**: Record your screen, window, or tab directly in the browser using the Screen Capture API.
 - **GIF Maker**: Turn a series of images into an animated GIF. Reorder frames, set speed, loop, and resize.
 - **Subtitle Studio**: Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video.
+- **Subtitle Cinema Player**: Watch local videos with precisely timed SRT subtitles, a searchable transcript, cinema mode, and playback controls.
 - **Video to Audio**: Extract audio from videos in your browser — MP3, M4A, OGG, or WAV out, with batch conversion, bitrate control, and optional trimming.
 - **Video Converter**: Convert videos between MP4, WebM, MKV, AVI, MOV, and GIF in your browser — choose resolution, quality, and audio, trim a range, and watch live progress with cancel.
 

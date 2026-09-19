@@ -819,6 +819,10 @@
       "word-to-pdf": {
         "name": "Word to PDF",
         "description": "Convert a Word (.docx) document into a PDF using your browser's print dialog — text stays selectable and searchable, entirely in your browser. Styling is normalized, not pixel-exact."
+      },
+      "subtitle-cinema-player": {
+        "name": "Subtitle Cinema Player",
+        "description": "Watch local videos with perfectly timed SRT subtitles, a searchable transcript, cinema mode, and precise playback controls. Nothing is uploaded."
       }
     },
     "categoriesShort": {

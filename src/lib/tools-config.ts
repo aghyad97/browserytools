@@ -767,6 +767,16 @@ export const tools: ToolCategory[] = [
           "Transcribe a video into word-timed subtitles with an on-device Whisper model, style the captions, and burn them into your video. No uploads — runs entirely on-device.",
       },
       {
+        name: "Subtitle Cinema Player",
+        href: "/tools/subtitle-cinema-player",
+        icon: CaptionsIcon,
+        available: true,
+        order: 7.5,
+        creationDate: "2026-09-19",
+        description:
+          "Watch local videos with perfectly timed SRT subtitles, a searchable transcript, cinema mode, and precise playback controls. Nothing is uploaded.",
+      },
+      {
         name: "Video to Audio",
         href: "/tools/video-to-audio",
         icon: Music4Icon,
