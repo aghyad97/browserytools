@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { ToolShell } from "@/components/template/tool-shell";
 import { FileDropzone } from "@/components/shared/FileDropzone";
 import { OptionRow, SettingsCard } from "@/components/shared/SettingsCard";
@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { parseSrt, activeCue, type SubtitleCue } from "@/lib/subtitles/srt";
-import { Maximize, Minimize, Pause, Play, Search, Upload } from "lucide-react";
+import { FastForward, Maximize, Minimize, Pause, Play, Rewind, Search, Upload } from "lucide-react";
 
 const formatTime = (time: number) => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, "0")}`;
 const ACCEPT_VIDEO = { "video/*": [] };
@@ -62,8 +62,24 @@ export default function SubtitleCinemaPlayer() {
 
   const loadVideo = (files: File[]) => { const file = files[0]; if (!file) return; setVideoUrl((old) => { if (old) URL.revokeObjectURL(old); return URL.createObjectURL(file); }); setVideoName(file.name); setCurrentTime(0); setDuration(0); setStatus(`${file.name} loaded locally. SRT playback remains available without it.`); };
   const loadSrt = async (files: File[]) => { const file = files[0]; if (!file) return; const parsed = parseSrt(await file.text()); setCues(parsed); setCurrentTime(0); setDuration(videoUrl ? 0 : parsed.at(-1)?.end || 0); setPlaying(false); setStatus(`${parsed.length} subtitle cues loaded locally. Ready for SRT-only playback.`); };
-  const togglePlay = () => { const video = videoRef.current; if (video) { if (video.paused) void video.play(); else video.pause(); } else if (cues.length) setPlaying((value) => !value); };
-  const seek = (time: number) => { const next = Math.max(0, time); if (videoRef.current) videoRef.current.currentTime = next; setCurrentTime(next); };
+  const togglePlay = useCallback(() => { const video = videoRef.current; if (video) { if (video.paused) void video.play(); else video.pause(); } else if (cues.length) setPlaying((value) => !value); }, [cues.length]);
+  const seek = useCallback((time: number) => { const end = duration || cues.at(-1)?.end || 0; const next = Math.min(end || Number.POSITIVE_INFINITY, Math.max(0, time)); if (videoRef.current) videoRef.current.currentTime = next; setCurrentTime(next); }, [cues, duration]);
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const target = event.target as HTMLElement | null;
+      if (target?.isContentEditable || target?.tagName === "INPUT" || target?.tagName === "TEXTAREA" || target?.tagName === "SELECT") return;
+      if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+        event.preventDefault();
+        const amount = event.shiftKey ? 5 : 1;
+        seek(currentTime + (event.key === "ArrowLeft" ? -amount : amount));
+      } else if (event.key === " ") {
+        event.preventDefault();
+        togglePlay();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [currentTime, seek, togglePlay]);
   const toggleFullscreen = async () => { if (!stageRef.current) return; if (document.fullscreenElement) await document.exitFullscreen(); else await stageRef.current.requestFullscreen?.(); };
 
   return <ToolShell slug="subtitle-cinema-player" title="Watch with precision." sub="A private local subtitle player. Add video only when you want it." width="wide">
@@ -79,7 +95,7 @@ export default function SubtitleCinemaPlayer() {
       <div ref={stageRef} data-cinema={cinema} className="relative aspect-video overflow-hidden rounded-lg border bg-black text-white shadow-sm data-[cinema=true]:fixed data-[cinema=true]:inset-0 data-[cinema=true]:z-50 data-[cinema=true]:rounded-none">
         {videoUrl ? <video ref={videoRef} src={videoUrl} className="h-full w-full object-contain" onLoadedMetadata={(e) => setDuration(e.currentTarget.duration)} onTimeUpdate={(e) => setCurrentTime(e.currentTarget.currentTime)} onPlay={() => setPlaying(true)} onPause={() => setPlaying(false)} onEnded={() => setPlaying(false)} aria-label="Local video preview" /> : <div className="flex h-full items-center justify-center px-6 text-center text-sm text-white/60">{cues.length ? "SRT-only cinema mode — use play to step through your transcript." : "Choose an SRT file above to begin."}</div>}
         {current && <div className={`pointer-events-none absolute inset-x-[5%] text-center font-semibold leading-tight ${positionClass}`} style={subtitleStyle} aria-live="polite">{current.text}</div>}
-        <div className="absolute inset-x-0 bottom-0 flex items-center gap-2 bg-gradient-to-t from-black/90 to-transparent p-3 pt-8"><Button size="icon" variant="ghost" className="shrink-0 text-white hover:bg-white/20 hover:text-white" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>{playing ? <Pause /> : <Play />}</Button><input aria-label="Video progress" className="h-1 min-w-0 flex-1 accent-primary" type="range" min="0" max={duration || cues.at(-1)?.end || 0} step="0.01" value={currentTime} onChange={(e) => seek(Number(e.target.value))} disabled={!cues.length} /><span className="shrink-0 font-mono text-xs tabular-nums">{formatTime(currentTime)} / {formatTime(duration || cues.at(-1)?.end || 0)}</span><Button size="icon" variant="ghost" className="shrink-0 text-white hover:bg-white/20 hover:text-white" onClick={toggleFullscreen} aria-label="Toggle fullscreen">{cinema ? <Minimize /> : <Maximize />}</Button></div>
+        <div className="absolute inset-x-0 bottom-0 flex items-center gap-1 bg-gradient-to-t from-black/90 to-transparent p-3 pt-8"><Button size="sm" variant="ghost" className="shrink-0 px-2 text-white hover:bg-white/20 hover:text-white" onClick={() => seek(currentTime - 5)} aria-label="Seek backward 5 seconds"><Rewind className="mr-1 h-4 w-4" />-5s</Button><Button size="sm" variant="ghost" className="shrink-0 px-2 text-white hover:bg-white/20 hover:text-white" onClick={() => seek(currentTime - 1)} aria-label="Seek backward 1 second"><Rewind className="mr-1 h-4 w-4" />-1s</Button><Button size="icon" variant="ghost" className="shrink-0 text-white hover:bg-white/20 hover:text-white" onClick={togglePlay} aria-label={playing ? "Pause" : "Play"}>{playing ? <Pause /> : <Play />}</Button><Button size="sm" variant="ghost" className="shrink-0 px-2 text-white hover:bg-white/20 hover:text-white" onClick={() => seek(currentTime + 1)} aria-label="Seek forward 1 second">+1s<FastForward className="ml-1 h-4 w-4" /></Button><Button size="sm" variant="ghost" className="shrink-0 px-2 text-white hover:bg-white/20 hover:text-white" onClick={() => seek(currentTime + 5)} aria-label="Seek forward 5 seconds">+5s<FastForward className="ml-1 h-4 w-4" /></Button><input aria-label="Video progress" className="h-1 min-w-0 flex-1 accent-primary" type="range" min="0" max={duration || cues.at(-1)?.end || 0} step="0.01" value={currentTime} onChange={(e) => seek(Number(e.target.value))} disabled={!cues.length} /><span className="shrink-0 font-mono text-xs tabular-nums">{formatTime(currentTime)} / {formatTime(duration || cues.at(-1)?.end || 0)}</span><Button size="icon" variant="ghost" className="shrink-0 text-white hover:bg-white/20 hover:text-white" onClick={toggleFullscreen} aria-label="Toggle fullscreen">{cinema ? <Minimize /> : <Maximize />}</Button></div>
       </div>
 
       <TwoPane ratio={1.25} start={<SettingsCard title="Playback and subtitle style" description="Tune timing, appearance, and readability.">
