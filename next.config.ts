@@ -3,6 +3,31 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   async headers() {
     return [
+            {
+        // Baseline security headers for every route.
+        //
+        // Content-Security-Policy is deliberately left out: the AI tools fetch
+        // models from huggingface.co and staticimgly.com at runtime and run
+        // them through WebAssembly, so a policy here would need
+        // 'wasm-unsafe-eval' and an allowlist for those hosts, and Next.js
+        // needs nonce handling for its inline bootstrap script. That is a
+        // design decision for the maintainer, not something to slip into a
+        // header patch.
+        source: "/:path*",
+        headers: [
+          { key: "X-Frame-Options", value: "DENY" },
+          { key: "X-Content-Type-Options", value: "nosniff" },
+          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
+          {
+            // The camera, microphone and screen-capture tools run on this
+            // origin; no embedded third party should inherit those grants.
+            key: "Permissions-Policy",
+            value:
+              "camera=(self), microphone=(self), display-capture=(self), geolocation=()",
+          },
+        ],
+      },
+
       {
         source: "/tools/bg-removal",
         headers: [{ key: "Cross-Origin-Opener-Policy", value: "same-origin" }],
