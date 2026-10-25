@@ -1327,7 +1327,7 @@ export const toolContent: Record<string, ToolContent> = {
       },
       ko: {
         intro:
-          "이미지 압축이 필요할 때 브라우저에서 바로 쓸 수 있는 도구입니다. '이미지 압축'은 사진을 가야 할 곳에 들어갈 만큼 줄여 줍니다. 이메일 첨부 용량 제한에 걸렸을 때, 500KB를 넘는 파일은 받지 않는 양식에 올려야 할 때, 로딩이 느린 페이지에 넣을 때 유용합니다. 최대 25MB의 PNG, JPG, WebP 파일을 올린 뒤 화질과 용량 중 무엇을 더 양보할지 고르면 됩니다.\n\n압축 방식은 네 가지입니다. '자동'은 원본 크기에 맞춰 품질을 정하고, '강하게'는 따로 묻지 않고 크게 줄입니다. '사용자 지정'은 품질 슬라이더를 직접 조절하게 해 줍니다. 가장 쓸모 있는 것은 '목표 크기'입니다. KB 단위로 숫자를 입력하면 그 크기 아래로 들어가는 품질을 찾아 주고, 품질만으로 부족하면 가로 너비까지 줄입니다. 출력 최대 너비를 직접 정할 수도 있는데, 웹페이지에 올릴 사진이라면 보통 이 방법이 용량을 가장 많이 줄여 줍니다.\n\n인코딩은 브라우저에 내장된 이미지 인코더가 처리합니다. 그래서 업로드도, 대기열도, 회원가입도, 워터마크도 없습니다.",
+          "이미지 압축이 필요할 때 브라우저에서 바로 쓸 수 있는 도구입니다. '이미지 압축'은 사진을 보내거나 올릴 수 있는 크기로 줄여 줍니다. 이메일 첨부 용량 제한에 걸렸을 때, 500KB를 넘는 파일은 받지 않는 양식에 올려야 할 때, 로딩이 느린 페이지에 넣을 때 유용합니다. 최대 25MB의 PNG, JPG, WebP 파일을 올린 뒤 화질과 용량 중 무엇을 더 양보할지 고르면 됩니다.\n\n압축 방식은 네 가지입니다. '자동'은 원본 크기에 맞춰 품질을 정하고, '강하게'는 따로 묻지 않고 크게 줄입니다. '사용자 지정'은 품질 슬라이더를 직접 조절하게 해 줍니다. 가장 쓸모 있는 것은 '목표 크기'입니다. KB 단위로 숫자를 입력하면 그 크기 아래로 들어가는 품질을 찾아 주고, 품질만으로 부족하면 가로 너비까지 줄입니다. 출력 최대 너비를 직접 정할 수도 있는데, 웹페이지에 올릴 사진이라면 보통 이 방법이 용량을 가장 많이 줄여 줍니다.\n\n인코딩은 브라우저에 내장된 이미지 인코더가 처리합니다. 그래서 업로드도, 대기열도, 회원가입도, 워터마크도 없습니다.",
         whyClientSide:
           "솔직히 말해 대부분은 여행 사진을 줄이는 일이라 누가 보든 상관없습니다. 하지만 이 도구의 가장 흔한 실제 용도는 신분증 스캔본, 서명, 여권 사진을 정부 사이트의 KB 제한에 맞추는 일이고, 이런 문서를 작게 만들겠다고 무료 웹 서비스에 넘기고 싶지는 않을 것입니다. 또 하나는 속도입니다. 20MB를 올려서 서버가 200KB를 돌려주게 하는 것은 노트북이 1초 안팎에 끝내는 일을 가장 느리게 하는 방법이고, 연결이 약하면 아예 실패합니다. 파일이 너무 커서 보낼 수 없을 때가 대개 그런 상황입니다.",
         limitations: [
@@ -4327,14 +4327,14 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "Можно ли конвертировать сразу несколько фото?",
-            a: "Да — конвертируйте HEIC в JPG и скачивайте результаты.",
+            a: "Нет — инструмент конвертирует по одному фото за раз. Когда одно готово, скачайте его и загрузите следующее.",
           },
         ],
         steps: [
-          "Загрузите одно или несколько фото в формате HEIC.",
-          "Инструмент локально декодирует их с помощью декодера на WebAssembly.",
-          "Каждое фото кодируется в JPG прямо в браузере.",
-          "Скачайте готовые файлы JPG.",
+          "Загрузите фото в формате HEIC.",
+          "Инструмент локально декодирует его с помощью декодера на WebAssembly.",
+          "Фото кодируется в JPG прямо в браузере.",
+          "Скачайте готовый файл JPG.",
         ],
       },
       fa: {
@@ -4359,14 +4359,14 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "آیا می‌توانم چند عکس را یک‌جا تبدیل کنم؟",
-            a: "بله — عکس‌های HEIC را به JPG تبدیل کنید و نتیجه‌ها را دانلود کنید.",
+            a: "نه — این ابزار هر بار یک عکس را تبدیل می‌کند. وقتی یکی تمام شد، دانلودش کنید و عکس بعدی را بارگذاری کنید.",
           },
         ],
         steps: [
-          "یک یا چند عکس HEIC را بارگذاری کنید.",
-          "ابزار آن‌ها را به‌صورت محلی با رمزگشای WebAssembly باز می‌کند.",
-          "هر عکس در مرورگر شما به JPG کدگذاری می‌شود.",
-          "فایل‌های JPG تبدیل‌شده را دانلود کنید.",
+          "یک عکس HEIC را بارگذاری کنید.",
+          "ابزار آن را محلی با رمزگشای WebAssembly باز می‌کند.",
+          "عکس را در مرورگر شما به JPG برمی‌گرداند.",
+          "فایل JPG تبدیل‌شده را دانلود کنید.",
         ],
       },
       ko: {
@@ -4391,13 +4391,13 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "여러 장을 한 번에 변환할 수 있나요?",
-            a: "네. HEIC 사진을 JPG로 변환한 뒤 결과를 다운로드하면 됩니다.",
+            a: "아니요, 한 번에 사진 한 장씩 변환합니다. 한 장이 끝나면 다운로드한 뒤 다음 사진을 올리세요.",
           },
         ],
         steps: [
-          "HEIC 사진을 한 장 이상 올립니다.",
+          "HEIC 사진을 올립니다.",
           "도구가 WebAssembly 디코더로 사진을 로컬에서 해독합니다.",
-          "각 사진을 브라우저에서 JPG로 다시 인코딩합니다.",
+          "사진을 브라우저에서 JPG로 다시 인코딩합니다.",
           "변환된 JPG 파일을 다운로드합니다.",
         ],
       },
@@ -4423,14 +4423,14 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "Tôi có thể chuyển nhiều ảnh cùng lúc không?",
-            a: "Có, hãy chuyển các ảnh HEIC sang JPG rồi tải kết quả xuống.",
+            a: "Không, công cụ chuyển từng ảnh một. Khi xong một ảnh, hãy tải xuống rồi tải ảnh tiếp theo lên.",
           },
         ],
         steps: [
-          "Tải lên một hoặc nhiều ảnh HEIC.",
-          "Công cụ giải mã chúng ngay trên máy bằng bộ giải mã WebAssembly.",
-          "Mỗi ảnh được mã hoá lại thành JPG ngay trong trình duyệt.",
-          "Tải các tệp JPG đã chuyển đổi xuống.",
+          "Tải lên một ảnh HEIC.",
+          "Công cụ giải mã ảnh ngay trên máy bằng bộ giải mã WebAssembly.",
+          "Ảnh được mã hoá lại thành JPG ngay trong trình duyệt.",
+          "Tải tệp JPG đã chuyển đổi xuống.",
         ],
       },
       tr: {
@@ -4455,14 +4455,14 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "Aynı anda birkaç fotoğrafı dönüştürebilir miyim?",
-            a: "Evet, HEIC fotoğraflarınızı JPG'ye dönüştürün ve sonuçları indirin.",
+            a: "Hayır, bir seferde tek fotoğraf dönüştürür. Biri bitince indirin ve sıradakini bırakın.",
           },
         ],
         steps: [
-          "Bir veya daha fazla HEIC fotoğrafı yükleyin.",
-          "Araç bunları yerelde bir WebAssembly kod çözücüyle çözer.",
-          "Her fotoğrafı tarayıcınızda JPG olarak yeniden kodlar.",
-          "Dönüştürülen JPG dosyalarını indirin.",
+          "Bir HEIC fotoğrafı yükleyin.",
+          "Araç fotoğrafı yerelde bir WebAssembly kod çözücüyle çözer.",
+          "Fotoğrafı tarayıcınızda JPG olarak yeniden kodlar.",
+          "Dönüştürülen JPG dosyasını indirin.",
         ],
       },
     },
@@ -4488,14 +4488,14 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "Can I convert several photos at once?",
-          a: "Yes — convert your HEIC photos to JPG and download the results.",
+          a: "No — it converts one photo at a time. When one is done, download it and drop in the next.",
         },
       ],
       steps: [
-        "Upload one or more HEIC photos.",
-        "The tool decodes them locally with a WebAssembly decoder.",
-        "It re-encodes each photo to JPG in your browser.",
-        "Download the converted JPG files.",
+        "Upload a HEIC photo.",
+        "The tool decodes it locally with a WebAssembly decoder.",
+        "It re-encodes the photo to JPG in your browser.",
+        "Download the converted JPG file.",
       ],
     },
     ar: {
@@ -4520,14 +4520,14 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "هل يمكنني تحويل عدة صور دفعة واحدة؟",
-          a: "نعم — حوّل صور HEIC إلى JPG ونزّل النتائج.",
+          a: "لا — تحوّل الأداة صورة واحدة في كل مرة. بعد انتهاء الصورة نزّلها ثم أسقط التالية.",
         },
       ],
       steps: [
-        "ارفع صورة HEIC واحدة أو أكثر.",
+        "ارفع صورة HEIC.",
         "تفكّ الأداة ترميزها محليًا عبر مفكّك WebAssembly.",
-        "تعيد ترميز كل صورة إلى JPG في متصفحك.",
-        "نزّل ملفات JPG المحوّلة.",
+        "تعيد ترميز الصورة إلى JPG في متصفحك.",
+        "نزّل ملف JPG المحوّل.",
       ],
     },
   },
@@ -4561,10 +4561,10 @@ export const toolContent: Record<string, ToolContent> = {
           },
         ],
         steps: [
-          "Загрузите один или несколько файлов HEIC.",
-          "Инструмент декодирует их с помощью декодера на WebAssembly.",
-          "Для каждого файла в браузере создаётся PNG без потерь.",
-          "Скачайте готовые файлы PNG.",
+          "Загрузите файл HEIC.",
+          "Инструмент декодирует его с помощью декодера на WebAssembly.",
+          "В браузере создаётся PNG без потерь.",
+          "Скачайте готовый файл PNG.",
         ],
       },
       fa: {
@@ -4593,10 +4593,10 @@ export const toolContent: Record<string, ToolContent> = {
           },
         ],
         steps: [
-          "یک یا چند فایل HEIC را بارگذاری کنید.",
-          "ابزار آن‌ها را با رمزگشای WebAssembly باز می‌کند.",
-          "برای هر کدام در مرورگر شما یک PNG بدون افت نوشته می‌شود.",
-          "فایل‌های PNG تبدیل‌شده را دانلود کنید.",
+          "یک فایل HEIC را بارگذاری کنید.",
+          "ابزار آن را با رمزگشای WebAssembly باز می‌کند.",
+          "در مرورگر شما یک PNG بدون افت می‌نویسد.",
+          "فایل PNG تبدیل‌شده را دانلود کنید.",
         ],
       },
       ko: {
@@ -4625,9 +4625,9 @@ export const toolContent: Record<string, ToolContent> = {
           },
         ],
         steps: [
-          "HEIC 파일을 한 개 이상 올립니다.",
+          "HEIC 파일을 올립니다.",
           "도구가 WebAssembly 디코더로 해독합니다.",
-          "브라우저 안에서 각 파일을 무손실 PNG로 만듭니다.",
+          "브라우저 안에서 무손실 PNG로 만듭니다.",
           "변환된 PNG 파일을 다운로드합니다.",
         ],
       },
@@ -4657,10 +4657,10 @@ export const toolContent: Record<string, ToolContent> = {
           },
         ],
         steps: [
-          "Tải lên một hoặc nhiều tệp HEIC.",
-          "Công cụ giải mã chúng bằng bộ giải mã WebAssembly.",
-          "Công cụ ghi một tệp PNG không mất dữ liệu cho mỗi ảnh ngay trong trình duyệt.",
-          "Tải các tệp PNG đã chuyển đổi xuống.",
+          "Tải lên một tệp HEIC.",
+          "Công cụ giải mã tệp bằng bộ giải mã WebAssembly.",
+          "Công cụ ghi một tệp PNG không mất dữ liệu ngay trong trình duyệt.",
+          "Tải tệp PNG đã chuyển đổi xuống.",
         ],
       },
       tr: {
@@ -4689,10 +4689,10 @@ export const toolContent: Record<string, ToolContent> = {
           },
         ],
         steps: [
-          "Bir veya daha fazla HEIC dosyası yükleyin.",
-          "Araç bunları bir WebAssembly kod çözücüyle çözer.",
-          "Her biri için tarayıcınızda kayıpsız bir PNG yazar.",
-          "Dönüştürülen PNG dosyalarını indirin.",
+          "Bir HEIC dosyası yükleyin.",
+          "Araç dosyayı bir WebAssembly kod çözücüyle çözer.",
+          "Tarayıcınızda kayıpsız bir PNG yazar.",
+          "Dönüştürülen PNG dosyasını indirin.",
         ],
       },
     },
@@ -4722,10 +4722,10 @@ export const toolContent: Record<string, ToolContent> = {
         },
       ],
       steps: [
-        "Upload one or more HEIC files.",
-        "The tool decodes them with a WebAssembly decoder.",
-        "It writes a lossless PNG for each in your browser.",
-        "Download the converted PNG files.",
+        "Upload a HEIC file.",
+        "The tool decodes it with a WebAssembly decoder.",
+        "It writes a lossless PNG in your browser.",
+        "Download the converted PNG file.",
       ],
     },
     ar: {
@@ -4754,10 +4754,10 @@ export const toolContent: Record<string, ToolContent> = {
         },
       ],
       steps: [
-        "ارفع ملف HEIC واحدًا أو أكثر.",
-        "تفكّ الأداة ترميزها عبر مفكّك WebAssembly.",
-        "تكتب ملف PNG بلا فقد لكل منها في متصفحك.",
-        "نزّل ملفات PNG المحوّلة.",
+        "ارفع ملف HEIC.",
+        "تفكّ الأداة ترميزه عبر مفكّك WebAssembly.",
+        "تكتب ملف PNG بلا فقد في متصفحك.",
+        "نزّل ملف PNG المحوّل.",
       ],
     },
   },
@@ -5923,7 +5923,7 @@ export const toolContent: Record<string, ToolContent> = {
     extra: {
       fa: {
         intro:
-          "تایمر کلاس یک شمارندهٔ معکوس مناسب تمام‌صفحه است که برای جلوی کلاس ساخته شده؛ برای زمان‌گیری آزمون، زمان مطالعهٔ ساکت، فعالیت گروهی یا فاصلهٔ بین دو درس، جایی که همه باید زمان باقی‌مانده را از آن سوی کلاس یک‌نگاه ببینند.\n\nدقیقه را تنظیم کنید، شروع را بزنید و تمام‌صفحه شوید تا اعداد روی پروژکتور یا صفحه را پر کنند. موتور شمارش همان ابزار تایمر عمومی است، فقط مستقیم در حالت شمارش معکوس باز می‌شود و شما را به حالت تمام‌صفحه ترغیب می‌کند تا پیش از شروع کلاس لازم نباشد تنظیمات را زیر و رو کنید. وقتی زمان تمام شود صدایی پخش می‌شود و لازم نیست مدام به صفحه نگاه کنید.\n\nکاملاً در مرورگر شما اجرا می‌شود، بدون حساب کاربری و بدون تبلیغ؛ صفحه را باز کنید، زمان را تنظیم کنید و نمایش دهید.",
+          "تایمر کلاس یک شمارندهٔ معکوس مناسب تمام‌صفحه است که برای جلوی کلاس ساخته شده؛ برای زمان‌گیری آزمون، زمان مطالعهٔ ساکت، فعالیت گروهی یا فاصلهٔ بین دو درس، جایی که همه باید زمان باقی‌مانده را از آن سوی کلاس یک‌نگاه ببینند.\n\nدقیقه را تنظیم کنید، شروع را بزنید و تمام‌صفحه شوید تا اعداد روی پروژکتور یا صفحه را پر کنند. موتور شمارش همان ابزار تایمر عمومی است، فقط مستقیم در حالت شمارش معکوس باز می‌شود و پیشنهاد تمام‌صفحه می‌دهد تا پیش از شروع کلاس لازم نباشد تنظیمات را زیر و رو کنید. وقتی زمان تمام شود صدایی پخش می‌شود و لازم نیست مدام به صفحه نگاه کنید.\n\nکاملاً در مرورگر شما اجرا می‌شود، بدون حساب کاربری و بدون تبلیغ؛ صفحه را باز کنید، زمان را تنظیم کنید و نمایش دهید.",
         faq: [
           {
             q: "این با ابزار تایمر معمولی چه فرقی دارد؟",
