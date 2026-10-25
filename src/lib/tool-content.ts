@@ -6224,6 +6224,550 @@ export const toolContent: Record<string, ToolContent> = {
     },
   },
 
+  // ── Calculators and AI pricing (batch A) ────────────────────────────────────
+  "unit-converter": {
+    related: [
+      "calculator",
+      "percentage-calculator",
+      "aspect-ratio",
+      "number-base-converter",
+      "currency-converter",
+    ],
+    en: {
+      intro:
+        "This unit converter handles six groups of everyday measurements: length (millimetres, centimetres, metres, kilometres, inches, feet, yards, miles), weight (milligrams, grams, kilograms, ounces, pounds, stone, metric and US tons), temperature (Celsius, Fahrenheit, Kelvin), area (square millimetres up to square kilometres, square inches, feet and yards, acres, hectares), volume (millilitres, litres, cubic metres, US fluid ounces, cups, pints, quarts, gallons, cubic inches and feet) and speed (m/s, km/h, mph, ft/s, knots).\n\nPick a group, choose the From and To units, and type a number into the value box. The result appears as you type, with the working underneath: the value multiplied into a base unit, then divided into the target unit, plus a one-line rate such as 1 km = 0.621371 mi. The swap button flips the two units and their values, and a short list of common conversions sits below for a quick sanity check. Temperature uses the proper offset formulas through Celsius rather than a simple multiplier.",
+      whyClientSide:
+        "There is no privacy angle worth inventing here — a number and two unit names are not sensitive. What running in the page does give you is speed: the answer updates on every keystroke with no round trip, and there is nothing to sign up for.",
+      limitations: [
+        "Only the six groups above. There is no currency, time, data size, pressure, energy or fuel economy conversion.",
+        "Liquid volumes are US units only (US cup, pint, quart, gallon and fluid ounce). Imperial pints and gallons are not offered, so a UK recipe or fuel figure needs converting separately.",
+        "Results are rounded to six decimal places, so a very small amount can show as 0. Some factors, including ounce, pound, stone, acre and km/h, are stored to roughly six significant figures, which is plenty for everyday use but not for scientific work.",
+        "You type into the From box only; the converted value is read-only. To go the other way, use the swap button.",
+      ],
+      faq: [
+        {
+          q: "Which units can I convert?",
+          a: "Length, weight, temperature, area, volume and speed. Each group has its own list of units, and you can only convert within a group, so metres to feet works but kilograms to litres does not.",
+        },
+        {
+          q: "How do I convert Celsius to Fahrenheit?",
+          a: "Choose the Temperature group, set From to Celsius and To to Fahrenheit, then type the temperature. The tool converts through Celsius using the standard formulas: Fahrenheit is Celsius times 9/5 plus 32, and Kelvin is Celsius plus 273.15. For example, 0 C shows 32 F and 100 C shows 212 F.",
+        },
+        {
+          q: "Can I convert currency or time here?",
+          a: "No. This converter covers physical measurements only. Currency rates change constantly and need live data, which this page does not fetch; there is a separate currency converter on this site.",
+        },
+        {
+          q: "Are the gallons US or imperial?",
+          a: "US. The volume group lists US fluid ounces, cups, pints, quarts and gallons. A US gallon is 3.785 litres; an imperial gallon is larger and is not included.",
+        },
+        {
+          q: "Why can I not type into the second box?",
+          a: "The lower field shows the result and is read-only. Enter your number in the upper value box, or press the swap button to reverse the direction of the conversion.",
+        },
+        {
+          q: "Does it show how the answer was worked out?",
+          a: "Yes. For most groups it shows your value multiplied into a base unit and then divided into the target unit, and a one-line rate for 1 of the source unit. For temperature it lists the two steps through Celsius.",
+        },
+      ],
+      steps: [
+        "Choose a group: Length, Weight, Temperature, Area, Volume or Speed.",
+        "Select the From and To units from the two menus.",
+        "Type a number into the value box; the converted result appears straight away.",
+        "Press the swap button to reverse the conversion, or read the working underneath to check the arithmetic.",
+      ],
+    },
+    ar: {
+      intro:
+        "يغطي محوّل الوحدات هذا ست مجموعات من القياسات اليومية: الطول (ملليمتر وسنتيمتر ومتر وكيلومتر وإنش وقدم وياردة وميل)، والوزن (ملليغرام وغرام وكيلوغرام وأوقية ورطل وستون وطن متري وطن أمريكي)، ودرجة الحرارة (مئوية وفهرنهايت وكلفن)، والمساحة (من الملليمتر المربع حتى الكيلومتر المربع، إضافة إلى الإنش والقدم والياردة المربعة والفدان والهكتار)، والحجم (ملليلتر ولتر ومتر مكعب وأونصة سائلة أمريكية وكوب وباينت وكوارت وجالون وإنش مكعب وقدم مكعبة)، والسرعة (م/ث وكم/س وميل/س وقدم/ث وعقدة).\n\nاختر المجموعة، ثم الوحدة المصدر والوحدة الهدف، واكتب الرقم في خانة القيمة. تظهر النتيجة وأنت تكتب، وتحتها خطوات الحساب: القيمة تُضرب في وحدة أساس ثم تُقسم على معامل الوحدة الهدف، مع سطر يبيّن المعدّل مثل 1 كم = 0.621371 ميل. يبدّل زر التبديل بين الوحدتين وقيمتيهما، وتجد أسفل الصفحة قائمة قصيرة بتحويلات شائعة للتأكد سريعًا. أما درجة الحرارة فتُحسب بمعادلاتها الصحيحة عبر الدرجة المئوية، وليس بمعامل ضرب بسيط.",
+      whyClientSide:
+        "لا يوجد هنا بعد خصوصية يستحق الحديث عنه، فرقم واسما وحدتين ليسا معلومات حساسة. الفائدة الفعلية هي السرعة: تتحدث النتيجة مع كل حرف تكتبه دون أي اتصال بخادم، ولا حاجة إلى تسجيل.",
+      limitations: [
+        "المجموعات الست أعلاه فقط. لا يوجد تحويل للعملات أو الوقت أو حجم البيانات أو الضغط أو الطاقة أو استهلاك الوقود.",
+        "وحدات السوائل أمريكية فقط (الكوب والباينت والكوارت والجالون والأونصة السائلة الأمريكية). لا يتوفر الباينت ولا الجالون البريطاني، فإن كانت وصفتك أو كمية الوقود بوحدات بريطانية فعليك تحويلها بطريقة أخرى.",
+        "تُقرَّب النتائج إلى ست منازل عشرية، فقد تظهر كمية صغيرة جدًا على أنها 0. وبعض المعاملات، ومنها الأونصة والرطل والستون والفدان وكم/س، محفوظة بدقة نحو ست خانات معنوية، وهذا كافٍ للاستخدام اليومي لكنه لا يصلح للعمل العلمي.",
+        "تكتب في خانة «من» فقط، أما القيمة المحوّلة فللقراءة فقط. وللتحويل في الاتجاه المعاكس استخدم زر التبديل.",
+      ],
+      faq: [
+        {
+          q: "ما الوحدات التي يمكنني تحويلها؟",
+          a: "الطول والوزن ودرجة الحرارة والمساحة والحجم والسرعة. لكل مجموعة قائمة وحدات خاصة بها، ولا يمكن التحويل إلا داخل المجموعة الواحدة، فتحويل المتر إلى القدم ممكن، أما الكيلوغرام إلى اللتر فلا.",
+        },
+        {
+          q: "كيف أحوّل من مئوية إلى فهرنهايت؟",
+          a: "اختر مجموعة درجة الحرارة، واجعل «من» مئوية و«إلى» فهرنهايت، ثم اكتب الدرجة. تحوّل الأداة عبر الدرجة المئوية بالمعادلات المعتادة: فهرنهايت = المئوية × 9/5 + 32، وكلفن = المئوية + 273.15. فمثلًا 0 مئوية تعطي 32 فهرنهايت، و100 مئوية تعطي 212.",
+        },
+        {
+          q: "هل يمكنني تحويل العملات أو الوقت هنا؟",
+          a: "لا. هذا المحوّل مخصص للقياسات الفيزيائية فقط. أسعار العملات تتغير باستمرار وتحتاج إلى بيانات مباشرة لا تجلبها هذه الصفحة، وفي الموقع أداة منفصلة لتحويل العملات.",
+        },
+        {
+          q: "هل الجالون أمريكي أم بريطاني؟",
+          a: "أمريكي. تعرض مجموعة الحجم الأونصة السائلة والكوب والباينت والكوارت والجالون بنظامها الأمريكي. الجالون الأمريكي يساوي 3.785 لترات، أما الجالون البريطاني فهو أكبر منه وغير مدرج.",
+        },
+        {
+          q: "لماذا لا أستطيع الكتابة في الخانة الثانية؟",
+          a: "الخانة السفلية تعرض النتيجة فقط. اكتب رقمك في خانة القيمة العليا، أو اضغط زر التبديل لعكس اتجاه التحويل.",
+        },
+        {
+          q: "هل تُظهر الأداة كيف حُسبت النتيجة؟",
+          a: "نعم. في أغلب المجموعات تعرض قيمتك مضروبة في وحدة أساس ثم مقسومة على معامل الوحدة الهدف، مع سطر يبيّن معدّل وحدة واحدة من المصدر. وفي درجة الحرارة تعرض الخطوتين عبر الدرجة المئوية.",
+        },
+      ],
+      steps: [
+        "اختر المجموعة: الطول أو الوزن أو درجة الحرارة أو المساحة أو الحجم أو السرعة.",
+        "حدّد وحدة «من» ووحدة «إلى» من القائمتين.",
+        "اكتب رقمًا في خانة القيمة لتظهر النتيجة المحوّلة فورًا.",
+        "اضغط زر التبديل لعكس التحويل، أو راجع خطوات الحساب أسفل النتيجة للتحقق.",
+      ],
+    },
+  },
+  "percentage-calculator": {
+    related: ["calculator", "loan-calculator", "tip-calculator", "unit-converter"],
+    en: {
+      intro:
+        "This percentage calculator puts the five calculations people actually look up on one page, each in its own card and all live at once. Work out what X% of a number is, what percentage one number is of another, the percentage change between an old and a new value, a number after adding and after subtracting a percentage, and the original value behind a total that already includes a percentage.\n\nThere is no calculate button. Fill in the two boxes in a card and its answer updates immediately; each card is independent, so you can use several without clearing anything. Percentage change reports both the size of the change and whether it is an increase or a decrease, along with the plain difference between the two numbers. The add-or-subtract card shows both outcomes side by side, which is handy for a price with and without a markup or discount.",
+      whyClientSide:
+        "Honestly, a handful of numbers and a percentage are not sensitive, so privacy is not the point here. The benefit is that every card recalculates as you type, with no page reload and no account.",
+      limitations: [
+        "It does the arithmetic and nothing more: no rounding to currency, no tax or VAT presets, and no saved history. Results show up to four decimal places with trailing zeros removed.",
+        "Empty boxes count as zero, so a card can show a result such as 0 before you have finished typing. Dividing by zero, for example a percentage change from an original value of 0, shows a dash instead of a number.",
+        "The reverse card removes a percentage that was added. To undo a discount instead, enter the discount as a negative percentage, such as -20.",
+        "Percentage change divides by the absolute value of the original number, so a move from -50 to -25 is reported as a 50% increase because the value went up.",
+      ],
+      faq: [
+        {
+          q: "How do I calculate X percent of a number?",
+          a: "Use the first card. Enter the percentage and the number, and it multiplies the number by the percentage divided by 100. For example, 25% of 200 is 50.",
+        },
+        {
+          q: "How do I work out what percentage one number is of another?",
+          a: "Use the second card. Enter the part and the whole, and it divides the first by the second and multiplies by 100. 50 out of 200 comes to 25%.",
+        },
+        {
+          q: "How is percentage increase or decrease calculated?",
+          a: "The third card takes the original and the new value, subtracts one from the other, divides by the original and multiplies by 100. Going from 100 to 125 is a 25% increase with a difference of 25; going the other way is labelled a decrease.",
+        },
+        {
+          q: "How do I add or subtract a percentage, such as a markup or a discount?",
+          a: "Use the fourth card. Enter the base number and the percentage and it shows the result after adding that percentage and after subtracting it. 100 with 20% gives 120 and 80.",
+        },
+        {
+          q: "How do I find the original price before a percentage was added?",
+          a: "Use the last card. Enter the final value and the percentage that was added, and it divides the final value by one plus the percentage. A total of 120 that includes 20% points back to 100. If the percentage was taken off, enter it as a negative number.",
+        },
+      ],
+      steps: [
+        "Find the card that matches your question, such as percentage of a number or percentage change.",
+        "Type the two numbers into its boxes.",
+        "Read the answer shown under the boxes; it updates as you type.",
+      ],
+    },
+    ar: {
+      intro:
+        "تجمع حاسبة النسبة المئوية هذه في صفحة واحدة خمس عمليات يبحث عنها الناس فعلًا، لكل منها بطاقة مستقلة وكلها تعمل في الوقت نفسه: كم تساوي نسبة معينة من رقم، وكم نسبة رقم من رقم آخر، ونسبة التغيّر بين قيمة قديمة وقيمة جديدة، والرقم بعد إضافة نسبة وبعد طرحها، والقيمة الأصلية التي يقف خلفها مجموع يشمل نسبة مضافة.\n\nلا يوجد زر للحساب. املأ الخانتين في البطاقة فتتحدّث إجابتها فورًا، وكل بطاقة مستقلة عن الأخرى فيمكنك استخدام عدة بطاقات دون مسح شيء. تعرض نسبة التغيّر حجم التغيّر وهل هو زيادة أم نقصان، إلى جانب الفرق المجرّد بين الرقمين. وتعرض بطاقة الإضافة والطرح النتيجتين جنبًا إلى جنب، وهذا مفيد لمعرفة السعر مع هامش ربح أو مع خصم ودونه.",
+      whyClientSide:
+        "بصراحة، بضعة أرقام ونسبة مئوية ليست معلومات حساسة، فالخصوصية ليست الفكرة هنا. الفائدة أن كل بطاقة تُعيد الحساب أثناء الكتابة دون إعادة تحميل للصفحة ودون حساب.",
+      limitations: [
+        "تقوم الأداة بالعملية الحسابية فقط: لا تقريب للعملات ولا إعدادات جاهزة للضريبة أو القيمة المضافة ولا سجل محفوظ. وتُعرض النتائج بحد أقصى أربع منازل عشرية مع حذف الأصفار الزائدة.",
+        "الخانات الفارغة تُحتسب صفرًا، فقد تظهر نتيجة مثل 0 قبل أن تنتهي من الكتابة. أما القسمة على صفر، كأن تكون القيمة الأصلية في نسبة التغيّر 0، فتظهر شرطة بدل الرقم.",
+        "بطاقة الحساب العكسي تزيل نسبة كانت مضافة. ولإلغاء خصم بدلًا من ذلك، أدخل الخصم كنسبة سالبة مثل -20.",
+        "تقسم نسبة التغيّر على القيمة المطلقة للرقم الأصلي، لذلك يُعرض الانتقال من -50 إلى -25 على أنه زيادة بنسبة 50% لأن القيمة ارتفعت.",
+      ],
+      faq: [
+        {
+          q: "كيف أحسب نسبة مئوية من رقم؟",
+          a: "استخدم البطاقة الأولى. أدخل النسبة والرقم فتضرب الأداة الرقم في النسبة مقسومة على 100. فمثلًا 25% من 200 تساوي 50.",
+        },
+        {
+          q: "كيف أعرف كم تبلغ نسبة رقم من رقم آخر؟",
+          a: "استخدم البطاقة الثانية. أدخل الجزء والكل فتقسم الأول على الثاني وتضرب الناتج في 100. فالعدد 50 من 200 يساوي 25%.",
+        },
+        {
+          q: "كيف تُحسب نسبة الزيادة أو النقصان؟",
+          a: "تأخذ البطاقة الثالثة القيمة الأصلية والقيمة الجديدة، وتطرح إحداهما من الأخرى، ثم تقسم على الأصلية وتضرب في 100. الانتقال من 100 إلى 125 زيادة بنسبة 25% وفرق قدره 25، وفي الاتجاه المعاكس تُسمّى النتيجة نقصانًا.",
+        },
+        {
+          q: "كيف أضيف نسبة أو أطرحها، مثل هامش الربح أو الخصم؟",
+          a: "استخدم البطاقة الرابعة. أدخل الرقم الأساسي والنسبة فتعرض الناتج بعد إضافة النسبة وبعد طرحها. الرقم 100 مع 20% يعطي 120 و80.",
+        },
+        {
+          q: "كيف أعرف السعر الأصلي قبل إضافة النسبة؟",
+          a: "استخدم البطاقة الأخيرة. أدخل القيمة النهائية والنسبة التي أُضيفت فتقسم الأداة القيمة النهائية على واحد زائد النسبة. فمجموع 120 يشمل 20% يرجع إلى 100. وإن كانت النسبة قد خُصمت فأدخلها بإشارة سالبة.",
+        },
+      ],
+      steps: [
+        "اختر البطاقة المناسبة لسؤالك، مثل نسبة من رقم أو نسبة التغيّر.",
+        "اكتب الرقمين في خانتيها.",
+        "اقرأ الإجابة تحت الخانتين، فهي تتحدّث أثناء الكتابة.",
+      ],
+    },
+  },
+  "loan-calculator": {
+    related: [
+      "percentage-calculator",
+      "calculator",
+      "currency-converter",
+      "expense-tracker",
+    ],
+    en: {
+      intro:
+        "This loan calculator works out the monthly payment on a fixed-rate loan from three numbers: the amount borrowed, the annual interest rate and the term in years. It then shows the total you will repay, the total interest, and how that total splits between principal and interest, both as percentages and as a proportional bar. The starting values are 10,000 at 5% over 3 years, so you see a worked example immediately.\n\nTurn on the payment schedule to see every month in a table: the payment, how much of it went to principal, how much to interest, and the balance still owed. The calculation uses the standard amortization formula with interest compounded monthly and payments made at the end of each month. A rate of 0% is handled as a simple division of the amount by the number of months. The term can be a decimal, so 2.5 years is 30 payments.",
+      whyClientSide:
+        "A loan amount and rate can be personal, and here they stay in the page rather than being sent to a server or a lender's lead form. The practical gain is that you can change any number and watch the payment, interest and schedule update straight away.",
+      limitations: [
+        "Fixed-rate, monthly payments only. There are no extra or one-off payments, no variable or promotional rates, and no choice of weekly or fortnightly payment.",
+        "Fees, insurance, property tax and a down payment are not modelled, so the figures are the loan's own payments rather than an APR or a full mortgage cost. Subtract any down payment from the price yourself before entering the amount.",
+        "Amounts are always formatted in US dollars with a $ sign. The arithmetic is the same for any currency, but the symbol will not change.",
+        "A lender's quote can differ by a few cents or more because of rounding conventions, day-count methods and the date the first payment falls due.",
+      ],
+      faq: [
+        {
+          q: "How is the monthly payment calculated?",
+          a: "It uses the standard fixed-payment formula: the annual rate is divided by 12 to get a monthly rate r, and the payment is amount x r x (1 + r)^n divided by ((1 + r)^n - 1), where n is the number of months. At 0% interest the payment is simply the amount divided by n.",
+        },
+        {
+          q: "Can I use it for a mortgage, car loan or personal loan?",
+          a: "Yes for the loan's own payment, as long as the rate is fixed and you pay monthly. Mortgage extras such as property tax, insurance and fees are not included, and the amount should be the sum you borrow after any down payment.",
+        },
+        {
+          q: "What is the amortization schedule?",
+          a: "It is the month-by-month breakdown of the loan. Early payments are mostly interest, and the share going to principal grows each month as the balance falls. Use the show schedule link under the results to open the table.",
+        },
+        {
+          q: "How much interest will I pay in total?",
+          a: "The total interest card shows it: total repaid minus the amount borrowed. The principal and interest percentages next to it show how much of everything you pay goes to each.",
+        },
+        {
+          q: "Can I enter a loan term in months?",
+          a: "The term box is in years, but it accepts decimals. Divide the months by 12, so 18 months is 1.5 years and 30 months is 2.5 years.",
+        },
+        {
+          q: "Can I model extra payments?",
+          a: "No. This calculator assumes every payment is the same fixed amount until the loan is repaid.",
+        },
+      ],
+      steps: [
+        "Enter the loan amount, the annual interest rate and the term in years.",
+        "Read the monthly payment, total repaid and total interest, and the principal and interest split.",
+        "Open the payment schedule to see each month's principal, interest and remaining balance.",
+      ],
+    },
+    ar: {
+      intro:
+        "تحسب هذه الأداة القسط الشهري لقرض بفائدة ثابتة اعتمادًا على ثلاثة أرقام: المبلغ المقترض، ومعدل الفائدة السنوي، والمدة بالسنوات. ثم تعرض إجمالي ما ستسدده، وإجمالي الفوائد، وكيف يتوزع هذا الإجمالي بين أصل القرض والفائدة، بنسب مئوية وبشريط يوضح التناسب. القيم الابتدائية هي 10,000 بفائدة 5% لمدة 3 سنوات، فترى مثالًا محسوبًا فور فتح الصفحة.\n\nفعّل جدول السداد لترى كل شهر في جدول: القسط، والجزء الذي ذهب إلى أصل القرض، والجزء الذي ذهب إلى الفائدة، والرصيد المتبقي. تعتمد الأداة معادلة الإهلاك المعتادة بفائدة تُحتسب شهريًا ودفعات في نهاية كل شهر. وإذا كانت الفائدة 0% فيُقسم المبلغ ببساطة على عدد الأشهر. ويمكن أن تكون المدة كسرًا عشريًا، فسنتان ونصف تساوي 30 قسطًا.",
+      whyClientSide:
+        "مبلغ القرض ومعدل الفائدة قد يكونان شخصيين، وهما هنا يبقيان داخل الصفحة بدل إرسالهما إلى خادم أو إلى نموذج طلب لدى مصرف. والفائدة العملية أنك تغيّر أي رقم فتتحدّث الأقساط والفوائد والجدول فورًا.",
+      limitations: [
+        "قرض بفائدة ثابتة وأقساط شهرية فقط. لا توجد دفعات إضافية أو دفعة واحدة، ولا فوائد متغيرة أو ترويجية، ولا خيار للسداد الأسبوعي أو كل أسبوعين.",
+        "الرسوم والتأمين وضريبة العقار والدفعة الأولى غير محتسبة، فالأرقام هي أقساط القرض نفسه وليست معدل النسبة السنوية (APR) ولا التكلفة الكاملة للرهن العقاري. اطرح الدفعة الأولى من السعر بنفسك قبل إدخال المبلغ.",
+        "تُعرض المبالغ دائمًا بالدولار الأمريكي مع علامة $. الحساب نفسه صحيح لأي عملة، لكن الرمز لن يتغيّر.",
+        "قد يختلف عرض المصرف بقروش أو أكثر بسبب طرق التقريب واحتساب الأيام وتاريخ استحقاق القسط الأول.",
+      ],
+      faq: [
+        {
+          q: "كيف يُحسب القسط الشهري؟",
+          a: "بمعادلة القسط الثابت المعتادة: يُقسم معدل الفائدة السنوي على 12 للحصول على المعدل الشهري r، ويكون القسط = المبلغ × r × (1 + r)^n ÷ ((1 + r)^n - 1)، حيث n عدد الأشهر. وعند فائدة 0% يساوي القسط المبلغ مقسومًا على n.",
+        },
+        {
+          q: "هل يصلح لقرض عقاري أو قرض سيارة أو قرض شخصي؟",
+          a: "نعم لحساب قسط القرض نفسه، بشرط أن تكون الفائدة ثابتة والسداد شهريًا. أما إضافات الرهن العقاري كضريبة العقار والتأمين والرسوم فغير مشمولة، ويجب أن يكون المبلغ هو ما تقترضه فعلًا بعد الدفعة الأولى.",
+        },
+        {
+          q: "ما هو جدول السداد؟",
+          a: "هو التفصيل الشهري للقرض. الأقساط الأولى يذهب معظمها إلى الفائدة، ثم تكبر حصة أصل القرض كل شهر مع انخفاض الرصيد. اضغط رابط إظهار الجدول تحت النتائج لفتحه.",
+        },
+        {
+          q: "كم سأدفع فوائد في المجموع؟",
+          a: "تعرضها بطاقة إجمالي الفائدة، وهي إجمالي المسدد ناقص المبلغ المقترض. وتبيّن نسبتا الأصل والفائدة بجانبها حصة كل منهما من مجموع ما تدفعه.",
+        },
+        {
+          q: "هل يمكنني إدخال المدة بالأشهر؟",
+          a: "خانة المدة بالسنوات لكنها تقبل الكسور العشرية. قسّم الأشهر على 12، فـ 18 شهرًا تساوي 1.5 سنة و30 شهرًا تساوي 2.5 سنة.",
+        },
+        {
+          q: "هل يمكنني حساب دفعات إضافية؟",
+          a: "لا. تفترض الحاسبة أن كل قسط بالمبلغ الثابت نفسه حتى يُسدَّد القرض.",
+        },
+      ],
+      steps: [
+        "أدخل مبلغ القرض ومعدل الفائدة السنوي والمدة بالسنوات.",
+        "اقرأ القسط الشهري وإجمالي المسدد وإجمالي الفوائد وتوزيع الأصل والفائدة.",
+        "افتح جدول السداد لترى أصل القرض والفائدة والرصيد المتبقي لكل شهر.",
+      ],
+    },
+  },
+  "model-comparison": {
+    related: [
+      "ai-cost-calculator",
+      "token-counter",
+      "context-window",
+      "system-prompt-builder",
+    ],
+    en: {
+      intro:
+        "This page lines up the large language models people actually choose between in one sortable table: OpenAI's GPT-4o, GPT-4o mini, o1 and o3-mini; Anthropic's Claude Opus, Sonnet and Haiku; Google's Gemini Flash and Pro; Llama 3.3 70B and Llama 3.1 405B as served by third-party hosts; Mistral Large; and DeepSeek V3. For each one you get the context window in tokens, the price per million input tokens, the price per million output tokens, a tier, and whether the model is multimodal.\n\nType in the search box to find a model or provider by name, narrow the table with the provider and tier filters, and click the Model, Context, Input price or Output price headings to sort, clicking again to reverse the order. Tiers are this site's own grouping: flagship, balanced, fast, and open for the open-weight Llama models. On a phone the table turns into one card per model.",
+      whyClientSide:
+        "There is nothing to protect here: the table is public pricing data and you are not entering any text. The tool simply runs in the page, so filtering and sorting are instant and need no account or API key.",
+      limitations: [
+        "It compares price, context size, tier and a multimodal flag, not quality. There are no benchmark scores, speed or latency figures, and nothing tells you which model is best at your task.",
+        "The figures come from a fixed table kept in the site's code. They are list prices per million tokens at the time the table was last updated and will not follow a provider's price changes on their own; check the provider's own pricing page before you commit to a budget.",
+        "Only text-token list prices are shown. Cached-input discounts, batch pricing, long-context surcharges and the cost of images or audio are not included.",
+        "The context window is the maximum a model accepts, not what it can generate in one reply, and the multimodal column is a simple yes or no rather than a list of supported input types.",
+        "Llama prices are those of a specific host (Groq for 70B, Together for 405B, as named in the provider column), so they will differ from other hosts or from running the model yourself.",
+      ],
+      faq: [
+        {
+          q: "Which model is the cheapest?",
+          a: "Click the Input price or Output price heading to sort from lowest to highest, or filter by the fast tier. Prices differ by orders of magnitude between the small fast models and the flagships, and many models charge several times more for output than for input.",
+        },
+        {
+          q: "What does price per 1M tokens mean?",
+          a: "It is what the provider charges for one million tokens. Input tokens are what you send in the prompt; output tokens are what the model writes back, and they are priced separately. A token is roughly three-quarters of an English word, so a million tokens is on the order of 750,000 words.",
+        },
+        {
+          q: "What does the context window column show?",
+          a: "The maximum number of tokens the model can take in a single request. It differs a lot between models, from tens of thousands of tokens to a million or more. Use the Context Window calculator to see how much of it your own text would fill.",
+        },
+        {
+          q: "What do flagship, balanced, fast and open mean?",
+          a: "They are labels this page uses to group models, not official vendor categories. Flagship is a provider's top model, balanced sits in the middle, fast is the cheaper, quicker option, and open covers the open-weight Llama models.",
+        },
+        {
+          q: "Are these prices live?",
+          a: "No. They are stored in the page, so they are only as current as the last update to the table. Treat them as a way to compare models against each other, and confirm the exact rate with the provider.",
+        },
+        {
+          q: "How do I estimate what a real workload would cost?",
+          a: "Use the AI Cost Calculator: pick one of the same models, enter input tokens, output tokens and the number of requests, and it multiplies them by the prices in this table. The Token Counter helps you find the token counts first.",
+        },
+      ],
+    },
+    ar: {
+      intro:
+        "تضع هذه الصفحة نماذج اللغة الكبيرة التي يفاضل الناس بينها فعلًا في جدول واحد قابل للفرز: نماذج OpenAI وهي GPT-4o وGPT-4o mini وo1 وo3-mini؛ ونماذج Anthropic وهي Claude Opus وSonnet وHaiku؛ ونماذج Google وهي Gemini Flash وPro؛ ونموذجا Llama 3.3 70B وLlama 3.1 405B عبر مزوّدي استضافة خارجيين؛ ونموذج Mistral Large؛ ونموذج DeepSeek V3. تحصل لكل نموذج على نافذة السياق بالرموز، وسعر المليون رمز مُدخل، وسعر المليون رمز مُخرج، ومستوى النموذج، وهل هو متعدد الوسائط.\n\nاكتب في خانة البحث لتجد نموذجًا أو مزوّدًا بالاسم، وضيّق الجدول بمرشّحي المزوّد والمستوى، وانقر على عناوين النموذج أو السياق أو سعر الإدخال أو سعر الإخراج للفرز، وانقر مرة ثانية لعكس الترتيب. المستويات تصنيف خاص بالموقع: رائد، ومتوازن، وسريع، ومفتوح لنماذج Llama مفتوحة الأوزان. وعلى الهاتف يتحول الجدول إلى بطاقة لكل نموذج.",
+      whyClientSide:
+        "لا يوجد ما يستدعي الحماية هنا، فالجدول بيانات أسعار معلنة وأنت لا تُدخل نصًا. الأداة تعمل داخل الصفحة فقط، فيكون الترشيح والفرز فوريين دون حساب أو مفتاح API.",
+      limitations: [
+        "تقارن الأداة السعر وحجم السياق والمستوى وعلامة تعدد الوسائط، ولا تقارن الجودة. لا توجد نتائج اختبارات أداء ولا أرقام سرعة أو زمن استجابة، ولا شيء يخبرك بأي نموذج أفضل لمهمتك.",
+        "الأرقام مأخوذة من جدول ثابت محفوظ في شيفرة الموقع. هي أسعار القائمة لكل مليون رمز وقت آخر تحديث للجدول، ولن تتبع تغيّر أسعار المزوّدين من تلقاء نفسها؛ فراجع صفحة التسعير عند المزوّد قبل أن تعتمد ميزانية.",
+        "تُعرض أسعار الرموز النصية فقط. خصومات الإدخال المخزّن مؤقتًا وتسعير الدفعات ورسوم السياق الطويل وتكلفة الصور والصوت غير مشمولة.",
+        "نافذة السياق هي أقصى ما يقبله النموذج، وليست ما يستطيع توليده في رد واحد، وعمود تعدد الوسائط مجرد نعم أو لا وليس قائمة بأنواع المدخلات المدعومة.",
+        "أسعار Llama هي أسعار مزوّد استضافة بعينه (Groq للنموذج 70B وTogether للنموذج 405B كما يظهر في عمود المزوّد)، فستختلف عن غيره من المزوّدين أو عن تشغيل النموذج بنفسك.",
+      ],
+      faq: [
+        {
+          q: "أي نموذج هو الأرخص؟",
+          a: "انقر على عنوان سعر الإدخال أو سعر الإخراج للفرز من الأقل إلى الأعلى، أو رشّح حسب المستوى السريع. تتفاوت الأسعار بأضعاف كثيرة بين النماذج الصغيرة السريعة والنماذج الرائدة، وكثير من النماذج تتقاضى على الإخراج أضعاف ما تتقاضاه على الإدخال.",
+        },
+        {
+          q: "ماذا يعني السعر لكل مليون رمز؟",
+          a: "هو ما يتقاضاه المزوّد مقابل مليون رمز. رموز الإدخال هي ما ترسله في الطلب، ورموز الإخراج هي ما يكتبه النموذج ردًا، ولكل منهما سعر منفصل. الرمز يعادل تقريبًا ثلاثة أرباع الكلمة الإنجليزية، فمليون رمز يقارب 750,000 كلمة.",
+        },
+        {
+          q: "ماذا يبيّن عمود نافذة السياق؟",
+          a: "أقصى عدد من الرموز يقبله النموذج في طلب واحد. وهو يتفاوت كثيرًا بين النماذج، من عشرات الآلاف من الرموز إلى مليون أو أكثر. استخدم حاسبة نافذة السياق لترى كم سيملأ نصك منها.",
+        },
+        {
+          q: "ماذا تعني رائد ومتوازن وسريع ومفتوح؟",
+          a: "هي تسميات تستخدمها الصفحة لتجميع النماذج، وليست فئات رسمية من الشركات. الرائد هو أقوى نموذج لدى المزوّد، والمتوازن في المنتصف، والسريع هو الخيار الأرخص والأسرع، والمفتوح يشمل نماذج Llama مفتوحة الأوزان.",
+        },
+        {
+          q: "هل الأسعار مباشرة؟",
+          a: "لا. هي محفوظة في الصفحة، فتكون حديثة بقدر آخر تحديث للجدول. اعتبرها وسيلة لمقارنة النماذج ببعضها، وتأكد من السعر الدقيق لدى المزوّد.",
+        },
+        {
+          q: "كيف أقدّر تكلفة عمل حقيقي؟",
+          a: "استخدم حاسبة تكلفة الذكاء الاصطناعي: اختر أحد هذه النماذج نفسها وأدخل رموز الإدخال والإخراج وعدد الطلبات، فتضربها في أسعار هذا الجدول. ويساعدك عدّاد الرموز في معرفة أعداد الرموز أولًا.",
+        },
+      ],
+    },
+  },
+  "color-palette": {
+    related: [
+      "color-converter",
+      "contrast-checker",
+      "image-color-picker",
+      "css-gradient",
+      "color-blindness",
+    ],
+    en: {
+      intro:
+        "This color palette generator builds a set of matching colors from a single base color. Choose the base with the color picker, or press Random Palette for a new starting point, then pick a color scheme: complementary (the base plus its opposite on the color wheel), triadic (three colors 120 degrees apart), analogous (five neighbouring hues), split-complementary, tetradic (four colors 90 degrees apart), shades (ten steps from dark to light) or monochromatic (ten steps of saturation at the same hue).\n\nEvery swatch shows its HEX, RGB and HSL values, and clicking a value copies it. You can also copy the whole palette as CSS custom properties (--color-1, --color-2 and so on) or as JSON with HEX, RGB and HSL for each color, or export it as a PNG image. The padlock on a swatch locks that color so it stays put while you change the base color or scheme.",
+      whyClientSide:
+        "A color palette is not private, so there is no honest privacy argument. What running in the page gives you is immediacy: the swatches redraw the moment you move the picker or change the scheme, and nothing needs installing or signing up for.",
+      limitations: [
+        "The harmonies are calculated by rotating the hue in the HSL color model while keeping saturation and lightness the same. That is simple and predictable, but not perceptual: a yellow and a blue at the same lightness will not look equally bright, so check your palette by eye.",
+        "There is no contrast or accessibility check. Whether two swatches are readable together as text and background is something to test separately.",
+        "Colors cannot be pulled from a photo; the palette always starts from the single base color you choose.",
+        "Locks follow a swatch's position, not its color. If you switch to a scheme with fewer colors, locked swatches beyond that count disappear.",
+        "Palettes are not saved. The palette name field is only a label on the page and is not included in the CSS, JSON or PNG you copy or export. The PNG uses a fixed 200-pixel square per color.",
+      ],
+      faq: [
+        {
+          q: "How do I generate a color palette from one color?",
+          a: "Set the base color with the color picker, then choose a color scheme. The palette is generated instantly from the base. Press Random Palette to jump to a new random base color with the same scheme.",
+        },
+        {
+          q: "What is the difference between the color schemes?",
+          a: "Complementary uses the base and the color opposite it. Triadic uses three evenly spaced hues and tetradic four. Analogous gives five neighbouring hues at 20 and 40 degrees either side of the base. Split-complementary uses the two colors next to the opposite hue. Shades varies lightness from dark to light, and monochromatic varies saturation, both at one hue.",
+        },
+        {
+          q: "How do I keep a color while I try others?",
+          a: "Click the padlock on that swatch. Locked colors keep their value when you change the base color or the scheme, as long as the new scheme still has a swatch in that position. Click the padlock again to release it.",
+        },
+        {
+          q: "How can I use the palette in code?",
+          a: "Use CSS Variables to get a list such as --color-1: #667eea; ready to paste into a stylesheet, or Copy JSON for an array with the HEX, RGB and HSL of each color. Clicking an individual value also copies that one format.",
+        },
+        {
+          q: "Can I download the palette as an image?",
+          a: "Yes. Export PNG saves palette.png: the swatches side by side, each labelled underneath with its HEX and RGB value.",
+        },
+        {
+          q: "Does it check whether colors have enough contrast?",
+          a: "No. For text and background contrast, use the Contrast Checker on this site with the HEX values you copy from here.",
+        },
+      ],
+      steps: [
+        "Pick a base color with the color picker, or press Random Palette.",
+        "Choose a color scheme such as complementary, triadic or analogous.",
+        "Lock any swatch you want to keep, then adjust the base or scheme again.",
+        "Click a value to copy HEX, RGB or HSL, or use the CSS, JSON or PNG buttons for the whole palette.",
+      ],
+    },
+    ar: {
+      intro:
+        "يبني مولّد لوحات الألوان هذا مجموعة ألوان متناسقة انطلاقًا من لون أساسي واحد. اختر اللون الأساسي بمنتقي الألوان، أو اضغط «عشوائي» لنقطة بداية جديدة، ثم اختر نظام الألوان: متتام (اللون ومقابله على عجلة الألوان)، أو ثلاثي (ثلاثة ألوان بينها 120 درجة)، أو متجاور (خمس درجات لونية متجاورة)، أو متتام منقسم، أو رباعي (أربعة ألوان بينها 90 درجة)، أو درجات (عشر خطوات من الداكن إلى الفاتح)، أو أحادي اللون (عشر خطوات من التشبّع بالدرجة اللونية نفسها).\n\nيعرض كل مربع لون قيم HEX وRGB وHSL الخاصة به، وتنسخ القيمة بمجرد النقر عليها. ويمكنك أيضًا نسخ اللوحة كاملة كمتغيرات CSS (‎--color-1 و‎--color-2 وهكذا) أو كملف JSON يضم HEX وRGB وHSL لكل لون، أو تصديرها صورة PNG. وقفل المربع يثبّت لونه فلا يتغير حين تعدّل اللون الأساسي أو النظام.",
+      whyClientSide:
+        "لوحة الألوان ليست معلومات خاصة، فلا حجة صادقة للخصوصية هنا. الفائدة أن العمل داخل الصفحة يعطيك استجابة فورية: تُعاد رسم المربعات لحظة تحريك المنتقي أو تغيير النظام، دون تثبيت أو تسجيل.",
+      limitations: [
+        "تُحسب التناسقات بتدوير الدرجة اللونية في نموذج HSL مع إبقاء التشبّع والإضاءة كما هما. هذا بسيط ويمكن التنبؤ به، لكنه ليس إدراكيًا: أصفر وأزرق بالإضاءة نفسها لن يبدوا بالسطوع نفسه، فراجع اللوحة بعينك.",
+        "لا يوجد فحص للتباين أو إمكانية الوصول. هل يقرأ المستخدم نصًا بلون على خلفية بلون آخر؟ هذا يُفحص بأداة منفصلة.",
+        "لا يمكن استخراج الألوان من صورة؛ تبدأ اللوحة دائمًا من اللون الأساسي الواحد الذي تختاره.",
+        "القفل مرتبط بموضع المربع وليس بلونه. إذا انتقلت إلى نظام ألوانه أقل، تختفي المربعات المقفلة التي تتجاوز هذا العدد.",
+        "اللوحات غير محفوظة. وحقل اسم اللوحة مجرد تسمية في الصفحة ولا يدخل في ملف CSS أو JSON أو PNG الذي تنسخه أو تصدّره. وصورة PNG تستخدم مربعًا ثابتًا بطول 200 بكسل لكل لون.",
+      ],
+      faq: [
+        {
+          q: "كيف أولّد لوحة ألوان من لون واحد؟",
+          a: "حدّد اللون الأساسي بمنتقي الألوان، ثم اختر نظام الألوان، فتُولَّد اللوحة فورًا من اللون الأساسي. واضغط «لوحة عشوائية» للانتقال إلى لون أساسي عشوائي جديد بالنظام نفسه.",
+        },
+        {
+          q: "ما الفرق بين أنظمة الألوان؟",
+          a: "المتتام يستخدم اللون ومقابله. الثلاثي يستخدم ثلاث درجات متساوية التباعد والرباعي أربعًا. المتجاور يعطي خمس درجات متجاورة على بعد 20 و40 درجة على جانبي الأساس. المتتام المنقسم يستخدم اللونين المجاورين للدرجة المقابلة. والدرجات تغيّر الإضاءة من الداكن إلى الفاتح، والأحادي يغيّر التشبّع، وكلاهما بدرجة لونية واحدة.",
+        },
+        {
+          q: "كيف أحتفظ بلون وأجرّب غيره؟",
+          a: "انقر على القفل في ذلك المربع. تحتفظ الألوان المقفلة بقيمتها حين تغيّر اللون الأساسي أو النظام، ما دام النظام الجديد فيه مربع في الموضع نفسه. وانقر على القفل مرة ثانية لتحريره.",
+        },
+        {
+          q: "كيف أستخدم اللوحة في الشيفرة؟",
+          a: "استخدم «نسخ متغيرات CSS» لتحصل على قائمة مثل ‎--color-1: #667eea; جاهزة للصق في ملف التنسيق، أو «نسخ JSON» لمصفوفة تضم HEX وRGB وHSL لكل لون. والنقر على قيمة مفردة ينسخ تلك الصيغة وحدها.",
+        },
+        {
+          q: "هل يمكنني تنزيل اللوحة كصورة؟",
+          a: "نعم. يحفظ زر تصدير PNG ملف palette.png: المربعات جنبًا إلى جنب وتحت كل منها قيمتا HEX وRGB.",
+        },
+        {
+          q: "هل تفحص الأداة كفاية التباين بين الألوان؟",
+          a: "لا. لتباين النص والخلفية استخدم أداة فحص التباين في هذا الموقع بقيم HEX التي تنسخها من هنا.",
+        },
+      ],
+      steps: [
+        "اختر لونًا أساسيًا بمنتقي الألوان، أو اضغط «لوحة عشوائية».",
+        "اختر نظام الألوان، مثل المتتام أو الثلاثي أو المتجاور.",
+        "اقفل أي مربع تريد الاحتفاظ به، ثم عدّل اللون الأساسي أو النظام من جديد.",
+        "انقر على قيمة لنسخ HEX أو RGB أو HSL، أو استخدم أزرار CSS وJSON وPNG للوحة كاملة.",
+      ],
+    },
+  },
+  "ai-cost-calculator": {
+    related: [
+      "token-counter",
+      "model-comparison",
+      "context-window",
+      "system-prompt-builder",
+    ],
+    en: {
+      intro:
+        "The AI Cost Calculator turns token counts into dollars. Choose a model from the list, enter how many input tokens and output tokens one request uses, and say how many requests you will make. It shows the input cost, the output cost and the total for a single request, and when you enter more than one request it adds a total for the whole batch.\n\nThe model's input and output prices per million tokens are shown right under the selector, so you can see exactly what the arithmetic uses. Each cost is the token count divided by one million and multiplied by that price, calculated separately for input and output. The list covers OpenAI, Anthropic, Google, Meta (Llama, via third-party hosts), Mistral and DeepSeek models, and the starting values are 1,000 input tokens, 500 output tokens and one request on GPT-4o. Use Reset to go back to them.",
+      whyClientSide:
+        "You are typing numbers, not text, so there is no privacy stake to claim. The benefit of running in the page is that the cost updates as you type, you need no API key, and you can try different models and volumes in seconds.",
+      limitations: [
+        "It estimates from list prices only. Cached-input discounts, batch pricing, long-context surcharges, fine-tuned model rates and charges for images or audio are not modelled.",
+        "The prices live in a table stored in the site, so they are only as current as its last update. Providers change prices without notice, and this page will not detect that; confirm the rate on the provider's pricing page.",
+        "You supply the token counts. The calculator does not read your prompt, and it only counts what you enter: system prompts, tool definitions, conversation history sent back each turn and a model's hidden reasoning, if it bills for it, are all things you must add yourself.",
+        "Token counts are whole numbers: decimals are cut off. A blank or zero request count is treated as one request, and results are shown in US dollars.",
+      ],
+      faq: [
+        {
+          q: "How is the cost of an AI API call calculated?",
+          a: "Input tokens divided by 1,000,000 and multiplied by the model's input price per million tokens, plus output tokens divided by 1,000,000 and multiplied by its output price. The tool shows each part and the total.",
+        },
+        {
+          q: "How do I find out how many tokens my prompt uses?",
+          a: "Paste it into the Token Counter on this site and copy the number across. For the output side, estimate the length of the reply you expect, or use the response length from a test call.",
+        },
+        {
+          q: "Can I estimate a monthly bill?",
+          a: "Yes. Enter the tokens for a typical request and set the requests field to your expected monthly volume. The batch total then shows the cost for that many requests.",
+        },
+        {
+          q: "Which model is cheapest?",
+          a: "Smaller, faster models generally cost far less per token than flagship ones. Switch the model in the list to compare, or open the Model Comparison page to sort every model by input or output price.",
+        },
+        {
+          q: "Is the result what I will actually be billed?",
+          a: "It is an estimate. Real invoices include everything sent in the request, such as system prompts and conversation history, and any discounts or surcharges that apply to your account, none of which this calculator knows about.",
+        },
+      ],
+      steps: [
+        "Choose a model from the list and check its input and output prices.",
+        "Enter the input tokens, output tokens and number of requests.",
+        "Read the input, output and total cost per request, plus the total for all requests.",
+      ],
+    },
+    ar: {
+      intro:
+        "تحوّل حاسبة تكلفة الذكاء الاصطناعي أعداد الرموز إلى دولارات. اختر نموذجًا من القائمة، وأدخل عدد رموز الإدخال ورموز الإخراج في الطلب الواحد، وحدّد عدد الطلبات التي ستنفّذها. تعرض الأداة تكلفة الإدخال وتكلفة الإخراج والإجمالي للطلب الواحد، وإذا أدخلت أكثر من طلب أضافت إجماليًا للدفعة كلها.\n\nيظهر سعر المليون رمز للإدخال وللإخراج تحت قائمة النموذج مباشرة، فترى بالضبط ما يستخدمه الحساب. وتكلفة كل جزء هي عدد الرموز مقسومًا على مليون ومضروبًا في سعره، ويُحسب الإدخال والإخراج كلٌّ على حدة. تضم القائمة نماذج OpenAI وAnthropic وGoogle وMeta (Llama عبر مزوّدي استضافة خارجيين) وMistral وDeepSeek، والقيم الابتدائية 1,000 رمز إدخال و500 رمز إخراج وطلب واحد على GPT-4o. ويعيدك زر إعادة الضبط إليها.",
+      whyClientSide:
+        "أنت تكتب أرقامًا لا نصوصًا، فلا يوجد جانب خصوصية يمكن الادعاء به. الفائدة من العمل داخل الصفحة أن التكلفة تتحدّث أثناء الكتابة، ولا تحتاج إلى مفتاح API، ويمكنك تجربة نماذج وأحجام مختلفة في ثوانٍ.",
+      limitations: [
+        "التقدير قائم على أسعار القائمة فقط. خصومات الإدخال المخزّن مؤقتًا وتسعير الدفعات ورسوم السياق الطويل وأسعار النماذج المضبوطة وتكلفة الصور والصوت غير مشمولة.",
+        "الأسعار محفوظة في جدول داخل الموقع، فتكون حديثة بقدر آخر تحديث له. يغيّر المزوّدون أسعارهم دون إشعار ولن تكتشف الصفحة ذلك؛ فتحقق من السعر في صفحة التسعير عند المزوّد.",
+        "أنت من يدخل أعداد الرموز. فالحاسبة لا تقرأ طلبك، وتحسب ما تكتبه فقط: تعليمات النظام وتعريفات الأدوات وسجل المحادثة المُرسَل في كل دور وتفكير النموذج الخفي إن كان يُحاسَب عليه، كلها أمور عليك إضافتها بنفسك.",
+        "أعداد الرموز أعداد صحيحة: تُقتطع الكسور العشرية. والعدد الفارغ أو الصفر في خانة الطلبات يُعامل كطلب واحد، وتظهر النتائج بالدولار الأمريكي.",
+      ],
+      faq: [
+        {
+          q: "كيف تُحسب تكلفة استدعاء واجهة الذكاء الاصطناعي؟",
+          a: "رموز الإدخال مقسومة على 1,000,000 ومضروبة في سعر الإدخال للمليون رمز عند النموذج، مضافًا إليها رموز الإخراج مقسومة على 1,000,000 ومضروبة في سعر الإخراج. وتعرض الأداة كل جزء والإجمالي.",
+        },
+        {
+          q: "كيف أعرف عدد الرموز في طلبي؟",
+          a: "الصق النص في عدّاد الرموز في هذا الموقع وانقل الرقم إلى هنا. أما رموز الإخراج فقدّر طول الرد المتوقع، أو استخدم طول الرد من استدعاء تجريبي.",
+        },
+        {
+          q: "هل يمكنني تقدير فاتورة شهرية؟",
+          a: "نعم. أدخل رموز طلب نموذجي واضبط خانة الطلبات على الحجم الشهري المتوقع، فيعرض إجمالي الدفعة تكلفة هذا العدد من الطلبات.",
+        },
+        {
+          q: "أي نموذج هو الأرخص؟",
+          a: "النماذج الأصغر والأسرع أرخص بكثير عادةً لكل رمز من النماذج الرائدة. بدّل النموذج في القائمة للمقارنة، أو افتح صفحة مقارنة النماذج لفرز كل النماذج حسب سعر الإدخال أو الإخراج.",
+        },
+        {
+          q: "هل النتيجة هي ما سأُحاسَب عليه فعلًا؟",
+          a: "هي تقدير. الفواتير الحقيقية تشمل كل ما يُرسل في الطلب، مثل تعليمات النظام وسجل المحادثة، وأي خصومات أو رسوم إضافية تنطبق على حسابك، ولا تعرف الحاسبة شيئًا منها.",
+        },
+      ],
+      steps: [
+        "اختر نموذجًا من القائمة وراجع سعر الإدخال والإخراج الخاصين به.",
+        "أدخل رموز الإدخال ورموز الإخراج وعدد الطلبات.",
+        "اقرأ تكلفة الإدخال والإخراج والإجمالي للطلب الواحد، وإجمالي كل الطلبات.",
+      ],
+    },
+  },
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
