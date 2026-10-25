@@ -4764,6 +4764,40 @@ export const toolContent: Record<string, ToolContent> = {
 
   "mic-test": {
     related: ["webcam-test", "mic-camera"],
+    extra: {
+      fa: {
+        intro:
+          "یک بررسی سریع میکروفون پیش از تماس Zoom، Google Meet یا Microsoft Teams جلوی شروع شرم‌آور «صدام میاد؟» را می‌گیرد. این ابزار از مرورگر اجازهٔ میکروفون را می‌خواهد و سپس نوار سطح ورودی زنده‌ای نشان می‌دهد که با صحبت شما حرکت می‌کند؛ تأییدی فوری که میکروفون درست شناسایی شده و واقعاً صدا می‌فرستد.\n\nاگر نوار ثابت ماند، معمولاً مشکل از اجازه یا دستگاه است. وقتی مرورگر پرسید «اجازه دادن» را بزنید؛ اگر ردش کرده‌اید، روی نماد قفل یا دوربین/میکروفون در نوار آدرس کلیک کنید تا دسترسی دوباره فعال شود و اگر چند میکروفون دارید ورودی درست را در تنظیمات صدای سیستم انتخاب کنید.\n\nنکتهٔ مهم اینکه این فقط یک تست است: ابزار هرگز چیزی را ضبط، ذخیره یا آپلود نمی‌کند. صدای شما صرفاً برای حرکت دادن نوار به‌صورت زنده استفاده و بعد دور ریخته می‌شود و چیزی از دستگاهتان خارج نمی‌شود.",
+        faq: [
+          {
+            q: "قبل از جلسه میکروفونم را چطور تست کنم؟",
+            a: "ابزار را باز کنید، اجازهٔ میکروفون را بدهید و صحبت کنید؛ حرکت نوار زنده تأیید می‌کند میکروفونتان برای Zoom، Meet یا Teams کار می‌کند.",
+          },
+          {
+            q: "نوار حرکت نمی‌کند، مشکل چیست؟",
+            a: "معمولاً اجازه مسدود شده یا دستگاه ورودی اشتباه است. از نماد نوار آدرس دوباره اجازه بدهید و میکروفون درست را در تنظیمات سیستم انتخاب کنید.",
+          },
+          {
+            q: "آیا صدای من ضبط می‌شود؟",
+            a: "نه. صدا فقط نوار زنده را به‌صورت لحظه‌ای حرکت می‌دهد؛ چیزی ضبط، ذخیره یا آپلود نمی‌شود.",
+          },
+          {
+            q: "اجازهٔ میکروفون را چطور بدهم؟",
+            a: "وقتی مرورگر پرسید «اجازه دادن» را بزنید. اگر از دستتان رفت، روی نماد قفل یا میکروفون کنار نشانی کلیک کنید، میکروفون را روی «اجازه دادن» بگذارید و صفحه را دوباره بارگذاری کنید.",
+          },
+          {
+            q: "چرا مرورگر به میکروفونم دسترسی ندارد؟",
+            a: "ممکن است برنامهٔ دیگری از آن استفاده کند، اجازه رد شده باشد یا دستگاه ورودی وصل نباشد. برنامه‌های دیگر را ببندید و تنظیمات حریم خصوصی سیستم‌عاملتان را بررسی کنید.",
+          },
+        ],
+        steps: [
+          "برای شروع تست میکروفون کلیک کنید.",
+          "وقتی مرورگر اجازه خواست «اجازه دادن» را بزنید.",
+          "صحبت کنید و واکنش نوار سطح ورودی زنده را ببینید.",
+          "اگر ثابت ماند، اجازه را درست کنید یا ورودی درست را انتخاب کنید.",
+        ],
+      },
+    },
     en: {
       intro:
         "A quick microphone check before a Zoom, Google Meet, or Microsoft Teams call saves the awkward \"can you hear me?\" opening. This tool asks your browser for microphone permission, then shows a live input meter that moves as you speak — instant confirmation that the right mic is picked up and actually sending audio.\n\nIf the meter stays flat, it's usually a permission or device issue. When the browser prompts, choose Allow; if you dismissed it, click the padlock or camera/mic icon in the address bar to re-enable access, and pick the correct input in your system sound settings if you have several microphones.\n\nCrucially, this is only a test: the tool never records, saves, or uploads anything. Your voice is used purely to animate the meter in real time and is then discarded — nothing leaves your device.",
@@ -4832,6 +4866,40 @@ export const toolContent: Record<string, ToolContent> = {
 
   "webcam-test": {
     related: ["mic-test", "mic-camera"],
+    extra: {
+      fa: {
+        intro:
+          "تست وبکم پیش از مصاحبه یا تماس تصویری کمک می‌کند مطمئن شوید قاب و نور درست است و وبکم درست فعال است؛ دیگر لازم نیست وقتی جلسه شروع می‌شود با صفحهٔ سیاه روبه‌رو شوید. این ابزار اجازهٔ دوربین را می‌خواهد و پیش‌نمایش زنده‌ای از همان تصویری نشان می‌دهد که Zoom، Meet یا Teams می‌بینند.\n\nپیش‌نمایش سیاه یا ثابت تقریباً همیشه مشکل دسترسی یا دستگاه است. وقتی مرورگر پرسید اجازه بدهید؛ اگر مسدودش کرده‌اید از نماد قفل یا دوربین در نوار آدرس دوباره فعالش کنید، و اگر بیش از یک دوربین دارید دوربین درست را انتخاب کنید. بستن برنامه‌های دیگری که شاید دوربین را در اختیار گرفته‌اند هم اغلب مشکل را حل می‌کند.\n\nپیش‌نمایش فقط زنده است: ابزار هرگز ویدیو را ضبط، ذخیره یا آپلود نمی‌کند. تصویر دوربین فقط به خود شما نشان داده می‌شود و کاملاً روی دستگاهتان می‌ماند.",
+        faq: [
+          {
+            q: "چطور وبکمم را تست کنم؟",
+            a: "ابزار را باز کنید و اجازهٔ دسترسی به دوربین را بدهید؛ پیش‌نمایش زنده‌ای می‌بینید، همان تصویری که برنامه‌هایی مثل Zoom و Teams دریافت می‌کنند.",
+          },
+          {
+            q: "پیش‌نمایشم سیاه است، چطور درستش کنم؟",
+            a: "بررسی کنید اجازه فعال باشد (نماد دوربین در نوار آدرس)، دوربین درست را انتخاب کنید و برنامه‌های دیگری را که ممکن است از دوربین استفاده کنند ببندید.",
+          },
+          {
+            q: "آیا ویدیوی من ضبط یا آپلود می‌شود؟",
+            a: "نه. تصویر فقط به‌صورت زنده روی صفحهٔ شما پیش‌نمایش داده می‌شود و هیچ‌جا ذخیره یا فرستاده نمی‌شود.",
+          },
+          {
+            q: "می‌توانم بین چند دوربین انتخاب کنم؟",
+            a: "بله؛ اگر دستگاهتان چند دوربین دارد، دوربین درست را از انتخاب مرورگر یا سیستم برگزینید.",
+          },
+          {
+            q: "چرا دوربینم روشن نمی‌شود؟",
+            a: "ممکن است برنامهٔ دیگری از آن استفاده کند، اجازه مسدود باشد یا در تنظیمات حریم خصوصی سیستم‌عامل غیرفعال شده باشد. این‌ها را رفع کنید و صفحه را دوباره بارگذاری کنید.",
+          },
+        ],
+        steps: [
+          "برای شروع تست وبکم کلیک کنید.",
+          "وقتی مرورگر اجازهٔ دوربین را پرسید «اجازه دادن» را بزنید.",
+          "پیش‌نمایش زنده را از نظر قاب و نور بررسی کنید.",
+          "اگر سیاه بود، اجازه را درست کنید یا دوربین درست را انتخاب کنید.",
+        ],
+      },
+    },
     en: {
       intro:
         "Before an interview or video call, a fast camera check confirms you're framed, lit, and that the right webcam is active — no more discovering a black screen when the meeting starts. This tool requests camera permission and shows a live preview of exactly what Zoom, Meet, or Teams would see.\n\nA black or frozen preview is almost always a permission or device problem. Allow access when prompted; if you blocked it, use the padlock or camera icon in the address bar to re-enable, and if you have more than one camera, switch to the correct one. Closing other apps that might be holding the camera often frees it up.\n\nThe preview is live-only: the tool never records, stores, or uploads video. Your camera feed is shown back to you and nothing else — it stays entirely on your device.",
@@ -5242,6 +5310,40 @@ export const toolContent: Record<string, ToolContent> = {
 
   "group-maker": {
     related: ["wheel-of-names", "random-picker", "bingo-card-generator"],
+    extra: {
+      vi: {
+        intro:
+          "Công cụ chia nhóm ngẫu nhiên này tách một danh sách tên bạn dán vào thành các nhóm ngẫu nhiên, dùng cho thảo luận nhóm trên lớp, ghép cặp thực hành hoặc làm dự án, chia một đội thành các nhóm làm việc nhỏ hơn, hay lập đội cho buổi chơi game. Dán mỗi tên một dòng rồi chọn cách chia.\n\nBạn có thể đặt số nhóm muốn có (chẳng hạn 4 nhóm cho lớp 28 người) hoặc đặt mỗi nhóm có bao nhiêu người (chẳng hạn nhóm 3 người), công cụ sẽ tự tính phần còn lại. Danh sách được xáo trộn trước, phần dư được rải vòng tròn qua các nhóm nên không nhóm nào lệch quá một người so với nhóm khác.\n\nKết quả là một lưới gọn gàng, dễ in, bạn có thể phát cho mọi người hoặc chiếu lên màn hình. Mọi thứ chạy cục bộ trong trình duyệt, danh sách tên bạn dán vào không bao giờ bị tải lên, và nút In sẽ định dạng các nhóm cho bản giấy.",
+        faq: [
+          {
+            q: "Chia theo số nhóm và chia theo quy mô nhóm khác nhau thế nào?",
+            a: "Theo số nhóm, bạn chọn muốn có bao nhiêu nhóm (ví dụ 4 nhóm) và công cụ chia mọi người đều nhất có thể. Theo quy mô nhóm, bạn chọn mỗi nhóm bao nhiêu người (ví dụ mỗi nhóm 3) và công cụ tính ra cần bao nhiêu nhóm.",
+          },
+          {
+            q: "Các nhóm có đều nhau không?",
+            a: "Có. Danh sách được xáo trộn rồi phân phối vòng tròn nên quy mô các nhóm không bao giờ chênh nhau quá một người.",
+          },
+          {
+            q: "Việc chia nhóm có thật sự ngẫu nhiên không?",
+            a: "Có, danh sách được xáo trộn bằng một thuật toán ngẫu nhiên trước khi chia, nên không thể đoán trước ai vào nhóm nào.",
+          },
+          {
+            q: "Tôi có in các nhóm ra được không?",
+            a: "Được, bấm In và công cụ sẽ định dạng các nhóm thành bố cục gọn, hợp với giấy, ẩn biểu mẫu nhập liệu.",
+          },
+          {
+            q: "Danh sách tên của tôi có bị tải lên đâu không?",
+            a: "Không. Việc chia nhóm diễn ra hoàn toàn trong trình duyệt; không có gì được gửi tới máy chủ.",
+          },
+        ],
+        steps: [
+          "Dán mỗi tên một dòng vào ô danh sách.",
+          "Chọn chia theo số nhóm hay theo quy mô nhóm, rồi nhập số nhóm hoặc quy mô nhóm bạn muốn.",
+          "Bấm Tạo nhóm để có các nhóm ngẫu nhiên, cân bằng; bấm lại để xáo trộn lần nữa.",
+          "Bấm In để có bản phát tay trên giấy.",
+        ],
+      },
+    },
     en: {
       intro:
         "Group Maker splits a pasted list of names into randomized groups — for classroom breakout sessions, assigning lab or project partners, dividing a team into smaller working groups, or setting up teams for a game night. Paste one name per line and choose how you want the split to work.\n\nYou can either set the number of groups you want (say, 4 groups from a class of 28) or set how many people should be in each group (say, teams of 3), and the tool works out the rest. Names are shuffled first, and the remainder is spread round-robin across the groups so no group ends up more than one person larger or smaller than the others.\n\nThe result is a clean, print-friendly grid you can hand out or project on a screen. Everything runs locally in your browser — the list of names you paste in is never uploaded — and a Print button formats the groups for a paper handout.",
@@ -5310,6 +5412,442 @@ export const toolContent: Record<string, ToolContent> = {
     },
   },
 
+  "aspect-ratio": {
+    related: ["image-resizer", "crop-image", "image-compression"],
+    extra: {
+      ko: {
+        intro:
+          "화면 비율 계산기는 픽셀 단위의 가로·세로 값을 비율로 바꿔 주고, 비율과 한쪽 길이만 알면 나머지 한쪽을 계산해 줍니다. 디자인, 영상, 썸네일의 비율을 유지해야 할 때 쓰는 도구입니다. 1920 × 1080이 어떤 비율인지, 가로가 1280픽셀이어야 하는 16:9 배너의 세로는 얼마인지 같은 계산에 알맞습니다.\n\n첫 번째 탭에서는 가로와 세로를 입력하면 가장 간단한 비율로 약분해 소수 값과 함께 보여 줍니다(1920 × 1080은 16:9). 아래에는 16:9, 4:3, 1:1, 21:9, 3:2, 9:16, 4:5, 2.39:1의 여덟 가지 프리셋이 있어 한 번 눌러서 값을 채울 수 있습니다. 두 번째 탭은 반대로, 비율을 입력하고 아는 쪽이 가로인지 세로인지 고른 뒤 픽셀 값을 넣으면 나머지 한쪽을 알려 줍니다.\n\n입력한 숫자로 하는 단순한 계산이라 업로드할 파일이 없고 아무것도 브라우저 밖으로 나가지 않습니다. 이 도구는 크기만 계산하며 이미지를 자르거나 크기를 바꾸지는 않습니다.",
+        faq: [
+          {
+            q: "이미지나 화면의 종횡비는 어떻게 알 수 있나요?",
+            a: "'크기를 비율로' 탭에 가로와 세로를 입력하세요. 두 값을 최대공약수로 나눠 가장 간단한 형태로 보여 주므로 1920 × 1080은 16:9로 표시되고, 소수 값(1.7778)도 함께 나옵니다.",
+          },
+          {
+            q: "가로 길이를 알 때 세로 길이는 어떻게 구하나요?",
+            a: "'비율로 크기 계산' 탭을 쓰세요. 비율(예: 16:9)을 정하고 가로를 아는 쪽으로 선택한 뒤 픽셀 값을 입력합니다. 16:9 이미지의 가로가 1280px이면 세로는 720px입니다.",
+          },
+          {
+            q: "결과가 정수 픽셀로 나오나요?",
+            a: "계산 결과는 소수점 둘째 자리까지 표시됩니다. 예를 들어 16:9에서 가로 1000px이면 세로는 562.50px로 나오므로, 정수 픽셀이 필요하면 직접 반올림하세요.",
+          },
+          {
+            q: "기본으로 들어 있는 비율에는 무엇이 있나요?",
+            a: "16:9, 4:3, 1:1, 21:9, 3:2, 9:16, 4:5, 2.39:1의 여덟 가지 프리셋입니다. 누르면 가로·세로 입력란이 채워져 비율과 소수 값을 바로 볼 수 있습니다.",
+          },
+          {
+            q: "이 도구가 이미지 크기를 바꿔 주나요?",
+            a: "아니요, 계산만 합니다. 목표 크기를 알았다면 이미지 크기 조절 도구나 자르기 도구에서 적용하세요.",
+          },
+        ],
+        steps: [
+          "가로와 세로를 입력해 약분된 비율과 소수 값을 확인하거나 프리셋을 누릅니다.",
+          "알고 있는 비율에서 계산하려면 '비율로 크기 계산' 탭으로 이동합니다.",
+          "가로와 세로 중 아는 쪽을 고르고 픽셀 값을 입력합니다.",
+          "나온 나머지 값을 디자인이나 편집 도구에 적용합니다.",
+        ],
+      },
+    },
+    en: {
+      intro:
+        "Aspect Ratio Calculator turns a pair of pixel dimensions into a ratio, and turns a ratio plus one known side into the missing one. It's for the everyday jobs where a design, a video or a thumbnail has to keep its proportions: working out what 1920 × 1080 reduces to, or how tall a 16:9 banner is if it must be 1280 pixels wide.\n\nThe first tab takes a width and a height, reduces them to the simplest ratio (1920 × 1080 becomes 16:9) and shows the decimal value alongside. Below it sit eight one-click presets — 16:9, 4:3, 1:1, 21:9, 3:2, 9:16, 4:5 and 2.39:1 — that fill in the dimensions for you. The second tab goes the other way: enter a ratio, say whether you know the width or the height, give that value in pixels, and it returns the other side.\n\nIt's plain arithmetic on the numbers you type, so there is no file to upload and nothing leaves your browser. It calculates dimensions only; it does not resize or crop an image.",
+      faq: [
+        {
+          q: "How do I find the aspect ratio of an image or screen?",
+          a: "Enter its width and height on the Dimensions to Ratio tab. The tool divides both by their greatest common divisor and shows the simplest form, so 1920 × 1080 reads as 16:9, along with the decimal value (1.7778).",
+        },
+        {
+          q: "How do I work out the height for a given width?",
+          a: "Use the Ratio to Scale tab. Set the ratio (for example 16:9), choose that you know the width, and enter it in pixels. A 16:9 image 1280 px wide comes out 720 px tall.",
+        },
+        {
+          q: "Does it give whole pixels?",
+          a: "The scaled result is shown to two decimal places — a 16:9 image 1000 px wide comes out 562.50 px tall — so round it to a whole pixel yourself where the target needs it.",
+        },
+        {
+          q: "Which common ratios are built in?",
+          a: "Eight presets: 16:9, 4:3, 1:1, 21:9, 3:2, 9:16, 4:5 and 2.39:1. Clicking one fills the width and height fields so you can see the ratio and decimal.",
+        },
+        {
+          q: "Does this resize my image?",
+          a: "No. It only does the arithmetic. Once you know the target dimensions, use the Image Resizer or the crop tool to apply them.",
+        },
+      ],
+      steps: [
+        "Enter a width and height to see the simplified ratio and its decimal value, or tap a preset.",
+        "Switch to the Ratio to Scale tab to work from a known ratio.",
+        "Choose whether you know the width or the height and enter it in pixels.",
+        "Read off the missing dimension and apply it in your design, editor or video tool.",
+      ],
+    },
+    ar: {
+      intro:
+        "حاسبة نسبة العرض إلى الارتفاع تحوّل أي بُعدين بالبكسل إلى نسبة مبسّطة، وتحوّل نسبة معروفة مع ضلع واحد إلى الضلع المفقود. صُمّمت للمهام اليومية التي يجب أن تحتفظ فيها التصاميم والفيديوهات والصور المصغّرة بنسبها: كأن تعرف إلى ماذا تختزل الأبعاد 1920 × 1080، أو كم يبلغ ارتفاع بانر بنسبة 16:9 إذا كان عرضه 1280 بكسل.\n\nالتبويب الأول يأخذ العرض والارتفاع ويختزلهما إلى أبسط نسبة (فتصبح 1920 × 1080 هي 16:9) ويعرض القيمة العشرية بجانبها. وتحته ثمانية إعدادات جاهزة بنقرة واحدة هي 16:9 و4:3 و1:1 و21:9 و3:2 و9:16 و4:5 و2.39:1، تملأ الأبعاد عنك. أما التبويب الثاني فيعمل بالعكس: تُدخل النسبة وتحدّد هل تعرف العرض أم الارتفاع وتكتب قيمته بالبكسل، فيعطيك الضلع الآخر.\n\nهي عمليات حسابية بسيطة على الأرقام التي تكتبها، فلا يوجد ملف يُرفع ولا شيء يغادر متصفحك. الأداة تحسب الأبعاد فقط ولا تغيّر حجم الصورة ولا تقصّها.",
+      faq: [
+        {
+          q: "كيف أعرف نسبة العرض إلى الارتفاع لصورة أو شاشة؟",
+          a: "أدخل العرض والارتفاع في تبويب الأبعاد إلى نسبة. تقسم الأداة كليهما على القاسم المشترك الأكبر وتعرض أبسط صيغة، فتظهر 1920 × 1080 على أنها 16:9 مع القيمة العشرية (1.7778).",
+        },
+        {
+          q: "كيف أحسب الارتفاع لعرض معيّن؟",
+          a: "استخدم تبويب النسبة إلى القياس. حدّد النسبة (مثل 16:9) واختر أنك تعرف العرض وأدخله بالبكسل. صورة بنسبة 16:9 وعرض 1280 بكسل يكون ارتفاعها 720 بكسل.",
+        },
+        {
+          q: "هل تعطيني بكسلات صحيحة؟",
+          a: "تُعرض النتيجة بخانتين عشريتين، فصورة 16:9 بعرض 1000 بكسل يظهر ارتفاعها 562.50 بكسل، لذلك قرّب الناتج إلى بكسل صحيح بنفسك عند الحاجة.",
+        },
+        {
+          q: "ما النسب الشائعة المضمّنة؟",
+          a: "ثمانية إعدادات جاهزة: 16:9 و4:3 و1:1 و21:9 و3:2 و9:16 و4:5 و2.39:1. النقر على أي منها يملأ حقلي العرض والارتفاع لترى النسبة والقيمة العشرية.",
+        },
+        {
+          q: "هل تغيّر هذه الأداة حجم صورتي؟",
+          a: "لا، هي تجري الحساب فقط. بعد أن تعرف الأبعاد المطلوبة استخدم أداة تغيير حجم الصور أو أداة القص لتطبيقها.",
+        },
+      ],
+      steps: [
+        "أدخل العرض والارتفاع لترى النسبة المبسّطة وقيمتها العشرية، أو اضغط على أحد الإعدادات الجاهزة.",
+        "انتقل إلى تبويب النسبة إلى القياس لتحسب انطلاقًا من نسبة معروفة.",
+        "اختر هل تعرف العرض أم الارتفاع وأدخله بالبكسل.",
+        "اقرأ البُعد المفقود وطبّقه في تصميمك أو محرّرك أو أداة الفيديو.",
+      ],
+    },
+  },
+  "exif-viewer": {
+    related: ["exif-remover", "image-compression", "image-converter"],
+    extra: {
+      ko: {
+        intro:
+          "EXIF 뷰어는 사진을 열어 카메라나 휴대폰이 사진에 넣어 둔 메타데이터를 읽어 줍니다. 카메라 제조사와 모델, 노출 시간·조리개·ISO·초점 거리 같은 촬영 설정, 촬영 날짜, 그리고 사진에 담겨 있다면 GPS 좌표까지 볼 수 있습니다. 사진 메타데이터를 확인하고 싶을 때, 예를 들어 어떻게 찍은 사진인지 보거나 언제 촬영했는지 확인할 때, 공유하려는 사진에 위치 정보가 남아 있는지 알아볼 때 유용합니다.\n\nJPEG 파일을 올리면 미리보기와 픽셀 크기 옆에 결과가 파일, 카메라, 설정, 날짜/시간, GPS 구역으로 나뉘어 표시됩니다. GPS 데이터가 있으면 링크로 Google 지도에서 해당 위치를 열 수 있습니다. EXIF는 JPEG 파일에서만 읽습니다. 다른 형식의 이미지는 파일 이름, 크기, 형식, 크기(픽셀)만 보여 주고 EXIF 데이터를 읽지 못했다고 알려 줍니다.\n\n파일은 브라우저 탭 안에서 읽으며 업로드되지 않습니다. 페이지 밖으로 나가는 것은 Google 지도 링크뿐이고, 그것도 직접 클릭했을 때만입니다.",
+        faq: [
+          {
+            q: "EXIF 데이터란 무엇인가요?",
+            a: "사진을 찍을 때 사진에 함께 기록되는 메타데이터입니다. 기기, 노출 설정, 날짜와 시간, 그리고 많은 휴대폰에서는 GPS 위치가 들어 있습니다. 대부분의 사진 앱은 이를 숨기기 때문에 EXIF를 확인하는 도구가 필요합니다.",
+          },
+          {
+            q: "어떤 파일을 읽을 수 있나요?",
+            a: "EXIF 데이터가 들어 있는 JPEG 파일입니다. 다른 형식의 이미지도 불러올 수는 있지만 파일 이름, 크기, 형식, 해상도만 표시하고 전체 EXIF 데이터를 찾지 못했다고 알려 줍니다.",
+          },
+          {
+            q: "사진을 어디서 찍었는지 알 수 있나요?",
+            a: "사진에 GPS 정보가 있다면 가능합니다. GPS 구역에 위도, 경도, 고도가 표시되고 Google 지도에서 위치를 볼 수 있는 링크가 나옵니다.",
+          },
+          {
+            q: "내 사진이 업로드되나요?",
+            a: "아니요. 이미지는 브라우저에서 로컬로 읽으며 어디로도 전송되지 않습니다. Google 지도 링크를 클릭할 때만 다른 사이트로 이동합니다.",
+          },
+          {
+            q: "공유하기 전에 EXIF 데이터를 지우려면 어떻게 하나요?",
+            a: "이미지에서 메타데이터를 제거하는 EXIF 제거 도구를 사용하세요.",
+          },
+        ],
+        steps: [
+          "사진을 올립니다. JPEG를 권장합니다.",
+          "메타데이터를 읽는 동안 잠시 기다립니다.",
+          "파일, 카메라, 설정, 날짜/시간, GPS 구역을 살펴봅니다.",
+          "위치 정보가 있으면 Google 지도에서 열거나, 다른 사진을 불러와 비교합니다.",
+        ],
+      },
+    },
+    en: {
+      intro:
+        "EXIF Viewer opens a photo and reads out the metadata the camera or phone embedded in it: camera make and model, shooting settings such as exposure time, aperture, ISO and focal length, the date it was taken, and GPS coordinates if the photo carries them. It's useful for checking how a shot was taken, confirming when a photo was captured, or finding out whether an image you're about to share still contains a location.\n\nDrop in a JPEG and the results are grouped into File, Camera, Settings, Date / Time and GPS sections beside a preview and the image's pixel dimensions. When GPS data is present, a link opens the spot on Google Maps. EXIF is only read from JPEG files; for any other image type the tool still shows the file name, size, type and dimensions, and tells you that no EXIF data could be read.\n\nThe file is read inside your browser tab and nothing is uploaded. The only thing that ever leaves the page is the Google Maps link, and only if you click it.",
+      faq: [
+        {
+          q: "What is EXIF data?",
+          a: "EXIF is metadata written into a photo when it's taken: the device, the exposure settings, the date and time and, on many phones, the GPS position. Most photo apps hide it, which is why a viewer is useful.",
+        },
+        {
+          q: "Which files can it read?",
+          a: "JPEG files that contain EXIF data. Other image types still load, but the tool only shows the file name, size, type and dimensions and says that full EXIF data wasn't found.",
+        },
+        {
+          q: "Can it show where a photo was taken?",
+          a: "If the photo has GPS information, yes — the latitude, longitude and altitude appear in the GPS section, with a link to view the location on Google Maps.",
+        },
+        {
+          q: "Is my photo uploaded?",
+          a: "No. The image is read locally in your browser and nothing is sent anywhere. Only clicking the Google Maps link takes you to another site.",
+        },
+        {
+          q: "How do I remove EXIF data before sharing a photo?",
+          a: "Use the EXIF Remover, which strips the metadata from the image.",
+        },
+      ],
+      steps: [
+        "Drop in a photo, preferably a JPEG.",
+        "Wait a moment while the metadata is read.",
+        "Browse the File, Camera, Settings, Date / Time and GPS sections.",
+        "If a location is present, open it on Google Maps, or load another photo to compare.",
+      ],
+    },
+    ar: {
+      intro:
+        "عارض EXIF يفتح الصورة ويقرأ البيانات الوصفية التي أدرجتها الكاميرا أو الهاتف فيها: ماركة الكاميرا وطرازها، وإعدادات التصوير مثل زمن التعريض وفتحة العدسة وISO والبعد البؤري، وتاريخ الالتقاط، وإحداثيات GPS إن كانت الصورة تحملها. مفيد لمعرفة كيف التُقطت اللقطة، أو للتأكد من وقت التقاطها، أو لمعرفة ما إذا كانت الصورة التي توشك على مشاركتها ما زالت تحمل موقعًا.\n\nأسقط ملف JPEG فتُعرض النتائج مجمّعة في أقسام الملف والكاميرا والإعدادات والتاريخ/الوقت وGPS بجانب معاينة للصورة وأبعادها بالبكسل. وإذا وُجدت بيانات GPS يفتح رابط الموقع على خرائط Google. تُقرأ بيانات EXIF من ملفات JPEG فقط؛ وأي نوع صور آخر تعرض الأداة له اسم الملف وحجمه ونوعه وأبعاده، وتخبرك بأنه تعذّرت قراءة بيانات EXIF.\n\nيُقرأ الملف داخل تبويب المتصفح ولا يُرفع شيء. الشيء الوحيد الذي قد يغادر الصفحة هو رابط خرائط Google، وفقط إن نقرت عليه.",
+      faq: [
+        {
+          q: "ما هي بيانات EXIF؟",
+          a: "هي بيانات وصفية تُكتب في الصورة لحظة التقاطها: الجهاز، وإعدادات التعريض، والتاريخ والوقت، وفي كثير من الهواتف موقع GPS. تُخفيها أغلب تطبيقات الصور، ولذلك يفيد وجود عارض لها.",
+        },
+        {
+          q: "ما الملفات التي يمكن قراءتها؟",
+          a: "ملفات JPEG التي تحتوي بيانات EXIF. الأنواع الأخرى تُحمَّل أيضًا لكن الأداة تعرض اسم الملف وحجمه ونوعه وأبعاده فقط وتنبّه إلى أنه لم يُعثر على بيانات EXIF كاملة.",
+        },
+        {
+          q: "هل يمكنه إظهار مكان التقاط الصورة؟",
+          a: "نعم إن كانت في الصورة معلومات GPS؛ يظهر خط العرض وخط الطول والارتفاع في قسم GPS مع رابط لعرض الموقع على خرائط Google.",
+        },
+        {
+          q: "هل تُرفع صورتي؟",
+          a: "لا. تُقرأ الصورة محليًا في متصفحك ولا يُرسل شيء إلى أي مكان. وحده النقر على رابط خرائط Google ينقلك إلى موقع آخر.",
+        },
+        {
+          q: "كيف أزيل بيانات EXIF قبل مشاركة الصورة؟",
+          a: "استخدم أداة إزالة EXIF التي تحذف البيانات الوصفية من الصورة.",
+        },
+      ],
+      steps: [
+        "أسقط صورة، ويفضّل أن تكون JPEG.",
+        "انتظر لحظة بينما تُقرأ البيانات الوصفية.",
+        "تصفّح أقسام الملف والكاميرا والإعدادات والتاريخ/الوقت وGPS.",
+        "إن وُجد موقع فافتحه على خرائط Google، أو حمّل صورة أخرى للمقارنة.",
+      ],
+    },
+  },
+  "random-picker": {
+    related: ["wheel-of-names", "group-maker", "bingo-card-generator"],
+    extra: {
+      tr: {
+        intro:
+          "Rastgele Seçici, insanların sürekli ihtiyaç duyduğu küçük rastgelelik işlerini tek sayfada toplar: rastgele sayı üretici, zar atma, yazı tura ve bir listeden seçim için isim çarkına yönlendirme. Kimin önce başlayacağına karar vermek, hızlı bir çekiliş yapmak, bir kutu oyununda zar atmak ya da bir örnek için sayı üretmek istediğinizde kullanın.\n\nSayı sekmesinde en küçük ve en büyük değeri ile kaç sayı istediğinizi belirler, tekrara izin verip vermeyeceğinizi seçersiniz. Zar sekmesi 4, 6, 8, 10, 12 veya 20 yüzlü 1 ila 100 zar atar ve her atışı toplamla birlikte gösterir. Yazı tura sekmesi bir para atar ve yazı ile turanın toplam sayısını tutar. Bir listeden isim seçmek için Liste sekmesi sizi İsim Çarkı'na yönlendirir.\n\nSayılar tarayıcının kriptografik rastgele sayı üretecinden gelir; aralıktaki hiçbir değerin kayırılmaması için eğri sonuç verecek değerler atılır. Her şey yerelde çalışır; hiçbir şey saklanmaz ya da gönderilmez.",
+        faq: [
+          {
+            q: "Rastgelelik adil mi?",
+            a: "Araç tarayıcının kriptografik rastgele sayı üretecinden çeker ve sonucu çarpıtacak değerleri eler; böylece aralığınızdaki her sayının çıkma olasılığı eşittir. Yalnızca bu üreteç bulunmadığında standart Math.random'a döner.",
+          },
+          {
+            q: "Tekrarsız sayı üretebilir miyim?",
+            a: "Evet. \"Tekrarlayan sayılara izin ver\" seçeneğinin işaretini kaldırın; her sayı en fazla bir kez çıkar. Bu modda aralıktaki sayıdan fazlasını isteyemezsiniz; araç tekrara izin vermenizi ya da aralığı genişletmenizi söyler.",
+          },
+          {
+            q: "Kaç zar atabilirim?",
+            a: "Her seferde 1 ile 100 arasında, her biri 4, 6, 8, 10, 12 veya 20 yüzlü. Araç her atışı ve toplamı listeler.",
+          },
+          {
+            q: "Bir listeden rastgele isim seçebilir miyim?",
+            a: "Liste sekmesi kendisi seçim yapmaz; bunun için tasarlanmış İsim Çarkı'na yönlendirir. Bir listeyi takımlara bölmek için Grup Oluşturucu'yu kullanın.",
+          },
+          {
+            q: "Bir şey yükleniyor ya da kaydediliyor mu?",
+            a: "Hayır. Sonuçlar tarayıcınızda üretilir ve onlarla yapabileceğiniz tek şey kopyalamaktır.",
+          },
+        ],
+        steps: [
+          "Sayı, Zar veya Yazı Tura sekmesini seçin.",
+          "Aralığı ve adedi, zarların sayısını ve yüz sayısını ayarlayın ya da doğrudan atın.",
+          "Oluştur, Zar At veya Para At düğmesine basın.",
+          "Sonucu kopyalayın ya da yeni bir çekiliş için tekrar deneyin.",
+        ],
+      },
+    },
+    en: {
+      intro:
+        "Random Picker bundles the small randomness jobs people keep reaching for into one page: a random number generator, a dice roller, a coin flip and a pointer to a name wheel for picking from a list. Use it to settle who goes first, run a quick draw, roll for a board game or generate numbers for a sample.\n\nOn the Number tab you set a minimum, a maximum and how many numbers you want, and choose whether duplicates are allowed. The Dice tab rolls 1 to 100 dice with 4, 6, 8, 10, 12 or 20 sides and shows every roll with the total. The Coin tab flips a coin and keeps a running tally of heads and tails. For choosing a name from a list, the List tab sends you to Wheel of Names.\n\nNumbers come from the browser's cryptographic random generator, using rejection sampling so no value in the range is favoured. Everything runs locally; nothing is stored or sent anywhere.",
+      faq: [
+        {
+          q: "Is the randomness fair?",
+          a: "The tool draws from the browser's cryptographic random number generator and discards values that would skew the result, so every number in your range is equally likely. Only where that generator is unavailable does it fall back to the standard Math.random.",
+        },
+        {
+          q: "Can I generate numbers without repeats?",
+          a: "Yes. Untick \"Allow duplicate numbers\" and each number appears at most once. In that mode you can't ask for more numbers than the range contains, and the tool tells you to allow duplicates or widen the range.",
+        },
+        {
+          q: "How many dice can I roll?",
+          a: "Between 1 and 100 at a time, each with 4, 6, 8, 10, 12 or 20 sides. The tool lists each roll and the total.",
+        },
+        {
+          q: "Can I pick a random name from a list?",
+          a: "The List tab doesn't pick one itself — it links to Wheel of Names, which is built for that. To split a list into teams, use Group Maker.",
+        },
+        {
+          q: "Is anything uploaded or saved?",
+          a: "No. Results are generated in your browser and the only thing you can do with them is copy them.",
+        },
+      ],
+      steps: [
+        "Choose the Number, Dice or Coin tab.",
+        "Set the range and count, the number and size of the dice, or just press Flip.",
+        "Press Generate, Roll Dice or Flip Coin.",
+        "Copy the result, or go again for a new draw.",
+      ],
+    },
+    ar: {
+      intro:
+        "أداة الاختيار العشوائي تجمع في صفحة واحدة أعمال العشوائية الصغيرة التي يحتاجها الناس كثيرًا: مولّد أرقام عشوائية، ورمي نرد، وقذف عملة، وتوجيه إلى عجلة الأسماء للاختيار من قائمة. استخدمها لتحسم من يبدأ أولًا، أو لإجراء سحب سريع، أو للعب لعبة لوحية، أو لتوليد أرقام لعيّنة.\n\nفي تبويب الرقم تحدّد الحد الأدنى والأقصى وعدد الأرقام المطلوبة، وتختار هل يُسمح بالتكرار. تبويب النرد يرمي من 1 إلى 100 نردة بـ4 أو 6 أو 8 أو 10 أو 12 أو 20 وجهًا ويعرض كل رمية مع المجموع. تبويب العملة يقذف عملة ويحتفظ بعدّاد متراكم للصورة والكتابة. وللاختيار من قائمة أسماء يحيلك تبويب القائمة إلى عجلة الأسماء.\n\nتأتي الأرقام من مولّد الأعداد العشوائية التشفيري في المتصفح، مع رفض القيم المنحازة بحيث لا يُفضَّل أي رقم ضمن النطاق. كل شيء يعمل محليًا ولا يُخزَّن أو يُرسل شيء.",
+      faq: [
+        {
+          q: "هل العشوائية عادلة؟",
+          a: "تسحب الأداة من مولّد الأعداد العشوائية التشفيري في المتصفح وتتجاهل القيم التي كانت ستُحدث انحيازًا، فيتساوى احتمال كل رقم في النطاق. ولا تعود إلى Math.random القياسية إلا حيث يتعذّر وجود ذلك المولّد.",
+        },
+        {
+          q: "هل يمكن توليد أرقام بدون تكرار؟",
+          a: "نعم. ألغِ تحديد \"السماح بالأرقام المكررة\" فيظهر كل رقم مرة واحدة على الأكثر. وفي هذا الوضع لا يمكنك طلب أرقام أكثر مما يحتويه النطاق، وتطلب منك الأداة السماح بالتكرار أو توسيع النطاق.",
+        },
+        {
+          q: "كم نردة يمكنني رميها؟",
+          a: "من 1 إلى 100 في المرة الواحدة، لكل منها 4 أو 6 أو 8 أو 10 أو 12 أو 20 وجهًا. تعرض الأداة كل رمية والمجموع.",
+        },
+        {
+          q: "هل يمكنني اختيار اسم عشوائي من قائمة؟",
+          a: "تبويب القائمة لا يختار بنفسه، بل يحيلك إلى عجلة الأسماء المصمَّمة لذلك. ولتقسيم قائمة إلى فرق استخدم أداة تكوين المجموعات.",
+        },
+        {
+          q: "هل يُرفع أو يُحفظ شيء؟",
+          a: "لا. تُولَّد النتائج في متصفحك، وكل ما يمكنك فعله بها هو نسخها.",
+        },
+      ],
+      steps: [
+        "اختر تبويب الرقم أو النرد أو العملة.",
+        "حدّد النطاق والعدد، أو عدد النرد وأوجهه، أو اضغط على القذف فقط.",
+        "اضغط توليد أو رمي النرد أو قذف العملة.",
+        "انسخ النتيجة، أو أعد المحاولة لسحب جديد.",
+      ],
+    },
+  },
+  "text-repeater": {
+    related: ["text-counter", "lorem-ipsum", "text-case", "text-sorter"],
+    extra: {
+      tr: {
+        intro:
+          "Metin Tekrarlayıcı, bir metni istediğiniz kadar tekrarlar ve kopyalar arasına seçtiğiniz ayırıcıyı koyar. Test verisi üretmek, bir düzeni yer tutucu içerikle doldurmak, desen oluşturmak ya da bir giriş alanını zorlamak için uzun bir metin bloğu hazırlamak istediğinizde işinize yarar.\n\nMetni yazın veya yapıştırın, 1 ile 10.000 arasında bir tekrar sayısı belirleyin ve tekrarlar arasına ne gireceğini seçin: yeni satır, boşluk, virgül, dikey çizgi, hiçbir şey ya da --- gibi özel bir ayırıcı. Çıktı siz yazdıkça güncellenir ve karakter sayacı girdinizin uzunluğunu gösterir. Sonucu kopyalayabilir ya da repeated-text.txt olarak indirebilirsiniz.\n\nTarayıcınızı korumak için bir üst sınır vardır: sonuç 1.000.000 karakterden uzun olacaksa araç onu üretmek yerine \"Çıktı çok büyük\" uyarısı gösterir; siz de sayıyı azaltır ya da metni kısaltırsınız. Her şey yerelde çalışır ve hiçbir şey yüklenmez.",
+        faq: [
+          {
+            q: "Metni kaç kez tekrarlayabilirim?",
+            a: "1 ile 10.000 kez arasında; tüm çıktının 1.000.000 karakter içinde kalması koşuluyla.",
+          },
+          {
+            q: "Hangi ayırıcılar mevcut?",
+            a: "Yeni satır, boşluk, virgül, dikey çizgi, hiçbiri ya da --- gibi kendi yazdığınız özel bir ayırıcı.",
+          },
+          {
+            q: "Çıktı neden çok büyük diyor?",
+            a: "Sonuç 1.000.000 karakteri aşacaktır. Tekrar sayısını düşürün ya da girdi metnini kısaltın, yeniden üretilir.",
+          },
+          {
+            q: "Sonucu nasıl kaydederim?",
+            a: "Çıktı panelindeki kopyala düğmesini ya da düz metin dosyası olarak repeated-text.txt adıyla kaydeden İndir düğmesini kullanın.",
+          },
+          {
+            q: "Metnim bir yere yükleniyor mu?",
+            a: "Hayır. Metin tarayıcınızda tekrarlanır ve hiçbir sunucuya gönderilmez.",
+          },
+        ],
+        steps: [
+          "Tekrarlanacak metni yazın veya yapıştırın.",
+          "Tekrar sayısını belirleyin ve bir ayırıcı seçin.",
+          "Çıktıyı ve tekrar sayısını kontrol edin.",
+          "Sonucu kopyalayın ya da .txt dosyası olarak indirin.",
+        ],
+      },
+      fa: {
+        intro:
+          "ابزار تکرار متن، یک متن را به تعدادی که بخواهید تکرار می‌کند و بین نسخه‌ها جداکننده‌ای را که انتخاب کرده‌اید می‌گذارد. برای ساختن دادهٔ آزمایشی، پر کردن یک طرح با محتوای نمونه، ساخت الگو یا ساختن یک بلوک متن طولانی برای آزمایش فشار روی یک فیلد ورودی به کار می‌آید.\n\nمتن را تایپ یا جای‌گذاری کنید، تعداد تکرار را از ۱ تا ۱۰٬۰۰۰ تعیین کنید و انتخاب کنید بین تکرارها چه بیاید: خط جدید، فاصله، ویرگول، خط عمودی، هیچ‌چیز یا جداکنندهٔ سفارشی مثل ---. خروجی همزمان با تایپ به‌روز می‌شود و شمارندهٔ کاراکتر طول ورودی را نشان می‌دهد. نتیجه را کپی کنید یا با نام repeated-text.txt دانلود کنید.\n\nبرای محافظت از مرورگر سقفی وجود دارد: اگر نتیجه از ۱٬۰۰۰٬۰۰۰ کاراکتر بیشتر شود، ابزار به‌جای ساختنش پیام «خروجی خیلی بزرگ است» نشان می‌دهد و باید تعداد را کم یا متن را کوتاه کنید. همه‌چیز محلی اجرا می‌شود و چیزی آپلود نمی‌شود.",
+        faq: [
+          {
+            q: "متن را حداکثر چند بار می‌توانم تکرار کنم؟",
+            a: "از ۱ تا ۱۰٬۰۰۰ بار، به شرطی که کل خروجی در ۱٬۰۰۰٬۰۰۰ کاراکتر بماند.",
+          },
+          {
+            q: "چه جداکننده‌هایی هست؟",
+            a: "خط جدید، فاصله، ویرگول، خط عمودی، بدون جداکننده، یا جداکنندهٔ سفارشی که خودتان تایپ می‌کنید، مثل ---.",
+          },
+          {
+            q: "چرا می‌گوید خروجی خیلی بزرگ است؟",
+            a: "چون نتیجه از ۱٬۰۰۰٬۰۰۰ کاراکتر بیشتر می‌شد. تعداد تکرار را کم یا متن ورودی را کوتاه کنید تا دوباره ساخته شود.",
+          },
+          {
+            q: "نتیجه را چطور ذخیره کنم؟",
+            a: "از دکمهٔ کپی در پنل خروجی یا دکمهٔ دانلود استفاده کنید که فایل متنی ساده‌ای با نام repeated-text.txt ذخیره می‌کند.",
+          },
+          {
+            q: "آیا متنم جایی آپلود می‌شود؟",
+            a: "نه. متن در مرورگر شما تکرار می‌شود و به هیچ سروری فرستاده نمی‌شود.",
+          },
+        ],
+        steps: [
+          "متنی را که باید تکرار شود تایپ یا جای‌گذاری کنید.",
+          "تعداد تکرار را تعیین کنید و یک جداکننده انتخاب کنید.",
+          "خروجی و تعداد تکرار را بررسی کنید.",
+          "نتیجه را کپی کنید یا به‌صورت فایل ‎.txt دانلود کنید.",
+        ],
+      },
+    },
+    en: {
+      intro:
+        "Text Repeater repeats a piece of text as many times as you tell it to, with the separator of your choice between the copies. It's handy for generating test data, filling a layout with placeholder content, building patterns, or making a long block of text to stress-test an input field.\n\nType or paste the text, set a repeat count from 1 to 10,000 and pick what goes between repetitions: a newline, a space, a comma, a pipe, nothing at all, or a custom separator such as ---. The output updates as you type, and a character counter shows the length of your input. Copy the result or download it as repeated-text.txt.\n\nThere's a ceiling to protect your browser: if the result would be longer than 1,000,000 characters the tool shows an \"Output too large\" notice instead of generating it, and you reduce the count or shorten the text. Everything runs locally and nothing is uploaded.",
+      faq: [
+        {
+          q: "How many times can I repeat the text?",
+          a: "From 1 to 10,000 times, as long as the whole output stays within 1,000,000 characters.",
+        },
+        {
+          q: "What separators are available?",
+          a: "Newline, space, comma, pipe, none, or a custom separator you type, such as ---.",
+        },
+        {
+          q: "Why does it say the output is too large?",
+          a: "The result would exceed 1,000,000 characters. Lower the repeat count or shorten the input text and it will generate again.",
+        },
+        {
+          q: "How do I save the result?",
+          a: "Use the copy button on the output panel, or the Download button, which saves a plain-text file named repeated-text.txt.",
+        },
+        {
+          q: "Is my text uploaded anywhere?",
+          a: "No. The text is repeated in your browser and never sent to a server.",
+        },
+      ],
+      steps: [
+        "Type or paste the text to repeat.",
+        "Set the repeat count and choose a separator.",
+        "Check the output and the repeated count.",
+        "Copy the result or download it as a .txt file.",
+      ],
+    },
+    ar: {
+      intro:
+        "أداة تكرار النص تكرر مقطعًا نصيًا بعدد المرات الذي تحدده، مع الفاصل الذي تختاره بين النسخ. تفيد في توليد بيانات اختبار، أو ملء تصميم بمحتوى مؤقت، أو بناء أنماط، أو إنشاء كتلة نص طويلة لاختبار حقل إدخال تحت الضغط.\n\nاكتب النص أو الصقه، وحدّد عدد التكرار من 1 إلى 10,000، واختر ما يفصل بين التكرارات: سطر جديد، أو مسافة، أو فاصلة، أو خط رأسي، أو لا شيء، أو فاصل مخصّص مثل ---. يتحدّث الناتج أثناء الكتابة، ويعرض عدّاد الأحرف طول ما أدخلته. انسخ النتيجة أو نزّلها بصيغة repeated-text.txt.\n\nهناك سقف لحماية متصفحك: إذا كانت النتيجة ستتجاوز 1,000,000 حرف تعرض الأداة إشعار \"الناتج كبير جدًا\" بدل توليدها، وعليك تقليل العدد أو تقصير النص. كل شيء يعمل محليًا ولا يُرفع شيء.",
+      faq: [
+        {
+          q: "كم مرة يمكنني تكرار النص؟",
+          a: "من 1 إلى 10,000 مرة، ما دام الناتج كله ضمن 1,000,000 حرف.",
+        },
+        {
+          q: "ما الفواصل المتاحة؟",
+          a: "سطر جديد، ومسافة، وفاصلة، وخط رأسي، وبدون فاصل، أو فاصل مخصّص تكتبه مثل ---.",
+        },
+        {
+          q: "لماذا تقول الأداة إن الناتج كبير جدًا؟",
+          a: "لأن النتيجة ستتجاوز 1,000,000 حرف. قلّل عدد التكرار أو قصّر النص المُدخل فيُولَّد الناتج من جديد.",
+        },
+        {
+          q: "كيف أحفظ النتيجة؟",
+          a: "استخدم زر النسخ في لوحة الناتج، أو زر التنزيل الذي يحفظ ملفًا نصيًا باسم repeated-text.txt.",
+        },
+        {
+          q: "هل يُرفع نصي إلى أي مكان؟",
+          a: "لا. يُكرَّر النص في متصفحك ولا يُرسل إلى أي خادم.",
+        },
+      ],
+      steps: [
+        "اكتب النص المراد تكراره أو الصقه.",
+        "حدّد عدد التكرار واختر فاصلًا.",
+        "راجع الناتج وعدد مرات التكرار.",
+        "انسخ النتيجة أو نزّلها بصيغة ‎.txt.",
+      ],
+    },
+  },
   "bingo-card-generator": {
     related: ["wheel-of-names", "group-maker", "classroom-timer"],
     en: {
@@ -5382,6 +5920,40 @@ export const toolContent: Record<string, ToolContent> = {
 
   "classroom-timer": {
     related: ["timer", "pomodoro", "wheel-of-names"],
+    extra: {
+      fa: {
+        intro:
+          "تایمر کلاس یک شمارندهٔ معکوس مناسب تمام‌صفحه است که برای جلوی کلاس ساخته شده؛ برای زمان‌گیری آزمون، زمان مطالعهٔ ساکت، فعالیت گروهی یا فاصلهٔ بین دو درس، جایی که همه باید زمان باقی‌مانده را از آن سوی کلاس یک‌نگاه ببینند.\n\nدقیقه را تنظیم کنید، شروع را بزنید و تمام‌صفحه شوید تا اعداد روی پروژکتور یا صفحه را پر کنند. موتور شمارش همان ابزار تایمر عمومی است، فقط مستقیم در حالت شمارش معکوس باز می‌شود و شما را به حالت تمام‌صفحه ترغیب می‌کند تا پیش از شروع کلاس لازم نباشد تنظیمات را زیر و رو کنید. وقتی زمان تمام شود صدایی پخش می‌شود و لازم نیست مدام به صفحه نگاه کنید.\n\nکاملاً در مرورگر شما اجرا می‌شود، بدون حساب کاربری و بدون تبلیغ؛ صفحه را باز کنید، زمان را تنظیم کنید و نمایش دهید.",
+        faq: [
+          {
+            q: "این با ابزار تایمر معمولی چه فرقی دارد؟",
+            a: "همان تایمر شمارش معکوس است، فقط مستقیم در حالت شمارش معکوس و با پیشنهاد تمام‌صفحه باز می‌شود؛ میان‌بری برای کلاس تا هر بار لازم نباشد تنظیمش کنید.",
+          },
+          {
+            q: "می‌توانم آن را تمام‌صفحه نمایش دهم تا کل کلاس ببیند؟",
+            a: "بله، ابزار حالت تمام‌صفحه‌ای دارد که دقیقاً برای همین ساخته شده و اعداد درشتش از آن سوی کلاس دیده می‌شود.",
+          },
+          {
+            q: "وقتی زمان تمام شود صدا پخش می‌شود؟",
+            a: "بله، وقتی شمارش معکوس به صفر برسد صدایی پخش می‌شود.",
+          },
+          {
+            q: "باید چیزی نصب کنم یا وارد حساب شوم؟",
+            a: "نه. کاملاً در مرورگر شما اجرا می‌شود؛ صفحه را باز کنید، زمان را تنظیم کنید و شروع کنید.",
+          },
+          {
+            q: "آیا برای غیر از کلاس هم می‌شود استفاده‌اش کرد؟",
+            a: "بله؛ یک تایمر شمارش معکوس عمومی با پیش‌تنظیم تمام‌صفحهٔ مناسب کلاس است، پس برای جلسه، ارائه یا هر فعالیت زمان‌دار هم به همان اندازه خوب کار می‌کند.",
+          },
+        ],
+        steps: [
+          "تعداد دقیقه‌های شمارش معکوس را تنظیم کنید.",
+          "برای شروع تایمر روی شروع کلیک کنید.",
+          "تمام‌صفحه شوید تا زمان از آن سوی کلاس دیده شود.",
+          "منتظر صدا باشید تا زمان تمام شود.",
+        ],
+      },
+    },
     en: {
       intro:
         "Classroom Timer is a fullscreen-friendly countdown built for the front of a room — timing a test, a silent reading period, a group activity, or a transition between subjects, where everyone needs to see the remaining time at a glance from across the room.\n\nSet the minutes, hit start, and go fullscreen so the numbers fill the projector or screen. It's the same countdown engine as the general Timer tool, just opened straight into a countdown preset with a nudge toward fullscreen mode, so you don't have to dig through settings before class starts. A sound plays when time runs out, so you don't have to keep glancing at the screen.\n\nIt runs entirely in your browser with no account and no ads — open the page, set the time, and project it.",
