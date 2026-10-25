@@ -39,6 +39,11 @@ export function middleware(request: NextRequest) {
   const headers = new Headers(request.headers);
   headers.set(LOCALE_HEADER, locale);
   headers.set(LOCALE_SOURCE_HEADER, fromPath ? "path" : "cookie");
+  // Layouts cannot see the URL, so server components that need to know which
+  // page they render (e.g. the per-tool SEO prose) read this. It is the PUBLIC
+  // pathname, locale prefix included, i.e. what `usePathname()` returns on the
+  // client; the middleware never rewrites, so there is no internal variant.
+  headers.set("x-pathname", request.nextUrl.pathname);
 
   return NextResponse.next({ request: { headers } });
 }
