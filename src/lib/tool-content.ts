@@ -7466,6 +7466,718 @@ export const toolContent: Record<string, ToolContent> = {
       ],
     },
   },
+
+  "word-frequency": {
+    related: ["text-counter", "text-similarity", "text-sorter", "text-case", "token-counter"],
+    en: {
+      intro:
+        "Paste any English text and this tool counts how often each word appears, then ranks the words from most to least frequent. The results table shows the rank, the word, the count and its share of all words, with a small bar next to each word so the leaders stand out. A summary card gives the total word count, the number of unique words and the most common word.\n\nThree options shape the count. Case-insensitive merges \"The\" and \"the\" into one entry, Remove stop words skips a built-in list of 77 very common English words (the, and, is, you and so on), and Minimum word length ignores words shorter than the number you set (the default is 2). The table shows the top 10 words; press the button below it to see all of them, and export the full list as a CSV file with the columns Rank, Word, Count and Percent.",
+      whyClientSide:
+        "Counting is plain JavaScript running on the text in the box, and nothing is sent anywhere, so it is safe for a draft, an essay or a transcript you would rather not paste into a web service. There is no account and no size limit beyond what your browser can handle.",
+      limitations: [
+        "Only words made of the letters A to Z (plus apostrophes) are counted. Accented letters, Arabic, Cyrillic, Chinese and other scripts are not recognised: a word like \"café\" is split at the é, and a text written in another alphabet shows no results at all.",
+        "Numbers are ignored, and a hyphenated word such as \"well-known\" is counted as two words, \"well\" and \"known\".",
+        "The stop-word list is fixed and English only. You can switch it on or off but not edit it. Different forms of a word (\"run\", \"runs\", \"running\") are counted separately because the tool does no stemming.",
+        "The percentage is each word's count divided by the total number of words in the text, including the ones you filtered out. With stop words removed, the percentages in the table therefore add up to less than 100%.",
+      ],
+      faq: [
+        {
+          q: "How do I find the most common words in a text?",
+          a: "Paste the text into the box. The table lists words from most to least frequent, and the summary card shows the most common word and how many times it appears. Turn Remove stop words on to hide filler words like \"the\" and \"and\".",
+        },
+        {
+          q: "Does it work with Arabic or other languages?",
+          a: "No. It only recognises words written with the letters A to Z and apostrophes, so Arabic, Chinese, Russian and accented words are not counted correctly. Use it for English text.",
+        },
+        {
+          q: "What counts as a stop word?",
+          a: "A built-in list of 77 common English words such as the, a, is, of, and, to, you, this and would. The list cannot be edited, but you can turn it off to count every word.",
+        },
+        {
+          q: "Can I export the results?",
+          a: "Yes. The export button downloads word-frequency.csv with every word in the analysis, not only the top 10, with the columns Rank, Word, Count and Percent.",
+        },
+        {
+          q: "Why do the percentages not add up to 100%?",
+          a: "Each percentage is the word's count divided by all words in your text, before stop words and short words are removed. If those filters are on, the words they hide still count toward the total.",
+        },
+      ],
+      steps: [
+        "Paste or type your text into the input box.",
+        "Choose whether to ignore case, remove stop words and set a minimum word length.",
+        "Read the ranked table and the summary card, and press the button to show every word.",
+        "Export the list as a CSV file if you want to use it in a spreadsheet.",
+      ],
+    },
+    ar: {
+      intro:
+        "الصق أي نص إنجليزي وستحسب هذه الأداة كم مرة تكرّرت كل كلمة، ثم ترتّب الكلمات من الأكثر تكرارًا إلى الأقل. يعرض الجدول الترتيب والكلمة وعدد مرات ظهورها ونسبتها من مجموع الكلمات، ويظهر بجانب كل كلمة شريط صغير يُبرز الكلمات الأعلى تكرارًا. وتعرض بطاقة الملخص إجمالي الكلمات وعدد الكلمات الفريدة والكلمة الأكثر شيوعًا.\n\nهناك ثلاثة خيارات تضبط الحساب. خيار تجاهل حالة الأحرف يدمج «The» و«the» في عنصر واحد، وخيار إزالة كلمات الوصل يتخطى قائمة جاهزة من 77 كلمة إنجليزية شائعة جدًا (the وand وis وyou وغيرها)، وخيار الحد الأدنى لطول الكلمة يتجاهل الكلمات الأقصر من الرقم الذي تحدده (الافتراضي 2). يعرض الجدول أعلى 10 كلمات، وبزر تحته تعرض الباقي، ويمكنك تصدير القائمة كاملة بصيغة CSV بأعمدة الترتيب والكلمة والعدد والنسبة.",
+      whyClientSide:
+        "الحساب يتم بكود JavaScript على النص الموجود في الصندوق، ولا يُرسل شيء إلى أي جهة، فيناسب مسودة أو مقالًا أو نصًا مفرغًا لا تريد لصقه في خدمة على الإنترنت. لا حساب ولا حدّ على حجم النص سوى ما يتحمله متصفحك.",
+      limitations: [
+        "لا تُحتسب إلا الكلمات المكتوبة بالأحرف اللاتينية من A إلى Z (مع علامة الفاصلة العليا). الحروف المشكّلة والعربية والسيريلية والصينية وغيرها غير معروفة للأداة: كلمة مثل «café» تنقسم عند حرف é، والنص المكتوب بأبجدية أخرى لا يعطي أي نتيجة.",
+        "تُتجاهل الأرقام، وتُحسب الكلمة المركّبة بشرطة مثل «well-known» كلمتين: «well» و«known».",
+        "قائمة كلمات الوصل ثابتة وإنجليزية فقط، يمكنك تشغيلها أو إيقافها لكن لا تعديلها. وتُعدّ صيغ الكلمة الواحدة (run وruns وrunning) كلمات منفصلة لأن الأداة لا تردّ الكلمات إلى جذورها.",
+        "النسبة هي عدد مرات الكلمة مقسومًا على إجمالي كلمات النص بما فيها الكلمات التي استبعدتها بالفلاتر. لذلك عند تفعيل إزالة كلمات الوصل يكون مجموع النسب في الجدول أقل من 100%.",
+      ],
+      faq: [
+        {
+          q: "كيف أعرف أكثر الكلمات تكرارًا في نص؟",
+          a: "الصق النص في الصندوق، فيعرض الجدول الكلمات من الأكثر تكرارًا إلى الأقل، وتُظهر بطاقة الملخص الكلمة الأكثر شيوعًا وعدد مرات ظهورها. فعّل خيار إزالة كلمات الوصل لإخفاء كلمات مثل «the» و«and».",
+        },
+        {
+          q: "هل تعمل الأداة مع العربية أو لغات أخرى؟",
+          a: "لا. هي تتعرف فقط على الكلمات المكتوبة بالأحرف من A إلى Z والفاصلة العليا، فلا تُحسب العربية ولا الصينية ولا الروسية ولا الكلمات ذات الحروف المشكّلة بشكل صحيح. استخدمها للنصوص الإنجليزية.",
+        },
+        {
+          q: "ما هي كلمات الوصل التي تستبعدها الأداة؟",
+          a: "قائمة جاهزة من 77 كلمة إنجليزية شائعة مثل the وa وis وof وand وto وyou وthis وwould. لا يمكن تعديل القائمة، لكن يمكنك إيقافها لتُحسب كل الكلمات.",
+        },
+        {
+          q: "هل يمكنني تصدير النتائج؟",
+          a: "نعم. يُنزّل زر التصدير ملف word-frequency.csv يضم كل الكلمات المحلَّلة وليس أعلى 10 فقط، بأعمدة الترتيب والكلمة والعدد والنسبة.",
+        },
+        {
+          q: "لماذا لا يساوي مجموع النسب 100%؟",
+          a: "كل نسبة هي عدد مرات الكلمة مقسومًا على كل كلمات نصك قبل حذف كلمات الوصل والكلمات القصيرة. فإذا كانت الفلاتر مفعّلة تبقى الكلمات المخفية داخلة في المجموع.",
+        },
+      ],
+      steps: [
+        "الصق نصك أو اكتبه في صندوق الإدخال.",
+        "اختر تجاهل حالة الأحرف وإزالة كلمات الوصل وحدد الحد الأدنى لطول الكلمة.",
+        "اقرأ الجدول المرتب وبطاقة الملخص، واضغط الزر لعرض كل الكلمات.",
+        "صدّر القائمة بصيغة CSV إن أردت استخدامها في جدول بيانات.",
+      ],
+    },
+  },
+
+  "text-diff": {
+    related: ["text-similarity", "ai-instruction-diff", "text-sorter", "text-counter"],
+    en: {
+      intro:
+        "Paste an original text on the left and a changed version on the right, and this tool marks what differs. Below the two boxes the changed version is listed line by line: lines that were removed are shown in red with a minus sign, lines that were added are shown in green with a plus sign, and lines that match are left plain. The original text is shown beside it for reference.\n\nA Copy Patch button copies the same result as plain text, with each line starting with +, - or a space. It is a quick way to see which lines of a note, config file, list or paragraph were edited.",
+      whyClientSide:
+        "Both texts are compared by code running in your browser tab, and nothing is sent to a server. That matters when you are comparing a config file with credentials in it, a draft contract or two versions of private notes.",
+      limitations: [
+        "This is a simple line-by-line comparison, not a true diff. Line 1 is compared with line 1, line 2 with line 2, and so on by position. If you insert or delete a line near the top, every line after it is shown as changed even though only one line moved. For code or documents where lines get inserted, expect noisy results.",
+        "A changed line is shown as a whole: the old line in red and the new line in green. It does not highlight which words or characters changed inside the line.",
+        "The copied patch is only the list of prefixed lines. It has no file headers or line-number hunks, so tools such as git apply or patch cannot use it.",
+        "Whitespace and capitalisation count as differences, and there are no options to ignore them. Blank lines that match are not marked, and an empty line that replaces text shows as a removal only.",
+      ],
+      faq: [
+        {
+          q: "How do I compare two texts online?",
+          a: "Paste the original into the left box and the changed version into the right box. The comparison appears straight away below: red lines with a minus were removed and green lines with a plus were added.",
+        },
+        {
+          q: "Why does the whole text show as changed after I add one line?",
+          a: "The tool compares lines by their position, not by content. A line added near the top shifts every line below it, so each position no longer matches. Add new lines at the end, or compare smaller blocks, for cleaner results.",
+        },
+        {
+          q: "Does it show which words changed inside a line?",
+          a: "No. It marks whole lines as removed or added. If one word differs, the entire old line appears in red and the entire new line in green.",
+        },
+        {
+          q: "What does Copy Patch give me?",
+          a: "A plain-text list of every line prefixed with +, - or a space. It is meant for reading or pasting into a message, and it is not a standard unified diff, so it cannot be applied with git or patch.",
+        },
+        {
+          q: "Is my text uploaded?",
+          a: "No. The comparison runs in your browser and the two texts are never sent to a server.",
+        },
+      ],
+      steps: [
+        "Paste the original text into the left box.",
+        "Paste the modified text into the right box.",
+        "Read the comparison below: red with a minus is removed, green with a plus is added.",
+        "Press Copy Patch to copy the result as plain text.",
+      ],
+    },
+    ar: {
+      intro:
+        "الصق النص الأصلي في الصندوق الأيسر والنص المعدَّل في الأيمن، وستُظهر الأداة ما اختلف بينهما. تحت الصندوقين تُعرض النسخة المعدَّلة سطرًا بسطر: السطور المحذوفة بالأحمر مع علامة ناقص، والسطور المضافة بالأخضر مع علامة زائد، والسطور المتطابقة تبقى دون تلوين. ويظهر النص الأصلي بجانبها للمقارنة.\n\nيمكنك نسخ النتيجة نفسها كنص عادي بزر «نسخ الفروقات»، إذ يبدأ كل سطر بالرمز + أو - أو مسافة. هي طريقة سريعة لمعرفة السطور التي تغيّرت في ملاحظة أو ملف إعدادات أو قائمة أو فقرة.",
+      whyClientSide:
+        "تتم المقارنة بكود يعمل داخل تبويب المتصفح ولا يُرسل أي من النصين إلى خادم. وهذا مهم حين تقارن ملف إعدادات فيه بيانات دخول، أو مسودة عقد، أو نسختين من ملاحظات خاصة.",
+      limitations: [
+        "هذه مقارنة بسيطة سطرًا بسطر وليست أداة diff حقيقية: يُقارن السطر الأول بالأول والثاني بالثاني وهكذا حسب الموضع. فإذا أضفت سطرًا أو حذفت آخر قرب البداية ظهرت كل السطور التي بعده مختلفة مع أن سطرًا واحدًا فقط تحرّك. توقّع نتائج مزدحمة مع الأكواد والمستندات التي تُدرج فيها سطور جديدة.",
+        "السطر المتغيّر يظهر كاملًا: القديم بالأحمر والجديد بالأخضر، ولا تُميَّز الكلمات أو الأحرف التي تغيّرت داخل السطر.",
+        "الفروقات المنسوخة مجرد قائمة سطور مسبوقة بعلاماتها، دون ترويسات ملفات أو أرقام أسطر، فلا تستطيع أدوات مثل git apply أو patch استخدامها.",
+        "الفراغات وحالة الأحرف تُحسب اختلافًا، ولا توجد خيارات لتجاهلها. السطور الفارغة المتطابقة لا تُعلَّم، والسطر الفارغ الذي يحل محل نص يظهر كحذف فقط.",
+      ],
+      faq: [
+        {
+          q: "كيف أقارن بين نصين أونلاين؟",
+          a: "الصق الأصل في الصندوق الأيسر والنسخة المعدَّلة في الأيمن، فتظهر المقارنة فورًا في الأسفل: السطور الحمراء مع ناقص حُذفت، والخضراء مع زائد أُضيفت.",
+        },
+        {
+          q: "لماذا يظهر النص كله متغيّرًا بعد أن أضفت سطرًا واحدًا؟",
+          a: "لأن الأداة تقارن السطور بحسب موضعها لا بحسب محتواها. السطر المضاف قرب البداية يزيح كل ما تحته فلا تتطابق المواضع. أضف السطور الجديدة في النهاية، أو قارن كتلًا أصغر، لنتيجة أنظف.",
+        },
+        {
+          q: "هل تُظهر الكلمات التي تغيّرت داخل السطر؟",
+          a: "لا. هي تعلّم السطور كاملة كمحذوفة أو مضافة. فإذا اختلفت كلمة واحدة ظهر السطر القديم كله بالأحمر والجديد كله بالأخضر.",
+        },
+        {
+          q: "ماذا يعطيني زر نسخ الفروقات؟",
+          a: "قائمة نصية بكل سطر مسبوقًا بـ + أو - أو مسافة. هي للقراءة أو للصقها في رسالة، وليست بصيغة unified diff القياسية، فلا يمكن تطبيقها بـ git أو patch.",
+        },
+        {
+          q: "هل يُرفع نصي إلى الإنترنت؟",
+          a: "لا. تعمل المقارنة داخل متصفحك ولا يُرسل أي من النصين إلى خادم.",
+        },
+      ],
+      steps: [
+        "الصق النص الأصلي في الصندوق الأيسر.",
+        "الصق النص المعدَّل في الصندوق الأيمن.",
+        "اقرأ المقارنة في الأسفل: الأحمر مع ناقص محذوف، والأخضر مع زائد مضاف.",
+        "اضغط «نسخ الفروقات» لنسخ النتيجة كنص عادي.",
+      ],
+    },
+  },
+
+  "text-summarizer": {
+    related: ["sentiment-analyzer", "translator", "audio-transcriber", "token-counter", "text-counter"],
+    en: {
+      intro:
+        "Paste a long piece of English text and this tool writes a shorter summary of it. Pick Short, Medium or Long, press Summarize, and the summary appears below with a word count for both your text and the result. You can copy the summary with one click.\n\nIt uses a small AI model, distilbart-cnn-6-6 (the Xenova/distilbart-cnn-6-6 build of DistilBART), which writes new sentences rather than only picking lines from your text. Short asks for a summary of roughly 15 to 60 tokens, Medium 40 to 130 and Long 90 to 230. A token is a word piece, a little shorter than a word on average, so these are not exact word counts.",
+      whyClientSide:
+        "Your text is summarized on your own device: the model runs in your browser using WebAssembly, and the text you paste is never sent to a server. That makes it usable for meeting notes, drafts and other writing you would not hand to an online summarizer. The one network request is the model itself. About 284 MB of model files download from a CDN the first time you press Summarize, and your browser keeps them so later summaries start without downloading again. Until that first download finishes there is no way to use the tool offline.",
+      limitations: [
+        "The first summary needs a download of about 284 MB, and the tool shows a progress bar while it loads. On a slow connection or a metered plan that is a real cost. The model also runs on your CPU through WebAssembly, so summarizing a long text takes noticeably longer than a hosted service would.",
+        "The model was built for English news-style text. Other languages give poor or unusable results, and the tool does not translate.",
+        "The tool does not split long input into chunks. The model reads only up to its input limit, about a thousand tokens or a little under 800 English words, so a very long document is summarized from its beginning only and the rest is silently ignored.",
+        "A generated summary can leave out important points or state something slightly wrong, because the model writes new text instead of quoting. Treat it as a first pass and check it against the original before you rely on it.",
+      ],
+      faq: [
+        {
+          q: "Is my text uploaded to summarize it?",
+          a: "No. The summarization model runs inside your browser, so the text stays on your device. The only download is the model files themselves, which come from a CDN the first time you use the tool.",
+        },
+        {
+          q: "How big is the download and do I need it every time?",
+          a: "About 284 MB the first time. Your browser caches the files, so later summaries on the same browser do not download them again unless you clear site data. The tool shows the size on the page.",
+        },
+        {
+          q: "Which model does it use?",
+          a: "Xenova/distilbart-cnn-6-6, a distilled BART model fine-tuned for news summarization, run in your browser with Transformers.js on the WebAssembly backend.",
+        },
+        {
+          q: "What do Short, Medium and Long change?",
+          a: "They set the minimum and maximum length of the generated summary in tokens: 15 to 60 for Short, 40 to 130 for Medium and 90 to 230 for Long. Tokens are slightly shorter than words, so the word count shown under the result will differ.",
+        },
+        {
+          q: "Can it summarize Arabic or other languages?",
+          a: "It is not meant to. The model is trained on English, so expect poor results for other languages.",
+        },
+        {
+          q: "Why does the summary ignore the end of my long text?",
+          a: "The model has an input limit of around a thousand tokens and the tool does not break longer text into parts. Anything past that limit is cut off before summarizing, so summarize long documents section by section.",
+        },
+      ],
+      steps: [
+        "Paste or type your English text into the box.",
+        "Choose Short, Medium or Long for the summary length.",
+        "Press Summarize. The first time, wait for the model to download.",
+        "Read the summary, check it against your text, and copy it.",
+      ],
+    },
+    ar: {
+      intro:
+        "الصق نصًّا إنجليزيًا طويلًا وستكتب هذه الأداة ملخصًا أقصر له. اختر قصيرًا أو متوسطًا أو طويلًا، ثم اضغط «تلخيص»، فيظهر الملخص في الأسفل مع عدد كلمات نصك وعدد كلمات الملخص. ويمكنك نسخ الملخص بنقرة واحدة.\n\nتستخدم الأداة نموذج ذكاء اصطناعي صغيرًا هو distilbart-cnn-6-6 (نسخة Xenova/distilbart-cnn-6-6 من DistilBART)، وهو يكتب جملًا جديدة ولا يكتفي باختيار سطور من نصك. يطلب الخيار القصير ملخصًا بنحو 15 إلى 60 رمزًا (token)، والمتوسط من 40 إلى 130، والطويل من 90 إلى 230. والرمز قطعة من كلمة وهو أقصر من الكلمة في المتوسط، فهذه الأرقام ليست عدد كلمات بالضبط.",
+      whyClientSide:
+        "يُلخَّص نصك على جهازك: يعمل النموذج داخل المتصفح عبر WebAssembly، ولا يُرسل النص الذي تلصقه إلى أي خادم. لذا تصلح الأداة لملاحظات اجتماع أو مسودة أو كتابة لا تريد تسليمها لمُلخِّص على الإنترنت. الطلب الوحيد على الشبكة هو النموذج نفسه: نحو 284 ميغابايت من ملفاته تُنزَّل من شبكة CDN عند أول ضغطة على «تلخيص»، ويحتفظ بها المتصفح فتبدأ الملخصات اللاحقة دون تنزيل جديد. ولا يمكن استخدام الأداة دون اتصال قبل اكتمال هذا التنزيل الأول.",
+      limitations: [
+        "أول ملخص يحتاج تنزيل نحو 284 ميغابايت، ويعرض شريط تقدّم أثناء التحميل. على اتصال بطيء أو باقة محدودة هذه تكلفة حقيقية. كما يعمل النموذج على المعالج عبر WebAssembly، فيستغرق تلخيص النص الطويل وقتًا أطول بوضوح من خدمة مستضافة.",
+        "بُني النموذج لنصوص إنجليزية بأسلوب الأخبار. اللغات الأخرى تعطي نتائج ضعيفة أو غير صالحة، والأداة لا تترجم.",
+        "لا تقسّم الأداة النص الطويل إلى أجزاء. يقرأ النموذج حتى حدّ إدخاله فقط، وهو نحو ألف رمز أو أقل قليلًا من 800 كلمة إنجليزية، فيُلخَّص المستند الطويل جدًا من بدايته فقط ويُهمَل الباقي دون تنبيه.",
+        "قد يُسقط الملخص المولَّد نقاطًا مهمة أو يذكر شيئًا غير دقيق تمامًا، لأن النموذج يكتب نصًّا جديدًا ولا ينقل حرفيًا. اعتبره مسودة أولى وراجعه مع الأصل قبل الاعتماد عليه.",
+      ],
+      faq: [
+        {
+          q: "هل يُرفع نصي للتلخيص؟",
+          a: "لا. يعمل نموذج التلخيص داخل متصفحك فيبقى النص على جهازك. والتنزيل الوحيد هو ملفات النموذج نفسها، وتأتي من شبكة CDN عند أول استخدام.",
+        },
+        {
+          q: "ما حجم التنزيل، وهل أحتاجه في كل مرة؟",
+          a: "نحو 284 ميغابايت في المرة الأولى. يخزّن المتصفح الملفات فلا تُنزَّل ثانية في الملخصات اللاحقة على المتصفح نفسه ما لم تمسح بيانات الموقع. وتعرض الصفحة الحجم.",
+        },
+        {
+          q: "أي نموذج تستخدم الأداة؟",
+          a: "Xenova/distilbart-cnn-6-6، وهو نموذج BART مُقطَّر ومدرَّب على تلخيص الأخبار، يعمل في متصفحك بمكتبة Transformers.js على واجهة WebAssembly.",
+        },
+        {
+          q: "ماذا تغيّر خيارات قصير ومتوسط وطويل؟",
+          a: "تحدد الحد الأدنى والأقصى لطول الملخص بالرموز: من 15 إلى 60 للقصير، ومن 40 إلى 130 للمتوسط، ومن 90 إلى 230 للطويل. الرمز أقصر قليلًا من الكلمة، لذا سيختلف عدد الكلمات الظاهر تحت النتيجة.",
+        },
+        {
+          q: "هل تلخّص العربية أو لغات أخرى؟",
+          a: "ليست مصمَّمة لذلك. النموذج مدرَّب على الإنجليزية، فتوقّع نتائج ضعيفة مع اللغات الأخرى.",
+        },
+        {
+          q: "لماذا يتجاهل الملخص نهاية نصي الطويل؟",
+          a: "لأن حدّ إدخال النموذج نحو ألف رمز، والأداة لا تقسّم النص الأطول إلى أجزاء. ما زاد عن الحد يُقطع قبل التلخيص، فلخّص المستندات الطويلة قسمًا بعد قسم.",
+        },
+      ],
+      steps: [
+        "الصق نصك الإنجليزي أو اكتبه في الصندوق.",
+        "اختر طول الملخص: قصير أو متوسط أو طويل.",
+        "اضغط «تلخيص». في أول مرة انتظر اكتمال تنزيل النموذج.",
+        "اقرأ الملخص وقارنه بنصك ثم انسخه.",
+      ],
+    },
+  },
+
+  "video-to-audio": {
+    related: ["video-converter", "compress-video", "audio-transcriber", "video", "gif-maker"],
+    en: {
+      intro:
+        "This tool pulls the audio track out of a video and saves it as an audio file. Drop in one or more videos (MP4, MOV, WebM, MKV, AVI or M4V), choose MP3, M4A, OGG or WAV, pick a bitrate, and press Convert all. Each file gets its own row with a progress bar and a Download button, and the output keeps the original file name with the new extension.\n\nFor MP3, M4A and OGG you can choose 128, 192, 256 or 320 kbps; WAV is uncompressed 16-bit audio, so it has no bitrate option. A Trim control on each row takes a start and end time in mm:ss so you can keep just part of the audio. The conversion is done by ffmpeg compiled to WebAssembly (ffmpeg.wasm), the same engine used by the Video Converter and Compress Video tools.",
+      whyClientSide:
+        "A video is often the most personal file on your device: a lecture, a call recording, a family clip. Here the file is read into your browser's memory, ffmpeg.wasm extracts the audio there, and the result is offered as a download, so the video is never uploaded. There is also no queue, daily limit or watermark of the kind hosted converters apply, and the only limit is your own machine.",
+      limitations: [
+        "Each file can be at most 500 MB; larger files are skipped with a message. The video and the result both have to fit in the browser tab's memory, so a file near the limit can still fail on a low-memory device.",
+        "ffmpeg.wasm runs on a single thread without hardware acceleration, so it is slower than a desktop converter. Long videos take noticeably longer, and files are converted one after another rather than in parallel.",
+        "The output is always re-encoded to the format you pick, even if the video already contains MP3 or AAC audio, so there is a small quality loss for MP3, M4A and OGG. Choose WAV for the least loss, at a much larger file size.",
+        "The tool does not set a sample rate or channel layout, so it keeps what ffmpeg picks for the source. There is also no volume control, fade or tag editing.",
+        "A video with no audio track, or in a format ffmpeg cannot read, ends with a \"No audio track found or unsupported format\" message instead of a file. The Cancel button stops after the file currently being converted rather than interrupting it.",
+      ],
+      faq: [
+        {
+          q: "Is my video uploaded?",
+          a: "No. ffmpeg runs as WebAssembly inside your browser tab. The video is read from your disk into the page's memory, converted there, and the audio file is offered as a download. No network request carries your video.",
+        },
+        {
+          q: "What is the maximum file size?",
+          a: "500 MB per video. Files above that are skipped with a \"File too large\" message. Since everything happens in browser memory, very large files near the limit may still fail on a device with little RAM.",
+        },
+        {
+          q: "Which audio formats can I get?",
+          a: "MP3 (libmp3lame), M4A (AAC), OGG (Vorbis) and WAV (16-bit PCM). MP3, M4A and OGG offer 128, 192, 256 and 320 kbps; WAV has no bitrate setting.",
+        },
+        {
+          q: "Can I extract just part of the audio?",
+          a: "Yes. Open Trim on a file's row and enter a start and end time in mm:ss. Leave a field empty to start at the beginning or run to the end. The start time must be before the end time.",
+        },
+        {
+          q: "Why is it slower than a desktop app?",
+          a: "ffmpeg.wasm runs on one thread with no hardware acceleration inside the browser, so conversions take longer than native ffmpeg, especially for long videos. Videos are processed one at a time.",
+        },
+        {
+          q: "Can I convert several videos at once?",
+          a: "You can add many videos and convert them all with one press of Convert all, but they are processed one after another, and each gets its own Download button.",
+        },
+      ],
+      steps: [
+        "Drop one or more videos onto the page, or click to choose them.",
+        "Choose the audio format and, for MP3, M4A or OGG, the bitrate.",
+        "Optionally open Trim on a file and enter a start and end time.",
+        "Press Convert all, then download each finished audio file.",
+      ],
+    },
+    ar: {
+      intro:
+        "تستخرج هذه الأداة المسار الصوتي من الفيديو وتحفظه كملف صوتي. أسقط فيديو واحدًا أو أكثر (MP4 أو MOV أو WebM أو MKV أو AVI أو M4V)، واختر MP3 أو M4A أو OGG أو WAV، وحدد معدل البت، ثم اضغط «تحويل الكل». يحصل كل ملف على صفّ خاص به فيه شريط تقدم وزر تنزيل، ويحتفظ الناتج باسم الملف الأصلي مع الامتداد الجديد.\n\nمع MP3 وM4A وOGG يمكنك اختيار 128 أو 192 أو 256 أو 320 كيلوبت/ث، أما WAV فصوت غير مضغوط بدقة 16 بت فلا خيار معدل بت له. ويتيح خيار «قصّ» في كل صف إدخال وقت بداية ونهاية بصيغة mm:ss لتحتفظ بجزء من الصوت فقط. يتم التحويل بمحرك ffmpeg المترجَم إلى WebAssembly (ffmpeg.wasm)، وهو المحرك نفسه في أداتي محوّل الفيديو وضغط الفيديو.",
+      whyClientSide:
+        "الفيديو غالبًا من أكثر الملفات خصوصية على جهازك: محاضرة أو تسجيل مكالمة أو مقطع عائلي. هنا يُقرأ الملف في ذاكرة المتصفح، ويستخرج ffmpeg.wasm الصوت هناك، وتُقدَّم النتيجة للتنزيل، فلا يُرفع الفيديو أبدًا. كما لا طابور ولا حدّ يومي ولا علامة مائية مما تفرضه المحوّلات المستضافة، والحدّ الوحيد هو إمكانات جهازك.",
+      limitations: [
+        "أقصى حجم للملف 500 ميغابايت، والأكبر منه يُتخطّى برسالة. يجب أن يتسع الفيديو والناتج معًا في ذاكرة تبويب المتصفح، فقد يفشل ملف قريب من الحد على جهاز قليل الذاكرة.",
+        "يعمل ffmpeg.wasm على خيط واحد دون تسريع عتادي، فهو أبطأ من برنامج التحويل على سطح المكتب. الفيديوهات الطويلة تستغرق وقتًا أطول بوضوح، وتُحوَّل الملفات واحدًا بعد الآخر لا بالتوازي.",
+        "يُعاد ترميز الصوت دائمًا إلى الصيغة التي تختارها حتى لو كان الفيديو يحتوي أصلًا على صوت MP3 أو AAC، فيحدث فقد بسيط في الجودة مع MP3 وM4A وOGG. اختر WAV لأقل فقد، بحجم ملف أكبر بكثير.",
+        "لا تحدد الأداة معدل العيّنة ولا عدد القنوات، فتبقى على ما يختاره ffmpeg من المصدر. ولا يوجد تحكم في مستوى الصوت ولا تلاشٍ تدريجي ولا تعديل لوسوم الملف.",
+        "الفيديو الذي لا يحتوي مسارًا صوتيًا، أو بصيغة لا يقرؤها ffmpeg، ينتهي برسالة «لا يوجد مسار صوتي أو الصيغة غير مدعومة» بدل ملف. وزر الإلغاء يتوقف بعد الملف الجاري تحويله ولا يقاطعه.",
+      ],
+      faq: [
+        {
+          q: "هل يُرفع الفيديو الخاص بي؟",
+          a: "لا. يعمل ffmpeg بتقنية WebAssembly داخل تبويب المتصفح. يُقرأ الفيديو من قرصك إلى ذاكرة الصفحة ويُحوَّل هناك، ويُقدَّم الملف الصوتي للتنزيل. لا يحمل أي طلب على الشبكة الفيديو الخاص بك.",
+        },
+        {
+          q: "ما أقصى حجم للملف؟",
+          a: "500 ميغابايت لكل فيديو. ما زاد عن ذلك يُتخطّى برسالة «الملف كبير جدًا». وبما أن كل شيء يتم في ذاكرة المتصفح، قد يفشل ملف قريب من الحد على جهاز ذاكرته قليلة.",
+        },
+        {
+          q: "ما الصيغ الصوتية المتاحة؟",
+          a: "MP3 (libmp3lame) وM4A (AAC) وOGG (Vorbis) وWAV (PCM بدقة 16 بت). تتيح MP3 وM4A وOGG معدلات 128 و192 و256 و320 كيلوبت/ث، ولا يوجد إعداد معدل بت لـ WAV.",
+        },
+        {
+          q: "هل أستطيع استخراج جزء من الصوت فقط؟",
+          a: "نعم. افتح «قصّ» في صف الملف وأدخل وقت البداية والنهاية بصيغة mm:ss. اترك الحقل فارغًا للبدء من الأول أو الاستمرار حتى النهاية. ويجب أن يسبق وقت البداية وقت النهاية.",
+        },
+        {
+          q: "لماذا هي أبطأ من برنامج على الحاسوب؟",
+          a: "يعمل ffmpeg.wasm على خيط واحد دون تسريع عتادي داخل المتصفح، فيستغرق التحويل وقتًا أطول من ffmpeg الأصلي، خاصة مع الفيديوهات الطويلة. وتُعالَج الفيديوهات واحدًا تلو الآخر.",
+        },
+        {
+          q: "هل أحوّل عدة فيديوهات دفعة واحدة؟",
+          a: "يمكنك إضافة فيديوهات كثيرة وتحويلها كلها بضغطة واحدة على «تحويل الكل»، لكنها تُعالَج بالتتابع، ولكل ملف زر تنزيل خاص به.",
+        },
+      ],
+      steps: [
+        "أسقط فيديو أو أكثر على الصفحة، أو انقر لاختيارها.",
+        "اختر الصيغة الصوتية، ومعدل البت إن اخترت MP3 أو M4A أو OGG.",
+        "إن شئت افتح «قصّ» في أحد الملفات وأدخل وقت البداية والنهاية.",
+        "اضغط «تحويل الكل» ثم نزّل كل ملف صوتي ينتهي تحويله.",
+      ],
+    },
+  },
+
+  "screenshot-beautifier": {
+    related: ["phone-mockups", "code-screenshot", "crop-image", "image-resizer", "meme-generator"],
+    en: {
+      intro:
+        "This tool puts a plain screenshot on a styled background so it is ready for a blog post, a tweet or a product page. Upload an image (PNG, JPG, WebP or GIF up to 15 MB) and it is placed on a background with padding, rounded corners and a drop shadow. The preview updates as you change the settings, and the Download button saves the result as a PNG named after your file with _beautified added.\n\nBackground options are seven built-in styles (six two-color gradients and one four-color mesh), a solid color of your choice, or your own background image. You can add a window frame with three macOS-style dots, or a browser bar with a URL pill, and set the padding (0 to 200 px), corner radius (0 to 48 px), shadow blur, spread and opacity, and a tilt from -15 to 15 degrees. An aspect ratio menu offers Auto, 16:9, 1:1, 4:3, 9:16, Twitter/X card (1200×675) and Open Graph (1200×630) shapes.",
+      whyClientSide:
+        "Screenshots often show things you did not mean to publish: a dashboard, an inbox, customer names. The image is drawn onto a canvas in your browser and exported from there, so the original is never uploaded to a server. You can check it before it goes anywhere.",
+      limitations: [
+        "The screenshot is drawn at its original pixel size, not scaled to a fixed output, and the padding is added around it. A large screenshot gives a large PNG, and there is no setting to choose the export width. Use a resizer afterwards if you need a specific size.",
+        "The output is always a PNG. There is no JPG or WebP export, so files for photos or very large screenshots can be heavy.",
+        "The window frame and browser bar are fixed designs in a light gray with macOS-style dots. The URL pill is empty, because you cannot type an address into it, and there is no dark variant or Windows style.",
+        "Screenshots larger than 15 MB are rejected. When you pick an aspect ratio, the canvas is extended to match it rather than cropping your screenshot, so extra background appears on the shorter side.",
+        "Tilt is a flat rotation of the screenshot, not a 3D perspective effect.",
+      ],
+      faq: [
+        {
+          q: "Is my screenshot uploaded anywhere?",
+          a: "No. The image is loaded into your browser and drawn onto a canvas there. The PNG you download is generated on your device, and nothing is sent to a server.",
+        },
+        {
+          q: "What image types can I upload?",
+          a: "PNG, JPG, JPEG, WebP and GIF, up to 15 MB. The result is exported as a PNG.",
+        },
+        {
+          q: "Can I use my own background?",
+          a: "Yes. Switch the background to image and upload your own picture, which is scaled to cover the canvas. You can also choose a solid color or one of seven built-in gradient and mesh presets.",
+        },
+        {
+          q: "Which sizes can I make for social media?",
+          a: "Choose the Twitter/X card (1200×675) or Open Graph (1200×630) aspect ratio, or 16:9, 1:1, 4:3 or 9:16. These set the shape of the canvas. The exact pixel size still depends on the size of your screenshot plus its padding.",
+        },
+        {
+          q: "Can I add a browser window around my screenshot?",
+          a: "Yes. Turn on the window frame for a title bar with three dots, or the browser bar for a title bar with a URL pill. You cannot edit the text of the URL pill.",
+        },
+      ],
+      steps: [
+        "Upload a screenshot by dropping it on the page or clicking to choose it.",
+        "Pick a background: a preset, a solid color or your own image.",
+        "Adjust the padding, corner radius, shadow, frame and aspect ratio while watching the preview.",
+        "Press Download to save the finished PNG.",
+      ],
+    },
+    ar: {
+      intro:
+        "تضع هذه الأداة لقطة الشاشة العادية على خلفية منسّقة لتصبح جاهزة لمقال أو تغريدة أو صفحة منتج. ارفع صورة (PNG أو JPG أو WebP أو GIF حتى 15 ميغابايت) فتوضع على خلفية مع هوامش وزوايا مستديرة وظل. تتحدث المعاينة مع كل تغيير في الإعدادات، ويحفظ زر التنزيل النتيجة بصيغة PNG باسم ملفك مضافًا إليه _beautified.\n\nخيارات الخلفية سبعة أنماط جاهزة (ستة تدرجات من لونين وتدرج شبكي من أربعة ألوان)، أو لون موحّد تختاره، أو صورتك الخاصة. يمكنك إضافة إطار نافذة بثلاث نقاط بأسلوب macOS، أو شريط متصفح فيه مربع عنوان، وضبط الهامش (من 0 إلى 200 بكسل) ونصف قطر الزوايا (من 0 إلى 48 بكسل) وضبابية الظل وانتشاره وشفافيته، وميل من -15 إلى 15 درجة. وتقدم قائمة نسبة العرض إلى الارتفاع الخيارات تلقائي و16:9 و1:1 و4:3 و9:16 وبطاقة تويتر/X (‎1200×675‎) وOpen Graph (‎1200×630‎).",
+      whyClientSide:
+        "كثيرًا ما تُظهر لقطات الشاشة أشياء لم تقصد نشرها: لوحة تحكم أو صندوق بريد أو أسماء عملاء. تُرسم الصورة على canvas داخل متصفحك وتُصدَّر من هناك، فلا تُرفع الأصلية إلى خادم. وتستطيع مراجعتها قبل أن تذهب إلى أي مكان.",
+      limitations: [
+        "تُرسم اللقطة بحجمها الأصلي بالبكسل دون تحجيم إلى مقاس ثابت، ويُضاف الهامش حولها. اللقطة الكبيرة تعطي PNG كبيرًا، ولا يوجد إعداد لاختيار عرض الملف المصدَّر. استخدم أداة تغيير حجم بعدها إن أردت مقاسًا محددًا.",
+        "الناتج دائمًا PNG، فلا يوجد تصدير بصيغة JPG أو WebP، وقد تكون ملفات الصور الفوتوغرافية أو اللقطات الكبيرة جدًا ثقيلة.",
+        "إطار النافذة وشريط المتصفح تصميمان ثابتان بلون رمادي فاتح ونقاط بأسلوب macOS. مربع العنوان فارغ إذ لا يمكنك كتابة عنوان فيه، ولا توجد نسخة داكنة ولا أسلوب ويندوز.",
+        "اللقطات الأكبر من 15 ميغابايت تُرفض. وعند اختيار نسبة عرض إلى ارتفاع يُوسَّع الـ canvas ليطابقها بدل اقتصاص لقطتك، فتظهر خلفية زائدة على الجانب الأقصر.",
+        "الميل دوران مسطّح للقطة وليس تأثير منظور ثلاثي الأبعاد.",
+      ],
+      faq: [
+        {
+          q: "هل تُرفع لقطتي إلى الإنترنت؟",
+          a: "لا. تُحمَّل الصورة في متصفحك وتُرسم على canvas هناك. ملف PNG الذي تنزّله يُنشأ على جهازك، ولا يُرسل شيء إلى خادم.",
+        },
+        {
+          q: "ما أنواع الصور التي يمكن رفعها؟",
+          a: "PNG وJPG وJPEG وWebP وGIF حتى 15 ميغابايت. وتُصدَّر النتيجة بصيغة PNG.",
+        },
+        {
+          q: "هل أستخدم خلفية من اختياري؟",
+          a: "نعم. حوّل الخلفية إلى صورة وارفع صورتك، فتُكبَّر لتغطي الـ canvas. ويمكنك أيضًا اختيار لون موحّد أو أحد الأنماط السبعة الجاهزة من التدرجات والتدرج الشبكي.",
+        },
+        {
+          q: "ما المقاسات التي أستطيع إنشاءها لمواقع التواصل؟",
+          a: "اختر نسبة بطاقة تويتر/X (‎1200×675‎) أو Open Graph (‎1200×630‎) أو 16:9 أو 1:1 أو 4:3 أو 9:16. هذه تحدد شكل الـ canvas، أما المقاس الدقيق بالبكسل فيبقى معتمدًا على حجم لقطتك مضافًا إليه الهامش.",
+        },
+        {
+          q: "هل أضع نافذة متصفح حول اللقطة؟",
+          a: "نعم. فعّل إطار النافذة لشريط عنوان بثلاث نقاط، أو شريط المتصفح لشريط عنوان فيه مربع URL. ولا يمكن تعديل نص مربع العنوان.",
+        },
+      ],
+      steps: [
+        "ارفع لقطة شاشة بإسقاطها على الصفحة أو بالنقر لاختيارها.",
+        "اختر الخلفية: نمطًا جاهزًا أو لونًا موحّدًا أو صورتك.",
+        "اضبط الهامش ونصف قطر الزوايا والظل والإطار ونسبة العرض وأنت تراقب المعاينة.",
+        "اضغط «تنزيل» لحفظ ملف PNG النهائي.",
+      ],
+    },
+  },
+
+  "css-gradient": {
+    related: ["clip-path-generator", "css-shadow", "color-palette", "color-converter", "screenshot-beautifier"],
+    en: {
+      intro:
+        "Build a CSS gradient visually and copy the code. Choose Linear, Radial or Conic, set the colors and where each one sits, and a live preview shows the result. The output box gives you a ready-to-paste declaration such as background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); with a copy button.\n\nLinear gradients take an angle from 0 to 360 degrees, with eight arrow buttons for the common directions. Radial gradients let you pick a circle or ellipse and a position (center, the sides or the corners), and conic gradients take a start angle and a position. Each color stop has its own color picker, a position slider from 0 to 100% and an opacity slider; when opacity is below 100% the code switches that color to rgba(). You can add more stops or delete them, down to a minimum of two. Twelve named presets, such as Ocean Breeze, Aurora, Lava and Rainbow, load a starting point.",
+      whyClientSide:
+        "There is nothing sensitive in a gradient, and the privacy stake here is small. The preview, the CSS and the PNG export are all produced in your browser, so it responds instantly and works without an account or a request to a server.",
+      limitations: [
+        "The CSS output is a single background declaration in the standard syntax. It does not add vendor prefixes, a fallback solid color or the repeating-gradient functions.",
+        "The PNG export is always a 1200×600 image, and it is a simplified drawing. A radial export is always a centered circle and ignores the shape and position you chose, and a conic export is always centered, so those exports can differ from the preview. Copy the CSS if you need the exact result.",
+        "Loading a preset replaces the type, the angle and the stops, but a radial or conic preset keeps the shape, position and start angle you had set before.",
+        "Color stops are set with a color picker in hex. You cannot type a color name, an hsl() value or a CSS variable into a stop.",
+      ],
+      faq: [
+        {
+          q: "How do I make a CSS gradient?",
+          a: "Pick Linear, Radial or Conic, adjust the colors and positions of the stops, and watch the preview. Then copy the generated background declaration from the output box and paste it into your stylesheet.",
+        },
+        {
+          q: "How do I make a gradient with transparency?",
+          a: "Lower the opacity slider on a color stop. Any stop below 100% is written in the code as rgba() with that opacity, so the gradient fades into whatever is behind it.",
+        },
+        {
+          q: "How many colors can a gradient have?",
+          a: "As many as you add, with a minimum of two. Use Add stop for more, and the trash button on a stop to remove it.",
+        },
+        {
+          q: "What is a conic gradient?",
+          a: "A gradient whose colors sweep around a center point like a color wheel or pie chart, instead of running along a line. Here you can set the start angle and the center position.",
+        },
+        {
+          q: "Why does the PNG look different from the preview?",
+          a: "The export is a simplified 1200×600 drawing. For radial and conic gradients it always uses the center, so a different shape or position does not carry over. The CSS code is the accurate result.",
+        },
+      ],
+      steps: [
+        "Choose Linear, Radial or Conic, or load one of the presets.",
+        "Set the angle or position, then edit each color stop's color, position and opacity.",
+        "Add or remove stops until the preview looks right.",
+        "Copy the CSS, or export a 1200×600 PNG.",
+      ],
+    },
+    ar: {
+      intro:
+        "ابنِ تدرّج CSS بصريًا وانسخ الكود. اختر خطيًا أو دائريًا أو مخروطيًا، وحدد الألوان ومكان كل لون، وتعرض المعاينة الحيّة النتيجة. يعطيك صندوق الإخراج تعريفًا جاهزًا للصق مثل background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); مع زر نسخ.\n\nيأخذ التدرج الخطي زاوية من 0 إلى 360 درجة مع ثمانية أزرار بأسهم للاتجاهات الشائعة. ويتيح الدائري اختيار دائرة أو قطع ناقص وموضع المركز (الوسط أو أحد الجوانب أو الزوايا)، ويأخذ المخروطي زاوية بداية وموضعًا. لكل نقطة لونية أداة اختيار لون خاصة بها ومنزلق للموضع من 0 إلى 100% ومنزلق للشفافية، وعندما تقل الشفافية عن 100% يكتب الكود ذلك اللون بصيغة rgba(). يمكنك إضافة نقاط أو حذفها بحد أدنى نقطتان. وتحمّل اثنتا عشرة تهيئة جاهزة بأسماء مثل Ocean Breeze وAurora وLava وRainbow نقطة انطلاق.",
+      whyClientSide:
+        "لا شيء حساسًا في التدرج اللوني، فالأثر على الخصوصية هنا صغير. المعاينة وكود CSS وتصدير PNG كلها تُنتَج في متصفحك، فتستجيب فورًا ودون حساب أو طلب إلى خادم.",
+      limitations: [
+        "ناتج CSS تعريف background واحد بالصيغة القياسية. لا تُضاف بادئات المتصفحات ولا لون موحّد احتياطي ولا دوال التدرج المتكرر.",
+        "تصدير PNG دائمًا صورة 1200×600 وهو رسم مبسّط. التصدير الدائري دائمًا دائرة في الوسط ويتجاهل الشكل والموضع اللذين اخترتهما، والمخروطي دائمًا في الوسط، لذلك قد يختلفان عن المعاينة. انسخ كود CSS إن أردت النتيجة الدقيقة.",
+        "تحميل تهيئة جاهزة يستبدل النوع والزاوية والنقاط، لكن التهيئة الدائرية أو المخروطية تُبقي الشكل والموضع وزاوية البداية التي ضبطتها من قبل.",
+        "تُضبط ألوان النقاط بأداة اختيار اللون بصيغة hex. ولا يمكنك كتابة اسم لون أو قيمة hsl() أو متغيّر CSS في نقطة.",
+      ],
+      faq: [
+        {
+          q: "كيف أصنع تدرجًا لونيًا بـ CSS؟",
+          a: "اختر خطيًا أو دائريًا أو مخروطيًا، وعدّل ألوان النقاط ومواضعها وراقب المعاينة. ثم انسخ تعريف background من صندوق الإخراج والصقه في ملف الأنماط.",
+        },
+        {
+          q: "كيف أصنع تدرجًا شفافًا؟",
+          a: "قلّل منزلق الشفافية في نقطة لونية. كل نقطة دون 100% تُكتب في الكود بصيغة rgba() بتلك الشفافية، فيتلاشى التدرج في ما خلفه.",
+        },
+        {
+          q: "كم لونًا يمكن أن يضم التدرج؟",
+          a: "بعدد ما تضيفه، وبحد أدنى لونان. استخدم «إضافة نقطة» للمزيد، وزر سلة المحذوفات في النقطة لإزالتها.",
+        },
+        {
+          q: "ما التدرج المخروطي؟",
+          a: "تدرج تدور ألوانه حول نقطة مركزية مثل عجلة الألوان أو المخطط الدائري، بدل أن تمتد على خط. يمكنك هنا ضبط زاوية البداية وموضع المركز.",
+        },
+        {
+          q: "لماذا تبدو صورة PNG مختلفة عن المعاينة؟",
+          a: "التصدير رسم مبسّط بحجم 1200×600. في التدرجين الدائري والمخروطي يُستخدم الوسط دائمًا، فلا ينتقل شكل أو موضع مختلف إلى الصورة. كود CSS هو النتيجة الدقيقة.",
+        },
+      ],
+      steps: [
+        "اختر خطيًا أو دائريًا أو مخروطيًا، أو حمّل إحدى التهيئات الجاهزة.",
+        "اضبط الزاوية أو الموضع، ثم عدّل لون كل نقطة وموضعها وشفافيتها.",
+        "أضف نقاطًا أو احذفها حتى تظهر المعاينة كما تريد.",
+        "انسخ كود CSS، أو صدّر صورة PNG بحجم 1200×600.",
+      ],
+    },
+  },
+
+  "speech-to-text": {
+    related: ["audio-transcriber", "text-to-speech", "mic-test", "subtitle-studio", "image-to-text"],
+    en: {
+      intro:
+        "This tool turns your voice into text as you speak. Choose a language, press Start dictation and talk; the words appear in the transcript box, with interim guesses shown live while the browser is still working out a phrase. When you stop, you can edit the transcript by hand, copy it, or download it as transcript.txt.\n\nIt is a front end for the Web Speech API built into your browser, and it does not do the recognition itself. There are 14 language options: English (US and UK), Arabic, Spanish, French, German, Italian, Portuguese (Brazil), Russian, Hindi, Japanese, Korean, Chinese (Simplified) and Turkish. Continuous mode keeps listening and restarts the recognizer when the browser stops it, and you can switch off the live interim results. It listens to your microphone only; it does not transcribe an audio or video file.",
+      whyClientSide:
+        "This tool is not on-device, and your voice goes off your device while you dictate, so know that before you say anything private. The recognition is done by your browser's Web Speech API, and in Chrome and Edge that means your microphone audio is sent to the browser vendor's servers (Google for Chrome, Microsoft for Edge) to be turned into text. The page itself does not record or store your audio, and the transcript is only held in the page until you close it, but the audio does leave your device while you speak, under your browser vendor's privacy terms. If your audio is confidential, use the Audio Transcriber tool instead: it runs a Whisper model on your own device, and the file you give it is not uploaded.",
+      limitations: [
+        "It needs a browser that supports speech recognition, in practice Chrome or Edge. Firefox support is limited, and where it is missing the page shows a notice and the Start button is disabled.",
+        "Recognition needs an internet connection in Chrome and Edge because the work is done on the vendor's servers. It does not work offline there.",
+        "Accuracy, supported accents, and any punctuation depend entirely on the browser's service. The tool does not add punctuation or capital letters itself, and it cannot be trained on names or jargon.",
+        "It only listens to a live microphone. You cannot give it a recording, and the transcript has no timestamps or speaker labels. For files, use the Audio Transcriber.",
+        "Keep the tab open and in focus with microphone permission allowed. If you deny the permission or the browser reports no speech, the tool shows an error and you have to start again.",
+      ],
+      faq: [
+        {
+          q: "Is my voice sent to a server?",
+          a: "In Chrome and Edge, yes. The browser's Web Speech API streams your microphone audio to the browser vendor's speech service to get the text back. This site does not record or store the audio, but it does leave your device. For private audio, use Audio Transcriber, which runs on-device.",
+        },
+        {
+          q: "Does it work offline?",
+          a: "Not in Chrome or Edge. Their speech recognition needs an internet connection because it runs on the vendor's servers.",
+        },
+        {
+          q: "Which languages can I dictate in?",
+          a: "14 options: English (US and UK), Arabic, Spanish, French, German, Italian, Portuguese (Brazil), Russian, Hindi, Japanese, Korean, Chinese (Simplified) and Turkish. Pick the language before you start, since it cannot be changed while listening.",
+        },
+        {
+          q: "Can I transcribe a recording or a video file?",
+          a: "Not with this tool, which only listens to your microphone. Use Audio Transcriber to turn an audio or video file into text with timestamps, on your device.",
+        },
+        {
+          q: "What do Continuous and interim results do?",
+          a: "Continuous keeps listening through pauses and restarts the recognizer when the browser ends a session. Show interim results displays the browser's live guess for the phrase you are saying before it is finalized. Both can be changed only when you are not listening.",
+        },
+        {
+          q: "How do I save the text?",
+          a: "Use Copy to put it on the clipboard or Download .txt to save transcript.txt. You can also click into the box and edit or type the text yourself before saving.",
+        },
+      ],
+      steps: [
+        "Open the page in Chrome or Edge and choose your language.",
+        "Press Start dictation and allow microphone access when asked.",
+        "Speak clearly. Watch the transcript fill in, then press Stop.",
+        "Edit the text if needed, then copy it or download it as a .txt file.",
+      ],
+    },
+    ar: {
+      intro:
+        "تحوّل هذه الأداة صوتك إلى نص وأنت تتكلم. اختر اللغة، واضغط «بدء الإملاء» وتحدّث، فتظهر الكلمات في صندوق النص، مع تخمينات مؤقتة حيّة بينما ما زال المتصفح يحدد العبارة. وعندما تتوقف يمكنك تعديل النص يدويًا أو نسخه أو تنزيله بصيغة transcript.txt.\n\nهي واجهة لخاصية Web Speech API المدمجة في متصفحك، ولا تقوم هي نفسها بالتعرّف على الكلام. تتوفر 14 لغة: الإنجليزية (الأمريكية والبريطانية) والعربية والإسبانية والفرنسية والألمانية والإيطالية والبرتغالية (البرازيل) والروسية والهندية واليابانية والكورية والصينية (المبسطة) والتركية. يواصل وضع الاستمرار الإصغاء ويعيد تشغيل المُتعرِّف عندما يوقفه المتصفح، ويمكنك إيقاف النتائج المؤقتة الحيّة. تصغي الأداة إلى الميكروفون فقط ولا تفرّغ ملف صوت أو فيديو.",
+      whyClientSide:
+        "هذه الأداة لا تعمل على جهازك، ومن الواجب أن تعرف ذلك قبل أن تملي أي شيء خاص. التعرّف على الكلام يقوم به Web Speech API في متصفحك، وفي Chrome وEdge يعني ذلك أن صوت الميكروفون يُرسل إلى خوادم الجهة المطوّرة للمتصفح (غوغل في Chrome ومايكروسوفت في Edge) ليتحول إلى نص. الصفحة نفسها لا تسجّل صوتك ولا تخزّنه، والنص يبقى في الصفحة إلى أن تغلقها، لكن الصوت يغادر جهازك أثناء كلامك وفق شروط الخصوصية لمطوّر متصفحك. إذا كان صوتك سريًّا فاستخدم أداة تفريغ الصوت (Audio Transcriber) بدلًا منها: تشغّل نموذج Whisper على جهازك ولا يُرفع الملف الذي تعطيه إياها.",
+      limitations: [
+        "تحتاج متصفحًا يدعم التعرّف على الكلام، وعمليًا Chrome أو Edge. الدعم في Firefox محدود، وحيث لا يتوفر تعرض الصفحة تنبيهًا ويُعطَّل زر البدء.",
+        "يحتاج التعرّف في Chrome وEdge إلى اتصال بالإنترنت لأن العمل يتم على خوادم الجهة المطوّرة. ولا يعمل دون اتصال هناك.",
+        "الدقة واللهجات المدعومة وأي علامات ترقيم تعتمد كليًا على خدمة المتصفح. لا تضيف الأداة ترقيمًا ولا أحرفًا كبيرة بنفسها، ولا يمكن تدريبها على الأسماء أو المصطلحات.",
+        "تصغي إلى ميكروفون مباشر فقط، فلا يمكنك إعطاؤها تسجيلًا، وليس في النص طوابع زمنية ولا تمييز للمتحدثين. للملفات استخدم Audio Transcriber.",
+        "أبقِ التبويب مفتوحًا وفي المقدمة مع السماح بإذن الميكروفون. إن رفضت الإذن أو أبلغ المتصفح عن عدم سماع كلام تعرض الأداة خطأ وعليك البدء من جديد.",
+      ],
+      faq: [
+        {
+          q: "هل يُرسل صوتي إلى خادم؟",
+          a: "في Chrome وEdge نعم. يبثّ Web Speech API في المتصفح صوت الميكروفون إلى خدمة الكلام لدى مطوّر المتصفح ليعيد النص. هذا الموقع لا يسجّل الصوت ولا يخزّنه، لكنه يغادر جهازك. للصوت الخاص استخدم Audio Transcriber الذي يعمل على جهازك.",
+        },
+        {
+          q: "هل تعمل دون اتصال بالإنترنت؟",
+          a: "ليس في Chrome أو Edge. يحتاج التعرّف على الكلام فيهما إلى اتصال لأنه يعمل على خوادم الجهة المطوّرة.",
+        },
+        {
+          q: "بأي لغات أستطيع الإملاء؟",
+          a: "14 خيارًا: الإنجليزية (الأمريكية والبريطانية) والعربية والإسبانية والفرنسية والألمانية والإيطالية والبرتغالية (البرازيل) والروسية والهندية واليابانية والكورية والصينية (المبسطة) والتركية. اختر اللغة قبل البدء لأنها لا تتغير أثناء الإصغاء.",
+        },
+        {
+          q: "هل أحوّل تسجيلًا أو ملف فيديو إلى نص؟",
+          a: "ليس بهذه الأداة، فهي تصغي إلى الميكروفون فقط. استخدم Audio Transcriber لتحويل ملف صوت أو فيديو إلى نص بطوابع زمنية على جهازك.",
+        },
+        {
+          q: "ماذا يفعل «الاستمرار» و«النتائج المؤقتة»؟",
+          a: "الاستمرار يواصل الإصغاء عبر فترات الصمت ويعيد تشغيل المُتعرِّف عندما ينهي المتصفح الجلسة. وعرض النتائج المؤقتة يُظهر تخمين المتصفح الحيّ للعبارة التي تقولها قبل اعتمادها. ولا يمكن تغيير الخيارين إلا حين لا تكون الأداة تصغي.",
+        },
+        {
+          q: "كيف أحفظ النص؟",
+          a: "استخدم «نسخ» لوضعه في الحافظة أو «تنزيل ‎.txt‎» لحفظ transcript.txt. ويمكنك أيضًا النقر في الصندوق وتعديل النص أو كتابته بنفسك قبل الحفظ.",
+        },
+      ],
+      steps: [
+        "افتح الصفحة في Chrome أو Edge واختر لغتك.",
+        "اضغط «بدء الإملاء» واسمح بالوصول إلى الميكروفون عند الطلب.",
+        "تحدّث بوضوح وراقب النص وهو يمتلئ، ثم اضغط «إيقاف».",
+        "عدّل النص إن لزم، ثم انسخه أو نزّله كملف txt.",
+      ],
+    },
+  },
+
+  "barcode-generator": {
+    related: ["qr-generator", "qr-scanner", "image-converter", "image-resizer"],
+    en: {
+      intro:
+        "This tool turns a number or short text into a barcode image. Choose a barcode type, type the data to encode, and the barcode is drawn straight away on a white background. Download it as a PNG with a file name you set, or copy the image to the clipboard.\n\nIt supports ten formats through the JsBarcode library: CODE128, CODE39, EAN-13, EAN-8, UPC-A, ITF-14, MSI, Pharmacode, Codabar and CODE93. You can adjust bar width (1 to 5), bar height (50 to 200 px), margin (0 to 30 px) and the size of the text printed under the bars (10 to 30 px), or hide that text. The bars are always black on white. Sample buttons fill in example data for CODE128, EAN-13, UPC-A and CODE39.",
+      whyClientSide:
+        "The barcode is drawn on a canvas in your browser by a library bundled with the site, so the number you encode is never sent to a server. That is useful for internal inventory codes or serial numbers you do not want to type into a third-party generator.",
+      limitations: [
+        "Each format only accepts certain characters, and the tool does not validate as you type. If the data does not fit the format (letters in EAN-13, the wrong length, a bad check digit) you get an error message and the barcode on screen is not updated.",
+        "For EAN-13, EAN-8 and ITF-14 you should enter one digit fewer than the full length (12, 7 or 13 digits) and the check digit is added for you. If you enter the full length, the last digit must already be the correct check digit. The EAN-13 and EAN-8 sample buttons fill in numbers whose check digit is wrong, so they produce an error instead of a barcode; edit the last digit or delete it.",
+        "A barcode that looks right on screen is not a registered product code. Retail EAN and UPC numbers come from GS1 prefixes issued to your company, and this tool cannot create or check those.",
+        "The output is a PNG only, with no SVG or PDF export, and the colors cannot be changed. For print, make the barcode large and test it with a scanner before you rely on it.",
+        "Characters outside the format's set, such as accented letters in CODE128, are not accepted.",
+      ],
+      faq: [
+        {
+          q: "How do I make a barcode online?",
+          a: "Pick a barcode type, type the number or text to encode, and the barcode appears immediately. Use Download PNG to save it, or Copy to put the image on your clipboard.",
+        },
+        {
+          q: "Which barcode type should I use?",
+          a: "CODE128 is the most common general-purpose choice and handles letters and digits. EAN-13, EAN-8 and UPC-A are for retail products, ITF-14 is for shipping cartons, CODE39 is a simple alphanumeric format, and the others suit niche uses such as Pharmacode for pharmaceutical packaging and Codabar for libraries.",
+        },
+        {
+          q: "Why do I get an error for my EAN-13 number?",
+          a: "EAN-13 takes only digits. Enter 12 digits and the check digit is calculated for you, or enter 13 digits where the last one is the correct check digit. A 13-digit number with a wrong check digit is rejected, including the sample number the EAN-13 button fills in.",
+        },
+        {
+          q: "Can I use it to create real product barcodes?",
+          a: "It draws the barcode image only. For products sold in shops you need EAN or UPC numbers issued through GS1 for your company, and the tool cannot provide or verify them.",
+        },
+        {
+          q: "Can I change the colors or export an SVG?",
+          a: "No. The bars are black on a white background and the download is a PNG. You can change bar width, height, margin and the size of the text under the bars, or hide that text.",
+        },
+        {
+          q: "Does the barcode scan?",
+          a: "A correctly encoded barcode with enough contrast and size scans with ordinary scanners and phone apps. Check each barcode with the scanner you will use, especially after making it small.",
+        },
+      ],
+      steps: [
+        "Choose the barcode type.",
+        "Type the number or text to encode, or press a sample button.",
+        "Adjust bar width, height, margin and the printed text if needed.",
+        "Download the PNG or copy the image to the clipboard.",
+      ],
+    },
+    ar: {
+      intro:
+        "تحوّل هذه الأداة رقمًا أو نصًّا قصيرًا إلى صورة باركود. اختر نوع الباركود واكتب البيانات المراد ترميزها، فيُرسم الباركود فورًا على خلفية بيضاء. نزّله بصيغة PNG باسم ملف تحدده، أو انسخ الصورة إلى الحافظة.\n\nتدعم الأداة عشر صيغ عبر مكتبة JsBarcode هي: CODE128 وCODE39 وEAN-13 وEAN-8 وUPC-A وITF-14 وMSI وPharmacode وCodabar وCODE93. يمكنك ضبط عرض الخطوط (من 1 إلى 5) وارتفاعها (من 50 إلى 200 بكسل) والهامش (من 0 إلى 30 بكسل) وحجم النص المطبوع تحت الخطوط (من 10 إلى 30 بكسل) أو إخفاء هذا النص. الخطوط سوداء على أبيض دائمًا. وتملأ أزرار الأمثلة بيانات تجريبية لـ CODE128 وEAN-13 وUPC-A وCODE39.",
+      whyClientSide:
+        "يُرسم الباركود على canvas في متصفحك بمكتبة مرفقة مع الموقع، فلا يُرسل الرقم الذي ترمّزه إلى أي خادم. هذا مفيد لرموز المخزون الداخلية أو الأرقام التسلسلية التي لا تريد كتابتها في مولّد من طرف ثالث.",
+      limitations: [
+        "كل صيغة تقبل محارف معينة فقط، والأداة لا تتحقق من البيانات أثناء الكتابة. إذا لم تناسب البيانات الصيغة (حروف في EAN-13 أو طول خاطئ أو رقم تحقق غير صحيح) تظهر رسالة خطأ ولا يتحدث الباركود المعروض.",
+        "في EAN-13 وEAN-8 وITF-14 أدخل رقمًا أقل من الطول الكامل (12 أو 7 أو 13 رقمًا) فيُضاف رقم التحقق تلقائيًا. وإن أدخلت الطول الكامل فيجب أن يكون الرقم الأخير هو رقم التحقق الصحيح. زرا المثال لـ EAN-13 وEAN-8 يملآن أرقامًا رقم التحقق فيها خاطئ، فيعطيان خطأ بدل باركود؛ عدّل الرقم الأخير أو احذفه.",
+        "الباركود الذي يبدو سليمًا على الشاشة ليس رمز منتج مسجّلًا. أرقام EAN وUPC للتجزئة تأتي من بادئات GS1 تصدر لشركتك، ولا تستطيع هذه الأداة إنشاءها أو التحقق منها.",
+        "الناتج PNG فقط دون تصدير SVG أو PDF، ولا يمكن تغيير الألوان. للطباعة اجعل الباركود كبيرًا واختبره بقارئ قبل الاعتماد عليه.",
+        "المحارف الخارجة عن مجموعة الصيغة، مثل الحروف المشكّلة في CODE128، غير مقبولة.",
+      ],
+      faq: [
+        {
+          q: "كيف أصنع باركود أونلاين؟",
+          a: "اختر نوع الباركود واكتب الرقم أو النص المراد ترميزه، فيظهر الباركود فورًا. استخدم «تنزيل PNG» لحفظه أو «نسخ» لوضع الصورة في الحافظة.",
+        },
+        {
+          q: "أي نوع باركود أستخدم؟",
+          a: "CODE128 هو الخيار العام الأكثر شيوعًا ويدعم الحروف والأرقام. وEAN-13 وEAN-8 وUPC-A لمنتجات التجزئة، وITF-14 لكراتين الشحن، وCODE39 صيغة أبجدية رقمية بسيطة، والبقية لاستخدامات متخصصة مثل Pharmacode لتغليف الأدوية وCodabar للمكتبات.",
+        },
+        {
+          q: "لماذا يظهر خطأ مع رقم EAN-13 الذي أدخلته؟",
+          a: "يقبل EAN-13 أرقامًا فقط. أدخل 12 رقمًا فيُحسب رقم التحقق لك، أو 13 رقمًا يكون الأخير فيها رقم التحقق الصحيح. الرقم المكوّن من 13 خانة برقم تحقق خاطئ يُرفض، ومنه الرقم المثال الذي يملؤه زر EAN-13.",
+        },
+        {
+          q: "هل أصنع به باركودات منتجات حقيقية؟",
+          a: "ترسم الأداة صورة الباركود فقط. للمنتجات المباعة في المتاجر تحتاج أرقام EAN أو UPC صادرة عبر GS1 لشركتك، ولا تستطيع الأداة توفيرها أو التحقق منها.",
+        },
+        {
+          q: "هل أغيّر الألوان أو أصدّر SVG؟",
+          a: "لا. الخطوط سوداء على خلفية بيضاء والتنزيل PNG. يمكنك تغيير عرض الخطوط وارتفاعها والهامش وحجم النص تحتها، أو إخفاء هذا النص.",
+        },
+        {
+          q: "هل يُمسح الباركود بالقارئ؟",
+          a: "الباركود المرمَّز بشكل صحيح مع تباين وحجم كافيين يُقرأ بالقارئات العادية وتطبيقات الهاتف. جرّب كل باركود بالقارئ الذي ستستخدمه، خاصة بعد تصغيره.",
+        },
+      ],
+      steps: [
+        "اختر نوع الباركود.",
+        "اكتب الرقم أو النص المراد ترميزه، أو اضغط أحد أزرار الأمثلة.",
+        "اضبط عرض الخطوط وارتفاعها والهامش والنص المطبوع عند الحاجة.",
+        "نزّل ملف PNG أو انسخ الصورة إلى الحافظة.",
+      ],
+    },
+  },
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
