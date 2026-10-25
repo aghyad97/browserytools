@@ -869,12 +869,286 @@ export const toolContent: Record<string, ToolContent> = {
     },
   },
 
+  "object-cutout": {
+    related: ["bg-removal", "depth-map", "image-upscaler", "image-captioner"],
+    en: {
+      intro:
+        "Object Cutout lets you pick what to cut out. Drop in a PNG, JPG or WebP, click the object you want, and the AI draws an outline around exactly that thing and returns it as a transparent PNG. Alt-click (Option-click on a Mac) any area you want left out, such as a shadow or a neighbouring item, and run it again.\n\nThe model is SlimSAM, a compact variant of Meta's Segment Anything, loaded through Transformers.js. It runs in your browser on WebGPU when the browser offers it and on WebAssembly otherwise. Because you point at the subject yourself, it suits photos with several objects in them, where an automatic background remover has to guess which one you meant.\n\nIt is free, needs no account, adds no watermark, and your photo is never uploaded.",
+      whyClientSide:
+        "The photo is only ever read by the page you have open. Segmentation, the transparent PNG and the download all happen in your browser tab, so a product shot under embargo or a picture of a family member never reaches a server. The trade-off is a one-time model download on first use, around 21 MB, which a progress bar shows; the browser keeps it for later runs.",
+      limitations: [
+        "The first run downloads the model (about 21 MB). On a slow connection that is the longest part, and later runs reuse what the browser stored.",
+        "The cutout is a hard-edged mask: each pixel is either kept or made fully transparent. There is no soft edge, so hair, fur and semi-transparent things such as glass come out rough. Expect to touch up fine detail in an image editor.",
+        "You must click at least one point before it will run, and each new click discards the previous result, so you press Cut out object again after adjusting points. Clicks on the wrong spot can select a part of the object, or something else entirely; add include or exclude points until the mask is right.",
+        "The model is small. Without WebGPU it runs on the CPU, which is slower, and the app shows a note saying so.",
+      ],
+      faq: [
+        {
+          q: "How is this different from the Background Removal tool?",
+          a: "Background Removal decides for itself what the subject is and removes everything else, and it can process a batch. Object Cutout is the one to use when you want to choose: you click the object, and you can click to exclude parts, so it works on a photo with several items or when automatic removal picks the wrong subject. It handles one image at a time.",
+        },
+        {
+          q: "How do I cut out an object from a photo?",
+          a: "Upload the image, click on the object you want, then press Cut out object. The result appears in the right-hand panel on a checkerboard so you can see the transparency, and Download saves it as a PNG.",
+        },
+        {
+          q: "How do I exclude part of the image?",
+          a: "Alt-click (Option-click on a Mac) on the area you want left out. Those points are marked in red and the plain clicks in green. Press Cut out object again afterwards; changing the points clears the previous result.",
+        },
+        {
+          q: "Which AI model does it use?",
+          a: "SlimSAM (Xenova/slimsam-77-uniform), a compact version of Segment Anything, run with Transformers.js. It uses WebGPU when available and WebAssembly otherwise. The model is fetched once from a CDN on first use; your image is not uploaded.",
+        },
+        {
+          q: "What file do I get?",
+          a: "A PNG at the same pixel dimensions as your original, with everything outside the mask made transparent. It is named after your file with -cutout added to the end.",
+        },
+        {
+          q: "Which image formats can I upload?",
+          a: "PNG, JPG and WebP, one image at a time.",
+        },
+      ],
+      steps: [
+        "Drop a PNG, JPG or WebP image onto the page or click to choose one.",
+        "Click the object you want to keep. Alt-click any area you want excluded.",
+        "Press Cut out object. On the first run, wait for the model to download.",
+        "Check the transparent result, adjust your points and run again if needed, then download the PNG.",
+      ],
+    },
+    ar: {
+      intro:
+        "أداة اقتطاع الكائنات تتيح لك أن تختار أنت ما يُقتطع. أسقط صورة PNG أو JPG أو WebP، وانقر على الكائن الذي تريده، فيرسم الذكاء الاصطناعي حدوده بدقة ويعيده بصيغة PNG بخلفية شفافة. وإن أردت استبعاد منطقة كظلٍّ أو عنصر مجاور فانقر عليها مع Alt (أو Option في ماك) ثم أعد التشغيل.\n\nالنموذج هو SlimSAM، نسخة مضغوطة من نموذج Segment Anything من Meta، ويُشغَّل عبر Transformers.js داخل متصفحك: على WebGPU إن وفّره المتصفح، وإلا على WebAssembly. ولأنك تشير إلى الهدف بنفسك، فهي مناسبة للصور التي فيها عدة عناصر، حيث تضطر أداة إزالة الخلفية التلقائية إلى التخمين.\n\nالأداة مجانية بلا حساب ولا علامة مائية، ولا تُرفع صورتك إلى أي خادم.",
+      whyClientSide:
+        "صورتك لا تقرؤها إلا الصفحة المفتوحة أمامك. التقطيع وإنشاء ملف PNG الشفاف والتنزيل كلها تتم داخل علامة تبويب المتصفح، فلا تصل لقطة منتج لم تُعلن بعد أو صورة لأحد أفراد العائلة إلى أي خادم. والمقابل هو تنزيل النموذج مرة واحدة عند أول استخدام، نحو 21 ميغابايت، ويعرضه شريط التقدم، ثم يحتفظ به المتصفح للمرات التالية.",
+      limitations: [
+        "التشغيل الأول ينزّل النموذج (نحو 21 ميغابايت)، وهو أطول جزء مع الاتصال البطيء. وتعيد المرات التالية استخدام النسخة المحفوظة في المتصفح.",
+        "القصاصة قناع بحواف حادة: كل بكسل إما يبقى وإما يصبح شفافًا تمامًا. لا توجد حافة ناعمة، فيخرج الشعر والفراء والأجسام شبه الشفافة كالزجاج خشنة. توقّع أن تنقّح التفاصيل الدقيقة في محرر صور.",
+        "لا بد من نقرة واحدة على الأقل قبل التشغيل، وكل نقرة جديدة تمسح النتيجة السابقة، فتضغط «اقتطاع الكائن» من جديد بعد تعديل النقاط. وقد تحدد نقرة في موضع غير مناسب جزءًا من الكائن أو شيئًا آخر؛ أضف نقاط تضمين أو استبعاد حتى يصح القناع.",
+        "النموذج صغير. وبلا WebGPU يعمل على المعالج فيكون أبطأ، وتعرض الأداة ملاحظة بذلك.",
+      ],
+      faq: [
+        {
+          q: "ما الفرق بينها وبين أداة إزالة الخلفية؟",
+          a: "أداة إزالة الخلفية تحدد بنفسها ما هو الهدف وتحذف ما سواه، ويمكنها معالجة دفعة من الصور. أما اقتطاع الكائنات فهي لمن يريد أن يختار بنفسه: تنقر على الكائن، ويمكنك النقر لاستبعاد أجزاء، فتناسب الصور التي فيها عدة عناصر أو الحالات التي يخطئ فيها الحذف التلقائي في تحديد الهدف. وهي تعالج صورة واحدة في كل مرة.",
+        },
+        {
+          q: "كيف أقتطع كائنًا من صورة؟",
+          a: "ارفع الصورة، وانقر على الكائن الذي تريده، ثم اضغط «اقتطاع الكائن». تظهر النتيجة في اللوحة اليمنى فوق نمط مربعات ليظهر الجزء الشفاف، ويحفظها زر التنزيل بصيغة PNG.",
+        },
+        {
+          q: "كيف أستبعد جزءًا من الصورة؟",
+          a: "انقر على المنطقة التي تريد تركها مع الضغط على Alt (أو Option في ماك). تُعلَّم نقاط الاستبعاد باللون الأحمر والنقرات العادية بالأخضر. اضغط «اقتطاع الكائن» مرة أخرى بعد ذلك، فتغيير النقاط يمسح النتيجة السابقة.",
+        },
+        {
+          q: "أي نموذج ذكاء اصطناعي تستخدم الأداة؟",
+          a: "SlimSAM (Xenova/slimsam-77-uniform)، نسخة مضغوطة من Segment Anything، ويُشغَّل عبر Transformers.js. يستخدم WebGPU إن توفر وإلا WebAssembly. ويُجلب النموذج مرة واحدة من شبكة توصيل المحتوى عند أول استخدام، ولا تُرفع صورتك.",
+        },
+        {
+          q: "ما الملف الذي أحصل عليه؟",
+          a: "ملف PNG بنفس أبعاد صورتك الأصلية بالبكسل، وكل ما هو خارج القناع شفاف. ويحمل اسم ملفك مضافًا إليه -cutout في النهاية.",
+        },
+        {
+          q: "ما صيغ الصور التي يمكنني رفعها؟",
+          a: "صور PNG وJPG وWebP، صورة واحدة في كل مرة.",
+        },
+      ],
+      steps: [
+        "أسقط صورة PNG أو JPG أو WebP على الصفحة أو انقر لاختيارها.",
+        "انقر على الكائن الذي تريد الاحتفاظ به، وانقر مع Alt على أي منطقة تريد استبعادها.",
+        "اضغط «اقتطاع الكائن». في أول مرة انتظر تنزيل النموذج.",
+        "افحص النتيجة الشفافة، وعدّل نقاطك وأعد التشغيل عند الحاجة، ثم نزّل ملف PNG.",
+      ],
+    },
+  },
+  "image-captioner": {
+    related: ["image-to-text", "depth-map", "object-cutout", "image-upscaler"],
+    en: {
+      intro:
+        "This image captioner looks at a picture and writes a short description of it, then wraps that description in a ready-to-paste alt attribute. Drop in an image, press Generate caption, and you get two boxes to copy from: the plain caption and the alt text as an HTML snippet.\n\nThe model is vit-gpt2-image-captioning, run in your browser through Transformers.js and ONNX Runtime, on WebGPU where available and WebAssembly otherwise. It accepts PNG, JPG, WebP, GIF and BMP files up to 15 MB.\n\nThe caption is a starting point, not a finished description. Read it against the image and edit it to fit the context the picture appears in.",
+      whyClientSide:
+        "Images you want alt text for are often unpublished: a draft page, a client mock-up, a screenshot with something confidential in it. The picture is read only by this tab and is not uploaded. What you pay for that is the model download on first use, which is large: roughly 246 MB on the WebAssembly path and about 958 MB when WebGPU is used. A progress bar shows it, and the browser keeps the model afterwards.",
+      limitations: [
+        "The first run is a big download, about 246 MB on WebAssembly and about 958 MB on WebGPU. On mobile data or a slow link, think twice before starting it.",
+        "Captions are short and general. The model describes what it sees in a sentence and will miss text in the image, names, brands and details that matter to your page; it can also describe something wrongly.",
+        "The alt snippet is just the caption placed inside alt quotes. It does not know the purpose of the image on your page, so review it and rewrite it where context matters.",
+        "Files over 15 MB are rejected, and the page captions one image at a time.",
+      ],
+      faq: [
+        {
+          q: "How do I generate alt text for an image?",
+          a: "Upload the image, press Generate caption, and copy the Alt text (HTML) box into your img tag. Then read it against the picture and adjust it to the role the image plays on your page; a generated caption is a draft.",
+        },
+        {
+          q: "Which AI model does it use?",
+          a: "Xenova/vit-gpt2-image-captioning, a vision-encoder plus GPT-2 captioning model, run with Transformers.js. It uses WebGPU when your browser offers it and WebAssembly otherwise.",
+        },
+        {
+          q: "Why is the first run so slow?",
+          a: "The model is downloaded to your browser the first time: about 246 MB on the WebAssembly path and about 958 MB with WebGPU. The progress bar shows it. After that the browser keeps it, so later captions are much quicker.",
+        },
+        {
+          q: "Is my image uploaded?",
+          a: "No. The captioning happens in your browser; only the model files are fetched, from a CDN, on first use.",
+        },
+        {
+          q: "Can I trust the caption for accessibility?",
+          a: "Treat it as a first draft. It gives a generic description of the scene and cannot know why the image is on your page, so check that it is accurate and says what a person using a screen reader needs to know.",
+        },
+        {
+          q: "What file formats and sizes are supported?",
+          a: "PNG, JPG, WebP, GIF and BMP, up to 15 MB each, one at a time.",
+        },
+      ],
+      steps: [
+        "Drop a PNG, JPG, WebP, GIF or BMP image onto the page or click to choose one.",
+        "Press Generate caption. On the first run, wait for the model to download.",
+        "Copy the caption, or copy the alt text snippet for your img tag.",
+        "Review the wording against the image and edit it to match its context.",
+      ],
+    },
+    ar: {
+      intro:
+        "مولّد وصف الصور هذا ينظر إلى الصورة ويكتب لها وصفًا قصيرًا، ثم يضعه في وسم alt جاهز للصق. أسقط صورة واضغط «إنشاء الوصف»، فتحصل على مربعين للنسخ: الوصف النصي، والنص البديل على هيئة مقطع HTML.\n\nالنموذج هو vit-gpt2-image-captioning، ويعمل داخل متصفحك عبر Transformers.js وONNX Runtime، على WebGPU إن توفر وإلا على WebAssembly. وتقبل الأداة ملفات PNG وJPG وWebP وGIF وBMP حتى 15 ميغابايت.\n\nالوصف نقطة بداية لا وصف نهائي. اقرأه مقابل الصورة وعدّله بما يناسب السياق الذي تظهر فيه.",
+      whyClientSide:
+        "الصور التي تحتاج لها نصًا بديلًا غالبًا لم تُنشر بعد: صفحة قيد الإعداد، أو تصميم أولي لعميل، أو لقطة شاشة فيها شيء سري. لا تقرأ الصورةَ إلا علامة التبويب هذه ولا تُرفع. وثمن ذلك تنزيل النموذج عند أول استخدام، وهو كبير: نحو 246 ميغابايت على مسار WebAssembly ونحو 958 ميغابايت عند استخدام WebGPU. ويعرض شريط التقدم ذلك، ويحتفظ المتصفح بالنموذج بعدها.",
+      limitations: [
+        "التشغيل الأول تنزيل كبير، نحو 246 ميغابايت على WebAssembly ونحو 958 ميغابايت على WebGPU. ففكّر قبل البدء إذا كنت على بيانات الجوال أو اتصال بطيء.",
+        "الأوصاف قصيرة وعامة. يصف النموذج ما يراه في جملة، ويفوته النص المكتوب داخل الصورة والأسماء والعلامات التجارية والتفاصيل التي تهم صفحتك، وقد يصف الشيء خطأً.",
+        "مقطع alt هو الوصف نفسه موضوعًا بين علامتي اقتباس. ولا يعرف الغرض من الصورة في صفحتك، فراجعه وأعد صياغته حيث يهم السياق.",
+        "تُرفض الملفات الأكبر من 15 ميغابايت، وتعالج الصفحة صورة واحدة في كل مرة.",
+      ],
+      faq: [
+        {
+          q: "كيف أنشئ نصًا بديلًا لصورة؟",
+          a: "ارفع الصورة واضغط «إنشاء الوصف»، ثم انسخ مربع «النص البديل (HTML)» إلى وسم img. بعد ذلك اقرأه مقابل الصورة وعدّله بحسب دورها في صفحتك؛ فالوصف المولَّد مسودة.",
+        },
+        {
+          q: "أي نموذج ذكاء اصطناعي تستخدم الأداة؟",
+          a: "Xenova/vit-gpt2-image-captioning، نموذج وصف صور يجمع مرمّز رؤية مع GPT-2، ويُشغَّل عبر Transformers.js. يستخدم WebGPU إن وفّره متصفحك وإلا WebAssembly.",
+        },
+        {
+          q: "لماذا التشغيل الأول بطيء؟",
+          a: "لأن النموذج يُنزَّل إلى متصفحك أول مرة: نحو 246 ميغابايت على مسار WebAssembly ونحو 958 ميغابايت مع WebGPU، ويعرض شريط التقدم ذلك. وبعدها يحتفظ به المتصفح فتكون الأوصاف اللاحقة أسرع بكثير.",
+        },
+        {
+          q: "هل تُرفع صورتي؟",
+          a: "لا. يتم توليد الوصف داخل متصفحك، ولا يُجلب إلا ملفات النموذج من شبكة توصيل المحتوى عند أول استخدام.",
+        },
+        {
+          q: "هل أعتمد على الوصف لأغراض الوصولية؟",
+          a: "اعتبره مسودة أولى. فهو يعطي وصفًا عامًا للمشهد ولا يعرف سبب وجود الصورة في صفحتك، فتأكد من دقته ومن أنه يقول ما يحتاجه مستخدم قارئ الشاشة.",
+        },
+        {
+          q: "ما الصيغ والأحجام المدعومة؟",
+          a: "PNG وJPG وWebP وGIF وBMP، حتى 15 ميغابايت للملف، صورة واحدة في كل مرة.",
+        },
+      ],
+      steps: [
+        "أسقط صورة PNG أو JPG أو WebP أو GIF أو BMP على الصفحة أو انقر لاختيارها.",
+        "اضغط «إنشاء الوصف». في أول مرة انتظر تنزيل النموذج.",
+        "انسخ الوصف، أو انسخ مقطع النص البديل لوسم img.",
+        "راجع الصياغة مقابل الصورة وعدّلها بما يناسب سياقها.",
+      ],
+    },
+  },
+  "image-upscaler": {
+    related: ["depth-map", "bg-removal", "object-cutout", "image-resizer", "image-compression"],
+    en: {
+      intro:
+        "The Image Upscaler doubles the width and height of a picture using an AI super-resolution model, so a 500×500 image comes back as 1000×1000. Drop in a PNG, JPG or WebP, press Upscale 2x, and download the result as a PNG. The original and upscaled sizes are shown side by side.\n\nThe model is Swin2SR (classical, x2), run in your browser with Transformers.js and ONNX Runtime, on WebGPU where available and WebAssembly otherwise. Unlike a plain resize, which only stretches the pixels you already have, the model predicts plausible extra detail. That helps with a small, soft image; it cannot recover detail that was never captured.\n\nIt is free, needs no account, and adds no watermark.",
+      whyClientSide:
+        "Upscaling is done in this tab, so the photo you are enlarging, an old family picture or a client asset, is never sent anywhere. The cost of that is memory and the first-run download: the model is about 21 MB on WebAssembly and about 54 MB with WebGPU, and the work is done on your own device, so large inputs are slow or can fail.",
+      limitations: [
+        "It is fixed at 2x. There is no 4x option and no choice of model; to go further you would have to run the output through again, and each pass is limited by the same constraints.",
+        "Inputs are capped at 8 MB, and the page itself advises keeping inputs to roughly 1000×1000 px or smaller because large images use a lot of memory. A large image may fail and ask you to try a smaller one.",
+        "The extra detail is the model's prediction, not recovered information. Faces, text and fine patterns can look smoothed or slightly invented, so check the result before you rely on it.",
+        "The only output is a PNG, which can be much larger on disk than a JPG of the same picture.",
+      ],
+      faq: [
+        {
+          q: "How do I upscale an image without losing quality?",
+          a: "Upload it and press Upscale 2x. The AI model doubles the dimensions and predicts the extra detail, which usually looks better than stretching the pixels. No tool can bring back detail that the original never contained, so judge the output at full size.",
+        },
+        {
+          q: "How much bigger does the image get?",
+          a: "Exactly 2x in each direction: a 640×480 image becomes 1280×960. The page shows the original and upscaled dimensions so you can confirm.",
+        },
+        {
+          q: "Which AI model does it use?",
+          a: "Swin2SR classical super-resolution at 2x (Xenova/swin2SR-classical-sr-x2-64), run with Transformers.js. It uses WebGPU when available and WebAssembly otherwise.",
+        },
+        {
+          q: "What are the size limits?",
+          a: "Files up to 8 MB in PNG, JPG or WebP. For the best chance of success, keep inputs to about 1000×1000 pixels or smaller, because larger images use a lot of memory.",
+        },
+        {
+          q: "Is my image uploaded?",
+          a: "No. The model runs in your browser. Only the model files are downloaded, once, when you first use the tool: about 21 MB on WebAssembly and about 54 MB on WebGPU.",
+        },
+        {
+          q: "What file do I get?",
+          a: "A PNG named after your original with _upscaled added to the end.",
+        },
+      ],
+      steps: [
+        "Drop a PNG, JPG or WebP image (up to 8 MB) onto the page or click to choose one.",
+        "Press Upscale 2x. On the first run, wait for the model to download.",
+        "Compare the original and upscaled sizes shown on the two panels.",
+        "Download the upscaled image as a PNG.",
+      ],
+    },
+    ar: {
+      intro:
+        "أداة رفع دقة الصور تضاعف عرض الصورة وارتفاعها بنموذج ذكاء اصطناعي للدقة الفائقة، فتعود صورة 500×500 بحجم 1000×1000. أسقط صورة PNG أو JPG أو WebP، واضغط «رفع الدقة 2x»، ثم نزّل النتيجة بصيغة PNG. ويُعرض مقاس الأصل ومقاس الصورة المكبَّرة جنبًا إلى جنب.\n\nالنموذج هو Swin2SR (النسخة الكلاسيكية x2) ويعمل داخل متصفحك عبر Transformers.js وONNX Runtime، على WebGPU إن توفر وإلا على WebAssembly. وبخلاف تغيير الحجم العادي الذي يمطّ البكسلات الموجودة فقط، يتنبأ النموذج بتفاصيل إضافية معقولة. وهذا يفيد الصور الصغيرة الباهتة، لكنه لا يستعيد تفاصيل لم تُلتقط أصلًا.\n\nالأداة مجانية بلا حساب ولا علامة مائية.",
+      whyClientSide:
+        "يتم رفع الدقة داخل هذه الصفحة، فلا تُرسَل الصورة التي تكبّرها، سواء صورة عائلية قديمة أو ملفًا لعميل، إلى أي مكان. وثمن ذلك الذاكرة وتنزيل أول تشغيل: النموذج نحو 21 ميغابايت على WebAssembly ونحو 54 ميغابايت مع WebGPU، والعمل يجري على جهازك أنت، فتكون المدخلات الكبيرة بطيئة وقد تفشل.",
+      limitations: [
+        "الدقة ثابتة عند 2x. لا يوجد خيار 4x ولا اختيار لنموذج آخر؛ وللذهاب أبعد عليك إعادة تمرير الناتج، وكل مرة تخضع للقيود نفسها.",
+        "حجم الملف المدخل محصور في 8 ميغابايت، وتنصح الصفحة نفسها بإبقاء المدخلات عند نحو 1000×1000 بكسل أو أقل لأن الصور الكبيرة تستهلك ذاكرة كثيرة. وقد تفشل الصورة الكبيرة فتُطلب منك صورة أصغر.",
+        "التفاصيل الإضافية تنبؤ من النموذج لا معلومات مُستعادة. فقد تبدو الوجوه والنصوص والأنماط الدقيقة ملساء أو مُختلَقة قليلًا، فافحص النتيجة قبل الاعتماد عليها.",
+        "الناتج الوحيد ملف PNG، وقد يكون حجمه على القرص أكبر بكثير من JPG للصورة نفسها.",
+      ],
+      faq: [
+        {
+          q: "كيف أرفع دقة صورة دون خسارة الجودة؟",
+          a: "ارفعها واضغط «رفع الدقة 2x». يضاعف النموذج الأبعاد ويتنبأ بالتفاصيل الإضافية، وغالبًا ما يبدو ذلك أفضل من تمطيط البكسلات. لكن لا أداة تعيد تفاصيل لم تكن في الأصل، فاحكم على الناتج بحجمه الكامل.",
+        },
+        {
+          q: "كم يكبر حجم الصورة؟",
+          a: "بالضبط ضعفان في كل اتجاه: صورة 640×480 تصبح 1280×960. وتعرض الصفحة الأبعاد قبل الرفع وبعده لتتأكد.",
+        },
+        {
+          q: "أي نموذج ذكاء اصطناعي تستخدم الأداة؟",
+          a: "Swin2SR للدقة الفائقة الكلاسيكية بمعامل 2x (Xenova/swin2SR-classical-sr-x2-64)، ويُشغَّل عبر Transformers.js. يستخدم WebGPU إن توفر وإلا WebAssembly.",
+        },
+        {
+          q: "ما حدود الحجم؟",
+          a: "ملفات PNG أو JPG أو WebP حتى 8 ميغابايت. ولأفضل فرصة للنجاح أبقِ المدخلات عند نحو 1000×1000 بكسل أو أقل، لأن الصور الأكبر تستهلك ذاكرة كثيرة.",
+        },
+        {
+          q: "هل تُرفع صورتي؟",
+          a: "لا. يعمل النموذج داخل متصفحك، ولا يُنزَّل إلا ملفاته مرة واحدة عند أول استخدام: نحو 21 ميغابايت على WebAssembly ونحو 54 ميغابايت على WebGPU.",
+        },
+        {
+          q: "ما الملف الذي أحصل عليه؟",
+          a: "ملف PNG باسم ملفك الأصلي مضافًا إليه _upscaled في النهاية.",
+        },
+      ],
+      steps: [
+        "أسقط صورة PNG أو JPG أو WebP (حتى 8 ميغابايت) على الصفحة أو انقر لاختيارها.",
+        "اضغط «رفع الدقة 2x». في أول مرة انتظر تنزيل النموذج.",
+        "قارن بين مقاسَي الأصل والصورة المكبَّرة المعروضين على اللوحتين.",
+        "نزّل الصورة المكبَّرة بصيغة PNG.",
+      ],
+    },
+  },
   "bg-removal": {
     related: [
       "object-cutout",
+      "depth-map",
+      "image-upscaler",
       "image-compression",
       "image-converter",
-      "photo-collage",
     ],
     en: {
       intro:

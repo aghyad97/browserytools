@@ -335,16 +335,21 @@ const en: Record<ClusterId, ClusterProse> = {
       {
         heading: "Related collections",
         body: [
-          "The image tools that use machine learning — background removal, object cutout, upscaling, captioning, depth estimation — are gathered separately in [on-device AI](/collections/on-device-ai), because they behave differently: they download a model on first use and are much slower than the canvas operations here. For turning images into documents, see the [PDF collection](/collections/pdf-tools).",
+          "The image tools that use machine learning — background removal, object cutout, upscaling, captioning, depth estimation — are listed above and also gathered in [on-device AI](/collections/on-device-ai), because they behave differently: they download a model on first use and are much slower than the canvas operations here. For turning images into documents, see the [PDF collection](/collections/pdf-tools).",
         ],
       },
     ],
-    picksHeading: "Eighteen tools",
+    picksHeading: "Twenty-three tools",
     picksLead: "Roughly ordered from the everyday to the occasional.",
     picks: {
       "image-compression": "Get under a byte limit. Target-size mode binary-searches quality and dimensions to hit the number.",
       "image-converter": "Convert between PNG, JPEG, WebP and AVIF, and decode HEIC from an iPhone on the way in.",
       "image-resizer": "Resize by exact pixels, percentage, longest side or preset — with crop and watermark on the same image.",
+      "bg-removal": "Cut the background out of photos in a batch and export transparent PNGs.",
+      "object-cutout": "Click the object you want and get it as a transparent PNG; Alt-click to exclude parts.",
+      "image-upscaler": "Double an image's width and height with a super-resolution model rather than plain stretching.",
+      "image-captioner": "Get a short caption and a ready-to-paste alt attribute for a photo, as a draft to edit.",
+      "depth-map": "Estimate depth from a single photograph and export it as a greyscale or colour-mapped PNG.",
       "crop-image": "Crop with a draggable rectangle and aspect-ratio locks.",
       "watermark-image": "Add a text or image watermark with opacity, rotation, position and tiling.",
       "photo-censor": "Blur, pixelate or block out regions, with the covered pixels destroyed in the export.",

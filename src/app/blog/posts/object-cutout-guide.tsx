@@ -87,6 +87,23 @@ export default function Content() {
         Ready to try it? Open <a href="/tools/object-cutout">Object Cutout</a>, drop in an image, and click the
         object you want. The cut-out PNG is yours in seconds — no upload, no watermark, no account.
       </p>
+      <h2>Related on-device image tools</h2>
+      <p>
+        If you want the whole background gone without choosing a subject, <a href="/tools/bg-removal">Background Removal</a> does
+        it automatically and can handle a batch of photos.
+      </p>
+      <p>
+        Need to know what is near and what is far in a photo? <a href="/tools/depth-map">Depth Map</a> turns it into a
+        depth image you can use for 3D or parallax effects.
+      </p>
+      <p>
+        If a cutout looks soft because the source was small, <a href="/tools/image-upscaler">Image Upscaler</a> doubles
+        the resolution first.
+      </p>
+      <p>
+        Publishing the finished image? <a href="/tools/image-captioner">Image Captioner</a> drafts a caption and alt text
+        for it.
+      </p>
       <ToolCTA slug="object-cutout" variant="card" />
     </div>
   );
