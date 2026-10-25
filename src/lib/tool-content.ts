@@ -1325,6 +1325,126 @@ export const toolContent: Record<string, ToolContent> = {
           "نسخهٔ اصلی و فشرده را مقایسه کنید و نتیجه را دانلود کنید.",
         ],
       },
+      ko: {
+        intro:
+          "이미지 압축이 필요할 때 브라우저에서 바로 쓸 수 있는 도구입니다. '이미지 압축'은 사진을 가야 할 곳에 들어갈 만큼 줄여 줍니다. 이메일 첨부 용량 제한에 걸렸을 때, 500KB를 넘는 파일은 받지 않는 양식에 올려야 할 때, 로딩이 느린 페이지에 넣을 때 유용합니다. 최대 25MB의 PNG, JPG, WebP 파일을 올린 뒤 화질과 용량 중 무엇을 더 양보할지 고르면 됩니다.\n\n압축 방식은 네 가지입니다. '자동'은 원본 크기에 맞춰 품질을 정하고, '강하게'는 따로 묻지 않고 크게 줄입니다. '사용자 지정'은 품질 슬라이더를 직접 조절하게 해 줍니다. 가장 쓸모 있는 것은 '목표 크기'입니다. KB 단위로 숫자를 입력하면 그 크기 아래로 들어가는 품질을 찾아 주고, 품질만으로 부족하면 가로 너비까지 줄입니다. 출력 최대 너비를 직접 정할 수도 있는데, 웹페이지에 올릴 사진이라면 보통 이 방법이 용량을 가장 많이 줄여 줍니다.\n\n인코딩은 브라우저에 내장된 이미지 인코더가 처리합니다. 그래서 업로드도, 대기열도, 회원가입도, 워터마크도 없습니다.",
+        whyClientSide:
+          "솔직히 말해 대부분은 여행 사진을 줄이는 일이라 누가 보든 상관없습니다. 하지만 이 도구의 가장 흔한 실제 용도는 신분증 스캔본, 서명, 여권 사진을 정부 사이트의 KB 제한에 맞추는 일이고, 이런 문서를 작게 만들겠다고 무료 웹 서비스에 넘기고 싶지는 않을 것입니다. 또 하나는 속도입니다. 20MB를 올려서 서버가 200KB를 돌려주게 하는 것은 노트북이 1초 안팎에 끝내는 일을 가장 느리게 하는 방법이고, 연결이 약하면 아예 실패합니다. 파일이 너무 커서 보낼 수 없을 때가 대개 그런 상황입니다.",
+        limitations: [
+          "브라우저 내장 인코더를 사용하므로 전용 인코더보다는 성능이 투박합니다. MozJPEG나 oxipng 기반 도구는 같은 화질에서 보통 더 작은 파일을 만듭니다. 마지막 몇 퍼센트가 중요한 실제 서비스용 이미지라면 빌드 단계의 최적화 도구를 쓰세요.",
+          "PNG는 효과가 거의 없고 오히려 커질 수도 있습니다. 원본의 팔레트나 필터 설정을 모른 채 원시 픽셀에서 다시 그리기 때문에 인덱스 PNG도 전체 RGBA로 돌아옵니다. 목표 크기 모드에서 PNG를 지원하지 않는 이유도 이 때문입니다. PNG를 정말 줄이려면 크기를 줄이거나 WebP 또는 JPEG로 변환하세요.",
+          "모든 모드가 이미지를 캔버스에 다시 그리기 때문에 EXIF, GPS 좌표, 카메라 설정, ICC 색상 프로필, XMP 같은 메타데이터가 모두 사라집니다. 대개는 개인정보 보호 면에서 이득이지만, 프로필이 사라지면 넓은 색 영역의 사진은 색이 달라질 수 있고 촬영 날짜도 잃게 됩니다.",
+          "한 번에 한 장만 처리하며 일괄 처리와 ZIP은 없습니다. 최대 25MB이고 AVIF는 입력도 출력도 지원하지 않습니다. 인코딩은 메인 스레드에서 실행되어 큰 이미지는 잠시 페이지가 멈추며, 브라우저가 인코딩하지 못하는 출력 형식을 고르면 조용히 PNG를 만들어 다른 확장자로 저장합니다.",
+        ],
+        faq: [
+          {
+            q: "이미지를 100KB처럼 정확한 크기로 압축할 수 있나요?",
+            a: "거의 맞출 수 있습니다. 목표 크기 모드는 5KB에서 5MB까지 입력할 수 있고, 조건에 맞는 품질을 찾으며 품질만으로 부족하면 너비를 줄입니다. 목표보다 작아지는 순간 멈추므로 결과는 목표 크기 또는 그보다 조금 작은 값이 됩니다. 쓸 수 없을 만큼 품질을 낮추지 않고는 목표에 닿지 못하면, 도구가 그렇게 알려 주고 만들 수 있었던 가장 작은 버전을 줍니다.",
+          },
+          {
+            q: "압축하려고 이미지를 업로드하나요?",
+            a: "아니요. 파일은 브라우저 탭 안에서 읽고 다시 인코딩합니다. 전송되는 데이터가 없고, 계정이나 가입도 필요 없으며, 인터넷 연결이 없어도 계속 작동합니다.",
+          },
+          {
+            q: "PNG는 왜 작아지지 않나요?",
+            a: "PNG는 무손실 형식이라 돌릴 수 있는 품질 조절이 없습니다. 브라우저가 같은 픽셀을 다시 인코딩할 뿐이고, 팔레트 기반 PNG는 전체 색상으로 돌아와서 오히려 커질 수도 있습니다. 너비를 줄이거나 출력 형식을 WebP 또는 JPEG로 바꿔 보세요.",
+          },
+          {
+            q: "압축하면 사진의 위치 정보도 사라지나요?",
+            a: "네, 부수 효과로 사라집니다. 캔버스에 다시 그리는 과정에서 GPS 좌표와 카메라 정보를 포함한 EXIF가 모두 빠집니다. 메타데이터 제거가 진짜 목적이라면 전용 EXIF 제거 도구가 더 직접적입니다.",
+          },
+          {
+            q: "출력 형식은 무엇을 고르는 게 좋나요?",
+            a: "웹에 쓸 거라면 WebP입니다. 같은 화질에서 보통 JPEG보다 눈에 띄게 작고, 요즘은 중요한 환경 대부분에서 지원됩니다. 오래된 시스템에서도 열려야 한다면 JPEG를 고르세요. 파일 형식이 그대로여야 하면 원본과 동일을 선택하면 됩니다.",
+          },
+        ],
+        steps: [
+          "PNG, JPG, WebP 파일(최대 25MB)을 올립니다.",
+          "자동, 강하게, 사용자 지정 품질 또는 KB 단위 목표 크기 중에서 고릅니다.",
+          "필요하면 출력 형식을 정하고 최대 너비를 제한합니다.",
+          "원본과 압축본을 비교해 본 뒤 다운로드합니다.",
+        ],
+      },
+      vi: {
+        intro:
+          "Nén ảnh online ngay trong trình duyệt: công cụ \"Nén hình ảnh\" thu nhỏ ảnh vừa đủ để nó lọt vào nơi cần gửi, chẳng hạn dưới giới hạn tệp đính kèm email, qua một biểu mẫu từ chối mọi tệp trên 500 KB, hoặc vào một trang đang tải quá chậm. Hãy thả vào ảnh PNG, JPG hoặc WebP dung lượng tối đa 25 MB rồi chọn cách đánh đổi giữa chất lượng và kích thước.\n\nCó bốn chế độ. \"Tự động\" chọn chất lượng dựa trên độ lớn của ảnh gốc. \"Nén mạnh\" nén thẳng tay mà không hỏi. \"Tuỳ chỉnh\" đưa thanh trượt chất lượng vào tay bạn. \"Kích thước mục tiêu\" là chế độ đáng dùng nhất: bạn nhập một con số tính bằng KB, công cụ sẽ dò một mức chất lượng cho ra tệp nhỏ hơn con số đó, và nếu chỉ giảm chất lượng chưa đủ thì sẽ bắt đầu giảm chiều rộng. Bạn cũng có thể giới hạn trực tiếp chiều rộng đầu ra, thường là cách tiết kiệm nhiều nhất với ảnh dùng cho trang web.\n\nViệc mã hoá dùng bộ mã hoá hình ảnh có sẵn của trình duyệt, nên không phải tải lên, không phải xếp hàng, không cần tài khoản và không có hình mờ.",
+        whyClientSide:
+          "Nói thật, phần lớn thời gian bạn chỉ đang thu nhỏ một tấm ảnh đi chơi và chẳng ai quan tâm ai xem nó. Nhưng việc thực tế thường gặp nhất của công cụ này là đưa ảnh quét căn cước, chữ ký hay ảnh thẻ xuống dưới giới hạn KB của một cổng dịch vụ công, và đó là những giấy tờ bạn không muốn trao cho một dịch vụ web miễn phí chỉ để đổi lấy bản thu nhỏ. Lý do thứ hai đơn giản là tốc độ. Tải lên 20 MB để máy chủ trả về 200 KB là cách chậm nhất để làm một việc mà chính máy tính của bạn xong trong khoảng một giây, và nó thất bại hẳn khi mạng yếu, đúng cái tình huống bạn thường gặp khi tệp quá lớn để gửi.",
+        limitations: [
+          "Công cụ dùng bộ mã hoá có sẵn của trình duyệt, vốn khá thô so với bộ mã hoá chuyên dụng. Công cụ xây trên MozJPEG hoặc oxipng thường cho tệp nhỏ hơn ở cùng chất lượng hình ảnh. Với tài nguyên sản phẩm mà vài phần trăm cuối cùng cũng quan trọng, hãy dùng công cụ tối ưu hoá ở bước build.",
+          "PNG gần như không được lợi gì và còn có thể lớn hơn. Ảnh được vẽ lại từ điểm ảnh thô mà không biết gì về bảng màu hay bộ lọc của bản gốc, nên PNG dạng indexed sẽ trở lại thành RGBA đầy đủ. Đó cũng là lý do PNG không có trong chế độ kích thước mục tiêu. Muốn thu nhỏ PNG thật sự, hãy đổi kích thước hoặc chuyển sang WebP hay JPEG.",
+          "Mọi chế độ đều vẽ lại ảnh lên canvas nên toàn bộ metadata bị bỏ: EXIF, toạ độ GPS, thông số máy ảnh, hồ sơ màu ICC và XMP. Thường đó là lợi thế về riêng tư, nhưng đôi khi lại là vấn đề: ảnh gam màu rộng có thể lệch màu khi mất hồ sơ màu, và bạn mất ngày chụp.",
+          "Mỗi lần một ảnh: không xử lý hàng loạt, không ZIP, trần 25 MB, và không hỗ trợ AVIF cho cả đầu vào lẫn đầu ra. Việc mã hoá chạy trên luồng chính nên ảnh lớn làm trang đứng hình trong chốc lát, và nếu bạn chọn định dạng đầu ra mà trình duyệt không mã hoá được, công cụ lặng lẽ ghi ra PNG với phần mở rộng sai.",
+        ],
+        faq: [
+          {
+            q: "Tôi có thể nén ảnh về đúng dung lượng, ví dụ 100 KB không?",
+            a: "Gần như vậy. Chế độ kích thước mục tiêu nhận từ 5 KB đến 5 MB, dò mức chất lượng phù hợp và giảm chiều rộng nếu chỉ chất lượng thì chưa đủ. Công cụ dừng ngay khi tệp nhỏ hơn con số của bạn, nên kết quả sẽ đúng bằng hoặc thấp hơn mục tiêu một chút. Nếu ảnh không thể xuống tới mức đó mà vẫn dùng được, công cụ sẽ báo và đưa bạn phiên bản nhỏ nhất làm được.",
+          },
+          {
+            q: "Ảnh của tôi có bị tải lên để nén không?",
+            a: "Không. Tệp được đọc và mã hoá lại ngay trong thẻ trình duyệt. Không có gì được truyền đi, không cần tài khoản hay đăng ký, và công cụ vẫn chạy được khi không có kết nối mạng.",
+          },
+          {
+            q: "Sao ảnh PNG của tôi không nhỏ đi?",
+            a: "PNG là định dạng không mất dữ liệu nên không có nút chỉnh chất lượng. Trình duyệt chỉ mã hoá lại cùng các điểm ảnh, và PNG dùng bảng màu thậm chí có thể phình ra vì quay lại thành ảnh đủ màu. Hãy giảm chiều rộng hoặc đổi định dạng đầu ra sang WebP hay JPEG.",
+          },
+          {
+            q: "Nén ảnh có xoá vị trí chụp khỏi ảnh không?",
+            a: "Có, như một hệ quả. Vẽ lại qua canvas sẽ bỏ toàn bộ EXIF, kể cả toạ độ GPS và thông tin máy ảnh. Nếu mục đích chính là xoá metadata thì công cụ xoá EXIF chuyên dụng trực tiếp hơn.",
+          },
+          {
+            q: "Nên chọn định dạng đầu ra nào?",
+            a: "WebP cho web, vì thường nhỏ hơn JPEG đáng kể ở cùng chất lượng và nay đã được hỗ trợ ở mọi nơi quan trọng. JPEG khi bạn cần một định dạng mở được trên cả hệ thống cũ. Giữ nguyên định dạng gốc khi tệp phải vẫn là cùng loại.",
+          },
+        ],
+        steps: [
+          "Thả vào ảnh PNG, JPG hoặc WebP dung lượng tối đa 25 MB.",
+          "Chọn Tự động, Nén mạnh, chất lượng Tuỳ chỉnh hoặc kích thước mục tiêu tính bằng KB.",
+          "Nếu muốn, đặt định dạng đầu ra và giới hạn chiều rộng tối đa.",
+          "So sánh ảnh gốc với bản đã nén rồi tải xuống.",
+        ],
+      },
+      tr: {
+        intro:
+          "Resim sıkıştırmak için artık bir programa gerek yok: \"Görsel Sıkıştırma\" doğrudan tarayıcıda çalışır ve fotoğrafı gitmesi gereken yere sığacak kadar küçültür. E-postanın ek sınırının altına inmek, 500 KB üzerini reddeden bir forma yüklemek ya da yavaş açılan bir sayfaya koymak için işe yarar. 25 MB'a kadar PNG, JPG veya WebP bırakın, kaliteden mi boyuttan mı ödün vereceğinizi seçin.\n\nDört yöntem var. Otomatik, kaynağın boyutuna göre bir kalite seçer. Agresif, sormadan sert sıkıştırır. Özel, kalite kaydırıcısını sizin eline verir. En ilginci Hedef boyut: kilobayt cinsinden bir sayı yazarsınız, araç o sayının altına düşen bir kalite arar; kalite tek başına yetmezse genişliği küçültmeye başlar. Çıktı genişliğini doğrudan da sınırlayabilirsiniz; web sayfasına gidecek bir fotoğrafta genellikle en büyük kazanç buradan gelir.\n\nKodlama tarayıcının kendi görsel kodlayıcısıyla yapılır; bu yüzden yükleme, sıra, hesap ya da filigran yoktur.",
+        whyClientSide:
+          "Dürüst olalım: çoğu zaman tatil fotoğrafı küçültüyorsunuz ve kimin göreceği kimsenin umurunda değil. Ama bu aracın en yaygın gerçek işi, taranmış bir kimliği, imzayı ya da vesikalık fotoğrafı bir devlet portalının kilobayt sınırının altına indirmek; üstelik bunlar, küçük bir kopya karşılığında ücretsiz bir web servisine vermek istemeyeceğiniz belgeler. Diğer neden düz hız. 20 MB yükleyip sunucudan 200 KB geri almak, kendi dizüstünüzün yaklaşık bir saniyede bitirdiği işi yapmanın en yavaş yolu; zayıf bağlantıda ise hiç çalışmaz, oysa bir dosya gönderilemeyecek kadar büyükse genellikle tam da o durumdasınızdır.",
+        limitations: [
+          "Tarayıcının yerleşik kodlayıcısını kullanır; bu, özel bir kodlayıcının yanında kaba bir araçtır. MozJPEG veya oxipng tabanlı bir araç, aynı görsel kalitede genellikle daha küçük dosya üretir. Son birkaç yüzdenin önemli olduğu üretim varlıkları için derleme aşamasında çalışan bir optimizasyon aracı kullanın.",
+          "PNG neredeyse hiç fayda görmez, hatta büyüyebilir. Görsel, orijinalin paletini veya filtre seçimlerini bilmeden ham piksellerden yeniden çizilir; bu yüzden indeksli bir PNG tam RGBA olarak geri döner. Hedef boyut modunda PNG sunulmamasının nedeni de budur. PNG'yi gerçekten küçültmek için yeniden boyutlandırın ya da WebP veya JPEG'e dönüştürün.",
+          "Her mod görseli bir tuvale yeniden çizer; bu da EXIF, GPS koordinatları, kamera ayarları, ICC renk profilleri ve XMP gibi tüm üst veriyi siler. Çoğu zaman bu bir gizlilik avantajıdır, bazen sorundur: geniş gamlı bir fotoğraf profili gidince renk kaydırabilir ve çekim tarihini kaybedersiniz.",
+          "Aynı anda tek görsel: toplu işlem yok, ZIP yok, 25 MB üst sınır var ve AVIF ne girdi ne çıktı olarak desteklenir. Kodlama ana iş parçacığında çalışır; bu yüzden büyük bir görsel sayfayı kısa süre dondurur, tarayıcınızın kodlayamadığı bir çıktı biçimi seçerseniz de araç sessizce yanlış uzantıyla bir PNG yazar.",
+        ],
+        faq: [
+          {
+            q: "Görseli 100 KB gibi tam bir boyuta sıkıştırabilir miyim?",
+            a: "Neredeyse. Hedef boyut modu 5 KB ile 5 MB arasındaki değerleri kabul eder ve sığan bir kalite arar; kalite tek başına yetmezse genişliği düşürür. Sayınızın altına inince durur, bu yüzden sonuç hedefte ya da hemen altında çıkar. Görsel kullanılamaz hale gelmeden hedefe ulaşamıyorsa araç bunu söyler ve başardığı en küçük sürümü verir.",
+          },
+          {
+            q: "Sıkıştırmak için görsellerim yükleniyor mu?",
+            a: "Hayır. Dosya tarayıcı sekmesinin içinde okunur ve yeniden kodlanır. Hiçbir şey iletilmez, hesap ya da kayıt gerekmez ve araç internet bağlantısı olmadan da çalışmaya devam eder.",
+          },
+          {
+            q: "PNG'm neden küçülmedi?",
+            a: "PNG kayıpsızdır, yani çevirecek bir kalite düğmesi yoktur; tarayıcı aynı pikselleri yeniden kodlar, paletli bir PNG ise tam renkli olarak döndüğü için büyüyebilir. Genişliği küçültün ya da çıktı biçimini WebP veya JPEG yapın.",
+          },
+          {
+            q: "Sıkıştırmak fotoğraftaki konum bilgisini siler mi?",
+            a: "Evet, yan etki olarak. Tuval üzerinden yeniden çizmek GPS koordinatları ve kamera ayrıntıları dahil tüm EXIF'i atar. Asıl amacınız üst veriyi silmekse özel EXIF temizleme aracı daha doğrudan bir yoldur.",
+          },
+          {
+            q: "Hangi çıktı biçimini seçmeliyim?",
+            a: "Web için WebP: aynı kalitede genellikle JPEG'den belirgin biçimde küçüktür ve artık önemli her yerde desteklenir. Her eski sistemin açabileceği bir dosya gerekiyorsa JPEG. Dosyanın tanınabilir şekilde aynı türde kalması gerekiyorsa orijinal biçimi koruyun.",
+          },
+        ],
+        steps: [
+          "25 MB'a kadar bir PNG, JPG veya WebP bırakın.",
+          "Otomatik, Agresif, Özel kalite ya da KB cinsinden hedef boyutu seçin.",
+          "İsterseniz çıktı biçimini belirleyin ve en büyük genişliği sınırlayın.",
+          "Orijinali sıkıştırılmış sürümle karşılaştırın, sonra indirin.",
+        ],
+      },
     },
     en: {
       intro:
@@ -2257,6 +2377,126 @@ export const toolContent: Record<string, ToolContent> = {
           "حجم قبل و بعد و خوانا بودن را بررسی کنید و بعد فایل را دانلود کنید.",
         ],
       },
+      ko: {
+        intro:
+          "PDF 용량 줄이기가 필요할 때 쓰는 도구입니다. 계속 반려되는 제한, 즉 이메일 첨부 상한, 채용이나 관공서 사이트의 업로드 제한, 메신저가 받아 주는 크기를 통과하도록 문서 용량을 줄입니다. 원본 프로그램에서 다시 내보내는 대신 이미 완성된 PDF를 바로 줄이는 방식입니다.\n\n압축 방법은 한 가지이고, 쓰기 전에 알아 둘 필요가 있습니다. 모든 페이지를 이미지로 렌더링해 JPEG로 인코딩한 뒤 원래 크기의 페이지에 다시 넣는 방식입니다. '높은 품질', '균형', '작은 파일' 세 가지 프리셋이 렌더링 해상도·JPEG 품질과 용량 사이의 균형을 정합니다. 이미 그림인 스캔 문서라면 잃는 것이 거의 없습니다. 하지만 선명한 텍스트 PDF라면 텍스트 레이어를 잃습니다.\n\n모든 과정이 브라우저에서 이루어지므로 기밀 청구서나 계약서가 압축 서버에 업로드되지 않습니다. 압축 전후 크기가 표시되니 프리셋을 써 보고 숫자를 확인한 뒤, 그래도 안 맞으면 더 강한 프리셋을 고르면 됩니다.",
+        whyClientSide:
+          "PDF는 자신을 위해 줄이는 경우가 드뭅니다. 다른 곳의 업로드 양식에 제한이 있어서 줄이는 것이죠. 그래서 대개 여권 스캔, 급여명세서, 진단서, 서명한 임대 계약서, 세금 신고서 같은 파일이고, 겨우 몇 MB를 줄이자고 모르는 곳의 처리 대기열에 그런 문서를 넣는 것이 대안입니다. 로컬에서 처리하면 전송도 두 번 줄어듭니다. 느린 연결로 스캔본 40MB를 올렸다가 작은 파일을 다시 받을 필요가 없습니다.",
+        limitations: [
+          "페이지를 이미지로 바꾸는 방식이 유일한 모드입니다. 압축하면 텍스트를 선택, 복사, 검색할 수 없고 화면 낭독기도 문서를 읽지 못하며, 페이지의 링크·입력란·주석도 사라집니다. 텍스트 레이어를 유지하는 옵션도, 되살리는 OCR도 없습니다.",
+          "가벼운 텍스트나 벡터 PDF는 결과가 원본보다 커질 수 있습니다. 글자가 가득한 페이지가 전체 페이지 사진이 되기 때문입니다. 이때도 도구는 성공으로 처리하고 감소율을 음수로 보여 줄 뿐이므로, 잘 됐다고 단정하지 말고 전후 수치를 확인하세요.",
+          "프리셋은 세 가지로 고정입니다. 목표 파일 크기, 사용자 지정 품질이나 DPI 조절, 이미지만 다시 압축하는 기능이 없습니다. 텍스트 레이어는 두고 내장 사진만 줄이는 Ghostscript 방식의 서버 도구가 하는 일은 이 도구가 할 수 없습니다.",
+          "한 번에 파일 하나, 페이지의 메인 스레드에서 실행되며 진행 표시줄도 취소 버튼도 없습니다. 긴 문서는 처리하는 동안 탭이 멈춥니다. 모든 페이지를 JPEG로 다시 인코딩하므로 투명도가 평탄화되고, 암호로 보호된 PDF는 거부됩니다.",
+        ],
+        faq: [
+          {
+            q: "PDF를 업로드하지 않고 무료로 압축할 수 있나요?",
+            a: "네. 압축은 브라우저 탭 안에서 로컬로 실행됩니다. 업로드, 계정, 가입, 워터마크가 없으므로 민감한 문서가 기기 밖으로 나가지 않습니다.",
+          },
+          {
+            q: "압축은 구체적으로 어떻게 이루어지나요?",
+            a: "각 페이지를 이미지로 렌더링하고, 해상도와 품질을 낮춘 JPEG로 PDF에 다시 저장합니다. 용량이 줄어드는 원리는 이것이며, 여기서 쓸 수 있는 방법은 이것뿐입니다.",
+          },
+          {
+            q: "압축한 뒤에도 텍스트를 선택할 수 있나요?",
+            a: "아니요. 페이지가 이미지로 변환되므로 텍스트 레이어가 사라집니다. 글자는 보이지만 선택, 복사, 검색은 할 수 없습니다. 그런 기능이 필요하면 원본을 보관하세요.",
+          },
+          {
+            q: "PDF가 줄지 않고 오히려 커졌어요.",
+            a: "이미 효율적인 파일이었기 때문입니다. 텍스트만 있는 PDF는 글자를 명령으로 저장해서, 그 글자를 찍은 사진보다 훨씬 작습니다. 모든 페이지를 이미지로 바꾸면 얻는 것보다 잃는 것이 클 수 있습니다. 전후 수치를 확인하고, 커졌다면 원본을 쓰세요.",
+          },
+          {
+            q: "어떤 프리셋을 골라야 하나요?",
+            a: "'균형'이 기본값이고 대개 가장 무난한 시작점입니다. 그래도 업로드 제한을 넘으면 '작은 파일'로, 압축된 페이지가 흐려서 읽기 어려우면 '높은 품질'로 바꾸세요.",
+          },
+        ],
+        steps: [
+          "줄이려는 PDF를 엽니다.",
+          "높은 품질, 균형, 작은 파일 중에서 고릅니다.",
+          "압축을 실행하고 페이지가 다시 인코딩될 때까지 기다립니다.",
+          "압축 전후 크기와 내용이 읽을 만한지 확인한 뒤 다운로드합니다.",
+        ],
+      },
+      vi: {
+        intro:
+          "Nén PDF giúp giảm dung lượng tài liệu để vượt qua những giới hạn cứ làm nó bị trả về: trần tệp đính kèm email, hạn mức tải lên ở cổng nộp hồ sơ xin việc hoặc dịch vụ công, dung lượng mà ứng dụng nhắn tin chấp nhận. Thay vì xuất lại từ ứng dụng gốc, bạn thu nhỏ trực tiếp tệp PDF đã hoàn chỉnh.\n\nChỉ có một phương pháp nén và bạn nên hiểu nó trước khi dùng: mỗi trang được kết xuất thành ảnh, mã hoá lại thành JPEG và đặt trở lại trang có kích thước gốc. Ba mức cài sẵn là Chất lượng cao, Cân bằng hoặc Tệp nhỏ sẽ chọn sự đánh đổi giữa độ phân giải kết xuất và chất lượng JPEG với dung lượng. Với tài liệu quét vốn đã là một bức ảnh thì gần như không mất gì. Còn với PDF văn bản sắc nét, bạn mất lớp văn bản.\n\nToàn bộ quá trình chạy trong trình duyệt của bạn, nên hoá đơn hay hợp đồng bí mật không bao giờ bị tải lên máy chủ nén. Công cụ hiển thị dung lượng trước và sau, nên bạn có thể thử một mức cài sẵn, xem con số, rồi chọn mức mạnh hơn nếu vẫn chưa vừa.",
+        whyClientSide:
+          "Hiếm khi bạn nén PDF vì lợi ích của chính mình, mà vì biểu mẫu tải lên của người khác có giới hạn. Nghĩa là tệp đó thường là bản quét hộ chiếu, phiếu lương, báo cáo y tế, hợp đồng thuê nhà đã ký hay tờ khai thuế, và lựa chọn thay thế là đưa tài liệu ấy qua hàng đợi xử lý của một người lạ chỉ để bớt đi vài megabyte. Làm cục bộ còn bỏ được hai lượt truyền: bạn không phải đẩy 40 MB bản quét lên đường truyền chậm chỉ để rồi kéo một tệp nhỏ hơn về.",
+        limitations: [
+          "Chuyển trang thành ảnh là chế độ duy nhất. Sau khi nén, văn bản không thể chọn, sao chép hay tìm kiếm, trình đọc màn hình không còn đọc được tài liệu, và liên kết, trường biểu mẫu, chú thích trên trang đều mất. Không có tuỳ chọn giữ lớp văn bản và cũng không có OCR để phục hồi.",
+          "Với PDF văn bản hay vector nhẹ, kết quả có thể lớn hơn đầu vào, vì một trang chữ biến thành ảnh chụp cả trang. Công cụ vẫn báo đó là thành công và chỉ hiện phần trăm giảm âm, nên hãy xem số liệu trước và sau thay vì cho rằng nó đã hiệu quả.",
+          "Chỉ có ba mức cài sẵn cố định, không gì khác. Không có kích thước tệp mục tiêu, không tuỳ chỉnh chất lượng hay DPI, cũng không nén riêng phần ảnh. Những công cụ máy chủ kiểu Ghostscript thu nhỏ ảnh nhúng mà giữ nguyên lớp văn bản làm được việc mà công cụ này không thể.",
+          "Mỗi lần một tệp, chạy trên luồng chính của trang, không có thanh tiến trình và không có nút huỷ. Tài liệu dài sẽ làm treo thẻ trong lúc xử lý. Độ trong suốt cũng bị làm phẳng vì mọi trang được mã hoá lại thành JPEG, và PDF có mật khẩu bị từ chối hoàn toàn.",
+        ],
+        faq: [
+          {
+            q: "Tôi có thể nén PDF miễn phí mà không cần tải lên không?",
+            a: "Có. Việc nén chạy cục bộ trong thẻ trình duyệt, không tải lên, không tài khoản, không đăng ký, không hình mờ, nên tài liệu nhạy cảm không rời khỏi thiết bị của bạn.",
+          },
+          {
+            q: "Việc nén thực sự hoạt động thế nào?",
+            a: "Mỗi trang được kết xuất thành ảnh và lưu lại vào PDF dưới dạng JPEG với độ phân giải và chất lượng thấp hơn. Đó là cách dung lượng giảm, và đây là phương pháp duy nhất có ở đây.",
+          },
+          {
+            q: "Sau khi nén tôi còn chọn được văn bản không?",
+            a: "Không. Vì các trang bị chuyển thành ảnh nên lớp văn bản mất đi: chữ vẫn hiển thị nhưng không thể chọn, sao chép hay tìm kiếm. Hãy giữ lại bản gốc nếu bạn cần những việc đó.",
+          },
+          {
+            q: "Sao PDF của tôi lại nặng hơn thay vì nhẹ đi?",
+            a: "Vì nó vốn đã gọn. PDF chỉ có văn bản lưu chữ cái dưới dạng lệnh, nhỏ gọn hơn rất nhiều so với một tấm ảnh chụp những chữ đó. Biến mỗi trang thành ảnh có thể tốn nhiều hơn lợi. Hãy xem số liệu trước và sau; nếu kết quả lớn hơn, hãy giữ bản gốc.",
+          },
+          {
+            q: "Tôi nên chọn mức cài sẵn nào?",
+            a: "Cân bằng là mặc định và thường là điểm xuất phát đúng. Chuyển sang Tệp nhỏ nếu bạn vẫn vượt giới hạn tải lên, hoặc Chất lượng cao nếu các trang đã nén trông quá mờ để đọc.",
+          },
+        ],
+        steps: [
+          "Mở tệp PDF bạn cần thu nhỏ.",
+          "Chọn Chất lượng cao, Cân bằng hoặc Tệp nhỏ.",
+          "Nén và chờ các trang được mã hoá lại.",
+          "Kiểm tra dung lượng trước và sau cũng như độ dễ đọc, rồi tải xuống.",
+        ],
+      },
+      tr: {
+        intro:
+          "PDF küçültmek, belgenizi sürekli geri çeviren sınırların altına indirmek içindir: e-postanın ek üst sınırı, iş başvurusu veya devlet portalındaki yükleme limiti, bir mesajlaşma uygulamasının kabul ettiği boyut. Kaynak uygulamadan yeniden dışa aktarmak yerine bitmiş PDF'yi doğrudan küçültürsünüz.\n\nTek bir sıkıştırma yöntemi var ve kullanmadan önce bilmekte fayda var: her sayfa bir görsele dönüştürülür, JPEG olarak yeniden kodlanır ve orijinal boyutlardaki bir sayfaya geri yerleştirilir. Üç hazır ayar (Yüksek kalite, Dengeli veya Küçük dosya), işleme çözünürlüğü ve JPEG kalitesi ile boyut arasındaki dengeyi belirler. Zaten bir resim olan taranmış belgede bu neredeyse hiçbir şeye mal olmaz. Net bir metin PDF'inde ise metin katmanından olursunuz.\n\nTüm işlem tarayıcınızda çalışır; bu yüzden gizli bir fatura ya da sözleşme asla bir sıkıştırma sunucusuna yüklenmez. Araç önceki ve sonraki boyutları gösterir; bir ayarı deneyip rakamlara bakabilir, hâlâ sığmıyorsa daha güçlüsünü seçebilirsiniz.",
+        whyClientSide:
+          "PDF'yi nadiren kendi yararınıza sıkıştırırsınız; sıkıştırırsınız çünkü başkasının yükleme formunun bir sınırı vardır. Yani söz konusu dosya genellikle bir pasaport taraması, maaş bordrosu, tıbbi rapor, imzalı kira sözleşmesi ya da vergi beyannamesidir ve alternatif, yalnızca birkaç megabayt kırpmak için o belgeyi bir yabancının işlem kuyruğundan geçirmektir. Yerelde çalışmak iki aktarımı da atlatır: yavaş bir bağlantıdan 40 MB'lık taramaları yükleyip daha küçük bir dosyayı geri indirmezsiniz.",
+        limitations: [
+          "Sayfaları görsele çevirmek tek moddur. Sıkıştırıldıktan sonra metin seçilemez, kopyalanamaz ya da aranamaz, ekran okuyucular belgeyi artık okuyamaz; sayfadaki bağlantılar, form alanları ve ek açıklamalar gider. Metin katmanını koruma seçeneği ve onu geri getirecek OCR yoktur.",
+          "Sade bir metin ya da vektör PDF'inde çıktı girdiden büyük olabilir; çünkü bir sayfa dolusu yazı, tam sayfa bir fotoğrafa dönüşür. Araç bunu yine de başarı sayar ve yalnızca negatif bir azalma yüzdesi gösterir; bu yüzden işe yaradığını varsaymak yerine önce/sonra rakamlarına bakın.",
+          "Üç sabit hazır ayar var, başka bir şey yok. Hedef dosya boyutu, özel kalite veya DPI denetimi, yalnızca görsel yeniden sıkıştırma yok; metin katmanına dokunmadan gömülü fotoğrafları küçülten Ghostscript tarzı sunucu araçlarının yaptığı iş bu araçla yapılamaz.",
+          "Aynı anda tek dosya, sayfanın ana iş parçacığında, ilerleme çubuğu ve iptal düğmesi olmadan çalışır. Uzun bir belge işlem sürerken sekmeyi kilitler. Her sayfa JPEG olarak yeniden kodlandığı için saydamlık da düzleşir; parola korumalı PDF'ler ise doğrudan reddedilir.",
+        ],
+        faq: [
+          {
+            q: "PDF'yi yüklemeden ücretsiz sıkıştırabilir miyim?",
+            a: "Evet. Sıkıştırma tarayıcı sekmesinde yerelde çalışır; yükleme, hesap, kayıt ve filigran yoktur, bu yüzden hassas belgeler cihazınızdan çıkmaz.",
+          },
+          {
+            q: "Sıkıştırma tam olarak nasıl çalışıyor?",
+            a: "Her sayfa bir görsele dönüştürülür ve düşürülmüş çözünürlük ve kaliteyle JPEG olarak PDF'e geri kaydedilir. Boyut bu şekilde küçülür ve burada kullanılabilen tek yöntem budur.",
+          },
+          {
+            q: "Sıkıştırdıktan sonra metin hâlâ seçilebilir mi?",
+            a: "Hayır. Sayfalar görsele çevrildiği için metin katmanı kaybolur: sözcükler görünür kalır ama seçilemez, kopyalanamaz ya da aranamaz. Buna ihtiyacınız varsa orijinali saklayın.",
+          },
+          {
+            q: "PDF'm neden küçülmek yerine büyüdü?",
+            a: "Çünkü zaten verimliydi. Yalnızca metin içeren bir PDF harfleri komut olarak saklar; bu, o harflerin fotoğrafından çok daha derli toplu. Her sayfayı görsele çevirmek kazandırdığından fazlasına mal olabilir. Önce/sonra rakamlarına bakın; sonuç büyüdüyse orijinali saklayın.",
+          },
+          {
+            q: "Hangi hazır ayarı seçmeliyim?",
+            a: "Dengeli varsayılandır ve genellikle doğru başlangıç noktasıdır. Hâlâ yükleme sınırının üzerindeyseniz Küçük dosyaya, sıkıştırılan sayfalar okunamayacak kadar yumuşak görünüyorsa Yüksek kaliteye geçin.",
+          },
+        ],
+        steps: [
+          "Küçültmeniz gereken PDF'yi açın.",
+          "Yüksek kalite, Dengeli veya Küçük dosyadan birini seçin.",
+          "Sıkıştırın ve sayfaların yeniden kodlanmasını bekleyin.",
+          "Önceki ve sonraki boyutları ve okunabilirliği kontrol edin, sonra indirin.",
+        ],
+      },
     },
     en: {
       intro:
@@ -3058,6 +3298,102 @@ export const toolContent: Record<string, ToolContent> = {
           "تصویر فشرده‌شده را دانلود کنید.",
         ],
       },
+      ko: {
+        intro:
+          "100KB는 채용 사이트와 지원자 추적 시스템(ATS)에서 자주 마주치는 제한입니다. 채용 담당자용 화면이 빠르게 뜨도록 프로필 사진이나 이력서 첨부 썸네일을 대략 이 크기로 제한하는 곳이 많습니다. 포럼이나 커뮤니티의 프로필 이미지로도 충분한 크기입니다. 이 도구는 JPG, PNG, WebP를 브라우저에서 100KB 가까이로 압축합니다.\n\n목표를 100KB로 입력하면 JPEG 품질을 낮추고, 필요하면 해상도도 줄여서 파일이 들어갈 때까지 맞춥니다. 100KB면 증명사진은 대체로 얼굴 윤곽이 선명하고 그라데이션도 부드럽게 유지되므로, 지원서에 넣어도 단정해 보입니다.\n\n업로드도, 가입도, 워터마크도 없습니다. 사이트에서 사진이 '용량이 너무 크다'며 거절될 때 빠르고 비공개로 해결하기에 좋습니다.",
+        faq: [
+          {
+            q: "왜 하필 100KB인가요?",
+            a: "채용 사이트와 ATS는 프로필이나 첨부 이미지를 이 정도 크기로 제한하는 경우가 많고, 포럼과 커뮤니티의 프로필 이미지 제한으로도 흔합니다.",
+          },
+          {
+            q: "100KB로 줄여도 증명사진이 선명한가요?",
+            a: "대부분의 경우 그렇습니다. 100KB는 일반적인 표시 크기에서 얼굴 디테일과 부드러운 피부 톤을 지킬 만큼 넉넉합니다.",
+          },
+          {
+            q: "정확히 100KB 아래로 맞출 수 있나요?",
+            a: "품질을 조정한 뒤 해상도를 줄이는 방식으로 목표에 맞추는 최선형 방식이어서, 조금 넘거나 모자랄 수 있습니다. 여유를 더 두려면 해상도를 줄여 보세요.",
+          },
+          {
+            q: "파일이 어딘가에 업로드되나요?",
+            a: "아니요. 모든 압축이 브라우저 안에서 이루어지므로 사진은 비공개로 유지됩니다.",
+          },
+          {
+            q: "100KB에는 PNG와 JPG 중 무엇이 좋나요?",
+            a: "사진은 JPG나 WebP가 좋습니다. 투명 배경이나 선명한 단색 그래픽이 필요할 때만 PNG를 쓰세요.",
+          },
+        ],
+        steps: [
+          "100KB 이하로 만들어야 하는 사진을 올립니다.",
+          "목표 크기를 100KB로 설정합니다.",
+          "도구가 품질을 낮추고, 필요하면 해상도도 줄이도록 둡니다.",
+          "압축된 이미지를 다운로드합니다.",
+        ],
+      },
+      vi: {
+        intro:
+          "100 KB là giới hạn bạn hay đụng phải trên các trang tuyển dụng và hệ thống theo dõi ứng viên (ATS), nơi ảnh hồ sơ hoặc ảnh thu nhỏ của CV đính kèm thường bị khống chế ở khoảng mức này để trang dành cho nhà tuyển dụng tải nhanh. Mức này cũng quá đủ cho ảnh đại diện trên diễn đàn hay cộng đồng. Công cụ này nén ảnh JPG, PNG hoặc WebP về gần 100 KB ngay trong trình duyệt.\n\nBạn đặt mục tiêu 100 KB; công cụ hạ chất lượng JPEG và, nếu cần, thu nhỏ kích thước cho tới khi tệp vừa. Với trọn 100 KB để làm việc, một bức ảnh chân dung thường vẫn giữ nét mặt sắc nét và dải chuyển màu mượt, nên hồ sơ ứng tuyển của bạn vẫn trông chuyên nghiệp.\n\nKhông tải lên, không đăng ký, không hình mờ: rất tiện khi cổng nào đó từ chối ảnh vì \"quá lớn\" và bạn chỉ cần một cách sửa nhanh, kín đáo.",
+        faq: [
+          {
+            q: "Vì sao lại là 100 KB?",
+            a: "Các cổng tuyển dụng và nền tảng ATS thường giới hạn ảnh hồ sơ hoặc tệp đính kèm quanh mức này, và đây cũng là giới hạn phổ biến cho ảnh đại diện trên diễn đàn, cộng đồng.",
+          },
+          {
+            q: "Ảnh chân dung của tôi còn sắc nét ở 100 KB không?",
+            a: "Trong phần lớn trường hợp là có. 100 KB đủ rộng rãi để giữ chi tiết khuôn mặt và tông da mịn ở các kích thước hiển thị thông thường.",
+          },
+          {
+            q: "Có xuống dưới đúng 100 KB được không?",
+            a: "Công cụ nén dần tới mục tiêu bằng cách chỉnh chất lượng rồi tới kích thước; kết quả theo kiểu cố gắng hết sức nên có thể nhỉnh hơn hoặc thấp hơn một chút. Hãy cắt bớt kích thước để có thêm biên an toàn.",
+          },
+          {
+            q: "Tệp có bị tải lên đâu không?",
+            a: "Không, toàn bộ việc nén diễn ra trong trình duyệt nên ảnh của bạn vẫn riêng tư.",
+          },
+          {
+            q: "100 KB thì nên dùng PNG hay JPG?",
+            a: "JPG hoặc WebP cho ảnh chụp; chỉ dùng PNG nếu bạn cần nền trong suốt hoặc đồ hoạ phẳng sắc nét.",
+          },
+        ],
+        steps: [
+          "Tải lên ảnh bạn cần đưa xuống dưới 100 KB.",
+          "Đặt 100 KB làm kích thước mục tiêu.",
+          "Để công cụ hạ chất lượng và thu nhỏ kích thước nếu cần.",
+          "Tải ảnh đã nén xuống.",
+        ],
+      },
+      tr: {
+        intro:
+          "100 KB, iş ilanı siteleri ve başvuru takip sistemlerinde (ATS) sık karşınıza çıkan sınırdır; bu sistemler, işe alım panelleri hızlı açılsın diye profil fotoğrafını veya CV eki küçük resmini genellikle bu boyutla sınırlar. Bir forum ya da topluluk profil resmi için de fazlasıyla yeterlidir. Bu araç JPG, PNG veya WebP dosyanızı tarayıcıda yerel olarak 100 KB'a doğru sıkıştırır.\n\nHedef olarak 100 KB verirsiniz; araç JPEG kalitesini düşürür ve gerekirse dosya sığana kadar boyutları küçültür. Çalışmak için tam 100 KB varken bir vesikalık genellikle keskin yüz hatlarını ve yumuşak geçişleri korur; başvurunuzda hâlâ profesyonel görünür.\n\nYükleme yok, kayıt yok, filigran yok: bir portal fotoğrafınızı \"çok büyük\" diye reddettiğinde yalnızca hızlı ve gizli bir çözüme ihtiyaç duyduğunuz durumlar için kullanışlı.",
+        faq: [
+          {
+            q: "Neden özellikle 100 KB?",
+            a: "İş portalları ve ATS platformları profil veya ek görsellerini yaygın olarak bu boyut civarında sınırlar; forum ve topluluklarda da sık görülen bir avatar sınırıdır.",
+          },
+          {
+            q: "Vesikalığım 100 KB'ta hâlâ keskin görünür mü?",
+            a: "Çoğu durumda evet. 100 KB, tipik görüntüleme boyutlarında yüz ayrıntısını ve yumuşak ten tonlarını korumaya yetecek kadar cömerttir.",
+          },
+          {
+            q: "Tam 100 KB'ın altına inebilir mi?",
+            a: "Önce kaliteyi, sonra boyutları ayarlayarak hedefe yaklaşır; sonuçlar en iyi çaba esasına dayanır, bu yüzden biraz üstünde ya da altında çıkabilir. Fazladan pay için boyutları kırpın.",
+          },
+          {
+            q: "Dosyalar bir yere yükleniyor mu?",
+            a: "Hayır, tüm sıkıştırma tarayıcınızda yapılır; fotoğrafınız gizli kalır.",
+          },
+          {
+            q: "100 KB için PNG mi JPG mi?",
+            a: "Fotoğraflar için JPG veya WebP; PNG yalnızca saydam arka plan ya da keskin düz grafikler gerekiyorsa.",
+          },
+        ],
+        steps: [
+          "100 KB altına indirmeniz gereken fotoğrafı yükleyin.",
+          "Hedef boyut olarak 100 KB'ı belirleyin.",
+          "Aracın kaliteyi düşürmesine ve gerekirse boyutları küçültmesine izin verin.",
+          "Sıkıştırılmış görseli indirin.",
+        ],
+      },
     },
     en: {
       intro:
@@ -3272,6 +3608,102 @@ export const toolContent: Record<string, ToolContent> = {
           "تصویر بهینه‌شده را دانلود کنید.",
         ],
       },
+      ko: {
+        intro:
+          "이미지를 500KB 이하로 줄이는 일은 엄격한 사이트 규정이라기보다 예의와 성능의 문제에 가깝습니다. 이메일에 첨부하는 이미지라면 받는 사람의 편지함을 막지 않도록 지킬 만한 상한이고, 선명해 보이면서도 페이지 로딩을 늦추지 않아야 하는 웹 히어로나 배너 이미지에도 알맞은 용량입니다. 이 도구는 JPG, PNG, WebP를 로컬에서 500KB 가까이로 압축합니다.\n\n목표를 500KB로 두면 먼저 품질을 낮추고, 꼭 필요할 때만 해상도를 줄입니다. 반 메가바이트면 가로 폭이 넓은 사진도 고해상도 화면에서 깔끔하게 보이고, 휴대폰 카메라가 만드는 수 MB의 군더더기는 덜어낼 수 있습니다.\n\n업로드가 없으므로 히어로 이미지나 이메일용 사진을 비공개로 준비하고, 용량이 마음에 들 때까지 몇 번이고 다시 돌려 볼 수 있습니다.",
+        faq: [
+          {
+            q: "왜 500KB를 목표로 하나요?",
+            a: "이메일 첨부가 예의 바르고 편지함에 부담이 없으며, 선명해야 하는 웹 히어로나 배너 이미지로도 적당한 무게입니다.",
+          },
+          {
+            q: "500KB 히어로 이미지가 큰 화면에서도 괜찮아 보이나요?",
+            a: "네. 이 정도 용량이면 가로로 넓은 사진도 고해상도 디스플레이에서 깔끔하게 보이고, 원본보다 훨씬 빠르게 로딩됩니다.",
+          },
+          {
+            q: "정확히 500KB가 되나요?",
+            a: "품질을 낮추고 그다음 해상도를 줄이는 방식으로 목표에 가깝게 맞추는 최선형 방식이므로, 정확히 500KB가 아니라 근처 값이 나옵니다.",
+          },
+          {
+            q: "내 이미지가 업로드되나요?",
+            a: "아니요. 압축은 전부 브라우저 안에서 이루어지므로 사진이 기기 밖으로 나가지 않습니다.",
+          },
+          {
+            q: "이 크기에서도 PNG를 유지해야 하나요?",
+            a: "사진은 JPG나 WebP로 하면 500KB 용량을 가장 잘 활용할 수 있습니다. PNG는 투명도가 필요한 그래픽에만 쓰세요.",
+          },
+        ],
+        steps: [
+          "500KB 이하로 만들 이미지를 올립니다.",
+          "목표 크기를 500KB로 설정합니다.",
+          "도구가 품질을 낮추고, 필요하면 해상도도 줄이도록 둡니다.",
+          "최적화된 이미지를 다운로드합니다.",
+        ],
+      },
+      vi: {
+        intro:
+          "500 KB không hẳn là quy định cứng của một cổng nào, mà thiên về phép lịch sự và hiệu năng: đó là mức trần hợp lý cho ảnh đính kèm email để không làm đầy hộp thư của người nhận, và là ngân sách vững cho ảnh hero hoặc banner trên web, vốn phải sắc nét mà không kéo chậm tốc độ tải trang. Công cụ này nén ảnh JPG, PNG hoặc WebP về gần 500 KB ngay trên máy bạn.\n\nHãy đặt mục tiêu 500 KB; công cụ sẽ hạ chất lượng trước, rồi chỉ giảm kích thước khi thật cần. Nửa megabyte đủ để một tấm ảnh rộng, tràn khung vẫn trông sạch trên màn hình độ phân giải cao, đồng thời cắt bớt phần dung lượng phình ra vài megabyte mà camera điện thoại tạo ra.\n\nKhông có gì được tải lên, nên bạn có thể chuẩn bị ảnh hero hay ảnh gửi email một cách riêng tư và chạy lại cho đến khi dung lượng vừa ý.",
+        faq: [
+          {
+            q: "Vì sao nên nhắm tới 500 KB?",
+            a: "Mức này giữ cho tệp đính kèm email lịch sự, không nặng hộp thư, và là trọng lượng lành mạnh cho ảnh hero hoặc banner web vẫn cần sắc nét.",
+          },
+          {
+            q: "Ảnh hero 500 KB có đẹp trên màn hình lớn không?",
+            a: "Có. Ở mức này, ảnh rộng vẫn sạch trên màn hình độ phân giải cao mà tải nhanh hơn bản gốc nhiều.",
+          },
+          {
+            q: "Công cụ có đạt đúng 500 KB không?",
+            a: "Công cụ nén dần tới mục tiêu (chất lượng rồi tới kích thước) theo kiểu cố gắng hết sức, nên hãy kỳ vọng kết quả gần chứ không chính xác bằng 500 KB.",
+          },
+          {
+            q: "Ảnh của tôi có bị tải lên không?",
+            a: "Không, việc nén diễn ra hoàn toàn trong trình duyệt nên ảnh không rời khỏi thiết bị của bạn.",
+          },
+          {
+            q: "Với dung lượng này có nên giữ PNG không?",
+            a: "Hãy dùng JPG hoặc WebP cho ảnh chụp để tận dụng tốt nhất ngân sách 500 KB; chỉ để PNG cho đồ hoạ cần nền trong suốt.",
+          },
+        ],
+        steps: [
+          "Tải lên ảnh bạn muốn đưa xuống dưới 500 KB.",
+          "Đặt 500 KB làm kích thước mục tiêu.",
+          "Để công cụ hạ chất lượng và, nếu cần, giảm kích thước.",
+          "Tải ảnh đã tối ưu xuống.",
+        ],
+      },
+      tr: {
+        intro:
+          "500 KB, sert bir portal kuralından çok nezaket ve performansla ilgilidir: e-postaya eklediğiniz bir görsel için, karşı tarafın gelen kutusunu tıkamamak adına mantıklı bir üst sınırdır; sayfa yüklenme hızını düşürmeden net görünmesi gereken bir web kahraman (hero) veya afiş görseli için de sağlam bir bütçedir. Bu araç JPG, PNG veya WebP dosyasını yerelde 500 KB'a doğru sıkıştırır.\n\n500 KB hedefini verin; araç önce kaliteyi, gerekirse sonra boyutları düşürür. Yarım megabayt, geniş ve tam genişlikte bir fotoğrafın yüksek çözünürlüklü ekranlarda temiz görünmesi için yeterlidir; telefon kameralarının ürettiği çok megabaytlık şişkinliği de keser.\n\nHiçbir şey yüklenmediği için hero görsellerini ya da e-posta fotoğraflarını gizlice hazırlayabilir, boyut size uygun gelene kadar yeniden çalıştırabilirsiniz.",
+        faq: [
+          {
+            q: "Neden 500 KB hedeflemeliyim?",
+            a: "E-posta eklerini kibar ve gelen kutusu dostu tutar; ayrıca hâlâ keskin görünmesi gereken bir web hero veya afiş görseli için sağlıklı bir ağırlıktır.",
+          },
+          {
+            q: "500 KB'lık bir hero görseli büyük ekranda iyi görünür mü?",
+            a: "Evet. Bu bütçede geniş bir fotoğraf, yüksek çözünürlüklü ekranlarda temiz kalırken orijinalden çok daha hızlı yüklenir.",
+          },
+          {
+            q: "Tam 500 KB'a ulaşıyor mu?",
+            a: "Hedefe (önce kalite, sonra boyut) elinden gelenin en iyisiyle yaklaşır; yani tam 500 KB değil, civarında bir sonuç bekleyin.",
+          },
+          {
+            q: "Görsellerim yükleniyor mu?",
+            a: "Hayır, sıkıştırma tamamen tarayıcıda yapılır; fotoğraflarınız cihazınızdan çıkmaz.",
+          },
+          {
+            q: "Bu boyutta PNG'yi korumalı mıyım?",
+            a: "500 KB bütçesinden en iyi şekilde yararlanmak için fotoğraflarda JPG veya WebP kullanın; PNG'yi saydamlık gereken grafiklere saklayın.",
+          },
+        ],
+        steps: [
+          "500 KB altına indirmek istediğiniz görseli yükleyin.",
+          "Hedef boyut olarak 500 KB'ı belirleyin.",
+          "Aracın kaliteyi ve gerekirse boyutları düşürmesine izin verin.",
+          "Optimize edilmiş görseli indirin.",
+        ],
+      },
     },
     en: {
       intro:
@@ -3410,6 +3842,102 @@ export const toolContent: Record<string, ToolContent> = {
           "۱ مگابایت را به‌عنوان حجم هدف تعیین کنید.",
           "بگذارید ابزار کیفیت را ملایم پایین بیاورد و در صورت نیاز ابعاد را کم کند.",
           "تصویر فشرده‌شده را دانلود کنید.",
+        ],
+      },
+      ko: {
+        intro:
+          "이미지 압축 1MB는 일상적인 공유에 가장 무난한 크기입니다. 흔히 쓰는 이메일 서비스의 첨부 용량 제한에 넉넉히 들어가고, 메신저가 자체 재압축으로 화질을 더 망치지 않고 바로 보낼 수 있을 만큼 작습니다. 이 도구는 JPG, PNG, WebP를 브라우저에서 약 1MB로 줄여 줍니다.\n\n목표가 1MB라면 일반적인 사진은 거의 건드릴 필요가 없습니다. 품질을 조금만 낮추고, 원본이 아주 클 때만 해상도를 줄입니다. 그래서 원본에 가까운 디테일을 유지하면서, 요즘 휴대폰 카메라가 사진마다 얹어 놓는 불필요한 용량만 덜어낼 수 있습니다.\n\n메신저는 보낸 사진을 다시 압축하는 경우가 많습니다. 미리 1MB로 깔끔하게 줄여서 보내면, 10MB 원본을 앱이 알아서 뭉개 버리게 두는 것보다 최종 화질을 더 잘 관리할 수 있습니다.",
+        faq: [
+          {
+            q: "왜 1MB로 압축하나요?",
+            a: "흔히 쓰는 이메일 서비스의 첨부 용량 제한에 여유 있게 들어가고, 채팅 앱이 심한 재압축 없이 이미지를 빠르게 보낼 수 있습니다.",
+          },
+          {
+            q: "1MB로 줄이면 화질이 많이 떨어지나요?",
+            a: "일반적인 사진이라면 거의 차이가 없습니다. 1MB는 넉넉한 크기여서 디테일이 원본에 가깝게 유지됩니다.",
+          },
+          {
+            q: "그냥 원본을 보내면 안 되나요?",
+            a: "휴대폰 사진은 수 MB인 경우가 많습니다. 1MB 버전은 더 빨리 전송되고, 어차피 채팅 앱이 다시 압축하기 전에 화질을 직접 관리할 수 있습니다.",
+          },
+          {
+            q: "파일이 업로드되나요?",
+            a: "아니요. 모든 작업이 브라우저 안에서 로컬로 이루어집니다.",
+          },
+          {
+            q: "어떤 형식을 지원하나요?",
+            a: "JPG, PNG, WebP를 지원합니다. 이 목표 크기에서는 JPG와 WebP가 사진을 가장 작게 만듭니다.",
+          },
+        ],
+        steps: [
+          "약 1MB로 줄이고 싶은 이미지를 올립니다.",
+          "목표 크기를 1MB로 설정합니다.",
+          "도구가 품질을 살짝 낮추고, 필요하면 해상도도 줄이도록 둡니다.",
+          "압축된 이미지를 다운로드합니다.",
+        ],
+      },
+      vi: {
+        intro:
+          "Muốn nén ảnh xuống 1MB thì đây là mức dễ chịu nhất cho việc chia sẻ hằng ngày: nằm gọn trong giới hạn tệp đính kèm của các dịch vụ email phổ biến, và đủ nhỏ để ứng dụng chat gửi ngay mà không phải nén lại thêm làm hỏng ảnh. Công cụ này nén ảnh JPG, PNG hoặc WebP xuống khoảng 1 MB ngay trong trình duyệt.\n\nVới mục tiêu 1 MB, bộ nén gần như không phải động tới một tấm ảnh thông thường: chỉ hạ chất lượng nhẹ nhàng và chỉ thu nhỏ kích thước nếu ảnh gốc quá lớn. Nhờ vậy bạn giữ được chi tiết gần như nguyên bản, chỉ bỏ đi phần dung lượng thừa mà camera điện thoại đời mới gắn vào mỗi tấm ảnh.\n\nVì các ứng dụng nhắn tin thường nén lại mọi thứ bạn gửi, đưa sẵn cho chúng một tệp 1 MB gọn gàng giúp bạn kiểm soát chất lượng cuối cùng tốt hơn là để ứng dụng nghiền nát một bản gốc 10 MB.",
+        faq: [
+          {
+            q: "Vì sao nên nén xuống 1 MB?",
+            a: "Mức này nằm thoải mái trong giới hạn tệp đính kèm của các dịch vụ email phổ biến và cho phép ứng dụng chat gửi ảnh nhanh mà không phải nén lại nhiều.",
+          },
+          {
+            q: "Ở 1 MB tôi có mất nhiều chất lượng không?",
+            a: "Rất ít với một tấm ảnh bình thường. 1 MB là khá rộng rãi nên chi tiết vẫn gần với bản gốc.",
+          },
+          {
+            q: "Sao không gửi luôn bản gốc?",
+            a: "Ảnh chụp từ điện thoại thường nặng vài megabyte; bản 1 MB gửi nhanh hơn và cho bạn quyền kiểm soát trước khi ứng dụng chat dù sao cũng nén lại.",
+          },
+          {
+            q: "Tệp có bị tải lên không?",
+            a: "Không, mọi thứ diễn ra cục bộ ngay trong trình duyệt của bạn.",
+          },
+          {
+            q: "Hỗ trợ những định dạng nào?",
+            a: "JPG, PNG và WebP. JPG và WebP cho ảnh nhỏ nhất ở mức mục tiêu này.",
+          },
+        ],
+        steps: [
+          "Tải lên ảnh bạn muốn đưa về khoảng 1 MB.",
+          "Đặt 1 MB làm kích thước mục tiêu.",
+          "Để công cụ hạ chất lượng nhẹ nhàng và, nếu cần, giảm kích thước.",
+          "Tải ảnh đã nén xuống.",
+        ],
+      },
+      tr: {
+        intro:
+          "Fotoğrafı 1 MB'a küçült dediğinizde hedeflediğiniz boyut, günlük paylaşım için en rahat bölgedir: yaygın e-posta sağlayıcılarının ek sınırlarının rahatça altında kalır ve sohbet uygulamalarının kendi yeniden sıkıştırması fotoğrafı daha da bozmadan anında gönderebileceği kadar küçüktür. Bu araç JPG, PNG veya WebP dosyasını tarayıcıda yaklaşık 1 MB'a indirir.\n\n1 MB hedefinde sıkıştırıcının tipik bir fotoğrafa neredeyse hiç dokunması gerekmez: kaliteyi hafifçe düşürür ve boyutları yalnızca orijinal çok büyükse küçültür. Böylece orijinale yakın ayrıntıyı korurken modern telefon kameralarının her kareye eklediği gereksiz yükten kurtulursunuz.\n\nMesajlaşma uygulamaları gönderdiğiniz her şeyi sıklıkla yeniden sıkıştırdığı için onlara baştan derli toplu bir 1 MB dosya vermek, uygulamanın 10 MB'lık bir orijinali ezmesine izin vermekten daha fazla kontrol sağlar.",
+        faq: [
+          {
+            q: "Neden 1 MB'a sıkıştırmalıyım?",
+            a: "Yaygın e-posta sağlayıcılarının ek sınırlarının rahatça altında kalır ve sohbet uygulamalarının görseli ağır bir yeniden sıkıştırma olmadan hızla göndermesine izin verir.",
+          },
+          {
+            q: "1 MB'ta çok kalite kaybeder miyim?",
+            a: "Normal bir fotoğrafta çok az. 1 MB cömert bir boyut olduğu için ayrıntı orijinale yakın kalır.",
+          },
+          {
+            q: "Neden orijinali göndermeyeyim?",
+            a: "Telefon fotoğrafları çoğu zaman birkaç megabayttır; 1 MB'lık sürüm daha hızlı gider ve sohbet uygulaması onu zaten yeniden sıkıştırmadan önce size kontrol verir.",
+          },
+          {
+            q: "Dosyalar yükleniyor mu?",
+            a: "Hayır, her şey tarayıcınızda yerel olarak gerçekleşir.",
+          },
+          {
+            q: "Hangi biçimler çalışır?",
+            a: "JPG, PNG ve WebP. Bu hedefte en küçük fotoğrafları JPG ve WebP verir.",
+          },
+        ],
+        steps: [
+          "1 MB civarına indirmek istediğiniz görseli yükleyin.",
+          "Hedef boyut olarak 1 MB'ı belirleyin.",
+          "Aracın kaliteyi hafifçe düşürmesine ve gerekirse boyutları küçültmesine izin verin.",
+          "Sıkıştırılmış görseli indirin.",
         ],
       },
     },
@@ -3841,6 +4369,102 @@ export const toolContent: Record<string, ToolContent> = {
           "فایل‌های JPG تبدیل‌شده را دانلود کنید.",
         ],
       },
+      ko: {
+        intro:
+          "iOS 11부터 iPhone과 iPad는 사진을 기본으로 HEIC로 저장합니다. 공간을 아끼는 최신 형식이죠. 문제는 그 사진을 다른 곳에 써야 할 때 생깁니다. 많은 웹사이트, 업로드 양식, 오래된 Windows 프로그램, Apple 기기가 아닌 동료의 컴퓨터에서는 .heic 파일을 열지 못합니다. HEIC JPG 변환을 하면 사진이 어디서나 통하는 형식으로 바뀝니다.\n\n이 도구는 WebAssembly 디코더로 HEIC를 로컬에서 해독하고 브라우저 안에서 JPG로 다시 인코딩합니다. 사진은 업로드되지 않습니다. JPG는 어디서나 호환되고 파일 크기도 적당해서 공유, 인화 서비스, 웹 업로드에 딱 맞습니다.\n\n한 가지 솔직한 단점이 있습니다. JPG는 손실 압축이라 변환 과정에서 이미지가 다시 압축되며, HEIC 원본과 픽셀 단위로 같은 사본은 아닙니다. 일상적인 사진에서는 차이가 보이지 않지만, 무손실 결과나 투명도가 필요하다면 PNG로 변환하세요.",
+        faq: [
+          {
+            q: "아이폰 사진이 왜 HEIC로 저장되나요?",
+            a: "iOS 11부터 Apple이 HEIC를 기본값으로 쓰기 때문입니다. 비슷한 화질에서 JPG보다 적은 공간에 사진을 저장할 수 있습니다.",
+          },
+          {
+            q: "HEIC를 JPG로 바꿔야 하는 이유는 무엇인가요?",
+            a: "JPG는 웹사이트, 업로드 양식, Windows 프로그램, Apple 이외의 기기 어디서나 열리지만, HEIC는 거부되거나 열리지 않는 경우가 많습니다.",
+          },
+          {
+            q: "JPG로 변환하면 화질이 떨어지나요?",
+            a: "JPG는 손실 압축이라 사진이 다시 압축됩니다. 일반적인 사진에서는 대개 차이가 보이지 않습니다. 무손실 결과가 필요하면 PNG를 고르세요.",
+          },
+          {
+            q: "내 사진이 업로드되나요?",
+            a: "아니요. HEIC 해독과 재인코딩이 WebAssembly를 통해 전부 브라우저 안에서 이루어집니다.",
+          },
+          {
+            q: "여러 장을 한 번에 변환할 수 있나요?",
+            a: "네. HEIC 사진을 JPG로 변환한 뒤 결과를 다운로드하면 됩니다.",
+          },
+        ],
+        steps: [
+          "HEIC 사진을 한 장 이상 올립니다.",
+          "도구가 WebAssembly 디코더로 사진을 로컬에서 해독합니다.",
+          "각 사진을 브라우저에서 JPG로 다시 인코딩합니다.",
+          "변환된 JPG 파일을 다운로드합니다.",
+        ],
+      },
+      vi: {
+        intro:
+          "Từ iOS 11, iPhone và iPad lưu ảnh mặc định ở dạng HEIC, một định dạng hiện đại giúp tiết kiệm dung lượng. Rắc rối xuất hiện ngay khi bạn dùng những ảnh đó ở nơi khác: nhiều trang web, biểu mẫu tải lên, ứng dụng Windows cũ và đồng nghiệp dùng thiết bị không phải của Apple đơn giản là không mở được tệp .heic. Chuyển HEIC sang JPG biến ảnh của bạn thành định dạng mà mọi thứ đều hiểu.\n\nCông cụ này giải mã HEIC ngay trên máy bằng bộ giải mã WebAssembly rồi mã hoá lại thành JPG ngay trong trình duyệt, nên ảnh không bao giờ bị tải lên. JPG tương thích với mọi thứ và giữ tệp ở mức nhỏ vừa phải, đúng thứ bạn cần để chia sẻ, đi in ảnh và tải lên web.\n\nMột đánh đổi cần nói thẳng: JPG là định dạng nén có mất dữ liệu, nên việc chuyển đổi nén lại ảnh và không phải bản sao giống từng điểm ảnh với bản HEIC gốc. Với ảnh hằng ngày, sự khác biệt không thể thấy; nếu bạn cần kết quả không mất dữ liệu hoặc có độ trong suốt, hãy chuyển sang PNG.",
+        faq: [
+          {
+            q: "Vì sao ảnh iPhone của tôi lại là HEIC?",
+            a: "Từ iOS 11, Apple dùng HEIC làm mặc định vì nó lưu ảnh trong ít dung lượng hơn JPG ở chất lượng tương đương.",
+          },
+          {
+            q: "Vì sao nên chuyển HEIC sang JPG?",
+            a: "JPG mở được ở mọi nơi, từ trang web, biểu mẫu tải lên, ứng dụng Windows đến thiết bị không phải của Apple, trong khi HEIC thường bị từ chối hoặc không đọc được.",
+          },
+          {
+            q: "Chuyển sang JPG có làm giảm chất lượng không?",
+            a: "JPG là định dạng mất dữ liệu nên ảnh bị nén lại; với ảnh thông thường, thay đổi này thường không nhìn thấy được. Hãy chọn PNG nếu bạn cần kết quả không mất dữ liệu.",
+          },
+          {
+            q: "Ảnh của tôi có bị tải lên không?",
+            a: "Không. HEIC được giải mã và mã hoá lại hoàn toàn trong trình duyệt của bạn bằng WebAssembly.",
+          },
+          {
+            q: "Tôi có thể chuyển nhiều ảnh cùng lúc không?",
+            a: "Có, hãy chuyển các ảnh HEIC sang JPG rồi tải kết quả xuống.",
+          },
+        ],
+        steps: [
+          "Tải lên một hoặc nhiều ảnh HEIC.",
+          "Công cụ giải mã chúng ngay trên máy bằng bộ giải mã WebAssembly.",
+          "Mỗi ảnh được mã hoá lại thành JPG ngay trong trình duyệt.",
+          "Tải các tệp JPG đã chuyển đổi xuống.",
+        ],
+      },
+      tr: {
+        intro:
+          "iOS 11'den beri iPhone ve iPad'ler fotoğrafları varsayılan olarak HEIC biçiminde kaydeder; yer kazandıran modern bir biçimdir. Sorun, bu fotoğrafları başka bir yerde kullanmaya kalktığınız anda çıkar: pek çok web sitesi, yükleme formu, eski Windows uygulaması ve Apple dışı cihaz kullanan iş arkadaşlarınız .heic dosyasını açamaz. HEIC'i JPG'ye dönüştürmek fotoğrafınızı her şeyin anladığı biçime çevirir.\n\nBu araç HEIC'i yerelde bir WebAssembly kod çözücüyle çözer ve doğrudan tarayıcınızda JPG olarak yeniden kodlar; fotoğraflarınız asla yüklenmez. JPG her yerle uyumludur ve dosyaları makul ölçüde küçük tutar; paylaşım, baskı hizmetleri ve web yüklemeleri için tam istediğiniz şey budur.\n\nDürüst bir ödünleşim: JPG kayıplıdır, bu yüzden dönüştürme görseli yeniden sıkıştırır ve HEIC orijinalinin piksel piksel aynı kopyası olmaz. Günlük fotoğraflarda fark görünmez; kayıpsız çıktı ya da saydamlık gerekiyorsa bunun yerine PNG'ye dönüştürün.",
+        faq: [
+          {
+            q: "iPhone fotoğraflarım neden HEIC olarak görünüyor?",
+            a: "iOS 11'den beri Apple, fotoğrafı benzer kalitede JPG'den daha az yerde sakladığı için HEIC'i varsayılan olarak kullanıyor.",
+          },
+          {
+            q: "HEIC'i neden JPG'ye dönüştürmeliyim?",
+            a: "JPG web siteleri, yükleme formları, Windows uygulamaları ve Apple dışı cihazlar dahil her yerde açılır; HEIC ise çoğu zaman reddedilir ya da okunamaz.",
+          },
+          {
+            q: "JPG'ye dönüştürmek kaliteyi düşürür mü?",
+            a: "JPG kayıplıdır, bu yüzden fotoğraf yeniden sıkıştırılır; normal fotoğraflarda değişiklik genellikle görünmez. Kayıpsız çıktı gerekiyorsa PNG'yi seçin.",
+          },
+          {
+            q: "Fotoğraflarım yükleniyor mu?",
+            a: "Hayır. HEIC'in çözülmesi ve yeniden kodlanması tamamen tarayıcınızda WebAssembly ile yapılır.",
+          },
+          {
+            q: "Aynı anda birkaç fotoğrafı dönüştürebilir miyim?",
+            a: "Evet, HEIC fotoğraflarınızı JPG'ye dönüştürün ve sonuçları indirin.",
+          },
+        ],
+        steps: [
+          "Bir veya daha fazla HEIC fotoğrafı yükleyin.",
+          "Araç bunları yerelde bir WebAssembly kod çözücüyle çözer.",
+          "Her fotoğrafı tarayıcınızda JPG olarak yeniden kodlar.",
+          "Dönüştürülen JPG dosyalarını indirin.",
+        ],
+      },
     },
     en: {
       intro:
@@ -3973,6 +4597,102 @@ export const toolContent: Record<string, ToolContent> = {
           "ابزار آن‌ها را با رمزگشای WebAssembly باز می‌کند.",
           "برای هر کدام در مرورگر شما یک PNG بدون افت نوشته می‌شود.",
           "فایل‌های PNG تبدیل‌شده را دانلود کنید.",
+        ],
+      },
+      ko: {
+        intro:
+          "HEIC는 iOS 11부터 Apple의 기본 사진 형식이지만, 글자가 선명한 스크린샷이나 계속 편집할 이미지, 투명 배경이 있는 작업물처럼 정확한 무손실 사본이 필요할 때는 JPG의 손실 압축이 걸림돌이 됩니다. HEIC를 PNG로 변환하면 픽셀 그대로의 결과를 얻습니다.\n\nPNG는 무손실 형식이라 모든 픽셀을 그대로 재현하고 투명도도 지원합니다. 스크린샷, 다이어그램, 로고, 그리고 재압축으로 인한 열화가 쌓이면 곤란한 디자인과 편집 작업용 이미지에 알맞습니다. 이 도구는 WebAssembly 디코더로 HEIC를 해독해 브라우저 안에서 PNG를 만들기 때문에 아무것도 업로드되지 않습니다.\n\n대신 용량이 커집니다. PNG는 디테일을 모두 유지하므로 파일이 HEIC 원본이나 JPG 버전보다 커지는 경우가 많습니다. 충실도나 투명 배경이 꼭 필요할 때는 그만한 가치가 있지만, 그저 작고 공유하기 쉬운 사진이 필요하다면 JPG로 변환하세요.",
+        faq: [
+          {
+            q: "HEIC를 변환할 때 JPG 대신 PNG를 고르는 경우는 언제인가요?",
+            a: "스크린샷, 그래픽, 편집할 이미지, 투명도가 필요한 이미지라면 PNG를 고르세요. 무손실이라 압축 열화가 더해지지 않습니다.",
+          },
+          {
+            q: "PNG는 정말 무손실인가요?",
+            a: "네. PNG는 모든 픽셀을 그대로 저장하므로 변환된 이미지는 해독한 HEIC와 픽셀 단위로 일치합니다.",
+          },
+          {
+            q: "PNG가 왜 HEIC보다 크죠?",
+            a: "PNG는 디테일을 버리지 않고 모두 유지하기 때문에 사진 이미지는 파일이 커집니다. 무손실 품질의 대가입니다.",
+          },
+          {
+            q: "PNG는 투명도를 유지하나요?",
+            a: "네. PNG는 JPG와 달리 투명도를 위한 알파 채널을 지원합니다.",
+          },
+          {
+            q: "파일이 업로드되나요?",
+            a: "아니요. 해독과 PNG 인코딩이 브라우저 안에서 로컬로 이루어집니다.",
+          },
+        ],
+        steps: [
+          "HEIC 파일을 한 개 이상 올립니다.",
+          "도구가 WebAssembly 디코더로 해독합니다.",
+          "브라우저 안에서 각 파일을 무손실 PNG로 만듭니다.",
+          "변환된 PNG 파일을 다운로드합니다.",
+        ],
+      },
+      vi: {
+        intro:
+          "HEIC là định dạng ảnh mặc định của Apple từ iOS 11, nhưng khi bạn cần một bản sao chính xác, không mất dữ liệu, chẳng hạn ảnh chụp màn hình có chữ sắc nét, ảnh sẽ tiếp tục chỉnh sửa hoặc ảnh có nền trong suốt, thì kiểu nén có mất dữ liệu của JPG sẽ gây cản trở. Chuyển HEIC sang PNG cho bạn kết quả trung thành đến từng điểm ảnh.\n\nPNG không làm mất dữ liệu: nó tái tạo chính xác từng điểm ảnh và hỗ trợ độ trong suốt, nên là lựa chọn đúng cho ảnh chụp màn hình, sơ đồ, logo và mọi ảnh đi vào quy trình thiết kế hay chỉnh sửa, nơi lỗi do nén lại sẽ tích tụ dần. Công cụ này giải mã HEIC bằng bộ giải mã WebAssembly và ghi ra PNG hoàn toàn trong trình duyệt, nên không có gì được tải lên.\n\nCái giá là dung lượng: vì PNG giữ toàn bộ chi tiết nên tệp thường lớn hơn bản HEIC gốc hoặc bản JPG. Khi bạn thật sự cần độ trung thực hoặc nền trong suốt, đó là một cuộc đổi đáng giá; còn nếu chỉ muốn một tấm ảnh nhỏ gọn, dễ chia sẻ, hãy chuyển sang JPG.",
+        faq: [
+          {
+            q: "Khi nào nên chọn PNG thay vì JPG cho ảnh HEIC?",
+            a: "Chọn PNG cho ảnh chụp màn hình, đồ hoạ, ảnh sẽ chỉnh sửa, hoặc bất cứ thứ gì cần độ trong suốt. PNG không làm mất dữ liệu và không thêm lỗi do nén.",
+          },
+          {
+            q: "PNG có thật sự không mất dữ liệu không?",
+            a: "Có. PNG lưu chính xác mọi điểm ảnh, nên ảnh sau khi chuyển khớp với ảnh HEIC đã giải mã từng điểm một.",
+          },
+          {
+            q: "Vì sao PNG của tôi lại lớn hơn HEIC?",
+            a: "PNG giữ toàn bộ chi tiết thay vì loại bỏ bất cứ thứ gì, nên ảnh chụp trở nên lớn hơn. Đó là cái giá của chất lượng không mất dữ liệu.",
+          },
+          {
+            q: "PNG có giữ được độ trong suốt không?",
+            a: "Có. PNG hỗ trợ kênh alpha cho độ trong suốt, khác với JPG.",
+          },
+          {
+            q: "Tệp của tôi có bị tải lên không?",
+            a: "Không, việc giải mã và mã hoá PNG diễn ra cục bộ trong trình duyệt của bạn.",
+          },
+        ],
+        steps: [
+          "Tải lên một hoặc nhiều tệp HEIC.",
+          "Công cụ giải mã chúng bằng bộ giải mã WebAssembly.",
+          "Công cụ ghi một tệp PNG không mất dữ liệu cho mỗi ảnh ngay trong trình duyệt.",
+          "Tải các tệp PNG đã chuyển đổi xuống.",
+        ],
+      },
+      tr: {
+        intro:
+          "HEIC, iOS 11'den beri Apple'ın varsayılan fotoğraf biçimidir; ancak net metinli bir ekran görüntüsü, düzenlemeye devam edeceğiniz bir görsel ya da saydam arka planlı bir çalışma gibi birebir, kayıpsız bir kopya gerektiğinde JPG'nin kayıplı sıkıştırması işinizi bozar. HEIC'i PNG'ye dönüştürmek size piksele sadık bir sonuç verir.\n\nPNG kayıpsızdır: her pikseli birebir yeniden üretir ve saydamlığı destekler; bu da onu ekran görüntüleri, diyagramlar, logolar ve yeniden sıkıştırma bozulmalarının birikeceği tasarım veya düzenleme iş akışlarına giden her görsel için doğru seçim yapar. Bu araç HEIC'i bir WebAssembly kod çözücüyle çözer ve PNG'yi tamamen tarayıcınızda yazar; hiçbir şey yüklenmez.\n\nÖdünleşim boyuttur: PNG tüm ayrıntıyı koruduğu için dosya genellikle HEIC orijinalinden veya JPG sürümünden büyük olur. Sadakate ya da saydam arka plana özellikle ihtiyacınız olduğunda bu değer; yalnızca küçük, paylaşılabilir bir fotoğraf istiyorsanız bunun yerine JPG'ye dönüştürün.",
+        faq: [
+          {
+            q: "HEIC için ne zaman JPG yerine PNG seçmeliyim?",
+            a: "Ekran görüntüleri, grafikler, düzenleyeceğiniz görseller ya da saydamlık gereken her şey için PNG'yi seçin; kayıpsızdır ve sıkıştırma bozulması eklemez.",
+          },
+          {
+            q: "PNG gerçekten kayıpsız mı?",
+            a: "Evet. PNG her pikseli birebir saklar; dönüştürülen görüntü çözülmüş HEIC ile piksel piksel eşleşir.",
+          },
+          {
+            q: "PNG'm neden HEIC'ten büyük?",
+            a: "PNG hiçbir ayrıntıyı atmayıp hepsini koruduğu için fotoğraflık görseller büyür. Kayıpsız kalitenin bedeli budur.",
+          },
+          {
+            q: "PNG saydamlığı korur mu?",
+            a: "Evet. JPG'nin aksine PNG, saydamlık için bir alfa kanalını destekler.",
+          },
+          {
+            q: "Dosyalarım yükleniyor mu?",
+            a: "Hayır, çözme ve PNG kodlama işlemi tarayıcınızda yerel olarak yapılır.",
+          },
+        ],
+        steps: [
+          "Bir veya daha fazla HEIC dosyası yükleyin.",
+          "Araç bunları bir WebAssembly kod çözücüyle çözer.",
+          "Her biri için tarayıcınızda kayıpsız bir PNG yazar.",
+          "Dönüştürülen PNG dosyalarını indirin.",
         ],
       },
     },
