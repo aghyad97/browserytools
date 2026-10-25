@@ -248,6 +248,11 @@ const HAS_OWN_H1 = new Set([
   // Wave 5 (W5) Task 7: Subtitle Studio ships directly on ToolShell.
   "subtitle-studio",
   "subtitle-cinema-player",
+  // TOTP Generator (#52) and Video to Audio (#53) ship directly on ToolShell
+  // but were never listed here, so ToolTitle added a second <h1> and the e2e
+  // smoke suite has failed on those two routes since July.
+  "totp-generator",
+  "video-to-audio",
   // Wave 7 (W7) Task 10: PDF to Word ships directly on ToolShell.
   "pdf-to-word",
   // Wave 7 (W7) Task 11: Word to PDF ships directly on ToolShell.
