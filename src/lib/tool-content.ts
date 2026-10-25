@@ -6768,6 +6768,704 @@ export const toolContent: Record<string, ToolContent> = {
       ],
     },
   },
+
+  "screen-recorder": {
+    related: ["gif-maker", "compress-video", "video", "webcam-test", "mic-test"],
+    en: {
+      intro:
+        "This screen recorder captures your whole screen, a single window or one browser tab, using the browser's own screen-sharing prompt. You choose what to share, press Start, and a 3-2-1 countdown (which you can turn off) gives you a moment to get ready. Press Stop and the recording appears in a list with its length and file size, ready to preview, download as a WebM video or delete.\n\nBefore recording you can pick 720p (the default), 1080p or Maximum, which uses the size of the shared surface. You can add microphone audio, and you can overlay your webcam in one of the four corners at a size you set, which is handy for tutorials and walkthroughs. A saved recording can also be exported as an animated GIF for places that will not take video.",
+      whyClientSide:
+        "A screen recording can show anything open on your machine: email, dashboards, private chats. Here the picture and sound go from the browser's capture API into a file held in the page's memory, and the tool contains no upload step. Nothing is kept once you close or reload the tab, so download what you want to keep first.",
+      limitations: [
+        "There is no pause button and no trimming. Recording runs from Start to Stop, so plan the take or cut it afterwards in a video editor.",
+        "Recordings live only in memory for the current visit. Reloading or closing the tab discards them, and long high-resolution recordings use a lot of RAM.",
+        "The download is always named .webm. Browsers that can only record MP4 will still produce a playable file, but its container may not match the extension, so rename it if your player complains.",
+        "GIF export replays the recording and samples it at 8 frames per second, scaled to at most 480 px wide, with no sound. It is meant for short clips and gets slow and large on long ones.",
+        "What can be captured, including tab or system audio, depends on your browser and operating system. Desktop browsers support screen capture; most phone browsers do not.",
+      ],
+      faq: [
+        {
+          q: "Is the recording uploaded anywhere?",
+          a: "No. The page records through the browser's capture API and keeps the result in memory. There is no upload step, and the file only leaves the page when you press Download.",
+        },
+        {
+          q: "Can I record my voice or add my webcam?",
+          a: "Yes. Switch on the microphone option to add your voice, and switch on the webcam overlay to place a small camera view in a corner. If the webcam cannot be opened, the tool tells you and records the screen alone.",
+        },
+        {
+          q: "What format is the video?",
+          a: "WebM, using VP9 or VP8 when your browser supports them. If you need MP4 or a smaller file, run the result through the video converter or compress-video tool.",
+        },
+        {
+          q: "Can I record a single window or tab instead of the whole screen?",
+          a: "Yes. The choice is made in the browser's share dialog when you press Start, and you can pick the entire screen, an application window or a browser tab.",
+        },
+        {
+          q: "How do I make a GIF?",
+          a: "Record first, then press Export as GIF on the recording. It is rendered at up to 480 px wide and 8 frames per second, so short clips work best.",
+        },
+        {
+          q: "Why did my recording stop by itself?",
+          a: "If you end sharing from the browser's own Stop sharing bar, the recording stops and is saved to the list like a normal take.",
+        },
+      ],
+      steps: [
+        "Choose the quality, and switch on microphone audio or the webcam overlay if you want them.",
+        "Press Start recording, then pick a screen, window or tab in the browser's share dialog.",
+        "Press Stop when you are done and preview the recording in the list.",
+        "Download the WebM file, or export a GIF, before closing the page.",
+      ],
+    },
+    ar: {
+      intro:
+        "يسجّل هذا المسجّل شاشتك كاملة، أو نافذة واحدة، أو تبويبًا واحدًا من المتصفح، عبر نافذة مشاركة الشاشة الخاصة بالمتصفح نفسه. تختار ما تريد مشاركته وتضغط «ابدأ»، ويمنحك عدّ تنازلي من 3 إلى 1 (يمكن إيقافه) لحظة للاستعداد. وعند الضغط على «إيقاف» يظهر التسجيل في قائمة مع مدته وحجمه، فتعاينه أو تنزّله بصيغة WebM أو تحذفه.\n\nقبل البدء تختار الجودة: 720p وهي الافتراضية، أو 1080p، أو «الحد الأقصى» الذي يتبع حجم السطح المشارَك. ويمكنك إضافة صوت الميكروفون، ووضع كاميرا الويب فوق الفيديو في إحدى الزوايا الأربع بالحجم الذي تحدده، وهذا مفيد لشروحات الاستخدام والعروض التوضيحية. كما يمكن تصدير أي تسجيل محفوظ إلى صورة GIF متحركة للأماكن التي لا تقبل الفيديو.",
+      whyClientSide:
+        "قد تُظهر الشاشة أي شيء مفتوح على جهازك: بريدًا أو لوحات بيانات أو محادثات خاصة. هنا تنتقل الصورة والصوت من واجهة التقاط المتصفح إلى ملف محفوظ في ذاكرة الصفحة، ولا توجد في الأداة خطوة رفع أصلًا. ولا يُحفظ شيء بعد إغلاق التبويب أو إعادة تحميله، فنزّل ما تريد الاحتفاظ به أولًا.",
+      limitations: [
+        "لا يوجد زر إيقاف مؤقت ولا قص للتسجيل. يستمر التسجيل من «ابدأ» حتى «إيقاف»، فخطّط للمقطع أو قصّه لاحقًا في برنامج مونتاج.",
+        "التسجيلات تبقى في الذاكرة طوال الزيارة الحالية فقط. إعادة التحميل أو إغلاق التبويب تحذفها، والتسجيلات الطويلة بدقة عالية تستهلك ذاكرة كبيرة.",
+        "اسم الملف المنزَّل ينتهي دائمًا بـ .webm. وإذا كان متصفحك لا يسجّل إلا بصيغة MP4 فسيعمل الملف، لكن حاويته قد لا تطابق الامتداد، فغيّر الامتداد إن اشتكى المشغّل.",
+        "تصدير GIF يعيد تشغيل التسجيل ويأخذ منه 8 إطارات في الثانية بعرض لا يتجاوز 480 بكسل ومن دون صوت. هو مناسب للمقاطع القصيرة، ويصبح بطيئًا وثقيلًا مع الطويلة.",
+        "ما يمكن التقاطه، ومنه صوت التبويب أو النظام، يعتمد على متصفحك ونظام التشغيل. متصفحات الحاسوب تدعم التقاط الشاشة، أما معظم متصفحات الهاتف فلا تدعمه.",
+      ],
+      faq: [
+        {
+          q: "هل يُرفع التسجيل إلى أي مكان؟",
+          a: "لا. تسجّل الصفحة عبر واجهة الالتقاط في المتصفح وتحتفظ بالنتيجة في الذاكرة. لا توجد خطوة رفع، ولا يغادر الملف الصفحة إلا حين تضغط «تنزيل».",
+        },
+        {
+          q: "هل يمكنني تسجيل صوتي أو إضافة كاميرا الويب؟",
+          a: "نعم. فعّل خيار الميكروفون لإضافة صوتك، وفعّل تراكب الكاميرا لوضع عرض صغير للكاميرا في إحدى الزوايا. وإذا تعذّر فتح الكاميرا تُنبّهك الأداة وتسجّل الشاشة وحدها.",
+        },
+        {
+          q: "ما صيغة الفيديو؟",
+          a: "WebM بترميز VP9 أو VP8 متى دعمهما متصفحك. وإن احتجت MP4 أو ملفًا أصغر فمرّر الناتج على أداة تحويل الفيديو أو ضغط الفيديو.",
+        },
+        {
+          q: "هل أستطيع تسجيل نافذة أو تبويب بدل الشاشة كلها؟",
+          a: "نعم. يتم الاختيار في نافذة المشاركة التي يعرضها المتصفح عند الضغط على «ابدأ»، فتختار الشاشة كاملة أو نافذة تطبيق أو تبويبًا.",
+        },
+        {
+          q: "كيف أصنع صورة GIF؟",
+          a: "سجّل أولًا، ثم اضغط «تصدير كـ GIF» على التسجيل. تُنشأ الصورة بعرض يصل إلى 480 بكسل وبمعدل 8 إطارات في الثانية، لذا تناسبها المقاطع القصيرة.",
+        },
+        {
+          q: "لماذا توقف التسجيل من تلقاء نفسه؟",
+          a: "إذا أنهيت المشاركة من شريط «إيقاف المشاركة» الخاص بالمتصفح يتوقف التسجيل ويُحفظ في القائمة كأنه تسجيل عادي.",
+        },
+      ],
+      steps: [
+        "اختر الجودة، وفعّل صوت الميكروفون أو تراكب الكاميرا إن أردت.",
+        "اضغط «ابدأ التسجيل» ثم اختر شاشة أو نافذة أو تبويبًا من نافذة المشاركة.",
+        "اضغط «إيقاف» عند الانتهاء وعاين التسجيل في القائمة.",
+        "نزّل ملف WebM أو صدّر GIF قبل إغلاق الصفحة.",
+      ],
+    },
+  },
+
+  "meme-generator": {
+    related: ["image-resizer", "crop-image", "watermark-image", "gif-maker"],
+    en: {
+      intro:
+        "This meme generator puts classic Impact-style text on an image you provide. Drop in a PNG, JPG, WebP or GIF and it starts with a top and a bottom caption. Edit each caption in its own box, drag the text anywhere on the picture, and add more text boxes for extra lines or labels.\n\nFor the selected caption you can set the font size, the text color, the outline thickness and left, center or right alignment. The preview is drawn at the image's own size, so what you see is what you download: a PNG with no watermark added. The tool has no built-in template library; you bring the image.",
+      whyClientSide:
+        "The privacy stake here is small: a meme is usually meant to be shared anyway. The image is read and drawn by your browser and the PNG is built on the page, so a private photo is not sent to a meme site's server along the way, but that is a convenience more than a safeguard.",
+      limitations: [
+        "Each caption is a single line. Text is not wrapped, so a long caption runs off the edge of the picture. Split it across two text boxes instead.",
+        "The outline is always black. You can change its thickness, including to zero, but not its color.",
+        "The font is Impact where your device has it. Devices without Impact fall back to another bold sans-serif, so the look can differ between machines.",
+        "Font size is in pixels of the original image, so a large photo needs a larger size than a small one. Images over 15 MB are refused.",
+        "A GIF is exported as a single still PNG, not an animated meme, and there is no undo.",
+      ],
+      faq: [
+        {
+          q: "Does the meme have a watermark?",
+          a: "No. The download is your image with your text, saved as a PNG, with nothing added.",
+        },
+        {
+          q: "Can I use my own picture?",
+          a: "Yes, that is the only way it works. Upload any PNG, JPG, WebP or GIF up to 15 MB. There are no ready-made meme templates in the tool.",
+        },
+        {
+          q: "How do I move the text?",
+          a: "Drag directly on the image. Dragging moves the text box nearest to where you press, so when there are several boxes, start the drag close to the one you want.",
+        },
+        {
+          q: "Can I add more than two lines of text?",
+          a: "Yes. Press Add text for another box, then type, size and place it independently of the others.",
+        },
+        {
+          q: "What resolution is the downloaded meme?",
+          a: "The same pixel size as the image you uploaded, saved as a PNG.",
+        },
+      ],
+      steps: [
+        "Upload the image you want to caption.",
+        "Type your text into the top and bottom boxes, or press Add text for more.",
+        "Drag each caption into place and adjust size, color, outline and alignment.",
+        "Download the finished PNG.",
+      ],
+    },
+    ar: {
+      intro:
+        "يضع هذا المولّد نصًّا بخط Impact الكلاسيكي لميمات الصور على أي صورة تختارها. أسقط صورة PNG أو JPG أو WebP أو GIF فيبدأ بتعليق علوي وآخر سفلي. عدّل كل تعليق في خانته، واسحب النص إلى أي موضع على الصورة، وأضف خانات نصية أخرى لسطور أو تسميات إضافية.\n\nللتعليق المحدد تضبط حجم الخط ولون النص وسماكة الإطار المحيط به ومحاذاته إلى اليسار أو الوسط أو اليمين. تُرسم المعاينة بحجم الصورة الأصلي، فما تراه هو ما تنزّله: ملف PNG بلا علامة مائية. ولا تحتوي الأداة على مكتبة قوالب جاهزة، فالصورة عليك.",
+      whyClientSide:
+        "الأثر على الخصوصية هنا صغير، فالميم يُراد له غالبًا أن يُنشر أصلًا. تقرأ الصفحة الصورة وترسمها داخل المتصفح وتبني ملف PNG عندك، فلا تُرسل صورة شخصية إلى خادم موقع ميمات في الطريق، لكن هذه ميزة راحة أكثر منها ضمانة.",
+      limitations: [
+        "كل تعليق سطر واحد. لا يلتف النص تلقائيًا، فالتعليق الطويل يخرج من حافة الصورة. قسّمه على خانتين نصيتين بدلًا من ذلك.",
+        "إطار النص أسود دائمًا. يمكنك تغيير سماكته حتى الصفر، لكن ليس لونه.",
+        "الخط هو Impact إذا كان موجودًا على جهازك. الأجهزة التي لا تملكه تستعمل خطًا عريضًا بديلًا بلا زوائد، فقد يختلف الشكل من جهاز إلى آخر.",
+        "حجم الخط بوحدة بكسل الصورة الأصلية، فالصورة الكبيرة تحتاج حجمًا أكبر من الصغيرة. والصور التي تتجاوز 15 ميغابايت تُرفض.",
+        "صورة GIF تُصدَّر لقطة ثابتة واحدة بصيغة PNG وليست ميمًا متحركًا، ولا يوجد تراجع عن الخطوات.",
+      ],
+      faq: [
+        {
+          q: "هل في الميم علامة مائية؟",
+          a: "لا. الملف المنزَّل هو صورتك مع نصك، محفوظًا بصيغة PNG ولا يُضاف إليه شيء.",
+        },
+        {
+          q: "هل أستخدم صورتي أنا؟",
+          a: "نعم، وهذه هي الطريقة الوحيدة. ارفع أي صورة PNG أو JPG أو WebP أو GIF حتى 15 ميغابايت. لا توجد قوالب ميمات جاهزة في الأداة.",
+        },
+        {
+          q: "كيف أحرّك النص؟",
+          a: "اسحب مباشرة على الصورة. يتحرك الصندوق النصي الأقرب إلى موضع الضغط، فإذا وُجدت عدة صناديق فابدأ السحب قرب الصندوق الذي تريده.",
+        },
+        {
+          q: "هل أستطيع إضافة أكثر من سطرين؟",
+          a: "نعم. اضغط «إضافة نص» لصندوق جديد، ثم اكتب فيه واضبط حجمه ومكانه بشكل مستقل عن البقية.",
+        },
+        {
+          q: "ما دقة الميم المنزَّل؟",
+          a: "بنفس أبعاد الصورة التي رفعتها بالبكسل، محفوظة بصيغة PNG.",
+        },
+      ],
+      steps: [
+        "ارفع الصورة التي تريد التعليق عليها.",
+        "اكتب نصك في الخانتين العلوية والسفلية، أو اضغط «إضافة نص» للمزيد.",
+        "اسحب كل تعليق إلى مكانه واضبط الحجم واللون والإطار والمحاذاة.",
+        "نزّل ملف PNG النهائي.",
+      ],
+    },
+  },
+
+  "clip-path-generator": {
+    related: ["css-gradient", "color-palette", "color-converter", "svg-png"],
+    en: {
+      intro:
+        "This tool builds CSS clip-path values visually. Pick a shape (polygon, circle, ellipse or inset) and the preview square updates as you change it. For a polygon you drag the numbered points straight on the preview or fine-tune each point's X and Y with sliders, add points, or remove them down to a minimum of three. Eight polygon presets are one click away: triangle, rhombus, pentagon, hexagon, star, message bubble, arrow and chevron.\n\nCircle and ellipse take a radius and a center position, and inset takes top, right, bottom and left offsets plus an optional corner radius. Every value is a percentage of the element's box, so the shape scales with the element. The output panel shows the finished declaration, with a -webkit-clip-path line for older Safari, and a copy button.",
+      limitations: [
+        "The preview is a fixed gradient square, not your own image or element. Copy the CSS and check it on the real element, especially if it is not square.",
+        "Values are percentages only. The tool does not produce pixel values, the path() function or SVG references.",
+        "Polygon points snap to whole percentages when dragged, and a polygon needs at least three points.",
+        "Inset offsets and corner radius stop at 50%. Circle and ellipse sizes go up to 100%.",
+      ],
+      faq: [
+        {
+          q: "How do I use the generated CSS?",
+          a: "Copy the output and paste it into the rule for the element you want to clip, for example an image or a div. The element keeps its layout box; only the visible area is cut.",
+        },
+        {
+          q: "Why is there a -webkit-clip-path line?",
+          a: "It repeats the same value for older WebKit-based browsers that needed the prefix. Current browsers read the plain clip-path line, so you can drop the prefixed line if you do not support old Safari.",
+        },
+        {
+          q: "How do I add or remove polygon points?",
+          a: "Press Add Vertex to insert a point halfway between the last and first points, then drag it. Use the bin icon on a point's row to remove it. A polygon cannot go below three points.",
+        },
+        {
+          q: "Can I draw a freeform curve?",
+          a: "No. The tool covers polygon, circle, ellipse and inset. Curves beyond those need the path() function or an SVG clipPath, which this tool does not generate.",
+        },
+        {
+          q: "Which shape presets are included?",
+          a: "Triangle, rhombus, pentagon, hexagon, star, message, arrow and chevron. Choosing one loads its points into the polygon editor so you can keep adjusting them.",
+        },
+      ],
+      steps: [
+        "Choose polygon, circle, ellipse or inset.",
+        "Drag points on the preview or use the sliders and presets to shape it.",
+        "Check the live preview, then copy the CSS from the output panel.",
+        "Paste it into the rule for your element.",
+      ],
+    },
+    ar: {
+      intro:
+        "تبني هذه الأداة قيم CSS الخاصة بالخاصية clip-path بصريًا. اختر شكلًا (مضلّع أو دائرة أو قطع ناقص أو إزاحة داخلية) فيتغير المربع المعروض فور تعديلك. وفي المضلّع تسحب النقاط المرقّمة مباشرة على المعاينة، أو تضبط إحداثيَّي X وY لكل نقطة بالمنزلقات، أو تضيف نقاطًا أو تحذفها حتى حد أدنى قدره ثلاث نقاط. وتتوفر ثمانية أشكال جاهزة بنقرة واحدة: مثلث ومعيّن ومخمّس ومسدّس ونجمة وفقاعة رسالة وسهم وشيفرون.\n\nتأخذ الدائرة والقطع الناقص نصف قطر ومركزًا، وتأخذ الإزاحة الداخلية قيم الأعلى واليمين والأسفل واليسار مع نصف قطر اختياري للزوايا. كل القيم نسب مئوية من صندوق العنصر، فيتناسب الشكل مع حجمه. وتعرض لوحة الإخراج التصريح الكامل مع سطر -webkit-clip-path لمتصفح سفاري القديم، وزر نسخ.",
+      limitations: [
+        "المعاينة مربع بتدرّج لوني ثابت وليست صورتك أو عنصرك. انسخ الشيفرة وجرّبها على العنصر الحقيقي، خصوصًا إن لم يكن مربعًا.",
+        "القيم نسب مئوية فقط. لا تولّد الأداة قيمًا بالبكسل ولا الدالة path() ولا مراجع SVG.",
+        "تتقيّد نقاط المضلّع بأعداد صحيحة من النسب عند السحب، ويحتاج المضلّع إلى ثلاث نقاط على الأقل.",
+        "إزاحات الشكل الداخلي ونصف قطر الزوايا تتوقف عند 50%، أما أحجام الدائرة والقطع الناقص فتصل إلى 100%.",
+      ],
+      faq: [
+        {
+          q: "كيف أستخدم شيفرة CSS الناتجة؟",
+          a: "انسخ الناتج والصقه في قاعدة العنصر الذي تريد قصه، كصورة أو div. يحتفظ العنصر بصندوقه في التخطيط، ويُقصّ الجزء المرئي فقط.",
+        },
+        {
+          q: "لماذا يوجد سطر -webkit-clip-path؟",
+          a: "هو يكرر القيمة نفسها للمتصفحات القديمة المبنية على WebKit التي كانت تحتاج البادئة. تقرأ المتصفحات الحالية سطر clip-path العادي، فيمكنك حذف السطر ذي البادئة إن كنت لا تدعم سفاري القديم.",
+        },
+        {
+          q: "كيف أضيف نقاط المضلّع أو أحذفها؟",
+          a: "اضغط «إضافة نقطة» لإدراج نقطة في منتصف المسافة بين آخر نقطة وأولها، ثم اسحبها. واستخدم أيقونة سلة المهملات في صف النقطة لحذفها. ولا يمكن أن ينزل المضلّع عن ثلاث نقاط.",
+        },
+        {
+          q: "هل أستطيع رسم منحنى حر؟",
+          a: "لا. تغطي الأداة المضلّع والدائرة والقطع الناقص والإزاحة الداخلية. أما المنحنيات الأخرى فتحتاج إلى الدالة path() أو clipPath في SVG، وهذا لا تولّده الأداة.",
+        },
+        {
+          q: "ما الأشكال الجاهزة المتوفرة؟",
+          a: "مثلث ومعيّن ومخمّس ومسدّس ونجمة ورسالة وسهم وشيفرون. اختيار أي منها يحمّل نقاطه في محرر المضلّع فتواصل تعديلها.",
+        },
+      ],
+      steps: [
+        "اختر مضلّعًا أو دائرة أو قطعًا ناقصًا أو إزاحة داخلية.",
+        "اسحب النقاط على المعاينة أو استخدم المنزلقات والأشكال الجاهزة لتشكيله.",
+        "راجع المعاينة الحية ثم انسخ شيفرة CSS من لوحة الإخراج.",
+        "الصقها في قاعدة عنصرك.",
+      ],
+    },
+  },
+
+  "text-encryption": {
+    related: ["password-generator", "password-strength", "hash-generator", "base64", "airgap-transfer"],
+    en: {
+      intro:
+        "This tool encrypts a piece of text with a passphrase and turns it back again. Type or paste your text, enter a passphrase (or press the button to generate a random 24-character key), and press Encrypt. The result is a single line of Base64 text you can paste into an email, a note or a chat. To read it later, paste that line into the same box, enter the same passphrase and press Decrypt.\n\nUnder the hood it uses AES-256 in GCM mode through the browser's Web Crypto API. The key is derived from your passphrase with PBKDF2 (SHA-256, 100,000 iterations) and a fresh random 16-byte salt, and every encryption also uses a fresh random 12-byte IV. Salt and IV are stored at the front of the output, which is why the same text and passphrase give a different result each time. GCM also authenticates the data, so a wrong passphrase or an edited ciphertext fails to decrypt instead of producing garbage.",
+      whyClientSide:
+        "Your text and passphrase are processed by crypto.subtle in your own browser, and this tool has no code that sends either to a server, so we never hold anything we could read or lose. That has limits you should know about. Like any web app, it runs code the site delivers each time you load it, so it cannot protect you from a compromised device, a malicious browser extension or someone watching your screen. It also does not hide that a message exists or roughly how long it is, and the passphrase is not stored anywhere, so a forgotten passphrase cannot be recovered.",
+      limitations: [
+        "Security rests on your passphrase. The 100,000-iteration PBKDF2 step slows guessing, but anyone holding the ciphertext can try passphrases offline, so a short or common one can still be cracked. Use a long passphrase or the generated random key.",
+        "The output is this tool's own layout: Base64 of the 16-byte salt, the 12-byte IV and the encrypted data. Other programs such as OpenSSL or GPG will not open it, so you need this tool, or code that follows the same layout, to decrypt.",
+        "It is for text, not files, and meant for notes and messages of ordinary length. Encryption does not hide the approximate length of the message.",
+        "A wrong passphrase and a damaged or edited ciphertext give the same generic failure message, so the tool cannot tell you which it was.",
+        "The passphrase and any generated key live only on the page. Copy a generated key somewhere safe before you leave, because reloading the page loses it.",
+        "This is a convenience tool, not an audited secrets product. For high-stakes data use an established tool such as GPG or age.",
+      ],
+      faq: [
+        {
+          q: "Is my text or passphrase sent to a server?",
+          a: "No. Encryption and decryption run in your browser through the Web Crypto API, and neither the text nor the passphrase is transmitted by this tool. Nothing is saved after you close the page.",
+        },
+        {
+          q: "Which encryption does it use?",
+          a: "AES-256-GCM. The 256-bit key is derived from your passphrase with PBKDF2 using SHA-256, 100,000 iterations and a random 16-byte salt. Each encryption adds a random 12-byte IV.",
+        },
+        {
+          q: "Why is the output different every time I encrypt the same text?",
+          a: "Each run generates a new random salt and IV. That is intended: it stops anyone telling whether two messages are the same. Any of the outputs still decrypts with your passphrase.",
+        },
+        {
+          q: "What happens if I forget the passphrase?",
+          a: "The text cannot be recovered. The passphrase is not stored and there is no reset, so keep it in a password manager.",
+        },
+        {
+          q: "Can I decrypt the result with another program?",
+          a: "Not directly. The output is Base64 of salt, IV and ciphertext in this tool's own order. A developer could decrypt it with the same parameters, but standard tools will not recognise the format.",
+        },
+        {
+          q: "Is it safe for passwords or private messages?",
+          a: "It is reasonable for sharing a note over an insecure channel as long as the passphrase is strong and you send it by a different route. It does not replace dedicated tools for high-stakes secrets.",
+        },
+      ],
+      steps: [
+        "Enter a passphrase, or press Generate random key and save it somewhere safe.",
+        "Paste or type your text and press Encrypt.",
+        "Copy the Base64 result and send or store it.",
+        "To read it, paste the Base64 text back, enter the same passphrase and press Decrypt.",
+      ],
+    },
+    ar: {
+      intro:
+        "تشفّر هذه الأداة نصًّا بعبارة مرور وتعيده إلى أصله عند الطلب. اكتب نصك أو الصقه، وأدخل عبارة المرور (أو اضغط الزر لتوليد مفتاح عشوائي من 24 حرفًا)، ثم اضغط «تشفير». الناتج سطر واحد من نص Base64 يمكنك لصقه في رسالة بريد أو ملاحظة أو محادثة. ولقراءته لاحقًا الصق السطر في الخانة نفسها، وأدخل عبارة المرور ذاتها، ثم اضغط «فك التشفير».\n\nتستخدم الأداة خوارزمية AES-256 بوضع GCM عبر واجهة Web Crypto API في المتصفح. يُشتق المفتاح من عبارة المرور بدالة PBKDF2 (مع SHA-256 و100,000 تكرار) وملح عشوائي جديد من 16 بايت، ويستعمل كل تشفير متجه تهيئة (IV) عشوائيًا جديدًا من 12 بايت. يُحفظ الملح والمتجه في مقدمة الناتج، ولهذا يختلف الناتج في كل مرة لنفس النص والعبارة. كما يتحقق GCM من سلامة البيانات، فإذا كانت العبارة خاطئة أو عُدّل النص المشفّر يفشل فك التشفير بدل أن يُنتج حروفًا مشوّشة.",
+      whyClientSide:
+        "يعالج المتصفح عندك نصك وعبارة المرور بواسطة crypto.subtle، ولا توجد في الأداة شيفرة ترسل أيًّا منهما إلى خادم، فلا يوجد لدينا ما نقرؤه أو نفقده. لكن لهذا حدودًا ينبغي أن تعرفها. فالأداة كأي تطبيق ويب تشغّل الشيفرة التي يقدمها الموقع في كل مرة تفتحه، فلا تحميك من جهاز مخترَق أو إضافة متصفح خبيثة أو من يراقب شاشتك. وهي لا تُخفي وجود الرسالة ولا طولها التقريبي، ولا تحفظ عبارة المرور في أي مكان، فلا يمكن استرجاعها إن نسيتها.",
+      limitations: [
+        "الأمان يقوم على عبارة المرور. خطوة PBKDF2 بـ100,000 تكرار تبطّئ التخمين، لكن من يملك النص المشفّر يستطيع تجربة العبارات دون اتصال، فقد تنكسر عبارة قصيرة أو شائعة. استعمل عبارة طويلة أو المفتاح العشوائي المولَّد.",
+        "الناتج بتنسيق خاص بهذه الأداة: Base64 للملح (16 بايت) ثم المتجه (12 بايت) ثم البيانات المشفرة. برامج أخرى مثل OpenSSL أو GPG لن تفتحه، فتحتاج إلى هذه الأداة أو إلى شيفرة تتبع التنسيق نفسه لفك التشفير.",
+        "هي للنصوص لا للملفات، ومصمَّمة للملاحظات والرسائل بطول معتاد. والتشفير لا يخفي الطول التقريبي للرسالة.",
+        "عبارة المرور الخاطئة والنص المشفّر التالف أو المعدَّل يعطيان رسالة الفشل العامة نفسها، فلا تستطيع الأداة إخبارك بأيهما السبب.",
+        "عبارة المرور وأي مفتاح مولَّد يبقيان في الصفحة فقط. انسخ المفتاح المولَّد إلى مكان آمن قبل أن تغادر، لأن إعادة تحميل الصفحة تفقده.",
+        "هذه أداة للراحة وليست منتجًا مدقَّقًا لإدارة الأسرار. وللبيانات شديدة الحساسية استعمل أدوات راسخة مثل GPG أو age.",
+      ],
+      faq: [
+        {
+          q: "هل يُرسل نصي أو عبارة المرور إلى خادم؟",
+          a: "لا. يجري التشفير وفكه في متصفحك عبر Web Crypto API، ولا ترسل الأداة النص ولا العبارة. ولا يُحفظ شيء بعد إغلاق الصفحة.",
+        },
+        {
+          q: "أي تشفير تستخدمه الأداة؟",
+          a: "AES-256-GCM. يُشتق مفتاح 256 بت من عبارة المرور بدالة PBKDF2 مع SHA-256 و100,000 تكرار وملح عشوائي من 16 بايت. ويضيف كل تشفير متجه تهيئة عشوائيًا من 12 بايت.",
+        },
+        {
+          q: "لماذا يختلف الناتج في كل مرة أشفّر فيها النص نفسه؟",
+          a: "لأن كل تشغيل يولّد ملحًا ومتجه تهيئة عشوائيين جديدين. وهذا مقصود، فهو يمنع معرفة ما إذا كانت رسالتان متطابقتين. وأي ناتج منها يُفك بعبارة المرور نفسها.",
+        },
+        {
+          q: "ماذا لو نسيت عبارة المرور؟",
+          a: "لا يمكن استرجاع النص. العبارة غير محفوظة ولا توجد إعادة تعيين، فاحتفظ بها في مدير كلمات المرور.",
+        },
+        {
+          q: "هل أفك التشفير ببرنامج آخر؟",
+          a: "ليس مباشرة. الناتج هو Base64 للملح ثم المتجه ثم النص المشفّر بترتيب هذه الأداة. يستطيع مطوّر فكه بالمعاملات نفسها، لكن الأدوات القياسية لن تتعرف على التنسيق.",
+        },
+        {
+          q: "هل هي آمنة لكلمات المرور أو الرسائل الخاصة؟",
+          a: "هي مقبولة لمشاركة ملاحظة عبر قناة غير آمنة بشرط أن تكون العبارة قوية وترسلها بطريقة مختلفة. لكنها لا تغني عن الأدوات المتخصصة للأسرار شديدة الحساسية.",
+        },
+      ],
+      steps: [
+        "أدخل عبارة مرور، أو اضغط «توليد مفتاح عشوائي» واحفظه في مكان آمن.",
+        "الصق نصك أو اكتبه واضغط «تشفير».",
+        "انسخ ناتج Base64 وأرسله أو احفظه.",
+        "لقراءته، الصق نص Base64 ثانية وأدخل العبارة نفسها واضغط «فك التشفير».",
+      ],
+    },
+  },
+
+  "morse-code": {
+    related: ["ascii-art", "base64", "text-repeater", "text-diff"],
+    en: {
+      intro:
+        "This translator converts text to Morse code and Morse back to text. In Text to Morse mode, type or paste a message and the dots and dashes appear instantly on the other side. In Morse to Text mode, paste Morse and read the decoded message. A Swap button moves the current result into the input and flips the mode, and a copy button grabs the output.\n\nIt covers the letters A to Z, the digits 0 to 9 and these punctuation marks: . , ? ! / ( ) & : ; = + - _ \" $ @. Letters are separated by a single space and words by a space, a slash and a space. Output is uppercase. A collapsible reference chart lists every letter and digit with its code.",
+      whyClientSide:
+        "The privacy stake is small. Morse is a simple lookup table, a message is rarely sensitive, and it is not a form of secrecy anyway. The conversion happens as you type in the page, with no request and no wait, which is the practical benefit.",
+      limitations: [
+        "There is no audio, light or tap playback; the tool shows and decodes dots and dashes as text only.",
+        "Only the characters listed above are supported. Anything else, including accented letters, Arabic or other non-Latin scripts, and emoji, is silently left out when encoding.",
+        "When decoding, letters must be separated by single spaces and words by a space, slash and space (\" / \"). Other separators, such as a bare slash or a vertical bar, are not recognised, and unknown codes come out as a question mark.",
+        "Line breaks are not treated as word breaks when encoding, so words on separate lines can run together. Keep a message on one line separated by spaces.",
+        "The reference chart shows letters and digits only, not punctuation.",
+      ],
+      faq: [
+        {
+          q: "How do I write the Morse code input for decoding?",
+          a: "Use dots and dashes with one space between letters and a slash with spaces around it between words, for example \".... .. / - .... . .-. .\" decodes to HI THERE.",
+        },
+        {
+          q: "Does it support numbers and punctuation?",
+          a: "Numbers 0 to 9 and the common punctuation marks . , ? ! / ( ) & : ; = + - _ \" $ @ are supported. Other symbols are skipped.",
+        },
+        {
+          q: "Can it play the Morse code as sound?",
+          a: "No. It only converts between text and written Morse. It does not play audio or flash a light.",
+        },
+        {
+          q: "Does it work with Arabic or other languages?",
+          a: "Not currently. The table is the Latin alphabet and digits, so letters from other scripts are dropped when encoding and cannot be decoded.",
+        },
+        {
+          q: "Why do I see question marks in the decoded text?",
+          a: "A question mark appears for any group of dots and dashes that is not in the table. Check for a missing space between letters, a stray character, or a separator other than a space and slash.",
+        },
+      ],
+      steps: [
+        "Choose Text to Morse or Morse to Text.",
+        "Type or paste your message into the input box.",
+        "Read the result on the right and copy it.",
+        "Press Swap to translate the result back the other way.",
+      ],
+    },
+    ar: {
+      intro:
+        "يحوّل هذا المترجم النص إلى شيفرة مورس ويعيدها إلى نص. في وضع «نص إلى مورس» تكتب رسالة أو تلصقها فتظهر النقاط والشرطات فورًا في الجانب الآخر. وفي وضع «مورس إلى نص» تلصق شيفرة مورس فتقرأ الرسالة بعد فك ترميزها. يحمل زر «تبديل» النتيجة الحالية إلى خانة الإدخال ويقلب الوضع، ويلتقط زر النسخ الناتج.\n\nيغطي الأداة الحروف اللاتينية من A إلى Z والأرقام من 0 إلى 9 وعلامات الترقيم هذه: . , ? ! / ( ) & : ; = + - _ \" $ @. تُفصل الحروف بمسافة واحدة، والكلمات بمسافة ثم شرطة مائلة ثم مسافة. ويكون الناتج بأحرف كبيرة. ويعرض جدول مرجعي قابل للطي كل حرف ورقم مع رمزه.",
+      whyClientSide:
+        "الأثر على الخصوصية صغير. مورس جدول بسيط، والرسالة نادرًا ما تكون حساسة، كما أنه ليس وسيلة لإخفاء المعنى أصلًا. تتم الترجمة أثناء الكتابة داخل الصفحة بلا طلب ولا انتظار، وهذه هي الفائدة العملية.",
+      limitations: [
+        "لا يوجد تشغيل للصوت أو الضوء أو النقر، فالأداة تعرض النقاط والشرطات وتفكها كنص فقط.",
+        "لا تُدعم إلا الرموز المذكورة أعلاه. وكل ما عداها، ومنه الحروف المشكّلة والعربية وغيرها من الأبجديات غير اللاتينية والرموز التعبيرية، يُحذف بصمت عند التحويل إلى مورس.",
+        "عند فك الترميز يجب أن تفصل مسافة واحدة بين الحروف، وأن تفصل بين الكلمات مسافة ثم شرطة مائلة ثم مسافة (\" / \"). لا تُعرف فواصل أخرى مثل الشرطة المائلة وحدها أو الخط العمودي، وتظهر الرموز غير المعروفة علامة استفهام.",
+        "لا تُعامل فواصل الأسطر كفواصل بين الكلمات عند التحويل إلى مورس، فقد تلتصق الكلمات الموجودة في أسطر مختلفة. اترك الرسالة في سطر واحد تفصل بين كلماتها مسافات.",
+        "يعرض الجدول المرجعي الحروف والأرقام فقط دون علامات الترقيم.",
+      ],
+      faq: [
+        {
+          q: "كيف أكتب شيفرة مورس لفك ترميزها؟",
+          a: "استخدم النقاط والشرطات مع مسافة واحدة بين الحروف، وشرطة مائلة تحيط بها مسافتان بين الكلمات. مثال: \".... .. / - .... . .-. .\" تُفك إلى HI THERE.",
+        },
+        {
+          q: "هل تدعم الأرقام وعلامات الترقيم؟",
+          a: "تُدعم الأرقام من 0 إلى 9 وعلامات الترقيم الشائعة . , ? ! / ( ) & : ; = + - _ \" $ @. أما الرموز الأخرى فتُتجاهل.",
+        },
+        {
+          q: "هل تشغّل شيفرة مورس كصوت؟",
+          a: "لا. هي تحوّل بين النص ومورس المكتوب فقط، ولا تشغّل صوتًا ولا تومض ضوءًا.",
+        },
+        {
+          q: "هل تعمل مع العربية أو لغات أخرى؟",
+          a: "ليس حاليًا. الجدول مبني على الأبجدية اللاتينية والأرقام، فتُحذف حروف الأبجديات الأخرى عند التحويل ولا يمكن فك ترميزها.",
+        },
+        {
+          q: "لماذا تظهر علامات استفهام في النص الناتج؟",
+          a: "تظهر علامة الاستفهام مقابل أي مجموعة من النقاط والشرطات غير موجودة في الجدول. تحقق من نقص مسافة بين الحروف، أو حرف زائد، أو فاصل غير المسافة والشرطة المائلة.",
+        },
+      ],
+      steps: [
+        "اختر «نص إلى مورس» أو «مورس إلى نص».",
+        "اكتب رسالتك أو الصقها في خانة الإدخال.",
+        "اقرأ النتيجة في الجانب الآخر وانسخها.",
+        "اضغط «تبديل» لترجمة النتيجة في الاتجاه المعاكس.",
+      ],
+    },
+  },
+
+  timer: {
+    related: ["stopwatch", "pomodoro", "world-clock", "wheel-of-names"],
+    en: {
+      intro:
+        "This is a simple online timer with two modes. In Countdown mode you enter hours, minutes and seconds, press Apply to set the time, then Start. The display counts down to zero and plays a short beep when it finishes. It begins at 5 minutes, and you can enter any length, so 90 minutes shows as 01:30:00. In Stopwatch mode the same big display counts up from zero until you pause or reset it.\n\nA fullscreen button turns the page into a large clock that is readable from across a room, and its controls fade out after a few seconds of inactivity. Pausing and starting each play a short beep, and a bell button lets you test the sound before you rely on it.",
+      whyClientSide:
+        "The privacy stake is small: a timer handles no personal data. Running in the page means it starts instantly, needs no account and sends nothing, and that is all there is to say.",
+      limitations: [
+        "The display is driven by the browser's animation frames, which browsers pause in background tabs. When you return, the time catches up correctly, but the finishing beep sounds then, not at the exact moment time ran out. Keep the tab visible if the alarm matters.",
+        "The alarm is one short beep. There is no choice of sound, no repeat, no notification and no vibration.",
+        "State is not saved. Reloading or closing the page resets the time, and there is only one timer at a time.",
+        "The display shows hours, minutes and seconds. There are no lap or split times; the separate stopwatch tool has those.",
+        "Browsers can block sound until you have interacted with the page. Pressing Start counts as interaction, and the bell button lets you check your volume first.",
+      ],
+      faq: [
+        {
+          q: "How do I set a countdown?",
+          a: "Open the Countdown tab, type the hours, minutes and seconds, press Apply, then press Start. The default is 5 minutes.",
+        },
+        {
+          q: "Does it make a sound when time is up?",
+          a: "Yes, a short beep plays when the countdown reaches zero. Use the bell button to test your volume first.",
+        },
+        {
+          q: "Can I use it fullscreen?",
+          a: "Yes. The fullscreen button shows the time at a large size, with Start or Pause, Reset and Exit buttons that hide after a few seconds and come back when you move the mouse or touch the screen.",
+        },
+        {
+          q: "Will it keep running if I switch tabs?",
+          a: "The time keeps counting and is correct when you come back, but browsers pause the page's animation while it is hidden, so the end-of-countdown beep may be late. Leave the tab visible if you need it on time.",
+        },
+        {
+          q: "Is there a stopwatch?",
+          a: "Yes, the Stopwatch tab counts up from zero. For lap and split times use the separate stopwatch tool.",
+        },
+      ],
+      steps: [
+        "Choose Countdown or Stopwatch.",
+        "For a countdown, enter hours, minutes and seconds and press Apply.",
+        "Press Start. Use Pause or Reset as you need.",
+        "Use the fullscreen button for a large display.",
+      ],
+    },
+    ar: {
+      intro:
+        "هذا مؤقّت بسيط على الإنترنت بوضعين. في وضع العدّ التنازلي تُدخل الساعات والدقائق والثواني، وتضغط «تطبيق» لتثبيت المدة، ثم «ابدأ». تنقص الشاشة حتى الصفر وتُصدر نغمة قصيرة عند الانتهاء. تبدأ المدة من 5 دقائق ويمكنك إدخال أي مدة، فتظهر 90 دقيقة على هيئة 01:30:00. وفي وضع ساعة الإيقاف تعدّ الشاشة الكبيرة نفسها تصاعديًا من الصفر حتى توقفها أو تعيد ضبطها.\n\nيحوّل زر ملء الشاشة الصفحة إلى ساعة كبيرة تُقرأ من آخر الغرفة، وتختفي أزرارها بعد ثوانٍ من عدم النشاط. ويُصدر الإيقاف المؤقت والبدء نغمة قصيرة لكل منهما، ويتيح زر الجرس تجربة الصوت قبل الاعتماد عليه.",
+      whyClientSide:
+        "الأثر على الخصوصية صغير: المؤقّت لا يتعامل مع بيانات شخصية. وعمله داخل الصفحة يعني أنه يبدأ فورًا ولا يحتاج حسابًا ولا يرسل شيئًا، وهذا كل ما في الأمر.",
+      limitations: [
+        "تعتمد الشاشة على إطارات الرسوم المتحركة في المتصفح، وتوقفها المتصفحات في التبويبات الخلفية. عند عودتك يُستدرك الوقت بدقة، لكن نغمة الانتهاء تُسمع حينها لا في اللحظة نفسها التي انتهى فيها الوقت. أبقِ التبويب ظاهرًا إن كان المنبّه مهمًا.",
+        "المنبّه نغمة قصيرة واحدة. لا يوجد اختيار للصوت ولا تكرار ولا إشعار ولا اهتزاز.",
+        "الحالة غير محفوظة. إعادة تحميل الصفحة أو إغلاقها تعيد الوقت إلى البداية، ولا يوجد إلا مؤقّت واحد في كل مرة.",
+        "تعرض الشاشة الساعات والدقائق والثواني. لا توجد أزمنة لفّات أو أزمنة جزئية، وهي متوفرة في أداة ساعة الإيقاف المنفصلة.",
+        "قد قد تمنع المتصفحات الصوت إلى أن تتفاعل مع الصفحة. والضغط على «ابدأ» يُعدّ تفاعلًا، ويتيح لك زر الجرس فحص مستوى الصوت أولًا.",
+      ],
+      faq: [
+        {
+          q: "كيف أضبط عدًّا تنازليًا؟",
+          a: "افتح تبويب العدّ التنازلي واكتب الساعات والدقائق والثواني، واضغط «تطبيق» ثم «ابدأ». المدة الافتراضية 5 دقائق.",
+        },
+        {
+          q: "هل يُصدر صوتًا عند انتهاء الوقت؟",
+          a: "نعم، تُسمع نغمة قصيرة عندما يصل العد التنازلي إلى الصفر. استخدم زر الجرس لتجربة مستوى الصوت قبل ذلك.",
+        },
+        {
+          q: "هل أستطيع استخدامه بملء الشاشة؟",
+          a: "نعم. يعرض زر ملء الشاشة الوقت بحجم كبير، مع أزرار البدء أو الإيقاف المؤقت وإعادة الضبط والخروج، وهي تختفي بعد ثوانٍ وتعود عند تحريك الفأرة أو لمس الشاشة.",
+        },
+        {
+          q: "هل يستمر بالعمل إذا انتقلت إلى تبويب آخر؟",
+          a: "يستمر احتساب الوقت ويكون صحيحًا عند عودتك، لكن المتصفحات توقف رسوم الصفحة وهي مخفية، فقد تتأخر نغمة نهاية العد. أبقِ التبويب ظاهرًا إن أردتها في موعدها.",
+        },
+        {
+          q: "هل توجد ساعة إيقاف؟",
+          a: "نعم، يعدّ تبويب ساعة الإيقاف تصاعديًا من الصفر. ولأزمنة اللفّات والأزمنة الجزئية استخدم أداة ساعة الإيقاف المنفصلة.",
+        },
+      ],
+      steps: [
+        "اختر العد التنازلي أو ساعة الإيقاف.",
+        "للعد التنازلي أدخل الساعات والدقائق والثواني واضغط «تطبيق».",
+        "اضغط «ابدأ»، واستخدم الإيقاف المؤقت أو إعادة الضبط عند الحاجة.",
+        "استخدم زر ملء الشاشة لعرض كبير.",
+      ],
+    },
+  },
+
+  "context-window": {
+    related: ["token-counter", "ai-cost-calculator", "model-comparison"],
+    en: {
+      intro:
+        "This calculator shows how much of an AI model's context window your text would fill. Paste a prompt, a document or a whole conversation, choose one of 13 models from OpenAI, Anthropic, Google, Meta, Mistral and DeepSeek, and it shows the token count against the model's window, a progress bar, the percentage used and the tokens remaining. The bar turns from green to yellow, orange and red as it fills, and a warning appears above 80% and a critical note above 95%.\n\nWindow sizes range from 64,000 tokens for DeepSeek V3 to 1,000,000 for Gemini 2.0 Flash and 2,000,000 for Gemini 2.0 Pro; the Claude models and o1 and o3-mini are listed at 200,000. A Load sample button fills in a short example. The tool reports token usage only and does not calculate cost; use the AI cost calculator for that.",
+      whyClientSide:
+        "Prompts are where people paste source code, customer messages and internal documents. The tokenizer here is a JavaScript library bundled into the page, so your text is counted on your device and is not sent to a server, an API or a model provider just to measure it.",
+      limitations: [
+        "Counts are estimates. The tool uses one OpenAI-style tokenizer for every model. Claude and Llama 3.3 counts are scaled by a small fixed factor, and the other models are not adjusted, so the real count from each provider's own tokenizer can differ, especially for code and non-English text.",
+        "The window shown is the model's total limit, and tokens remaining is simply that minus your text. Output you want the model to write also has to fit, so leave room for it.",
+        "Window sizes are fixed values stored in the tool for the 13 listed models. Providers change limits and release new models, so check the provider's documentation for the current figure.",
+        "It counts text only. Images, files, tool definitions and system prompts you add elsewhere are not included unless you paste them in.",
+      ],
+      faq: [
+        {
+          q: "What does the context window mean?",
+          a: "It is the maximum number of tokens a model can take in a single request, covering your prompt and the reply together. When the input alone is close to the limit, there is little room left for an answer.",
+        },
+        {
+          q: "How accurate is the token count?",
+          a: "It is an estimate. The page counts tokens with an OpenAI-style tokenizer and applies a small fixed adjustment for Claude and Llama 3.3. Treat it as a close guide, not the figure on your bill or the provider's counter.",
+        },
+        {
+          q: "Which models can I check?",
+          a: "Thirteen: GPT-4o, GPT-4o mini, o1, o3-mini, Claude Opus 4.6, Claude Sonnet 4.6, Claude Haiku 4.5, Gemini 2.0 Flash, Gemini 2.0 Pro, Llama 3.3 70B, Llama 3.1 405B, Mistral Large and DeepSeek V3.",
+        },
+        {
+          q: "Does it show the cost?",
+          a: "No. It shows tokens used, the share of the window and tokens remaining. For price estimates use the AI cost calculator or the model comparison tool.",
+        },
+        {
+          q: "Is my text sent to the model provider?",
+          a: "No. The tokenizer runs in your browser and nothing is sent anywhere. The tool never calls any model.",
+        },
+      ],
+      steps: [
+        "Select a model from the list.",
+        "Paste your prompt or conversation into the text box, or load the sample.",
+        "Read the token count, the percentage of the context window used and the tokens remaining.",
+        "Trim your text if the bar is orange or red.",
+      ],
+    },
+    ar: {
+      intro:
+        "تُظهر هذه الحاسبة كم تملأ نصوصك من نافذة سياق نموذج الذكاء الاصطناعي. الصق موجّهًا أو مستندًا أو محادثة كاملة، واختر واحدًا من 13 نموذجًا من OpenAI وAnthropic وGoogle وMeta وMistral وDeepSeek، فتعرض عدد الرموز مقابل نافذة النموذج، مع شريط تقدم ونسبة الاستخدام والرموز المتبقية. يتحول لون الشريط من الأخضر إلى الأصفر فالبرتقالي فالأحمر كلما امتلأ، ويظهر تحذير بعد 80% وتنبيه حرج بعد 95%.\n\nتتراوح أحجام النوافذ من 64,000 رمز في DeepSeek V3 إلى مليون في Gemini 2.0 Flash ومليونين في Gemini 2.0 Pro، وتُدرج نماذج Claude وo1 وo3-mini عند 200,000. ويملأ زر «تحميل مثال» نصًّا قصيرًا للتجربة. تعرض الأداة استهلاك الرموز فقط ولا تحسب التكلفة، وللتكلفة استخدم حاسبة تكلفة الذكاء الاصطناعي.",
+      whyClientSide:
+        "الموجّهات هي المكان الذي يلصق فيه الناس شيفرة برمجية ورسائل عملاء ومستندات داخلية. المُرمِّز (tokenizer) هنا مكتبة جافاسكربت مضمَّنة في الصفحة، فيُعدّ نصك على جهازك ولا يُرسل إلى خادم أو واجهة برمجية أو مزوّد نماذج لمجرد قياسه.",
+      limitations: [
+        "الأعداد تقديرية. تستخدم الأداة مُرمِّزًا واحدًا بنمط OpenAI لكل النماذج. وتُضرب أعداد Claude وLlama 3.3 بمعامل ثابت صغير، أما النماذج الأخرى فلا تُعدَّل، فقد يختلف العدد الحقيقي لدى مُرمِّز كل مزوّد، خصوصًا مع الشيفرة والنصوص غير الإنجليزية.",
+        "النافذة المعروضة هي الحد الكلي للنموذج، والرموز المتبقية هي ببساطة الحد ناقص نصك. والناتج الذي تريد من النموذج كتابته يجب أن يتسع أيضًا، فاترك له مساحة.",
+        "أحجام النوافذ قيم ثابتة مخزَّنة في الأداة للنماذج الثلاثة عشر المدرجة. تغيّر الشركات حدودها وتطلق نماذج جديدة، فراجع وثائق المزوّد للرقم الحالي.",
+        "تعدّ الأداة النص فقط. الصور والملفات وتعريفات الأدوات وتعليمات النظام التي تضيفها في مكان آخر لا تُحتسب ما لم تلصقها هنا.",
+      ],
+      faq: [
+        {
+          q: "ما المقصود بنافذة السياق؟",
+          a: "هي أقصى عدد من الرموز يستقبله النموذج في طلب واحد، ويشمل موجّهك والرد معًا. وإذا اقترب الإدخال وحده من الحد فلا تبقى مساحة تُذكر للإجابة.",
+        },
+        {
+          q: "ما مدى دقة عدد الرموز؟",
+          a: "هو تقدير. تعدّ الصفحة الرموز بمُرمِّز بنمط OpenAI وتطبّق تعديلًا ثابتًا صغيرًا لـ Claude وLlama 3.3. اعتبره دليلًا قريبًا لا الرقم الذي في فاتورتك أو عدّاد المزوّد.",
+        },
+        {
+          q: "أي النماذج يمكنني فحصها؟",
+          a: "ثلاثة عشر: GPT-4o وGPT-4o mini وo1 وo3-mini وClaude Opus 4.6 وClaude Sonnet 4.6 وClaude Haiku 4.5 وGemini 2.0 Flash وGemini 2.0 Pro وLlama 3.3 70B وLlama 3.1 405B وMistral Large وDeepSeek V3.",
+        },
+        {
+          q: "هل تعرض التكلفة؟",
+          a: "لا. تعرض الرموز المستخدمة ونسبة النافذة والرموز المتبقية. ولتقدير السعر استخدم حاسبة تكلفة الذكاء الاصطناعي أو أداة مقارنة النماذج.",
+        },
+        {
+          q: "هل يُرسل نصي إلى مزوّد النموذج؟",
+          a: "لا. يعمل المُرمِّز في متصفحك ولا يُرسل شيء إلى أي مكان. والأداة لا تستدعي أي نموذج.",
+        },
+      ],
+      steps: [
+        "اختر نموذجًا من القائمة.",
+        "الصق موجّهك أو محادثتك في خانة النص، أو حمّل المثال.",
+        "اقرأ عدد الرموز ونسبة استخدام نافذة السياق والرموز المتبقية.",
+        "اختصر نصك إذا صار الشريط برتقاليًا أو أحمر.",
+      ],
+    },
+  },
+
+  "favicon-generator": {
+    related: ["image-resizer", "crop-image", "image-converter", "svg-png"],
+    en: {
+      intro:
+        "This tool makes a complete favicon set from an image, a letter or an emoji. Upload a logo (PNG, JPG, WebP, SVG or GIF up to 15 MB), or switch to the letter mode and type up to four characters, then pick a background and text color. Press Generate and you get previews of six PNG sizes: 16, 32, 48, 180, 192 and 512 pixels.\n\nThe download is one ZIP containing those PNGs (the 180 px one is named apple-touch-icon.png), a favicon.ico, a site.webmanifest and a ready-to-paste HTML snippet with the link tags. The .ico file holds the 16 and 32 px sizes. You can also copy the snippet from the page. Upload files at your site's root, paste the snippet into your page head, and browsers, phones and tab bars will pick the icon up.",
+      whyClientSide:
+        "The privacy stake is small, since a favicon is public the moment you publish it. Still, a logo you have not launched yet is rendered to icon sizes and zipped on your device rather than sent to a converter, which also means the result appears immediately.",
+      limitations: [
+        "The favicon.ico contains only the 16 and 32 px sizes. That covers browser tabs and bookmarks, but Windows shortcuts or older uses that expect 48 or 256 px inside the .ico will not find them there.",
+        "Images are scaled to fill a square and the overflow is cropped from the center, so a wide or tall logo loses its edges. Prepare a square image, or crop it first.",
+        "The generated site.webmanifest has empty name and short_name fields and white theme and background colors. Fill them in before you publish.",
+        "The HTML snippet links the .ico, the 16 and 32 px PNGs, the apple-touch-icon and the manifest. The 48 px PNG is in the ZIP but not in the snippet, and the 192 and 512 px icons are referenced through the manifest.",
+        "Letter and emoji icons are drawn with your device's own fonts, so an emoji may look different from one generated on another system. The letter mode does not support custom fonts.",
+      ],
+      faq: [
+        {
+          q: "What files are in the ZIP?",
+          a: "Six PNGs (16, 32, 48, 180 as apple-touch-icon, 192 and 512 pixels), favicon.ico, site.webmanifest and favicon-snippet.html.",
+        },
+        {
+          q: "Which sizes are inside favicon.ico?",
+          a: "16 by 16 and 32 by 32 pixels, stored as PNG images in the ICO container. That is enough for browser tabs and bookmarks in current browsers.",
+        },
+        {
+          q: "Can I make a favicon from a letter or an emoji?",
+          a: "Yes. Switch to the letter mode, type up to four characters, and choose the background and text colors. The glyph is centered in a square.",
+        },
+        {
+          q: "Where do I put the files?",
+          a: "Upload them to the root of your site, then paste the contents of favicon-snippet.html into the head of your pages. The paths in the snippet start with a slash, so they expect the files at the root.",
+        },
+        {
+          q: "Will a transparent logo stay transparent?",
+          a: "Yes for an uploaded image with transparency: the PNGs are drawn without a background. A letter or emoji icon always has the background color you choose.",
+        },
+      ],
+      steps: [
+        "Upload a logo, or switch to the letter mode and type a letter or emoji.",
+        "Choose colors if you are using a letter, then press Generate.",
+        "Check the previews of each size.",
+        "Download the ZIP, upload the files to your site's root, and paste the snippet into your page head.",
+      ],
+    },
+    ar: {
+      intro:
+        "تصنع هذه الأداة مجموعة أيقونات موقع (favicon) كاملة من صورة أو حرف أو رمز تعبيري. ارفع شعارًا (PNG أو JPG أو WebP أو SVG أو GIF حتى 15 ميغابايت)، أو انتقل إلى وضع الحرف واكتب حتى أربعة رموز، ثم اختر لون الخلفية ولون النص. اضغط «توليد» فتظهر معاينات لستة أحجام بصيغة PNG: 16 و32 و48 و180 و192 و512 بكسل.\n\nالتنزيل ملف ZIP واحد يضم هذه الصور (يُسمّى الحجم 180 باسم apple-touch-icon.png)، وملف favicon.ico، وملف site.webmanifest، وقصاصة HTML جاهزة للصق فيها وسوم الروابط. يحتوي ملف .ico على الحجمين 16 و32 بكسل. ويمكنك أيضًا نسخ القصاصة من الصفحة. ارفع الملفات إلى جذر موقعك والصق القصاصة في رأس صفحتك، فتلتقط المتصفحات والهواتف وشريط التبويبات الأيقونة.",
+      whyClientSide:
+        "الأثر على الخصوصية صغير، فأيقونة الموقع علنية بمجرد النشر. ومع ذلك فالشعار الذي لم تطلقه بعد يُحوَّل إلى أحجام الأيقونات ويُضغط في ZIP على جهازك بدل إرساله إلى محوّل، وهذا يعني أيضًا ظهور النتيجة فورًا.",
+      limitations: [
+        "ملف favicon.ico يحتوي الحجمين 16 و32 بكسل فقط. يكفي هذا لتبويبات المتصفح والمفضلة، لكن اختصارات ويندوز أو الاستخدامات القديمة التي تتوقع 48 أو 256 بكسل داخل ملف .ico لن تجدها فيه.",
+        "تُكبَّر الصورة لتملأ المربع ويُقصّ الزائد من الوسط، فيفقد الشعار العريض أو الطويل أطرافه. جهّز صورة مربعة أو اقصّها أولًا.",
+        "الملف site.webmanifest المولَّد حقلا name وshort_name فيه فارغان، ولونا السمة والخلفية أبيضان. عبّئهما قبل النشر.",
+        "تربط قصاصة HTML ملف .ico وصورتي PNG بحجمي 16 و32 وأيقونة apple-touch-icon وملف manifest. صورة 48 بكسل موجودة في ZIP لكنها ليست في القصاصة، وأيقونتا 192 و512 يُشار إليهما عبر ملف manifest.",
+        "أيقونات الحرف والرمز التعبيري تُرسم بخطوط جهازك، فقد يختلف شكل الرمز التعبيري عمّا يولَّد على نظام آخر. ولا يدعم وضع الحرف خطوطًا مخصصة.",
+      ],
+      faq: [
+        {
+          q: "ما الملفات الموجودة في ملف ZIP؟",
+          a: "ست صور PNG (16 و32 و48 و180 باسم apple-touch-icon و192 و512 بكسل) وملف favicon.ico وملف site.webmanifest وملف favicon-snippet.html.",
+        },
+        {
+          q: "أي الأحجام داخل favicon.ico؟",
+          a: "16×16 و32×32 بكسل، مخزَّنان كصورتي PNG داخل حاوية ICO. وهذا يكفي لتبويبات المتصفح والمفضلة في المتصفحات الحالية.",
+        },
+        {
+          q: "هل أصنع أيقونة من حرف أو رمز تعبيري؟",
+          a: "نعم. انتقل إلى وضع الحرف واكتب حتى أربعة رموز واختر لوني الخلفية والنص. يُوضع الرمز في وسط المربع.",
+        },
+        {
+          q: "أين أضع الملفات؟",
+          a: "ارفعها إلى جذر موقعك، ثم الصق محتوى favicon-snippet.html في رأس صفحاتك. المسارات في القصاصة تبدأ بشرطة مائلة، فهي تتوقع الملفات في الجذر.",
+        },
+        {
+          q: "هل يبقى الشعار الشفاف شفافًا؟",
+          a: "نعم للصورة المرفوعة التي فيها شفافية، إذ تُرسم صور PNG بلا خلفية. أما أيقونة الحرف أو الرمز التعبيري فلها دائمًا لون الخلفية الذي تختاره.",
+        },
+      ],
+      steps: [
+        "ارفع شعارًا، أو انتقل إلى وضع الحرف واكتب حرفًا أو رمزًا تعبيريًا.",
+        "اختر الألوان إن كنت تستخدم حرفًا، ثم اضغط «توليد».",
+        "راجع معاينات كل حجم.",
+        "نزّل ملف ZIP وارفع الملفات إلى جذر موقعك والصق القصاصة في رأس صفحتك.",
+      ],
+    },
+  },
 };
 
 // ──────────────────────────────────────────────────────────────────────────────
