@@ -66,6 +66,200 @@ export interface ToolContent {
 // Slug = the segment after /tools/, e.g. "json-formatter".
 export const toolContent: Record<string, ToolContent> = {
   // ── Newest tools ────────────────────────────────────────────────────────────
+  "ascii-art": {
+    related: [
+      "depth-map",
+      "meme-generator",
+      "screenshot-beautifier",
+      "code-screenshot",
+      "image-converter",
+    ],
+    en: {
+      intro:
+        "This ASCII art generator turns a photo or PNG into text made of characters. Drop in an image, pick how many characters wide the result should be, and the tool replaces every pixel block with a character whose density matches its brightness — dense symbols for dark areas, spaces for light ones. You can copy the result as plain text, download it as a .txt file, or export it as a PNG.\n\nThe controls are deliberately few. Width runs from 20 to 300 characters; the character set can be Standard (@%#*+=-:. ), Detailed (a 70-character ramp for smoother gradients), Blocks (█▓▒░) or Binary (1 and 0); Invert flips light and dark, which is what you want for light text on a dark background; and Colored tints each character with the colour of the pixel it came from. Once you have generated a result, changing any setting regenerates it automatically.\n\nIt works on PNG, JPG, WebP, GIF and BMP files up to 15 MB. This is an image-to-ASCII converter only: there is no mode that renders typed text in ASCII fonts.",
+      whyClientSide:
+        "Honestly, the privacy stake here is small — a picture turned into punctuation is rarely sensitive. The real benefit is speed: the conversion is a few lines of canvas maths, so there is no upload, no queue and no account, and the result updates as you drag the width slider.",
+      limitations: [
+        "Image input only. There is no text-to-ASCII or banner-font mode, so you cannot type a word and get a large lettered result.",
+        "Colour exists only in the on-screen preview and the PNG export. Copied text and the .txt download are plain characters with no colour information.",
+        "The PNG export is a fixed small size — roughly 6 pixels per character across and 10 down — so a 100-column result gives a PNG only about 600 pixels wide. Use the .txt file if you need to print or scale it yourself.",
+        "Animated GIFs are converted from a single frame only; the output is never animated. Fully transparent pixels are treated as empty space.",
+      ],
+      faq: [
+        {
+          q: "Can I type text and get ASCII art?",
+          a: "No. This tool converts images only. It samples the brightness of each pixel block in your picture and maps it to a character; it does not have a text mode or a library of ASCII lettering fonts.",
+        },
+        {
+          q: "Why does my ASCII art look squashed or misaligned when I paste it?",
+          a: "ASCII art only lines up in a monospaced font, where every character is the same width. Pasted into a chat app, a word processor or a page that uses a proportional font, the columns drift apart. Paste it into a code block or set the font to Courier, Consolas or Menlo. The tool also halves the row count to compensate for characters being roughly twice as tall as they are wide, so the picture keeps its shape in a monospaced font.",
+        },
+        {
+          q: "What width should I choose?",
+          a: "The default of 100 characters suits most photos. Go to 150–300 for faces and detailed scenes, but only if wherever you will paste it is wide enough to avoid wrapping lines, which breaks the picture. For a quick, chunky look or a narrow chat window, 40–80 columns works better. Simple high-contrast images such as logos stay readable at lower widths.",
+        },
+        {
+          q: "Which character set gives the best result?",
+          a: "Standard is a clean default. Detailed uses a longer ramp of characters for smoother tonal gradients on photographs. Blocks (█▓▒░) produces a solid, pixel-art look but needs a font that includes block characters. Binary draws the picture with 1s and 0s.",
+        },
+        {
+          q: "Can I get coloured ASCII art?",
+          a: "Yes — tick Colored and each character takes the colour of its source pixel in the preview and in the PNG export. A .txt file or copied text cannot carry colour, so those stay plain.",
+        },
+        {
+          q: "Should I copy the text or download it?",
+          a: "Copy is the fastest way to paste into a README, terminal banner or code comment. Download .txt saves the same plain text as a file. Download PNG renders the characters onto an image — the one to use if you want to share the art somewhere that would break the monospaced alignment, or to keep the colours.",
+        },
+      ],
+      steps: [
+        "Drop an image onto the tool or click to choose one (PNG, JPG, WebP, GIF or BMP, up to 15 MB).",
+        "Set the width and choose a character set; tick Invert for light-on-dark or Colored to keep the image's colours.",
+        "Press Generate — after that the result refreshes automatically whenever you change a setting.",
+        "Copy the text, download it as .txt, or export a PNG.",
+      ],
+    },
+    ar: {
+      intro:
+        "هذه الأداة تحوّل صورتك إلى فن ASCII، أي صورة مرسومة بالحروف والرموز. أسقط صورة، وحدّد عرض النتيجة بعدد الأحرف، فتستبدل الأداة كل كتلة من البكسلات برمز تتناسب كثافته مع سطوعها: رموز كثيفة للمناطق الداكنة ومسافات للمناطق الفاتحة. يمكنك نسخ النتيجة كنص عادي أو تنزيلها بصيغة .txt أو تصديرها صورة PNG.\n\nخياراتها قليلة عن قصد. العرض من 20 إلى 300 حرف؛ ومجموعة الرموز إما قياسية (@%#*+=-:. ) أو مفصّلة (سلسلة من نحو 70 رمزًا لتدرجات أنعم) أو كتل (█▓▒░) أو ثنائية (1 و0)؛ وخيار «عكس» يقلب الفاتح والداكن وهو المناسب للكتابة الفاتحة على خلفية داكنة؛ وخيار «ملوّن» يصبغ كل رمز بلون البكسل الذي أُخذ منه. وبعد أول توليد، يُعاد إنشاء النتيجة تلقائيًا كلما غيّرت أي إعداد.\n\nتدعم الأداة ملفات PNG وJPG وWebP وGIF وBMP حتى 15 ميغابايت. هي محوّل من صورة إلى ASCII فقط، وليس فيها وضع لكتابة نص بخطوط ASCII.",
+      whyClientSide:
+        "بصراحة، الخصوصية هنا ليست هاجسًا كبيرًا، فصورة تتحول إلى علامات ترقيم نادرًا ما تكون حساسة. الفائدة الحقيقية هي السرعة: التحويل مجرد عملية حسابية بسيطة على لوحة canvas، فلا رفع ولا انتظار ولا حساب، وتتغير النتيجة فورًا وأنت تحرّك شريط العرض.",
+      limitations: [
+        "الإدخال صورة فقط. لا يوجد وضع لتحويل النص إلى ASCII ولا خطوط عناوين، فلا يمكنك كتابة كلمة والحصول على حروف كبيرة مرسومة.",
+        "اللون موجود في المعاينة على الشاشة وفي تصدير PNG فقط. أما النص المنسوخ وملف .txt فهما أحرف عادية بلا أي معلومات لونية.",
+        "تصدير PNG بحجم صغير ثابت، بنحو 6 بكسلات لكل حرف عرضًا و10 ارتفاعًا؛ فنتيجة بعرض 100 عمود تعطي صورة عرضها نحو 600 بكسل فقط. استخدم ملف .txt إن أردت الطباعة أو التكبير بنفسك.",
+        "صور GIF المتحركة تُحوَّل من إطار واحد فقط، ولا يكون الناتج متحركًا أبدًا. والبكسلات الشفافة تمامًا تُعامل كفراغ.",
+      ],
+      faq: [
+        {
+          q: "هل أستطيع كتابة نص والحصول على فن ASCII؟",
+          a: "لا. هذه الأداة تحوّل الصور فقط: تقرأ سطوع كل كتلة بكسلات في صورتك وتقابله برمز، وليس فيها وضع نصي ولا مكتبة خطوط ASCII.",
+        },
+        {
+          q: "لماذا يبدو الرسم مشوّهًا أو غير متراصّ عند لصقه؟",
+          a: "لا يستقيم فن ASCII إلا في خط أحادي المسافة تتساوى فيه عروض الأحرف. وعند لصقه في تطبيق محادثة أو معالج نصوص أو صفحة بخط متناسب تتباعد الأعمدة. الصقه داخل كتلة كود أو اضبط الخط على Courier أو Consolas أو Menlo. كما تُنقص الأداة عدد الصفوف إلى النصف تقريبًا لتعويض أن ارتفاع الحرف يقارب ضعف عرضه، فتحتفظ الصورة بنسبتها في الخط أحادي المسافة.",
+        },
+        {
+          q: "ما العرض الذي أختاره؟",
+          a: "القيمة الافتراضية 100 حرف مناسبة لمعظم الصور. ارفعها إلى 150–300 للوجوه والمشاهد المفصّلة، بشرط أن يتسع المكان الذي ستلصق فيه لهذا العرض دون التفاف الأسطر الذي يفسد الرسم. وللمظهر الخشن السريع أو نافذة المحادثة الضيقة، يكفي 40–80 عمودًا. أما الشعارات والصور عالية التباين فتبقى مقروءة بعرض أقل.",
+        },
+        {
+          q: "أي مجموعة رموز تعطي أفضل نتيجة؟",
+          a: "«القياسية» خيار نظيف افتراضي. و«المفصّلة» تستخدم سلسلة أطول من الرموز لتدرجات أنعم في الصور الفوتوغرافية. و«الكتل» (█▓▒░) تعطي مظهرًا مصمتًا يشبه البكسل آرت لكنها تحتاج خطًا يتضمن رموز الكتل. و«الثنائية» ترسم الصورة بالرقمين 1 و0.",
+        },
+        {
+          q: "هل يمكنني الحصول على فن ASCII ملوّن؟",
+          a: "نعم، فعّل خيار «ملوّن» فيأخذ كل رمز لون البكسل الأصلي في المعاينة وفي تصدير PNG. أما ملف .txt والنص المنسوخ فلا يحملان لونًا، فيبقيان عاديين.",
+        },
+        {
+          q: "هل أنسخ النص أم أنزّله؟",
+          a: "النسخ أسرع طريقة للصق في ملف README أو شعار طرفية أو تعليق برمجي. وتنزيل .txt يحفظ النص نفسه في ملف. أما تنزيل PNG فيرسم الأحرف على صورة، وهو الأنسب حين تشاركه في مكان يفسد محاذاة الخط أحادي المسافة، أو حين تريد الاحتفاظ بالألوان.",
+        },
+      ],
+      steps: [
+        "أسقط صورة على الأداة أو انقر لاختيارها (PNG أو JPG أو WebP أو GIF أو BMP حتى 15 ميغابايت).",
+        "حدّد العرض واختر مجموعة الرموز؛ وفعّل «عكس» للفاتح على الداكن أو «ملوّن» للإبقاء على ألوان الصورة.",
+        "اضغط «إنشاء» — وبعدها تتحدث النتيجة تلقائيًا كلما غيّرت إعدادًا.",
+        "انسخ النص أو نزّله بصيغة .txt أو صدّره صورة PNG.",
+      ],
+    },
+  },
+  "depth-map": {
+    related: [
+      "object-cutout",
+      "image-upscaler",
+      "bg-removal",
+      "image-captioner",
+      "ascii-art",
+    ],
+    en: {
+      intro:
+        "This depth map generator estimates how far away each part of a photo is and draws the result as an image. Drop in a PNG, JPG or WebP, press Generate, and you get a depth map the same shape as your picture, ready to download as a PNG. It is free, needs no account, and the AI model runs inside your browser rather than on a server.\n\nThe model is Depth Anything V2 (small), loaded through Transformers.js and ONNX Runtime. It uses WebGPU when your browser offers it and falls back to WebAssembly otherwise. The output is grayscale by default, which is the form 3D and parallax tools expect, and you can switch the display to the Inferno or Viridis colour maps to read the depth more easily. Changing the colour map recolours the existing result instantly without running the model again.\n\nThe depth is relative, not measured: it tells you which parts are nearer or farther than others, not distances in metres.",
+      whyClientSide:
+        "The honest trade-off is the first run. The model has to be downloaded before it can do anything — roughly 27 MB on the WebAssembly path and about 99 MB when WebGPU is used — so the first depth map takes noticeably longer than later ones, and a progress bar shows the download. The browser keeps the model afterwards, and nothing about your photo is ever uploaded. In exchange you get no queue, no daily limit and no watermark.",
+      limitations: [
+        "The first run downloads the model (about 27 MB on WebAssembly, about 99 MB on WebGPU) and is slow on a weak connection. Later runs reuse what the browser has stored.",
+        "The result is a relative depth estimate from a single image. It is not a metric measurement and it can be wrong on mirrors, glass, fog, very dark scenes and flat or repetitive surfaces.",
+        "Inputs are limited to PNG, JPG and WebP files up to 15 MB. The only export is a PNG of exactly what is shown, so a colour map you picked is baked into the file; choose Grayscale before downloading if you need a clean depth channel.",
+        "Speed depends on your hardware. Without WebGPU the model runs on the CPU and a large photo can take a while.",
+      ],
+      faq: [
+        {
+          q: "What is a depth map?",
+          a: "A depth map is an image in which each pixel's value stands for how far that point in the scene is from the camera. In a grayscale depth map, brightness encodes distance, so you can see the layers of a scene at a glance. Check on your own result which end is near and which is far, because tools differ in the convention they expect.",
+        },
+        {
+          q: "Which AI model does this use?",
+          a: "Depth Anything V2 in its small size, published for the browser as onnx-community/depth-anything-v2-small and run with Transformers.js. It estimates depth from a single ordinary photo; you do not need a stereo pair or a depth sensor.",
+        },
+        {
+          q: "Why is the first run so slow?",
+          a: "Because the model is downloaded to your browser the first time, around 27 MB on the WebAssembly path and about 99 MB with WebGPU. A progress bar shows it. After that the browser keeps it, so later depth maps are much quicker.",
+        },
+        {
+          q: "Grayscale or colour — which should I use?",
+          a: "Use Grayscale when the depth map is going into other software, because 3D, displacement and parallax tools expect a single-channel-style image. Inferno and Viridis are perceptual colour maps meant for humans: they make small differences in depth easier to see, but the downloaded PNG carries those colours, so they are not suitable as a displacement or parallax input.",
+        },
+        {
+          q: "Can I use the depth map for 3D, parallax or Blender displacement?",
+          a: "Yes, with caveats. Download the Grayscale version and use it as a displacement or depth texture in Blender, as the depth layer for a 2.5D parallax effect, or as a mask for depth-of-field and fog in an image editor. Because it is a relative estimate rather than true geometry, expect to tune the strength, and invert it in your tool if near and far come out the wrong way round.",
+        },
+        {
+          q: "What file formats are supported?",
+          a: "You can upload PNG, JPG or WebP images up to 15 MB. The depth map is exported as a PNG named after your original file with -depth added to the end.",
+        },
+      ],
+      steps: [
+        "Drop a PNG, JPG or WebP photo onto the original panel or click to choose one.",
+        "Pick Grayscale for a depth channel you will reuse, or Inferno or Viridis for a colour view.",
+        "Press Generate. On the first run, wait for the model to download; after that it runs from the browser's stored copy.",
+        "Download the depth map as a PNG. You can switch the colour map before downloading without regenerating.",
+      ],
+    },
+    ar: {
+      intro:
+        "هذه الأداة مولّد خرائط عمق: تقدّر مدى بُعد كل جزء في الصورة وترسم النتيجة صورةً. أسقط صورة PNG أو JPG أو WebP واضغط «إنشاء»، فتحصل على خريطة عمق بنفس أبعاد صورتك جاهزة للتنزيل بصيغة PNG. الأداة مجانية بلا حساب، ويعمل نموذج الذكاء الاصطناعي داخل متصفحك لا على خادم.\n\nالنموذج هو Depth Anything V2 (الحجم الصغير) ويُشغَّل عبر Transformers.js وONNX Runtime. يستخدم WebGPU إن وفّره المتصفح، وإلا يعود إلى WebAssembly. الخرج رمادي افتراضيًا، وهو الشكل الذي تتوقعه أدوات الثلاثي الأبعاد والبارالاكس، ويمكنك تبديل العرض إلى خريطتَي الألوان Inferno أو Viridis لقراءة العمق بسهولة أكبر. وتغيير خريطة الألوان يعيد تلوين النتيجة الحالية فورًا دون تشغيل النموذج من جديد.\n\nالعمق هنا نسبي لا مقيس: يخبرك أي الأجزاء أقرب وأيها أبعد، لا المسافات بالأمتار.",
+      whyClientSide:
+        "المقايضة الصريحة هي في التشغيل الأول. يجب تنزيل النموذج قبل أن يعمل — نحو 27 ميغابايت على مسار WebAssembly ونحو 99 ميغابايت عند استخدام WebGPU — لذا تستغرق أول خريطة عمق وقتًا أطول بوضوح من اللاحقة، ويعرض شريط التقدم حالة التنزيل. ويحتفظ المتصفح بالنموذج بعد ذلك، ولا يُرفع أي شيء من صورتك. وبالمقابل لا طابور انتظار ولا حد يومي ولا علامة مائية.",
+      limitations: [
+        "التشغيل الأول ينزّل النموذج (نحو 27 ميغابايت على WebAssembly ونحو 99 ميغابايت على WebGPU) ويبطؤ مع الاتصال الضعيف. أما المرات التالية فتعيد استخدام ما حفظه المتصفح.",
+        "النتيجة تقدير نسبي للعمق من صورة واحدة، وليست قياسًا فعليًا، وقد تخطئ مع المرايا والزجاج والضباب والمشاهد المظلمة جدًا والأسطح المسطحة أو المتكررة.",
+        "المدخلات محصورة في ملفات PNG وJPG وWebP حتى 15 ميغابايت. والتصدير الوحيد هو PNG لما يظهر على الشاشة تمامًا، فإن اخترت خريطة ألوان فستُدمج في الملف؛ اختر «رمادي» قبل التنزيل إن أردت قناة عمق نظيفة.",
+        "السرعة تعتمد على جهازك. بدون WebGPU يعمل النموذج على المعالج المركزي وقد تستغرق الصورة الكبيرة وقتًا.",
+      ],
+      faq: [
+        {
+          q: "ما هي خريطة العمق؟",
+          a: "خريطة العمق صورة تمثّل قيمة كل بكسل فيها مدى بُعد تلك النقطة من المشهد عن الكاميرا. وفي الخريطة الرمادية يعبّر السطوع عن المسافة، فترى طبقات المشهد بنظرة واحدة. تحقق في نتيجتك من الطرف الذي يمثل القريب والطرف الذي يمثل البعيد، فالأدوات تختلف في الاصطلاح الذي تتوقعه.",
+        },
+        {
+          q: "أي نموذج ذكاء اصطناعي تستخدم الأداة؟",
+          a: "Depth Anything V2 بحجمه الصغير، المنشور للمتصفح باسم onnx-community/depth-anything-v2-small والمشغَّل عبر Transformers.js. يقدّر العمق من صورة عادية واحدة، ولا تحتاج إلى زوج صور مجسَّم ولا مستشعر عمق.",
+        },
+        {
+          q: "لماذا التشغيل الأول بطيء؟",
+          a: "لأن النموذج يُنزَّل إلى متصفحك أول مرة، بنحو 27 ميغابايت على مسار WebAssembly ونحو 99 ميغابايت مع WebGPU، ويعرض شريط التقدم ذلك. وبعدها يحتفظ به المتصفح فتكون الخرائط اللاحقة أسرع بكثير.",
+        },
+        {
+          q: "رمادي أم ملوّن — أيهما أستخدم؟",
+          a: "استخدم «رمادي» إذا كانت الخريطة ستدخل برنامجًا آخر، فأدوات الثلاثي الأبعاد والإزاحة والبارالاكس تتوقع صورة أحادية القناة في جوهرها. أما Inferno وViridis فخريطتا ألوان إدراكيتان مصممتان للعين البشرية: تُظهران الفروق الصغيرة في العمق بوضوح، لكن ملف PNG المنزَّل يحمل تلك الألوان فلا يصلح مدخلًا للإزاحة أو البارالاكس.",
+        },
+        {
+          q: "هل أستطيع استخدام الخريطة في الثلاثي الأبعاد أو البارالاكس أو إزاحة Blender؟",
+          a: "نعم، مع تنبيهات. نزّل النسخة الرمادية واستخدمها نسيجَ إزاحة أو عمق في Blender، أو طبقة عمق لتأثير بارالاكس ثنائي ونصف الأبعاد، أو قناعًا لعمق الميدان والضباب في محرر الصور. ولأنها تقدير نسبي لا هندسة حقيقية، توقّع أن تضبط الشدة، وأن تعكسها في أداتك إن خرج القريب والبعيد بالترتيب المعاكس.",
+        },
+        {
+          q: "ما صيغ الملفات المدعومة؟",
+          a: "يمكنك رفع صور PNG أو JPG أو WebP حتى 15 ميغابايت. وتُصدَّر خريطة العمق بصيغة PNG باسم ملفك الأصلي مضافًا إليه -depth في النهاية.",
+        },
+      ],
+      steps: [
+        "أسقط صورة PNG أو JPG أو WebP على اللوحة الأصلية أو انقر لاختيارها.",
+        "اختر «رمادي» لقناة عمق ستعيد استخدامها، أو Inferno أو Viridis لعرض ملوّن.",
+        "اضغط «إنشاء». في أول مرة انتظر تنزيل النموذج، وبعدها يعمل من النسخة المحفوظة في المتصفح.",
+        "نزّل خريطة العمق بصيغة PNG. ويمكنك تبديل خريطة الألوان قبل التنزيل دون إعادة التوليد.",
+      ],
+    },
+  },
   "video-converter": {
     related: ["compress-video", "video-to-audio", "video", "gif-maker"],
     en: {
