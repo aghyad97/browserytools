@@ -7,7 +7,7 @@
 //                     on-device matters. Must be tool-specific. If a tool has no
 //                     real privacy angle, say so honestly instead of inventing
 //                     one — omit the field rather than writing filler.
-//   - limitations:    optional 2–4 plain-language honest limitations. Deliberately
+//   - limitations:    optional 2–6 plain-language honest limitations. Deliberately
 //                     unflattering where the client-side build is genuinely weaker
 //                     than a server-side competitor. NEVER fed to JSON-LD — this
 //                     is prose for humans, not a structured claim. Omit the field
@@ -46,7 +46,7 @@ export interface ToolContentLocale {
    */
   whyClientSide?: string;
   /**
-   * Optional. 2–4 honest, plain-language limitations. Rendered as prose only —
+   * Optional. 2–6 honest, plain-language limitations. Rendered as prose only —
    * deliberately excluded from FAQPage and every other JSON-LD graph.
    * Omit rather than invent: an empty list renders nothing.
    */
@@ -88,7 +88,7 @@ export const toolContent: Record<string, ToolContent> = {
         "Image input only. There is no text-to-ASCII or banner-font mode, so you cannot type a word and get a large lettered result.",
         "Colour exists only in the on-screen preview and the PNG export. Copied text and the .txt download are plain characters with no colour information.",
         "The PNG export is a fixed small size — roughly 6 pixels per character across and 10 down — so a 100-column result gives a PNG only about 600 pixels wide. Use the .txt file if you need to print or scale it yourself.",
-        "Animated GIFs are converted from a single frame only; the output is never animated. Fully transparent pixels are treated as empty space.",
+        "Animated GIFs are converted from a single frame only; the output is never animated. Fully transparent pixels are treated as empty space unless Invert is on.",
       ],
       faq: [
         {
@@ -132,7 +132,7 @@ export const toolContent: Record<string, ToolContent> = {
         "الإدخال صورة فقط. لا يوجد وضع لتحويل النص إلى ASCII ولا خطوط عناوين، فلا يمكنك كتابة كلمة والحصول على حروف كبيرة مرسومة.",
         "اللون موجود في المعاينة على الشاشة وفي تصدير PNG فقط. أما النص المنسوخ وملف .txt فهما أحرف عادية بلا أي معلومات لونية.",
         "تصدير PNG بحجم صغير ثابت، بنحو 6 بكسلات لكل حرف عرضًا و10 ارتفاعًا؛ فنتيجة بعرض 100 عمود تعطي صورة عرضها نحو 600 بكسل فقط. استخدم ملف .txt إن أردت الطباعة أو التكبير بنفسك.",
-        "صور GIF المتحركة تُحوَّل من إطار واحد فقط، ولا يكون الناتج متحركًا أبدًا. والبكسلات الشفافة تمامًا تُعامل كفراغ.",
+        "صور GIF المتحركة تُحوَّل من إطار واحد فقط، ولا يكون الناتج متحركًا أبدًا. والبكسلات الشفافة تمامًا تُعامل كفراغ ما لم يكن خيار «عكس السطوع» مفعّلًا.",
       ],
       faq: [
         {
@@ -894,7 +894,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "How do I cut out an object from a photo?",
-          a: "Upload the image, click on the object you want, then press Cut out object. The result appears in the right-hand panel on a checkerboard so you can see the transparency, and Download saves it as a PNG.",
+          a: "Upload the image, click on the object you want, then press Cut out object. The result appears in the result panel on a checkerboard so you can see the transparency, and Download saves it as a PNG.",
         },
         {
           q: "How do I exclude part of the image?",
@@ -938,7 +938,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "كيف أقتطع كائنًا من صورة؟",
-          a: "ارفع الصورة، وانقر على الكائن الذي تريده، ثم اضغط «اقتطاع الكائن». تظهر النتيجة في اللوحة اليمنى فوق نمط مربعات ليظهر الجزء الشفاف، ويحفظها زر التنزيل بصيغة PNG.",
+          a: "ارفع الصورة، وانقر على الكائن الذي تريده، ثم اضغط «اقتطاع الكائن». تظهر النتيجة في لوحة النتيجة فوق نمط مربعات ليظهر الجزء الشفاف، ويحفظها زر التنزيل بصيغة PNG.",
         },
         {
           q: "كيف أستبعد جزءًا من الصورة؟",
@@ -1120,7 +1120,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "كم يكبر حجم الصورة؟",
-          a: "بالضبط ضعفان في كل اتجاه: صورة 640×480 تصبح 1280×960. وتعرض الصفحة الأبعاد قبل الرفع وبعده لتتأكد.",
+          a: "بالضبط ضعفان في كل اتجاه: صورة 640×480 تصبح 1280×960. وتعرض الصفحة الأبعاد قبل رفع الدقة وبعده لتتأكد.",
         },
         {
           q: "أي نموذج ذكاء اصطناعي تستخدم الأداة؟",
@@ -3782,7 +3782,7 @@ export const toolContent: Record<string, ToolContent> = {
     extra: {
       ru: {
         intro:
-          "Если нужно сжать фото до 1 МБ, это практичная зона комфорта для повседневной отправки: с запасом укладывается в лимиты вложений распространённых почтовых сервисов и достаточно мало, чтобы мессенджеры отправляли файл мгновенно, не портя его собственным дополнительным сжатием. Инструмент сжимает JPG, PNG или WebP примерно до 1 МБ прямо в браузере.\n\nПри цели в 1 МБ обычный снимок почти не приходится трогать: качество снижается мягко, а размеры уменьшаются, только если оригинал огромный. Так вы сохраняете детали, близкие к исходным, и избавляетесь от лишнего веса, который современные камеры телефонов закладывают в каждый кадр.\n\nМессенджеры часто пережимают всё, что вы отправляете, поэтому если отдать им аккуратный файл в 1 МБ заранее, итоговое качество вы контролируете лучше, чем если позволить приложению «раздавить» оригинал в 10 МБ.",
+          "Сжать фото до 1 МБ — практичный вариант для повседневной отправки: с запасом укладывается в лимиты вложений распространённых почтовых сервисов и достаточно мало, чтобы мессенджеры отправляли файл мгновенно, не портя его собственным дополнительным сжатием. Инструмент сжимает JPG, PNG или WebP примерно до 1 МБ прямо в браузере.\n\nПри цели в 1 МБ обычный снимок почти не приходится трогать: качество снижается мягко, а размеры уменьшаются, только если оригинал огромный. Так вы сохраняете детали, близкие к исходным, и избавляетесь от лишнего веса, который современные камеры телефонов закладывают в каждый кадр.\n\nМессенджеры часто пережимают всё, что вы отправляете, поэтому если отдать им аккуратный файл в 1 МБ заранее, итоговое качество вы контролируете лучше, чем если позволить приложению «раздавить» оригинал в 10 МБ.",
         faq: [
           {
             q: "Зачем сжимать до 1 МБ?",
@@ -4307,7 +4307,7 @@ export const toolContent: Record<string, ToolContent> = {
     extra: {
       ru: {
         intro:
-          "Начиная с iOS 11 iPhone и iPad по умолчанию сохраняют фото в HEIC — современном формате, который экономит место. Проблема появляется, когда эти снимки нужно использовать где-то ещё: многие сайты, формы загрузки, старые приложения для Windows и коллеги с устройствами не от Apple просто не могут открыть файл .heic. Конвертация HEIC в JPG превращает фото в формат, понятный всем.\n\nЭтот инструмент декодирует HEIC локально с помощью декодера на WebAssembly и кодирует в JPG прямо в браузере — ваши фото никуда не загружаются. JPG совместим со всем и сохраняет умеренный размер файлов, а это именно то, что нужно для отправки, сервисов печати и загрузки на сайты.\n\nОдин честный компромисс: JPG — формат с потерями, поэтому при конвертации изображение пересжимается и не будет побитовой копией оригинала HEIC. Для обычных фото разница незаметна; если нужен результат без потерь или с прозрачностью, конвертируйте в PNG.",
+          "Начиная с iOS 11 iPhone и iPad по умолчанию сохраняют фото в HEIC — современном формате, который экономит место. Проблема появляется, когда эти снимки нужно использовать где-то ещё: многие сайты, формы загрузки, старые приложения для Windows и коллеги с устройствами не от Apple просто не могут открыть файл .heic. Конвертация HEIC в JPG превращает фото в формат, понятный всем.\n\nЭтот инструмент декодирует HEIC локально с помощью декодера, работающего в браузере и кодирует в JPG прямо в браузере — ваши фото никуда не загружаются. JPG совместим со всем и сохраняет умеренный размер файлов, а это именно то, что нужно для отправки, сервисов печати и загрузки на сайты.\n\nОдин честный компромисс: JPG — формат с потерями, поэтому при конвертации изображение пересжимается и не будет побитовой копией оригинала HEIC. Для обычных фото разница незаметна; если нужен результат без потерь или с прозрачностью, конвертируйте в PNG.",
         faq: [
           {
             q: "Почему фото с iPhone сохраняются в HEIC?",
@@ -4323,7 +4323,7 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "Загружаются ли мои фото на сервер?",
-            a: "Нет. HEIC декодируется и кодируется обратно целиком в вашем браузере с помощью WebAssembly.",
+            a: "Нет. HEIC декодируется и кодируется обратно целиком в вашем браузере.",
           },
           {
             q: "Можно ли конвертировать сразу несколько фото?",
@@ -4332,14 +4332,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "Загрузите фото в формате HEIC.",
-          "Инструмент локально декодирует его с помощью декодера на WebAssembly.",
+          "Инструмент локально декодирует его с помощью декодера, работающего в браузере.",
           "Фото кодируется в JPG прямо в браузере.",
           "Скачайте готовый файл JPG.",
         ],
       },
       fa: {
         intro:
-          "از iOS 11 به بعد، آیفون و آیپد عکس‌ها را به‌طور پیش‌فرض با فرمت HEIC ذخیره می‌کنند؛ فرمتی مدرن که فضا را صرفه‌جویی می‌کند. مشکل وقتی پیش می‌آید که بخواهید همین عکس‌ها را جای دیگری استفاده کنید: بسیاری از سایت‌ها، فرم‌های آپلود، برنامه‌های قدیمی ویندوز و همکارانی که دستگاه غیر اپل دارند نمی‌توانند فایل ‎.heic را باز کنند. تبدیل HEIC به JPG عکس شما را به فرمتی در می‌آورد که همه‌چیز آن را می‌شناسد.\n\nاین ابزار HEIC را محلی با یک رمزگشای WebAssembly باز می‌کند و مستقیم در مرورگر به JPG برمی‌گرداند — عکس‌های شما هرگز آپلود نمی‌شوند. JPG با همه‌چیز سازگار است و حجم فایل را نسبتاً کم نگه می‌دارد؛ دقیقاً چیزی که برای اشتراک‌گذاری، خدمات چاپ و آپلود در وب لازم دارید.\n\nیک مصالحهٔ صادقانه: JPG فرمت با افت کیفیت است، پس تبدیل عکس را دوباره فشرده می‌کند و کپی پیکسل‌به‌پیکسل HEIC اصلی نخواهد بود. برای عکس‌های روزمره تفاوت دیده نمی‌شود؛ اگر خروجی بدون افت یا شفافیت می‌خواهید، به PNG تبدیل کنید.",
+          "از iOS 11 به بعد، آیفون و آیپد عکس‌ها را به‌طور پیش‌فرض با فرمت HEIC ذخیره می‌کنند؛ فرمتی مدرن که فضا را صرفه‌جویی می‌کند. مشکل وقتی پیش می‌آید که بخواهید همین عکس‌ها را جای دیگری استفاده کنید: بسیاری از سایت‌ها، فرم‌های آپلود، برنامه‌های قدیمی ویندوز و همکارانی که دستگاه غیر اپل دارند نمی‌توانند فایل ‎.heic را باز کنند. تبدیل HEIC به JPG عکس شما را به فرمتی در می‌آورد که همه‌چیز آن را می‌شناسد.\n\nاین ابزار HEIC را محلی با یک رمزگشای HEIC که در مرورگر اجرا می‌شود باز می‌کند و مستقیم در مرورگر به JPG برمی‌گرداند — عکس‌های شما هرگز آپلود نمی‌شوند. JPG با همه‌چیز سازگار است و حجم فایل را نسبتاً کم نگه می‌دارد؛ دقیقاً چیزی که برای اشتراک‌گذاری، خدمات چاپ و آپلود در وب لازم دارید.\n\nیک مصالحهٔ صادقانه: JPG فرمت با افت کیفیت است، پس تبدیل عکس را دوباره فشرده می‌کند و کپی پیکسل‌به‌پیکسل HEIC اصلی نخواهد بود. برای عکس‌های روزمره تفاوت دیده نمی‌شود؛ اگر خروجی بدون افت یا شفافیت می‌خواهید، به PNG تبدیل کنید.",
         faq: [
           {
             q: "چرا عکس‌های آیفونم با فرمت HEIC ذخیره می‌شوند؟",
@@ -4355,7 +4355,7 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "آیا عکس‌های من آپلود می‌شوند؟",
-            a: "نه. رمزگشایی HEIC و کدگذاری دوباره کاملاً در مرورگر شما و با WebAssembly انجام می‌شود.",
+            a: "نه. رمزگشایی HEIC و کدگذاری دوباره کاملاً در مرورگر شما انجام می‌شود.",
           },
           {
             q: "آیا می‌توانم چند عکس را یک‌جا تبدیل کنم؟",
@@ -4364,14 +4364,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "یک عکس HEIC را بارگذاری کنید.",
-          "ابزار آن را محلی با رمزگشای WebAssembly باز می‌کند.",
+          "ابزار آن را محلی با رمزگشایی که در مرورگر اجرا می‌شود باز می‌کند.",
           "عکس را در مرورگر شما به JPG برمی‌گرداند.",
           "فایل JPG تبدیل‌شده را دانلود کنید.",
         ],
       },
       ko: {
         intro:
-          "iOS 11부터 iPhone과 iPad는 사진을 기본으로 HEIC로 저장합니다. 공간을 아끼는 최신 형식이죠. 문제는 그 사진을 다른 곳에 써야 할 때 생깁니다. 많은 웹사이트, 업로드 양식, 오래된 Windows 프로그램, Apple 기기가 아닌 동료의 컴퓨터에서는 .heic 파일을 열지 못합니다. HEIC JPG 변환을 하면 사진이 어디서나 통하는 형식으로 바뀝니다.\n\n이 도구는 WebAssembly 디코더로 HEIC를 로컬에서 해독하고 브라우저 안에서 JPG로 다시 인코딩합니다. 사진은 업로드되지 않습니다. JPG는 어디서나 호환되고 파일 크기도 적당해서 공유, 인화 서비스, 웹 업로드에 딱 맞습니다.\n\n한 가지 솔직한 단점이 있습니다. JPG는 손실 압축이라 변환 과정에서 이미지가 다시 압축되며, HEIC 원본과 픽셀 단위로 같은 사본은 아닙니다. 일상적인 사진에서는 차이가 보이지 않지만, 무손실 결과나 투명도가 필요하다면 PNG로 변환하세요.",
+          "iOS 11부터 iPhone과 iPad는 사진을 기본으로 HEIC로 저장합니다. 공간을 아끼는 최신 형식이죠. 문제는 그 사진을 다른 곳에 써야 할 때 생깁니다. 많은 웹사이트, 업로드 양식, 오래된 Windows 프로그램, Apple 기기가 아닌 동료의 컴퓨터에서는 .heic 파일을 열지 못합니다. HEIC JPG 변환을 하면 사진이 어디서나 통하는 형식으로 바뀝니다.\n\n이 도구는 브라우저에서 실행되는 HEIC 디코더로 HEIC를 로컬에서 해독하고 브라우저 안에서 JPG로 다시 인코딩합니다. 사진은 업로드되지 않습니다. JPG는 어디서나 호환되고 파일 크기도 적당해서 공유, 인화 서비스, 웹 업로드에 딱 맞습니다.\n\n한 가지 솔직한 단점이 있습니다. JPG는 손실 압축이라 변환 과정에서 이미지가 다시 압축되며, HEIC 원본과 픽셀 단위로 같은 사본은 아닙니다. 일상적인 사진에서는 차이가 보이지 않지만, 무손실 결과나 투명도가 필요하다면 PNG로 변환하세요.",
         faq: [
           {
             q: "아이폰 사진이 왜 HEIC로 저장되나요?",
@@ -4387,7 +4387,7 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "내 사진이 업로드되나요?",
-            a: "아니요. HEIC 해독과 재인코딩이 WebAssembly를 통해 전부 브라우저 안에서 이루어집니다.",
+            a: "아니요. HEIC 해독과 재인코딩이 전부 브라우저 안에서 이루어집니다.",
           },
           {
             q: "여러 장을 한 번에 변환할 수 있나요?",
@@ -4396,14 +4396,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "HEIC 사진을 올립니다.",
-          "도구가 WebAssembly 디코더로 사진을 로컬에서 해독합니다.",
+          "도구가 브라우저에서 실행되는 HEIC 디코더로 사진을 로컬에서 해독합니다.",
           "사진을 브라우저에서 JPG로 다시 인코딩합니다.",
           "변환된 JPG 파일을 다운로드합니다.",
         ],
       },
       vi: {
         intro:
-          "Từ iOS 11, iPhone và iPad lưu ảnh mặc định ở dạng HEIC, một định dạng hiện đại giúp tiết kiệm dung lượng. Rắc rối xuất hiện ngay khi bạn dùng những ảnh đó ở nơi khác: nhiều trang web, biểu mẫu tải lên, ứng dụng Windows cũ và đồng nghiệp dùng thiết bị không phải của Apple đơn giản là không mở được tệp .heic. Chuyển HEIC sang JPG biến ảnh của bạn thành định dạng mà mọi thứ đều hiểu.\n\nCông cụ này giải mã HEIC ngay trên máy bằng bộ giải mã WebAssembly rồi mã hoá lại thành JPG ngay trong trình duyệt, nên ảnh không bao giờ bị tải lên. JPG tương thích với mọi thứ và giữ tệp ở mức nhỏ vừa phải, đúng thứ bạn cần để chia sẻ, đi in ảnh và tải lên web.\n\nMột đánh đổi cần nói thẳng: JPG là định dạng nén có mất dữ liệu, nên việc chuyển đổi nén lại ảnh và không phải bản sao giống từng điểm ảnh với bản HEIC gốc. Với ảnh hằng ngày, sự khác biệt không thể thấy; nếu bạn cần kết quả không mất dữ liệu hoặc có độ trong suốt, hãy chuyển sang PNG.",
+          "Từ iOS 11, iPhone và iPad lưu ảnh mặc định ở dạng HEIC, một định dạng hiện đại giúp tiết kiệm dung lượng. Rắc rối xuất hiện ngay khi bạn dùng những ảnh đó ở nơi khác: nhiều trang web, biểu mẫu tải lên, ứng dụng Windows cũ và đồng nghiệp dùng thiết bị không phải của Apple đơn giản là không mở được tệp .heic. Chuyển HEIC sang JPG biến ảnh của bạn thành định dạng mà mọi thứ đều hiểu.\n\nCông cụ này giải mã HEIC ngay trên máy bằng bộ giải mã HEIC chạy ngay trong trình duyệt rồi mã hoá lại thành JPG ngay trong trình duyệt, nên ảnh không bao giờ bị tải lên. JPG tương thích với mọi thứ và giữ tệp ở mức nhỏ vừa phải, đúng thứ bạn cần để chia sẻ, đi in ảnh và tải lên web.\n\nMột đánh đổi cần nói thẳng: JPG là định dạng nén có mất dữ liệu, nên việc chuyển đổi nén lại ảnh và không phải bản sao giống từng điểm ảnh với bản HEIC gốc. Với ảnh hằng ngày, sự khác biệt không thể thấy; nếu bạn cần kết quả không mất dữ liệu hoặc có độ trong suốt, hãy chuyển sang PNG.",
         faq: [
           {
             q: "Vì sao ảnh iPhone của tôi lại là HEIC?",
@@ -4419,7 +4419,7 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "Ảnh của tôi có bị tải lên không?",
-            a: "Không. HEIC được giải mã và mã hoá lại hoàn toàn trong trình duyệt của bạn bằng WebAssembly.",
+            a: "Không. HEIC được giải mã và mã hoá lại hoàn toàn trong trình duyệt của bạn.",
           },
           {
             q: "Tôi có thể chuyển nhiều ảnh cùng lúc không?",
@@ -4428,14 +4428,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "Tải lên một ảnh HEIC.",
-          "Công cụ giải mã ảnh ngay trên máy bằng bộ giải mã WebAssembly.",
+          "Công cụ giải mã ảnh ngay trên máy bằng bộ giải mã HEIC chạy ngay trong trình duyệt.",
           "Ảnh được mã hoá lại thành JPG ngay trong trình duyệt.",
           "Tải tệp JPG đã chuyển đổi xuống.",
         ],
       },
       tr: {
         intro:
-          "iOS 11'den beri iPhone ve iPad'ler fotoğrafları varsayılan olarak HEIC biçiminde kaydeder; yer kazandıran modern bir biçimdir. Sorun, bu fotoğrafları başka bir yerde kullanmaya kalktığınız anda çıkar: pek çok web sitesi, yükleme formu, eski Windows uygulaması ve Apple dışı cihaz kullanan iş arkadaşlarınız .heic dosyasını açamaz. HEIC'i JPG'ye dönüştürmek fotoğrafınızı her şeyin anladığı biçime çevirir.\n\nBu araç HEIC'i yerelde bir WebAssembly kod çözücüyle çözer ve doğrudan tarayıcınızda JPG olarak yeniden kodlar; fotoğraflarınız asla yüklenmez. JPG her yerle uyumludur ve dosyaları makul ölçüde küçük tutar; paylaşım, baskı hizmetleri ve web yüklemeleri için tam istediğiniz şey budur.\n\nDürüst bir ödünleşim: JPG kayıplıdır, bu yüzden dönüştürme görseli yeniden sıkıştırır ve HEIC orijinalinin piksel piksel aynı kopyası olmaz. Günlük fotoğraflarda fark görünmez; kayıpsız çıktı ya da saydamlık gerekiyorsa bunun yerine PNG'ye dönüştürün.",
+          "iOS 11'den beri iPhone ve iPad'ler fotoğrafları varsayılan olarak HEIC biçiminde kaydeder; yer kazandıran modern bir biçimdir. Sorun, bu fotoğrafları başka bir yerde kullanmaya kalktığınız anda çıkar: pek çok web sitesi, yükleme formu, eski Windows uygulaması ve Apple dışı cihaz kullanan iş arkadaşlarınız .heic dosyasını açamaz. HEIC'i JPG'ye dönüştürmek fotoğrafınızı her şeyin anladığı biçime çevirir.\n\nBu araç HEIC'i yerelde tarayıcıda çalışan bir kod çözücüyle çözer ve doğrudan tarayıcınızda JPG olarak yeniden kodlar; fotoğraflarınız asla yüklenmez. JPG her yerle uyumludur ve dosyaları makul ölçüde küçük tutar; paylaşım, baskı hizmetleri ve web yüklemeleri için tam istediğiniz şey budur.\n\nDürüst bir ödünleşim: JPG kayıplıdır, bu yüzden dönüştürme görseli yeniden sıkıştırır ve HEIC orijinalinin piksel piksel aynı kopyası olmaz. Günlük fotoğraflarda fark görünmez; kayıpsız çıktı ya da saydamlık gerekiyorsa bunun yerine PNG'ye dönüştürün.",
         faq: [
           {
             q: "iPhone fotoğraflarım neden HEIC olarak görünüyor?",
@@ -4451,7 +4451,7 @@ export const toolContent: Record<string, ToolContent> = {
           },
           {
             q: "Fotoğraflarım yükleniyor mu?",
-            a: "Hayır. HEIC'in çözülmesi ve yeniden kodlanması tamamen tarayıcınızda WebAssembly ile yapılır.",
+            a: "Hayır. HEIC'in çözülmesi ve yeniden kodlanması tamamen tarayıcınızda yapılır.",
           },
           {
             q: "Aynı anda birkaç fotoğrafı dönüştürebilir miyim?",
@@ -4460,7 +4460,7 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "Bir HEIC fotoğrafı yükleyin.",
-          "Araç fotoğrafı yerelde bir WebAssembly kod çözücüyle çözer.",
+          "Araç fotoğrafı yerelde tarayıcıda çalışan bir kod çözücüyle çözer.",
           "Fotoğrafı tarayıcınızda JPG olarak yeniden kodlar.",
           "Dönüştürülen JPG dosyasını indirin.",
         ],
@@ -4468,7 +4468,7 @@ export const toolContent: Record<string, ToolContent> = {
     },
     en: {
       intro:
-        "Since iOS 11, iPhones and iPads save photos as HEIC by default — a modern, space-saving format. The trouble shows up the moment you try to use those photos somewhere else: many websites, upload forms, older Windows apps, and colleagues on non-Apple devices simply can't open a .heic file. Converting to JPG turns your photo into the format everything understands.\n\nThis tool decodes HEIC locally using a WebAssembly decoder and re-encodes to JPG right in your browser — your photos are never uploaded. JPG is universally compatible and keeps files reasonably small, which is exactly what you want for sharing, printing services, and web uploads.\n\nOne honest trade-off: JPG is lossy, so the conversion re-compresses the image and won't be a pixel-perfect copy of the HEIC original. For everyday photos the difference is invisible; if you need lossless output or transparency, convert to PNG instead.",
+        "Since iOS 11, iPhones and iPads save photos as HEIC by default — a modern, space-saving format. The trouble shows up the moment you try to use those photos somewhere else: many websites, upload forms, older Windows apps, and colleagues on non-Apple devices simply can't open a .heic file. Converting to JPG turns your photo into the format everything understands.\n\nThis tool decodes HEIC locally using a HEIC decoder that runs in your browser and re-encodes to JPG right in your browser — your photos are never uploaded. JPG is universally compatible and keeps files reasonably small, which is exactly what you want for sharing, printing services, and web uploads.\n\nOne honest trade-off: JPG is lossy, so the conversion re-compresses the image and won't be a pixel-perfect copy of the HEIC original. For everyday photos the difference is invisible; if you need lossless output or transparency, convert to PNG instead.",
       faq: [
         {
           q: "Why do my iPhone photos show as HEIC?",
@@ -4484,7 +4484,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "Are my photos uploaded?",
-          a: "No. HEIC is decoded and re-encoded entirely in your browser using WebAssembly.",
+          a: "No. HEIC is decoded and re-encoded entirely in your browser using a HEIC decoder that runs in your browser.",
         },
         {
           q: "Can I convert several photos at once?",
@@ -4493,14 +4493,14 @@ export const toolContent: Record<string, ToolContent> = {
       ],
       steps: [
         "Upload a HEIC photo.",
-        "The tool decodes it locally with a WebAssembly decoder.",
+        "The tool decodes it locally with a HEIC decoder that runs in your browser.",
         "It re-encodes the photo to JPG in your browser.",
         "Download the converted JPG file.",
       ],
     },
     ar: {
       intro:
-        "منذ نظام iOS 11، تحفظ أجهزة آيفون وآيباد الصور بصيغة HEIC افتراضيًا — وهي صيغة حديثة موفّرة للمساحة. تظهر المشكلة لحظة محاولتك استخدام تلك الصور في مكان آخر: فكثير من المواقع ونماذج الرفع وبرامج ويندوز القديمة والزملاء على أجهزة غير آبل لا يستطيعون ببساطة فتح ملف ‎.heic. والتحويل إلى JPG يجعل صورتك بالصيغة التي يفهمها كل شيء.\n\nتفكّ هذه الأداة ترميز HEIC محليًا عبر مفكّك WebAssembly وتعيد الترميز إلى JPG داخل متصفحك مباشرة — فلا تُرفع صورك أبدًا. وJPG متوافقة عالميًا وتبقي الملفات صغيرة نسبيًا، وهو تمامًا ما تريده للمشاركة وخدمات الطباعة والرفع على الويب.\n\nمقايضة واحدة بصدق: JPG صيغة فاقدة، فالتحويل يعيد ضغط الصورة ولن يكون نسخة مطابقة تمامًا لأصل HEIC. وللصور اليومية يكون الفرق غير مرئي؛ وإن احتجت خرجًا بلا فقد أو شفافية، فحوّل إلى PNG بدلًا من ذلك.",
+        "منذ نظام iOS 11، تحفظ أجهزة آيفون وآيباد الصور بصيغة HEIC افتراضيًا — وهي صيغة حديثة موفّرة للمساحة. تظهر المشكلة لحظة محاولتك استخدام تلك الصور في مكان آخر: فكثير من المواقع ونماذج الرفع وبرامج ويندوز القديمة والزملاء على أجهزة غير آبل لا يستطيعون ببساطة فتح ملف ‎.heic. والتحويل إلى JPG يجعل صورتك بالصيغة التي يفهمها كل شيء.\n\nتفكّ هذه الأداة ترميز HEIC محليًا عبر مفكّك ترميز يعمل داخل متصفحك وتعيد الترميز إلى JPG داخل متصفحك مباشرة — فلا تُرفع صورك أبدًا. وJPG متوافقة عالميًا وتبقي الملفات صغيرة نسبيًا، وهو تمامًا ما تريده للمشاركة وخدمات الطباعة والرفع على الويب.\n\nمقايضة واحدة بصدق: JPG صيغة فاقدة، فالتحويل يعيد ضغط الصورة ولن يكون نسخة مطابقة تمامًا لأصل HEIC. وللصور اليومية يكون الفرق غير مرئي؛ وإن احتجت خرجًا بلا فقد أو شفافية، فحوّل إلى PNG بدلًا من ذلك.",
       faq: [
         {
           q: "لماذا تظهر صور آيفون بصيغة HEIC؟",
@@ -4516,7 +4516,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "هل تُرفع صوري؟",
-          a: "لا. يُفكّ ترميز HEIC ويُعاد ترميزه بالكامل في متصفحك عبر WebAssembly.",
+          a: "لا. يُفكّ ترميز HEIC ويُعاد ترميزه بالكامل في متصفحك داخل متصفحك.",
         },
         {
           q: "هل يمكنني تحويل عدة صور دفعة واحدة؟",
@@ -4525,7 +4525,7 @@ export const toolContent: Record<string, ToolContent> = {
       ],
       steps: [
         "ارفع صورة HEIC.",
-        "تفكّ الأداة ترميزها محليًا عبر مفكّك WebAssembly.",
+        "تفكّ الأداة ترميزها محليًا عبر مفكّك ترميز يعمل داخل متصفحك.",
         "تعيد ترميز الصورة إلى JPG في متصفحك.",
         "نزّل ملف JPG المحوّل.",
       ],
@@ -4537,7 +4537,7 @@ export const toolContent: Record<string, ToolContent> = {
     extra: {
       ru: {
         intro:
-          "HEIC — формат фото по умолчанию у Apple начиная с iOS 11, но когда нужна точная копия без потерь — скриншот с чётким текстом, изображение для дальнейшего редактирования или графика с прозрачным фоном, — сжатие JPG с потерями мешает. Если конвертировать HEIC в PNG, результат получится точным до пикселя.\n\nPNG — формат без потерь: он воспроизводит каждый пиксель в точности и поддерживает прозрачность, поэтому подходит для скриншотов, схем, логотипов и любых изображений, которые пойдут в дизайн или редактирование, где артефакты повторного сжатия накапливались бы. Инструмент декодирует HEIC с помощью декодера на WebAssembly и записывает PNG целиком в вашем браузере, так что ничего не загружается на сервер.\n\nЦена — размер: PNG сохраняет все детали, поэтому файл обычно больше, чем оригинал HEIC или версия в JPG. Когда нужны именно точность или прозрачный фон, такой обмен оправдан; если нужно просто небольшое фото для отправки, конвертируйте HEIC в JPG.",
+          "HEIC — формат фото по умолчанию у Apple начиная с iOS 11, но когда нужна точная копия без потерь — скриншот с чётким текстом, изображение для дальнейшего редактирования или графика с прозрачным фоном, — сжатие JPG с потерями мешает. Если конвертировать HEIC в PNG, результат получится точным до пикселя.\n\nPNG — формат без потерь: он воспроизводит каждый пиксель в точности и поддерживает прозрачность, поэтому подходит для скриншотов, схем, логотипов и любых изображений, которые пойдут в дизайн или редактирование, где артефакты повторного сжатия накапливались бы. Инструмент декодирует HEIC с помощью декодера, работающего в браузере и записывает PNG целиком в вашем браузере, так что ничего не загружается на сервер.\n\nЦена — размер: PNG сохраняет все детали, поэтому файл обычно больше, чем оригинал HEIC или версия в JPG. Когда нужны именно точность или прозрачный фон, такой обмен оправдан; если нужно просто небольшое фото для отправки, конвертируйте HEIC в JPG.",
         faq: [
           {
             q: "Когда выбирать PNG вместо JPG для HEIC?",
@@ -4562,14 +4562,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "Загрузите файл HEIC.",
-          "Инструмент декодирует его с помощью декодера на WebAssembly.",
+          "Инструмент декодирует его с помощью декодера, работающего в браузере.",
           "В браузере создаётся PNG без потерь.",
           "Скачайте готовый файл PNG.",
         ],
       },
       fa: {
         intro:
-          "HEIC از iOS 11 به بعد فرمت پیش‌فرض عکس در اپل بوده است، اما وقتی یک نسخهٔ دقیق و بدون افت می‌خواهید — اسکرین‌شات با متن واضح، تصویری که بعداً ویرایش می‌کنید یا طرحی با پس‌زمینهٔ شفاف — فشرده‌سازی با افت JPG مانع می‌شود. تبدیل HEIC به PNG به‌جای آن نتیجه‌ای وفادار به پیکسل می‌دهد.\n\nPNG بدون افت است: هر پیکسل را دقیقاً بازتولید می‌کند و از شفافیت پشتیبانی می‌کند؛ برای همین انتخاب درستی برای اسکرین‌شات، نمودار، لوگو و هر تصویری است که وارد کار طراحی یا ویرایش می‌شود و در آن آسیب‌های فشرده‌سازی مجدد روی هم جمع می‌شود. این ابزار HEIC را با رمزگشای WebAssembly باز می‌کند و PNG را کاملاً در مرورگر شما می‌نویسد، پس چیزی آپلود نمی‌شود.\n\nبهای آن حجم است: چون PNG همهٔ جزئیات را نگه می‌دارد، فایل معمولاً از HEIC اصلی یا نسخهٔ JPG بزرگ‌تر است. وقتی دقیقاً به وفاداری یا پس‌زمینهٔ شفاف نیاز دارید این مبادله ارزشش را دارد؛ اگر فقط یک عکس کوچک برای ارسال می‌خواهید، HEIC را به JPG تبدیل کنید.",
+          "HEIC از iOS 11 به بعد فرمت پیش‌فرض عکس در اپل بوده است، اما وقتی یک نسخهٔ دقیق و بدون افت می‌خواهید — اسکرین‌شات با متن واضح، تصویری که بعداً ویرایش می‌کنید یا طرحی با پس‌زمینهٔ شفاف — فشرده‌سازی با افت JPG مانع می‌شود. تبدیل HEIC به PNG به‌جای آن نتیجه‌ای وفادار به پیکسل می‌دهد.\n\nPNG بدون افت است: هر پیکسل را دقیقاً بازتولید می‌کند و از شفافیت پشتیبانی می‌کند؛ برای همین انتخاب درستی برای اسکرین‌شات، نمودار، لوگو و هر تصویری است که وارد کار طراحی یا ویرایش می‌شود و در آن آسیب‌های فشرده‌سازی مجدد روی هم جمع می‌شود. این ابزار HEIC را با رمزگشایی که در مرورگر اجرا می‌شود باز می‌کند و PNG را کاملاً در مرورگر شما می‌نویسد، پس چیزی آپلود نمی‌شود.\n\nبهای آن حجم است: چون PNG همهٔ جزئیات را نگه می‌دارد، فایل معمولاً از HEIC اصلی یا نسخهٔ JPG بزرگ‌تر است. وقتی دقیقاً به وفاداری یا پس‌زمینهٔ شفاف نیاز دارید این مبادله ارزشش را دارد؛ اگر فقط یک عکس کوچک برای ارسال می‌خواهید، HEIC را به JPG تبدیل کنید.",
         faq: [
           {
             q: "کی برای HEIC به‌جای JPG، PNG را انتخاب کنم؟",
@@ -4594,14 +4594,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "یک فایل HEIC را بارگذاری کنید.",
-          "ابزار آن را با رمزگشای WebAssembly باز می‌کند.",
+          "ابزار آن را با رمزگشایی که در مرورگر اجرا می‌شود باز می‌کند.",
           "در مرورگر شما یک PNG بدون افت می‌نویسد.",
           "فایل PNG تبدیل‌شده را دانلود کنید.",
         ],
       },
       ko: {
         intro:
-          "HEIC는 iOS 11부터 Apple의 기본 사진 형식이지만, 글자가 선명한 스크린샷이나 계속 편집할 이미지, 투명 배경이 있는 작업물처럼 정확한 무손실 사본이 필요할 때는 JPG의 손실 압축이 걸림돌이 됩니다. HEIC를 PNG로 변환하면 픽셀 그대로의 결과를 얻습니다.\n\nPNG는 무손실 형식이라 모든 픽셀을 그대로 재현하고 투명도도 지원합니다. 스크린샷, 다이어그램, 로고, 그리고 재압축으로 인한 열화가 쌓이면 곤란한 디자인과 편집 작업용 이미지에 알맞습니다. 이 도구는 WebAssembly 디코더로 HEIC를 해독해 브라우저 안에서 PNG를 만들기 때문에 아무것도 업로드되지 않습니다.\n\n대신 용량이 커집니다. PNG는 디테일을 모두 유지하므로 파일이 HEIC 원본이나 JPG 버전보다 커지는 경우가 많습니다. 충실도나 투명 배경이 꼭 필요할 때는 그만한 가치가 있지만, 그저 작고 공유하기 쉬운 사진이 필요하다면 JPG로 변환하세요.",
+          "HEIC는 iOS 11부터 Apple의 기본 사진 형식이지만, 글자가 선명한 스크린샷이나 계속 편집할 이미지, 투명 배경이 있는 작업물처럼 정확한 무손실 사본이 필요할 때는 JPG의 손실 압축이 걸림돌이 됩니다. HEIC를 PNG로 변환하면 픽셀 그대로의 결과를 얻습니다.\n\nPNG는 무손실 형식이라 모든 픽셀을 그대로 재현하고 투명도도 지원합니다. 스크린샷, 다이어그램, 로고, 그리고 재압축으로 인한 열화가 쌓이면 곤란한 디자인과 편집 작업용 이미지에 알맞습니다. 이 도구는 브라우저에서 실행되는 HEIC 디코더로 HEIC를 해독해 브라우저 안에서 PNG를 만들기 때문에 아무것도 업로드되지 않습니다.\n\n대신 용량이 커집니다. PNG는 디테일을 모두 유지하므로 파일이 HEIC 원본이나 JPG 버전보다 커지는 경우가 많습니다. 충실도나 투명 배경이 꼭 필요할 때는 그만한 가치가 있지만, 그저 작고 공유하기 쉬운 사진이 필요하다면 JPG로 변환하세요.",
         faq: [
           {
             q: "HEIC를 변환할 때 JPG 대신 PNG를 고르는 경우는 언제인가요?",
@@ -4626,14 +4626,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "HEIC 파일을 올립니다.",
-          "도구가 WebAssembly 디코더로 해독합니다.",
+          "도구가 브라우저에서 실행되는 HEIC 디코더로 해독합니다.",
           "브라우저 안에서 무손실 PNG로 만듭니다.",
           "변환된 PNG 파일을 다운로드합니다.",
         ],
       },
       vi: {
         intro:
-          "HEIC là định dạng ảnh mặc định của Apple từ iOS 11, nhưng khi bạn cần một bản sao chính xác, không mất dữ liệu, chẳng hạn ảnh chụp màn hình có chữ sắc nét, ảnh sẽ tiếp tục chỉnh sửa hoặc ảnh có nền trong suốt, thì kiểu nén có mất dữ liệu của JPG sẽ gây cản trở. Chuyển HEIC sang PNG cho bạn kết quả trung thành đến từng điểm ảnh.\n\nPNG không làm mất dữ liệu: nó tái tạo chính xác từng điểm ảnh và hỗ trợ độ trong suốt, nên là lựa chọn đúng cho ảnh chụp màn hình, sơ đồ, logo và mọi ảnh đi vào quy trình thiết kế hay chỉnh sửa, nơi lỗi do nén lại sẽ tích tụ dần. Công cụ này giải mã HEIC bằng bộ giải mã WebAssembly và ghi ra PNG hoàn toàn trong trình duyệt, nên không có gì được tải lên.\n\nCái giá là dung lượng: vì PNG giữ toàn bộ chi tiết nên tệp thường lớn hơn bản HEIC gốc hoặc bản JPG. Khi bạn thật sự cần độ trung thực hoặc nền trong suốt, đó là một cuộc đổi đáng giá; còn nếu chỉ muốn một tấm ảnh nhỏ gọn, dễ chia sẻ, hãy chuyển sang JPG.",
+          "HEIC là định dạng ảnh mặc định của Apple từ iOS 11, nhưng khi bạn cần một bản sao chính xác, không mất dữ liệu, chẳng hạn ảnh chụp màn hình có chữ sắc nét, ảnh sẽ tiếp tục chỉnh sửa hoặc ảnh có nền trong suốt, thì kiểu nén có mất dữ liệu của JPG sẽ gây cản trở. Chuyển HEIC sang PNG cho bạn kết quả trung thành đến từng điểm ảnh.\n\nPNG không làm mất dữ liệu: nó tái tạo chính xác từng điểm ảnh và hỗ trợ độ trong suốt, nên là lựa chọn đúng cho ảnh chụp màn hình, sơ đồ, logo và mọi ảnh đi vào quy trình thiết kế hay chỉnh sửa, nơi lỗi do nén lại sẽ tích tụ dần. Công cụ này giải mã HEIC bằng bộ giải mã HEIC chạy ngay trong trình duyệt và ghi ra PNG hoàn toàn trong trình duyệt, nên không có gì được tải lên.\n\nCái giá là dung lượng: vì PNG giữ toàn bộ chi tiết nên tệp thường lớn hơn bản HEIC gốc hoặc bản JPG. Khi bạn thật sự cần độ trung thực hoặc nền trong suốt, đó là một cuộc đổi đáng giá; còn nếu chỉ muốn một tấm ảnh nhỏ gọn, dễ chia sẻ, hãy chuyển sang JPG.",
         faq: [
           {
             q: "Khi nào nên chọn PNG thay vì JPG cho ảnh HEIC?",
@@ -4658,14 +4658,14 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "Tải lên một tệp HEIC.",
-          "Công cụ giải mã tệp bằng bộ giải mã WebAssembly.",
+          "Công cụ giải mã tệp bằng bộ giải mã HEIC chạy ngay trong trình duyệt.",
           "Công cụ ghi một tệp PNG không mất dữ liệu ngay trong trình duyệt.",
           "Tải tệp PNG đã chuyển đổi xuống.",
         ],
       },
       tr: {
         intro:
-          "HEIC, iOS 11'den beri Apple'ın varsayılan fotoğraf biçimidir; ancak net metinli bir ekran görüntüsü, düzenlemeye devam edeceğiniz bir görsel ya da saydam arka planlı bir çalışma gibi birebir, kayıpsız bir kopya gerektiğinde JPG'nin kayıplı sıkıştırması işinizi bozar. HEIC'i PNG'ye dönüştürmek size piksele sadık bir sonuç verir.\n\nPNG kayıpsızdır: her pikseli birebir yeniden üretir ve saydamlığı destekler; bu da onu ekran görüntüleri, diyagramlar, logolar ve yeniden sıkıştırma bozulmalarının birikeceği tasarım veya düzenleme iş akışlarına giden her görsel için doğru seçim yapar. Bu araç HEIC'i bir WebAssembly kod çözücüyle çözer ve PNG'yi tamamen tarayıcınızda yazar; hiçbir şey yüklenmez.\n\nÖdünleşim boyuttur: PNG tüm ayrıntıyı koruduğu için dosya genellikle HEIC orijinalinden veya JPG sürümünden büyük olur. Sadakate ya da saydam arka plana özellikle ihtiyacınız olduğunda bu değer; yalnızca küçük, paylaşılabilir bir fotoğraf istiyorsanız bunun yerine JPG'ye dönüştürün.",
+          "HEIC, iOS 11'den beri Apple'ın varsayılan fotoğraf biçimidir; ancak net metinli bir ekran görüntüsü, düzenlemeye devam edeceğiniz bir görsel ya da saydam arka planlı bir çalışma gibi birebir, kayıpsız bir kopya gerektiğinde JPG'nin kayıplı sıkıştırması işinizi bozar. HEIC'i PNG'ye dönüştürmek size piksele sadık bir sonuç verir.\n\nPNG kayıpsızdır: her pikseli birebir yeniden üretir ve saydamlığı destekler; bu da onu ekran görüntüleri, diyagramlar, logolar ve yeniden sıkıştırma bozulmalarının birikeceği tasarım veya düzenleme iş akışlarına giden her görsel için doğru seçim yapar. Bu araç HEIC'i tarayıcıda çalışan bir kod çözücüyle çözer ve PNG'yi tamamen tarayıcınızda yazar; hiçbir şey yüklenmez.\n\nÖdünleşim boyuttur: PNG tüm ayrıntıyı koruduğu için dosya genellikle HEIC orijinalinden veya JPG sürümünden büyük olur. Sadakate ya da saydam arka plana özellikle ihtiyacınız olduğunda bu değer; yalnızca küçük, paylaşılabilir bir fotoğraf istiyorsanız bunun yerine JPG'ye dönüştürün.",
         faq: [
           {
             q: "HEIC için ne zaman JPG yerine PNG seçmeliyim?",
@@ -4690,7 +4690,7 @@ export const toolContent: Record<string, ToolContent> = {
         ],
         steps: [
           "Bir HEIC dosyası yükleyin.",
-          "Araç dosyayı bir WebAssembly kod çözücüyle çözer.",
+          "Araç dosyayı tarayıcıda çalışan bir kod çözücüyle çözer.",
           "Tarayıcınızda kayıpsız bir PNG yazar.",
           "Dönüştürülen PNG dosyasını indirin.",
         ],
@@ -4698,7 +4698,7 @@ export const toolContent: Record<string, ToolContent> = {
     },
     en: {
       intro:
-        "HEIC has been Apple's default photo format since iOS 11, but when you need an exact, lossless copy — a screenshot with crisp text, an image you'll edit further, or artwork with a transparent background — JPG's lossy compression gets in the way. Converting HEIC to PNG gives you a pixel-faithful result instead.\n\nPNG is lossless: it reproduces every pixel exactly and supports transparency, which makes it the right choice for screenshots, diagrams, logos, and any image headed into a design or editing workflow where re-compression artefacts would accumulate. This tool decodes the HEIC with a WebAssembly decoder and writes a PNG entirely in your browser, so nothing is uploaded.\n\nThe trade-off is size: because PNG keeps all the detail, the file is usually larger than the HEIC original or a JPG version. When you specifically need fidelity or a transparent background, that's a worthwhile exchange; when you just want a small, shareable photo, convert to JPG instead.",
+        "HEIC has been Apple's default photo format since iOS 11, but when you need an exact, lossless copy — a screenshot with crisp text, an image you'll edit further, or artwork with a transparent background — JPG's lossy compression gets in the way. Converting HEIC to PNG gives you a pixel-faithful result instead.\n\nPNG is lossless: it reproduces every pixel exactly and supports transparency, which makes it the right choice for screenshots, diagrams, logos, and any image headed into a design or editing workflow where re-compression artefacts would accumulate. This tool decodes the HEIC with a HEIC decoder that runs in your browser and writes a PNG entirely in your browser, so nothing is uploaded.\n\nThe trade-off is size: because PNG keeps all the detail, the file is usually larger than the HEIC original or a JPG version. When you specifically need fidelity or a transparent background, that's a worthwhile exchange; when you just want a small, shareable photo, convert to JPG instead.",
       faq: [
         {
           q: "When should I pick PNG over JPG for HEIC?",
@@ -4723,14 +4723,14 @@ export const toolContent: Record<string, ToolContent> = {
       ],
       steps: [
         "Upload a HEIC file.",
-        "The tool decodes it with a WebAssembly decoder.",
+        "The tool decodes it with a HEIC decoder that runs in your browser.",
         "It writes a lossless PNG in your browser.",
         "Download the converted PNG file.",
       ],
     },
     ar: {
       intro:
-        "ظلّت HEIC صيغة الصور الافتراضية لدى آبل منذ iOS 11، لكن حين تحتاج نسخة مطابقة بلا فقد — لقطة شاشة بنص حاد، أو صورة ستحرّرها لاحقًا، أو تصميمًا بخلفية شفافة — يقف ضغط JPG الفاقد عائقًا. والتحويل من HEIC إلى PNG يمنحك نتيجة مطابقة للبكسل بدلًا من ذلك.\n\nPNG صيغة غير فاقدة: تعيد إنتاج كل بكسل بدقة وتدعم الشفافية، ما يجعلها الخيار الصحيح للقطات الشاشة والمخططات والشعارات وأي صورة متجهة إلى مسار تصميم أو تحرير تتراكم فيه تشوهات إعادة الضغط. تفكّ هذه الأداة ترميز HEIC عبر مفكّك WebAssembly وتكتب ملف PNG بالكامل في متصفحك، فلا يُرفع أي شيء.\n\nالمقايضة هي الحجم: لأن PNG تحتفظ بكل التفاصيل، يكون الملف عادةً أكبر من أصل HEIC أو نسخة JPG. وحين تحتاج الدقة أو خلفية شفافة تحديدًا، تكون مقايضة تستحق؛ وحين تريد صورة صغيرة قابلة للمشاركة فقط، فحوّل إلى JPG بدلًا من ذلك.",
+        "ظلّت HEIC صيغة الصور الافتراضية لدى آبل منذ iOS 11، لكن حين تحتاج نسخة مطابقة بلا فقد — لقطة شاشة بنص حاد، أو صورة ستحرّرها لاحقًا، أو تصميمًا بخلفية شفافة — يقف ضغط JPG الفاقد عائقًا. والتحويل من HEIC إلى PNG يمنحك نتيجة مطابقة للبكسل بدلًا من ذلك.\n\nPNG صيغة غير فاقدة: تعيد إنتاج كل بكسل بدقة وتدعم الشفافية، ما يجعلها الخيار الصحيح للقطات الشاشة والمخططات والشعارات وأي صورة متجهة إلى مسار تصميم أو تحرير تتراكم فيه تشوهات إعادة الضغط. تفكّ هذه الأداة ترميز HEIC عبر مفكّك ترميز يعمل داخل متصفحك وتكتب ملف PNG بالكامل في متصفحك، فلا يُرفع أي شيء.\n\nالمقايضة هي الحجم: لأن PNG تحتفظ بكل التفاصيل، يكون الملف عادةً أكبر من أصل HEIC أو نسخة JPG. وحين تحتاج الدقة أو خلفية شفافة تحديدًا، تكون مقايضة تستحق؛ وحين تريد صورة صغيرة قابلة للمشاركة فقط، فحوّل إلى JPG بدلًا من ذلك.",
       faq: [
         {
           q: "متى أختار PNG بدل JPG لملف HEIC؟",
@@ -4755,7 +4755,7 @@ export const toolContent: Record<string, ToolContent> = {
       ],
       steps: [
         "ارفع ملف HEIC.",
-        "تفكّ الأداة ترميزه عبر مفكّك WebAssembly.",
+        "تفكّ الأداة ترميزه عبر مفكّك ترميز يعمل داخل متصفحك.",
         "تكتب ملف PNG بلا فقد في متصفحك.",
         "نزّل ملف PNG المحوّل.",
       ],
@@ -6794,7 +6794,7 @@ export const toolContent: Record<string, ToolContent> = {
         },
         {
           q: "What format is the video?",
-          a: "WebM, using VP9 or VP8 when your browser supports them. If you need MP4 or a smaller file, run the result through the video converter or compress-video tool.",
+          a: "WebM, using VP9 or VP8 when your browser supports them. If you need MP4 or a smaller file, run the result through the video converter or video compressor.",
         },
         {
           q: "Can I record a single window or tab instead of the whole screen?",
@@ -6873,7 +6873,7 @@ export const toolContent: Record<string, ToolContent> = {
       limitations: [
         "Each caption is a single line. Text is not wrapped, so a long caption runs off the edge of the picture. Split it across two text boxes instead.",
         "The outline is always black. You can change its thickness, including to zero, but not its color.",
-        "The font is Impact where your device has it. Devices without Impact fall back to another bold sans-serif, so the look can differ between machines.",
+        "The font is Impact where your device has it. Devices without Impact fall back to another bold font, so the look can differ between machines.",
         "Font size is in pixels of the original image, so a large photo needs a larger size than a small one. Images over 15 MB are refused.",
         "A GIF is exported as a single still PNG, not an animated meme, and there is no undo.",
       ],
@@ -6914,7 +6914,7 @@ export const toolContent: Record<string, ToolContent> = {
       limitations: [
         "كل تعليق سطر واحد. لا يلتف النص تلقائيًا، فالتعليق الطويل يخرج من حافة الصورة. قسّمه على خانتين نصيتين بدلًا من ذلك.",
         "إطار النص أسود دائمًا. يمكنك تغيير سماكته حتى الصفر، لكن ليس لونه.",
-        "الخط هو Impact إذا كان موجودًا على جهازك. الأجهزة التي لا تملكه تستعمل خطًا عريضًا بديلًا بلا زوائد، فقد يختلف الشكل من جهاز إلى آخر.",
+        "الخط هو Impact إذا كان موجودًا على جهازك. الأجهزة التي لا تملكه تستعمل خطًا عريضًا بديلًا، فقد يختلف الشكل من جهاز إلى آخر.",
         "حجم الخط بوحدة بكسل الصورة الأصلية، فالصورة الكبيرة تحتاج حجمًا أكبر من الصغيرة. والصور التي تتجاوز 15 ميغابايت تُرفض.",
         "صورة GIF تُصدَّر لقطة ثابتة واحدة بصيغة PNG وليست ميمًا متحركًا، ولا يوجد تراجع عن الخطوات.",
       ],
@@ -7264,7 +7264,7 @@ export const toolContent: Record<string, ToolContent> = {
         "المنبّه نغمة قصيرة واحدة. لا يوجد اختيار للصوت ولا تكرار ولا إشعار ولا اهتزاز.",
         "الحالة غير محفوظة. إعادة تحميل الصفحة أو إغلاقها تعيد الوقت إلى البداية، ولا يوجد إلا مؤقّت واحد في كل مرة.",
         "تعرض الشاشة الساعات والدقائق والثواني. لا توجد أزمنة لفّات أو أزمنة جزئية، وهي متوفرة في أداة ساعة الإيقاف المنفصلة.",
-        "قد قد تمنع المتصفحات الصوت إلى أن تتفاعل مع الصفحة. والضغط على «ابدأ» يُعدّ تفاعلًا، ويتيح لك زر الجرس فحص مستوى الصوت أولًا.",
+        "قد تمنع المتصفحات الصوت إلى أن تتفاعل مع الصفحة. والضغط على «ابدأ» يُعدّ تفاعلًا، ويتيح لك زر الجرس فحص مستوى الصوت أولًا.",
       ],
       faq: [
         {

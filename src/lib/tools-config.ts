@@ -836,6 +836,7 @@ export const tools: ToolCategory[] = [
         creationDate: "2026-05-21",
         description:
           "Convert speech to text online for free. Voice typing and dictation in your browser using the Web Speech API, with continuous recognition, interim results, multiple languages, copy, and download.",
+        onDevice: false,
       },
       {
         name: "Image to Text (OCR)",
