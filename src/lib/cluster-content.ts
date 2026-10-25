@@ -312,7 +312,7 @@ const en: Record<ClusterId, ClusterProse> = {
         heading: "Formats, including the awkward ones",
         body: [
           "[Format Converter](/tools/image-converter) outputs PNG, JPEG, WebP and AVIF. Three of those the canvas can encode directly; AVIF it cannot, at all, in any current browser. So AVIF encoding is done by a WebAssembly encoder that loads on demand — which is why an AVIF export takes noticeably longer than a WebP one, and why AVIF is worth it anyway when the file-size difference matters more than the seconds.",
-          "On the input side, the awkward format is HEIC — the default on iPhones, and rejected by a great many upload forms. HEIC files are decoded through a WebAssembly decoder before the conversion runs, so 'photo from my phone that this website will not accept' has a two-step answer that does not involve emailing yourself the photo to force a conversion. The tool also verifies that the encoder actually produced the format you asked for, rather than silently handing back a PNG with a WebP file extension, which is a real failure mode elsewhere.",
+          "On the input side, the awkward format is HEIC — the default on iPhones, and rejected by a great many upload forms. HEIC files are decoded through a HEIC decoder that runs in your browser before the conversion runs, so 'photo from my phone that this website will not accept' has a two-step answer that does not involve emailing yourself the photo to force a conversion. The tool also verifies that the encoder actually produced the format you asked for, rather than silently handing back a PNG with a WebP file extension, which is a real failure mode elsewhere.",
           "[SVG to PNG](/tools/svg-png) rasterises vector artwork at a chosen multiplier, which is how you get a 2x or 3x asset out of an icon. It needs the SVG to declare intrinsic dimensions, and external references inside the SVG will not resolve — both are consequences of rendering through the browser's image pipeline rather than a full SVG renderer. [SVG Tools](/tools/svg) is a different thing entirely: a visual editor for tweaking shapes and colours in an SVG directly.",
         ],
       },
@@ -335,16 +335,21 @@ const en: Record<ClusterId, ClusterProse> = {
       {
         heading: "Related collections",
         body: [
-          "The image tools that use machine learning — background removal, object cutout, upscaling, captioning, depth estimation — are gathered separately in [on-device AI](/collections/on-device-ai), because they behave differently: they download a model on first use and are much slower than the canvas operations here. For turning images into documents, see the [PDF collection](/collections/pdf-tools).",
+          "The image tools that use machine learning — background removal, object cutout, upscaling, captioning, depth estimation — are listed below and also gathered in [on-device AI](/collections/on-device-ai), because they behave differently: they download a model on first use and are much slower than the canvas operations here. For turning images into documents, see the [PDF collection](/collections/pdf-tools).",
         ],
       },
     ],
-    picksHeading: "Eighteen tools",
+    picksHeading: "Twenty-three tools",
     picksLead: "Roughly ordered from the everyday to the occasional.",
     picks: {
       "image-compression": "Get under a byte limit. Target-size mode binary-searches quality and dimensions to hit the number.",
       "image-converter": "Convert between PNG, JPEG, WebP and AVIF, and decode HEIC from an iPhone on the way in.",
       "image-resizer": "Resize by exact pixels, percentage, longest side or preset — with crop and watermark on the same image.",
+      "bg-removal": "Cut the background out of photos in a batch and export transparent PNGs.",
+      "object-cutout": "Click the object you want and get it as a transparent PNG; Alt-click to exclude parts.",
+      "image-upscaler": "Double an image's width and height with a super-resolution model rather than plain stretching.",
+      "image-captioner": "Get a short caption and a ready-to-paste alt attribute for a photo, as a draft to edit.",
+      "depth-map": "Estimate depth from a single photograph and export it as a greyscale or colour-mapped PNG.",
       "crop-image": "Crop with a draggable rectangle and aspect-ratio locks.",
       "watermark-image": "Add a text or image watermark with opacity, rotation, position and tiling.",
       "photo-censor": "Blur, pixelate or block out regions, with the covered pixels destroyed in the export.",

@@ -63,3 +63,6 @@ plans/
 .playwright-mcp/
 playwright-report/
 test-results/
+
+# local git worktrees
+.worktrees/

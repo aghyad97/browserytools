@@ -189,8 +189,8 @@ function buildJsonLd(
 export default function ToolSeoContent() {
   const pathname = usePathname() || "";
   // The SEO locale is whatever the locale registry recognises — the templated
-  // fallback has hand-written prose for every code in it. (The bespoke registry
-  // `toolContent` is still en/ar; see the content selection below.)
+  // fallback has hand-written prose for every code in it. (Bespoke prose in
+  // `toolContent` is en/ar plus optional per-tool `extra` locales; see below.)
   const locale = useLocale();
   const seoLocale: Locale = isLocale(locale) ? locale : "en";
   const t = useTranslations("ToolSeo");
@@ -226,17 +226,17 @@ export default function ToolSeoContent() {
     category: catKey && tc.has(catKey) ? (tc(catKey) as string) : resolved.category,
   };
 
-  // Bespoke content only when it exists IN THIS LANGUAGE — the hand-authored
-  // registry is still en/ar. For every other locale the templated fallback is
-  // both accurate and correctly localized, which beats English bespoke prose
-  // under a non-English URL.
+  // Bespoke content only when it exists IN THIS LANGUAGE — en/ar are always
+  // authored; other locales only where a tool carries an `extra` entry. Every
+  // other case gets the templated fallback, which is accurate and correctly
+  // localized, and beats English bespoke prose under a non-English URL.
   const bespoke = toolContent[tool.slug];
   const authored =
     seoLocale === "en"
       ? bespoke?.en
       : seoLocale === "ar"
         ? bespoke?.ar
-        : undefined;
+        : bespoke?.extra?.[seoLocale];
   const content: ToolContentLocale =
     authored ??
     buildFallbackContent(

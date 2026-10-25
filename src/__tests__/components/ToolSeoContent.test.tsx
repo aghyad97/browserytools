@@ -133,8 +133,8 @@ describe("ToolSeoContent", () => {
   });
 
   it("discloses the first-use model download on AI tool fallbacks", () => {
-    // image-upscaler has no bespoke entry and pulls weights from a CDN.
-    mockedUsePathname.mockReturnValue("/tools/image-upscaler");
+    // sentiment-analyzer has no bespoke entry and pulls weights from a CDN.
+    mockedUsePathname.mockReturnValue("/tools/sentiment-analyzer");
     render(<ToolSeoContent />);
     expect(
       screen.getByText(/downloaded from a third-party CDN/i)
