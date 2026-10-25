@@ -24,6 +24,12 @@ export default defineConfig({
   },
   resolve: {
     alias: {
+      // Next swaps this guard for a no-op in server bundles; Vitest has no
+      // such resolver, so point it at the same empty module.
+      "server-only": path.resolve(
+        __dirname,
+        "./node_modules/next/dist/compiled/server-only/empty.js"
+      ),
       "@": path.resolve(__dirname, "./src"),
     },
   },

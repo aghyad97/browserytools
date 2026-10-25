@@ -3,6 +3,7 @@ import {
   LOCALE_COOKIE,
   LOCALE_HEADER,
   LOCALE_SOURCE_HEADER,
+  PATHNAME_HEADER,
   defaultLocale,
   isLocale,
   type Locale,
@@ -43,7 +44,7 @@ export function middleware(request: NextRequest) {
   // page they render (e.g. the per-tool SEO prose) read this. It is the PUBLIC
   // pathname, locale prefix included, i.e. what `usePathname()` returns on the
   // client; the middleware never rewrites, so there is no internal variant.
-  headers.set("x-pathname", request.nextUrl.pathname);
+  headers.set(PATHNAME_HEADER, request.nextUrl.pathname);
 
   return NextResponse.next({ request: { headers } });
 }

@@ -2,7 +2,7 @@ import { AppShell } from "@/components/layout/app-shell";
 import { TopBar } from "@/components/layout/top-bar";
 import { ToolTitle } from "@/components/layout/tool-title";
 import NavigationTracker from "@/components/NavigationTracker";
-import ToolSeoContent from "@/components/ToolSeoContent";
+import ToolSeoContent from "@/components/tool-seo/tool-seo-content";
 import { ToolReceipt } from "@/components/support/tool-receipt";
 import s from "@/components/layout/app-shell.module.css";
 
