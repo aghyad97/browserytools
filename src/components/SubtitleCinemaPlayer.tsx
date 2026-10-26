@@ -15,7 +15,11 @@ import { FastForward, Maximize, Minimize, Pause, Play, Rewind, Search, Upload } 
 
 const formatTime = (time: number) => `${Math.floor(time / 60)}:${String(Math.floor(time % 60)).padStart(2, "0")}`;
 const ACCEPT_VIDEO = { "video/*": [] };
-const ACCEPT_SRT = { "text/plain": [".srt"], "application/x-subrip": [".srt"] };
+// Safari/iOS reports .srt files with inconsistent MIME types (text/plain,
+// application/x-subrip, or application/octet-stream). The dropzone therefore
+// accepts the selected file and loadSrt validates the parsed cues instead of
+// silently rejecting a valid subtitle before the handler runs.
+const ACCEPT_SRT = undefined;
 const fonts = ["system-ui", "Arial", "Verdana", "Georgia", "monospace"];
 
 type SubtitleStyle = { size: number; color: string; background: string; opacity: number; outline: boolean; shadow: boolean; position: "top" | "center" | "bottom"; font: string };
@@ -61,7 +65,20 @@ export default function SubtitleCinemaPlayer() {
   const updateStyle = <K extends keyof SubtitleStyle>(key: K, value: SubtitleStyle[K]) => setStyle((old) => ({ ...old, [key]: value }));
 
   const loadVideo = (files: File[]) => { const file = files[0]; if (!file) return; setVideoUrl((old) => { if (old) URL.revokeObjectURL(old); return URL.createObjectURL(file); }); setVideoName(file.name); setCurrentTime(0); setDuration(0); setStatus(`${file.name} loaded locally. SRT playback remains available without it.`); };
-  const loadSrt = async (files: File[]) => { const file = files[0]; if (!file) return; const parsed = parseSrt(await file.text()); setCues(parsed); setCurrentTime(0); setDuration(videoUrl ? 0 : parsed.at(-1)?.end || 0); setPlaying(false); setStatus(`${parsed.length} subtitle cues loaded locally. Ready for SRT-only playback.`); };
+  const loadSrt = async (files: File[]) => {
+    const file = files[0];
+    if (!file) return;
+    const parsed = parseSrt(await file.text());
+    if (!parsed.length) {
+      setStatus("That file did not contain readable SRT cues. Choose an .srt file.");
+      return;
+    }
+    setCues(parsed);
+    setCurrentTime(0);
+    setDuration(videoUrl ? 0 : parsed.at(-1)?.end || 0);
+    setPlaying(false);
+    setStatus(`${parsed.length} subtitle cues loaded locally. Ready for SRT-only playback.`);
+  };
   const togglePlay = useCallback(() => { const video = videoRef.current; if (video) { if (video.paused) void video.play(); else video.pause(); } else if (cues.length) setPlaying((value) => !value); }, [cues.length]);
   const seek = useCallback((time: number) => { const end = duration || cues.at(-1)?.end || 0; const next = Math.min(end || Number.POSITIVE_INFINITY, Math.max(0, time)); if (videoRef.current) videoRef.current.currentTime = next; setCurrentTime(next); }, [cues, duration]);
   useEffect(() => {
