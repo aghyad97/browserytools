@@ -91,6 +91,9 @@ function reachableFrom(entry: string): Reachable {
     text += `${source}\n`;
 
     for (const spec of importSpecifiers(source)) {
+      // The SEO block is not tool code: it pulls in the prose catalogue, whose
+      // text describes these APIs and would taint every tool's scan.
+      if (spec.startsWith("@/components/tool-seo/")) continue;
       if (spec.startsWith("@/")) {
         const resolved = resolveLocal(spec);
         if (resolved) stack.push(resolved);

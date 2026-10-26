@@ -181,8 +181,6 @@ export const SITE_URL = "https://browserytools.com";
 export const LOCALE_HEADER = "x-browsery-locale";
 export const LOCALE_SOURCE_HEADER = "x-browsery-locale-source";
 export const LOCALE_COOKIE = "browsery-locale";
-/** Public pathname (locale prefix included), forwarded to server components. */
-export const PATHNAME_HEADER = "x-pathname";
 
 /**
  * Prefix an app-relative path with a locale segment.

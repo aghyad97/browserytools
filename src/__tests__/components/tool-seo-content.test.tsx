@@ -17,7 +17,7 @@ vi.mock("next/headers", () => ({
   cookies: vi.fn(),
 }));
 
-let reqPathname = "/tools/json-formatter";
+let reqSlug = "json-formatter";
 let reqLocaleHeader: string | null = null;
 let reqCookie: string | undefined;
 
@@ -25,14 +25,16 @@ function setRequest(
   pathname: string,
   opts: { locale?: string | null; cookie?: string } = {}
 ) {
-  reqPathname = pathname;
+  // Tests describe the request as a URL; the component takes only the slug
+  // (each page passes it explicitly) and the locale from header/cookie.
+  reqSlug = pathname.match(/\/tools\/([^/]+)/)?.[1] ?? "";
   reqLocaleHeader = opts.locale === undefined ? null : opts.locale;
   reqCookie = opts.cookie;
 }
 
 // Async server component -> JSX, then render that like any other tree.
 async function renderBlock() {
-  const jsx = (await ToolSeoContent()) as ReactElement | null;
+  const jsx = (await ToolSeoContent({ slug: reqSlug })) as ReactElement | null;
   return render(<>{jsx}</>);
 }
 
@@ -47,11 +49,7 @@ describe("ToolSeoContent", () => {
     setRequest("/tools/json-formatter");
     vi.mocked(headers).mockImplementation((async () => ({
       get: (name: string) =>
-        name === "x-pathname"
-          ? reqPathname
-          : name === "x-browsery-locale"
-            ? reqLocaleHeader
-            : null,
+        name === "x-browsery-locale" ? reqLocaleHeader : null,
     })) as never);
     vi.mocked(cookies).mockImplementation((async () => ({
       get: (name: string) =>
@@ -273,7 +271,7 @@ describe("ToolSeoContent", () => {
     expect(screen.getByText("Зачем сжимать до 1 МБ?")).toBeInTheDocument();
   });
 
-  it("renders nothing when the pathname header is missing", async () => {
+  it("renders nothing for an empty slug", async () => {
     setRequest("");
     const { container } = await renderBlock();
     expect(container).toBeEmptyDOMElement();

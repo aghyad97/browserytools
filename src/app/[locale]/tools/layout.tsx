@@ -13,17 +13,13 @@ import s from "@/components/layout/app-shell.module.css";
  *    locale on these URLs. It renders nothing for every catalogued tool anyway
  *    (they all own their <h1> via ToolShell), so including it would only risk a
  *    wrong heading.
- * `<ToolSeoContent>` IS rendered, from `./template.tsx` (a layout is reused
- * across soft navigations; a template re-renders on each). It is a server component: it reads the
- * public pathname (`x-pathname`) and locale (`x-browsery-locale`) the
- * middleware forwards, resolves the prose on the server, and ships only the
- * rendered HTML plus the small FAQ accordion — the prose map never reaches the
- * browser. It self-suppresses on a locale-prefixed URL whose language it has no
- * prose for — English copy dropped onto a Spanish page is the
- * duplicate-content problem these URLs exist to avoid. The templated fallback
- * now covers every locale in the registry, so nothing is suppressed today:
- * English and Arabic get their hand-authored About/FAQ where one exists, and
- * every locale gets localized templated prose otherwise.
+ * The per-tool SEO block (`<ToolSeoContent slug>`) is rendered by each tool's
+ * page module, not here. `[locale]/tools/[slug]/page.tsx` re-exports those same
+ * modules, so the block appears on these URLs too, in the locale the middleware
+ * resolved. It self-suppresses for a locale it has no prose for (English copy on
+ * a Spanish page is the duplicate-content problem these URLs exist to avoid);
+ * the templated fallback covers every registered locale, so nothing is
+ * suppressed today.
  *
  * The tool component itself is fully translated through next-intl, so the
  * page's primary content is genuinely localized in every locale.

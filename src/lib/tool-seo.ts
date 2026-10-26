@@ -39,12 +39,8 @@ export const CATEGORY_ID_BY_HREF = new Map<string, string>(
   )
 );
 
-export function resolveTool(pathname: string): ResolvedTool | null {
-  // pathname looks like /tools/<slug>, or /<locale>/tools/<slug> on the
-  // locale-prefixed routes (ignore trailing slash / nested).
-  const match = pathname.match(/^(?:\/[a-z]{2}(?:-[A-Za-z]{2,4})?)?\/tools\/([^/]+)/);
-  if (!match) return null;
-  const slug = match[1];
+export function resolveTool(slug: string): ResolvedTool | null {
+  if (!slug) return null;
   const href = `/tools/${slug}`;
 
   const tool = findToolByHref(href);
@@ -195,26 +191,25 @@ export interface SeoBlock {
  * tool path, or a locale-prefixed URL in a language we have no prose for.
  */
 export function resolveSeoBlock({
-  pathname,
+  slug,
   locale,
   tc,
 }: {
-  pathname: string;
+  slug: string;
   locale: Locale;
   /** `ToolsConfig` translator; omit to use the English tools-config strings. */
   tc?: CatalogueTranslator;
 }): SeoBlock | null {
-  const resolved = resolveTool(pathname);
+  const resolved = resolveTool(slug);
   if (!resolved) return null;
 
-  // On a locale-prefixed URL, only render this block when we can write it in
-  // that language. English copy under /es/ or /fr/ would be duplicate content
-  // on a page that exists precisely to be a distinct localized URL — better to
-  // render nothing than the wrong language. Every registered locale has prose
-  // today, so this suppresses nothing; it stays as the guard for the next
-  // language that ships before its copy does.
-  const isLocalePrefixed = /^\/[a-z]{2}(-[A-Za-z]{2,4})?\//.test(pathname);
-  if (isLocalePrefixed && !hasFallbackProse(locale)) return null;
+  // Only render this block when we can write it in the page's language.
+  // English copy under /es/ or /fr/ would be duplicate content on a page that
+  // exists precisely to be a distinct localized URL: better to render nothing
+  // than the wrong language. Every registered locale has fallback prose today,
+  // so this suppresses nothing (unprefixed English included); it stays as the
+  // guard for the next language that ships before its copy does.
+  if (!hasFallbackProse(locale)) return null;
 
   // tools-config is the English build-time source of truth (routes, metadata,
   // validation). The catalogue's display strings live in the message files, so

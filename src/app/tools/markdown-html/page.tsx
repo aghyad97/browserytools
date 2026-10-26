@@ -1,4 +1,10 @@
 import MarkdownToHtml from "@/components/MarkdownToHtml";
 import { generateToolMetadata } from "@/lib/metadata";
+import ToolSeoContent from "@/components/tool-seo/tool-seo-content";
 export const metadata = generateToolMetadata("/tools/markdown-html");
-export default function Page() { return <MarkdownToHtml />; }
+export default function Page() { return (
+    <>
+      <MarkdownToHtml />
+      <ToolSeoContent slug="markdown-html" />
+    </>
+  ); }

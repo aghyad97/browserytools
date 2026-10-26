@@ -11,7 +11,6 @@ import {
 import {
   LOCALE_COOKIE,
   LOCALE_HEADER,
-  PATHNAME_HEADER,
   defaultLocale,
   isLocale,
   type Locale,
@@ -21,7 +20,7 @@ import { resolveSeoBlock, type CatalogueTranslator } from "@/lib/tool-seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { SeoFaq } from "@/components/tool-seo/seo-faq";
-import { SeoPathnameSync } from "@/components/tool-seo/seo-pathname-sync";
+import s from "@/components/layout/app-shell.module.css";
 
 /**
  * Same resolution order as the root layout, which feeds the client
@@ -48,15 +47,12 @@ async function getSeoLocale(): Promise<Locale> {
  * Zone 5 of the tool template: About / How to / Limitations / FAQ / Related,
  * plus the JSON-LD graphs. A server component, so the per-tool prose map
  * (`tool-content.ts`) is never sent to the browser; only the FAQ accordion
- * hydrates. It is rendered from `template.tsx`, but Next still reuses the
- * template's server output on a soft navigation, so `SeoPathnameSync` calls
- * `router.refresh()` when the client pathname differs from the one rendered. The page is identified by the `x-pathname` header the middleware
- * forwards, because layouts cannot see the URL.
+ * hydrates. Each tool's `page.tsx` renders it with an explicit `slug` (the
+ * locale route re-exports those same page modules). It is deliberately NOT in
+ * a layout or template: those are reused across soft navigations and could not
+ * know the slug, whereas a page re-renders for every navigation.
  */
-export default async function ToolSeoContent() {
-  const pathname = (await headers()).get(PATHNAME_HEADER) ?? "";
-  if (!pathname) return null;
-
+export default async function ToolSeoContent({ slug }: { slug: string }) {
   const locale = await getSeoLocale();
   const messages = await loadMessages(locale);
   const t = createTranslator({ locale, messages, namespace: "ToolSeo" });
@@ -68,7 +64,7 @@ export default async function ToolSeoContent() {
     { has: (key: string) => tcRaw.has(key as never) }
   );
 
-  const block = resolveSeoBlock({ pathname, locale, tc });
+  const block = resolveSeoBlock({ slug, locale, tc });
   if (!block) return null;
   const { tool, content, jsonLd, related } = block;
 
@@ -78,16 +74,13 @@ export default async function ToolSeoContent() {
     .filter(Boolean);
 
   return (
+    <div className={s.toolSeoZone}>
     <section
       aria-label={t("sectionLabel")}
       className="mx-auto w-full max-w-4xl px-4 pb-16 pt-10"
       data-testid="tool-seo-content"
       data-seo-content
     >
-      {/* Soft navigations reuse this server output; this triggers a re-render
-          when the live URL no longer matches the one rendered here. */}
-      <SeoPathnameSync serverPathname={pathname} />
-
       {/* JSON-LD structured data */}
       {jsonLd.map((graph, i) => (
         <JsonLdScript key={i} data={graph} />
@@ -208,5 +201,6 @@ export default async function ToolSeoContent() {
         )}
       </div>
     </section>
+    </div>
   );
 }

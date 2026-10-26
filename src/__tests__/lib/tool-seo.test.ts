@@ -14,36 +14,29 @@ describe("humanizeSlug", () => {
 });
 
 describe("resolveTool", () => {
-  it("resolves unprefixed and locale-prefixed tool paths", () => {
-    expect(resolveTool("/tools/json-formatter")?.href).toBe(
-      "/tools/json-formatter"
-    );
-    expect(resolveTool("/ru/tools/json-formatter")?.slug).toBe("json-formatter");
-    expect(resolveTool("/zh-CN/tools/json-formatter/")?.slug).toBe(
-      "json-formatter"
-    );
+  it("resolves a catalogued slug", () => {
+    expect(resolveTool("json-formatter")?.href).toBe("/tools/json-formatter");
+    expect(resolveTool("json-formatter")?.slug).toBe("json-formatter");
   });
 
-  it("returns null outside /tools/", () => {
-    expect(resolveTool("/")).toBeNull();
-    expect(resolveTool("/blog/post")).toBeNull();
+  it("returns null for an empty slug", () => {
     expect(resolveTool("")).toBeNull();
   });
 
   it("degrades to a humanized name for an uncatalogued slug", () => {
-    const t = resolveTool("/tools/not-a-real-tool");
+    const t = resolveTool("not-a-real-tool");
     expect(t?.name).toBe("Not A Real Tool");
     expect(t?.categoryId).toBeNull();
     expect(t?.category).toBe("Browser Tools");
   });
 
   it("carries the category id for catalogued tools", () => {
-    expect(resolveTool("/tools/json-formatter")?.categoryId).toBeTruthy();
+    expect(resolveTool("json-formatter")?.categoryId).toBeTruthy();
   });
 });
 
 describe("buildJsonLd", () => {
-  const tool = resolveTool("/tools/json-formatter")!;
+  const tool = resolveTool("json-formatter")!;
   const en = toolContent["json-formatter"].en;
   const types = (g: Record<string, unknown>[]) => g.map((x) => x["@type"]);
 
@@ -74,21 +67,21 @@ describe("buildJsonLd", () => {
 
 describe("resolveSeoBlock", () => {
   it("is null for non-tool paths", () => {
-    expect(resolveSeoBlock({ pathname: "/", locale: "en" })).toBeNull();
+    expect(resolveSeoBlock({ slug: "", locale: "en" })).toBeNull();
   });
 
   it("uses bespoke en/ar content and flags it", () => {
-    const en = resolveSeoBlock({ pathname: "/tools/depth-map", locale: "en" });
+    const en = resolveSeoBlock({ slug: "depth-map", locale: "en" });
     expect(en?.isBespoke).toBe(true);
     expect(en?.content).toBe(toolContent["depth-map"].en);
-    const ar = resolveSeoBlock({ pathname: "/ar/tools/token-counter", locale: "ar" });
+    const ar = resolveSeoBlock({ slug: "token-counter", locale: "ar" });
     expect(ar?.content).toBe(toolContent["token-counter"].ar);
     expect(ar?.isBespoke).toBe(true);
   });
 
   it("uses extra[locale] when present", () => {
     const ru = resolveSeoBlock({
-      pathname: "/ru/tools/compress-image-to-1mb",
+      slug: "compress-image-to-1mb",
       locale: "ru",
     });
     expect(ru?.isBespoke).toBe(true);
@@ -97,14 +90,14 @@ describe("resolveSeoBlock", () => {
   });
 
   it("falls back, not bespoke and without FAQPage, when no prose in the locale", () => {
-    const de = resolveSeoBlock({ pathname: "/de/tools/compress-pdf", locale: "de" });
+    const de = resolveSeoBlock({ slug: "compress-pdf", locale: "de" });
     expect(de?.isBespoke).toBe(false);
     expect(de?.jsonLd.map((g) => g["@type"])).not.toContain("FAQPage");
     expect(de?.content).not.toBe(toolContent["compress-pdf"].en);
   });
 
   it("lists only available related tools", () => {
-    const b = resolveSeoBlock({ pathname: "/tools/json-formatter", locale: "en" });
+    const b = resolveSeoBlock({ slug: "json-formatter", locale: "en" });
     expect(b?.related.map((r) => r.href)).toContain("/tools/base64");
   });
 
@@ -113,7 +106,7 @@ describe("resolveSeoBlock", () => {
       has: (k: string) => k.endsWith(".name"),
     });
     const b = resolveSeoBlock({
-      pathname: "/tools/json-formatter",
+      slug: "json-formatter",
       locale: "en",
       tc: tc as never,
     });

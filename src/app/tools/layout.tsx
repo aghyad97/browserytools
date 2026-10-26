@@ -19,9 +19,9 @@ export default function ToolsLayout({
         <main className="py-2">
           {/* Per-tool <h1> (the retired Header's title function, spec §6.4). */}
           <ToolTitle />
-          {/* The tool itself. Full-viewport tools render at their natural
-              height; the SEO content below appears beneath the fold and
-              scrolls within this same container. */}
+          {/* The tool itself. Each tool page also renders its own SEO block
+              (zone 5, <ToolSeoContent slug>) right after the tool; it sits
+              beneath the fold and scrolls within this same container. */}
           {children}
           {/* Earned support ask — listens to the download pathway, renders
               nothing until a tool actually delivers something. */}
