@@ -21,8 +21,8 @@
  * (sub always ends with the on-device promise, or the network note for tools
  * whose tools-config entry sets onDevice: false) → 3 Stage (max-width 880) →
  * 4 ControlsBar → 5 Related (3 same-category tiles, the shared landing tile).
- * ToolSeoContent is the rest of zone 5 and is rendered once by the tools layout
- * (never duplicated here).
+ * ToolSeoContent is the rest of zone 5 and is rendered by each tool's page
+ * module with an explicit slug (never duplicated here).
  *
  * The shell owns the page <h1> (zone 2). A tool that adopts it must be added to
  * HAS_OWN_H1 in components/layout/tool-title.tsx so ToolTitle stands down and

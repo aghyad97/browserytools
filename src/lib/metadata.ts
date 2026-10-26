@@ -1,5 +1,6 @@
 import { Metadata } from "next";
 import { findToolByHref } from "./tools-config";
+import { getSeoOverride } from "./seo-overrides";
 import { hreflangLanguages, ogAlternateLocales } from "./locales";
 
 export function generateToolMetadata(href: string): Metadata {
@@ -18,7 +19,9 @@ export function generateToolMetadata(href: string): Metadata {
   // Short, natural title: tool name + a genuine differentiator (client-side,
   // no signup needed). The site-name suffix is appended by the root layout's
   // title template, so this stays well under typical SERP truncation.
-  const seoTitle = `${tool.name} - Free Browser Tool`;
+  const slug = href.split("/tools/")[1]?.split("/")[0] ?? "";
+  const override = getSeoOverride(slug);
+  const seoTitle = override?.title ?? `${tool.name} - Free Browser Tool`;
 
   // Description is the tool's own copy plus one brief, honest clause. Kept
   // short and distinct from common description wording ("browser", "runs
@@ -27,9 +30,10 @@ export function generateToolMetadata(href: string): Metadata {
   // fetches live exchange rates), so the claim is conditioned on
   // `onDevice` rather than asserted uniformly.
   const runsOnDevice = tool.onDevice !== false;
-  const seoDescription = runsOnDevice
+  const templatedDescription = runsOnDevice
     ? `${tool.description} Free, with no signup or uploads.`
     : `${tool.description} Free, with no signup required.`;
+  const seoDescription = override?.description ?? templatedDescription;
 
   return {
     title: seoTitle,

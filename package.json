@@ -28,7 +28,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "e2e:routes": "node scripts/generate-tool-routes.mjs",
-    "e2e:smoke": "playwright test e2e/all-tools-smoke.spec.ts --project=chromium",
+    "e2e:smoke": "playwright test e2e/all-tools-smoke.spec.ts e2e/seo-block-navigation.spec.ts --project=chromium",
     "playwright:install": "playwright install --with-deps",
     "test:all": "bun run test && bun run test:e2e"
   },

@@ -57,11 +57,7 @@ export default function StructuredData({
           url: `${baseUrl}${tool.href}`,
           applicationCategory: tool.category,
           operatingSystem: "Web Browser",
-          offers: {
-            "@type": "Offer",
-            price: "0",
-            priceCurrency: "USD",
-          },
+          isAccessibleForFree: true,
         },
       })),
     },

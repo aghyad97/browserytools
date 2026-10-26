@@ -2,6 +2,7 @@ import { generateToolMetadata } from "@/lib/metadata";
 import path from "path";
 import fs from "fs";
 import PhoneMockups from "@/components/PhoneMockups";
+import ToolSeoContent from "@/components/tool-seo/tool-seo-content";
 
 export const metadata = generateToolMetadata("/tools/phone-mockups");
 
@@ -162,5 +163,10 @@ async function loadGroups(): Promise<MockupGroup[]> {
 
 export default async function PhoneMockupsPage() {
   const groups = await loadGroups();
-  return <PhoneMockups groups={groups} />;
+  return (
+    <>
+      <PhoneMockups groups={groups} />
+      <ToolSeoContent slug="phone-mockups" />
+    </>
+  );
 }
