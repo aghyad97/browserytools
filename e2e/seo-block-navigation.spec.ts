@@ -1,8 +1,8 @@
 import { test, expect, type Page } from "@playwright/test";
 
-// The SEO block is a server component keyed off the request pathname. These
-// specs guard against it going stale after in-app (next/link) navigation, where
-// shared layouts are reused and only changed segments re-render.
+// The SEO block is a server component that each tool page renders with an
+// explicit slug. These specs guard against it going stale after in-app
+// (next/link) navigation, where only the changed page segment re-renders.
 
 async function faqJsonLd(page: Page): Promise<string> {
   const blocks = await page
@@ -32,13 +32,14 @@ test("SEO block follows an in-app navigation (locale-prefixed)", async ({ page }
   await expect(block.getByText("Зачем сжимать до 1 МБ?")).toBeVisible();
   const before = await block.innerText();
 
-  const link = block.locator('a[href*="/tools/compress-image-to-500kb"]').first();
-  const href = await link.getAttribute("href");
+  // The related-tool tiles in the tool shell are locale-prefixed, so this is a
+  // real /ru -> /ru client-side navigation.
+  const link = page.locator('a[href="/ru/tools/compress-image-to-50kb"]').first();
   await link.click();
-  await page.waitForURL(`**${href}`);
+  await page.waitForURL("**/ru/tools/compress-image-to-50kb");
 
   await expect(block.getByText("Зачем сжимать до 1 МБ?")).toHaveCount(0);
-  await expect(block).toContainText("500");
+  await expect(block).toContainText("50");
   const after = await block.innerText();
   expect(after).not.toBe(before);
   const faq = await faqJsonLd(page);

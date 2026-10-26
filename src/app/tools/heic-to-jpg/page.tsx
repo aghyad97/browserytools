@@ -8,9 +8,9 @@ export default function Page() {
   return (
     <>
       <ImageConverter
-      slug="heic-to-jpg"
-      preset={{ targetFormat: "image/jpeg", lockFormat: true, heicEmphasis: true }}
-    />
+        slug="heic-to-jpg"
+        preset={{ targetFormat: "image/jpeg", lockFormat: true, heicEmphasis: true }}
+      />
       <ToolSeoContent slug="heic-to-jpg" />
     </>
   );

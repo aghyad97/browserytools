@@ -186,9 +186,9 @@ export interface SeoBlock {
 }
 
 /**
- * Everything the SEO block renders, resolved from a public pathname and the
- * request locale. Returns null when there is nothing honest to render: not a
- * tool path, or a locale-prefixed URL in a language we have no prose for.
+ * Everything the SEO block renders, resolved for the explicit slug the tool page
+ * passes and the request locale. Returns null when there is nothing honest to
+ * render: an uncatalogued slug, or a locale we have no prose for.
  */
 export function resolveSeoBlock({
   slug,

@@ -46,8 +46,10 @@ for (const p of PAGES) {
   const res = await fetch(base + p);
   const html = await res.text();
   const ld = [...html.matchAll(/<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g)]
-    .map((m) => JSON.stringify(norm(JSON.parse(decode(m[1]).trim()))));
+    .map((m) => JSON.stringify(norm(JSON.parse(m[1].trim()))));
   out[p] = { status: res.status, jsonLd: ld.map((s) => JSON.parse(s)), seoText: seoText(html) };
 }
 const json = JSON.stringify(out, null, 2) + "\n";
 outFile ? writeFileSync(outFile, json) : process.stdout.write(json);
+const bad = Object.entries(out).filter(([, v]) => v.status !== 200 || v.seoText === null).map(([k]) => k);
+if (bad.length) { console.error("seo-parity: non-200 or missing SEO block: " + bad.join(", ")); process.exit(1); }

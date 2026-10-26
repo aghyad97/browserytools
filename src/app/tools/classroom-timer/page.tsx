@@ -8,9 +8,9 @@ export default function ClassroomTimerPage() {
   return (
     <>
       <Timer
-      slug="classroom-timer"
-      preset={{ mode: "countdown", autoFullscreenHint: true }}
-    />
+        slug="classroom-timer"
+        preset={{ mode: "countdown", autoFullscreenHint: true }}
+      />
       <ToolSeoContent slug="classroom-timer" />
     </>
   );

@@ -8,8 +8,8 @@ export default function Page() {
   return (
     <>
       <div className="mx-auto p-4 max-w-6xl">
-      <RichEditor />
-    </div>
+        <RichEditor />
+      </div>
       <ToolSeoContent slug="rich-editor" />
     </>
   );

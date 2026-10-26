@@ -75,132 +75,132 @@ export default async function ToolSeoContent({ slug }: { slug: string }) {
 
   return (
     <div className={s.toolSeoZone}>
-    <section
-      aria-label={t("sectionLabel")}
-      className="mx-auto w-full max-w-4xl px-4 pb-16 pt-10"
-      data-testid="tool-seo-content"
-      data-seo-content
-    >
-      {/* JSON-LD structured data */}
-      {jsonLd.map((graph, i) => (
-        <JsonLdScript key={i} data={graph} />
-      ))}
+      <section
+        aria-label={t("sectionLabel")}
+        className="mx-auto w-full max-w-4xl px-4 pb-16 pt-10"
+        data-testid="tool-seo-content"
+        data-seo-content
+      >
+        {/* JSON-LD structured data */}
+        {jsonLd.map((graph, i) => (
+          <JsonLdScript key={i} data={graph} />
+        ))}
 
-      <div className="flex flex-col gap-6">
-        {/* About / how it works */}
-        <Card>
-          <CardHeader>
-            <CardTitle className="text-xl">
-              {t("aboutTitle", { tool: tool.name })}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="flex flex-col gap-4 text-sm leading-relaxed text-muted-foreground">
-            {introParagraphs.map((p, i) => (
-              <p key={i}>{p}</p>
-            ))}
-
-            {/* Why this one runs on your device. Nested surface for emphasis —
-                no single-edge accent rules. */}
-            {content.whyClientSide && (
-              <div
-                className="rounded-lg bg-muted/50 p-4"
-                data-testid="tool-seo-why-client-side"
-              >
-                <h3 className="mb-1.5 text-sm font-medium text-foreground">
-                  {t("whyClientSideTitle")}
-                </h3>
-                <p>{content.whyClientSide}</p>
-              </div>
-            )}
-          </CardContent>
-        </Card>
-
-        {/* How to use (steps) */}
-        {content.steps && content.steps.length > 0 && (
+        <div className="flex flex-col gap-6">
+          {/* About / how it works */}
           <Card>
             <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <ListChecksIcon className="size-5 shrink-0 text-muted-foreground" />
-                {t("howToTitle", { tool: tool.name })}
+              <CardTitle className="text-xl">
+                {t("aboutTitle", { tool: tool.name })}
               </CardTitle>
             </CardHeader>
-            <CardContent>
-              <ol className="flex list-decimal flex-col gap-2 ps-5 text-sm text-muted-foreground marker:text-muted-foreground/70">
-                {content.steps.map((step, i) => (
-                  <li key={i} className="ps-1">
-                    {step}
-                  </li>
-                ))}
-              </ol>
+            <CardContent className="flex flex-col gap-4 text-sm leading-relaxed text-muted-foreground">
+              {introParagraphs.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
+
+              {/* Why this one runs on your device. Nested surface for emphasis —
+                  no single-edge accent rules. */}
+              {content.whyClientSide && (
+                <div
+                  className="rounded-lg bg-muted/50 p-4"
+                  data-testid="tool-seo-why-client-side"
+                >
+                  <h3 className="mb-1.5 text-sm font-medium text-foreground">
+                    {t("whyClientSideTitle")}
+                  </h3>
+                  <p>{content.whyClientSide}</p>
+                </div>
+              )}
             </CardContent>
           </Card>
-        )}
 
-        {/* Limitations — prose only, never structured data. */}
-        {content.limitations && content.limitations.length > 0 && (
-          <Card data-testid="tool-seo-limitations">
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <ScaleIcon className="size-5 shrink-0 text-muted-foreground" />
-                {t("limitationsTitle")}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="flex list-disc flex-col gap-2 ps-5 text-sm leading-relaxed text-muted-foreground marker:text-muted-foreground/70">
-                {content.limitations.map((item, i) => (
-                  <li key={i} className="ps-1">
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </CardContent>
-          </Card>
-        )}
-
-        {/* FAQ */}
-        {content.faq.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="flex items-center gap-2 text-xl">
-                <HelpCircleIcon className="size-5 shrink-0 text-muted-foreground" />
-                {t("faqTitle")}
-              </CardTitle>
-            </CardHeader>
-            <CardContent>
-              <SeoFaq faq={content.faq} />
-            </CardContent>
-          </Card>
-        )}
-
-        {/* Related tools — internal links */}
-        {related.length > 0 && (
-          <Card>
-            <CardHeader>
-              <CardTitle className="text-xl">{t("relatedTitle")}</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
-                {related.map((rel) => {
-                  const Icon = rel.icon;
-                  return (
-                    <li key={rel.href}>
-                      <Link
-                        href={rel.href}
-                        className="group flex items-center gap-3 rounded-lg border bg-card p-3 text-sm transition-colors hover:bg-accent"
-                      >
-                        <Icon className="size-4 shrink-0 text-muted-foreground" />
-                        <span className="flex-1 font-medium">{rel.name}</span>
-                        <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 rtl:rotate-180" />
-                      </Link>
+          {/* How to use (steps) */}
+          {content.steps && content.steps.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <ListChecksIcon className="size-5 shrink-0 text-muted-foreground" />
+                  {t("howToTitle", { tool: tool.name })}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ol className="flex list-decimal flex-col gap-2 ps-5 text-sm text-muted-foreground marker:text-muted-foreground/70">
+                  {content.steps.map((step, i) => (
+                    <li key={i} className="ps-1">
+                      {step}
                     </li>
-                  );
-                })}
-              </ul>
-            </CardContent>
-          </Card>
-        )}
-      </div>
-    </section>
+                  ))}
+                </ol>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Limitations — prose only, never structured data. */}
+          {content.limitations && content.limitations.length > 0 && (
+            <Card data-testid="tool-seo-limitations">
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <ScaleIcon className="size-5 shrink-0 text-muted-foreground" />
+                  {t("limitationsTitle")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="flex list-disc flex-col gap-2 ps-5 text-sm leading-relaxed text-muted-foreground marker:text-muted-foreground/70">
+                  {content.limitations.map((item, i) => (
+                    <li key={i} className="ps-1">
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* FAQ */}
+          {content.faq.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2 text-xl">
+                  <HelpCircleIcon className="size-5 shrink-0 text-muted-foreground" />
+                  {t("faqTitle")}
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <SeoFaq faq={content.faq} />
+              </CardContent>
+            </Card>
+          )}
+
+          {/* Related tools — internal links */}
+          {related.length > 0 && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-xl">{t("relatedTitle")}</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <ul className="grid grid-cols-1 gap-2 sm:grid-cols-2">
+                  {related.map((rel) => {
+                    const Icon = rel.icon;
+                    return (
+                      <li key={rel.href}>
+                        <Link
+                          href={rel.href}
+                          className="group flex items-center gap-3 rounded-lg border bg-card p-3 text-sm transition-colors hover:bg-accent"
+                        >
+                          <Icon className="size-4 shrink-0 text-muted-foreground" />
+                          <span className="flex-1 font-medium">{rel.name}</span>
+                          <ArrowRightIcon className="size-4 shrink-0 text-muted-foreground opacity-0 transition-opacity group-hover:opacity-100 rtl:rotate-180" />
+                        </Link>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </CardContent>
+            </Card>
+          )}
+        </div>
+      </section>
     </div>
   );
 }

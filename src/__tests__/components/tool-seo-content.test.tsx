@@ -17,6 +17,20 @@ vi.mock("next/headers", () => ({
   cookies: vi.fn(),
 }));
 
+// Lets one case simulate a locale with no fallback prose while every other
+// case keeps the real implementation.
+let fallbackProseAvailable = true;
+vi.mock("@/lib/tool-content", async () => {
+  const actual = await vi.importActual<typeof import("@/lib/tool-content")>(
+    "@/lib/tool-content"
+  );
+  return {
+    ...actual,
+    hasFallbackProse: ((locale: Parameters<typeof actual.hasFallbackProse>[0]) =>
+      fallbackProseAvailable && actual.hasFallbackProse(locale)) as typeof actual.hasFallbackProse,
+  };
+});
+
 let reqSlug = "json-formatter";
 let reqLocaleHeader: string | null = null;
 let reqCookie: string | undefined;
@@ -46,6 +60,7 @@ function getJsonLdScripts(): Record<string, unknown>[] {
 
 describe("ToolSeoContent", () => {
   beforeEach(() => {
+    fallbackProseAvailable = true;
     setRequest("/tools/json-formatter");
     vi.mocked(headers).mockImplementation((async () => ({
       get: (name: string) =>
@@ -202,12 +217,6 @@ describe("ToolSeoContent", () => {
     ).not.toBeInTheDocument();
   });
 
-  it("renders nothing outside of a /tools/ path", async () => {
-    setRequest("/");
-    const { container } = await renderBlock();
-    expect(container).toBeEmptyDOMElement();
-  });
-
   it("shows related tools as internal links", async () => {
     setRequest("/tools/json-formatter");
     await renderBlock();
@@ -273,6 +282,22 @@ describe("ToolSeoContent", () => {
 
   it("renders nothing for an empty slug", async () => {
     setRequest("");
+    const { container } = await renderBlock();
+    expect(container).toBeEmptyDOMElement();
+  });
+
+  it("renders a humanized templated fallback for an uncatalogued slug", async () => {
+    setRequest("/tools/not-a-real-tool");
+    await renderBlock();
+    expect(screen.getByTestId("tool-seo-content")).toBeInTheDocument();
+    expect(screen.getByText(/About Not A Real Tool/i)).toBeInTheDocument();
+    expect(
+      getJsonLdScripts().find((s) => s["@type"] === "FAQPage")
+    ).toBeUndefined();
+  });
+
+  it("renders nothing when the locale has no fallback prose", async () => {
+    fallbackProseAvailable = false;
     const { container } = await renderBlock();
     expect(container).toBeEmptyDOMElement();
   });

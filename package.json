@@ -28,7 +28,7 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "e2e:routes": "node scripts/generate-tool-routes.mjs",
-    "e2e:smoke": "playwright test e2e/all-tools-smoke.spec.ts --project=chromium",
+    "e2e:smoke": "playwright test e2e/all-tools-smoke.spec.ts e2e/seo-block-navigation.spec.ts --project=chromium",
     "playwright:install": "playwright install --with-deps",
     "test:all": "bun run test && bun run test:e2e"
   },
@@ -119,7 +119,6 @@
     "react-syntax-highlighter": "^15.6.1",
     "recharts": "2.15.4",
     "remark-gfm": "^4.0.1",
-    "server-only": "^0.0.1",
     "sonner": "^1.7.4",
     "tailwind-merge": "^3.0.1",
     "tailwindcss-animate": "^1.0.7",

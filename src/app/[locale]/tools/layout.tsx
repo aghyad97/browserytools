@@ -7,12 +7,13 @@ import s from "@/components/layout/app-shell.module.css";
 /**
  * Shell for the locale-prefixed tool routes.
  *
- * Mirrors `src/app/tools/layout.tsx` with two deliberate omissions:
+ * Mirrors `src/app/tools/layout.tsx` with one deliberate omission:
  *
  *  - `<ToolTitle>` derives its slug from `pathname.split("/")[2]`, which is the
  *    locale on these URLs. It renders nothing for every catalogued tool anyway
  *    (they all own their <h1> via ToolShell), so including it would only risk a
  *    wrong heading.
+ *
  * The per-tool SEO block (`<ToolSeoContent slug>`) is rendered by each tool's
  * page module, not here. `[locale]/tools/[slug]/page.tsx` re-exports those same
  * modules, so the block appears on these URLs too, in the locale the middleware
