@@ -1,3 +1,5 @@
+import "server-only";
+
 // ──────────────────────────────────────────────────────────────────────────────
 // Per-tool on-page SEO content registry.
 //
