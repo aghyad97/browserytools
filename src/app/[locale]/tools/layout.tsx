@@ -1,7 +1,6 @@
 import { AppShell } from "@/components/layout/app-shell";
 import { TopBar } from "@/components/layout/top-bar";
 import NavigationTracker from "@/components/NavigationTracker";
-import ToolSeoContent from "@/components/tool-seo/tool-seo-content";
 import { ToolReceipt } from "@/components/support/tool-receipt";
 import s from "@/components/layout/app-shell.module.css";
 
@@ -14,7 +13,8 @@ import s from "@/components/layout/app-shell.module.css";
  *    locale on these URLs. It renders nothing for every catalogued tool anyway
  *    (they all own their <h1> via ToolShell), so including it would only risk a
  *    wrong heading.
- * `<ToolSeoContent>` IS rendered. It is a server component: it reads the
+ * `<ToolSeoContent>` IS rendered, from `./template.tsx` (a layout is reused
+ * across soft navigations; a template re-renders on each). It is a server component: it reads the
  * public pathname (`x-pathname`) and locale (`x-browsery-locale`) the
  * middleware forwards, resolves the prose on the server, and ships only the
  * rendered HTML plus the small FAQ accordion — the prose map never reaches the
@@ -44,9 +44,6 @@ export default function LocaleToolsLayout({
           {/* Earned support ask — listens to the download pathway, renders
               nothing until a tool actually delivers something. */}
           <ToolReceipt />
-          <div className={s.toolSeoZone}>
-            <ToolSeoContent />
-          </div>
         </main>
       </div>
     </>

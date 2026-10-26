@@ -21,6 +21,7 @@ import { resolveSeoBlock, type CatalogueTranslator } from "@/lib/tool-seo";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { JsonLdScript } from "@/components/JsonLdScript";
 import { SeoFaq } from "@/components/tool-seo/seo-faq";
+import { SeoPathnameSync } from "@/components/tool-seo/seo-pathname-sync";
 
 /**
  * Same resolution order as the root layout, which feeds the client
@@ -37,10 +38,19 @@ async function getSeoLocale(): Promise<Locale> {
 }
 
 /**
+ * Known limit: on unprefixed URLs the locale can change client-side (first-visit
+ * `navigator.language` detection / the language switcher updating the store and
+ * cookie) without a server round trip, so this block keeps the language it was
+ * server-rendered in until the next navigation or reload. That is acceptable:
+ * crawlers and full loads are always right, the tool UI itself switches, and
+ * locale-prefixed URLs, the ones that are indexed per language, pin the locale.
+ *
  * Zone 5 of the tool template: About / How to / Limitations / FAQ / Related,
  * plus the JSON-LD graphs. A server component, so the per-tool prose map
  * (`tool-content.ts`) is never sent to the browser; only the FAQ accordion
- * hydrates. The page is identified by the `x-pathname` header the middleware
+ * hydrates. It is rendered from `template.tsx`, but Next still reuses the
+ * template's server output on a soft navigation, so `SeoPathnameSync` calls
+ * `router.refresh()` when the client pathname differs from the one rendered. The page is identified by the `x-pathname` header the middleware
  * forwards, because layouts cannot see the URL.
  */
 export default async function ToolSeoContent() {
@@ -50,11 +60,13 @@ export default async function ToolSeoContent() {
   const locale = await getSeoLocale();
   const messages = await loadMessages(locale);
   const t = createTranslator({ locale, messages, namespace: "ToolSeo" });
-  const tc = createTranslator({
-    locale,
-    messages,
-    namespace: "ToolsConfig",
-  }) as unknown as CatalogueTranslator;
+  const tcRaw = createTranslator({ locale, messages, namespace: "ToolsConfig" });
+  // next-intl types keys as the literal message paths; the catalogue keys are
+  // built from slugs at runtime, so adapt to a string-keyed translator.
+  const tc: CatalogueTranslator = Object.assign(
+    (key: string) => tcRaw(key as never) as string,
+    { has: (key: string) => tcRaw.has(key as never) }
+  );
 
   const block = resolveSeoBlock({ pathname, locale, tc });
   if (!block) return null;
@@ -72,6 +84,10 @@ export default async function ToolSeoContent() {
       data-testid="tool-seo-content"
       data-seo-content
     >
+      {/* Soft navigations reuse this server output; this triggers a re-render
+          when the live URL no longer matches the one rendered here. */}
+      <SeoPathnameSync serverPathname={pathname} />
+
       {/* JSON-LD structured data */}
       {jsonLd.map((graph, i) => (
         <JsonLdScript key={i} data={graph} />

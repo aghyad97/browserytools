@@ -170,8 +170,8 @@ export function buildJsonLd(
 
 /** The slice of a next-intl translator the catalogue lookups need. */
 export interface CatalogueTranslator {
-  (key: never): string;
-  has(key: never): boolean;
+  (key: string): string;
+  has(key: string): boolean;
 }
 
 export interface RelatedTool {
@@ -221,7 +221,7 @@ export function resolveSeoBlock({
   // take the name / description / category label from there and fall back to
   // the config for anything not yet translated.
   const lookup = (key: string, fallback: string): string =>
-    tc && tc.has(key as never) ? tc(key as never) : fallback;
+    tc && tc.has(key) ? tc(key) : fallback;
   const tool: ResolvedTool = {
     ...resolved,
     name: lookup(`tools.${resolved.slug}.name`, resolved.name),
