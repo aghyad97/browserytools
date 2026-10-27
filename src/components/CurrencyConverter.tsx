@@ -142,7 +142,26 @@ async function fetchRates(base: string): Promise<StoredRates> {
         rates: fallbackData.rates,
       };
     } catch (fallbackError) {
-      throw new Error("All currency APIs are currently unavailable");
+      // Last resort: AllRatesToday's keyless Frankfurter-compatible mirror of
+      // the ECB reference rates (same response shape as Frankfurter, CORS enabled)
+      try {
+        const mirrorRes = await fetch(
+          `https://allratestoday.com/api/compat/frankfurter/latest?from=${baseLc}`,
+          {
+            cache: "reload",
+          }
+        );
+        if (!mirrorRes.ok) throw new Error("Mirror API failed");
+        const mirrorData: FrankfurterResponse = await mirrorRes.json();
+
+        return {
+          base: mirrorData.base.toUpperCase(),
+          date: mirrorData.date,
+          rates: mirrorData.rates,
+        };
+      } catch (mirrorError) {
+        throw new Error("All currency APIs are currently unavailable");
+      }
     }
   }
 }
